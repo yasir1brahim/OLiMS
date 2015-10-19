@@ -2970,8 +2970,10 @@
                 	<field name="Description"></field>
                 	<label for="ProfileKey" string="Profile Keyword"/>
                 	<field name="ProfileKey"></field>
-                	<!-- <label for="Service" string="Profile Analyses"/>
-                	<field name="Service"></field> -->
+                	<label for="Service" string="Service"/>
+                	<p>The analyses included in this profile, grouped per category</p>
+                	<field name="Service"></field>
+                	  
                 	<label for="Remarks" string="Remarks"/>
                 	<field name="Remarks"></field>
                 	<label for="CommercialID" string="Commercial ID"/>

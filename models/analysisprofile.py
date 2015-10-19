@@ -55,9 +55,13 @@ schema = (StringField('name',
                           "not be the same as any Calculation Interim field ID."),
         ),
     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ReferenceField('Service',
-#         schemata = 'Analyses',
+          
+          
+    
+    fields.Many2many(string='Service', comodel_name='olims.analysis_service', required=True,\
+                     relation='profile_service_relation',\
+                     help='The analyses included in this profile, grouped per category',
+          #         schemata = 'Analyses',
 #         required = 1,
 #         multiValued = 1,
 #         allowed_types = ('AnalysisService',),
@@ -66,7 +70,7 @@ schema = (StringField('name',
 #             label = _("Profile Analyses"),
 #             description = _("The analyses included in this profile, grouped per category"),
 #         )
-#     ),
+),
     TextField('Remarks',
         searchable = True,
         default_content_type = 'text/plain',
