@@ -3,9 +3,9 @@ from openerp import fields, models
 from models.base_olims_model import BaseOLiMSModel
 
 schema = (
-          fields.Char(string='Partition', required=True),
-          fields.Char(string='Container', required=True),
-          fields.Char(string='Preservation', required=True),
+          fields.Many2one(string='Container', comodel_name ='olims.container'),
+          fields.Many2one(string='Preservation', comodel_name ='olims.preservation'),
+          fields.Char(string='Partition'),
           )
 
 class PartitionARTemplate(models.Model, BaseOLiMSModel): 
