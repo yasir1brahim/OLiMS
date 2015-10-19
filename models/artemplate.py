@@ -32,9 +32,12 @@ schema = (
     ## accessors and mutators below to get/set a string value
     ## (the Title of the object), but still store a normal Reference.
     ## Form autocomplete widgets can then work with the Titles.
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ReferenceField('SamplePoint',
-#         vocabulary_display_path_bound = sys.maxint,
+
+    fields.Many2one(string='Sample Point',
+                    comodel_name='olims.sample_point',
+                    help="Location where sample was taken",
+                    required=False,
+            #        vocabulary_display_path_bound = sys.maxint,
 #         allowed_types = ('SamplePoint',),
 #         relationship = 'ARTemplateSamplePoint',
 #         referenceClass = HoldingReference,
@@ -50,7 +53,8 @@ schema = (
 #             base_query={'inactive_state': 'active'},
 #             showOn=True,
 #         ),
-#     ),
+                    ),
+
 # ~~~~~~~ To be implemented ~~~~~~~
 #     ComputedField(
 #         "SamplePointUID",
@@ -108,8 +112,10 @@ schema = (
             append_only = True,
         ),
     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     RecordsField('Partitions',
+          
+        fields.Many2many(string='Partitions',
+                       comodel_name='olims.partition_ar_template',
+
 #         schemata = 'Sample Partitions',
 #         required = 0,
 #         type = 'artemplate_parts',
@@ -157,7 +163,7 @@ schema = (
 #                 },
 #             },
 #          ),
-#     ),
+        ),      
 
     fields.Many2one(string='AnalysisProfile',
                     comodel_name='olims.analysis_profile',

@@ -815,41 +815,13 @@ fields.Float(compute='computeTotalPrice',string='TotalPrice'),
 #                       visible=False,
 #                   ),
 #     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     RecordsField('Uncertainties',
-#                  schemata="Uncertainties",
-#                  type='uncertainties',
-#                  subfields=('intercept_min', 'intercept_max', 'errorvalue'),
-#                  required_subfields=(
-#                  'intercept_min', 'intercept_max', 'errorvalue'),
-#                  subfield_sizes={'intercept_min': 10,
-#                                  'intercept_max': 10,
-#                                  'errorvalue': 10,
-#                  },
-#                  subfield_labels={'intercept_min': _('Range min'),
-#                                   'intercept_max': _('Range max'),
-#                                   'errorvalue': _('Uncertainty value'),
-#                  },
-#                  subfield_validators={'intercept_min': 'uncertainties_validator',
-#                                       'intercept_max': 'uncertainties_validator',
-#                                       'errorvalue': 'uncertainties_validator',
-#                  },
-#                  widget=RecordsWidget(
-#                      label = _("Uncertainty"),
-#                      description=_(
-#                          "Specify the uncertainty value for a given range, e.g. for "
-#                          "results in a range with minimum of 0 and maximum of 10, "
-#                          "where the uncertainty value is 0.5 - a result of 6.67 will "
-#                          "be reported as 6.67 +- 0.5. You can also specify the "
-#                          "uncertainty value as a percentage of the result value, by "
-#                          "adding a '%' to the value entered in the 'Uncertainty Value' "
-#                          "column, e.g. for results in a range with minimum of 10.01 "
-#                          "and a maximum of 100, where the uncertainty value is 2% - "
-#                          "a result of 100 will be reported as 100 +- 2. Please ensure "
-#                          "successive ranges are continuous, e.g. 0.00 - 10.00 is "
-#                          "followed by 10.01 - 20.00, 20.01 - 30 .00 etc."),
-#                  ),
-#     ),
+
+# 
+fields.Many2many(string='Uncertainties',
+                       comodel_name='olims.uncertinty_service',
+        ),
+
+
     # Calculate the precision from Uncertainty value
     # Behavior controlled by javascript
     # - If checked, Precision and ExponentialFormatPrecision are not displayed.
@@ -891,27 +863,13 @@ fields.Float(compute='computeTotalPrice',string='TotalPrice'),
                                     "value."),
                 ),
     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     RecordsField('ResultOptions',
-#                  schemata="Result Options",
-#                  type='resultsoptions',
-#                  subfields=('ResultValue', 'ResultText'),
-#                  required_subfields=('ResultValue', 'ResultText'),
-#                  subfield_labels={'ResultValue': _('Result Value'),
-#                                   'ResultText': _('Display Value'), },
-#                  subfield_validators={'ResultValue': 'resultoptionsvalidator',
-#                                       'ResultText': 'resultoptionsvalidator'},
-#                  subfield_sizes={'ResultValue': 5,
-#                                  'ResultText': 25,
-#                  },
-#                  widget=RecordsWidget(
-#                      label = _("Result Options"),
-#                      description=_(
-#                          "Please list all options for the analysis result if you want to restrict "
-#                          "it to specific options only, e.g. 'Positive', 'Negative' and "
-#                          "'Indeterminable'.  The option's result value must be a number"),
-#                  ),
-#     ),
+          
+          
+          fields.Many2many(string='ResultOptions',
+                       comodel_name='olims.result_option',
+
+        ),
+
     BooleanField('Separate',
                  schemata='Container and Preservation',
                  default=False,
@@ -986,6 +944,7 @@ fields.Float(compute='computeTotalPrice',string='TotalPrice'),
 #                                 "type here."),
 #                         ),
 #     ),
+
     BooleanField('Hidden',
                  schemata="Analysis",
                  default=False,

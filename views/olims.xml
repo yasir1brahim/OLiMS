@@ -12,6 +12,173 @@
              its parent olims_menu and *after* its
              action course_list_action -->
 
+
+<!-- olims.ar_template form view -->
+        <record model="ir.ui.view" id="olims_ar_template_form_view">
+            <field name="name">ar_template.form</field>
+            <field name="model">olims.ar_template</field>
+            <field name="arch" type="xml">
+                <form string="AR Template Form">
+                    <label for="Sample Point" string="Sample Point"/>
+                    <field name="Sample Point"></field>                     
+                    <label for="SampleType" string="Sample Type"/>
+                    <field name="SampleType"></field>
+                    <label for="ReportDryMatter" string="Report Dry Matter"/>
+                    <field name="ReportDryMatter" ></field>
+                    <label for="Remarks" string="Remarks"/>
+                    <field name="Remarks" ></field>
+                    <label for="Partitions" string="Sample Partitions"/>
+                    <p>Configure the sample partitions and preservations  for this template. Assign analyses to the different 
+                    partitions on the template's Analyses tab</p>
+                    <field name="Partitions" widget='one2many_list'></field>
+                    <label for="AnalysisProfile" string="Analysis Profile"/>
+                    <field name="AnalysisProfile" ></field>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="olims_ar_template_tree_view">
+            <field name="name">ar_template.tree</field>
+            <field name="model">olims.ar_template</field>
+            <field name="arch" type="xml">
+                <tree string="AR Template">
+					<field name="Sample Point"></field>                     
+                    <field name="SampleType"></field>
+                    <field name="ReportDryMatter" ></field>
+                    <field name="Remarks" ></field>
+                    <field name="AnalysisProfile" ></field>
+                </tree>
+            </field>
+        </record>
+
+		<record model="ir.actions.act_window" id="ar_template_action">
+            <field name="name">AR Template</field>
+            <field name="res_model">olims.ar_template</field>
+            <field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+       </record>
+
+        <menuitem id="ar_template_menu" name="AR Template" parent="olims_menu"
+                  action="ar_template_action"/>
+
+
+
+
+<!-- olims.partition_ar_template form view -->
+        <record model="ir.ui.view" id="olims_partition_ar_template_form_view">
+            <field name="name">partition_ar_template.form</field>
+            <field name="model">olims.partition_ar_template</field>
+            <field name="arch" type="xml">
+                <form string="Partition Form">
+                    <label for="Partition" string="Partition"/>
+                    <field name="Partition"></field>                     
+                    <label for="Container" string="Container"/>
+                    <field name="Container"></field>
+                    <label for="Preservation" string="Preservation"/>
+                    <field name="Preservation"></field>
+                    
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="olims_partition_ar_template_tree_view">
+            <field name="name">partition_ar_template.tree</field>
+            <field name="model">olims.partition_ar_template</field>
+            <field name="arch" type="xml">
+                <tree string="Partition">
+                    <field name="Partition"></field>                     
+                    <field name="Container"></field>
+                    <field name="Preservation"></field>        
+                </tree>
+            </field>
+        </record>
+        
+
+		<record model="ir.actions.act_window" id="partition_ar_template_action">
+            <field name="name">Partition ARtemplate</field>
+            <field name="res_model">olims.partition_ar_template</field>
+            <field name="view_type">form</field>
+			<field name="view_mode">form,tree</field>
+       </record>
+
+        
+
+
+<!-- olims.uncertinty_serviceAnalysis form view -->
+        <record model="ir.ui.view" id="olims_uncertinty_service_form_view">
+            <field name="name">uncertinty_service.form</field>
+            <field name="model">olims.uncertinty_service</field>
+            <field name="arch" type="xml">
+                <form string="Result Option Form">
+                    <label for="intercept_min" string="Range min"/>
+                    <field name="intercept_min"></field>                     
+                    <label for="intercept_max" string="Range Max"/>
+                    <field name="intercept_max"></field>
+                    <label for="errorvalue" string="Uncertainty value"/>
+                    <field name="errorvalue"></field>
+                    
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="olims_uncertinty_service_tree_view">
+            <field name="name">uncertinty_service.tree</field>
+            <field name="model">olims.uncertinty_service</field>
+            <field name="arch" type="xml">
+                <tree string="Uncertinty Service">
+                    <field name="intercept_min"></field>                     
+                    <field name="intercept_max"></field>
+                    <field name="errorvalue"></field>
+        
+                </tree>
+            </field>
+        </record>
+
+		<record model="ir.actions.act_window" id="uncertinty_service_action">
+            <field name="name">Uncertinty Service</field>
+            <field name="res_model">olims.uncertinty_service</field>
+            <field name="view_type">form</field>
+			<field name="view_mode">form,tree</field>
+       </record>
+
+       
+
+<!-- olims.result_option form view -->
+        <record model="ir.ui.view" id="olims_result_option_form_view">
+            <field name="name">result_option.form</field>
+            <field name="model">olims.result_option</field>
+            <field name="arch" type="xml">
+                <form string="Result Option Form">
+                    <label for="ResultValue" string="Result Value"/>
+                    <field name="ResultValue"></field>                     
+                    <label for="ResultText" string="Result Text"/>
+                    <field name="ResultText"></field>
+                    
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="olims_result_option_tree_view">
+            <field name="name">result_option.tree</field>
+            <field name="model">olims.result_option</field>
+            <field name="arch" type="xml">
+                <tree string="Result Option">
+                    <field name="ResultValue"></field>                     
+                    <field name="ResultText"></field>
+                </tree>
+            </field>
+        </record>
+
+		<record model="ir.actions.act_window" id="result_option_action">
+            <field name="name">Result_option</field>
+            <field name="res_model">olims.result_option</field>
+            <field name="view_type">form</field>
+			<field name="view_mode">form,tree</field>
+       </record>
+
+        <menuitem id="result_option_menu" name="Result Option" parent="olims_menu"
+                  action="result_option_action"/>
+
 <!-- olims.ar_priority form view -->
         <record model="ir.ui.view" id="olims_ar_priority_form_view">
             <field name="name">ar_priority.form</field>
@@ -2355,8 +2522,8 @@
                     <field name="Department"></field>
                     <label for="Signature" string="Signature"/>
                     <field name="Signature" widget='image'></field>
-                    <label for="Fullname" string="Fullname"/>
-                    <field name="Fullname"></field>
+                    <label for="name" string="name"/>
+                    <field name="name"></field>
                     </form>
             </field>
         </record>
@@ -2378,7 +2545,7 @@
                     <field name="MobilePhone"></field>
                     <field name="JobTitle"></field>
                     <field name="Department"></field>
-					<field name="Fullname"></field>
+					<field name="name"></field>
                 </tree>
             </field>
         </record>
@@ -2977,8 +3144,8 @@
                 	<field name="Description"></field>
                     <label for="Manager" string="Manager"/>
                 	<field name="Manager"></field>
-                	<label for="ManagerName" string="Manager Name"/>
-                	<field name="ManagerName"></field>
+                	<!--label for="ManagerName" string="Manager Name"/>
+                	<field name="ManagerName"></field-->
                 	
                 </form>
             </field>
@@ -2992,7 +3159,7 @@
                 	<field name="name"></field>
                 	<field name="Description"></field>
                     <field name="Manager"></field>
-                    <field name="ManagerName"></field>
+                    <!--field name="ManagerName"></field-->
                 </tree>
             </field>
         </record>
@@ -3131,10 +3298,27 @@
                 	<field name="VAT"></field>
                 	<label for="Department" string="Department"/>
                 	<field name="Department" options="{'no_create_edit': True}"></field>
+                	 
+                	 
+                	 <label for="Uncertainties" string="Uncertainties"/>
+                	<p>Specify the uncertainty value for a given range, e.g. for results in a range with minimum of 0 and maximum of 10, 
+                	where the uncertainty value is 0.5 - a result of 6.67 will be reported as 6.67 +- 0.5. You can also specify the 
+                	uncertainty value as a percentage of the result value, by adding a '%' to the value entered in the 'Uncertainty Value' 
+                	column, e.g. for results in a range with minimum of 10.01 
+                	and a maximum of 100, where the uncertainty value is 2% - 
+                	a result of 100 will be reported as 100 +- 2. Please ensure 
+                	successive ranges are continuous, e.g. 0.00 - 10.00 is 
+                	followed by 10.01 - 20.00, 20.01 - 30 .00 etc.</p>
+                	<field name="Uncertainties" widget='one2many_list'></field>
+                	
                 	<label for="PrecisionFromUncertainty" string="Calculate Precision from Uncertainties"/>
                 	<field name="PrecisionFromUncertainty"></field>
                 	<label for="AllowManualUncertainty" string="Allow manual uncertainty value input"/>
                 	<field name="AllowManualUncertainty"></field>
+                	<label for="ResultOptions" string="Result Options"/>
+                	<p>Please list all options for the analysis result if you want to restrict it to specific options only, e.g. 
+                	'Positive', 'Negative' and 'Indeterminable'. The option's result value must be a number</p>
+                	<field name="ResultOptions" widget='one2many_list'></field>
                 	<label for="Separate" string="Separate Container"/>
                 	<field name="Separate"></field>
                 	<label for="Preservation" string="Default Preservation"/>
