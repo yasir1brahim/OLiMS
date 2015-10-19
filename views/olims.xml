@@ -574,6 +574,8 @@
                     <field name="ContactID"></field>
                     <label for="ContactName" string="ContactName"/>
                     <field name="ContactName"></field>
+                    <label for="Contact" string="Contact"/>
+                    <field name="Contact"></field>
                     <label for="ClientEmail" string="ClientEmail"/>
                     <field name="ClientEmail"></field>
                     <label for="CCContactID" string="CCContactID"/>
@@ -2973,7 +2975,6 @@
                 	<label for="Service" string="Service"/>
                 	<p>The analyses included in this profile, grouped per category</p>
                 	<field name="Service"></field>
-                	  
                 	<label for="Remarks" string="Remarks"/>
                 	<field name="Remarks"></field>
                 	<label for="CommercialID" string="Commercial ID"/>

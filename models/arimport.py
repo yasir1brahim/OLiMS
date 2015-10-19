@@ -106,9 +106,9 @@ schema = (
             label = _("Contact Name"),
         ),
     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ReferenceField('Contact',
-#         allowed_types = ('Contact',),
+          
+    fields.Many2many(string='Contact', comodel_name='olims.contact', relation='arimport_contact'
+                     #         allowed_types = ('Contact',),
 #         relationship = 'ARImportContact',
 #         default_method = 'getContactUIDForUser',
 #         referenceClass = HoldingReference,
@@ -125,7 +125,8 @@ schema = (
 #                       {'columnName': 'Fullname', 'width': '100', 'label': _('Name')},
 #                      ],
 #         ),
-#     ),
+                     ),
+    
     StringField('ClientEmail',
         widget = StringWidget(
             label = _("Client Email"),
