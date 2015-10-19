@@ -38,11 +38,9 @@ schema = (
         # relationship='DuplicateAnalysisAnalysis',
 
     ),
+          
+    fields.Many2many(string='InterimFields', comodel_name='olims.interimfield'),
 
-
-    # InterimFieldsField(
-    #     'InterimFields',
-    # ),
 
     StringField(
         'Result',
