@@ -65,4 +65,5 @@ from models import district
 from models import result_option
 from models import uncertainty_service_analysis
 from models import partition_ar_template
+from models import interimfield_services
 

@@ -102,12 +102,13 @@ schema = (
 #         referenceClass = HoldingReference,
 #         relationship = 'AnalysisAttachment',
 #     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     InterimFieldsField('InterimFields',
-#         widget = BikaRecordsWidget(
+
+fields.Many2many(string='InterimFields', comodel_name='olims.interimfield',
+           #      widget = BikaRecordsWidget(
 #             label = _("Calculation Interim Fields"),
-#         )
-#     ),
+#         )),
+),
+
     StringField('Result',
     ),
     DateTimeField('ResultCaptureDate',
