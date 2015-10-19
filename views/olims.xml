@@ -12,6 +12,51 @@
              its parent olims_menu and *after* its
              action course_list_action -->
 
+<!-- olims.partition_setup form view -->
+        <record model="ir.ui.view" id="olims_partition_setup_form_view">
+            <field name="name">partition_setup.form</field>
+            <field name="model">olims.partition_setup</field>
+            <field name="arch" type="xml">
+                <form string="Partition Setup field Form">
+                    <label for="Sample point" string="Sample point"/>
+                    <field name="Sample point"></field>                     
+                    <label for="Separate Container" string="Separate Container"/>
+                    <field name="Separate Container"></field>
+                    <label for="Preservation" string="Preservation"/>
+                    <field name="Preservation" ></field>
+                    <label for="Container" string="Container"/>
+                    <field name="Container" ></field>
+                    <label for="Required Volume" string="Required Volume"/>
+                    <field name="Required Volume" ></field>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="olims_partition_setup_tree_view">
+            <field name="name">partition_setup.tree</field>
+            <field name="model">olims.partition_setup</field>
+            <field name="arch" type="xml">
+                <tree string="Partition Setup">
+					<field name="Sample point"></field>                     
+                    <field name="Separate Container"></field>
+                    <field name="Preservation" ></field>
+                    <field name="Container" ></field>
+                    <field name="Required Volume" ></field>
+                </tree>
+            </field>
+        </record>
+
+		<record model="ir.actions.act_window" id="partition_setup_action">
+            <field name="name">Partition Setup</field>
+            <field name="res_model">olims.partition_setup</field>
+            <field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+       </record>
+
+        <menuitem id="partition_setup_menu" name="Partition Setup" parent="olims_menu"
+                  action="partition_setup_action"/>
+
+
 <!-- olims.interimfield_services form view -->
         <record model="ir.ui.view" id="olims_interimfield_form_view">
             <field name="name">interimfield.form</field>
@@ -3389,6 +3434,10 @@
                 	<field name="Preservation" options="{'no_create_edit': True}"></field>
                 	<label for="Container" string="Default Container"/>
                 	<field name="Container" options="{'no_create_edit': True}"></field>
+                	<label for="PartitionSetup" string="Preservation per sample type"/>
+                	<p>Please specify preservations that differ from the 
+                	analysis service's default preservation per sample type here.</p>
+                	<field name="PartitionSetup" widget='one2many_list'></field>
                 	<label for="Hidden" string="Hidden"/>
                 	<field name="Hidden"></field>
                 	<label for="CommercialID" string="Commercial ID"/>

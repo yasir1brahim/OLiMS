@@ -936,17 +936,15 @@ fields.Many2many(string='Uncertainties',
 #                        base_query={'inactive_state': 'active'},
 #                    ),
     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     PartitionSetupField('PartitionSetup',
-#                         schemata='Container and Preservation',
+          fields.Many2many(string='PartitionSetup', comodel_name='olims.partition_setup'
+                           #                         schemata='Container and Preservation',
 #                         widget=PartitionSetupWidget(
 #                             label=PMF("Preservation per sample type"),
 #                             description=_(
 #                                 "Please specify preservations that differ from the "
 #                                 "analysis service's default preservation per sample "
 #                                 "type here."),
-#                         ),
-#     ),
+                           ),
 
     BooleanField('Hidden',
                  schemata="Analysis",
