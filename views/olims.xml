@@ -12,6 +12,52 @@
              its parent olims_menu and *after* its
              action course_list_action -->
 
+<!-- olims.interimfield_services form view -->
+        <record model="ir.ui.view" id="olims_interimfield_form_view">
+            <field name="name">interimfield.form</field>
+            <field name="model">olims.interimfield</field>
+            <field name="arch" type="xml">
+                <form string="Interim field Form">
+                    <label for="Keyword" string="Keyword"/>
+                    <field name="Keyword"></field>                     
+                    <label for="Field Title" string="Field Title"/>
+                    <field name="Field Title"></field>
+                    <label for="Unit" string="Unit"/>
+                    <field name="Unit" ></field>
+                    <label for="Hidden Field" string="Hidden Field"/>
+                    <field name="Hidden Field" ></field>
+                    <label for="Apply wide" string="Apply wide"/>
+                    <field name="Apply wide" ></field>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="olims_interimfield_tree_view">
+            <field name="name">interimfield.tree</field>
+            <field name="model">olims.interimfield</field>
+            <field name="arch" type="xml">
+                <tree string="Interimfield">
+					<field name="Keyword"></field>                     
+                	<field name="Field Title"></field>
+                	<field name="Unit" ></field>
+                	<field name="Hidden Field" ></field>
+                	<field name="Apply wide" ></field>
+                </tree>
+            </field>
+        </record>
+
+		<record model="ir.actions.act_window" id="interimfield_action">
+            <field name="name">AR Template</field>
+            <field name="res_model">olims.interimfield</field>
+            <field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+       </record>
+
+        <menuitem id="interimfield_menu" name="interimfield" parent="olims_menu"
+                  action="interimfield_action"/>
+
+
+
 
 <!-- olims.ar_template form view -->
         <record model="ir.ui.view" id="olims_ar_template_form_view">
@@ -342,6 +388,8 @@
                     <field name="Service"></field>
                     <label for="Calculation" string="Calculation"/>
                     <field name="Calculation"></field>
+                    <label for="InterimFields" string="Calculation Interim Fields"/>
+                    <field name="InterimFields" widget='one2many_list'></field>
                     <label for="Result" string="Result"/>
                     <field name="Result"></field>
                     <label for="ResultCaptureDate" string="Result Capture Date"/>
@@ -710,6 +758,8 @@
                 <form string="Reject Analysis Form">
                     <label for="Calculation" string="Calculation"/>
                     <field name="Calculation"></field>
+                    <label for="InterimFields" string="Calculation Interim Fields"/>
+                    <field name="InterimFields" widget='one2many_list'></field>
                     <label for="Result" string="Result"/>
                     <field name="Result"></field>
                     <label for="ResultCaptureDate" string="Result Capture Date"/>
@@ -887,6 +937,8 @@
                 <form string="Duplicate Analysis Form">
                     <label for="Analysis" string="Analysis"/>
                     <field name="Analysis"></field>
+                    <label for="InterimFields" string="Interim Fields"/>
+                    <field name="InterimFields" widget='one2many_list'></field>
                     <label for="Result" string="Result"/>
                     <field name="Result"></field>
                     <label for="ResultDM" string="Result DM"/>
@@ -3025,6 +3077,14 @@
                 <form string="Calculation Form">
                 	<label for="name" string="Title"/>
                 	<field name="name"></field>
+                	<label for="InterimFields" string="Calculation Interim Fields"/>
+                	<p>Define interim fields such as vessel mass, dilution factors 
+                	should your calculation require them. The field title specified 
+                	here will be used as column headers and field descriptors where 
+                	the interim fields are displayed. If 'Apply wide' is enabled  
+                	the field ill be shown in a selection box on the top of the
+                	worksheet, allowing to apply a specific value to all the corresponding fields on the sheet.</p>
+                	<field name="InterimFields" widget='one2many_list'></field>
                 	<label for="Description" string="Description"/>
                 	<field name="Description"></field>
                 	<label for="Formula" string="Calculation Formula"/>
@@ -3282,6 +3342,10 @@
                 	<label for="Minutes" string="Minutes"/>
                 	<field name="Minutes" nolabel='1'></field>
                 	</group>
+                	<label for="InterimFields" string="Calculation Interim Fields"/>
+                	<p>Values can be entered here which will override the defaults specified in the Calculation Interim Fields.</p>
+                	<field name="InterimFields" widget='one2many_list'></field>
+                	
                 	<label for="DuplicateVariation" string="Duplicate Variation %"/>
                 	<field name="DuplicateVariation"></field>
                 	<label for="Accredited" string="Accredited"/>

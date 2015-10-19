@@ -654,16 +654,19 @@ schema = (StringField('name',
 #                       visible=False,
 #                   ),
 #     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     InterimFieldsField('InterimFields',
-#                        schemata='Method',
+
+                 fields.Many2many(string='InterimFields',
+                                  comodel_name='olims.interimfield',
+                          #        schemata='Method',
 #                        widget=RecordsWidget(
 #                            label = _("Calculation Interim Fields"),
 #                            description=_(
 #                                "Values can be entered here which will override the defaults "
 #                                "specified in the Calculation Interim Fields."),
-#                        ),
-#     ),
+#                        )
+),
+
+
     
     fields.Char(string='Days', required=True),
     fields.Char(string='Hours', required=True),
