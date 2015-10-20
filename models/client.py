@@ -157,18 +157,21 @@ schema = (
             label=_("Member discount applies"),
         ),
     ),
-
-    # ~~~~~~~ To be implemented ~~~~~~~
-    # atapi.LinesField('EmailSubject',
-    #     schemata = 'Preferences',
+          
+        
+    
+    fields.Many2many(string='EmailSubject',
+                   comodel_name='olims.email_subject',
+                   required=False,
+                   help="Items to be included in email subject lines",
+    #               schemata = 'Preferences',
     #     default = ['ar', ],
     #     vocabulary = EMAIL_SUBJECT_OPTIONS,
     #     widget = atapi.MultiSelectionWidget(
     #         description=_("Items to be included in email subject lines"),
     #         label=_("Email subject line"),
     #     ),
-    # ),
-    #
+    ),
 
 
     fields.Many2many(string='DefaultCategories',

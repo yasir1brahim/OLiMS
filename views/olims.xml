@@ -12,6 +12,42 @@
              its parent olims_menu and *after* its
              action course_list_action -->
 
+
+<!-- olims.email_subject form view -->
+        <record model="ir.ui.view" id="olims_email_subject_form_view">
+            <field name="name">email_subject.form</field>
+            <field name="model">olims.email_subject</field>
+            <field name="arch" type="xml">
+                <form string="Email Subject field Form">
+                    <label for="name" string="Email Subject"/>
+                    <field name="name"></field>                     
+                    
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="olims_email_subject_tree_view">
+            <field name="name">email_subject.tree</field>
+            <field name="model">olims.email_subject</field>
+            <field name="arch" type="xml">
+                <tree string="Email Subject">
+                    <field name="name" ></field>
+                </tree>
+            </field>
+        </record>
+
+		<record model="ir.actions.act_window" id="email_subject_action">
+            <field name="name">Email Subject</field>
+            <field name="res_model">olims.email_subject</field>
+            <field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+       </record>
+
+        <menuitem id="email_subject_menu" name="Email Subject" parent="olims_menu"
+                  action="email_subject_action"/>
+
+
+
 <!-- olims.partition_setup form view -->
         <record model="ir.ui.view" id="olims_partition_setup_form_view">
             <field name="name">partition_setup.form</field>
@@ -192,6 +228,8 @@
 			<field name="view_mode">form,tree</field>
        </record>
 
+        <menuitem id="partition_ar_template_menu" name="partition_ar_template" parent="olims_menu"
+                  action="partition_ar_template_action"/>
         
 
 
@@ -604,6 +642,9 @@
                     <field name="NumberSamples"></field>
                     <label for="Status" string="Status"/>
                     <field name="Status"></field>
+                    
+                    <label for="Priority" string="Priority"/>
+                    <field name="Priority"></field>
 
                 </form>
             </field>
@@ -2793,6 +2834,10 @@
                     <field name="BulkDiscount"></field>
                     <label for="MemberDiscountApplies" string="Member Discount Applies"/>
                     <field name="MemberDiscountApplies"></field>
+                    <label for="EmailSubject" string="Email subject line"/>
+                    <p>Items to be included in email subject lines</p>
+                    <field name="EmailSubject" options="{'no_create': True}" widget='many2many_tags'></field>
+     
      
                     <group col='2' string='Physical Address'>
                     <label for='physical_country' string='Country'/>
