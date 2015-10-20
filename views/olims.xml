@@ -12,6 +12,39 @@
              its parent olims_menu and *after* its
              action course_list_action -->
 
+<!-- olims.batch_label form view -->
+        <record model="ir.ui.view" id="olims_batch_label_form_view">
+            <field name="name">batch_label.form</field>
+            <field name="model">olims.batch_label</field>
+            <field name="arch" type="xml">
+                <form string="Batch Label field Form">
+                    <label for="name" string="Batch Label"/>
+                    <field name="name"></field>                        
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="olims_batch_label_tree_view">
+            <field name="name">batch_label.tree</field>
+            <field name="model">olims.batch_label</field>
+            <field name="arch" type="xml">
+                <tree string="Batch Label">
+                    <field name="name"></field>
+                </tree>
+            </field>
+        </record>
+
+		<record model="ir.actions.act_window" id="batch_label_action">
+            <field name="name">Batch Label</field>
+            <field name="res_model">olims.batch_label</field>
+            <field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+       </record>
+
+        <menuitem id="batch_label_menu" name="Batch Label" parent="olims_menu"
+                  action="batch_label_action"/>
+
+
 <!-- olims.publication_preference form view -->
         <record model="ir.ui.view" id="olims_publication_preference_form_view">
             <field name="name">publication_preference.form</field>
@@ -44,10 +77,6 @@
 
         <menuitem id="publication_preference_menu" name="Publication Preference" parent="olims_menu"
                   action="publication_preference_action"/>
-
-
-
-
 
 
 <!-- olims.email_subject form view -->
@@ -1121,6 +1150,8 @@
                     <field name="ClientBatchID"></field>
                     <label for="BatchDate" string="Batch Date"/>
                     <field name="BatchDate"></field>
+                    <label for="BatchLabels" string="Batch Labels"/>
+                    <field name="BatchLabels" widget="many2many_checkboxes"></field>
                     <label for="Remarks" string="Remarks"/>
                     <field name="Remarks"></field>
                    <label for="InheritedObjects" string="Inherited Objects"/>

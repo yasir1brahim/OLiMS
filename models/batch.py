@@ -116,6 +116,18 @@ schema = (    StringField(
             label=_('Date'),
         ),
     ),
+          
+          fields.Many2many(string='BatchLabels',
+                   comodel_name='olims.batch_label',
+   #     'BatchLabels',
+    #     vocabulary="BatchLabelVocabulary",
+    #     accessor="getLabelNames",
+    #     widget=MultiSelectionWidget(
+    #         label=_("Batch Labels"),
+    #         format="checkbox",
+    #     )
+    ),
+#   
 # ~~~~~~~ To be implemented ~~~~~~~
     # LinesField(
     #     'BatchLabels',
