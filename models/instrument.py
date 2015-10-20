@@ -88,8 +88,8 @@ schema = (
         # ),
     ),
                 #-------  to be implemented, required "InstrumentSupplier"
-
-    # ReferenceField('Supplier',
+    
+    fields.Many2one(string='Supplier',comodel_name='olims.supplier',required=True,
     #                [('olims.InstrumentSupplier', 'Instrument Supplier')],
     #                required=1,
 
@@ -102,7 +102,7 @@ schema = (
         #     label=_("Supplier"),
         #     visible={'view': 'invisible', 'edit': 'visible'}
         # ),
-#    ),
+    ),
 
     StringField('Model',
         widget = StringWidget(

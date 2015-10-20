@@ -23,7 +23,7 @@ from models.base_olims_model import BaseOLiMSModel
 
 
 schema = (
-    StringField('Name',
+    StringField('name',
         required = 1,
         searchable = True,
         validators = ('uniquefieldvalidator',),

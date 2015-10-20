@@ -2387,8 +2387,8 @@
             <field name="model">olims.supplier</field>
             <field name="arch" type="xml">
                 <form string="Supplier Form">
-                     <label for="Name" string="Name"/>
-                	<field name="Name"></field>
+                     <label for="name" string="Name"/>
+                	<field name="name"></field>
                 	<label for="TaxNumber" string="Tax Number"/>
                     <field name="TaxNumber"></field>
                     <label for="Phone" string="Phone"/>
@@ -2467,7 +2467,7 @@
             <field name="model">olims.supplier</field>
             <field name="arch" type="xml">
                 <tree string="Supplier">
-                	<field name="Name"></field>
+                	<field name="name"></field>
                 	<field name="TaxNumber"></field>
                 	<field name="Phone"></field>
                 	<field name="EmailAddress"></field>
@@ -3041,6 +3041,8 @@
                     <field name="InstrumentType"></field>
                     <label for="Manufacturer" string="Manufacturer"/>
                 	<field name="Manufacturer"></field>
+                    <label for="Supplier" string="Supplier"/>
+                    <field name="Supplier"></field>
                     <label for="Model" string="Model"/>
                     <field name="Model"></field>
                     <label for="SerialNo" string="Serial No"/>
