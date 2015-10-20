@@ -72,7 +72,7 @@ from lims import bikaMessageFactory as _
 
 #schema = BikaFolderSchema.copy() + Schema((
 schema = (    StringField(
-        'BatchID',
+        'name',
         searchable=True,
         required=False,
         validators=('uniquefieldvalidator',),
@@ -127,17 +127,6 @@ schema = (    StringField(
     #         format="checkbox",
     #     )
     ),
-#   
-# ~~~~~~~ To be implemented ~~~~~~~
-    # LinesField(
-    #     'BatchLabels',
-    #     vocabulary="BatchLabelVocabulary",
-    #     accessor="getLabelNames",
-    #     widget=MultiSelectionWidget(
-    #         label=_("Batch Labels"),
-    #         format="checkbox",
-    #     )
-    # ),
 
     TextField(
         'Remarks',
@@ -153,21 +142,10 @@ schema = (    StringField(
     ),
 
     fields.Many2one(string='InheritedObjects',
-    comodel_name='olims.analysis_request',
+    comodel_name='olims.batch',
+    relation='batch_to_batch',
     required=False
-     # required=0,
-     #    multiValued=True,
-     #    allowed_types=('AnalysisRequest'),  # batches are expanded on save
-     #    referenceClass = HoldingReference,
-     #    relationship = 'BatchInheritedObjects',
-     #    widget=ReferenceWidget(
-     #        visible=False,
-     #    ),
-    ),
-
-# ~~~~~~~ To be implemented ~~~~~~~
-    # InheritedObjectsUIField(
-    #     'InheritedObjectsUI',
+        #     'InheritedObjectsUI',
     #     required=False,
     #     type='InheritedObjects',
     #     subfields=('Title', 'ObjectID', 'Description'),
@@ -216,6 +194,8 @@ schema = (    StringField(
     #         },
     #     ),
     # ),
+    ),
+
 )
 
 

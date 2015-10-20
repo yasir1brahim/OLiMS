@@ -1142,8 +1142,8 @@
             <field name="model">olims.batch</field>
             <field name="arch" type="xml">
                 <form string="Batch Form">
-                    <label for="BatchID" string="Batch ID"/>
-                    <field name="BatchID"></field>
+                    <label for="name" string="Batch ID"/>
+                    <field name="name"></field>
                     <label for="Client" string="Client"/>
                     <field name="Client"></field>
                     <label for="ClientBatchID" string="Client Batch ID"/>
@@ -1154,7 +1154,8 @@
                     <field name="BatchLabels" widget="many2many_checkboxes"></field>
                     <label for="Remarks" string="Remarks"/>
                     <field name="Remarks"></field>
-                   <label for="InheritedObjects" string="Inherited Objects"/>
+                   <label for="InheritedObjects" string="Inherit From"/>
+                   <p>Include all analysis requests belonging to the selected objects</p>
                     <field name="InheritedObjects"></field>
                 </form>
             </field>
@@ -1165,7 +1166,7 @@
             <field name="model">olims.batch</field>
             <field name="arch" type="xml">
                 <tree string="Batch Template">
-                    <field name="BatchID"></field>
+                    <field name="name"></field>
                     <field name="Client"></field>
                     <field name="ClientBatchID"></field>
                     <field name="BatchDate"></field>
