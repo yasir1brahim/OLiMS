@@ -12,6 +12,43 @@
              its parent olims_menu and *after* its
              action course_list_action -->
 
+<!-- olims.publication_preference form view -->
+        <record model="ir.ui.view" id="olims_publication_preference_form_view">
+            <field name="name">publication_preference.form</field>
+            <field name="model">olims.publication_preference</field>
+            <field name="arch" type="xml">
+                <form string="Publication Preference field Form">
+                    <label for="name" string="Publication Preference"/>
+                    <field name="name"></field>                     
+                    
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="olims_publication_preference_tree_view">
+            <field name="name">publication_preference.tree</field>
+            <field name="model">olims.publication_preference</field>
+            <field name="arch" type="xml">
+                <tree string="Publication Preference">
+                    <field name="name" ></field>
+                </tree>
+            </field>
+        </record>
+
+		<record model="ir.actions.act_window" id="publication_preference_action">
+            <field name="name">Publication Preference</field>
+            <field name="res_model">olims.publication_preference</field>
+            <field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+       </record>
+
+        <menuitem id="publication_preference_menu" name="Publication Preference" parent="olims_menu"
+                  action="publication_preference_action"/>
+
+
+
+
+
 
 <!-- olims.email_subject form view -->
         <record model="ir.ui.view" id="olims_email_subject_form_view">
@@ -2660,6 +2697,8 @@
                     </group>
                     <label for="Department" string="Department"/>
                     <field name="Department"></field>
+                    <label for="PublicationPreference" string="Publication preference"/>
+                    <field name="PublicationPreference" widget='many2many_tags' options="{'no_create_edit': True}"></field>
                     <label for="Signature" string="Signature"/>
                     <field name="Signature" widget='image'></field>
                     <label for="name" string="name"/>
@@ -2836,10 +2875,8 @@
                     <field name="MemberDiscountApplies"></field>
                     <label for="EmailSubject" string="Email subject line"/>
                     <p>Items to be included in email subject lines</p>
-                    <field name="EmailSubject" options="{'no_create': True}" widget='many2many_tags'></field>
-     
-     
-                    <group col='2' string='Physical Address'>
+                    <field name="EmailSubject" options="{'no_create_edit': True}" widget='many2many_tags'></field>
+     				<group col='2' string='Physical Address'>
                     <label for='physical_country' string='Country'/>
                     <field name="physical_country" nolabel='1'></field>
                     <label for='physical_state' string='State'/>

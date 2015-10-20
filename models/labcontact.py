@@ -61,7 +61,7 @@ schema =  (
         ),
     ),
     
-    fields.Char(compute='computeFulname', string='Fullname'),
+    fields.Char(compute='computeFulname', string='name'),
     
     # ComputedField('Fullname',
     #     expression = 'context.getFullname()',
@@ -144,15 +144,17 @@ schema =  (
     #        label=_("Postal address"),
     #     ),
     # ),
-    # ~~~~~~~ To be implemented ~~~~~~~
-    #  LinesField('PublicationPreference',
-    #     vocabulary = PUBLICATION_PREFS,
+    
+    fields.Many2many(string='PublicationPreference',
+                   comodel_name='olims.publication_preference',
+                   #     vocabulary = PUBLICATION_PREFS,
     #     default = 'email',
     #     schemata = 'Publication preference',
     #     widget = MultiSelectionWidget(
     #         label=_("Publication preference"),
     #     ),
-    # ),
+   ),
+    
     FileField('Signature',
               help="Upload a scanned signature to be used on printed analysis results reports."+
                "Ideal size is 250 pixels wide by 150 high",
@@ -216,7 +218,6 @@ class LabContact(models.Model, BaseOLiMSModel): #Person
     def computeFulname(self):
         """ return Person's Fullname """
         for record in self:
-            #record.Fullname_method = 'sdsdsdsdsd'
         
             fn = record.getFirstname()
             mi = record.getMiddleinitial()
@@ -240,12 +241,12 @@ class LabContact(models.Model, BaseOLiMSModel): #Person
                                             record.getSurname())
                 else:
                     fullname = '%s %s' % (record.getFirstname(), record.getSurname())
-            record.Fullname = fullname.strip()
+            record.name = fullname.strip()
     
 
     def Title(self):
         """ Return the contact's Fullname as title """
-        return safe_unicode(self.getFullname()).encode('utf-8')
+        return safe_unicode(self.getname()).encode('utf-8')
 
     def hasUser(self):
         """ check if contact has user """
