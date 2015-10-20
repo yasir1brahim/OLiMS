@@ -29,21 +29,20 @@ from models.base_olims_model import BaseOLiMSModel
 #schema = BikaSchema.copy() + Schema((
 
 schema = (
-# ~~~~~~~ To be implemented ~~~~~~~
-#     CoordinateField('Latitude',
-#         schemata = 'Location',
-#         widget=CoordinateWidget(
-#             label=_("Latitude"),
-#             description=_("Enter the Sample Point's latitude in degrees 0-90, minutes 0-59, seconds 0-59 and N/S indicator"),
-#         ),
-#     ),
-#     CoordinateField('Longitude',
-#         schemata = 'Location',
-#         widget=CoordinateWidget(
-#             label=_("Longitude"),
-#             description=_("Enter the Sample Point's longitude in degrees 0-180, minutes 0-59, seconds 0-59 and E/W indicator"),
-#         ),
-#     ),
+          
+          # for Latitude, Label and description applied on view. 
+          fields.Char(string='Latitude_Degrees', required=True),
+          fields.Char(string='Latitude_Minutes', required=True),
+          fields.Char(string='Latitude_Seconds', required=True),
+          fields.Char(string='Latitude_Bearing', required=True),
+          
+          
+          # for Longitude, Label and description applied on view. 
+          fields.Char(string='Longitude_Degrees', required=True),
+          fields.Char(string='Longitude_Minutes', required=True),
+          fields.Char(string='Longitude_Seconds', required=True),
+          fields.Char(string='Longitude_Bearing', required=True),
+         
 
     StringField('Elevation',
         schemata = 'Location',
@@ -57,20 +56,12 @@ schema = (
     fields.Char(string='Hours'),
     fields.Char(string='Minutes'),
     
-    fields.Many2one(string='SampleTypes',
+    fields.Many2many(string='SampleTypes',
                     comodel_name='olims.sample_type',
         required = False,
-#         allowed_types = ('SampleMatrix',),
-#         vocabulary = 'SampleMatricesVocabulary',
-#         relationship = 'SampleTypeSampleMatrix',
-#         referenceClass = HoldingReference,
-#         widget = ReferenceWidget(
-#             checkbox_bound = 0,
-#             label=_("Sample Matrix"),
-#         ),
-    ),
-    # ReferenceField('SampleTypes',
-    #     required = 0,
+        help="The list of sample types that can be collected at this sample point.  If no sample types are"+ 
+                    "selected, then all sample types are available.",
+#     required = 0,
     #     multiValued = 1,
     #     allowed_types = ('SampleType',),
     #     vocabulary = 'SampleTypesVocabulary',
@@ -82,7 +73,8 @@ schema = (
     #                        "at this sample point.  If no sample types are "
     #                        "selected, then all sample types are available."),
     #     ),
-    # ),
+    ),
+
     # ComputedField(
     #     'SampleTypeTitle',
     #     expression="[o.Title() for o in context.getSampleTypes()]",
