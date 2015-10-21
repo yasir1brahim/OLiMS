@@ -1936,6 +1936,8 @@
                     <field name="Preparator"></field>
                     <label for="Validator" string="Validator"/>
                     <field name="Validator"></field>
+                    <label for="Document" string="Document"/>
+                    <field name="Document"></field>
                     <label for="Remarks" string="Remarks"/>
                     <field name="Remarks"></field>
                     </form>

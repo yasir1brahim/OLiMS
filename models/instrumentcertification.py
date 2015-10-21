@@ -15,10 +15,11 @@
 from lims import bikaMessageFactory as _
 from fields.string_field import StringField
 from fields.text_field import TextField
+from fields.file_field import FileField
 from fields.date_time_field import DateTimeField
 from fields.reference_field import ReferenceField
 from fields.boolean_field import BooleanField
-from fields.widget.widget import StringWidget, TextAreaWidget, DateTimeWidget, BooleanWidget
+from fields.widget.widget import StringWidget, TextAreaWidget, DateTimeWidget, BooleanWidget, FileWidget
 from openerp import fields, models
 from models.base_olims_model import BaseOLiMSModel
 
@@ -135,12 +136,12 @@ schema = (
 
 
 
-    # FileField('Document',
-    #     widget = FileWidget(
-    #         label=_("Report upload"),
-    #         description=_("Load the certificate document here"),
-    #     )
-    # ),
+    FileField('Document',
+        widget = FileWidget(
+            label=_("Report upload"),
+            description=_("Load the certificate document here"),
+        )
+    ),
 
     TextField('Remarks',
         searchable=True,

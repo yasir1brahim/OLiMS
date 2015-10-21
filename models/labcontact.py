@@ -165,17 +165,6 @@ schema =  (
     
  fields.Many2many(string='Department',
                        comodel_name='olims.department',
-#         schemata = 'Publication preference',
-#         vocabulary = 'getContacts',
-#         multiValued = 1,
-#         allowed_types = ('Contact',),
-#         relationship = 'ContactContact',
-#         widget = ReferenceWidget(
-#             checkbox_bound = 0,
-#             label=_("Contacts to CC"),
-#         ),
-        ),
-    # ReferenceField('Department',
     #     required = 0,
     #     vocabulary_display_path_bound = sys.maxint,
     #     allowed_types = ('Department',),
@@ -187,7 +176,8 @@ schema =  (
     #         label=_("Department"),
     #         description=_("The laboratory department"),
     #     ),
-    # ),
+        ),
+    
 
     # ~~~~~~~ To be implemented ~~~~~~~
     # ComputedField('DepartmentTitle',

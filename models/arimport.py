@@ -165,26 +165,7 @@ schema = (
 #         ),
     ),
 
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ReferenceField('CCContact',
-#         allowed_types = ('Contact',),
-#         relationship = 'ARImportCCContact',
-#         default_method = 'getCCContactUIDForUser',
-#         referenceClass = HoldingReference,
-#         vocabulary_display_path_bound = sys.maxint,
-#         widget=ReferenceWidget(
-#             label=_("CCContact"),
-#             size=12,
-#             helper_js=("bika_widgets/referencewidget.js", "++resource++bika.lims.js/contact.js"),
-#             visible={'edit': 'visible', 'view': 'visible', 'add': 'visible'},
-#             base_query={'inactive_state': 'active'},
-#             showOn=True,
-#             popup_width='300px',
-#             colModel=[{'columnName': 'UID', 'hidden': True},
-#                       {'columnName': 'Fullname', 'width': '100', 'label': _('Name')},
-#                      ],
-#         ),
-#     ),
+
     StringField('CCNamesReport',
         widget = StringWidget(
             label = _("Report Contact Names"),
@@ -251,6 +232,9 @@ schema = (
             label = _("Status"),
         ),
     ),
+    
+    
+    
 # ~~~~~~~ To be implemented ~~~~~~~
 #     LinesField('Remarks',
 #         widget = LinesWidget(
@@ -270,10 +254,10 @@ schema = (
 #             visible = False,
 #         ),
 #     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ReferenceField(
-#         'Priority',
-#         allowed_types=('ARPriority',),
+
+    fields.Many2one(string='Priority',
+                    comodel_name='olims.ar_priority',
+            #         allowed_types=('ARPriority',),
 #         referenceClass=HoldingReference,
 #         relationship='AnalysisRequestPriority',
 #         mode="rw",
@@ -291,7 +275,8 @@ schema = (
 #             base_query={'review_state': 'published'},
 #             showOn=True,
 #         ),
-#     ),
+                    ),
+          
 )#,
 # )
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~

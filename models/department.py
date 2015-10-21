@@ -59,7 +59,7 @@ schema = (
 #         ),
     ),
 
-    fields.Char(compute='getManager_fulname', string='ManagerName'),
+#    fields.Char(compute='getManager_fulname', string='ManagerName'),
 # ~~~~~~~ To be implemented ~~~~~~~
 #     ComputedField('ManagerName',
 #         expression = "context.getManager() and context.getManager().getFullname() or ''",

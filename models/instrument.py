@@ -133,16 +133,6 @@ schema = (
     #     ),
     ),
 
-    # HistoryAwareReferenceField('Method',
-    #     vocabulary='_getAvailableMethods',
-    #     allowed_types=('Method',),
-    #     relationship='InstrumentMethod',
-    #     required=0,
-    #     widget=SelectionWidget(
-    #         format='select',
-    #         label=_("Method"),
-    #     ),
-    # ),
 
     BooleanField('DisposeUntilNextCalibrationTest',
         default = False,

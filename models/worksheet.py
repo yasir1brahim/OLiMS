@@ -39,6 +39,13 @@ from fields.widget.widget import TextAreaWidget
 from lims import bikaMessageFactory as _
 #schema = BikaSchema.copy() + Schema((
 schema = (
+
+          fields.Many2one(string='WorksheetTemplate',
+                   comodel_name='olims.worksheet_template',
+                   required=False,
+
+            ),
+
     # ~~~~~~~ To be implemented ~~~~~~~
     # HistoryAwareReferenceField('WorksheetTemplate',
     #     allowed_types=('WorksheetTemplate',),
