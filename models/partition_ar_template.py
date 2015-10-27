@@ -5,7 +5,7 @@ from models.base_olims_model import BaseOLiMSModel
 schema = (
           fields.Many2one(string='Container', comodel_name ='olims.container'),
           fields.Many2one(string='Preservation', comodel_name ='olims.preservation'),
-          fields.Char(string='Partition'),
+          fields.Char('name'),
           )
 
 class PartitionARTemplate(models.Model, BaseOLiMSModel): 

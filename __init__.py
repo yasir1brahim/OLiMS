@@ -70,3 +70,4 @@ from models import partition_setup
 from models import email_subject
 from models import publication_preference
 from models import batch_label
+from models import recordsfields_artemplate

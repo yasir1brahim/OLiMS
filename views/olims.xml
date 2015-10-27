@@ -212,12 +212,17 @@
             <field name="model">olims.ar_template</field>
             <field name="arch" type="xml">
                 <form string="AR Template Form">
+                	<label for="name" string="Name"/>
+                	<field name="name"></field>
+                	<label for="Description" string="Description"/>
+                    <field name="Description"></field>
                     <label for="Sample Point" string="Sample Point"/>
-                    <field name="Sample Point"></field>                     
+                    <field name="Sample Point" options="{'no_create': True}"></field>                     
                     <label for="SampleType" string="Sample Type"/>
-                    <field name="SampleType"></field>
+                    <field name="SampleType" options="{'no_create': True}"></field>
                     <label for="ReportDryMatter" string="Report Dry Matter"/>
                     <field name="ReportDryMatter" ></field>
+                    <br/>
                     <label for="Remarks" string="Remarks"/>
                     <field name="Remarks" ></field>
                     <label for="Partitions" string="Sample Partitions"/>
@@ -225,7 +230,10 @@
                     partitions on the template's Analyses tab</p>
                     <field name="Partitions" widget='one2many_list'></field>
                     <label for="AnalysisProfile" string="Analysis Profile"/>
-                    <field name="AnalysisProfile" ></field>
+                    <field name="AnalysisProfile" options="{'no_create': True}"></field>
+                    <label for="Analyses" string="Analyses"/>
+                    <p>Select analyses to include in this template</p>
+                    <field name="Analyses" widget='one2many_list'></field>
                 </form>
             </field>
         </record>
@@ -235,11 +243,14 @@
             <field name="model">olims.ar_template</field>
             <field name="arch" type="xml">
                 <tree string="AR Template">
+                	<field name="name"></field>
+                	<field name="Description"></field>
 					<field name="Sample Point"></field>                     
                     <field name="SampleType"></field>
                     <field name="ReportDryMatter" ></field>
                     <field name="Remarks" ></field>
                     <field name="AnalysisProfile" ></field>
+                    <field name="Analyses" ></field>
                 </tree>
             </field>
         </record>
@@ -263,8 +274,8 @@
             <field name="model">olims.partition_ar_template</field>
             <field name="arch" type="xml">
                 <form string="Partition Form">
-                    <label for="Partition" string="Partition"/>
-                    <field name="Partition"></field>                     
+                    <label for="name" string="Partition"/>
+                    <field name="name"></field>                     
                     <label for="Container" string="Container"/>
                     <field name="Container"></field>
                     <label for="Preservation" string="Preservation"/>
@@ -279,7 +290,7 @@
             <field name="model">olims.partition_ar_template</field>
             <field name="arch" type="xml">
                 <tree string="Partition">
-                    <field name="Partition"></field>                     
+                    <field name="name"></field>                     
                     <field name="Container"></field>
                     <field name="Preservation"></field>        
                 </tree>

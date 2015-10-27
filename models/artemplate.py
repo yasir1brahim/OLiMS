@@ -23,11 +23,19 @@ from openerp import fields, models
 from models.base_olims_model import BaseOLiMSModel
 from fields.widget.widget import BooleanWidget, TextAreaWidget
 from fields.boolean_field import BooleanField
+from fields.string_field import StringField
 from fields.text_field import TextField
 
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 # schema = BikaSchema.copy() + Schema(
-schema = (
+schema = (StringField('name',
+              required=1,        
+    ),
+    TextField('Description',
+        widget=TextAreaWidget(
+            description = _('Used in item listings and search results.'),
+                            )
+    ),
     ## SamplePoint and SampleType references are managed with
     ## accessors and mutators below to get/set a string value
     ## (the Title of the object), but still store a normal Reference.
@@ -210,6 +218,9 @@ schema = (
 #          subfields=('uid', 'hidden',),
 #          widget=ComputedWidget(visible=False),
 #     ),
+    fields.Many2many(string='Analyses',
+                       comodel_name='olims.records_field_artemplates',
+    ),
 )#,
 #)
 
