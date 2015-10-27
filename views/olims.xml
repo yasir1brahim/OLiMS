@@ -391,6 +391,10 @@
             <field name="model">olims.ar_priority</field>
             <field name="arch" type="xml">
                 <form string="AP Priority Form">
+                	<label for="name" string="Name"/>
+                	<field name="name"></field>
+                	<label for="Description" string="Description"/>
+                	<field name="Description"></field>
                     <label for="sortKey" string="SortKey"/>
                     <field name="sortKey"></field>                     
                     <label for="pricePremium" string="pricePremium"/>
@@ -401,6 +405,9 @@
                     <field name="bigIcon" widget='image'></field>
                     <label for="isDefault" string="isDefault"/>
                     <field name="isDefault"></field>
+                    <br/>
+                    <label for="ChangeNote" string="Change Note"/>
+                	<field name="ChangeNote"></field>
                 </form>
             </field>
         </record>
@@ -410,10 +417,12 @@
             <field name="model">olims.ar_priority</field>
             <field name="arch" type="xml">
                 <tree string="AR Priority">
+                	<field name="name"></field>
+                	<field name="Description"></field>
                     <field name="sortKey"></field>                     
                     <field name="pricePremium"></field>
-                    
                     <field name="isDefault"></field>
+                    <field name="ChangeNote"></field>
                 </tree>
             </field>
         </record>

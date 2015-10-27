@@ -19,10 +19,21 @@ from models.base_olims_model import BaseOLiMSModel
 from fields.integer_field import IntegerField
 from fields.file_field import FileField
 from fields.boolean_field import BooleanField
-from fields.widget.widget import IntegerWidget, BooleanWidget, FileWidget
+from fields.string_field import StringField
+from fields.text_field import TextField
+from fields.widget.widget import IntegerWidget, BooleanWidget, FileWidget, \
+                                TextAreaWidget, StringWidget
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 # schema = BikaSchema.copy() + Schema((
-schema = (IntegerField('sortKey',
+schema = (StringField('name',
+              required=1,        
+    ),
+    TextField('Description',
+        widget=TextAreaWidget(
+            description = _('Used in item listings and search results.'),
+                            )
+    ),
+          IntegerField('sortKey',
         widget=IntegerWidget(
             label = _("Sort Key"),
             description = _("Numeric value indicating the sort order of objects that are prioritised"),
@@ -53,6 +64,12 @@ schema = (IntegerField('sortKey',
         widget=BooleanWidget(
             label = _("Default Priority?"),
             description = _("Check this box if this is the default priority"),
+        ),
+    ),
+    StringField('ChangeNote',
+        widget=StringWidget(
+            label=_("Change Note"),
+            description=_("Enter a comment that describes the changes you made")
         ),
     ),
 )#)
