@@ -3426,35 +3426,35 @@
         <menuitem id="department" name="Department" parent="olims_menu"
                   action="olims_department_list_action"/>            
                   
-        <!-- My Modelform view -->         
+        <!-- My Modelform view        
           <record model="ir.ui.view" id="mymodel_my_model_form_view">
             <field name="name">my_model.form</field>
             <field name="model">mymodel.my_model</field>
             <field name="arch" type="xml">
                 <form string="My Model Form">
-                	<!--label for="CommercialID" string="CommercialID"/>
-                	<field name="CommercialID"></field-->
+                	<label for="CommercialID" string="CommercialID"/>
+                	<field name="CommercialID"></field>
                 	<label for="MyTestField" string="MyTestField"/>
                 	<field name="MyTestField"></field>
                 	<label for="NewField" string="NewField"/>
                 	<field name="NewField"></field>
                 	<label for="test_string" string="test_string"/>
                 	<field name="test_string"></field>
-                	<!--label for="AnalysisProfilePrice" string="AnalysisProfilePrice"/>
-                	<field name="AnalysisProfilePrice"></field-->
+                	<label for="AnalysisProfilePrice" string="AnalysisProfilePrice"/>
+                	<field name="AnalysisProfilePrice"></field>
                 </form>
             </field>
         </record>
-        
-        <record model="ir.ui.view" id="mymodel_my_model_tree_view">
+        -->
+        <!-- <record model="ir.ui.view" id="mymodel_my_model_tree_view">
             <field name="name">my_model.tree</field>
             <field name="model">mymodel.my_model</field>
             <field name="arch" type="xml">
                 <tree string="My Model">
-                	<!--field name="CommercialID"></field-->
+                	<field name="CommercialID"></field>
                 	<field name="MyTestField"></field>
                 	<field name="NewField"></field>
-                	<!--field name="AnalysisProfilePrice"></field-->
+                	<field name="AnalysisProfilePrice"></field>
                 	<field name="test_string"></field>
                 	
                 </tree>
@@ -3469,7 +3469,7 @@
        </record>
 
         <menuitem id="my_model" name="My Model" parent="olims_menu"
-                  action="mymodel_my_model_list_action"/>
+                  action="mymodel_my_model_list_action"/> -->
                   
          <!-- Analysis Service form view -->
         <record model="ir.ui.view" id="olims_analysis_service_form_view">
@@ -3485,6 +3485,7 @@
                 	<field name="Description"></field>
                 	<label for="ScientificName" string="Scientific name"/>
                 	<field name="ScientificName"></field>
+                	<br/>
                 	<label for="Unit" string="Unit"/>
                 	<field name="Unit"></field>
                 	<label for="Precision" string="Precision as number of decimals"/>
@@ -3497,18 +3498,23 @@
                 	<field name="UpperDetectionLimit"></field>
                 	<label for="DetectionLimitSelector" string="Display a Detection Limit selector"/>
                 	<field name="DetectionLimitSelector"></field>
+                	<br/>
                 	<label for="AllowManualDetectionLimit" string="Allow Manual Detection Limit input"/>
                 	<field name="AllowManualDetectionLimit"></field>
+                	<br/>
                 	<label for="ReportDryMatter" string="Report as Dry Matter"/>
                 	<field name="ReportDryMatter"></field>
+                	<br/>
                 	<label for="AttachmentOption" string="Attachment Option"/>
                 	<field name="AttachmentOption"></field>
                 	<label for="Keyword" string="Analysis Keyword"/>
                 	<field name="Keyword"></field>
                 	<label for="ManualEntryOfResults" string="Allow manual entry of results"/>
                 	<field name="ManualEntryOfResults"></field>
+                	<br/>
                 	<label for="InstrumentEntryOfResults" string="Allow instrument entry of results"/>
                 	<field name="InstrumentEntryOfResults"></field>
+                	<br/>
                 	<label for="Instruments" string="Instruments"/>
                 	<field name="Instruments" widget="many2many_tags" options="{'no_create_edit': True}"></field>
                 	<label for="Instrument" string="Default Instrument"/>
@@ -3519,11 +3525,12 @@
                 	<field name="_Method" options="{'no_create_edit': True}"></field>
                 	<label for="UseDefaultCalculation" string="Use default calculation"/>
                 	<field name="UseDefaultCalculation"></field>
+                	<br/>
                 	<label for="_Calculation" string="Default Calculation"/>
                 	<field name="_Calculation" options="{'no_create_edit': True}"></field>
                 	<label for="DeferredCalculation" string="Alternative Calculation"/>
                 	<field name="DeferredCalculation" options="{'no_create_edit': True}"></field>
-                	<group col='2' string='MaxTimeAllowed'>
+                	<group col='2' string='Maximum turn-around time '>
                 	<p >Maximum time allowed for completion of the analysis. 
                 	A late analysis alert is raised when this period elapses</p>
                 	<p></p>
@@ -3542,6 +3549,7 @@
                 	<field name="DuplicateVariation"></field>
                 	<label for="Accredited" string="Accredited"/>
                 	<field name="Accredited"></field>
+                	<br/>
                 	<label for="PointOfCapture" string="Point of Capture"/>
                 	<field name="PointOfCapture" widget="radio"></field>
                 	<label for="Category" string="Analysis Category"/>
@@ -3569,14 +3577,17 @@
                 	
                 	<label for="PrecisionFromUncertainty" string="Calculate Precision from Uncertainties"/>
                 	<field name="PrecisionFromUncertainty"></field>
+                	<br/>
                 	<label for="AllowManualUncertainty" string="Allow manual uncertainty value input"/>
                 	<field name="AllowManualUncertainty"></field>
+                	<br/>
                 	<label for="ResultOptions" string="Result Options"/>
                 	<p>Please list all options for the analysis result if you want to restrict it to specific options only, e.g. 
                 	'Positive', 'Negative' and 'Indeterminable'. The option's result value must be a number</p>
                 	<field name="ResultOptions" widget='one2many_list'></field>
                 	<label for="Separate" string="Separate Container"/>
                 	<field name="Separate"></field>
+                	<br/>
                 	<label for="Preservation" string="Default Preservation"/>
                 	<field name="Preservation" options="{'no_create_edit': True}"></field>
                 	<label for="Container" string="Default Container"/>
@@ -3587,6 +3598,7 @@
                 	<field name="PartitionSetup" widget='one2many_list'></field>
                 	<label for="Hidden" string="Hidden"/>
                 	<field name="Hidden"></field>
+                	<br/>
                 	<label for="CommercialID" string="Commercial ID"/>
                 	<field name="CommercialID"></field>
                 	<label for="ProtocolID" string="Protocol ID"/>
@@ -3595,6 +3607,8 @@
                 	<field name="VATAmount"></field>
                 	<label for="TotalPrice" string="Total Price"/>
                 	<field name="TotalPrice"></field>
+                	<label for="ChangeNote" string="Change Note"/>
+                	<field name="ChangeNote"></field>
                 </form>
             </field>
         </record>
@@ -3644,6 +3658,7 @@
                 	<field name="ProtocolID"></field>
                 	<field name="VATAmount"></field>
                 	<field name="TotalPrice"></field>
+                	<field name="ChangeNote"></field>
                  </tree>
             </field>
         </record>

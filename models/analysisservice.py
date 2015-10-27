@@ -909,7 +909,7 @@ fields.Many2many(string='Uncertainties',
 #                    ),
     ),
     fields.Many2one(string='Container',
-                   comodel_name='olims.Container',
+                   comodel_name='olims.container',
                    required=False,
                    help="Select the default container to be used for this " + \
                             "analysis service. If the container to be used " + \
@@ -974,6 +974,13 @@ fields.Many2many(string='Uncertainties',
         widget=StringWidget(
             label=_("Protocol ID"),
             description=_("The service's analytical protocol ID")
+        ),
+    ),
+    StringField('ChangeNote',
+        schemata = 'Description',
+        widget=StringWidget(
+            label=_("Change Note"),
+            description=_("Enter a comment that describes the changes you made")
         ),
     ),
 )#)
