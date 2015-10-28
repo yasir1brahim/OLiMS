@@ -686,7 +686,11 @@
             <field name="arch" type="xml">
                 <form string="AnalysisSpec Form">
                     <label for="SampleType" string="SampleType"/>
-                    <field name="SampleType"></field>
+                    <field name="SampleType" options="{'no_create': True}"></field>
+                    <label for="name" string="Name"/>
+                	<field name="name"></field>
+                	<label for="Description" string="Description"/>
+                	<field name="Description"></field>
                 </form>
             </field>
         </record>
@@ -697,6 +701,8 @@
             <field name="arch" type="xml">
                 <tree string="AnalysisSpec Template">
                 <field name="SampleType"></field>
+                <field name="name"></field>
+                <field name="Description"></field>
                 </tree>
             </field>
         </record>

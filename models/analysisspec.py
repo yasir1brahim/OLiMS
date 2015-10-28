@@ -1,7 +1,7 @@
 """Analysis result range specifications for a client
 """
 
-from dependencies.dependency import *
+# from dependencies.dependency import *
 
 from dependencies.dependency import getToolByName
 from lims import PMF, bikaMessageFactory as _
@@ -9,7 +9,9 @@ from openerp import fields, models
 
 from dependencies.dependency import translate
 from models.base_olims_model import BaseOLiMSModel
-
+from fields.string_field import StringField
+from fields.text_field import TextField
+from fields.widget.widget import TextAreaWidget
 
 
 
@@ -43,14 +45,19 @@ from models.base_olims_model import BaseOLiMSModel
 # )) + \
 # BikaSchema.copy() + \
 # Schema((
-schema = (
-
-
-        fields.Many2one(string='SampleType',
+schema = (fields.Many2one(string='SampleType',
                    comodel_name='olims.sample_type',
                    required=False,
                    help="Sample Type",
             ),
+        StringField('name',
+              required=1,        
+        ),
+        TextField('Description',
+                widget=TextAreaWidget(
+                    description = _('Used in item listings and search results.'),
+                            )
+        ),
 
     #     RecordsField('ResultsRange',
     #     # schemata = 'Specifications',
