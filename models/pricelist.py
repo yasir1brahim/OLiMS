@@ -23,15 +23,27 @@ from fields.boolean_field import BooleanField
 from fields.reference_field import ReferenceField
 from fields.fixed_point_field import FixedPointField
 from fields.text_field import TextField
+from fields.string_field import StringField
+from fields.date_time_field import DateTimeField
 from fields.widget.widget import DecimalWidget, BooleanWidget, TextAreaWidget, ReferenceWidget
 from lims import bikaMessageFactory as _
+BULK_DISCOUNT_OPTION =(
+                           ('yes', _('Yes')),
+                           ('no', _('NO')),
+                           )
 
+PRICELIST_TYPES = (
+    ('AnalysisService', _('Analysis Services')),
+    ('LabProduct', _('Lab Products')),
+)
 #schema = BikaFolderSchema.copy() + Schema((
-schema = (
-
-             ReferenceField(string='Type',
-           selection=([ ('olims.analysis_service', _('Analysis Services')), ('olims.lab_product', _('Lab Products'))]),
-           required=0,
+schema = (StringField('name',
+              required=1,        
+        ),
+    fields.Selection(string='Type',
+           selection=PRICELIST_TYPES,
+           default='AnalysisService',
+           required=True,
         #     widget = ReferenceWidget(
         #     checkbox_bound = 0,
         #     # format='select',
@@ -40,8 +52,8 @@ schema = (
     ),
 
 
-    BooleanField('BulkDiscount',
-        default=False,
+    fields.Selection(string='BulkDiscount',
+        selection=BULK_DISCOUNT_OPTION
         #widget=SelectionWidget(
          #   label=_("Bulk discount applies"),
         #),
@@ -59,17 +71,20 @@ schema = (
             description=_("Select if the descriptions should be included"),
         ),
     ),
-    TextField('Remarks',
-        searchable=True,
-        default_content_type='text/plain',
-        allowed_content_types=('text/plain', ),
-        default_output_type="text/plain",
-        widget=TextAreaWidget(
-            macro="bika_widgets/remarks",
-            label=_("Remarks"),
-            append_only=True,
-        ),
-    ),
+    DateTimeField('ExpirationDate'),
+    DateTimeField('EffectiveDate'),
+# ~~~~~~~~~~ View for Remarks does not exist ~~~~~~~~~~~
+#     TextField('Remarks',
+#         searchable=True,
+#         default_content_type='text/plain',
+#         allowed_content_types=('text/plain', ),
+#         default_output_type="text/plain",
+#         widget=TextAreaWidget(
+#             macro="bika_widgets/remarks",
+#             label=_("Remarks"),
+#             append_only=True,
+#         ),
+#     ),
 )
 
 # Field = schema['title']
