@@ -11,7 +11,42 @@
         <!-- the following menuitem should appear *after*
              its parent olims_menu and *after* its
              action course_list_action -->
-             
+        
+        <!-- olims.attachment_type form view -->
+        <record model="ir.ui.view" id="olims_attachment_type_form_view">
+            <field name="name">attachment_type.form</field>
+            <field name="model">olims.attachment_type</field>
+            <field name="arch" type="xml">
+                <form string="Attachment Type Form">
+                    <label for="name" string="Title"/>
+                    <field name="name"></field>
+                    <label for="Description" string="Description"/>
+                    <field name="Description"></field>                        
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="olims_attachment_type_tree_view">
+            <field name="name">attachment_type.tree</field>
+            <field name="model">olims.attachment_type</field>
+            <field name="arch" type="xml">
+                <tree string="Attachment Type">
+                    <field name="name"></field>
+                    <field name="Description"></field>
+                </tree>
+            </field>
+        </record>
+
+		<record model="ir.actions.act_window" id="attachment_type_action">
+            <field name="name">Attachment Type</field>
+            <field name="res_model">olims.attachment_type</field>
+            <field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+       </record>
+
+        <menuitem id="attachment_type_menu" name="Attachment Type" parent="olims_menu"
+                  action="attachment_type_action"/>
+        
 		<!-- olims.artemplate_analysis form view -->
         <record model="ir.ui.view" id="olims_recordsfield_form_view">
             <field name="name">recordsfield.form</field>
@@ -1126,7 +1161,7 @@
                     <label for="AttachmentFile" string="Attachment File"/>
                     <field name="AttachmentFile"></field>
                     <label for="AttachmentType" string="Attachment Type"/>
-                    <field name="AttachmentType"></field>
+                    <field name="AttachmentType" options="{'no_create': True}"></field>
                     <label for="AttachmentKeys" string="AttachmentKeys"/>
                     <field name="AttachmentKeys"></field>
                     <label for="DateLoaded" string="Date Loaded"/>
