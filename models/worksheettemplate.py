@@ -17,8 +17,19 @@
 from openerp import fields, models
 from lims import PMF, bikaMessageFactory as _
 from models.base_olims_model import BaseOLiMSModel
+from fields.string_field import StringField
+from fields.text_field import TextField
+from fields.widget.widget import TextAreaWidget,StringWidget
 #schema = BikaSchema.copy() + Schema((
-schema =   (
+schema =   (StringField('name',
+              required=1,        
+    ),
+    TextField('Description',
+        widget = TextAreaWidget(
+            label=_('Description'),
+            description=_('Used in item listings and search results.'),
+        ),
+    ),
 # ~~~~~~~ To be implemented ~~~~~~~
         # RecordsField('Layout',
         # schemata = 'Layout',
@@ -41,10 +52,11 @@ schema =   (
         #         "selected, indicate which sample position it should be a duplicate of"),
         # )
     #),
-        fields.Many2one(string='Service',
-                    comodel_name='olims.analysis_service',
-                    required=True,
-                    help='Select which Analyses should be included on the Worksheet',
+# ~~~~~~~ To be implemented ~~~~~~~
+#         fields.Many2one(string='Service',
+#                     comodel_name='olims.analysis_service',
+#                     required=True,
+#                     help='Select which Analyses should be included on the Worksheet',
 #         schemata = 'Analyses',
 #         required = 1,
 #         multiValued = 1,
