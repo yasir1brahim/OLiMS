@@ -11,7 +11,46 @@
         <!-- the following menuitem should appear *after*
              its parent olims_menu and *after* its
              action course_list_action -->
+             
+		<!-- olims.artemplate_analysis form view -->
+        <record model="ir.ui.view" id="olims_recordsfield_form_view">
+            <field name="name">recordsfield.form</field>
+            <field name="model">olims.records_field_artemplates</field>
+            <field name="arch" type="xml">
+                <form string="Record Field Services Analysis Form">
+                    <label for="Services Analysis" string="Analysis Services"/>
+                    <field name="Services Analysis"  widget="many2many_tags" options="{'no_create_edit': True}"></field>
+                    <label for="Hidden" string="Hidden"/>
+                    <field name="Hidden"></field>
+                    <br/> 
+                    <label for="Price" string="Price"/>
+                    <field name="Price"></field> 
+                    <label for="Partition" string="Partition"/>
+                    <field name="Partition" options="{'no_create': True}"></field>                         
+                </form>
+            </field>
+        </record>
 
+        <record model="ir.ui.view" id="olims_recordsfield_tree_view">
+            <field name="name">recordsfield.tree</field>
+            <field name="model">olims.records_field_artemplates</field>
+            <field name="arch" type="xml">
+                <tree string="Analysis">
+                    <field name="Services Analysis"></field>
+                    <field name="Hidden"></field>
+                    <field name="Price"></field>
+                    <field name="Partition"></field> 
+                </tree>
+            </field>
+        </record>
+
+		<record model="ir.actions.act_window" id="recordsfield_action">
+            <field name="name">Analysis</field>
+            <field name="res_model">olims.records_field_artemplates</field>
+            <field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+       </record>
+		
 <!-- olims.batch_label form view -->
         <record model="ir.ui.view" id="olims_batch_label_form_view">
             <field name="name">batch_label.form</field>
