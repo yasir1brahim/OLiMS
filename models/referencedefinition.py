@@ -18,7 +18,9 @@ from openerp import fields, models
 from models.base_olims_model import BaseOLiMSModel
 from lims import bikaMessageFactory as _
 from fields.boolean_field import BooleanField
-from fields.widget.widget import BooleanWidget
+from fields.widget.widget import BooleanWidget, TextAreaWidget
+from fields.string_field import StringField
+from fields.text_field import TextField
 
 
 
@@ -48,7 +50,14 @@ schema = (
     #             "less severe alert."),
     #     ),
     # ),
-
+    StringField('name',
+              required=1,        
+    ),
+    TextField('Description',
+                widget=TextAreaWidget(
+                    description = _('Used in item listings and search results.'),
+                            )
+    ),
     BooleanField('Blank',
         schemata = 'Description',
         default = False,
