@@ -70,18 +70,25 @@ def BatchUID(instance):
         return batch.UID()
 
 # schema = BikaSchema.copy() + Schema(
-schema = (StringField(
-        'RequestID',
-        searchable=True,
-        mode="rw",
-        read_permission=permissions.View,
-        write_permission=permissions.ModifyPortalContent,
-        widget=StringWidget(
-            label = _("Request ID"),
-            description=_("The ID assigned to the client's request by the lab"),
-            visible={'view': 'invisible',
-                     'edit': 'invisible'},
-        ),
+schema = (
+# ~~~~~~~ View for RequestID field does not exist  ~~~~~~~
+#     StringField(
+#         'RequestID',
+#         searchable=True,
+#         mode="rw",
+#         read_permission=permissions.View,
+#         write_permission=permissions.ModifyPortalContent,
+#         widget=StringWidget(
+#             label = _("Request ID"),
+#             description=_("The ID assigned to the client's request by the lab"),
+#             visible={'view': 'invisible',
+#                      'edit': 'invisible'},
+#         ),
+#     ),
+    fields.Many2one(string='Contact',
+                    comodel_name='olims.contact',
+                    relation='ar_contact',
+                    required=True
     ),
 # ~~~~~~~ To be implemented ~~~~~~~
 #     ReferenceField(
@@ -125,10 +132,11 @@ schema = (StringField(
 #                      ],
 #         ),
 #     ),
-#           fields.Many2many('CCContact',
-#                     comodel_name='olims.contact',
-
-    #),
+    fields.Many2one(string='CCContact',
+                    comodel_name='olims.contact',
+                    relation='ar__cc_contact',
+                    required=False
+    ),
     StringField(
         'CCEmails',
         mode="rw",
@@ -198,7 +206,7 @@ schema = (StringField(
     fields.Many2one(string='Sample',
                         comodel_name='olims.sample',
 
-        ),
+    ),
 
 # ~~~~~~~ To be implemented ~~~~~~~
 #     ReferenceField(
@@ -238,10 +246,10 @@ schema = (StringField(
 #         ),
 #     ),
 
-        fields.Many2one(string='Batch',
+    fields.Many2one(string='Batch',
                         comodel_name='olims.batch',
 
-        ),
+    ),
 
 # ~~~~~~~ To be implemented ~~~~~~~
 #     ReferenceField(
@@ -277,6 +285,11 @@ schema = (StringField(
 #             showOn=True,
 #         ),
 #     ),
+    fields.Many2one(string='SubGroup',
+                        comodel_name='olims.subgroup',
+                        relation='ar_subgroup'
+
+    ),
 # ~~~~~~~ To be implemented ~~~~~~~
 #     ReferenceField(
 #         'SubGroup',
@@ -319,10 +332,10 @@ schema = (StringField(
 #             showOn=True,
 #         ),
 #     ),
-              fields.Many2one(string='Template',
+    fields.Many2one(string='Template',
                         comodel_name='olims.ar_template',
 
-        ),
+    ),
 
 # ~~~~~~~ To be implemented ~~~~~~~
 #     ReferenceField(
@@ -359,6 +372,11 @@ schema = (StringField(
 #             showOn=True,
 #         ),
 #     ),
+    fields.Many2one(string='AnalysisProfile',
+                        comodel_name='olims.analysis_profile',
+                        relation='ar_to_analysisprofile'
+
+    ),
 #     # TODO: Profile'll be delated
 # ~~~~~~~ To be implemented ~~~~~~~
 #     ReferenceField(
@@ -512,11 +530,11 @@ schema = (StringField(
                      },
         ),
     ),
-              fields.Many2one(string='SampleType',
+    fields.Many2one(string='SampleType',
                         comodel_name='olims.sample_type',
                         required=True
 
-        ),
+    ),
 
 # ~~~~~~~ To be implemented ~~~~~~~
 #     ReferenceField(
@@ -554,6 +572,12 @@ schema = (StringField(
 #             showOn=True,
 #         ),
 #     ),
+    fields.Many2one(string='Specification',
+                        comodel_name='olims.analysis_spec',
+                        relation='ar_analysis_spec',
+                        required=False,
+
+    ),
 # ~~~~~~~ To be implemented ~~~~~~~
 #     ReferenceField(
 #         'Specification',
@@ -643,10 +667,10 @@ schema = (StringField(
 #         ),
 #     ),
 
-              fields.Many2one(string='SamplePoint',
+    fields.Many2one(string='SamplePoint',
                         comodel_name='olims.sample_point',
 
-        ),
+    ),
 
 # ~~~~~~~ To be implemented ~~~~~~~
 #     ReferenceField(
@@ -684,10 +708,10 @@ schema = (StringField(
 #         ),
 #     ),
 
-              fields.Many2one(string='StorageLocation',
+    fields.Many2one(string='StorageLocation',
                         comodel_name='olims.storage_location',
 
-        ),
+    ),
 
 # ~~~~~~~ To be implemented ~~~~~~~
 #     ReferenceField(
@@ -813,10 +837,10 @@ schema = (StringField(
         ),
     ),
 
-                        fields.Many2one(string='SamplingDeviation',
+    fields.Many2one(string='SamplingDeviation',
                         comodel_name='olims.sampling_deviation',
 
-        ),
+    ),
 
     # Sample field
 # ~~~~~~~ To be implemented ~~~~~~~
@@ -854,10 +878,10 @@ schema = (StringField(
 #         ),
 #     ),
 #     # Sample field
-              fields.Many2one(string='SampleCondition',
+    fields.Many2one(string='SampleCondition',
                         comodel_name='olims.sample_condition',
 
-        ),
+    ),
 
 
 # ~~~~~~~ To be implemented ~~~~~~~
@@ -895,10 +919,10 @@ schema = (StringField(
 #             showOn=True,
 #         ),
 #     ),
-              fields.Many2one(string='DefaultContainerType',
+    fields.Many2one(string='DefaultContainerType',
                         comodel_name='olims.container_type',
 
-        ),
+    ),
 
 
 # ~~~~~~~ To be implemented ~~~~~~~
@@ -1081,10 +1105,10 @@ schema = (StringField(
 #                      },
 #         )
 #     ),
-              fields.Many2one(string='Invoice',
-                        comodel_name='olims.invoice',
-
-        ),
+#     fields.Many2one(string='Invoice',
+#                         comodel_name='olims.invoice',
+# 
+#     ),
 
 # ~~~~~~~ To be implemented ~~~~~~~
 #     ReferenceField(
@@ -1152,26 +1176,26 @@ schema = (StringField(
                      },
         ),
     ),
-    TextField(
-        'Remarks',
-        searchable=True,
-        default_content_type='text/x-web-intelligent',
-        allowable_content_types = ('text/plain', ),
-        default_output_type="text/plain",
-        mode="rw",
-        read_permission=permissions.View,
-        write_permission=permissions.ModifyPortalContent,
-        widget=TextAreaWidget(
-            macro="bika_widgets/remarks",
-            label = _("Remarks"),
-            append_only=True,
-            visible={'edit': 'visible',
-                     'view': 'visible',
-                     'add': 'invisible',
-                     'sample_registered': {'view': 'invisible', 'edit': 'invisible', 'add': 'invisible'},
-                     },
-        ),
-    ),
+#     TextField(
+#         'Remarks',
+#         searchable=True,
+#         default_content_type='text/x-web-intelligent',
+#         allowable_content_types = ('text/plain', ),
+#         default_output_type="text/plain",
+#         mode="rw",
+#         read_permission=permissions.View,
+#         write_permission=permissions.ModifyPortalContent,
+#         widget=TextAreaWidget(
+#             macro="bika_widgets/remarks",
+#             label = _("Remarks"),
+#             append_only=True,
+#             visible={'edit': 'visible',
+#                      'view': 'visible',
+#                      'add': 'invisible',
+#                      'sample_registered': {'view': 'invisible', 'edit': 'invisible', 'add': 'invisible'},
+#                      },
+#         ),
+#     ),
     FixedPointField(
         'MemberDiscount',
         default_method='getDefaultMemberDiscount',
@@ -1257,10 +1281,10 @@ schema = (StringField(
 #             visible=False,
 #         ),
 #     ),
-              fields.Many2one(string='ChildAnalysisRequest',
+    fields.Many2one(string='ChildAnalysisRequest',
                         comodel_name='olims.analysis_request',
 
-        ),
+    ),
 
 # ~~~~~~~ To be implemented ~~~~~~~
 #     ReferenceField(
@@ -1275,10 +1299,10 @@ schema = (StringField(
 #             visible=False,
 #         ),
 #     ),
-                        fields.Many2one(string='ParentAnalysisRequest',
+    fields.Many2one(string='ParentAnalysisRequest',
                         comodel_name='olims.analysis_request',
 
-        ),
+    ),
 
 
 
@@ -1296,11 +1320,11 @@ schema = (StringField(
 #         ),
 #     ),
 
-        fields.Many2one(string='Priority',
+    fields.Many2one(string='Priority',
                    comodel_name='olims.ar_priority',
                    required=False,
 
-        ),
+    ),
 
 # ~~~~~~~ To be implemented ~~~~~~~
 #     HistoryAwareReferenceField(
@@ -1368,6 +1392,18 @@ schema = (StringField(
             output_mime_type='text/x-html',
             rows=3,
             visible=False),
+    ),
+    fields.Float(string='Discount',
+                 default=0.00
+    ),
+    fields.Float(string='Subtotal',
+                 default=0.00
+    ),
+    fields.Float(string='VAT',
+                 default=0.00
+    ),
+    fields.Float(string='Total',
+                 default=0.00
     ),
 # ~~~~~~~ To be implemented ~~~~~~~
 #     RecordsField('ResultsInterpretationDepts',

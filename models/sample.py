@@ -45,7 +45,7 @@ from models.base_olims_model import BaseOLiMSModel
 
 #schema = BikaSchema.copy() + Schema((
 schema = (
-    StringField('SampleID',
+    StringField('name',
         required=1,
         searchable=True,
         help=_("The ID assigned to the client's sample by the lab"),
