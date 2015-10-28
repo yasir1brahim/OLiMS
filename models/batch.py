@@ -71,7 +71,7 @@ from lims import bikaMessageFactory as _
 
 
 #schema = BikaFolderSchema.copy() + Schema((
-schema = (    StringField(
+schema = (StringField(
         'name',
         searchable=True,
         required=False,
@@ -81,10 +81,15 @@ schema = (    StringField(
             label=_("Batch ID"),
         )
     ),
+    TextField('Description',
+        widget=TextAreaWidget(
+            description = ('Used in item listings and search results.'),
+                            )
+    ),
 
     fields.Many2one(string='Client',
-    comodel_name='olims.client',
-    required=False,
+                    comodel_name='olims.client',
+                    required=False,
      # required=0,
      #    allowed_types=('Client',),
      #    relationship='BatchClient',
@@ -127,23 +132,23 @@ schema = (    StringField(
     #         format="checkbox",
     #     )
     ),
+# ~~~~~~~  View for Remarks fields does not exist~~~~~~~
+#     TextField(
+#         'Remarks',
+#         searchable=True,
+#         default_content_type='text/x-web-intelligent',
+#         allowable_content_types=('text/plain', ),
+#         default_output_type="text/plain",
+#         widget=TextAreaWidget(
+#             macro="bika_widgets/remarks",
+#             label=_('Remarks'),
+#             append_only=True,
+#         )
+#     ),
 
-    TextField(
-        'Remarks',
-        searchable=True,
-        default_content_type='text/x-web-intelligent',
-        allowable_content_types=('text/plain', ),
-        default_output_type="text/plain",
-        widget=TextAreaWidget(
-            macro="bika_widgets/remarks",
-            label=_('Remarks'),
-            append_only=True,
-        )
-    ),
-
-    fields.Many2one(string='InheritedObjects',
-    comodel_name='olims.batch',
-    relation='batch_to_batch',
+    fields.Many2many(string='InheritedObjects',
+    comodel_name='olims.inherit_from_batch',
+    relation='inheritform_batch',
     required=False
         #     'InheritedObjectsUI',
     #     required=False,

@@ -12,6 +12,41 @@
              its parent olims_menu and *after* its
              action course_list_action -->
         
+        <!-- olims.inherit_form_batch form view -->
+        <record model="ir.ui.view" id="olims_inherit_form_batch_form_view">
+            <field name="name">inherit_from_batch.form</field>
+            <field name="model">olims.inherit_from_batch</field>
+            <field name="arch" type="xml">
+                <form string="Inherit From Form">
+                    <label for="name" string="Title"/>
+                    <field name="name"></field>
+                    <label for="ObjectId" string="Object ID"/>
+                    <field name="ObjectId"></field>
+                    <label for="Description" string="Description"/>
+                    <field name="Description"></field>                        
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="olims_inherit_from_batch_tree_view">
+            <field name="name">inherit_from_batch.tree</field>
+            <field name="model">olims.inherit_from_batch</field>
+            <field name="arch" type="xml">
+                <tree string="Inherit From">
+                    <field name="name"></field>
+                    <field name="ObjectId"></field>
+                    <field name="Description"></field>
+                </tree>
+            </field>
+        </record>
+
+		<record model="ir.actions.act_window" id="inherit_from_batch_action">
+            <field name="name">Inherit from</field>
+            <field name="res_model">olims.inherit_from_batch</field>
+            <field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+       </record>
+        
         <!-- olims.attachment_type form view -->
         <record model="ir.ui.view" id="olims_attachment_type_form_view">
             <field name="name">attachment_type.form</field>
@@ -1255,18 +1290,18 @@
             <field name="model">olims.batch</field>
             <field name="arch" type="xml">
                 <form string="Batch Form">
-                    <label for="name" string="Batch ID"/>
+                    <label for="ClientBatchID" string="Client Batch ID"/>
+                    <field name="ClientBatchID"></field>
+                    <label for="name" string="Title"/>
                     <field name="name"></field>
                     <label for="Client" string="Client"/>
                     <field name="Client"></field>
-                    <label for="ClientBatchID" string="Client Batch ID"/>
-                    <field name="ClientBatchID"></field>
                     <label for="BatchDate" string="Batch Date"/>
                     <field name="BatchDate"></field>
+                    <label for="Description" string="Description"/>
+                    <field name="Description"></field>
                     <label for="BatchLabels" string="Batch Labels"/>
                     <field name="BatchLabels" widget="many2many_checkboxes"></field>
-                    <label for="Remarks" string="Remarks"/>
-                    <field name="Remarks"></field>
                    <label for="InheritedObjects" string="Inherit From"/>
                    <p>Include all analysis requests belonging to the selected objects</p>
                     <field name="InheritedObjects"></field>
@@ -1279,11 +1314,11 @@
             <field name="model">olims.batch</field>
             <field name="arch" type="xml">
                 <tree string="Batch Template">
+                    <field name="ClientBatchID"></field>
                     <field name="name"></field>
                     <field name="Client"></field>
-                    <field name="ClientBatchID"></field>
+                    <field name="Description"></field>
                     <field name="BatchDate"></field>
-                    <field name="Remarks"></field>
                     <field name="InheritedObjects"></field>
                 </tree>
             </field>
@@ -1296,7 +1331,7 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="batch_menu" name="Batch" parent="olims_menu"
+        <menuitem id="batch_menu" name="Batches" parent="olims_menu"
                   action="batch_list_action"/>
 
         <!--ar_report form view -->

@@ -71,3 +71,4 @@ from models import email_subject
 from models import publication_preference
 from models import batch_label
 from models import recordsfields_artemplate
+from models import inheritfrom_batches
