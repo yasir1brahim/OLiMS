@@ -12,13 +12,27 @@ from lims import bikaMessageFactory as _
 from fields.string_field import StringField
 
 from fields.fixed_point_field import FixedPointField
-from fields.widget.widget import StringWidget,DecimalWidget
+from fields.text_field import TextField
+from fields.widget.widget import StringWidget, DecimalWidget, TextAreaWidget
 from openerp import fields, models
 from models.base_olims_model import BaseOLiMSModel
 
 
 #schema = BikaSchema.copy() + Schema((
-schema = (StringField('Volume',
+schema = (StringField('name',
+        required=1,
+        widget=StringWidget(
+            label=_('Title'),
+            description=_('Title is required.'),
+        ),
+    ),
+    TextField('Description',
+        widget=TextAreaWidget(
+            label=_('Description'),
+            description=_('Used in item listings and search results.'),
+        ),
+    ),
+    StringField('Volume',
         widget = StringWidget(
             label=_("Volume"),
         )
@@ -29,6 +43,7 @@ schema = (StringField('Volume',
         )
     ),
     FixedPointField('VAT',
+        default=14.00,
         default_method = 'getDefaultVAT',
         widget = DecimalWidget(
             label=_("VAT %"),
@@ -42,23 +57,23 @@ schema = (StringField('Volume',
         )
     ),
     
-    fields.Float(compute='computeVATAmount',string='VATAmount'),
-# ~~~~~~~ To be implemented ~~~~~~~
-    # ComputedField('VATAmount',
-    #     expression = 'context.getVATAmount()',
-    #     widget = ComputedWidget(
-    #         label=_("VAT"),
-    #         visible = {'edit':'hidden', }
-    #     ),
-    # ),
-    fields.Float(compute='computeTotalPrice',string='TotalPrice'),
-    # ComputedField('TotalPrice',
-    #     expression = 'context.getTotalPrice()',
-    #     widget = ComputedWidget(
-    #         label=_("Total price"),
-    #         visible = {'edit':'hidden', }
-    #     ),
-    # ),
+#     fields.Float(compute='computeVATAmount',string='VATAmount'),
+# # ~~~~~~~ To be implemented ~~~~~~~
+#     # ComputedField('VATAmount',
+#     #     expression = 'context.getVATAmount()',
+#     #     widget = ComputedWidget(
+#     #         label=_("VAT"),
+#     #         visible = {'edit':'hidden', }
+#     #     ),
+#     # ),
+#     fields.Float(compute='computeTotalPrice',string='TotalPrice'),
+#     # ComputedField('TotalPrice',
+#     #     expression = 'context.getTotalPrice()',
+#     #     widget = ComputedWidget(
+#     #         label=_("Total price"),
+#     #         visible = {'edit':'hidden', }
+#     #     ),
+#     # ),
 )
 
 # schema['description'].schemata = 'default'

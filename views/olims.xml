@@ -1960,18 +1960,22 @@
             <field name="model">olims.lab_product</field>
             <field name="arch" type="xml">
                 <form string="Lab Product Form">
+                    <label for="name" string="Title"/>
+                    <field name="name"></field>
+                    <label for="Description" string="Description"/>
+                    <field name="Description"></field>
                     <label for="Volume" string="Volume"/>
                 	<field name="Volume"></field>
                 	<label for="Unit" string="Unit"/>
                     <field name="Unit"></field>
-                    <label for="VAT" string="VAT"/>
+                    <label for="VAT" string="VAT %"/>
                 	<field name="VAT"></field>
-                    <label for="Price" string="Price"/>
+                    <label for="Price" string="Price excluding VAT"/>
                 	<field name="Price"></field>
-                	<label for="VATAmount" string="VATAmount"/>
+                    <!--<label for="VATAmount" string="VATAmount"/>
                 	<field name="VATAmount"></field>
                 	<label for="TotalPrice" string="Total Price"/>
-                	<field name="TotalPrice"></field>
+                    <field name="TotalPrice"></field>-->
                 	
                 	
                 </form>
@@ -1983,12 +1987,13 @@
             <field name="model">olims.lab_product</field>
             <field name="arch" type="xml">
                 <tree string="Lab Product">
+                    <field name="name"></field>
                 	<field name="Volume"></field>
                     <field name="Unit"></field>
                 	<field name="VAT"></field>
                 	<field name="Price"></field>
-                	<field name="VATAmount"></field>
-                	<field name="TotalPrice"></field>
+                    <!--<field name="VATAmount"></field>
+                    <field name="TotalPrice"></field>-->
                 </tree>
             </field>
         </record>
@@ -2000,7 +2005,7 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="lab_product_menu" name="Lab Product" parent="olims_menu"
+        <menuitem id="lab_product_menu" name="Lab Products" parent="olims_menu"
                   action="lab_product_list_action"/>
 
 
