@@ -3169,33 +3169,24 @@
             <field name="model">olims.client</field>
             <field name="arch" type="xml">
                 <form string="Client Form">
-                     <label for="Name" string="Name"/>
-                	<field name="Name"></field>
-                	<label for="TaxNumber" string="Tax Number"/>
+                    <label for="name" string="Name"/>
+                    <field name="name"></field>
+                    <label for="ClientID" string="Client ID"/>
+                    <field name="ClientID"></field>
+                    <label for="TaxNumber" string="VAT number"/>
                     <field name="TaxNumber"></field>
                     <label for="Phone" string="Phone"/>
                 	<field name="Phone"></field>
+                    <label for="Fax" string="Fax"/>
+                    <field name="Fax"></field>
                     <label for="EmailAddress" string="Email Address"/>
                 	<field name="EmailAddress"></field>
-                    <label for="AccountType" string="Account Type"/>
-                    <field name="AccountType"></field>
-                    <label for="AccountName" string="Account Name"/>
-                    <field name="AccountName"></field>
-                    <label for="AccountNumber" string="Account Number"/>
-                    <field name="AccountNumber"></field>
-                    <label for="BankName" string="Bank Name"/>
-                    <field name="BankName"></field>
-                    <label for="BankBranch" string="Bank Branch"/>
-                    <field name="BankBranch"></field>
-                    <label for="ClientID" string="Client ID"/>
-                    <field name="ClientID"></field>
                     <label for="BulkDiscount" string="Bulk Discount"/>
                     <field name="BulkDiscount"></field>
+                    <br/>
                     <label for="MemberDiscountApplies" string="Member Discount Applies"/>
                     <field name="MemberDiscountApplies"></field>
-                    <label for="EmailSubject" string="Email subject line"/>
-                    <p>Items to be included in email subject lines</p>
-                    <field name="EmailSubject" options="{'no_create_edit': True}" widget='many2many_tags'></field>
+                    <br/>
      				<group col='2' string='Physical Address'>
                     <label for='physical_country' string='Country'/>
                     <field name="physical_country" nolabel='1'></field>
@@ -3238,14 +3229,28 @@
                     <label for='billing_address' string='Addrss'/>
                     <field name="billing_address" nolabel='1'></field>
                     </group>
+                    <label for="AccountType" string="Account Type"/>
+                    <field name="AccountType"></field>
+                    <label for="AccountName" string="Account Name"/>
+                    <field name="AccountName"></field>
+                    <label for="AccountNumber" string="Account Number"/>
+                    <field name="AccountNumber"></field>
+                    <label for="BankName" string="Bank Name"/>
+                    <field name="BankName"></field>
+                    <label for="BankBranch" string="Bank Branch"/>
+                    <field name="BankBranch"></field>
+                    <label for="EmailSubject" string="Email subject line"/>
+                    <p>Items to be included in email subject lines</p>
+                    <field name="EmailSubject"></field>
                     <label for="DefaultCategories" string="Default Categories"/>
-                    <field name="DefaultCategories"></field>
+                    <p>Always expand the selected categories in client views</p>
+                    <field name="DefaultCategories" options="{'no_create': True}" widget="many2many_tags"></field>
                     <label for="RestrictedCategories" string="Restricted Categories"/>
-                    <field name="RestrictedCategories"></field>
-                    <label for="DefaultARSpecs" string="Default ARSpecs"/>
+                    <p>Show only selected categories in client views</p>
+                    <field name="RestrictedCategories" options="{'no_create': True}" widget="many2many_tags"></field>
+                    <label for="DefaultARSpecs" string="Default AR Specifications"/>
                     <field name="DefaultARSpecs"></field>
-                    <label for="DefaultDecimalMark" string="Default DecimalMark"/>
-                    <field name="DefaultDecimalMark"></field>
+                    <br/>
                     <label for="DecimalMark" string="Decimal Mark"/>
                     <field name="DecimalMark"></field>
                     </form>
@@ -3257,11 +3262,12 @@
             <field name="model">olims.client</field>
             <field name="arch" type="xml">
                 <tree string="CLient">
-                	<field name="Name"></field>
-                	<field name="TaxNumber"></field>
-                	<field name="Phone"></field>
+                    <field name="name"></field>
+                    <!--<field name="TaxNumber"></field>-->
                 	<field name="EmailAddress"></field>
-                    <field name="AccountType"></field>
+                    <field name="Phone"></field>
+                    <field name="Fax"></field>
+                    <!--<field name="AccountType"></field>
                     <field name="AccountName"></field>
                     <field name="AccountNumber"></field>
                     <field name="BankName"></field>
@@ -3273,7 +3279,7 @@
                     <field name="RestrictedCategories"></field>
                     <field name="DefaultARSpecs"></field>
                     <field name="DefaultDecimalMark"></field>
-                    <field name="DecimalMark"></field>
+                    <field name="DecimalMark"></field>-->
                 </tree>
             </field>
         </record>

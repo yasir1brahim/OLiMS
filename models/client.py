@@ -39,12 +39,17 @@ from lims.workflow import getCurrentState, StateFlow, InactiveState
 
 import json
 import sys
-
+EMAIL_SUBJECT_OPTIONS = (
+    ('ar', _('Analysis Request ID')),
+    ('co', _('Order ID')),
+    ('cr', _('Client Reference')),
+    ('cs', _('Client SID')),
+)
 #schema = Organisation.schema.copy() + atapi.Schema((
 
 schema = (
 
-    StringField('Name',
+    StringField('name',
         required = 1,
         searchable = True,
         validators = ('uniquefieldvalidator',),
@@ -75,30 +80,30 @@ schema = (
         validators = ('isEmail',)
     ),
           # # ~~~~~~~~~~ PhysicalAddress behavior in Odoo is as selection field ~~~~~~~~~~~
-        fields.Many2one(comodel_name='olims.country',string='physical_country'),
-        fields.Many2one(comodel_name='olims.state',string='physical_state', domain="[('Country', '=', physical_country)]"),
-        fields.Many2one(comodel_name='olims.district',string='physical_district', domain="[('State', '=', physical_state)]"),
-        fields.Char(string='physical_city'),
-        fields.Char(string='physical_postalcode'),
-        fields.Char(string='physical_address'),
+    fields.Many2one(comodel_name='olims.country',string='physical_country'),
+    fields.Many2one(comodel_name='olims.state',string='physical_state', domain="[('Country', '=', physical_country)]"),
+    fields.Many2one(comodel_name='olims.district',string='physical_district', domain="[('State', '=', physical_state)]"),
+    fields.Char(string='physical_city'),
+    fields.Char(string='physical_postalcode'),
+    fields.Char(string='physical_address'),
            
           
           # # ~~~~~~~~~~ PostalAddress behavior in Odoo is as selection field ~~~~~~~~~~~
-          fields.Many2one(comodel_name='olims.country',string='postal_country'),
-          fields.Many2one(comodel_name='olims.state',string='postal_state', domain="[('Country', '=', postal_country)]"),
-          fields.Many2one(comodel_name='olims.district',string='postal_district', domain="[('State', '=', postal_state)]"),
-          fields.Char(string='postal_city'),
-          fields.Char(string='postal_postalcode'),
-          fields.Char(string='postal_address'),
+    fields.Many2one(comodel_name='olims.country',string='postal_country'),
+    fields.Many2one(comodel_name='olims.state',string='postal_state', domain="[('Country', '=', postal_country)]"),
+    fields.Many2one(comodel_name='olims.district',string='postal_district', domain="[('State', '=', postal_state)]"),
+    fields.Char(string='postal_city'),
+    fields.Char(string='postal_postalcode'),
+    fields.Char(string='postal_address'),
           
           
        # # ~~~~~~~~~~ BillingAddress behavior in Odoo is as selection field ~~~~~~~~~~~
-          fields.Many2one(comodel_name='olims.country',string='billing_country'),
-          fields.Many2one(comodel_name='olims.state',string='billing_state', domain="[('Country', '=', billing_country)]"),
-          fields.Many2one(comodel_name='olims.district',string='billing_district', domain="[('State', '=', billing_state)]"),
-          fields.Char(string='billing_city'),
-          fields.Char(string='billing_postalcode'),
-          fields.Char(string='billing_address'),
+    fields.Many2one(comodel_name='olims.country',string='billing_country'),
+    fields.Many2one(comodel_name='olims.state',string='billing_state', domain="[('Country', '=', billing_country)]"),
+    fields.Many2one(comodel_name='olims.district',string='billing_district', domain="[('State', '=', billing_state)]"),
+    fields.Char(string='billing_city'),
+    fields.Char(string='billing_postalcode'),
+    fields.Char(string='billing_address'),
         
     StringField('AccountType',
         schemata = 'Bank details',
@@ -160,12 +165,12 @@ schema = (
           
         
     
-    fields.Many2many(string='EmailSubject',
-                   comodel_name='olims.email_subject',
+    fields.Selection(string='EmailSubject',
+                   selection=EMAIL_SUBJECT_OPTIONS,
                    required=False,
                    help="Items to be included in email subject lines",
     #               schemata = 'Preferences',
-    #     default = ['ar', ],
+                   default = 'ar',
     #     vocabulary = EMAIL_SUBJECT_OPTIONS,
     #     widget = atapi.MultiSelectionWidget(
     #         description=_("Items to be included in email subject lines"),
@@ -244,12 +249,12 @@ schema = (
 
 
     fields.Selection(string='DefaultARSpecs',
-         selection=( ('ar_specs', 'Analysis Request Specifications'),
+        selection=( ('ar_specs', 'Analysis Request Specifications'),
                                  ('lab_sampletype_specs', 'Sample Type Specifications (Lab)'),
                                  ('client_sampletype_specs', 'Sample Type Specifications (Client)')),
-         help="DefaultARSpecs_description",
+        help="DefaultARSpecs_description",
     #     schemata = "Preferences",
-         default = 'ar_specs',
+        default = 'ar_specs',
     #     vocabulary =  DEFAULT_AR_SPECS,
     #     widget = atapi.SelectionWidget(
     #         label=_("Default AR Specifications"),
