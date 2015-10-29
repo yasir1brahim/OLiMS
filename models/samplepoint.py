@@ -28,20 +28,32 @@ from models.base_olims_model import BaseOLiMSModel
 
 #schema = BikaSchema.copy() + Schema((
 
-schema = (
+schema = (StringField('name',
+        required=1,
+        widget=StringWidget(
+            label=_('Title'),
+            description=_('Title is required.'),
+        ),
+    ),
+    TextField('Description',
+        widget=TextAreaWidget(
+            label=_('Description'),
+            description=_('Used in item listings and search results.'),
+        ),
+    ),
           
-          # for Latitude, Label and description applied on view. 
-          fields.Char(string='Latitude_Degrees', required=True),
-          fields.Char(string='Latitude_Minutes', required=True),
-          fields.Char(string='Latitude_Seconds', required=True),
-          fields.Char(string='Latitude_Bearing', required=True),
+    # for Latitude, Label and description applied on view. 
+    fields.Char(string='Latitude_Degrees', required=True),
+    fields.Char(string='Latitude_Minutes', required=True),
+    fields.Char(string='Latitude_Seconds', required=True),
+    fields.Char(string='Latitude_Bearing', required=True),
           
           
-          # for Longitude, Label and description applied on view. 
-          fields.Char(string='Longitude_Degrees', required=True),
-          fields.Char(string='Longitude_Minutes', required=True),
-          fields.Char(string='Longitude_Seconds', required=True),
-          fields.Char(string='Longitude_Bearing', required=True),
+    # for Longitude, Label and description applied on view. 
+    fields.Char(string='Longitude_Degrees', required=True),
+    fields.Char(string='Longitude_Minutes', required=True),
+    fields.Char(string='Longitude_Seconds', required=True),
+    fields.Char(string='Longitude_Bearing', required=True),
          
 
     StringField('Elevation',
@@ -58,9 +70,9 @@ schema = (
     
     fields.Many2many(string='SampleTypes',
                     comodel_name='olims.sample_type',
-        required = False,
-        help="The list of sample types that can be collected at this sample point.  If no sample types are"+ 
-                    "selected, then all sample types are available.",
+                    required = False,
+                    help="The list of sample types that can be collected at this sample point. If no sample types are " + 
+                        "selected, then all sample types are available.",
 #     required = 0,
     #     multiValued = 1,
     #     allowed_types = ('SampleType',),
