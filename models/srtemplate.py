@@ -18,13 +18,33 @@
 
 from lims import bikaMessageFactory as _
 from fields.text_field import TextField
-from fields.widget.widget import TextAreaWidget
+from fields.string_field import StringField
+from fields.integer_field import IntegerField
+from fields.widget.widget import TextAreaWidget, StringWidget
 from openerp import fields, models
 from models.base_olims_model import BaseOLiMSModel
 
 #schema = BikaSchema.copy() + Schema((
-schema = (
-             TextField('Instructions',
+schema = (StringField('name',
+        required=1,
+        widget=StringWidget(
+            label=_('Title'),
+            description=_('Title is required.'),
+        ),
+    ),
+    TextField('Description',
+        widget=TextAreaWidget(
+            label=_('Description'),
+            description=_('Used in item listings and search results.'),
+        ),
+    ),
+    fields.Many2one(string='Department',
+                    comodel_name='olims.department',
+                    help='The laboratory department',
+                    required=True,
+                    relation='srtemplate_department'
+    ),
+    TextField('Instructions',
             searchable = True,
             default_content_type = 'text/plain',
             allowed_content_types= ('text/plain'),
@@ -35,10 +55,9 @@ schema = (
         ),
     ),
 
-        fields.Many2one(string='ARTemplates',
+    fields.Many2many(string='ARTemplates',
                    comodel_name='olims.ar_template',
                    required=True,
-                   help='Select AR Templates to include'
         # schemata = 'AR Templates',
         # required = 1,
         # multiValued = 1,
@@ -49,6 +68,10 @@ schema = (
         #     description=_("Select AR Templates to include"),
         # )
 
+    ),
+    IntegerField(string='Sampling Frequency',
+                 required=True,
+                 default=7
     ),
 
 )

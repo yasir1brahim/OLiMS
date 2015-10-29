@@ -430,12 +430,12 @@
                 <tree string="AR Template">
                 	<field name="name"></field>
                 	<field name="Description"></field>
-					<field name="Sample Point"></field>                     
+					<!--<field name="Sample Point"></field>                     
                     <field name="SampleType"></field>
                     <field name="ReportDryMatter" ></field>
                     <field name="Remarks" ></field>
                     <field name="AnalysisProfile" ></field>
-                    <field name="Analyses" ></field>
+                    <field name="Analyses" ></field>-->
                 </tree>
             </field>
         </record>
@@ -1660,10 +1660,19 @@
             <field name="model">olims.sr_template</field>
             <field name="arch" type="xml">
                 <form string="SR Template Form">
+                    <label for="name" string="Title"/>
+                    <field name="name"></field>
+                    <label for="Description" string="Description"/>
+                    <field name="Description"></field>
+                    <label for="Department" string="Department"/>
+                    <field name="Department" options="{'no_create': True}"></field>
+                    <label for="Sampling Frequency" string="Sampling Frequency"/>
+                    <field name="Sampling Frequency"></field>
                     <label for="Instructions" string="Instructions"/>
-                	<field name="Instructions"></field>
+                    <field name="Instructions"></field>
                 	<label for="ARTemplates" string="ARTemplates"/>
-                    <field name="ARTemplates"></field>
+                    <p>Select AR Templates to include</p>
+                    <field name="ARTemplates" options="{'no_create': True}"></field>
                 </form>
             </field>
         </record>
@@ -1673,7 +1682,11 @@
             <field name="model">olims.sr_template</field>
             <field name="arch" type="xml">
                 <tree string="SR Template">
-                	<field name="Instructions"></field>
+                    <field name="name"></field>
+                    <field name="Description"></field>
+                    <field name="Department"></field>
+                    <!--<field name="Sampling Frequency"></field>
+                    <field name="Instructions"></field>-->
                     <field name="ARTemplates"></field>
                 </tree>
             </field>
@@ -1686,7 +1699,7 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="sr_template_menu" name="SR Template" parent="olims_menu"
+        <menuitem id="sr_template_menu" name="Sampling Round Templates" parent="olims_menu"
                   action="sr_template_list_action"/>
 
         <!--storage_location form view -->
