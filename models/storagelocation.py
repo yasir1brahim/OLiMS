@@ -21,10 +21,23 @@
 from openerp import fields, models
 from models.base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
-from fields.widget.widget import StringWidget
+from fields.text_field import TextField
+from fields.widget.widget import StringWidget, TextAreaWidget
 from lims import bikaMessageFactory as _
 
-schema =(
+schema =(StringField('name',
+        required=1,
+        widget=StringWidget(
+            label=_('Address'),
+            description=_('Title is required.'),
+        ),
+    ),
+    TextField('Description',
+        widget=TextAreaWidget(
+            label=_('Description'),
+            description=_('Used in item listings and search results.'),
+        ),
+    ),
     StringField('SiteTitle',
         widget=StringWidget(
             label=_("Site Title"),
