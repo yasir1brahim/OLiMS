@@ -2838,10 +2838,12 @@
                 <form string="Laboratory Form">
                      <label for="Name" string="Name"/>
                 	<field name="Name"></field>
-                	<label for="TaxNumber" string="Tax Number"/>
+                    <label for="TaxNumber" string="VAT Number"/>
                     <field name="TaxNumber"></field>
                     <label for="Phone" string="Phone"/>
                 	<field name="Phone"></field>
+                    <label for="Fax" string="Fax"/>
+                    <field name="Fax"></field>
                     <label for="EmailAddress" string="Email Address"/>
                 	<field name="EmailAddress"></field>
                 	<group col='2' string='Physical Address'>
@@ -2886,6 +2888,8 @@
                     <label for='billing_address' string='Addrss'/>
                     <field name="billing_address" nolabel='1'></field>
                     </group>
+                    <label for="LabURL" string="Lab URL"/>
+                    <field name="LabURL"></field>
                     <label for="AccountType" string="Account Type"/>
                     <field name="AccountType"></field>
                     <label for="AccountName" string="Account Name"/>
@@ -2896,13 +2900,12 @@
                     <field name="BankName"></field>
                     <label for="BankBranch" string="Bank Branch"/>
                     <field name="BankBranch"></field>
-                    <label for="LabURL" string="Lab URL"/>
-                    <field name="LabURL"></field>
-                    <label for="Confidence" string="Confidence"/>
+                    <label for="Confidence" string="Confidence Level %"/>
                     <field name="Confidence"></field>
                     <label for="LaboratoryAccredited" string="Laboratory Accredited"/>
                     <field name="LaboratoryAccredited"></field>
-                    <label for="AccreditationBody" string="Accreditation Body"/>
+                    <br/>
+                    <label for="AccreditationBody" string="Accreditation Body Abbreviation "/>
                     <field name="AccreditationBody"></field>
                     <label for="AccreditationBodyURL" string="Accreditation Body URL"/>
                     <field name="AccreditationBodyURL"></field>
@@ -2910,10 +2913,12 @@
                     <field name="Accreditation"></field>
                     <label for="AccreditationReference" string="Accreditation Reference"/>
                     <field name="AccreditationReference"></field>
-                    <label for="AccreditationPageHeader" string="Accreditation PageHeader"/>
-                    <field name="AccreditationPageHeader"></field>
-					<label for="AccreditationBodyLogo" string="Accreditation Body Logo"/>
+                    <label for="AccreditationBodyLogo" string="Accreditation Body Logo"/>
                     <field name="AccreditationBodyLogo" widget='image'></field>
+                    <br/>
+                    <label for="AccreditationPageHeader" string="Accreditation PageHeader"/>
+                    <p>Enter the details of your lab's service accreditations here. The following fields are available: lab_is_accredited, lab_name, lab_country, confidence, accreditation_body_name, accreditation_standard, accreditation_reference</p>
+                    <field name="AccreditationPageHeader"></field>
 				</form>
             </field>
         </record>
@@ -2924,22 +2929,23 @@
             <field name="arch" type="xml">
                 <tree string="Laboratory">
                 	<field name="Name"></field>
-                	<field name="TaxNumber"></field>
+                    <!--<field name="TaxNumber"></field>-->
+                    <field name="Fax"></field>
                 	<field name="Phone"></field>
                 	<field name="EmailAddress"></field>
-                    <field name="AccountType"></field>
+                    <field name="LabURL"></field>
+                    <!--<field name="AccountType"></field>
                     <field name="AccountName"></field>
                     <field name="AccountNumber"></field>
                     <field name="BankName"></field>
                     <field name="BankBranch"></field>
-                    <field name="LabURL"></field>
                     <field name="Confidence"></field>
                     <field name="LaboratoryAccredited"></field>
                     <field name="AccreditationBody"></field>
                     <field name="AccreditationBodyURL"></field>
                     <field name="Accreditation"></field>
                     <field name="AccreditationReference"></field>
-                    <field name="AccreditationPageHeader"></field>
+                    <field name="AccreditationPageHeader"></field> -->
                 </tree>
             </field>
         </record>

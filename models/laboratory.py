@@ -139,6 +139,7 @@ schema = (
         ),
     ),
     IntegerField('Confidence',
+        default=100,
         schemata = 'Accreditation',
         widget = IntegerWidget(
             label=_("Confidence Level %"),
