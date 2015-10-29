@@ -68,7 +68,7 @@ schema = (
         ),
     ),
     
-    fields.Char(compute='computeFulname', string='fullname'),
+    fields.Char(compute='computeFulname', string='FullName'),
 
       # ~~~~~~~ To be implemented ~~~~~~~
     # ComputedField('Fullname',
@@ -128,21 +128,21 @@ schema = (
           
           
                       # # ~~~~~~~~~~ PhysicalAddress behavior in Odoo is as selection field ~~~~~~~~~~~
-        fields.Many2one(comodel_name='olims.country',string='physical_country'),
-        fields.Many2one(comodel_name='olims.state',string='physical_state', domain="[('Country', '=', physical_country)]"),
-        fields.Many2one(comodel_name='olims.district',string='physical_district', domain="[('State', '=', physical_state)]"),
-        fields.Char(string='physical_city'),
-        fields.Char(string='physical_postalcode'),
-        fields.Char(string='physical_address'),
+    fields.Many2one(comodel_name='olims.country',string='physical_country'),
+    fields.Many2one(comodel_name='olims.state',string='physical_state', domain="[('Country', '=', physical_country)]"),
+    fields.Many2one(comodel_name='olims.district',string='physical_district', domain="[('State', '=', physical_state)]"),
+    fields.Char(string='physical_city'),
+    fields.Char(string='physical_postalcode'),
+    fields.Char(string='physical_address'),
            
           
         # # ~~~~~~~~~~ PostalAddress behavior in Odoo is as selection field ~~~~~~~~~~~
-        fields.Many2one(comodel_name='olims.country',string='postal_country'),
-        fields.Many2one(comodel_name='olims.state',string='postal_state', domain="[('Country', '=', postal_country)]"),
-        fields.Many2one(comodel_name='olims.district',string='postal_district', domain="[('State', '=', postal_state)]"),
-        fields.Char(string='postal_city'),
-        fields.Char(string='postal_postalcode'),
-        fields.Char(string='postal_address'),
+    fields.Many2one(comodel_name='olims.country',string='postal_country'),
+    fields.Many2one(comodel_name='olims.state',string='postal_state', domain="[('Country', '=', postal_country)]"),
+    fields.Many2one(comodel_name='olims.district',string='postal_district', domain="[('State', '=', postal_state)]"),
+    fields.Char(string='postal_city'),
+    fields.Char(string='postal_postalcode'),
+    fields.Char(string='postal_address'),
 
         # note line filed multi-select , multi-select need to be implemented
             ReferenceField(string='PublicationPreference',
@@ -164,20 +164,18 @@ schema = (
                 "if this option is enabled")
         ),
     ),
-
-    # ~~~~~~~ To be implemented ~~~~~~~
-#     fields.Many2many(string='CCContact',
-#                        comodel_name='olims.contact',
-# #         schemata = 'Publication preference',
-# #         vocabulary = 'getContacts',
-# #         multiValued = 1,
-# #         allowed_types = ('Contact',),
-# #         relationship = 'ContactContact',
-# #         widget = ReferenceWidget(
-# #             checkbox_bound = 0,
-# #             label=_("Contacts to CC"),
-# #         ),
+    fields.Many2many(string='CCContact',
+                       comodel_name='olims.client',
+#         schemata = 'Publication preference',
+#         vocabulary = 'getContacts',
+#         multiValued = 1,
+#         allowed_types = ('Contact',),
+#         relationship = 'ContactContact',
+#         widget = ReferenceWidget(
+#             checkbox_bound = 0,
+#             label=_("Contacts to CC"),
 #         ),
+        ),
  )
 
 # schema['JobTitle'].schemata = 'default'
@@ -226,7 +224,7 @@ class Contact(models.Model, BaseOLiMSModel): #(Person)
                                             record.getSurname())
                 else:
                     fullname = '%s %s' % (record.getFirstname(), record.getSurname())
-            record.fullname = fullname.strip()
+            record.FullName = fullname.strip()
 
         
     def Title(self):

@@ -3067,7 +3067,7 @@
             <field name="model">olims.contact</field>
             <field name="arch" type="xml">
                 <form string="Contact Form">
-                     <label for="Salutation" string="Salutation"/>
+                    <label for="Salutation" string="Salutation"/>
                     <field name="Salutation"></field>
                     <label for="Firstname" string="First Name"/>
                     <field name="Firstname"></field>
@@ -3077,20 +3077,20 @@
                     <field name="Middlename"></field>
                     <label for="Surname" string="Surname"/>
                     <field name="Surname"></field>
-                    <label for="EmailAddress" string="Email Address"/>
-                    <field name="EmailAddress"></field>
-                    <label for="BusinessPhone" string="Business Phone"/>
-                    <field name="BusinessPhone"></field>
-                    <label for="BusinessFax" string="Business Fax"/>
-                    <field name="BusinessFax"></field>
-                    <label for="HomePhone" string="Home Phone"/>
-                    <field name="HomePhone"></field>
-                    <label for="MobilePhone" string="Mobile Phone"/>
-                    <field name="MobilePhone"></field>
                     <label for="JobTitle" string="Job Title"/>
                     <field name="JobTitle"></field>
                     <label for="Department" string="Department"/>
                     <field name="Department"></field>
+                    <label for="EmailAddress" string="Email Address"/>
+                    <field name="EmailAddress"></field>
+                    <label for="BusinessPhone" string="Phone (business)"/>
+                    <field name="BusinessPhone"></field>
+                    <label for="BusinessFax" string="Fax (business)"/>
+                    <field name="BusinessFax"></field>
+                    <label for="HomePhone" string="Phone (home)"/>
+                    <field name="HomePhone"></field>
+                    <label for="MobilePhone" string="Phone (mobile)"/>
+                    <field name="MobilePhone"></field>
                     <group col='2' string='Physical Address'>
                     <label for='physical_country' string='Country'/>
                     <field name="physical_country" nolabel='1'></field>
@@ -3121,11 +3121,10 @@
                     </group>
                     <label for="PublicationPreference" string="Publication Preference"/>
                     <field name="PublicationPreference"></field>
+                    <label for="CCContact" string="Contacts to CC"/>
+                    <field name="CCContact" widget="many2many_tags" options="{'no_create': True}"></field>
                     <label for="AttachmentsPermitted" string="Attachments Permitted"/>
                     <field name="AttachmentsPermitted"></field>
-                    <label for="fullname" string="Full Name"/>
-                    <field name="fullname"></field>
-                    
                     </form>
             </field>
         </record>
@@ -3135,22 +3134,21 @@
             <field name="model">olims.contact</field>
             <field name="arch" type="xml">
                 <tree string="Contact">
-                	<field name="Salutation"></field>
+                    <field name="FullName"></field>
+                    <!--<field name="Salutation"></field>
                     <field name="Firstname"></field>
                     <field name="Middleinitial"></field>
                     <field name="Middlename"></field>
-                    <field name="Surname"></field>
+                    <field name="Surname"></field>-->
                     <field name="EmailAddress"></field>
                     <field name="BusinessPhone"></field>
-                    <field name="BusinessFax"></field>
                     <field name="HomePhone"></field>
                     <field name="MobilePhone"></field>
+                    <!--<field name="BusinessFax"></field>
                     <field name="JobTitle"></field>
                     <field name="Department"></field>
                     <field name="PublicationPreference"></field>
-                    <field name="AttachmentsPermitted"></field>
-                    <field name="fullname"></field>
-                   
+                    <field name="AttachmentsPermitted"></field>-->
                 </tree>
             </field>
         </record>
@@ -3162,7 +3160,7 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="contact_menu" name="Contact" parent="olims_menu"
+        <menuitem id="contact_menu" name="Contacts" parent="olims_menu"
                   action="contact_list_action"/>
 
        <!--Client form view -->
