@@ -26,7 +26,9 @@ from dependencies.dependency import DisplayList
 from dependencies.dependency import safe_unicode
 from lims import PMF, bikaMessageFactory as _
 
-
+PUBLICATION_PREFS = (
+    ('email', _('Email')),
+    ('pdf', _('PDF')))
 #schema = Person.schema.copy() + Schema((
 schema =  (
         StringField('Salutation',
@@ -115,21 +117,21 @@ schema =  (
            
            
                  # # ~~~~~~~~~~ PhysicalAddress behavior in Odoo is as selection field ~~~~~~~~~~~
-        fields.Many2one(comodel_name='olims.country',string='physical_country'),
-        fields.Many2one(comodel_name='olims.state',string='physical_state', domain="[('Country', '=', physical_country)]"),
-        fields.Many2one(comodel_name='olims.district',string='physical_district', domain="[('State', '=', physical_state)]"),
-        fields.Char(string='physical_city'),
-        fields.Char(string='physical_postalcode'),
-        fields.Char(string='physical_address'),
+    fields.Many2one(comodel_name='olims.country',string='physical_country'),
+    fields.Many2one(comodel_name='olims.state',string='physical_state', domain="[('Country', '=', physical_country)]"),
+    fields.Many2one(comodel_name='olims.district',string='physical_district', domain="[('State', '=', physical_state)]"),
+    fields.Char(string='physical_city'),
+    fields.Char(string='physical_postalcode'),
+    fields.Char(string='physical_address'),
            
           
         # # ~~~~~~~~~~ PostalAddress behavior in Odoo is as selection field ~~~~~~~~~~~
-        fields.Many2one(comodel_name='olims.country',string='postal_country'),
-        fields.Many2one(comodel_name='olims.state',string='postal_state', domain="[('Country', '=', postal_country)]"),
-        fields.Many2one(comodel_name='olims.district',string='postal_district', domain="[('State', '=', postal_state)]"),
-        fields.Char(string='postal_city'),
-        fields.Char(string='postal_postalcode'),
-        fields.Char(string='postal_address'),
+    fields.Many2one(comodel_name='olims.country',string='postal_country'),
+    fields.Many2one(comodel_name='olims.state',string='postal_state', domain="[('Country', '=', postal_country)]"),
+    fields.Many2one(comodel_name='olims.district',string='postal_district', domain="[('State', '=', postal_state)]"),
+    fields.Char(string='postal_city'),
+    fields.Char(string='postal_postalcode'),
+    fields.Char(string='postal_address'),
       
     # ~~~~~~~ To be implemented ~~~~~~~
     # AddressField('PhysicalAddress',
@@ -145,10 +147,10 @@ schema =  (
     #     ),
     # ),
     
-    fields.Many2many(string='PublicationPreference',
-                   comodel_name='olims.publication_preference',
+    fields.Selection(string='PublicationPreference',
+                   selection=PUBLICATION_PREFS,
                    #     vocabulary = PUBLICATION_PREFS,
-    #     default = 'email',
+                   default = 'email',
     #     schemata = 'Publication preference',
     #     widget = MultiSelectionWidget(
     #         label=_("Publication preference"),
@@ -163,7 +165,7 @@ schema =  (
         ),
     ),
     
- fields.Many2many(string='Department',
+    fields.Many2one(string='Department',
                        comodel_name='olims.department',
     #     required = 0,
     #     vocabulary_display_path_bound = sys.maxint,

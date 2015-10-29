@@ -2976,18 +2976,24 @@
                     <field name="Middlename"></field>
                     <label for="Surname" string="Surname"/>
                     <field name="Surname"></field>
-                    <label for="EmailAddress" string="Email Address"/>
-                    <field name="EmailAddress"></field>
-                    <label for="BusinessPhone" string="Business Phone"/>
-                    <field name="BusinessPhone"></field>
-                    <label for="BusinessFax" string="Business Fax"/>
-                    <field name="BusinessFax"></field>
-                    <label for="HomePhone" string="Home Phone"/>
-                    <field name="HomePhone"></field>
-                    <label for="MobilePhone" string="Mobile Phone"/>
-                    <field name="MobilePhone"></field>
                     <label for="JobTitle" string="Job Title"/>
                     <field name="JobTitle"></field>
+                    <label for="Department" string="Department"/>
+                    <field name="Department" options="{'no_create': True}"></field>
+                    <label for="Signature" string="Signature"/>
+                    <p>Upload a scanned signature to be used on printed analysis results reports. Ideal size is 250 pixels wide by 150 high</p>
+                    <field name="Signature" widget='image'></field>
+                    <br/>
+                    <label for="EmailAddress" string="Email Address"/>
+                    <field name="EmailAddress"></field>
+                    <label for="BusinessPhone" string="Phone (business)"/>
+                    <field name="BusinessPhone"></field>
+                    <label for="BusinessFax" string="Fax (business)"/>
+                    <field name="BusinessFax"></field>
+                    <label for="HomePhone" string="Phone (home)"/>
+                    <field name="HomePhone"></field>
+                    <label for="MobilePhone" string="Phone (mobile)"/>
+                    <field name="MobilePhone"></field>
                     <group col='2' string='Physical Address'>
                     <label for='physical_country' string='Country'/>
                     <field name="physical_country" nolabel='1'></field>
@@ -3016,14 +3022,8 @@
                     <label for='postal_address' string='Addrss'/>
                     <field name="postal_address" nolabel='1'></field>
                     </group>
-                    <label for="Department" string="Department"/>
-                    <field name="Department"></field>
                     <label for="PublicationPreference" string="Publication preference"/>
-                    <field name="PublicationPreference" widget='many2many_tags' options="{'no_create_edit': True}"></field>
-                    <label for="Signature" string="Signature"/>
-                    <field name="Signature" widget='image'></field>
-                    <label for="name" string="name"/>
-                    <field name="name"></field>
+                    <field name="PublicationPreference"></field>
                     </form>
             </field>
         </record>
@@ -3033,19 +3033,20 @@
             <field name="model">olims.lab_contact</field>
             <field name="arch" type="xml">
                 <tree string="Lab Contact">
-                	<field name="Salutation"></field>
+                    <field name="name"></field>
+                    <field name="Department"></field>
+                    <field name="BusinessPhone"></field>
+                    <field name="BusinessFax"></field>
+                    <field name="MobilePhone"></field>
+                    <field name="EmailAddress"></field>
+                    <!--<field name="Salutation"></field>
                     <field name="Firstname"></field>
                     <field name="Middleinitial"></field>
                     <field name="Middlename"></field>
                     <field name="Surname"></field>
-                    <field name="EmailAddress"></field>
-                    <field name="BusinessPhone"></field>
-                    <field name="BusinessFax"></field>
                     <field name="HomePhone"></field>
-                    <field name="MobilePhone"></field>
                     <field name="JobTitle"></field>
-                    <field name="Department"></field>
-					<field name="name"></field>
+					<field name="name"></field> -->
                 </tree>
             </field>
         </record>
@@ -3057,7 +3058,7 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="lab_contact_menu" name="Lab Contact" parent="olims_menu"
+        <menuitem id="lab_contact_menu" name="Lab Contacts" parent="olims_menu"
                   action="lab_contact_list_action"/>
 
         <!--Contact form view -->
