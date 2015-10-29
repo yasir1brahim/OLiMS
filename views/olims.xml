@@ -2642,14 +2642,16 @@
                 <form string="Supplier Form">
                      <label for="name" string="Name"/>
                 	<field name="name"></field>
-                	<label for="TaxNumber" string="Tax Number"/>
+                    <label for="TaxNumber" string="VAT number"/>
                     <field name="TaxNumber"></field>
                     <label for="Phone" string="Phone"/>
                 	<field name="Phone"></field>
-                    <label for="EmailAddress" string="Email Address"/>
+                    <label for="Fax" string="Fax"/>
+                    <field name="Fax"></field>
+                    <label for="EmailAddress" string="Email"/>
                 	<field name="EmailAddress"></field>
-                    <label for="AccountType" string="Account Type"/>
-                    <field name="AccountType"></field>
+                    <label for="Website" string="Website"/>
+                    <field name="Website"></field>
                     <group col='2' string='Physical Address'>
                     <label for='physical_country' string='Country'/>
                     <field name="physical_country" nolabel='1'></field>
@@ -2692,7 +2694,8 @@
                     <label for='billing_address' string='Addrss'/>
                     <field name="billing_address" nolabel='1'></field>
                     </group>
-                    
+                    <label for="AccountType" string="Account Type"/>
+                    <field name="AccountType"></field>
                     <label for="AccountName" string="Account Name"/>
                     <field name="AccountName"></field>
                     <label for="AccountNumber" string="Account Number"/>
@@ -2701,10 +2704,6 @@
                     <field name="BankName"></field>
                     <label for="BankBranch" string="Bank Branch"/>
                     <field name="BankBranch"></field>
-                    <label for="Remarks" string="Remarks"/>
-                    <field name="Remarks"></field>
-                    <label for="Website" string="Website"/>
-                    <field name="Website"></field>
                     <label for="NIB" string="NIB"/>
                     <field name="NIB"></field>
                     <label for="IBN" string="IBN"/>
@@ -2721,10 +2720,11 @@
             <field name="arch" type="xml">
                 <tree string="Supplier">
                 	<field name="name"></field>
-                	<field name="TaxNumber"></field>
-                	<field name="Phone"></field>
                 	<field name="EmailAddress"></field>
-                    <field name="AccountType"></field>
+                    <!--<field name="TaxNumber"></field>-->
+                    <field name="Phone"></field>
+                    <field name="Fax"></field>
+                    <!--<field name="AccountType"></field>
                     <field name="AccountName"></field>
                     <field name="AccountNumber"></field>
                     <field name="BankName"></field>
@@ -2733,7 +2733,7 @@
                     <field name="Website"></field>
                     <field name="NIB"></field>
                     <field name="IBN"></field>
-                    <field name="SWIFTcode"></field>
+                    <field name="SWIFTcode"></field>-->
                 </tree>
             </field>
         </record>
