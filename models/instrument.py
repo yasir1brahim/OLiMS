@@ -58,9 +58,9 @@ schema = (
         ),
     ),
 
-    ReferenceField(string='InstrumentType',
-           selection=[('olims.instrument_type', 'Instrument Type')],
-           required=1,
+    fields.Many2one(string='InstrumentType',
+           comodel_name='olims.instrument_type',
+           required=True,
 
       #     vocabulary='getInstrumentTypes',
        # allowed_types=('InstrumentType',),
@@ -74,9 +74,9 @@ schema = (
     ),
 
 
-    ReferenceField(string='Manufacturer',
-           selection=[('olims.manufacturer', 'Manufacturer')],
-           required=1,
+    fields.Many2one(string='Brand',
+           comodel_name='olims.manufacturer',
+           required=True,
         # vocabulary='getManufacturers',
         # allowed_types=('Manufacturer',),
         # relationship='InstrumentManufacturer',
@@ -327,6 +327,9 @@ def getCalibrationAgents(context):
 class Instrument(models.Model, BaseOLiMSModel):
     _name = 'olims.instrument'
     
+    _sql_constraints = [
+            ('SerialNo', 'unique(SerialNo)', 'The serial number that uniquely identifies the instrument'),
+    ]
     # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
     # implements(IInstrument)
     # security = ClassSecurityInfo()

@@ -3301,34 +3301,37 @@
             <field name="model">olims.instrument</field>
             <field name="arch" type="xml">
                 <form string="Instrument Form">
-                    <label for="Name" string="Title"/>
+                    <label for="name" string="Title"/>
                 	<field name="name"></field>
+                    <label for="AssetNumber" string="Asset Number"/>
+                    <field name="AssetNumber"></field>
                     <label for="Description" string="Description"/>
                 	<field name="Description"></field>
                 	<label for="InstrumentType" string="Instrument Type"/>
-                    <field name="InstrumentType"></field>
-                    <label for="Manufacturer" string="Manufacturer"/>
-                	<field name="Manufacturer"></field>
+                    <field name="InstrumentType" options="{'no_create': True}"></field>
+                    <label for="Brand" string="Manufacturer"/>
+                    <field name="Brand" options="{'no_create': True}"></field>
                     <label for="Supplier" string="Supplier"/>
-                    <field name="Supplier"></field>
+                    <field name="Supplier" options="{'no_create': True}"></field>
                     <label for="Model" string="Model"/>
                     <field name="Model"></field>
                     <label for="SerialNo" string="Serial No"/>
+                    <p>The serial number that uniquely identifies the instrument</p>
                     <field name="SerialNo"></field>
                     <label for="Method" string="Method"/>
                     <field name="Method"></field>
-                    <label for="DisposeUntilNextCalibrationTest" string="Dispose Until Next Calibration Test"/>
+                    <label for="DisposeUntilNextCalibrationTest" string="De-activate until next calibration test"/>
                     <field name="DisposeUntilNextCalibrationTest"></field>
+                    <br/>
                     <label for="InlabCalibrationProcedure" string="In lab Calibration Procedure"/>
                     <field name="InlabCalibrationProcedure"></field>
                     <label for="PreventiveMaintenanceProcedure" string="Preventive Maintenance Procedure"/>
                     <field name="PreventiveMaintenanceProcedure"></field>
-                    <label for="AssetNumber" string="Asset Number"/>
-                    <field name="AssetNumber"></field>
                     <label for="Location" string="Location"/>
                     <field name="Location"></field>
                     <label for="Photo" string="Photo"/>
                     <field name="Photo"  widget='image'></field>
+                    <br/>
                     <label for="InstallationDate" string="Installation Date"/>
                     <field name="InstallationDate"></field>
                     <label for="InstallationCertificate" string="Installation Certificate"/>
@@ -3344,19 +3347,19 @@
             <field name="arch" type="xml">
                 <tree string="Instrument">
                     <field name="name"></field>
-                	<field name="Description"></field>
+                    <!--<field name="Description"></field>-->
                 	<field name="InstrumentType"></field>
-                	<field name="Manufacturer"></field>
+                    <field name="Brand"></field>
                     <field name="Model"></field>
-                    <field name="SerialNo"></field>
+                    <!--<field name="SerialNo"></field>-->
                     <field name="Method"></field>
-                    <field name="DisposeUntilNextCalibrationTest"></field>
+                    <!--<field name="DisposeUntilNextCalibrationTest"></field>
                     <field name="InlabCalibrationProcedure"></field>
                     <field name="PreventiveMaintenanceProcedure"></field>
                     <field name="AssetNumber"></field>
                     <field name="Location"></field>
                     <field name="InstallationDate"></field>
-                    <field name="InstallationCertificate"></field>
+                    <field name="InstallationCertificate"></field>-->
                 </tree>
             </field>
         </record>
@@ -3368,7 +3371,7 @@
             <field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="instrument_menu" name="Instrument" parent="olims_menu"
+        <menuitem id="instrument_menu" name="Instruments" parent="olims_menu"
                   action="instrument_list_action"/>
 		<!-- Analysis Profile form view -->
         <record model="ir.ui.view" id="olims_analysis_profile_form_view">
