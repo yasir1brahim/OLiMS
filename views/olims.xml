@@ -3387,10 +3387,10 @@
                 	<field name="ProfileKey"></field>
                 	<label for="Service" string="Service"/>
                 	<p>The analyses included in this profile, grouped per category</p>
-                	<field name="Service"></field>
-                	<label for="Remarks" string="Remarks"/>
-                	<field name="Remarks"></field>
-                	<label for="CommercialID" string="Commercial ID"/>
+                    <field name="Service" options="{'no_create': True}"></field>
+                    <!--<label for="Remarks" string="Remarks"/>
+                    <field name="Remarks"></field>-->
+                    <label for="CommercialID" string="Commercial ID"/>
                 	<field name="CommercialID"></field>
                 	<label for="UseAnalysisProfilePrice" string="Use Analysis Profile Price"/>
                 	<field name="UseAnalysisProfilePrice"></field>
@@ -3415,13 +3415,13 @@
                     <field name="name"></field>
                 	<field name="Description"></field>
                 	<field name="ProfileKey"></field>
-                	<!-- <field name="Service"></field> -->
+                    <!-- <field name="Service"></field> 
                 	<field name="Remarks"></field>
                 	<field name="CommercialID"></field>
                 	<field name="UseAnalysisProfilePrice"></field>
                 	<field name="AnalysisProfilePrice"></field>
                 	<field name="AnalysisProfileVAT"></field>
-                	<field name="VATAmount"></field>
+                    <field name="VATAmount"></field>-->
                 </tree>
             </field>
         </record>
@@ -3433,7 +3433,7 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="analysis_profile_menu" name="Analysis Profile" parent="olims_menu"
+        <menuitem id="analysis_profile_menu" name="Analysis Profiles" parent="olims_menu"
                   action="analysis_profile_list_action"/>
                   
          <!-- Method form view -->         
@@ -3695,31 +3695,32 @@
         <menuitem id="department" name="Department" parent="olims_menu"
                   action="olims_department_list_action"/>            
                   
-        <!-- My Modelform view        
+        <!-- My Modelform view   
           <record model="ir.ui.view" id="mymodel_my_model_form_view">
             <field name="name">my_model.form</field>
             <field name="model">mymodel.my_model</field>
             <field name="arch" type="xml">
                 <form string="My Model Form">
-                	<label for="CommercialID" string="CommercialID"/>
-                	<field name="CommercialID"></field>
-                	<label for="MyTestField" string="MyTestField"/>
-                	<field name="MyTestField"></field>
-                	<label for="NewField" string="NewField"/>
+                    <label for="AnalysisPrice" string="AnalysisPrice"/>
+                    <field name="AnalysisPrice"></field>
+                    <!--<label for="MyTestField" string="MyTestField"/>
+                    <field name="MyTestField"></field>
+                    <label for="NewField" string="NewField"/>
                 	<field name="NewField"></field>
                 	<label for="test_string" string="test_string"/>
                 	<field name="test_string"></field>
                 	<label for="AnalysisProfilePrice" string="AnalysisProfilePrice"/>
-                	<field name="AnalysisProfilePrice"></field>
+                    <field name="AnalysisProfilePrice"></field>-->
                 </form>
             </field>
         </record>
-        -->
-        <!-- <record model="ir.ui.view" id="mymodel_my_model_tree_view">
+    
+        <record model="ir.ui.view" id="mymodel_my_model_tree_view">
             <field name="name">my_model.tree</field>
             <field name="model">mymodel.my_model</field>
             <field name="arch" type="xml">
                 <tree string="My Model">
+                    <field name="AnalysisPrice"></field>
                 	<field name="CommercialID"></field>
                 	<field name="MyTestField"></field>
                 	<field name="NewField"></field>
@@ -3738,7 +3739,7 @@
        </record>
 
         <menuitem id="my_model" name="My Model" parent="olims_menu"
-                  action="mymodel_my_model_list_action"/> -->
+                  action="mymodel_my_model_list_action"/> -->  
                   
          <!-- Analysis Service form view -->
         <record model="ir.ui.view" id="olims_analysis_service_form_view">
