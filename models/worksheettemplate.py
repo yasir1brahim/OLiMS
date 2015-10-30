@@ -21,7 +21,7 @@ from fields.string_field import StringField
 from fields.text_field import TextField
 from fields.widget.widget import TextAreaWidget,StringWidget
 #schema = BikaSchema.copy() + Schema((
-schema =   (StringField('name',
+schema = (StringField('name',
               required=1,        
     ),
     TextField('Description',
@@ -67,9 +67,7 @@ schema =   (StringField('name',
 #             label=_("Analysis Service"),
 #             description=_("Select which Analyses should be included on the Worksheet"),
 #         )
-    ),
-
-        fields.Many2one(string='Instrument',
+    fields.Many2one(string='Instrument',
                     comodel_name='olims.instrument',
         required = False,
         help='Select the preferred instrument'
