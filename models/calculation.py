@@ -67,7 +67,7 @@ schema = (
 #         )
             ),
           
-          StringField('name',
+    StringField('name',
         required=1,
         schemata='Description',
     ),
@@ -76,6 +76,13 @@ schema = (
         widget=StringWidget(
             label=_('Description'),
             description=_("Used in item listings and search results."),
+        ),
+    ),
+    StringField('Changenote',
+        schemata='Description',
+        widget=StringWidget(
+            label=_('Change note'),
+            description=_("Enter a comment that describes the changes you made."),
         ),
     ),
     TextField('Formula',

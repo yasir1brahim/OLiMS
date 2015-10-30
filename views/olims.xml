@@ -358,6 +358,7 @@
                     <field name="Unit" ></field>
                     <label for="Hidden Field" string="Hidden Field"/>
                     <field name="Hidden Field" ></field>
+                    <br/>
                     <label for="Apply wide" string="Apply wide"/>
                     <field name="Apply wide" ></field>
                 </form>
@@ -3541,6 +3542,8 @@
                 <form string="Calculation Form">
                 	<label for="name" string="Title"/>
                 	<field name="name"></field>
+                    <label for="Description" string="Description"/>
+                    <field name="Description"></field>
                 	<label for="InterimFields" string="Calculation Interim Fields"/>
                 	<p>Define interim fields such as vessel mass, dilution factors 
                 	should your calculation require them. The field title specified 
@@ -3549,10 +3552,15 @@
                 	the field ill be shown in a selection box on the top of the
                 	worksheet, allowing to apply a specific value to all the corresponding fields on the sheet.</p>
                 	<field name="InterimFields" widget='one2many_list'></field>
-                	<label for="Description" string="Description"/>
-                	<field name="Description"></field>
                 	<label for="Formula" string="Calculation Formula"/>
+                    <p>The formula you type here will be dynamically calculated when an analysis using this calculation is displayed.
+
+                    To enter a Calculation, use standard maths operators, + - * / ( ), and all keywords available, both from other Analysis Services and the Interim Fields specified here, as variables. Enclose them in square brackets [ ].
+
+                    E.g, the calculation for Total Hardness, the total of Calcium (ppm) and Magnesium (ppm) ions in water, is entered as [Ca] + [Mg], where Ca and MG are the keywords for those two Analysis Services.</p>
                 	<field name="Formula"></field>
+                    <label for="Changenote" string="Change Note"/>
+                    <field name="Changenote"></field>
                 </form>
             </field>
         </record>
@@ -3576,7 +3584,7 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="calculation" name="Calculation" parent="olims_menu"
+        <menuitem id="calculation" name="Calculations" parent="olims_menu"
                   action="calculation_list_action"/>
                   
         <!-- Manufacture form view -->         
