@@ -3675,7 +3675,8 @@
                 	<label for="Description" string="Description"/>
                 	<field name="Description"></field>
                     <label for="Manager" string="Manager"/>
-                	<field name="Manager"></field>
+                    <p>Select a manager from the available personnel configured under the 'lab contacts' setup item. Departmental managers are referenced on analysis results reports containing analyses by their department.</p>
+                    <field name="Manager" options="{'no_create': True}"></field>
                 	<!--label for="ManagerName" string="Manager Name"/>
                 	<field name="ManagerName"></field-->
                 	
@@ -3703,7 +3704,7 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="department" name="Department" parent="olims_menu"
+        <menuitem id="department" name="Lab Departments" parent="olims_menu"
                   action="olims_department_list_action"/>            
                   
         <!-- My Modelform view   

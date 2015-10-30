@@ -41,9 +41,9 @@ schema = (
         ),
     ),
 
-    ReferenceField(string='Manager',
-           selection=[('olims.lab_contact', 'Manager')],
-           required=1,
+    fields.Many2one(string='Manager',
+           comodel_name='olims.lab_contact',
+           required=True,
 #         vocabulary = 'getContacts',
 #         vocabulary_display_path_bound = sys.maxint,
 #         allowed_types = ('LabContact',),
