@@ -3394,6 +3394,7 @@
                 	<field name="CommercialID"></field>
                 	<label for="UseAnalysisProfilePrice" string="Use Analysis Profile Price"/>
                 	<field name="UseAnalysisProfilePrice"></field>
+                    <br/>
                 	<label for="AnalysisProfilePrice" string="Price (excluding VAT)"/>
                 	<field name="AnalysisProfilePrice"></field>
                 	<label for="AnalysisProfileVAT" string="Analysis Profile VAT%"/>
@@ -3452,14 +3453,16 @@
                 	<field name="Instructions"></field>
                 	<label for="MethodDocument" string="Method Document"/>
                 	<field name="MethodDocument"></field>
-                	<!-- <label for="Instruments" string="Instruments"/>
-                	<field name="Instruments"></field> -->
+                    <label for="Instruments" string="Instruments"/>
+                    <p>The selected instruments have support for this method.</p>
+                    <field name="Instruments" options="{'no_create': True}"></field>
                 	<label for="ManualEntryOfResults" string="Manual entry of results"/>
                 	<field name="ManualEntryOfResults"></field>
+                    <br/>
                 	<!-- <label for="ManualEntryOfResultsViewField" string="Manual entry of results"/>
                 	<field name="ManualEntryOfResultsViewField"></field>-->
                 	<label for="Calculation" string="Calculation"/>
-                	<field name="Calculation"></field>
+                    <field name="Calculation" options="{'no_create': True}"></field>
                 	<label for="Accredited" string="Accredited"/>
                 	<field name="Accredited"></field>
                 </form>
@@ -3473,14 +3476,14 @@
                 <tree string="Method">
                 	<field name="name"></field>
                 	<field name="Description"></field>
-                	<field name="MethodID"></field>
+                    <!--<field name="MethodID"></field>
                 	<field name="Instructions"></field>
-                	<field name="MethodDocument"></field>
-                	<!-- <field name="Instruments"></field> -->
+                    <field name="MethodDocument"></field>-->
+                    <field name="Instruments"></field>
                 	<field name="ManualEntryOfResults"></field>
-                	<!-- <field name="ManualEntryOfResultsViewField"></field> -->
-                	 <field name="Calculation"></field>
-                	<field name="Accredited"></field>
+                    <!-- <field name="ManualEntryOfResultsViewField"></field> 
+                    <field name="Calculation"></field>
+                    <field name="Accredited"></field>-->
                 </tree>
             </field>
         </record>
@@ -3492,7 +3495,7 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="method_menu" name="Method" parent="olims_menu"
+        <menuitem id="method_menu" name="Methods" parent="olims_menu"
                   action="method_list_action"/>  
                   
         <!-- Instrument Type form view -->         
@@ -3703,14 +3706,14 @@
                 <form string="My Model Form">
                     <label for="AnalysisPrice" string="AnalysisPrice"/>
                     <field name="AnalysisPrice"></field>
-                    <!--<label for="MyTestField" string="MyTestField"/>
+                    <label for="MyTestField" string="MyTestField"/>
                     <field name="MyTestField"></field>
                     <label for="NewField" string="NewField"/>
                 	<field name="NewField"></field>
                 	<label for="test_string" string="test_string"/>
                 	<field name="test_string"></field>
                 	<label for="AnalysisProfilePrice" string="AnalysisProfilePrice"/>
-                    <field name="AnalysisProfilePrice"></field>-->
+                    <field name="AnalysisProfilePrice"></field>
                 </form>
             </field>
         </record>

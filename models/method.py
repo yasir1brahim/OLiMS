@@ -90,19 +90,18 @@ schema = (
 #                 "the method to a specific instrument"),
 #         ),
 #     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     LinesField(string='Instruments',
-#         comodel_name='olims.instrument_type',
-#         vocabulary='getInstrumentsDisplayList',
-#         widget=MultiSelectionWidget(
-#             modes = ('edit'),
-#             label=_("Instruments"),
-#             description =_(
-#                 "The selected instruments have support for this method. "
-#                 "Use the Instrument edit view to assign "
-#                 "the method to a specific instrument"),
-#         ),
-#     ),
+    fields.Many2one(string='Instruments',
+        comodel_name='olims.instrument_type',
+        vocabulary='getInstrumentsDisplayList',
+        widget=MultiSelectionWidget(
+            modes = ('edit'),
+            label=_("Instruments"),
+            description =_(
+                "The selected instruments have support for this method. "
+                "Use the Instrument edit view to assign "
+                "the method to a specific instrument"),
+        ),
+    ),
 
     # All the instruments available in the system. Don't use this
     # method to retrieve the instruments linked to this method, use
@@ -141,7 +140,7 @@ schema = (
     # Calculations associated to this method. The analyses services
     # with this method assigned will use the calculation selected here.
 
-        fields.Many2one(string='Calculation',
+    fields.Many2one(string='Calculation',
                    comodel_name='olims.calculation',
                    required=False,
                    help="If required, select a calculation for the "+
@@ -149,7 +148,7 @@ schema = (
                            "method. Calculations can be configured "+
                            "under the calculations item in the LIMS "+
                             "set-up",
-            ),
+    ),
 
 # ~~~~~~~ To be implemented ~~~~~~~
 #     HistoryAwareReferenceField(string='Calculation',
