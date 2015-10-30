@@ -3635,7 +3635,7 @@
                 	<label for="Comments" string="Comments"/>
                 	<field name="Comments"></field>
                 	<label for="Department" string="Department"/>
-                	<field name="Department"></field>
+                    <field name="Department" options="{'no_create': True}"></field>
                 	
                 </form>
             </field>
@@ -3648,7 +3648,7 @@
                 <tree string="Analysis Category">
                 	<field name="name"></field>
                 	<field name="Description"></field>
-                	<field name="Comments"></field>
+                    <!--<field name="Comments"></field>-->
                 	<field name="Department"></field>
                 </tree>
             </field>
@@ -3661,7 +3661,7 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="analysis_category" name="Analysis Category" parent="olims_menu"
+        <menuitem id="analysis_category" name="Analysis Categories" parent="olims_menu"
                   action="analysis_category_list_action"/>
                   
         <!-- Department view -->         

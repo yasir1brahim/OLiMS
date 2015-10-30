@@ -44,8 +44,8 @@ schema =  (StringField('name',
             label = _("Comments")),
     ),
 # ~~~~~~~ Using Odoo fields.Reference ~~~~~~~
-    fields.Reference(string='Department',
-        selection=[('olims.department', 'Department')],
+    fields.Many2one(string='Department',
+        comodel_name='olims.department',
         required=False,
         help='The laboratory department'
     ),
