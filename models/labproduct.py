@@ -56,7 +56,13 @@ schema = (StringField('name',
             label=_("Price excluding VAT"),
         )
     ),
-    
+    StringField('Quantity',
+                required=0,
+                searchable=True,
+                widget=StringWidget(
+                    label=_("Quantity"),
+                    ),
+                ),
 #     fields.Float(compute='computeVATAmount',string='VATAmount'),
 # # ~~~~~~~ To be implemented ~~~~~~~
 #     # ComputedField('VATAmount',
@@ -66,14 +72,14 @@ schema = (StringField('name',
 #     #         visible = {'edit':'hidden', }
 #     #     ),
 #     # ),
-#     fields.Float(compute='computeTotalPrice',string='TotalPrice'),
-#     # ComputedField('TotalPrice',
-#     #     expression = 'context.getTotalPrice()',
-#     #     widget = ComputedWidget(
-#     #         label=_("Total price"),
-#     #         visible = {'edit':'hidden', }
-#     #     ),
-#     # ),
+    fields.Float(compute='computeTotalPrice',string='TotalPrice'),
+    # ComputedField('TotalPrice',
+    #     expression = 'context.getTotalPrice()',
+    #     widget = ComputedWidget(
+    #         label=_("Total price"),
+    #         visible = {'edit':'hidden', }
+    #     ),
+    # ),
 )
 
 # schema['description'].schemata = 'default'
@@ -94,12 +100,8 @@ class LabProduct(models.Model, BaseOLiMSModel): #BaseContent
         """ compute total price """
         for record in self:
             price = record.getPrice()
-            price = int(price or '0.00')
-            vat = int(record.getVAT())
-            price = price and price or 0
-            vat = vat and vat / 100 or 0
-            price = price + (price * vat)
-            record.TotalPrice = price       
+            quantity = record.getQuantity()
+            record.TotalPrice = price * float(quantity)
     
 #     def getTotalPrice(self):
 #         """ compute total price """
