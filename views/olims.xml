@@ -2183,26 +2183,34 @@
             <field name="model">olims.instrument_certification</field>
             <field name="arch" type="xml">
                 <form string="Instrument Certification Form">
+                    <label for="Certificate Code" string="Certificate Code"/>
+                    <field name="Certificate Code"></field>
                     <label for="Instrument" string="Instrument"/>
                 	<field name="Instrument"></field>
-                	<label for="Internal" string="Internal"/>
                     <field name="Internal"></field>
-                    <label for="Agency" string="Agency"/>
-                	<field name="Agency"></field>
+                    <label for="Internal" string="Internal Certificate"/>
+                    <p>Select if is an in-house calibration certificate</p>
+                    <label for="Agency" string="Agency" attrs="{'invisible':[('Internal','=', True)]}"/>
+                    <p attrs="{'invisible':[('Internal','=', True)]}">Organization responsible of granting the calibration certificate</p>
+                    <field name="Agency" attrs="{'invisible':[('Internal','=', True)]}"></field>
                     <label for="Date" string="Date"/>
                 	<field name="Date"></field>
-                    <label for="ValidFrom" string="ValidFrom"/>
+                    <label for="ValidFrom" string="From"/>
+                    <p>Date when the calibration certificate was granted</p>
                     <field name="ValidFrom"></field>
-                    <label for="ValidTo" string="ValidTo"/>
+                    <label for="ValidTo" string="To"/>
+                    <p>Date until the certificate is valid</p>
                     <field name="ValidTo"></field>
-                    <label for="Preparator" string="Preparator"/>
-                    <field name="Preparator"></field>
-                    <label for="Validator" string="Validator"/>
-                    <field name="Validator"></field>
-                    <label for="Document" string="Document"/>
+                    <label for="Preparator" string="Prepared by"/>
+                    <p>The person at the supplier who prepared the certificate</p>
+                    <field name="Preparator" options="{'no_create': True}"></field>
+                    <label for="Validator" string="Approved by"/>
+                    <p>The person at the supplier who approved the certificate</p>
+                    <field name="Validator" options="{'no_create': True}"></field>
+                    <label for="Document" string="Report upload"/>
                     <field name="Document"></field>
-                    <label for="Remarks" string="Remarks"/>
-                    <field name="Remarks"></field>
+                    <!--<label for="Remarks" string="Remarks"/>
+                    <field name="Remarks"></field>-->
                     </form>
             </field>
         </record>
@@ -2212,15 +2220,16 @@
             <field name="model">olims.instrument_certification</field>
             <field name="arch" type="xml">
                 <tree string="Instrument Certification">
+                    <field name="Certificate Code"></field>
                 	<field name="Instrument"></field>
-                	<field name="Internal"></field>
+                    <!--<field name="Internal"></field>-->
                 	<field name="Agency"></field>
-                	<field name="Date"></field>
+                    <!--<field name="Date"></field>-->
                     <field name="ValidFrom"></field>
                     <field name="ValidTo"></field>
-                    <field name="Preparator"></field>
-                    <field name="Validator"></field>
-                    <field name="Remarks"></field>
+                    <!--<field name="Preparator"></field>
+                    <field name="Validator"></field>-->
+                    <field name="Document"></field>
                 </tree>
             </field>
         </record>
@@ -2232,7 +2241,7 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="instrument_certification_menu" name="Instrument Certification" parent="olims_menu"
+        <menuitem id="instrument_certification_menu" name="Instrument Certifications" parent="olims_menu"
                   action="instrument_certification_list_action"/>
 
 

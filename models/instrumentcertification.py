@@ -24,7 +24,12 @@ from openerp import fields, models
 from models.base_olims_model import BaseOLiMSModel
 
 #schema = BikaSchema.copy() + Schema((
-schema = (
+schema = (StringField('Certificate Code',
+                      required=1,
+                      widget = StringWidget(
+                            label=_("Certificate Code"),
+        ),
+    ),
     # ComputedField('AssetNumber',
     #     expression='here.getInstrumentAssetNumber()',
     #     widget=ComputedWidget(
