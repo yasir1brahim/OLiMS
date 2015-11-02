@@ -502,12 +502,12 @@
             <field name="model">olims.uncertinty_service</field>
             <field name="arch" type="xml">
                 <form string="Result Option Form">
-                    <label for="intercept_min" string="Range min"/>
-                    <field name="intercept_min"></field>                     
-                    <label for="intercept_max" string="Range Max"/>
-                    <field name="intercept_max"></field>
-                    <label for="errorvalue" string="Uncertainty value"/>
-                    <field name="errorvalue"></field>
+                    <label for="Range min" string="Range min"/>
+                    <field name="Range min"></field>
+                    <label for="Range max" string="Range Max"/>
+                    <field name="Range max"></field>
+                    <label for="Uncertainty value" string="Uncertainty value"/>
+                    <field name="Uncertainty value"></field>
                     
                 </form>
             </field>
@@ -518,9 +518,9 @@
             <field name="model">olims.uncertinty_service</field>
             <field name="arch" type="xml">
                 <tree string="Uncertinty Service">
-                    <field name="intercept_min"></field>                     
-                    <field name="intercept_max"></field>
-                    <field name="errorvalue"></field>
+                    <field name="Range min"></field>
+                    <field name="Range max"></field>
+                    <field name="Uncertainty value"></field>
         
                 </tree>
             </field>
@@ -3763,13 +3763,35 @@
                 	<field name="name"></field>
                 	<label for="ShortTitle" string="Short Title"/>
                 	<field name="ShortTitle"></field>
+                    <label for="CommercialID" string="Commercial ID"/>
+                    <field name="CommercialID"></field>
+                    <label for="ProtocolID" string="Protocol ID"/>
+                    <field name="ProtocolID"></field>
                 	<label for="Description" string="Description"/>
                 	<field name="Description"></field>
-                	<label for="ScientificName" string="Scientific name"/>
-                	<field name="ScientificName"></field>
+                    <field name="ScientificName"></field>
+                    <label for="ScientificName" string="Scientific name"/>
                 	<br/>
                 	<label for="Unit" string="Unit"/>
                 	<field name="Unit"></field>
+                    <label for="Keyword" string="Analysis Keyword"/>
+                    <p>The unique keyword used to identify the analysis service in import files of bulk AR requests and results imports from instruments. It is also used to identify dependent analysis services in user defined results calculations</p>
+                    <field name="Keyword"></field>
+                    <br/>
+                    <label for="PointOfCapture" string="Point of Capture"/>
+                    <field name="PointOfCapture" widget="radio"></field>
+                    <br/>
+                    <label for="Category" string="Analysis Category"/>
+                    <p>The category the analysis service belongs to</p>
+                    <field name="Category" options="{'no_create_edit': True}"></field>
+                    <label for="Price" string="Price (excluding VAT)"/>
+                    <field name="Price"></field>
+                    <label for="BulkPrice" string="Bulk price (excluding VAT"/>
+                    <field name="BulkPrice"></field>
+                    <label for="VAT" string="VAT %"/>
+                    <field name="VAT"></field>
+                    <label for="Department" string="Department"/>
+                    <field name="Department" options="{'no_create_edit': True}"></field>
                 	<label for="Precision" string="Precision as number of decimals"/>
                 	<field name="Precision"></field>
                 	<label for="ExponentialFormatPrecision" string="Exponential format precision"/>
@@ -3778,75 +3800,62 @@
                 	<field name="LowerDetectionLimit"></field>
                 	<label for="UpperDetectionLimit" string="Upper Detection Limit (UDL"/>
                 	<field name="UpperDetectionLimit"></field>
-                	<label for="DetectionLimitSelector" string="Display a Detection Limit selector"/>
-                	<field name="DetectionLimitSelector"></field>
+                    <field name="DetectionLimitSelector"></field>
+                    <label for="DetectionLimitSelector" string="Display a Detection Limit selector"/>
+                    <br/>
+                    <field name="AllowManualDetectionLimit" attrs="{'invisible':[('DetectionLimitSelector','=', False)]}"></field>
+                    <label for="AllowManualDetectionLimit" string="Allow Manual Detection Limit input" attrs="{'invisible':[('DetectionLimitSelector','=', False)]}"/>
                 	<br/>
-                	<label for="AllowManualDetectionLimit" string="Allow Manual Detection Limit input"/>
-                	<field name="AllowManualDetectionLimit"></field>
-                	<br/>
-                	<label for="ReportDryMatter" string="Report as Dry Matter"/>
                 	<field name="ReportDryMatter"></field>
+                    <label for="ReportDryMatter" string="Report as Dry Matter"/>
                 	<br/>
-                	<label for="AttachmentOption" string="Attachment Option"/>
-                	<field name="AttachmentOption"></field>
-                	<label for="Keyword" string="Analysis Keyword"/>
-                	<field name="Keyword"></field>
-                	<label for="ManualEntryOfResults" string="Allow manual entry of results"/>
-                	<field name="ManualEntryOfResults"></field>
-                	<br/>
+                    <label for="AttachmentOption" string="Attachment Option"/>
+                    <field name="AttachmentOption"></field>
+                    <br/>
+                    <group col='2' string='Maximum turn-around time '>
+                    <p >Maximum time allowed for completion of the analysis. 
+                     A late analysis alert is raised when this period elapses</p>
+                    <p></p>
+                    <label for="Days" string="Days"/>
+                    <field name="Days" nolabel='1'></field>
+                    <label for="Hours" string="Hours"/>
+                    <field name="Hours" nolabel='1'></field>
+                    <label for="Minutes" string="Minutes"/>
+                    <field name="Minutes" nolabel='1'></field>
+                    </group>
+                    <field name="Hidden"></field>
+                    <label for="Hidden" string="Hidden"/>
+                    <br/>
+                    <field name="ManualEntryOfResults"></field>
+                    <label for="Hidden" string="Allow manual entry of results"/>
+                    <br/>
+                    <label for="Methods" string="Methods"/>
+                    <field name="Methods" widget="many2many_tags" options="{'no_create_edit': True}"></field>
+                    <field name="InstrumentEntryOfResults"></field>
                 	<label for="InstrumentEntryOfResults" string="Allow instrument entry of results"/>
-                	<field name="InstrumentEntryOfResults"></field>
                 	<br/>
-                	<label for="Instruments" string="Instruments"/>
-                	<field name="Instruments" widget="many2many_tags" options="{'no_create_edit': True}"></field>
-                	<label for="Instrument" string="Default Instrument"/>
-                	<field name="Instrument" options="{'no_create_edit': True}"></field>
-                	<label for="Methods" string="Methods"/>
-                	<field name="Methods" widget="many2many_tags" options="{'no_create_edit': True}"></field>
-                	<label for="_Method" string="Default Method"/>
-                	<field name="_Method" options="{'no_create_edit': True}"></field>
+                    <label for="Instruments" string="Instruments" attrs="{'invisible':[('InstrumentEntryOfResults','=', False)]}"/>
+                    <field name="Instruments" widget="many2many_tags" options="{'no_create_edit': True}" attrs="{'invisible':[('InstrumentEntryOfResults','=', False)]}"></field>
+                    <label for="Instrument" string="Default Instrument" attrs="{'invisible':[('InstrumentEntryOfResults','=', False)]}"/>
+                    <field name="Instrument" options="{'no_create_edit': True}" attrs="{'invisible':[('InstrumentEntryOfResults','=', False)]}"></field>
+                    <label for="_Method" string="Default Method"/>
+                    <field name="_Method" options="{'no_create_edit': True}"></field>
+                    <field name="UseDefaultCalculation"></field>
                 	<label for="UseDefaultCalculation" string="Use default calculation"/>
-                	<field name="UseDefaultCalculation"></field>
-                	<br/>
-                	<label for="_Calculation" string="Default Calculation"/>
-                	<field name="_Calculation" options="{'no_create_edit': True}"></field>
-                	<label for="DeferredCalculation" string="Alternative Calculation"/>
-                	<field name="DeferredCalculation" options="{'no_create_edit': True}"></field>
-                	<group col='2' string='Maximum turn-around time '>
-                	<p >Maximum time allowed for completion of the analysis. 
-                	A late analysis alert is raised when this period elapses</p>
-                	<p></p>
-                	<label for="Days" string="Days"/>
-                	<field name="Days" nolabel='1'></field>
-                	<label for="Hours" string="Hours"/>
-                	<field name="Hours" nolabel='1'></field>
-                	<label for="Minutes" string="Minutes"/>
-                	<field name="Minutes" nolabel='1'></field>
-                	</group>
-                	<label for="InterimFields" string="Calculation Interim Fields"/>
-                	<p>Values can be entered here which will override the defaults specified in the Calculation Interim Fields.</p>
-                	<field name="InterimFields" widget='one2many_list'></field>
-                	
-                	<label for="DuplicateVariation" string="Duplicate Variation %"/>
-                	<field name="DuplicateVariation"></field>
-                	<label for="Accredited" string="Accredited"/>
+                    <p>Select if the calculation to be used is the calculation set by default in the default method. If unselected, the calculation can be selected manually</p>
+                    <label for="_Calculation" string="Default Calculation" attrs="{'invisible':[('UseDefaultCalculation','=', True)]}"/>
+                    <field name="_Calculation" options="{'no_create_edit': True}" attrs="{'invisible':[('UseDefaultCalculation','=', True)]}"></field>
+                    <!--<label for="DeferredCalculation" string="Alternative Calculation"/>
+                    <field name="DeferredCalculation" options="{'no_create_edit': True}"></field>-->
+                    <label for="InterimFields" string="Calculation Interim Fields" attrs="{'invisible':[('UseDefaultCalculation','=', True)]}"/>
+                    <p>Values can be entered here which will override the defaults specified in the Calculation Interim Fields.</p>
+                    <field name="InterimFields" widget='one2many_list' attrs="{'invisible':[('UseDefaultCalculation','=', True)]}"></field>
+                    <label for="DuplicateVariation" string="Duplicate Variation %"/>
+                    <field name="DuplicateVariation"></field>
                 	<field name="Accredited"></field>
+                    <label for="Accredited" string="Accredited"/>
                 	<br/>
-                	<label for="PointOfCapture" string="Point of Capture"/>
-                	<field name="PointOfCapture" widget="radio"></field>
-                	<label for="Category" string="Analysis Category"/>
-                	<field name="Category" options="{'no_create_edit': True}"></field>
-                	<label for="Price" string="Price (excluding VAT)"/>
-                	<field name="Price"></field>
-                	<label for="BulkPrice" string="Bulk price (excluding VAT"/>
-                	<field name="BulkPrice"></field>
-                	<label for="VAT" string="VAT %"/>
-                	<field name="VAT"></field>
-                	<label for="Department" string="Department"/>
-                	<field name="Department" options="{'no_create_edit': True}"></field>
-                	 
-                	 
-                	 <label for="Uncertainties" string="Uncertainties"/>
+                    <label for="Uncertainties" string="Uncertainties"/>
                 	<p>Specify the uncertainty value for a given range, e.g. for results in a range with minimum of 0 and maximum of 10, 
                 	where the uncertainty value is 0.5 - a result of 6.67 will be reported as 6.67 +- 0.5. You can also specify the 
                 	uncertainty value as a percentage of the result value, by adding a '%' to the value entered in the 'Uncertainty Value' 
@@ -3856,19 +3865,22 @@
                 	successive ranges are continuous, e.g. 0.00 - 10.00 is 
                 	followed by 10.01 - 20.00, 20.01 - 30 .00 etc.</p>
                 	<field name="Uncertainties" widget='one2many_list'></field>
-                	
+                    <field name="PrecisionFromUncertainty"></field>
                 	<label for="PrecisionFromUncertainty" string="Calculate Precision from Uncertainties"/>
-                	<field name="PrecisionFromUncertainty"></field>
+                    <p>Precision as the number of significant digits according to the uncertainty.
+                    The decimal position will be given by the first number different from zero in the uncertainty, at that position the system will round up the uncertainty and results.
+                    For example, with a result of 5.243 and an uncertainty of 0.22, the system will display correctly as 5.2+-0.2.
+                    If no uncertainty range is set for the result, the system will use the fixed precision set.</p>
                 	<br/>
-                	<label for="AllowManualUncertainty" string="Allow manual uncertainty value input"/>
                 	<field name="AllowManualUncertainty"></field>
+                    <label for="AllowManualUncertainty" string="Allow manual uncertainty value input"/>
                 	<br/>
                 	<label for="ResultOptions" string="Result Options"/>
                 	<p>Please list all options for the analysis result if you want to restrict it to specific options only, e.g. 
                 	'Positive', 'Negative' and 'Indeterminable'. The option's result value must be a number</p>
                 	<field name="ResultOptions" widget='one2many_list'></field>
+                    <field name="Separate"></field>
                 	<label for="Separate" string="Separate Container"/>
-                	<field name="Separate"></field>
                 	<br/>
                 	<label for="Preservation" string="Default Preservation"/>
                 	<field name="Preservation" options="{'no_create_edit': True}"></field>
@@ -3878,17 +3890,11 @@
                 	<p>Please specify preservations that differ from the 
                 	analysis service's default preservation per sample type here.</p>
                 	<field name="PartitionSetup" widget='one2many_list'></field>
-                	<label for="Hidden" string="Hidden"/>
-                	<field name="Hidden"></field>
-                	<br/>
-                	<label for="CommercialID" string="Commercial ID"/>
-                	<field name="CommercialID"></field>
-                	<label for="ProtocolID" string="Protocol ID"/>
-                	<field name="ProtocolID"></field>
-                	<label for="VATAmount" string="VAT Amount"/>
+                    <br/>
+                    <!--<label for="VATAmount" string="VAT Amount"/>
                 	<field name="VATAmount"></field>
                 	<label for="TotalPrice" string="Total Price"/>
-                	<field name="TotalPrice"></field>
+                    <field name="TotalPrice"></field>-->
                 	<label for="ChangeNote" string="Change Note"/>
                 	<field name="ChangeNote"></field>
                 </form>
@@ -3899,12 +3905,17 @@
             <field name="model">olims.analysis_service</field>
             <field name="arch" type="xml">
                 <tree string="Analysis Service">
-                   	<field name="name"></field>
-                	<field name="ShortTitle"></field>
+                    <field name="name"></field>
+                    <field name="Category"></field>
+                    <field name="Keyword"></field>
+                    <field name="CommercialID"></field>
+                    <field name="ProtocolID"></field>
+                    <field name="Unit"></field>
+                    <field name="Price"></field>
+                    <!--<field name="ShortTitle"></field>
                 	<field name="Description"></field>
                 	<field name="ScientificName"></field>
-                	<field name="Unit"></field>
-                	<field name="Precision"></field>
+                    <field name="Precision"></field>
                 	<field name="ExponentialFormatPrecision"></field>
                 	<field name="LowerDetectionLimit"></field>
                 	<field name="UpperDetectionLimit"></field>
@@ -3912,8 +3923,7 @@
                 	<field name="AllowManualDetectionLimit"></field>
                 	<field name="ReportDryMatter"></field>
                 	<field name="AttachmentOption"></field>
-                	<field name="Keyword"></field>
-                	<field name="ManualEntryOfResults"></field>
+                    <field name="ManualEntryOfResults"></field>
                 	<field name="InstrumentEntryOfResults"></field>
                 	<field name="Instruments"></field>
                 	<field name="Instrument"></field>
@@ -3925,9 +3935,7 @@
                 	<field name="DuplicateVariation"></field>
                 	<field name="Accredited"></field>
                 	<field name="PointOfCapture"></field>
-                	<field name="Category"></field>
-                	<field name="Price"></field>
-                	<field name="BulkPrice"></field>
+                    <field name="BulkPrice"></field>
                 	<field name="VAT"></field>
                 	<field name="Department"></field>
                 	<field name="PrecisionFromUncertainty"></field>
@@ -3936,11 +3944,9 @@
                 	<field name="Preservation"></field>
                 	<field name="Container"></field>
                 	<field name="Hidden"></field>
-                	<field name="CommercialID"></field>
-                	<field name="ProtocolID"></field>
-                	<field name="VATAmount"></field>
+                    <field name="VATAmount"></field>
                 	<field name="TotalPrice"></field>
-                	<field name="ChangeNote"></field>
+                    <field name="ChangeNote"></field>-->
                  </tree>
             </field>
         </record>
@@ -3951,7 +3957,7 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="analysis_service_menu" name="Analysis Service" parent="olims_menu"
+        <menuitem id="analysis_service_menu" name="Analysis Services" parent="olims_menu"
                   action="analysis_service_list_action"/>
         
           <!-- Container view -->         

@@ -11,9 +11,9 @@ from lims import bikaMessageFactory as _
 
 
 schema = (
-          fields.Char(string='intercept_min', required=True),
-          fields.Char(string='intercept_max', required=True),
-          fields.Char(string='errorvalue', required=True),
+          fields.Char(string='Range min', required=True),
+          fields.Char(string='Range max', required=True),
+          fields.Char(string='Uncertainty value', required=True),
           )
 
 class UncertintyService(models.Model, BaseOLiMSModel): 

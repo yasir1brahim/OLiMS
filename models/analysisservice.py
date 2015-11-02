@@ -399,6 +399,7 @@ schema = (StringField('name',
     BooleanField('ManualEntryOfResults',
                  schemata="Method",
                  default=True,
+                 readonly=True,
                  widget=BooleanWidget(
                      label = _("Allow manual entry of results"),
                      description=_("Select if the results for this Analysis " + \
@@ -655,8 +656,8 @@ schema = (StringField('name',
 #                   ),
 #     ),
 
-                 fields.Many2many(string='InterimFields',
-                                  comodel_name='olims.interimfield',
+    fields.Many2many(string='InterimFields',
+                    comodel_name='olims.interimfield',
                           #        schemata='Method',
 #                        widget=RecordsWidget(
 #                            label = _("Calculation Interim Fields"),
@@ -936,7 +937,7 @@ fields.Many2many(string='Uncertainties',
 #                        base_query={'inactive_state': 'active'},
 #                    ),
     ),
-          fields.Many2many(string='PartitionSetup', comodel_name='olims.partition_setup'
+    fields.Many2many(string='PartitionSetup', comodel_name='olims.partition_setup'
                            #                         schemata='Container and Preservation',
 #                         widget=PartitionSetupWidget(
 #                             label=PMF("Preservation per sample type"),
