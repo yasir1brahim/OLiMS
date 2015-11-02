@@ -3974,9 +3974,12 @@
                 	<field name="ContainerType" options="{'no_create_edit': True}"></field>
                 	<label for="Capacity" string="Capacity"/>
                 	<field name="Capacity"></field>
+                    <field name="PrePreserved"></field>
                 	<label for="PrePreserved" string="Pre-Preserved"/>
-                	<field name="PrePreserved"></field>
+                    <p>Check this box if this container is already preserved.Setting this will short-circuit the preservation workflow for sample partitions stored in this container.</p>
+                    <br/>
                 	<label for="Preservation" string="Preservation"/>
+                    <p>If this container is pre-preserved, then the preservation method could be selected here.</p>
                 	<field name="Preservation" options="{'no_create_edit': True}"></field>
                 </form>
             </field>
@@ -3991,7 +3994,6 @@
                 	<field name="Description"></field>
                 	<field name="ContainerType"></field>
                 	<field name="Capacity"></field>
-                	<field name="PrePreserved"></field>
                 	<field name="Preservation"></field>
                 </tree>
             </field>
@@ -4004,7 +4006,7 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="container" name="Container" parent="olims_menu"
+        <menuitem id="container" name="Containers" parent="olims_menu"
                   action="olims_container_list_action"/>
                   
        <!-- Container Type view -->         
