@@ -2018,6 +2018,8 @@
                 <form string="instrument Validation Form">
                     <label for="AssetNumber" string="Asset Number"/>
                     <field name="AssetNumber"></field>
+                    <label for="Instrument" string="Instruments"/>
+                    <field name="Instrument"></field>
                     <label for="DateIssued" string="Report Date"/>
                     <p>Validation report date</p>
                 	<field name="DateIssued"></field>
@@ -2055,6 +2057,7 @@
             <field name="arch" type="xml">
                 <tree string="instrument Validation">
                     <field name="AssetNumber"></field>
+                    <field name="Instruments"></field>
                     <!--<field name="DateIssued"></field>-->
                     <field name="DownFrom"></field>
                 	<field name="DownTo"></field>

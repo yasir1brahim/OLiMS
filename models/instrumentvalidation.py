@@ -35,6 +35,11 @@ schema = (StringField('AssetNumber',
             description=_("Validation report date"),
         ),
     ),
+    fields.Many2one(string='Instrument',
+                   comodel_name='olims.instrument',
+                   required=False,
+
+    ),
 
     DateTimeField('DownFrom',
         with_time = 1,
