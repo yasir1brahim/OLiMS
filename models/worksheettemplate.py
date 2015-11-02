@@ -53,10 +53,10 @@ schema = (StringField('name',
         # )
     #),
 # ~~~~~~~ To be implemented ~~~~~~~
-#         fields.Many2one(string='Service',
-#                     comodel_name='olims.analysis_service',
-#                     required=True,
-#                     help='Select which Analyses should be included on the Worksheet',
+        fields.Many2many(string='Service',
+                    comodel_name='olims.analysis_service',
+                    required=True,
+                    help='Select which Analyses should be included on the Worksheet',
 #         schemata = 'Analyses',
 #         required = 1,
 #         multiValued = 1,
@@ -66,7 +66,7 @@ schema = (StringField('name',
 #         widget = ServicesWidget(
 #             label=_("Analysis Service"),
 #             description=_("Select which Analyses should be included on the Worksheet"),
-#         )
+    ),
     fields.Many2one(string='Instrument',
                     comodel_name='olims.instrument',
         required = False,

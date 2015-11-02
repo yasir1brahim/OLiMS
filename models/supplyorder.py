@@ -49,13 +49,9 @@ schema = (
     #     ],
     ),
 
-    StringField('OrderNumber',
-                required=1,
-                searchable=True,
-                widget=StringWidget(
-                    label=_("Order Number"),
-                    ),
-                ),
+    fields.Char(string='OrderNumber',
+                compute='compute_order_id',
+    ),
 
     fields.Many2one(string='Invoice',
         comodel_name='olims.invoice',
@@ -99,7 +95,19 @@ schema = (
             append_only=True,
         ),
     ),
-
+    fields.Many2many(string='Products',
+        comodel_name='olims.lab_product',
+        requried =False,
+    ),
+    fields.Float(string='SubTotal',
+                compute='compute_subtotal'
+    ),
+    fields.Float(string='VAT',
+                compute='compute_VATAmount'
+    ),
+    fields.Float(string='Total',
+                compute='compute_Total'
+    ),
 # ~~~~~~~ To be implemented ~~~~~~~
     # ComputedField('ClientUID',
     #               expression = 'here.aq_parent.UID()',
@@ -123,6 +131,26 @@ schema = (
 
 class SupplyOrder(models.Model, BaseOLiMSModel): #BaseFolder
     _name='olims.supply_order'
+    def compute_subtotal(self):
+        if self.Products:
+            for records in self.Products:
+                if records.Quantity and records.Price:
+                    quantity = records.Quantity
+                    product_price_excluding_VAT = records.Price
+                    self.SubTotal +=  int(quantity) * product_price_excluding_VAT
+    def compute_order_id(self):
+        order_string = 'O-'
+        for record in self:
+            record.OrderNumber = order_string + str(record.id)
+    def compute_VATAmount(self):
+        if self.Products:
+            for records in self.Products:
+                if records.Quantity and records.Price:
+                    vat_amount = records.VAT
+                    self.VAT +=  (vat_amount * records.TotalPrice)/100
+    def compute_Total(self):
+        for recod in self:
+            recod.Total = self.SubTotal + self.VAT
     # implements(ISupplyOrder, IConstrainTypes)
     #
     # security = ClassSecurityInfo()

@@ -1576,14 +1576,16 @@
             <field name="model">olims.worksheet_template</field>
             <field name="arch" type="xml">
                 <form string="worksheet Template Form">
-                    <!-- <label for="Service" string="Service"/>
-                	<field name="Service"></field> -->
                 	<label for="name" string="Title"/>
                 	<field name="name"></field>
                 	<label for="Description" string="Description"/>
                 	<field name="Description"></field>
                 	<label for="Instrument" string="Instrument"/>
+                    <p>Select the preferred instrument</p>
                     <field name="Instrument" options="{'no_create': True}"></field>
+                    <label for="Service" string="Service"/>
+                    <p>Select which Analyses should be included on the Worksheet</p>
+                    <field name="Service" options="{'no_create': True}"></field>
                 </form>
             </field>
         </record>
@@ -1607,7 +1609,7 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="worksheet_template_menu" name="Worksheet Template" parent="olims_menu"
+        <menuitem id="worksheet_template_menu" name="Worksheet Templates" parent="olims_menu"
                   action="worksheet_template_list_action"/>
 
 
@@ -1973,12 +1975,12 @@
                 	<field name="VAT"></field>
                     <label for="Price" string="Price excluding VAT"/>
                 	<field name="Price"></field>
+                    <label for="Quantity" string="Quantity"/>
+                    <field name="Quantity"></field>
                     <!--<label for="VATAmount" string="VATAmount"/>
                 	<field name="VATAmount"></field>
                 	<label for="TotalPrice" string="Total Price"/>
                     <field name="TotalPrice"></field>-->
-                	
-                	
                 </form>
             </field>
         </record>
@@ -1993,8 +1995,9 @@
                     <field name="Unit"></field>
                 	<field name="VAT"></field>
                 	<field name="Price"></field>
-                    <!--<field name="VATAmount"></field>
-                    <field name="TotalPrice"></field>-->
+                    <field name="Quantity"></field>
+                    <!--<field name="VATAmount"></field>-->
+                    <field name="TotalPrice"></field>
                 </tree>
             </field>
         </record>
@@ -2057,7 +2060,7 @@
             <field name="arch" type="xml">
                 <tree string="instrument Validation">
                     <field name="AssetNumber"></field>
-                    <field name="Instruments"></field>
+                    <field name="Instrument"></field>
                     <!--<field name="DateIssued"></field>-->
                     <field name="DownFrom"></field>
                 	<field name="DownTo"></field>
@@ -2626,18 +2629,20 @@
             <field name="model">olims.supply_order</field>
             <field name="arch" type="xml">
                 <form string="Supply Order Form">
-                     <label for="Contact" string="Contact"/>
-                	<field name="Contact"></field>
-                	<label for="OrderNumber" string="Order Number"/>
-                    <field name="OrderNumber"></field>
-                    <label for="Invoice" string="Invoice"/>
-                	<field name="Invoice"></field>
                     <label for="OrderDate" string="Order Date"/>
-                	<field name="OrderDate"></field>
-                    <label for="DateDispatched" string="Date Dispatched"/>
-                    <field name="DateDispatched"></field>
-                    <label for="Remarks" string="Remarks"/>
-                    <field name="Remarks"></field>
+                    <field name="OrderDate"></field>
+                    <label for="Contact" string="Contact"/>
+                    <field name="Contact" options="{'no_create': True}"></field>
+                    <label for="Products" string="Products"/>
+                    <field name="Products"></field>
+                    <!--<label for="Quantity" string="Quantity"/>
+                    <field name="Quantity"></field>-->
+                    <label for="SubTotal" string="SubTotal"/>
+                    <field name="SubTotal"></field>
+                    <label for="VAT" string="VAT"/>
+                    <field name="VAT"></field>
+                    <label for="Total" string="Total"/>
+                    <field name="Total"></field>
 
                     </form>
             </field>
@@ -2648,12 +2653,9 @@
             <field name="model">olims.supply_order</field>
             <field name="arch" type="xml">
                 <tree string="Supply Order">
-                	<field name="Contact"></field>
                     <field name="OrderNumber"></field>
-                	<field name="Invoice"></field>
-                	<field name="OrderDate"></field>
-                    <field name="DateDispatched"></field>
-                    <field name="Remarks"></field>
+                    <field name="OrderDate"></field>
+                    <field name="Contact"></field>
                 </tree>
             </field>
         </record>
@@ -2665,7 +2667,7 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="supply_order_menu" name="Supply Order" parent="olims_menu"
+        <menuitem id="supply_order_menu" name="Supply Orders" parent="olims_menu"
                   action="supply_order_list_action"/>
 
 
