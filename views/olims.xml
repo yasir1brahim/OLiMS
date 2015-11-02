@@ -2016,21 +2016,31 @@
             <field name="model">olims.instrument_validation</field>
             <field name="arch" type="xml">
                 <form string="instrument Validation Form">
-                    <label for="DateIssued" string="Date Issued"/>
+                    <label for="AssetNumber" string="Asset Number"/>
+                    <field name="AssetNumber"></field>
+                    <label for="DateIssued" string="Report Date"/>
+                    <p>Validation report date</p>
                 	<field name="DateIssued"></field>
-                	<label for="DownFrom" string="Down From"/>
+                    <label for="DownFrom" string="From"/>
+                    <p>Date from which the instrument is under validation</p>
                     <field name="DownFrom"></field>
-                    <label for="DownTo" string="Down To"/>
+                    <label for="DownTo" string="To"/>
+                    <p>Date until the instrument will not be available</p>
                 	<field name="DownTo"></field>
                     <label for="Validator" string="Validator"/>
+                    <p>The analyst responsible of the validation</p>
                 	<field name="Validator"></field>
                     <label for="Considerations" string="Considerations"/>
+                    <p>Remarks to take into account before validation</p>
                 	<field name="Considerations"></field>
-                    <label for="WorkPerformed" string="WorkPerformed"/>
+                    <label for="WorkPerformed" string="Work Performed"/>
+                    <p>Description of the actions made during the validation</p>
                 	<field name="WorkPerformed"></field>
-                    <label for="Worker" string="Worker"/>
-                	<field name="Worker"></field>
-                    <label for="ReportID" string="ReportID"/>
+                    <label for="Worker" string="Performed by"/>
+                    <p>The person at the supplier who performed the task</p>
+                    <field name="Worker" options="{'no_create': True}"></field>
+                    <label for="ReportID" string="Report ID"/>
+                    <p>Report identification number</p>
                 	<field name="ReportID"></field>
                     <label for="Remarks" string="Remarks"/>
                 	<field name="Remarks"></field>
@@ -2044,15 +2054,16 @@
             <field name="model">olims.instrument_validation</field>
             <field name="arch" type="xml">
                 <tree string="instrument Validation">
-                	<field name="DateIssued"></field>
+                    <field name="AssetNumber"></field>
+                    <!--<field name="DateIssued"></field>-->
                     <field name="DownFrom"></field>
                 	<field name="DownTo"></field>
                 	<field name="Validator"></field>
-                	<field name="Considerations"></field>
+                    <!--<field name="Considerations"></field>
                 	<field name="WorkPerformed"></field>
                 	<field name="Worker"></field>
                 	<field name="ReportID"></field>
-                	<field name="Remarks"></field>
+                    <field name="Remarks"></field>-->
                 </tree>
             </field>
         </record>
@@ -2064,7 +2075,7 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="instrument_validation_menu" name="Instrument Validation" parent="olims_menu"
+        <menuitem id="instrument_validation_menu" name="Instrument Validations" parent="olims_menu"
                   action="instrument_validation_list_action"/>
 
         <!--instrument_maintenance_task form view -->

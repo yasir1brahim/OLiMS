@@ -21,7 +21,12 @@ from models.base_olims_model import BaseOLiMSModel
 
 
 #schema = BikaSchema.copy() + Schema((
-schema = (
+schema = (StringField('AssetNumber',
+                      required=1,
+                      widget = StringWidget(
+                            label=_("Asset Number"),
+        )
+    ),
     DateTimeField('DateIssued',
         with_time = 1,
         with_date = 1,
