@@ -21,7 +21,12 @@ from openerp import fields, models
 from models.base_olims_model import BaseOLiMSModel
 
 #schema = BikaSchema.copy() + Schema((
-schema = (
+schema = (StringField('AssetNumber',
+                      required=1,
+                      widget = StringWidget(
+                            label=_("Asset Number"),
+        )
+    ),
 
     # ReferenceField('Instrument',
     #     allowed_types=('Instrument',),
