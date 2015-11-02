@@ -260,8 +260,8 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="publication_preference_menu" name="Publication Preference" parent="olims_menu"
-                  action="publication_preference_action"/>
+        <!--<menuitem id="publication_preference_menu" name="Publication Preference" parent="olims_menu"
+                  action="publication_preference_action"/>-->
 
 
 <!-- olims.email_subject form view -->
@@ -294,8 +294,8 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="email_subject_menu" name="Email Subject" parent="olims_menu"
-                  action="email_subject_action"/>
+        <!--<menuitem id="email_subject_menu" name="Email Subject" parent="olims_menu"
+                  action="email_subject_action"/>-->
 
 
 
@@ -340,8 +340,8 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="partition_setup_menu" name="Partition Setup" parent="olims_menu"
-                  action="partition_setup_action"/>
+        <!--<menuitem id="partition_setup_menu" name="Partition Setup" parent="olims_menu"
+                  action="partition_setup_action"/>-->
 
 
 <!-- olims.interimfield_services form view -->
@@ -386,8 +386,8 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="interimfield_menu" name="interimfield" parent="olims_menu"
-                  action="interimfield_action"/>
+        <!--<menuitem id="interimfield_menu" name="interimfield" parent="olims_menu"
+                  action="interimfield_action"/>-->
 
 
 
@@ -448,8 +448,8 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="ar_template_menu" name="AR Template" parent="olims_menu"
-                  action="ar_template_action"/>
+        <!--<menuitem id="ar_template_menu" name="AR Template" parent="olims_menu"
+                  action="ar_template_action"/>-->
 
 
 
@@ -491,8 +491,8 @@
 			<field name="view_mode">form,tree</field>
        </record>
 
-        <menuitem id="partition_ar_template_menu" name="partition_ar_template" parent="olims_menu"
-                  action="partition_ar_template_action"/>
+        <!--<menuitem id="partition_ar_template_menu" name="partition_ar_template" parent="olims_menu"
+                  action="partition_ar_template_action"/>-->
         
 
 
@@ -568,8 +568,8 @@
 			<field name="view_mode">form,tree</field>
        </record>
 
-        <menuitem id="result_option_menu" name="Result Option" parent="olims_menu"
-                  action="result_option_action"/>
+        <!--<menuitem id="result_option_menu" name="Result Option" parent="olims_menu"
+                  action="result_option_action"/>-->
 
 <!-- olims.ar_priority form view -->
         <record model="ir.ui.view" id="olims_ar_priority_form_view">
@@ -659,8 +659,8 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="district_menu" name="District" parent="olims_menu"
-                  action="district_action"/>
+        <!--<menuitem id="district_menu" name="District" parent="olims_menu"
+                  action="district_action"/>-->
 
 
 <!-- olims.state form view -->
@@ -695,8 +695,8 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="state_menu" name="State" parent="olims_menu"
-                  action="state_action"/>
+        <!--<menuitem id="state_menu" name="State" parent="olims_menu"
+                  action="state_action"/>-->
 
 
 
@@ -730,8 +730,8 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="country_menu" name="Country" parent="olims_menu"
-                  action="country_action"/>
+        <!--<menuitem id="country_menu" name="Country" parent="olims_menu"
+                  action="country_action"/>-->
 
 <!-- olims.analysis form view -->
         <record model="ir.ui.view" id="olims_analysis_form_view">
@@ -823,8 +823,8 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="analysis_menu" name="Analysis" parent="olims_menu"
-                  action="analysis_action"/>
+        <!--<menuitem id="analysis_menu" name="Analysis" parent="olims_menu"
+                  action="analysis_action"/>-->
 
 <!-- ar_import form view -->
         <record model="ir.ui.view" id="olims_analysis_spec_form_view">
@@ -1209,8 +1209,8 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="reject_analysis_menu" name="Reject Analysis" parent="olims_menu"
-                  action="reject_analysis_action"/>
+        <!--<menuitem id="reject_analysis_menu" name="Reject Analysis" parent="olims_menu"
+                  action="reject_analysis_action"/>-->
 
         <!--price_list form view -->
         <record model="ir.ui.view" id="olims_price_list_form_view">
@@ -1304,8 +1304,8 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="attachment_menu" name="Attachment" parent="olims_menu"
-                  action="attachment_list_action"/>
+        <!--<menuitem id="attachment_menu" name="Attachment" parent="olims_menu"
+                  action="attachment_list_action"/>-->
 
 
         <!--duplicate_analysis form view -->
@@ -1357,8 +1357,8 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="duplicate_analysis_menu" name="Duplicate Analysis" parent="olims_menu"
-                  action="duplicate_analysis_list_action"/>
+        <!--<menuitem id="duplicate_analysis_menu" name="Duplicate Analysis" parent="olims_menu"
+                  action="duplicate_analysis_list_action"/>-->
 
 
         <!--batch form view -->
@@ -1449,8 +1449,8 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="ar_report_menu" name="Ar Report" parent="olims_menu"
-                  action="ar_report_list_action"/>
+        <!--<menuitem id="ar_report_menu" name="Ar Report" parent="olims_menu"
+                  action="ar_report_list_action"/>-->
 
         <!--analysis_request form view -->
         <record model="ir.ui.view" id="olims_analysis_request_form_view">
@@ -1911,8 +1911,8 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="sample_partition_menu" name="Sample Partition" parent="olims_menu"
-                  action="sample_partition_list_action"/>
+        <!--<menuitem id="sample_partition_menu" name="Sample Partition" parent="olims_menu"
+                  action="sample_partition_list_action"/>-->
 
 
         <!--multifile form view -->
@@ -1953,8 +1953,8 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="multifile_menu" name="Multifile" parent="olims_menu"
-                  action="multifile_list_action"/>
+        <!--<menuitem id="multifile_menu" name="Multifile" parent="olims_menu"
+                  action="multifile_list_action"/>-->
 
 
         <!--lab_product form view -->
@@ -2120,8 +2120,8 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="instrument_scheduled_task_menu" name="Instrument Scheduled Task" parent="olims_menu"
-                  action="instrument_scheduled_task_list_action"/>
+        <!--<menuitem id="instrument_scheduled_task_menu" name="Instrument Scheduled Task" parent="olims_menu"
+                  action="instrument_scheduled_task_list_action"/>-->
 
 
         <!--instrument_maintenance_task form view -->
@@ -2179,8 +2179,8 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="instrument_maintenance_task_menu" name="Instrument Maintenance Task" parent="olims_menu"
-                  action="instrument_maintenance_task_list_action"/>
+        <!--<menuitem id="instrument_maintenance_task_menu" name="Instrument Maintenance Task" parent="olims_menu"
+                  action="instrument_maintenance_task_list_action"/>-->
 
 
         <!--instrumentcertification form view -->
@@ -2420,8 +2420,8 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="organisation_menu" name="Organisation" parent="olims_menu"
-                  action="organisation_list_action"/>
+        <!--<menuitem id="organisation_menu" name="Organisation" parent="olims_menu"
+                  action="organisation_list_action"/>-->
 
 
         <!--person form view -->
@@ -2520,8 +2520,8 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="person_menu" name="Person" parent="olims_menu"
-                  action="person_list_action"/>
+        <!--<menuitem id="person_menu" name="Person" parent="olims_menu"
+                  action="person_list_action"/>-->
 
 
         <!--supplier_contact form view -->
