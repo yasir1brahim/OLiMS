@@ -47,7 +47,7 @@ from fields.fixed_point_field import FixedPointField
 from fields.widget.widget import StringWidget, TextAreaWidget, \
                                 BooleanWidget, DateTimeWidget, \
                                 DecimalWidget, RichWidget
-from openerp import fields, models
+from openerp import fields, models, api
 import sys
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 # try:
@@ -70,7 +70,9 @@ def BatchUID(instance):
         return batch.UID()
 
 # schema = BikaSchema.copy() + Schema(
-schema = (
+schema = (fields.Char(string='RequestID',
+                      compute='compute_analysisRequestId',
+        ),
 # ~~~~~~~ View for RequestID field does not exist  ~~~~~~~
 #     StringField(
 #         'RequestID',
@@ -199,7 +201,7 @@ schema = (
 
     fields.Many2one(string='Client',
                     comodel_name='olims.client',
-                    required=True,
+                    required=False,
 
     ),
 
@@ -1446,6 +1448,25 @@ schema = (
 
 class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     _name = 'olims.analysis_request'
+
+    def compute_analysisRequestId(self):
+        for record in self:
+            record.RequestID = 'R-0' + str(record.id)
+
+    """Overwrite the create method of Odoo and create sample model data
+       with fields SamplingDate and SampleType
+    """
+    def create(self, cr, uid, values, context=None):
+        if context is None:
+            context = {}
+        vals = {
+                'SamplingDate':values.get('SamplingDate'),
+                'SampleType':values.get('SampleType')
+                }
+        sample_object = self.pool.get("olims.sample")
+        sample_object.create(cr, uid, vals, context)
+        res = super(AnalysisRequest, self).create(cr, uid, values, context)
+        return res
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 #     implements(IAnalysisRequest)
 #     security = ClassSecurityInfo()

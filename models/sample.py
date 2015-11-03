@@ -42,12 +42,19 @@ from fields.boolean_field import BooleanField
 from fields.date_time_field import DateTimeField
 from models.base_olims_model import BaseOLiMSModel
 
-
+SAMPLE_STATES = (
+                ('smaple_due', 'Sample Due'),
+                ('smaple_received', 'Receive Sample'),
+                ('smaple_expire', 'Sample Expire'),
+                ('smaple_cancel', 'Canceled'),
+                )
 #schema = BikaSchema.copy() + Schema((
-schema = (
-    StringField('name',
-        required=1,
-        searchable=True,
+schema = (StringField('name',
+              compute='compute_smapleName',        
+    ),
+    fields.Char('SampleID',
+        required=0,
+        compute='compute_smapleId',
         help=_("The ID assigned to the client's sample by the lab"),
         # mode="rw",
         # read_permission=permissions.View,
@@ -105,7 +112,7 @@ schema = (
         # ),
     ),
 
-        fields.Many2one(string='LinkedSample',
+    fields.Many2one(string='LinkedSample',
                    comodel_name='olims.sample',
         # vocabulary_display_path_bound=sys.maxsize,
         # multiValue=1,
@@ -121,8 +128,9 @@ schema = (
 
     ),
 
-      fields.Many2one(string='SampleType',
+    fields.Many2one(string='SampleType',
                    comodel_name='olims.sample_type',
+                   readonly=True,
         # vocabulary_display_path_bound=sys.maxsize,
         # allowed_types=('SampleType',),
         # relationship='SampleSampleType',
@@ -159,7 +167,7 @@ schema = (
     #         visible=False,
     #     ),
     # ),
-        fields.Many2one(string='SamplePoint',
+    fields.Many2one(string='SamplePoint',
                    comodel_name='olims.sample_point',
         # # vocabulary_display_path_bound=sys.maxsize,
         # allowed_types=('SamplePoint',),
@@ -199,7 +207,7 @@ schema = (
 #     ),
 
 
-        fields.Many2one(string='StorageLocation',
+    fields.Many2one(string='StorageLocation',
                    comodel_name='olims.storage_location',
         # # vocabulary_display_path_bound=sys.maxsize,
         # allowed_types=('SamplePoint',),
@@ -312,6 +320,7 @@ schema = (
         # ),
     ),
     DateTimeField('SamplingDate',
+                  readonly=True,
         # mode="rw",
         # read_permission=permissions.View,
         # write_permission=permissions.ModifyPortalContent,
@@ -555,6 +564,10 @@ schema = (
         #     append_only=True,
         # ),
     ),
+    fields.Selection(string='State',
+                     selection=SAMPLE_STATES,
+                     default='smaple_due',
+    ),
     ###ComputedField('Priority',
     ###    expression = 'context.getPriority() or None',
     ###    widget = ComputedWidget(
@@ -571,6 +584,14 @@ schema = (
 
 class Sample(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
     _name = 'olims.sample'
+
+    def compute_smapleId(self):
+        for record in self:
+            record.SampleID = 'S-0' + str(record.id)
+
+    def compute_smapleName(self):
+        for record in self:
+            record.name = record.SampleID
     # implements(ISample)
     # security = ClassSecurityInfo()
     # displayContentsTab = False
