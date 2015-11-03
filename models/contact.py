@@ -68,7 +68,7 @@ schema = (
         ),
     ),
     
-    fields.Char(compute='computeFulname', string='FullName'),
+    fields.Char(compute='computeFulname', string='name'),
 
       # ~~~~~~~ To be implemented ~~~~~~~
     # ComputedField('Fullname',
@@ -224,7 +224,7 @@ class Contact(models.Model, BaseOLiMSModel): #(Person)
                                             record.getSurname())
                 else:
                     fullname = '%s %s' % (record.getFirstname(), record.getSurname())
-            record.FullName = fullname.strip()
+            record.name = fullname.strip()
 
         
     def Title(self):
