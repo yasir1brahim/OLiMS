@@ -167,6 +167,17 @@ schema = (StringField('Certificate Code',
 
 class InstrumentCertification(models.Model, BaseOLiMSModel): #BaseFolder
     _name = 'olims.instrument_certification'
+
+    def create(self, cr, uid, values, context=None):
+        if context is None:
+            context = {}
+        expiry_date = {
+                'ExpiryDate':values.get('ValidTo'),
+                }
+        instrument_object = self.pool.get("olims.instrument")
+        instrument_object.write(cr, uid, [values.get('Instrument')],expiry_date)
+        res = super(InstrumentCertification, self).create(cr, uid, values, context)
+        return res
     # security = ClassSecurityInfo()
     # schema = schema
     # displayContentsTab = False

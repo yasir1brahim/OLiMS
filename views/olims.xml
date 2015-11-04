@@ -3393,6 +3393,7 @@
                     <field name="Model"></field>
                     <!--<field name="SerialNo"></field>-->
                     <field name="Method"></field>
+                    <field name="ExpiryDate"></field>
                     <!--<field name="DisposeUntilNextCalibrationTest"></field>
                     <field name="InlabCalibrationProcedure"></field>
                     <field name="PreventiveMaintenanceProcedure"></field>

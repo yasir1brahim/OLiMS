@@ -287,7 +287,13 @@ schema = (
     widget = FileWidget(
         label=_("Installation Certificate"),
         description=_("Installation certificate upload"),
-        )
+        ),
+    ),
+    DateTimeField('ExpiryDate',
+                  widget = DateTimeWidget(
+                            label=_("Expiry Date"),
+                            description=_("Date until the certificate is valid"),
+        ),
     ),
 
 ) #)
