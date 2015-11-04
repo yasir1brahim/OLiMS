@@ -22,7 +22,8 @@ from lims import bikaMessageFactory as _
 
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 # schema = BikaSchema.copy()
-schema = (StringField('name'),
+schema = (fields.Char(string='name',
+                      compute='getNameFromTitle'),
     StringField(string='Title',
               required=1,        
     ),
@@ -39,7 +40,10 @@ schema = (StringField('name'),
 
 class Manufacturer(models.Model, BaseOLiMSModel):#(BaseContent):
     _name = 'olims.manufacturer'
-    
+
+    def getNameFromTitle(self):
+        for record in self:
+            record.name = record.Title
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~    
 #     implements(IManufacturer)
 #     security = ClassSecurityInfo()
