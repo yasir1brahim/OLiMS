@@ -11,7 +11,45 @@
         <!-- the following menuitem should appear *after*
              its parent olims_menu and *after* its
              action course_list_action -->
-             
+
+        <!-- olims.specification form view -->
+        <record model="ir.ui.view" id="olims_specification_form_view">
+            <field name="name">specification.form</field>
+            <field name="model">olims.specification</field>
+            <field name="arch" type="xml">
+                <form string="Specifications Form">
+                    <label for="Service" string="Service"/>
+                    <field name="Service" widget="many2onebutton" options="{'no_create': True}"></field>
+                    <label for="Min" string="Min"/>
+                    <field name="Min"></field>
+                    <label for="Max" string="Max"/>
+                    <field name="Max"></field>
+                    <label for="PermittedError" string="PermittedError %"/>
+                    <field name="PermittedError"></field>
+                </form>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="olims_specification_tree_view">
+            <field name="name">specification.tree</field>
+            <field name="model">olims.specification</field>
+            <field name="arch" type="xml">
+                <tree string="Sub Group">
+                    <field name="Service"></field>
+                    <field name="Min"></field>
+                    <field name="Max"></field>
+                    <field name="PermittedError"></field>
+                </tree>
+            </field>
+        </record>
+
+		<record model="ir.actions.act_window" id="specification_action">
+            <field name="name">Specifications</field>
+            <field name="res_model">olims.specification</field>
+            <field name="view_type">form</field>
+			<field name="view_mode">tree,form</field>
+       </record>
+
         <!-- olims.subgroup form view -->
         <record model="ir.ui.view" id="olims_subgroup_form_view">
             <field name="name">subgroup.form</field>
@@ -226,7 +264,7 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="batch_label_menu" name="Batch Label" parent="olims_menu"
+        <menuitem id="batch_label_menu" name="Batch Labels" parent="olims_menu"
                   action="batch_label_action"/>
 
 
@@ -838,6 +876,8 @@
                 	<field name="name"></field>
                 	<label for="Description" string="Description"/>
                 	<field name="Description"></field>
+                    <label for="Specifications" string="Specifications"/>
+                    <field name="Specifications"></field>
                 </form>
             </field>
         </record>
@@ -861,7 +901,7 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="analysis_spec_menu" name="AnalysisSpec" parent="olims_menu"
+        <menuitem id="analysis_spec_menu" name="Analysis Specifications" parent="olims_menu"
                   action="analysis_spec_action"/>
 
 <!-- ar_import form view -->
@@ -1518,6 +1558,8 @@
                     <field name="VAT"></field>
                     <label for="Total" string="Total"/>
                     <field name="Total"></field>
+                    <label for="AnalysisService" string="Lab Analysis"/>
+                    <field name="AnalysisService" options="{'no_create': True}"></field>
                 </form>
             </field>
         </record>

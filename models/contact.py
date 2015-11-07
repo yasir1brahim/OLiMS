@@ -128,8 +128,10 @@ schema = (
           
           
                       # # ~~~~~~~~~~ PhysicalAddress behavior in Odoo is as selection field ~~~~~~~~~~~
-    fields.Many2one(comodel_name='olims.country',string='physical_country'),
-    fields.Many2one(comodel_name='olims.state',string='physical_state', domain="[('Country', '=', physical_country)]"),
+    fields.Many2one(string='physical_country',comodel_name='res.country',),
+    fields.Many2one(string='physical_state',comodel_name='res.country.state', store=True),
+#     fields.Many2one(comodel_name='olims.country',string='physical_country'),
+#     fields.Many2one(comodel_name='olims.state',string='physical_state', domain="[('Country', '=', physical_country)]"),
     fields.Many2one(comodel_name='olims.district',string='physical_district', domain="[('State', '=', physical_state)]"),
     fields.Char(string='physical_city'),
     fields.Char(string='physical_postalcode'),
@@ -137,8 +139,8 @@ schema = (
            
           
         # # ~~~~~~~~~~ PostalAddress behavior in Odoo is as selection field ~~~~~~~~~~~
-    fields.Many2one(comodel_name='olims.country',string='postal_country'),
-    fields.Many2one(comodel_name='olims.state',string='postal_state', domain="[('Country', '=', postal_country)]"),
+    fields.Many2one(comodel_name='res.country',string='postal_country'),
+    fields.Many2one(comodel_name='res.country.state',string='postal_state'),
     fields.Many2one(comodel_name='olims.district',string='postal_district', domain="[('State', '=', postal_state)]"),
     fields.Char(string='postal_city'),
     fields.Char(string='postal_postalcode'),

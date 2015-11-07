@@ -73,3 +73,4 @@ from models import batch_label
 from models import recordsfields_artemplate
 from models import inheritfrom_batches
 from models import subgroup
+from models import specification

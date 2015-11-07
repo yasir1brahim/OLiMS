@@ -1395,16 +1395,24 @@ schema = (fields.Char(string='RequestID',
             rows=3,
             visible=False),
     ),
+    fields.Many2many(string='AnalysisService',
+                     comodel_name='olims.analysis_service',
+                    relation='analysisservice_analysisrequest',
+    ),
     fields.Float(string='Discount',
+                 compute='getDiscountAmount',
                  default=0.00
     ),
     fields.Float(string='Subtotal',
+                 compute='computeSubtotal',
                  default=0.00
     ),
     fields.Float(string='VAT',
+                 compute='getVATAmount',
                  default=0.00
     ),
     fields.Float(string='Total',
+                 compute='getTotalPrice',
                  default=0.00
     ),
 # ~~~~~~~ To be implemented ~~~~~~~
@@ -1758,14 +1766,20 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 #     security.declareProtected(View, 'getSubtotal')
 
-    def getSubtotal(self):
+    def computeSubtotal(self):
         """ Compute Subtotal (without member discount and without vat)
         """
-        analyses, a_profiles = self.getBillableItems()
-        return sum(
-            [Decimal(obj.getPrice()) for obj in analyses] +
-            [Decimal(obj.getAnalysisProfilePrice()) for obj in a_profiles]
-        )
+        if self.AnalysisService:
+            for records in self.AnalysisService:
+                if records:
+                    bulkprice = records.BulkPrice
+                    discount = bulkprice * 33.33 / 100
+                    self.Subtotal += float(bulkprice) - float(discount)
+#         analyses, a_profiles = self.getBillableItems()
+#         return sum(
+#             [Decimal(obj.getPrice()) for obj in analyses] +
+#             [Decimal(obj.getAnalysisProfilePrice()) for obj in a_profiles]
+#         )
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 #     security.declareProtected(View, 'getSubtotalVATAmount')
 
@@ -1791,26 +1805,41 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         """
         It computes and returns the analysis service's discount amount without VAT
         """
-        has_client_discount = self.aq_parent.getMemberDiscountApplies()
-        if has_client_discount:
-            discount = Decimal(self.getDefaultMemberDiscount())
-            return Decimal(self.getSubtotal() * discount / 100)
-        else:
-            return 0
+        if self.AnalysisService:
+            for records in self.AnalysisService:
+                if records:
+                    bulkprice = records.BulkPrice
+                    self.Discount += bulkprice * 33.33 / 100
+
+#         has_client_discount = self.aq_parent.getMemberDiscountApplies()
+#         if has_client_discount:
+#             discount = Decimal(self.getDefaultMemberDiscount())
+#             return Decimal(self.getSubtotal() * discount / 100)
+#         else:
+#             return 0
 
     def getVATAmount(self):
         """
-        It computes the VAT amount from (subtotal-discount.)*VAT/100, but each analysis has its
+        It computes the VAT amount from (AnalysisService.BulkPrice)*AnalysisService.VAT/100, but each analysis has its
         own VAT!
-        :return: the analysis request VAT amount with the discount
+        :computes: the analysis request VAT amount without the discount
         """
-        has_client_discount = self.aq_parent.getMemberDiscountApplies()
-        VATAmount = self.getSubtotalVATAmount()
-        if has_client_discount:
-            discount = Decimal(self.getDefaultMemberDiscount())
-            return Decimal((1 - discount/100) * VATAmount)
-        else:
-            return VATAmount
+        if self.AnalysisService:
+            for records in self.AnalysisService:
+                if records:
+                    bulkprice = records.BulkPrice
+                    vatamout = records.VATAmount
+                    _logger.warning('***** GOT records.BulkPrice: %r ****' % records.BulkPrice)
+                    _logger.warning('***** GOT records.VATAmount: %r ****' % records.VATAmount)
+                    self.VAT += bulkprice * vatamout / 100
+                    _logger.warning('***** GOT self.VAT: %r ****' % self.VAT)
+#         has_client_discount = self.aq_parent.getMemberDiscountApplies()
+#         VATAmount = self.getSubtotalVATAmount()
+#         if has_client_discount:
+#             discount = Decimal(self.getDefaultMemberDiscount())
+#             return Decimal((1 - discount/100) * VATAmount)
+#         else:
+#             return VATAmount
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 #     security.declareProtected(View, 'getTotalPrice')
 
@@ -1820,8 +1849,11 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         and the discount applied
         :return: the analysis request's total price including the VATs and discounts
         """
-        return self.getSubtotal() - self.getDiscountAmount() + self.getVATAmount()
-    getTotal = getTotalPrice
+        for record in self:
+            record.Total = record.Subtotal + record.VAT
+
+#         return self.getSubtotal() - self.getDiscountAmount() + self.getVATAmount()
+#     getTotal = getTotalPrice
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 #     security.declareProtected(ManageInvoices, 'issueInvoice')
 

@@ -50,14 +50,18 @@ schema = (fields.Many2one(string='SampleType',
                    required=False,
                    help="Sample Type",
             ),
-        StringField('name',
+    StringField('name',
               required=1,        
-        ),
-        TextField('Description',
+    ),
+    TextField('Description',
                 widget=TextAreaWidget(
                     description = _('Used in item listings and search results.'),
                             )
-        ),
+    ),
+    fields.Many2many(string='Specifications',
+                comodel_name='olims.specification',
+                relation='analysis_service_specification'
+    ),
 
     #     RecordsField('ResultsRange',
     #     # schemata = 'Specifications',
