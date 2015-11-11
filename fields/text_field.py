@@ -14,8 +14,8 @@ class TextField(fields.Text):
         boolean_value_based_mapper(self, 'searchable', 1, 'search', True, False)
         direct_mapper(self, 'description', 'help')
         
-    def _setup_regular(self, env):
-        super(TextField, self)._setup_regular(env)
+    def _setup_regular_base(self, model):
+        super(TextField, self)._setup_regular_base(model)
         
         self.__bika_2_odoo_attrs_mapping()
 

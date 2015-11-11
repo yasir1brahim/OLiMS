@@ -12,8 +12,8 @@ class IntegerField(fields.Integer):
 #     def __bika_2_odoo_attrs_mapping(self):
 #         direct_mapper(self, 'description', 'help')
         
-    def _setup_regular(self, env):
-        super(IntegerField, self)._setup_regular(env)
+    def _setup_regular_base(self, model):
+        super(IntegerField, self)._setup_regular_base(model)
 #         self.__bika_2_odoo_attrs_mapping()
         
     pass

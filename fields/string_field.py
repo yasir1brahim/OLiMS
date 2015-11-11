@@ -11,7 +11,7 @@ class StringField(fields.Char):
     
     def get_getter_template(self):        
         def getter_template(cls):
-            field = getattr(cls, self.string)
+            field = getattr(cls, self.args['string'])
             return str(field)
             pass
         
@@ -21,16 +21,13 @@ class StringField(fields.Char):
 
         
     def __bika_2_odoo_attrs_mapping(self):
+        _logger.info('***** GOT in __bika_2_odoo_attrs_mapping: ****')
         boolean_value_based_mapper(self, 'required', 1, 'required', True, False)
         boolean_value_based_mapper(self, 'searchable', 1, 'search', True, False)
         direct_mapper(self, 'description', 'help')
         
-    def _setup_regular(self, env):
-        super(StringField, self)._setup_regular(env)
-        _logger.warning('***** GOT sample_field::self._attrs: %r ****' % self._attrs)
-        
-        self.__bika_2_odoo_attrs_mapping()
+    def _setup_regular_base(self, model):
+        super(StringField, self)._setup_regular_base(model)
 
-        _logger.warning('***** AFTER MAPPING sample_field::self._attrs: %r ****' % self._attrs)
-        
+        self.__bika_2_odoo_attrs_mapping()
     pass

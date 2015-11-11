@@ -16,8 +16,8 @@ class FixedPointField(fields.Float):
         boolean_value_based_mapper(self, 'required', 1, 'required', True, False)
         
         
-    def _setup_regular(self, env):
-        super(FixedPointField, self)._setup_regular(env)
+    def _setup_regular_base(self, model):
+        super(FixedPointField, self)._setup_regular_base(model)
         self.__bika_2_odoo_attrs_mapping()
         
     pass

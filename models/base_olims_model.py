@@ -1,6 +1,6 @@
 #import copy
 def add_a_field(cls, field):
-    setattr(cls, field.string, field)
+    setattr(cls, field.args['string'], field)
     pass
 
 # def add_a_getter(cls, field):
@@ -52,8 +52,13 @@ class BaseOLiMSModel(object):
         # 2. make getter methods for each model variable defined in step 1
         for field in schema:
             
+            if field.args: 
+                _logger.warning('***** GOT in BaseOLiMSModel.initialze field.args: %r ****' % field.args)
+#             if field._attrs: 
+#                 _logger.warning('***** GOT in BaseOLiMSModel.initialze field._attrs: %r ****' % field._attrs)
+            
             add_a_field(cls, field)
-            add_a_getter(cls, field.string)
+            add_a_getter(cls, field.args['string'])
             pass
         pass       
     pass
