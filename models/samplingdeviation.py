@@ -12,15 +12,27 @@
 # from dependencies.dependency import implements
 #
 
-from openerp import fields, models
+from openerp import fields, models, api, _
 from models.base_olims_model import BaseOLiMSModel
-
+from fields.string_field import StringField
+from fields.text_field import TextField
+from fields.widget.widget import TextAreaWidget
+import logging
+_logger = logging.getLogger(__name__)
 #
 # schema = BikaSchema.copy() + Schema((
 #
 # ))
 
-schema = ()
+schema = (StringField('name',
+              required=1,
+    ),
+    TextField('Description',
+                widget=TextAreaWidget(
+                    description = ('Used in item listings and search results.'),
+                            )
+    ),
+)
 
 # schema['description'].schemata = 'default'
 # schema['description'].widget.visible = True

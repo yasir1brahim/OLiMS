@@ -36,7 +36,8 @@ _logger = logging.getLogger(__name__)
 
 
 #schema = BikaSchema.copy() + Schema((
-schema = (
+schema = (StringField(string='name',
+                required=1),
     # ~~~~~~~ To be implemented ~~~~~~~
     # ReferenceField('Client',
     #     required=1,
@@ -51,11 +52,18 @@ schema = (
     #     relationship='AnalysisRequestInvoice',
     # ),
 
-    DateTimeField('InvoiceDate',
+    DateTimeField('StartDate',
         required=1,
         default_method='current_date',
         widget=DateTimeWidget(
             label=_("Date"),
+        ),
+    ),
+    DateTimeField('EndDate',
+        required=1,
+        default_method='end_date',
+        widget=DateTimeWidget(
+            label=_("End Date"),
         ),
     ),
     TextField('Remarks',
