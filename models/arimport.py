@@ -38,7 +38,11 @@ from fields.integer_field import IntegerField
 from fields.widget.widget import StringWidget, DateTimeWidget, \
                                 FileWidget, IntegerWidget
 
-                                
+AR_IMPORT_STATES = (
+                    ('imported','Imported'),
+                    ('submitted','Submitted'),
+                    ('cancelled','Cancelled'),
+                    )                                
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 # schema = BikaSchema.copy() + Schema(
 schema = (
@@ -275,7 +279,14 @@ schema = (
 #             base_query={'review_state': 'published'},
 #             showOn=True,
 #         ),
-                    ),
+    ),
+    fields.Selection(string='state',
+                     selection=AR_IMPORT_STATES,
+                     default='imported',
+                     select=True,
+                     required=True, readonly=True,
+                     copy=False, track_visibility='always'
+    ),
           
 )#,
 # )
@@ -306,8 +317,12 @@ class ARImport(models.Model, BaseOLiMSModel):#(BaseFolder):
 
 
     # workflow methods
-    #
-#     def workflow_script_submit(self):
+    
+    def workflow_script_submit(self,cr,uid,ids,context=None):
+        self.write(cr, uid, ids, {
+            'state': 'submitted',
+        }, context = context)
+        return True
 #         """ submit arimport batch """
 #         if self.getImportOption() == 'p':
 #             self._submit_arimport_p()
@@ -318,7 +333,12 @@ class ARImport(models.Model, BaseOLiMSModel):#(BaseFolder):
 #         self.REQUEST.response.write(
 #             '<script>document.location.href="%s"</script>' % (
 #                 self.absolute_url()))
-# 
+    def workflow_script_cancel(self,cr,uid,ids,context=None):
+        self.write(cr, uid, ids, {
+            'state': 'cancelled',
+        }, context = context)
+        return True
+    
     def _submit_arimport_c(self):
         """ load the classic import layout """
  

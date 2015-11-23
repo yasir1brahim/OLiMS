@@ -35,8 +35,12 @@ from fields.text_field import TextField
 from fields.widget.widget import StringWidget, BooleanWidget, DateTimeWidget, TextAreaWidget
 from openerp import fields, models
 from models.base_olims_model import BaseOLiMSModel
-
-
+import datetime
+REFERENCE_SAMPLE_STATES = (
+    ('current','Current'),
+    ('expired','Expired'),
+    ('disposed','Disposed'),
+    )
 #schema = BikaSchema.copy() + Schema((
 schema = (
     fields.Many2one(string='ReferenceDefinition',
@@ -132,6 +136,7 @@ schema = (
         ),
     ),
     DateTimeField('DateExpired',
+        readonly=True,
         schemata = 'Dates',
         widget = DateTimeWidget(
             label=_("Date Expired"),
@@ -139,12 +144,20 @@ schema = (
         ),
     ),
     DateTimeField('DateDisposed',
+        readonly=True,
         schemata = 'Dates',
         widget = DateTimeWidget(
             label=_("Date Disposed"),
             visible = {'edit':'hidden'},
         ),
     ),
+    fields.Selection(string='state',selection=REFERENCE_SAMPLE_STATES,
+        default='current',
+        select=True,
+        required=True, readonly=True,
+        copy=False, track_visibility='always'
+        ),
+    
     # ~~~~~~~ To be implemented ~~~~~~~
     # ReferenceResultsField('ReferenceResults',
     #     schemata = 'Reference Values',
@@ -388,17 +401,31 @@ class ReferenceSample(models.Model, BaseOLiMSModel): #BaseFolder
                 else:
                     specstr = specs[0]
         return specstr
-
+    def workflow_script_current(self,cr,uid,ids,context=None):
+        self.write(cr, uid, ids, {
+            'state': 'current'
+        })
+        return True
     # XXX workflow methods
-    def workflow_script_expire(self):
+    def workflow_script_expire(self,cr,uid,ids,context=None):
         """ expire sample """
-        self.setDateExpired(DateTime())
-        self.reindexObject()
+        dateexpire = datetime.datetime.now()
+        self.write(cr, uid, ids, {
+            'state': 'expired','DateExpired': dateexpire,
+        })
+        return True
+        # self.setDateExpired(DateTime())
+        # self.reindexObject()
 
-    def workflow_script_dispose(self):
+    def workflow_script_dispose(self,cr,uid,ids,context=None):
         """ dispose sample """
-        self.setDateDisposed(DateTime())
-        self.reindexObject()
+        datedepose = datetime.datetime.now()
+        self.write(cr, uid, ids, {
+            'state': 'disposed','DateDisposed': datedepose,
+        })
+        return True
+        # self.setDateDisposed(DateTime())
+        # self.reindexObject()
 
 #registerType(ReferenceSample, PROJECTNAME)
 ReferenceSample.initialze(schema)

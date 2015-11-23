@@ -1,0 +1,218 @@
+<?xml version="1.0" ?>
+<openerp>
+<data>
+
+    <record model="workflow" id="wkf_sample">
+        <field name="name">olims.wkf.sample</field>
+        <field name="osv">olims.sample</field>
+        <field name="on_create">True</field>
+    </record>
+    <!--
+        workflow activity
+    -->
+    <record model="workflow.activity" id="act_sample_registered"> <!-- Registered -->
+        <field name="wkf_id" ref="wkf_sample" />
+        <field name="name">sample_registered</field>
+        <field name="flow_start" eval="False"/>
+        <field name="kind">function</field>
+        <field name="action">write({'state':'to_be_sampled'})</field>
+        <field name="split_mode">OR</field>
+    </record>
+    <record model="workflow.activity" id="act_to_be_sampled">
+        <field name="wkf_id" ref="wkf_sample" />
+        <field name="name">to_be_sampled</field>
+        <field name="flow_start" eval="True"/>
+        <field name="kind">function</field>
+        <field name="action">actionToBeSampled()</field>
+        <field name="split_mode">OR</field>
+    </record>
+    <record model="workflow.activity" id="act_sampled">
+        <field name="wkf_id" ref="wkf_sample" />
+        <field name="name">sampled</field>
+        <field name="kind">function</field>
+        <field name="action">workflow_script_sample()</field>
+    </record>
+    <record model="workflow.activity" id="act_to_be_preserved">
+        <field name="wkf_id" ref="wkf_sample" />
+        <field name="name">to_be_preserved</field>
+        <field name="kind">function</field>
+        <field name="action">workflow_script_to_be_preserved()</field>
+    </record>
+    <record model="workflow.activity" id="act_sample_received">
+        <field name="wkf_id" ref="wkf_sample" />
+        <field name="name">sample_received</field>
+        <field name="flow_start" eval="False"/>
+        <field name="kind">function</field>
+        <field name="action">workflow_script_sample_receive()</field>
+    </record>
+    <record model="workflow.activity" id="act_sample_due">
+        <field name="wkf_id" ref="wkf_sample" />
+        <field name="name">sample_due</field>
+        <field name="kind">function</field>
+        <field name="action">workflow_script_sample_due()</field>
+    </record>
+    <record model="workflow.activity" id="act_expired">
+        <field name="wkf_id" ref="wkf_sample" />
+        <field name="name">expired</field>
+        <field name="kind">function</field>
+        <field name="action">workflow_script_expire()</field>
+    </record>
+    <record model="workflow.activity" id="act_disposed">
+        <field name="wkf_id" ref="wkf_sample" />
+        <field name="name">disposed</field>
+        <field name="kind">function</field>
+        <field name="action">workflow_script_dispose()</field>
+    </record>
+    
+
+    <!--
+        workflow transition
+    -->
+
+    <record model="workflow.transition" id="trns_sample_registered2to_besampled">
+        <field name="act_from" ref="act_sample_registered" />
+        <field name="act_to" ref="act_to_be_sampled" />
+        <field name="signal">to_be_sampled</field>
+        <field name="condition">True</field>
+    </record>
+    <!-- To Be Implemeted -->
+    <!-- <record model="workflow.transition" id="trns_samplerd_2to_be_preserved">
+        <field name="act_from" ref="act_sampled" />
+        <field name="act_to" ref="act_to_be_preserved" />
+        <field name="signal">to_be_preserved</field>
+        <field name="condition">True</field>
+    </record> -->
+    <!-- AddSample, ['Manager', 'Owner', 'LabManager', 'LabClerk', 'Sampler'] -->
+    <!-- For Lab Manager -->
+    <record model="workflow.transition" id="trns_to_be_sampled2sampled_by_manager">
+        <field name="act_from" ref="act_to_be_sampled" />
+        <field name="act_to" ref="act_sampled" />
+        <field name="signal">sampled</field>
+        <field name="condition">True</field>
+        <field name="group_id" ref="group_lab_managers"/>
+    </record>
+    <!-- For Lab Clerk -->
+    <record model="workflow.transition" id="trns_to_be_sampled2sampled_by_clerk">
+        <field name="act_from" ref="act_to_be_sampled" />
+        <field name="act_to" ref="act_sampled" />
+        <field name="signal">sampled</field>
+        <field name="condition">True</field>
+        <field name="group_id" ref="group_lab_clerks"/>
+    </record>
+    <!-- For Sampler -->
+    <record model="workflow.transition" id="trns_to_be_sampled2sampled_by_sampler">
+        <field name="act_from" ref="act_to_be_sampled" />
+        <field name="act_to" ref="act_sampled" />
+        <field name="signal">sampled</field>
+        <field name="condition">True</field>
+        <field name="group_id" ref="group_samplers"/>
+    </record>
+
+    <!-- To Be Implemeted -->
+    <!-- <record model="workflow.transition" id="trns_to_be_preserver2sample_due">
+        <field name="act_from" ref="act_to_be_preserved" />
+        <field name="act_to" ref="act_sample_due" />
+        <field name="signal">sample_due</field>
+        <field name="condition">True</field>
+    </record> -->
+    <!-- ReceiveSample, ['Manager', 'LabManager', 'LabClerk', 'Sampler'] -->
+    <!-- For Lab Manager -->
+    <record model="workflow.transition" id="trns_sample_due2sample_received_by_manager"> <!-- done -->
+        <field name="act_from" ref="act_sample_due" />
+        <field name="act_to" ref="act_sample_received" />
+        <field name="signal">sample_received</field>
+        <field name="condition">True</field>
+        <field name="group_id" ref="group_lab_managers"/>
+    </record>
+    <!-- For Lab Clerk -->
+    <record model="workflow.transition" id="trns_sample_due2sample_received_by_clerk"> <!-- done -->
+        <field name="act_from" ref="act_sample_due" />
+        <field name="act_to" ref="act_sample_received" />
+        <field name="signal">sample_received</field>
+        <field name="condition">True</field>
+        <field name="group_id" ref="group_lab_clerks"/>
+    </record>
+    <!-- For Sampler -->
+    <record model="workflow.transition" id="trns_sample_due2sample_received_by_sampler">
+        <field name="act_from" ref="act_sample_due" />
+        <field name="act_to" ref="act_sample_received" />
+        <field name="signal">sample_received</field>
+        <field name="condition">True</field>
+        <field name="group_id" ref="group_samplers"/>
+    </record>
+    <!-- ExpireSample, ['Manager', 'LabManager', 'LabClerk'] -->
+    <!-- For Lab Manager -->
+    <record model="workflow.transition" id="trns_sample_received2expired_by_manager">
+        <field name="act_from" ref="act_sample_received" />
+        <field name="act_to" ref="act_expired" />
+        <field name="signal">expired</field>
+        <field name="condition">True</field>
+        <field name="group_id" ref="group_lab_managers"/>
+    </record>
+    <!-- For Lab Clerk -->
+    <record model="workflow.transition" id="trns_sample_received2expired_by_clerk">
+        <field name="act_from" ref="act_sample_received" />
+        <field name="act_to" ref="act_expired" />
+        <field name="signal">expired</field>
+        <field name="condition">True</field>
+         <field name="group_id" ref="group_lab_clerks"/>
+    </record>
+    <!-- DisposeSample, ['Manager', 'LabManager', 'LabClerk'] -->
+    <!-- For Lab Clerk -->
+    <record model="workflow.transition" id="trns_expired2desposed_by_clerk">
+        <field name="act_from" ref="act_expired" />
+        <field name="act_to" ref="act_disposed" />
+        <field name="signal">disposed</field>
+        <field name="condition">True</field>
+        <field name="group_id" ref="group_lab_clerks"/>
+    </record>
+    <!-- For Lab Manager -->
+    <record model="workflow.transition" id="trns_expired2desposed_by_manager">
+        <field name="act_from" ref="act_expired" />
+        <field name="act_to" ref="act_disposed" />
+        <field name="signal">disposed</field>
+        <field name="condition">True</field>
+        <field name="group_id" ref="group_lab_managers"/>
+    </record>
+    <!-- To Be Implemeted -->
+    <!-- <record model="workflow.transition" id="trns_sample_due2sample_due">
+        <field name="act_from" ref="act_sample_due" />
+        <field name="act_to" ref="act_sample_due" />
+        <field name="signal">sample_due</field>
+        <field name="condition">True</field>
+    </record> -->
+    <!-- To Be Implemeted -->
+    <!-- <record model="workflow.transition" id="trns_sampled2sample_due">
+        <field name="act_from" ref="act_sampled" />
+        <field name="act_to" ref="act_sample_due" />
+        <field name="signal">sample_due</field>
+        <field name="condition">True</field>
+    </record> -->
+    <!-- SampleSample, ['Manager', 'LabManager', 'Sampler', 'Sampler'] changed -->
+    <!-- For Lab Manager -->
+    <record model="workflow.transition" id="trns_to_be_sample2sample_due_by_manager">
+        <field name="act_from" ref="act_to_be_sampled" />
+        <field name="act_to" ref="act_sample_due" />
+        <field name="signal">sampled</field>
+        <field name="condition">True</field>
+        <field name="group_id" ref="group_lab_managers"/>
+    </record>
+    <!-- For Lab Clerk -->
+    <record model="workflow.transition" id="trns_to_be_sample2sample_due_by_clerk">
+        <field name="act_from" ref="act_to_be_sampled" />
+        <field name="act_to" ref="act_sample_due" />
+        <field name="signal">sampled</field>
+        <field name="condition">True</field>
+        <field name="group_id" ref="group_lab_clerks"/>
+    </record>
+    <!-- For Sampler -->
+    <record model="workflow.transition" id="trns_to_be_sample2sample_due_by_sampler">
+        <field name="act_from" ref="act_to_be_sampled" />
+        <field name="act_to" ref="act_sample_due" />
+        <field name="signal">sampled</field>
+        <field name="condition">True</field>
+        <field name="group_id" ref="group_samplers"/>
+    </record>
+
+</data>
+</openerp>

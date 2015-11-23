@@ -41,12 +41,16 @@ from fields.text_field import TextField
 from fields.boolean_field import BooleanField
 from fields.date_time_field import DateTimeField
 from models.base_olims_model import BaseOLiMSModel
-
+import datetime
 SAMPLE_STATES = (
-                ('smaple_due', 'Sample Due'),
-                ('smaple_received', 'Receive Sample'),
-                ('smaple_expire', 'Sample Expire'),
-                ('smaple_cancel', 'Canceled'),
+                ('sample_registered', 'Registered'),
+                ('to_be_sampled', 'To Be Sampled'),
+                ('sampled', 'Sampled'),
+                ('to_be_preserved', 'To Be Preserved'),
+                ('sample_received', 'Sample Received'),
+                ('sample_due', 'Sample Due'),
+                ('expired', 'Expired'),
+                ('disposed', 'Disposed'),
                 )
 #schema = BikaSchema.copy() + Schema((
 schema = (StringField('name',
@@ -405,6 +409,7 @@ schema = (StringField('name',
     ),
 
     DateTimeField('DateReceived',
+        readonly=True,
         # mode="rw",
         # read_permission=permissions.View,
         # write_permission=permissions.ModifyPortalContent,
@@ -468,6 +473,7 @@ schema = (StringField('name',
         # ),
     ),
     DateTimeField('DateExpired',
+        readonly=True,
         # mode="rw",
         # read_permission=permissions.View,
         # write_permission=permissions.ModifyPortalContent,
@@ -508,6 +514,7 @@ schema = (StringField('name',
   #       ),
   #   ),
     DateTimeField('DateDisposed',
+        readonly=True,
         # mode="rw",
         # read_permission=permissions.View,
         # write_permission=permissions.ModifyPortalContent,
@@ -564,9 +571,12 @@ schema = (StringField('name',
         #     append_only=True,
         # ),
     ),
-    fields.Selection(string='State',
+    fields.Selection(string='state',
                      selection=SAMPLE_STATES,
-                     default='smaple_due',
+                     default='sample_registered',
+                     select=True,
+                     required=True, readonly=True,
+                     copy=False, track_visibility='always'
     ),
     ###ComputedField('Priority',
     ###    expression = 'context.getPriority() or None',
@@ -596,6 +606,12 @@ class Sample(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
     # security = ClassSecurityInfo()
     # displayContentsTab = False
     # schema = schema
+
+    def actionToBeSampled(self,cr,uid,ids,context=None):
+        self.write(cr, uid, ids, {
+            'state': 'to_be_sampled',
+        })
+        return True
 
     _at_rename_after_creation = True
 
@@ -787,20 +803,26 @@ class Sample(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
             return 0
         return last_ar_number
 
-    def workflow_script_receive(self):
-        workflow = getToolByName(self, 'portal_workflow')
-        self.setDateReceived(DateTime())
-        self.reindexObject(idxs=["review_state", "getDateReceived"])
-        # Receive all self partitions that are still 'sample_due'
-        parts = self.objectValues('SamplePartition')
-        sample_due = [sp for sp in parts
-                      if workflow.getInfoFor(sp, 'review_state') == 'sample_due']
-        for sp in sample_due:
-            workflow.doActionFor(sp, 'receive')
-        # when a self is received, all associated
-        # AnalysisRequests are also transitioned
-        for ar in self.getAnalysisRequests():
-            doActionFor(ar, "receive")
+    def workflow_script_sample_receive(self,cr,uid,ids,context=None):
+        datereceive = datetime.datetime.now()
+        self.write(cr, uid, ids, {
+            'state': 'sample_received','DateReceived': datereceive,
+        })
+        return True
+    # def workflow_script_receive(self):
+        # workflow = getToolByName(self, 'portal_workflow')
+        # self.setDateReceived(DateTime())
+        # self.reindexObject(idxs=["review_state", "getDateReceived"])
+        # # Receive all self partitions that are still 'sample_due'
+        # parts = self.objectValues('SamplePartition')
+        # sample_due = [sp for sp in parts
+        #               if workflow.getInfoFor(sp, 'review_state') == 'sample_due']
+        # for sp in sample_due:
+        #     workflow.doActionFor(sp, 'receive')
+        # # when a self is received, all associated
+        # # AnalysisRequests are also transitioned
+        # for ar in self.getAnalysisRequests():
+        #     doActionFor(ar, "receive")
 
     def workflow_script_preserve(self):
         """This action can happen in the Sample UI, so we transition all
@@ -817,52 +839,75 @@ class Sample(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
             doActionFor(ar, "preserve")
             ar.reindexObject()
 
-    def workflow_script_expire(self):
-        self.setDateExpired(DateTime())
-        self.reindexObject(idxs=["review_state", "getDateExpired", ])
+    def workflow_script_expire(self,cr,uid,ids,context=None):
+        expired_date = datetime.datetime.now()
+        self.write(cr, uid, ids, {
+            'state': 'expired', 'DateExpired': expired_date,
+        })
+        return True
+        # self.setDateExpired(DateTime())
+        # self.reindexObject(idxs=["review_state", "getDateExpired", ])
 
-    def workflow_script_dispose(self):
-        self.setDateDisposed(DateTime())
-        self.reindexObject(idxs=["review_state", "getDateDisposed", ])
+    def workflow_script_dispose(self,cr,uid,ids,context=None):
+        date_disposed = datetime.datetime.now()
+        self.write(cr, uid, ids, {
+            'state': 'disposed', 'DateDisposed': date_disposed
+        })
+        return True
+        # self.setDateDisposed(DateTime())
+        # self.reindexObject(idxs=["review_state", "getDateDisposed", ])
 
-    def workflow_script_sample(self):
-        if skip(self, "sample"):
-            return
-        workflow = getToolByName(self, 'portal_workflow')
-        parts = self.objectValues('SamplePartition')
-        # This action can happen in the Sample UI.  So we transition all
-        # partitions that are still 'to_be_sampled'
-        tbs = [sp for sp in parts
-               if workflow.getInfoFor(sp, 'review_state') == 'to_be_sampled']
-        for sp in tbs:
-            doActionFor(sp, "sample")
-        # All associated AnalysisRequests are also transitioned
-        for ar in self.getAnalysisRequests():
-            doActionFor(ar, "sample")
-            ar.reindexObject()
+    def workflow_script_sample(self,cr,uid,ids,context=None):
+        self.write(cr, uid, ids, {
+            'state': 'sampled',
+        })
+        return True
 
-    def workflow_script_to_be_preserved(self):
-        if skip(self, "to_be_preserved"):
-            return
-        workflow = getToolByName(self, 'portal_workflow')
-        parts = self.objectValues('SamplePartition')
-        # Transition our children
-        tbs = [sp for sp in parts
-               if workflow.getInfoFor(sp, 'review_state') == 'to_be_preserved']
-        for sp in tbs:
-            doActionFor(sp, "to_be_preserved")
-        # All associated AnalysisRequests are also transitioned
-        for ar in self.getAnalysisRequests():
-            doActionFor(ar, "to_be_preserved")
-            ar.reindexObject()
+        # if skip(self, "sample"):
+        #     return
+        # workflow = getToolByName(self, 'portal_workflow')
+        # parts = self.objectValues('SamplePartition')
+        # # This action can happen in the Sample UI.  So we transition all
+        # # partitions that are still 'to_be_sampled'
+        # tbs = [sp for sp in parts
+        #        if workflow.getInfoFor(sp, 'review_state') == 'to_be_sampled']
+        # for sp in tbs:
+        #     doActionFor(sp, "sample")
+        # # All associated AnalysisRequests are also transitioned
+        # for ar in self.getAnalysisRequests():
+        #     doActionFor(ar, "sample")
+        #     ar.reindexObject()
 
-    def workflow_script_sample_due(self):
-        if skip(self, "sample_due"):
-            return
-        # All associated AnalysisRequests are also transitioned
-        for ar in self.getAnalysisRequests():
-            doActionFor(ar, "sample_due")
-            ar.reindexObject()
+    def workflow_script_to_be_preserved(self,cr,uid,ids,context=None):
+        self.write(cr, uid, ids, {
+            'state': 'to_be_preserved',
+        })
+        return True
+        # if skip(self, "to_be_preserved"):
+        #     return
+        # workflow = getToolByName(self, 'portal_workflow')
+        # parts = self.objectValues('SamplePartition')
+        # # Transition our children
+        # tbs = [sp for sp in parts
+        #        if workflow.getInfoFor(sp, 'review_state') == 'to_be_preserved']
+        # for sp in tbs:
+        #     doActionFor(sp, "to_be_preserved")
+        # # All associated AnalysisRequests are also transitioned
+        # for ar in self.getAnalysisRequests():
+        #     doActionFor(ar, "to_be_preserved")
+        #     ar.reindexObject()
+
+    def workflow_script_sample_due(self,cr,uid,ids,context=None):
+        self.write(cr, uid, ids, {
+            'state': 'sample_due',
+        })
+        return True
+        # if skip(self, "sample_due"):
+        #     return
+        # # All associated AnalysisRequests are also transitioned
+        # for ar in self.getAnalysisRequests():
+        #     doActionFor(ar, "sample_due")
+        #     ar.reindexObject()
 
     def workflow_script_reinstate(self):
         if skip(self, "reinstate"):

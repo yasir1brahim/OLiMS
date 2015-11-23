@@ -27,7 +27,11 @@ from fields.date_time_field import DateTimeField
 
 from fields.widget.widget import TextAreaWidget, StringWidget, DateTimeWidget
 from models.base_olims_model import BaseOLiMSModel
-
+import datetime
+ORDER_STAES = (
+               ('pending','Order pending'),
+               ('dispatched','Dispatched'),
+               )
 
 #schema = BikaSchema.copy() + Schema((
 schema = (
@@ -79,7 +83,7 @@ schema = (
         },
       ),
     ),
-    DateTimeField('DateDispatched',
+    DateTimeField('DateDispatched',readonly=True,
                   widget=DateTimeWidget(
                       label=_("Date Dispatched"),
                       ),
@@ -108,6 +112,11 @@ schema = (
     fields.Float(string='Total',
                 compute='compute_Total'
     ),
+    fields.Selection(string='state',selection=ORDER_STAES,
+        default='pending', select=True,
+        required=True, readonly=True,
+        copy=False, track_visibility='always'
+        ),
 # ~~~~~~~ To be implemented ~~~~~~~
     # ComputedField('ClientUID',
     #               expression = 'here.aq_parent.UID()',
@@ -231,10 +240,19 @@ class SupplyOrder(models.Model, BaseOLiMSModel): #BaseFolder
     #                  ((Decimal(lineitem['VAT']) /100) + 1)
     #     return total
     #
-    # def workflow_script_dispatch(self):
-    #     """ dispatch order """
-    #     self.setDateDispatched(DateTime())
-    #     self.reindexObject()
+    def workflow_script_dispatch(self, cr, uid, ids, context=None):
+        """ dispatch order """
+        dispatchdate = datetime.datetime.now()
+        return self.write(cr, 
+                          uid, ids, 
+                          {
+                           'state': 'dispatched', 
+                           'DateDispatched': dispatchdate
+                           }, 
+                          context=context)
+        
+#         self.setDateDispatched(DateTime())
+#         self.reindexObject()
     #
     # #security.declareProtected(View, 'getProductUIDs')
     #

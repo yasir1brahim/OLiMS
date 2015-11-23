@@ -37,6 +37,13 @@ from fields.text_field import TextField
 from fields.reference_field import ReferenceField
 from fields.widget.widget import TextAreaWidget
 from lims import bikaMessageFactory as _
+WORKSHEET_STATES = (
+    ('open','open'),
+    ('attachment_due','Attachment Outstanding'),
+    ('to_be_verified','To be verified'),
+    ('verified','Verified'),
+    ('rejected','Rejected'),
+    )
 #schema = BikaSchema.copy() + Schema((
 schema = (
 
@@ -96,6 +103,13 @@ schema = (
             label=_("Remarks"),
             append_only=True,
         ),
+    ),
+    fields.Selection(string='state',
+                     selection=WORKSHEET_STATES,
+                     default='open',
+                     select=True,
+                     required=True, readonly=True,
+                     copy=False, track_visibility='always'
     ),
 )
 # schema['id'].required = 0

@@ -30,6 +30,10 @@
         'views/partner.xml',
         'views/session_workflow.xml',
         'security/ir.model.access.csv',
+        'workflows/sample_workflow.xml',
+        'data/workflow.csv',
+        'data/workflow.activity.csv',
+        'data/workflow.transition.csv',
     ],
     # only loaded in demonstration mode
     'demo': [

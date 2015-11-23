@@ -49,6 +49,21 @@ from fields.widget.widget import StringWidget, TextAreaWidget, \
                                 DecimalWidget, RichWidget
 from openerp import fields, models, api
 import sys
+
+AR_STATES = (
+    ('sample_registered','Sample Registered'),
+    ('not_requested','Not Requested'),
+    ('to_be_sampled','To Be Sampled'),
+    ('sampled','Sampled'),
+    ('to_be_preserved','To Be Preserved'),
+    ('sample_due','Sample Due'),
+    ('sample_received','Received'),
+    ('attachment_due','Attachment Outstanding'),
+    ('to_be_verified','To be verified'),
+    ('verified','Verified'),
+    ('published','Published'),
+    ('invalid','Invalid'),
+    )
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 # try:
 #     from dependencies.dependency import getSite
@@ -1415,6 +1430,13 @@ schema = (fields.Char(string='RequestID',
                  compute='getTotalPrice',
                  default=0.00
     ),
+    fields.Selection(string='state',
+                     selection=AR_STATES,
+                     default='sample_registered',
+                     select=True,
+                     required=True, readonly=True,
+                     copy=False, track_visibility='always'
+    ),
 # ~~~~~~~ To be implemented ~~~~~~~
 #     RecordsField('ResultsInterpretationDepts',
 #         subfields = ('uid',
@@ -1480,7 +1502,11 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 #     security = ClassSecurityInfo()
 #     displayContentsTab = False
 #     schema = schema
-
+    def actionToBeSampled(self,cr,uid,ids,context=None):
+        self.write(cr, uid, ids, {
+            'state': 'to_be_sampled',
+        }, context=context)
+        return True
     _at_rename_after_creation = True
 
     def _renameAfterCreation(self, check_auto_id=False):
@@ -2056,11 +2082,15 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 
         return qcanalyses
 
-    def isInvalid(self):
+    def isInvalid(self,cr,uid,ids,context=None):
         """ return if the Analysis Request has been invalidated
         """
-        workflow = getToolByName(self, 'portal_workflow')
-        return workflow.getInfoFor(self, 'review_state') == 'invalid'
+        return self.write(cr, uid, ids, {
+            'state': 'invalid',
+        }, context=context)
+        return
+        # workflow = getToolByName(self, 'portal_workflow')
+        # return workflow.getInfoFor(self, 'review_state') == 'invalid'
 
     def getLastChild(self):
         """ return the last child Request due to invalidation
@@ -2458,32 +2488,40 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 return False
         return True
 
-    def workflow_script_receive(self):
-        if skip(self, "receive"):
-            return
-        workflow = getToolByName(self, 'portal_workflow')
-        self.setDateReceived(DateTime())
-        self.reindexObject(idxs=["review_state", "getDateReceived", ])
-        # receive the AR's sample
-        sample = self.getSample()
-        if not skip(sample, 'receive', peek=True):
-            # unless this is a secondary AR
-            if workflow.getInfoFor(sample, 'review_state') == 'sample_due':
-                workflow.doActionFor(sample, 'receive')
-        # receive all analyses in this AR.
-        analyses = self.getAnalyses(review_state='sample_due')
-        for analysis in analyses:
-            if not skip(analysis, 'receive'):
-                workflow.doActionFor(analysis.getObject(), 'receive')
+    def workflow_script_receive(self,cr,uid,ids,context=None):
+        self.write(cr, uid, ids, {
+            'state': 'sample_received',
+        }, context=context)
+        return True
+        # if skip(self, "receive"):
+        #     return
+        # workflow = getToolByName(self, 'portal_workflow')
+        # self.setDateReceived(DateTime())
+        # self.reindexObject(idxs=["review_state", "getDateReceived", ])
+        # # receive the AR's sample
+        # sample = self.getSample()
+        # if not skip(sample, 'receive', peek=True):
+        #     # unless this is a secondary AR
+        #     if workflow.getInfoFor(sample, 'review_state') == 'sample_due':
+        #         workflow.doActionFor(sample, 'receive')
+        # # receive all analyses in this AR.
+        # analyses = self.getAnalyses(review_state='sample_due')
+        # for analysis in analyses:
+        #     if not skip(analysis, 'receive'):
+        #         workflow.doActionFor(analysis.getObject(), 'receive')
 
-    def workflow_script_preserve(self):
-        if skip(self, "preserve"):
-            return
-        workflow = getToolByName(self, 'portal_workflow')
-        # transition our sample
-        sample = self.getSample()
-        if not skip(sample, "preserve", peek=True):
-            workflow.doActionFor(sample, "preserve")
+    def workflow_script_preserve(self,cr,uid,ids,context=None):
+        self.write(cr, uid, ids, {
+            'state': 'preserved',
+        }, context=context)
+        return True
+        # if skip(self, "preserve"):
+        #     return
+        # workflow = getToolByName(self, 'portal_workflow')
+        # # transition our sample
+        # sample = self.getSample()
+        # if not skip(sample, "preserve", peek=True):
+        #     workflow.doActionFor(sample, "preserve")
 
     def workflow_script_submit(self):
         if skip(self, "submit"):
@@ -2511,30 +2549,48 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         # Don't cascade. Shouldn't be attaching ARs for now (if ever).
         return
 
-    def workflow_script_sample(self):
+    def workflow_script_sample(self,cr,uid,ids,context=None):
+        self.write(cr, uid, ids, {
+            'state': 'sampled',
+        }, context=context)
+
+        return True
         # no skip check here: the sampling workflow UI is odd
         # if skip(self, "sample"):
         #     return
         # transition our sample
-        workflow = getToolByName(self, 'portal_workflow')
-        sample = self.getSample()
-        if not skip(sample, "sample", peek=True):
-            workflow.doActionFor(sample, "sample")
+        # workflow = getToolByName(self, 'portal_workflow')
+        # sample = self.getSample()
+        # if not skip(sample, "sample", peek=True):
+        #     workflow.doActionFor(sample, "sample")
 
-    # def workflow_script_to_be_preserved(self):
-    #     if skip(self, "to_be_preserved"):
-    #         return
-    #     pass
+    def workflow_script_to_be_preserved(self,cr,uid,ids,context=None):
+        self.write(cr, uid, ids, {
+            'state': 'to_be_preserved',
+        }, context=context)
+        return True
+        # if skip(self, "to_be_preserved"):
+        #     return
+        # pass
 
-    # def workflow_script_sample_due(self):
-    #     if skip(self, "sample_due"):
-    #         return
-    #     pass
+    def workflow_script_sample_due(self,cr,uid,ids,context=None):
+        self.write(cr, uid, ids, {
+            'state': 'sample_due',
+        }, context=context)
+        return True
+        # if skip(self, "sample_due"):
+        #     return
+        # pass
 
     # def workflow_script_retract(self):
     #     if skip(self, "retract"):
     #         return
     #     pass
+    def workflow_script_to_be_verified(self,cr,uid,ids,context=None):
+        self.write(cr, uid, ids, {
+            'state': 'to_be_verified',
+        }, context=context)
+        return True
 
     def workflow_script_verify(self):
         if skip(self, "verify"):

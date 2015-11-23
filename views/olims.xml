@@ -1032,6 +1032,13 @@
             <field name="model">olims.ar_import</field>
             <field name="arch" type="xml">
                 <form string="AR Import Form">
+                    <header>
+                        <button string="Submit" name="submit" type="workflow" states="imported"/>
+
+                        <button string="Cancel" name="cancel" type="workflow" states="submitted"/>
+
+                        <field name="state" widget="statusbar" statusbar_visible="imported,submitted,cancelled" statusbar_colors='{"submitted":"blue","cancelled":"red"}'/>
+                    </header>
                     <label for="FileName" string="File Name"/>
                     <field name="FileName"></field>
                     <label for="OriginalFile" string="OriginalFile"/>
@@ -1141,6 +1148,13 @@
             <field name="model">olims.reference_sample</field>
             <field name="arch" type="xml">
                 <form string="Reference Sample Form">
+                    <header>
+                        <button string="Expire" name="expire" type="workflow" states="current"/>
+
+                        <button string="Dispose" name="disposed" type="workflow" states="expired"/>
+
+                        <field name="state" widget="statusbar" statusbar_visible="current,expired,disposed" statusbar_colors='{"current":"blue","expired":"red"}'/>
+                    </header>
                     <label for="ReferenceDefinition" string="Reference Definition"/>
                     <field name="ReferenceDefinition"></field>
                     <label for="Blank" string="Blank"/>
@@ -1482,6 +1496,22 @@
             <field name="model">olims.duplicate_analysis</field>
             <field name="arch" type="xml">
                 <form string="Duplicate Analysis Form">
+                    <header>
+                        <button string="Assign" name="assign" type="workflow" states="Unassigned"/>
+
+                        <button string="Submit for Verification" name="submit" type="workflow" states="assigned"/>
+                        <button string="Remove" name="unassign" type="workflow" states="assigned,attachment_due,to_be_verified,verified"/>
+
+                        <button string="Add attachment" name="attach" type="workflow" states="attachment_due"/>
+
+                        <button string="Retract" name="retract" type="workflow" states="attachment_due,to_be_verified"/>
+
+                        <button string="Reject" name="reject" type="workflow" states="attachment_due,to_be_verified"/>
+
+                        <button string="Verify" name="verify" type="workflow" states="to_be_verified"/>
+
+                        <field name="state" widget="statusbar" statusbar_visible="unassigned,assigned,attachment_due,to_be_verified,verified,rejected" statusbar_colors='{"unassigned":"blue","rejected":"red"}'/>
+                    </header>
                     <label for="Analysis" string="Analysis"/>
                     <field name="Analysis"></field>
                     <label for="InterimFields" string="Interim Fields"/>
@@ -1535,6 +1565,13 @@
             <field name="model">olims.batch</field>
             <field name="arch" type="xml">
                 <form string="Batch Form">
+                    <header>
+                        <button string="Open" name="open" type="workflow" states="closed"/>
+
+                        <button string="Close" name="close" type="workflow" states="open"/>
+
+                        <field name="state" widget="statusbar" statusbar_visible="open,closed,sample_due" statusbar_colors='{"open":"blue","closed":"red"}'/>
+                    </header>
                     <label for="ClientBatchID" string="Client Batch ID"/>
                     <field name="ClientBatchID"></field>
                     <label for="name" string="Title"/>
@@ -1628,6 +1665,20 @@
             <field name="model">olims.analysis_request</field>
             <field name="arch" type="xml">
                 <form string="Analysis Request Form">
+                    <!-- <sheet> -->
+                        <header>
+                            <button string="Sample" name="sample_due" states="to_be_sampled" type="workflow" class="oe_highlight"/>
+
+                            <button string="Preserve Sample" name="preserve" states="to_be_preserved" type="workflow" class="oe_highlight"/>
+
+                            <button string="Receive Sample" name="receive" type="workflow" states="sample_due"/>
+
+                            <button string="Verify" name="verify" type="workflow" states="to_be_verified"/>
+                            <button string="Publish" name="publish" type="workflow" states="sample_received"/>
+
+                            <field name="state" widget="statusbar" statusbar_visible="to_be_sampled,sample_received,sample_due" statusbar_colors='{"to_be_sampled":"blue","sample_received":"red","invalid":"red"}'/>
+                    </header>
+                <!-- </sheet> -->
                     <label for="Contact" string="Contact"/>
                 	<field name="Contact" options="{'no_create': True}"></field>
                 	<label for="CCContact" string="CC Contact"/>
@@ -1795,6 +1846,9 @@
             <field name="model">olims.worksheet</field>
             <field name="arch" type="xml">
                 <form string="Worksheet Form">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="open,attachment_due,to_be_verified,verified,rejected" statusbar_colors='{"open":"blue","to_be_verified":"blue","rejected":"red"}'/>
+                    </header>
                     <label for="DefaultCategories" string="Default Categories"/>
                 	<field name="DefaultCategories"></field>
                     <label for="WorksheetTemplate" string="Worksheet Template"/>
@@ -1949,6 +2003,19 @@
             <field name="model">olims.sample</field>
             <field name="arch" type="xml">
                 <form string="Sample Form" create="false">
+                    <header>
+                        <button string="Sample" name="sampled" states="to_be_sampled" type="workflow" class="oe_highlight"/>
+
+                        <button string="Preserve Sample" name="to_be_preserved" states="to_be_preserved" type="workflow" class="oe_highlight"/>
+
+                        <button string="Expire" name="expired" states="sample_received" type="workflow"/>
+
+                        <button string="Despose" name="disposed" states="expired" type="workflow"/>
+
+                        <button string="Receive Sample" name="sample_received" type="workflow" states="sample_due"/>
+
+                        <field name="state" widget="statusbar" statusbar_visible="to_be_sampled,sample_received,sample_due,expired,disposed" statusbar_colors='{"to_be_sampled":"blue","sample_received":"blue","expired":"red"}'/>
+                    </header>
                     <!--<label for="name" string="Sample ID"/>
                     <field name="name"></field>-->
                 	<label for="ClientReference" string="Client Reference"/>
@@ -1973,19 +2040,19 @@
                     <field name="DateSampled"></field>-->
                     <label for="SampleCondition" string="Sample Condition"/>
                 	<field name="SampleCondition"></field>
-                    <!--<label for="DateReceived" string="Date Received"/>
+                    <label for="DateReceived" string="Date Received"/>
                 	<field name="DateReceived"></field>
-                    <label for="Composite" string="Composite"/>
-                	<field name="Composite"></field>
+                    <!--<label for="Composite" string="Composite"/>
+                    <field name="Composite"></field>-->
                     <label for="DateExpired" string="Date Expired"/>
                 	<field name="DateExpired"></field>
                     <label for="DateDisposed" string="Date Disposed"/>
-                    <field name="DateDisposed"></field>-->
+                    <field name="DateDisposed"></field>
                     <label for="AdHoc" string="AdHoc"/>
                 	<field name="AdHoc"></field>
                     <br/>
-                    <label for="State" string="State"/>
-                    <field name="State"></field>
+                    <!--<label for="state" string="State"/>
+                    <field name="state"></field>-->
 
                 </form>
             </field>
@@ -2014,7 +2081,7 @@
                 	<field name="DateExpired"></field>
                 	<field name="DateDisposed"></field>
                     <field name="AdHoc"></field>-->
-                    <field name="State"></field>
+                    <field name="state"></field>
 
                 </tree>
             </field>
@@ -2800,14 +2867,16 @@
             <field name="model">olims.supply_order</field>
             <field name="arch" type="xml">
                 <form string="Supply Order Form">
+                    <header>
+                        <button string="Dispatch order" name="dispatch" type="workflow" states="pending"/>
+                        <field name="state" widget="statusbar" statusbar_visible="pending,dispatched" statusbar_colors='{"pending":"blue","dispatched":"blue"}'></field>
+                    </header>
                     <label for="OrderDate" string="Order Date"/>
                     <field name="OrderDate"></field>
                     <label for="Contact" string="Contact"/>
                     <field name="Contact" options="{'no_create': True}"></field>
                     <label for="Products" string="Products"/>
                     <field name="Products"></field>
-                    <!--<label for="Quantity" string="Quantity"/>
-                    <field name="Quantity"></field>-->
                     <label for="SubTotal" string="SubTotal"/>
                     <field name="SubTotal"></field>
                     <label for="VAT" string="VAT"/>
@@ -2826,7 +2895,7 @@
                 <tree string="Supply Order">
                     <field name="OrderNumber"></field>
                     <field name="OrderDate"></field>
-                    <field name="Contact"></field>
+                    <field name="DateDispatched"></field>
                 </tree>
             </field>
         </record>
@@ -3379,91 +3448,101 @@
             <field name="model">olims.client</field>
             <field name="arch" type="xml">
                 <form string="Client Form">
-                    <label for="name" string="Name"/>
-                    <field name="name"></field>
-                    <label for="ClientID" string="Client ID"/>
-                    <field name="ClientID"></field>
-                    <label for="TaxNumber" string="VAT number"/>
-                    <field name="TaxNumber"></field>
-                    <label for="Phone" string="Phone"/>
-                	<field name="Phone"></field>
-                    <label for="Fax" string="Fax"/>
-                    <field name="Fax"></field>
-                    <label for="EmailAddress" string="Email Address"/>
-                	<field name="EmailAddress"></field>
-                    <label for="BulkDiscount" string="Bulk Discount"/>
-                    <field name="BulkDiscount"></field>
-                    <br/>
-                    <label for="MemberDiscountApplies" string="Member Discount Applies"/>
-                    <field name="MemberDiscountApplies"></field>
-                    <br/>
-     				<group col='2' string='Physical Address'>
-                    <label for='physical_country' string='Country'/>
-                    <field name="physical_country" nolabel='1'></field>
-                    <label for='physical_state' string='State'/>
-                    <field name="physical_state" nolabel='1'></field>
-                    <label for='physical_district' string='District'/>
-                    <field name="physical_district" nolabel='1'></field>
-                    <label for='physical_city' string='city'/>
-                    <field name="physical_city" nolabel='1'></field>
-                    <label for='physical_postalcode' string='code'/>
-                    <field name="physical_postalcode" nolabel='1'></field>
-                    <label for='physical_address' string='Addrss'/>
-                    <field name="physical_address" nolabel='1'></field>
-                    </group>
-                    <group col='2' string='Postal Address'>
-                    <label for='postal_country' string='Country'/>
-                    <field name="postal_country" nolabel='1'></field>
-                    <label for='postal_state' string='State'/>
-                    <field name="postal_state" nolabel='1'></field>
-                    <label for='postal_district' string='District'/>
-                    <field name="postal_district" nolabel='1'></field>
-                    <label for='postal_city' string='city'/>
-                    <field name="postal_city" nolabel='1'></field>
-                    <label for='postal_postalcode' string='code'/>
-                    <field name="postal_postalcode" nolabel='1'></field>
-                    <label for='postal_address' string='Addrss'/>
-                    <field name="postal_address" nolabel='1'></field>
-                    </group>
-                    <group col='2' string='Billing Address'>
-                    <label for='billing_country' string='Country'/>
-                    <field name="billing_country" nolabel='1'></field>
-                    <label for='billing_state' string='State'/>
-                    <field name="billing_state" nolabel='1'></field>
-                    <label for='billing_district' string='District'/>
-                    <field name="billing_district" nolabel='1'></field>
-                    <label for='billing_city' string='city'/>
-                    <field name="billing_city" nolabel='1'></field>
-                    <label for='billing_postalcode' string='code'/>
-                    <field name="billing_postalcode" nolabel='1'></field>
-                    <label for='billing_address' string='Addrss'/>
-                    <field name="billing_address" nolabel='1'></field>
-                    </group>
-                    <label for="AccountType" string="Account Type"/>
-                    <field name="AccountType"></field>
-                    <label for="AccountName" string="Account Name"/>
-                    <field name="AccountName"></field>
-                    <label for="AccountNumber" string="Account Number"/>
-                    <field name="AccountNumber"></field>
-                    <label for="BankName" string="Bank Name"/>
-                    <field name="BankName"></field>
-                    <label for="BankBranch" string="Bank Branch"/>
-                    <field name="BankBranch"></field>
-                    <label for="EmailSubject" string="Email subject line"/>
-                    <p>Items to be included in email subject lines</p>
-                    <field name="EmailSubject"></field>
-                    <label for="DefaultCategories" string="Default Categories"/>
-                    <p>Always expand the selected categories in client views</p>
-                    <field name="DefaultCategories" options="{'no_create': True}" widget="many2many_tags"></field>
-                    <label for="RestrictedCategories" string="Restricted Categories"/>
-                    <p>Show only selected categories in client views</p>
-                    <field name="RestrictedCategories" options="{'no_create': True}" widget="many2many_tags"></field>
-                    <label for="DefaultARSpecs" string="Default AR Specifications"/>
-                    <field name="DefaultARSpecs"></field>
-                    <br/>
-                    <label for="DecimalMark" string="Decimal Mark"/>
-                    <field name="DecimalMark"></field>
-                    </form>
+                    <notebook>
+                        <page string="Default">
+                            <label for="name" string="Name"/>
+                            <field name="name"></field>
+                            <label for="ClientID" string="Client ID"/>
+                            <field name="ClientID"></field>
+                            <label for="TaxNumber" string="VAT number"/>
+                            <field name="TaxNumber"></field>
+                            <label for="Phone" string="Phone"/>
+                            <field name="Phone"></field>
+                            <label for="Fax" string="Fax"/>
+                            <field name="Fax"></field>
+                            <label for="EmailAddress" string="Email Address"/>
+                            <field name="EmailAddress"></field>
+                            <label for="BulkDiscount" string="Bulk Discount"/>
+                            <field name="BulkDiscount"></field>
+                            <br/>
+                            <label for="MemberDiscountApplies" string="Member Discount Applies"/>
+                            <field name="MemberDiscountApplies"></field>
+                            <br/>
+                        </page>
+                        <page string="Address">
+                              <group col='2' string='Physical Address'>
+                                <label for='physical_country' string='Country'/>
+                                <field name="physical_country" nolabel='1'></field>
+                                <label for='physical_state' string='State'/>
+                                <field name="physical_state" nolabel='1'></field>
+                                <label for='physical_district' string='District'/>
+                                <field name="physical_district" nolabel='1'></field>
+                                <label for='physical_city' string='city'/>
+                                <field name="physical_city" nolabel='1'></field>
+                                <label for='physical_postalcode' string='code'/>
+                                <field name="physical_postalcode" nolabel='1'></field>
+                                <label for='physical_address' string='Adderss'/>
+                                <field name="physical_address" nolabel='1'></field>
+                            </group>
+                            <group col='2' string='Postal Address'>
+                                <label for='postal_country' string='Country'/>
+                                <field name="postal_country" nolabel='1'></field>
+                                <label for='postal_state' string='State'/>
+                                <field name="postal_state" nolabel='1'></field>
+                                <label for='postal_district' string='District'/>
+                                <field name="postal_district" nolabel='1'></field>
+                                <label for='postal_city' string='city'/>
+                                <field name="postal_city" nolabel='1'></field>
+                                <label for='postal_postalcode' string='code'/>
+                                <field name="postal_postalcode" nolabel='1'></field>
+                                <label for='postal_address' string='Address'/>
+                                <field name="postal_address" nolabel='1'></field>
+                            </group>
+                            <group col='2' string='Billing Address'>
+                                <label for='billing_country' string='Country'/>
+                                <field name="billing_country" nolabel='1'></field>
+                                <label for='billing_state' string='State'/>
+                                <field name="billing_state" nolabel='1'></field>
+                                <label for='billing_district' string='District'/>
+                                <field name="billing_district" nolabel='1'></field>
+                                <label for='billing_city' string='city'/>
+                                <field name="billing_city" nolabel='1'></field>
+                                <label for='billing_postalcode' string='code'/>
+                                <field name="billing_postalcode" nolabel='1'></field>
+                                <label for='billing_address' string='Address'/>
+                                <field name="billing_address" nolabel='1'></field>
+                            </group>
+                        </page>
+                        <page string="Bank Details">
+                            <label for="AccountType" string="Account Type"/>
+                            <field name="AccountType"></field>
+                            <label for="AccountName" string="Account Name"/>
+                            <field name="AccountName"></field>
+                            <label for="AccountNumber" string="Account Number"/>
+                            <field name="AccountNumber"></field>
+                            <label for="BankName" string="Bank Name"/>
+                            <field name="BankName"></field>
+                            <label for="BankBranch" string="Bank Branch"/>
+                            <field name="BankBranch"></field>
+                        </page>
+                        <page string="Preferences">
+                            <label for="EmailSubject" string="Email subject line"/>
+                            <p>Items to be included in email subject lines</p>
+                            <field name="EmailSubject"></field>
+                            <label for="DefaultCategories" string="Default Categories"/>
+                            <p>Always expand the selected categories in client views</p>
+                            <field name="DefaultCategories" options="{'no_create': True}" widget="many2many_tags"></field>
+                            <label for="RestrictedCategories" string="Restricted Categories"/>
+                            <p>Show only selected categories in client views</p>
+                            <field name="RestrictedCategories" options="{'no_create': True}" widget="many2many_tags"></field>
+                            <label for="DefaultARSpecs" string="Default AR Specifications"/>
+                            <field name="DefaultARSpecs"></field>
+                            <br/>
+                            <label for="DecimalMark" string="Decimal Mark"/>
+                            <field name="DecimalMark"></field>
+                        </page>
+                    </notebook>
+                </form>
             </field>
         </record>
 
