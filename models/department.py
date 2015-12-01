@@ -23,7 +23,7 @@ from fields.string_field import StringField
 from fields.reference_field import ReferenceField
 from fields.text_field import TextField
 from fields.widget.widget import StringWidget, TextAreaWidget, ReferenceWidget
-from models.base_olims_model import BaseOLiMSModel
+from base_olims_model import BaseOLiMSModel
 
 # schema = BikaSchema.copy() + Schema(
 schema = (

@@ -38,7 +38,7 @@ from dependencies.dependency import getToolByName
 from dependencies.dependency import WorkflowException
 from lims import bikaMessageFactory as _
 from lims.utils import to_utf8 as _c
-from models.base_olims_model import BaseOLiMSModel
+from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
 from fields.reference_field import ReferenceField
 from fields.boolean_field import BooleanField

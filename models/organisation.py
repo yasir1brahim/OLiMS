@@ -16,7 +16,7 @@ from lims import bikaMessageFactory as _
 from openerp import fields, models
 from fields.string_field import StringField
 from fields.widget.widget import StringWidget
-from models.base_olims_model import BaseOLiMSModel
+from base_olims_model import BaseOLiMSModel
 
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 # schema = BikaFolderSchema.copy() + BikaSchema.copy() + ManagedSchema(

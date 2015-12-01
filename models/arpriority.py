@@ -15,7 +15,7 @@ _logger = logging.getLogger(__name__)
 
 from lims.idserver import renameAfterCreation
 from lims import bikaMessageFactory as _
-from models.base_olims_model import BaseOLiMSModel
+from base_olims_model import BaseOLiMSModel
 from fields.integer_field import IntegerField
 from fields.file_field import FileField
 from fields.boolean_field import BooleanField

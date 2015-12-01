@@ -26,7 +26,7 @@ from lims import PMF, bikaMessageFactory as _
 
 
 from dependencies.dependency import getToolByName
-from models.base_olims_model import BaseOLiMSModel
+from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
 from fields.text_field import TextField
 from fields.boolean_field import BooleanField

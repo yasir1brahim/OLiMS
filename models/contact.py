@@ -22,7 +22,7 @@ from openerp import fields, models
 
 _logger = logging.getLogger(__name__)
 
-from models.base_olims_model import BaseOLiMSModel
+from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
 from fields.reference_field import ReferenceField
 from fields.boolean_field import BooleanField

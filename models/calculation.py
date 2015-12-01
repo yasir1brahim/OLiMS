@@ -28,7 +28,7 @@ from fields.string_field import StringField
 from fields.text_field import TextField
 import re
 from dependencies import transaction
-from models.base_olims_model import BaseOLiMSModel
+from base_olims_model import BaseOLiMSModel
 
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 # schema = BikaSchema.copy() + Schema((

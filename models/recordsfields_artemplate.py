@@ -1,5 +1,5 @@
 from openerp import fields, models
-from models.base_olims_model import BaseOLiMSModel
+from base_olims_model import BaseOLiMSModel
 
 schema = (fields.Many2many(string='Services Analysis',
                    comodel_name='olims.analysis_service',

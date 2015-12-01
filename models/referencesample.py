@@ -34,7 +34,7 @@ from fields.boolean_field import BooleanField
 from fields.text_field import TextField
 from fields.widget.widget import StringWidget, BooleanWidget, DateTimeWidget, TextAreaWidget
 from openerp import fields, models
-from models.base_olims_model import BaseOLiMSModel
+from base_olims_model import BaseOLiMSModel
 import datetime
 REFERENCE_SAMPLE_STATES = (
     ('current','Current'),

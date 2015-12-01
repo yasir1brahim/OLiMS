@@ -15,7 +15,7 @@ from fields.fixed_point_field import FixedPointField
 from fields.text_field import TextField
 from fields.widget.widget import StringWidget, DecimalWidget, TextAreaWidget
 from openerp import fields, models
-from models.base_olims_model import BaseOLiMSModel
+from base_olims_model import BaseOLiMSModel
 
 
 #schema = BikaSchema.copy() + Schema((

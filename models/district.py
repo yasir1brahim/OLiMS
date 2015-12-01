@@ -2,7 +2,7 @@
 import logging
 
 from openerp import fields, models,osv
-from models.base_olims_model import BaseOLiMSModel
+from base_olims_model import BaseOLiMSModel
 
 _logger = logging.getLogger(__name__)
 

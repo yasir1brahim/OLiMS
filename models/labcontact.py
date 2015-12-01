@@ -16,7 +16,7 @@
 # from lims.interfaces import ILabContact
 # import sys
 
-from models.base_olims_model import BaseOLiMSModel
+from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
 from fields.file_field import FileField
 from fields.widget.widget import StringWidget, FileWidget

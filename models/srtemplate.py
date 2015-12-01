@@ -22,7 +22,7 @@ from fields.string_field import StringField
 from fields.integer_field import IntegerField
 from fields.widget.widget import TextAreaWidget, StringWidget
 from openerp import fields, models
-from models.base_olims_model import BaseOLiMSModel
+from base_olims_model import BaseOLiMSModel
 
 #schema = BikaSchema.copy() + Schema((
 schema = (StringField('name',
