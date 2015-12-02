@@ -3115,6 +3115,8 @@
             <field name="model">olims.laboratory</field>
             <field name="arch" type="xml">
                 <form string="Laboratory Form">
+		<notebook>
+		   <page string="Default">
                      <label for="Name" string="Name"/>
                 	<field name="Name"></field>
                     <label for="TaxNumber" string="VAT Number"/>
@@ -3123,6 +3125,8 @@
                 	<field name="Phone"></field>
                     <label for="Fax" string="Fax"/>
                     <field name="Fax"></field>
+		   </page>
+		   <page string="Address">
                     <label for="EmailAddress" string="Email Address"/>
                 	<field name="EmailAddress"></field>
                 	<group col='2' string='Physical Address'>
@@ -3169,6 +3173,8 @@
                     </group>
                     <label for="LabURL" string="Lab URL"/>
                     <field name="LabURL"></field>
+		   </page>
+		   <page string="Bank Details">
                     <label for="AccountType" string="Account Type"/>
                     <field name="AccountType"></field>
                     <label for="AccountName" string="Account Name"/>
@@ -3179,6 +3185,8 @@
                     <field name="BankName"></field>
                     <label for="BankBranch" string="Bank Branch"/>
                     <field name="BankBranch"></field>
+		   </page>
+		   <page string="Accreditation">
                     <label for="Confidence" string="Confidence Level %"/>
                     <field name="Confidence"></field>
                     <label for="LaboratoryAccredited" string="Laboratory Accredited"/>
@@ -3198,6 +3206,8 @@
                     <label for="AccreditationPageHeader" string="Accreditation PageHeader"/>
                     <p>Enter the details of your lab's service accreditations here. The following fields are available: lab_is_accredited, lab_name, lab_country, confidence, accreditation_body_name, accreditation_standard, accreditation_reference</p>
                     <field name="AccreditationPageHeader"></field>
+		   </page>
+		</notebook>
 				</form>
             </field>
         </record>
@@ -3230,7 +3240,7 @@
         </record>
 
 		<record model="ir.actions.act_window" id="laboratory_list_action">
-            <field name="name">Laboratory</field>
+            <field name="name">Laboratory Information</field>
             <field name="res_model">olims.laboratory</field>
             <field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
