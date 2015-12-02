@@ -235,6 +235,7 @@ schema = (
 
 class Laboratory(models.Model, BaseOLiMSModel): #UniqueObject, Organisation
     _name='olims.laboratory'
+    _rec_name = 'Name'
     # security = ClassSecurityInfo()
     # displayContentsTab = False
     # schema = schema
