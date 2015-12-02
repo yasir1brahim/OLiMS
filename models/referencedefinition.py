@@ -15,7 +15,7 @@
 # from dependencies.dependency import implements
 
 from openerp import fields, models
-from models.base_olims_model import BaseOLiMSModel
+from base_olims_model import BaseOLiMSModel
 from lims import bikaMessageFactory as _
 from fields.boolean_field import BooleanField
 from fields.widget.widget import BooleanWidget, TextAreaWidget

@@ -15,7 +15,7 @@ from lims import bikaMessageFactory as _
 from fields.string_field import StringField
 from fields.text_field import TextField
 from fields.widget.widget import TextAreaWidget
-from models.base_olims_model import BaseOLiMSModel
+from base_olims_model import BaseOLiMSModel
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 # schema = BikaSchema.copy() + Schema((
 # 

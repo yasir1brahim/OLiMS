@@ -18,7 +18,7 @@ from fields.text_field import TextField
 from fields.date_time_field import DateTimeField
 from fields.widget.widget import StringWidget, TextAreaWidget, DateTimeWidget
 from openerp import fields, models
-from models.base_olims_model import BaseOLiMSModel
+from base_olims_model import BaseOLiMSModel
 
 #schema = BikaSchema.copy() + Schema((
 schema = (StringField('AssetNumber',

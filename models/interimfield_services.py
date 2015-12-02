@@ -1,6 +1,6 @@
 
 from openerp import fields, models
-from models.base_olims_model import BaseOLiMSModel
+from base_olims_model import BaseOLiMSModel
 
 schema = (fields.Char(string='Keyword', required=True),
           fields.Char(string='Field Title', required=True),

@@ -26,7 +26,7 @@ from fields.text_field import TextField
 from fields.date_time_field import DateTimeField
 
 from fields.widget.widget import TextAreaWidget, StringWidget, DateTimeWidget
-from models.base_olims_model import BaseOLiMSModel
+from base_olims_model import BaseOLiMSModel
 import datetime
 ORDER_STAES = (
                ('pending','Order pending'),

@@ -38,7 +38,7 @@ from lims.workflow import doActionFor
 from dependencies.dependency import Decimal
 from lims import bikaMessageFactory as _
 from lims.utils import t, getUsers, dicts_to_dict
-from models.base_olims_model import BaseOLiMSModel
+from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
 from fields.text_field import TextField
 from fields.boolean_field import BooleanField

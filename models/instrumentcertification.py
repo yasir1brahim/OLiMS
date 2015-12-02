@@ -21,7 +21,7 @@ from fields.reference_field import ReferenceField
 from fields.boolean_field import BooleanField
 from fields.widget.widget import StringWidget, TextAreaWidget, DateTimeWidget, BooleanWidget, FileWidget
 from openerp import fields, models
-from models.base_olims_model import BaseOLiMSModel
+from base_olims_model import BaseOLiMSModel
 
 #schema = BikaSchema.copy() + Schema((
 schema = (StringField('Certificate Code',

@@ -1,6 +1,6 @@
 from openerp import fields, models
 import logging
-from models.base_olims_model import BaseOLiMSModel
+from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
 from fields.fixed_point_field import FixedPointField
 from fields.widget.widget import StringWidget, DecimalWidget

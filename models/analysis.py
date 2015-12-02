@@ -54,7 +54,7 @@ from fields.date_time_field import DateTimeField
 from fields.integer_field import IntegerField
 from fields.widget.widget import ComputedWidget, DateTimeWidget, \
                                 IntegerWidget, DecimalWidget
-from models.base_olims_model import BaseOLiMSModel
+from base_olims_model import BaseOLiMSModel
 
 
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~

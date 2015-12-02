@@ -29,7 +29,7 @@ from dependencies.dependency import ObjectInitializedEvent
 from dependencies.dependency import getToolByName
 from dependencies.dependency import safe_unicode, _createObjectByType
 from dependencies.dependency import event
-from models.base_olims_model import BaseOLiMSModel
+from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
 from fields.boolean_field import BooleanField
 from fields.file_field import FileField

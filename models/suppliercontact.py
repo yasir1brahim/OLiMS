@@ -14,7 +14,7 @@
 
 from openerp import fields, models
 from fields.string_field import StringField
-from models.base_olims_model import BaseOLiMSModel
+from base_olims_model import BaseOLiMSModel
 from fields.widget.widget import StringWidget
 from lims import bikaMessageFactory as _
 #schema = Person.schema.copy()

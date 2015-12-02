@@ -18,7 +18,7 @@ from openerp import fields, models
 from fields.string_field import StringField
 from fields.text_field import TextField
 from fields.widget.widget import TextAreaWidget, StringWidget
-from models.base_olims_model import BaseOLiMSModel
+from base_olims_model import BaseOLiMSModel
 
 
 

@@ -18,7 +18,7 @@
 # from dependencies.dependency import implements
 
 from openerp import fields, models
-from models.base_olims_model import BaseOLiMSModel
+from base_olims_model import BaseOLiMSModel
 from fields.date_time_field import DateTimeField
 from fields.widget.widget import DateTimeWidget
 from lims import bikaMessageFactory as _
