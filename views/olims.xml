@@ -3498,21 +3498,28 @@
                             <br/>
                         </page>
                         <page string="Address">
-                              <group col='2' string='Physical Address'>
-                                <label for='physical_country' string='Country'/>
-                                <field name="physical_country" nolabel='1'></field>
-                                <label for='physical_state' string='State'/>
-                                <field name="physical_state" nolabel='1'></field>
-                                <label for='physical_district' string='District'/>
-                                <field name="physical_district" nolabel='1'></field>
-                                <label for='physical_city' string='city'/>
-                                <field name="physical_city" nolabel='1'></field>
-                                <label for='physical_postalcode' string='code'/>
-                                <field name="physical_postalcode" nolabel='1'></field>
-                                <label for='physical_address' string='Adderss'/>
-                                <field name="physical_address" nolabel='1'></field>
+                              <group col='4' string='Physical Address'>
+                              	<group col='2'>
+	                                <label for='physical_country' string='Country'/>
+	                                <field name="physical_country" nolabel='1'></field>
+	                                <label for='physical_state' string='State'/>
+	                                <field name="physical_state" nolabel='1'></field>
+	                                <label for='physical_district' string='District'/>
+	                                <field name="physical_district" nolabel='1'></field>
+	                                <label for='physical_city' string='city'/>
+	                                <field name="physical_city" nolabel='1'></field>
+	                                <label for='physical_postalcode' string='code'/>
+	                                <field name="physical_postalcode" nolabel='1'></field>
+	                                <label for='physical_address' string='Adderss'/>
+	                                <field name="physical_address" nolabel='1'></field>
+                                </group>
+			                    <group col='2' class="oe_edit_only">
+			                        <label for='physical_copy_from' string='Copy From'/>
+				                    <field name="physical_copy_from" nolabel='1'></field>
+			                    </group>
                             </group>
-                            <group col='2' string='Postal Address'>
+                            <group col='4' string='Postal Address'>
+                                <group col='2'>
                                 <label for='postal_country' string='Country'/>
                                 <field name="postal_country" nolabel='1'></field>
                                 <label for='postal_state' string='State'/>
@@ -3525,8 +3532,14 @@
                                 <field name="postal_postalcode" nolabel='1'></field>
                                 <label for='postal_address' string='Address'/>
                                 <field name="postal_address" nolabel='1'></field>
+                                </group>
+			                    <group col='2' class="oe_edit_only">
+			                        <label for='postal_copy_from' string='Copy From'/>
+				                    <field name="postal_copy_from" nolabel='1'></field>
+			                    </group>
                             </group>
-                            <group col='2' string='Billing Address'>
+                            <group col='4' string='Billing Address'>
+                                <group col='2'>
                                 <label for='billing_country' string='Country'/>
                                 <field name="billing_country" nolabel='1'></field>
                                 <label for='billing_state' string='State'/>
@@ -3539,6 +3552,11 @@
                                 <field name="billing_postalcode" nolabel='1'></field>
                                 <label for='billing_address' string='Address'/>
                                 <field name="billing_address" nolabel='1'></field>
+                                </group>
+			                    <group col='2' class="oe_edit_only">
+			                        <label for='billing_copy_from' string='Copy From'/>
+				                    <field name="billing_copy_from" nolabel='1'></field>
+			                    </group>
                             </group>
                         </page>
                         <page string="Bank Details">
