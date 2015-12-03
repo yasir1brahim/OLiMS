@@ -18,7 +18,7 @@
 
 import logging
 
-from openerp import fields, models
+from openerp import fields, models, api
 
 _logger = logging.getLogger(__name__)
 
@@ -136,6 +136,7 @@ schema = (
     fields.Char(string='physical_city'),
     fields.Char(string='physical_postalcode'),
     fields.Char(string='physical_address'),
+    fields.Selection([('postal', 'PostalAddress')],string='physical_copy_from'),
            
           
         # # ~~~~~~~~~~ PostalAddress behavior in Odoo is as selection field ~~~~~~~~~~~
@@ -145,9 +146,10 @@ schema = (
     fields.Char(string='postal_city'),
     fields.Char(string='postal_postalcode'),
     fields.Char(string='postal_address'),
+    fields.Selection([('physical', 'PhysicalAddress')],string='postal_copy_from'),
 
         # note line filed multi-select , multi-select need to be implemented
-            ReferenceField(string='PublicationPreference',
+    ReferenceField(string='PublicationPreference',
                selection=([ ('email', _('Email')), ('pdf', _('PDF'))]),
             # widget = MultiSelectionWidget(
             #     label=_("Publication preference"),
@@ -167,7 +169,11 @@ schema = (
         ),
     ),
     fields.Many2many(string='CCContact',
-                       comodel_name='olims.client',
+                       comodel_name='olims.contact',
+                       relation='olims_contatct_cc_contatct',
+                       column1='contact_id',
+                       culomn2='contact_id',
+
 #         schemata = 'Publication preference',
 #         vocabulary = 'getContacts',
 #         multiValued = 1,
@@ -228,7 +234,27 @@ class Contact(models.Model, BaseOLiMSModel): #(Person)
                     fullname = '%s %s' % (record.getFirstname(), record.getSurname())
             record.name = fullname.strip()
 
-        
+    @api.onchange('physical_copy_from')
+    def _onchange_physical(self):
+        # set auto-changing field
+        if self.physical_copy_from:
+            setattr(self, 'physical_country', getattr(self,self.physical_copy_from+'_country'))
+            setattr(self, 'physical_state', getattr(self,self.physical_copy_from+'_state'))
+            setattr(self, 'physical_district', getattr(self,self.physical_copy_from+'_district'))
+            setattr(self, 'physical_city', getattr(self,self.physical_copy_from+'_city'))
+            setattr(self, 'physical_postalcode', getattr(self,self.physical_copy_from+'_postalcode'))
+            setattr(self, 'physical_address', getattr(self,self.physical_copy_from+'_address'))
+
+    @api.onchange('postal_copy_from')
+    def _onchange_postal(self):
+        # set auto-changing field
+        if self.postal_copy_from:
+            setattr(self, 'postal_country', getattr(self,self.postal_copy_from+'_country'))
+            setattr(self, 'postal_state', getattr(self,self.postal_copy_from+'_state'))
+            setattr(self, 'postal_district', getattr(self,self.postal_copy_from+'_district'))
+            setattr(self, 'postal_city', getattr(self,self.postal_copy_from+'_city'))
+            setattr(self, 'postal_postalcode', getattr(self,self.postal_copy_from+'_postalcode'))
+            setattr(self, 'postal_address', getattr(self,self.postal_copy_from+'_address'))
     def Title(self):
         """ Return the contact's Fullname as title """
         return safe_unicode(self.getFullname()).encode('utf-8')

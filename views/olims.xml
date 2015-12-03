@@ -3428,65 +3428,89 @@
             <field name="model">olims.contact</field>
             <field name="arch" type="xml">
                 <form string="Contact Form">
-                    <label for="Salutation" string="Salutation"/>
-                    <field name="Salutation"></field>
-                    <label for="Firstname" string="First Name"/>
-                    <field name="Firstname"></field>
-                    <label for="Middleinitial" string="Middle Initial"/>
-                    <field name="Middleinitial"></field>
-                    <label for="Middlename" string="Middle Name"/>
-                    <field name="Middlename"></field>
-                    <label for="Surname" string="Surname"/>
-                    <field name="Surname"></field>
-                    <label for="JobTitle" string="Job Title"/>
-                    <field name="JobTitle"></field>
-                    <label for="Department" string="Department"/>
-                    <field name="Department"></field>
-                    <label for="EmailAddress" string="Email Address"/>
-                    <field name="EmailAddress"></field>
-                    <label for="BusinessPhone" string="Phone (business)"/>
-                    <field name="BusinessPhone"></field>
-                    <label for="BusinessFax" string="Fax (business)"/>
-                    <field name="BusinessFax"></field>
-                    <label for="HomePhone" string="Phone (home)"/>
-                    <field name="HomePhone"></field>
-                    <label for="MobilePhone" string="Phone (mobile)"/>
-                    <field name="MobilePhone"></field>
-                    <group col='2' string='Physical Address'>
-                    <label for='physical_country' string='Country'/>
-                    <field name="physical_country" nolabel='1'></field>
-                    <label for='physical_state' string='State'/>
-                    <field name="physical_state" nolabel='1'></field>
-                    <label for='physical_district' string='District'/>
-                    <field name="physical_district" nolabel='1'></field>
-                    <label for='physical_city' string='city'/>
-                    <field name="physical_city" nolabel='1'></field>
-                    <label for='physical_postalcode' string='code'/>
-                    <field name="physical_postalcode" nolabel='1'></field>
-                    <label for='physical_address' string='Addrss'/>
-                    <field name="physical_address" nolabel='1'></field>
-                    </group>
-                    <group col='2' string='Postal Address'>
-                    <label for='postal_country' string='Country'/>
-                    <field name="postal_country" nolabel='1'></field>
-                    <label for='postal_state' string='State'/>
-                    <field name="postal_state" nolabel='1'></field>
-                    <label for='postal_district' string='District'/>
-                    <field name="postal_district" nolabel='1'></field>
-                    <label for='postal_city' string='city'/>
-                    <field name="postal_city" nolabel='1'></field>
-                    <label for='postal_postalcode' string='code'/>
-                    <field name="postal_postalcode" nolabel='1'></field>
-                    <label for='postal_address' string='Addrss'/>
-                    <field name="postal_address" nolabel='1'></field>
-                    </group>
-                    <label for="PublicationPreference" string="Publication Preference"/>
-                    <field name="PublicationPreference"></field>
-                    <label for="CCContact" string="Contacts to CC"/>
-                    <field name="CCContact" widget="many2many_tags" options="{'no_create': True}"></field>
-                    <label for="AttachmentsPermitted" string="Attachments Permitted"/>
-                    <field name="AttachmentsPermitted"></field>
-                    </form>
+                    <notebook>
+                        <page string="Default">
+                            <label for="Salutation" string="Title"/>
+                            <p>Greeting title eg. Mr, Mrs, Dr</p>
+                            <field name="Salutation"></field>
+                            <label for="Firstname" string="First Name"/>
+                            <field name="Firstname"></field>
+                            <label for="Middleinitial" string="Middle Initial"/>
+                            <field name="Middleinitial"></field>
+                            <label for="Middlename" string="Middle Name"/>
+                            <field name="Middlename"></field>
+                            <label for="Surname" string="Surname"/>
+                            <field name="Surname"></field>
+                            <label for="JobTitle" string="Job Title"/>
+                            <field name="JobTitle"></field>
+                            <label for="Department" string="Department"/>
+                            <field name="Department"></field>
+                        </page>
+                        <page string="Email Telephone Fax">
+                            <label for="EmailAddress" string="Email Address"/>
+                            <field name="EmailAddress"></field>
+                            <label for="BusinessPhone" string="Phone (business)"/>
+                            <field name="BusinessPhone"></field>
+                            <label for="BusinessFax" string="Fax (business)"/>
+                            <field name="BusinessFax"></field>
+                            <label for="HomePhone" string="Phone (home)"/>
+                            <field name="HomePhone"></field>
+                            <label for="MobilePhone" string="Phone (mobile)"/>
+                            <field name="MobilePhone"></field>
+                        </page>
+                        <page string="Address">
+                            <group col='4' string='Physical Address'>
+                                <group col='2'>
+                                    <label for='physical_country' string='Country'/>
+                                    <field name="physical_country" nolabel='1'></field>
+                                    <label for='physical_state' string='State'/>
+                                    <field name="physical_state" nolabel='1'></field>
+                                    <label for='physical_district' string='District'/>
+                                    <field name="physical_district" nolabel='1'></field>
+                                    <label for='physical_city' string='city'/>
+                                    <field name="physical_city" nolabel='1'></field>
+                                    <label for='physical_postalcode' string='code'/>
+                                    <field name="physical_postalcode" nolabel='1'></field>
+                                    <label for='physical_address' string='Address'/>
+                                    <field name="physical_address" nolabel='1'></field>
+                                </group>
+                                <group col='2' class="oe_edit_only">
+                                    <label for='physical_copy_from' string='Copy From'/>
+                                    <field name="physical_copy_from" nolabel='1'></field>
+                                </group>
+                            </group>
+                            <group col='4' string='Postal Address'>
+                                <group col='2'>
+                                    <label for='postal_country' string='Country'/>
+                                    <field name="postal_country" nolabel='1'></field>
+                                    <label for='postal_state' string='State'/>
+                                    <field name="postal_state" nolabel='1'></field>
+                                    <label for='postal_district' string='District'/>
+                                    <field name="postal_district" nolabel='1'></field>
+                                    <label for='postal_city' string='city'/>
+                                    <field name="postal_city" nolabel='1'></field>
+                                    <label for='postal_postalcode' string='code'/>
+                                    <field name="postal_postalcode" nolabel='1'></field>
+                                    <label for='postal_address' string='Address'/>
+                                    <field name="postal_address" nolabel='1'></field>
+                                </group>
+                                <group col='2' class="oe_edit_only">
+                                    <label for='postal_copy_from' string='Copy From'/>
+                                    <field name="postal_copy_from" nolabel='1'></field>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Publication Preference">
+                            <label for="PublicationPreference" string="Publication Preference"/>
+                            <field name="PublicationPreference"></field>
+                            <label for="CCContact" string="Contacts to CC"/>
+                            <field name="CCContact" widget="many2many_tags" options="{'no_create': True}"></field>
+                            <field name="AttachmentsPermitted"></field>
+                            <label for="AttachmentsPermitted" string="Attachments Permitted"/>
+                            <p>File attachments to results, e.g. microscope photos, will be included in emails to recipients if this option is enabled</p>
+                        </page>
+                    </notebook>
+                </form>
             </field>
         </record>
 
