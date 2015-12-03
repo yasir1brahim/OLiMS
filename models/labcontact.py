@@ -133,7 +133,7 @@ schema =  (
     fields.Char(string='postal_postalcode'),
     fields.Char(string='postal_address'),
     fields.Selection([('physical', 'PhysicalAddress')],string='postal_copy_from'),
-      
+
     # ~~~~~~~ To be implemented ~~~~~~~
     # AddressField('PhysicalAddress',
     #     schemata = 'Address',
@@ -180,7 +180,8 @@ schema =  (
     #         description=_("The laboratory department"),
     #     ),
         ),
-    
+
+    fields.Many2one(comodel_name='res.users',string='user',domain="[('id', '=', '-1')]"),
 
     # ~~~~~~~ To be implemented ~~~~~~~
     # ComputedField('DepartmentTitle',
