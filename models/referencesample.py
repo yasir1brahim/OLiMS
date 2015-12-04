@@ -42,7 +42,13 @@ REFERENCE_SAMPLE_STATES = (
     ('disposed','Disposed'),
     )
 #schema = BikaSchema.copy() + Schema((
-schema = (
+schema = (StringField('Title',
+        required = 1,
+        widget = StringWidget(
+            label=_("Title"),
+        ),
+    ),
+    fields.Char(string="ID",compute="computeReferenceSampleId"),
     fields.Many2one(string='ReferenceDefinition',
                    comodel_name='olims.reference_definition',
         # schemata = 'Description',
@@ -159,18 +165,19 @@ schema = (
         ),
     
     # ~~~~~~~ To be implemented ~~~~~~~
-    # ReferenceResultsField('ReferenceResults',
-    #     schemata = 'Reference Values',
-    #     required = 1,
-    #     subfield_validators = {
-    #                 'result':'referencevalues_validator',
-    #                 'min':'referencevalues_validator',
-    #                 'max':'referencevalues_validator',
-    #                 'error':'referencevalues_validator'},
-    #     widget = ReferenceResultsWidget(
-    #         label=_("Expected Values"),
-    #     ),
-    # ),
+#     fields.One2many(string='ReferenceResults',
+#         comodel_name = 'olims.reference_values',
+#         inverse_name='reference_sample_id'
+#         required = 1,
+#         subfield_validators = {
+#                     'result':'referencevalues_validator',
+#                     'min':'referencevalues_validator',
+#                     'max':'referencevalues_validator',
+#                     'error':'referencevalues_validator'},
+#         widget = ReferenceResultsWidget(
+#             label=_("Expected Values"),
+#         ),
+#     ),
 
     # ~~~~~~~ To be implemented ~~~~~~~
     # ComputedField('SupplierUID',
@@ -195,6 +202,10 @@ class ReferenceSample(models.Model, BaseOLiMSModel): #BaseFolder
     # security = ClassSecurityInfo()
     # displayContentsTab = False
     # schema = schema
+
+    def computeReferenceSampleId(self):
+        for record in self:
+            record.ID = 'QC-0' + str(record.id)
 
     _at_rename_after_creation = True
     def _renameAfterCreation(self, check_auto_id=False):
