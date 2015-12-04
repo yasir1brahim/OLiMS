@@ -4259,144 +4259,181 @@
             <field name="model">olims.analysis_service</field>
             <field name="arch" type="xml">
                 <form string="Analysis Service Form">
-                	<label for="name" string="Title"/>
-                	<field name="name"></field>
-                	<label for="ShortTitle" string="Short Title"/>
-                	<field name="ShortTitle"></field>
-                    <label for="CommercialID" string="Commercial ID"/>
-                    <field name="CommercialID"></field>
-                    <label for="ProtocolID" string="Protocol ID"/>
-                    <field name="ProtocolID"></field>
-                	<label for="Description" string="Description"/>
-                	<field name="Description"></field>
-                    <field name="ScientificName"></field>
-                    <label for="ScientificName" string="Scientific name"/>
-                	<br/>
-                	<label for="Unit" string="Unit"/>
-                	<field name="Unit"></field>
-                    <label for="Keyword" string="Analysis Keyword"/>
-                    <p>The unique keyword used to identify the analysis service in import files of bulk AR requests and results imports from instruments. It is also used to identify dependent analysis services in user defined results calculations</p>
-                    <field name="Keyword"></field>
-                    <br/>
-                    <label for="PointOfCapture" string="Point of Capture"/>
-                    <field name="PointOfCapture" widget="radio"></field>
-                    <br/>
-                    <label for="Category" string="Analysis Category"/>
-                    <p>The category the analysis service belongs to</p>
-                    <field name="Category" options="{'no_create_edit': True}"></field>
-                    <label for="Price" string="Price (excluding VAT)"/>
-                    <field name="Price"></field>
-                    <label for="BulkPrice" string="Bulk price (excluding VAT"/>
-                    <field name="BulkPrice"></field>
-                    <label for="VAT" string="VAT %"/>
-                    <field name="VAT"></field>
-                    <label for="Department" string="Department"/>
-                    <field name="Department" options="{'no_create_edit': True}"></field>
-                	<label for="Precision" string="Precision as number of decimals"/>
-                	<field name="Precision"></field>
-                	<label for="ExponentialFormatPrecision" string="Exponential format precision"/>
-                	<field name="ExponentialFormatPrecision"></field>
-                	<label for="LowerDetectionLimit" string="Lower Detection Limit (LDL)"/>
-                	<field name="LowerDetectionLimit"></field>
-                	<label for="UpperDetectionLimit" string="Upper Detection Limit (UDL"/>
-                	<field name="UpperDetectionLimit"></field>
-                    <field name="DetectionLimitSelector"></field>
-                    <label for="DetectionLimitSelector" string="Display a Detection Limit selector"/>
-                    <br/>
-                    <field name="AllowManualDetectionLimit" attrs="{'invisible':[('DetectionLimitSelector','=', False)]}"></field>
-                    <label for="AllowManualDetectionLimit" string="Allow Manual Detection Limit input" attrs="{'invisible':[('DetectionLimitSelector','=', False)]}"/>
-                	<br/>
-                	<field name="ReportDryMatter"></field>
-                    <label for="ReportDryMatter" string="Report as Dry Matter"/>
-                	<br/>
-                    <label for="AttachmentOption" string="Attachment Option"/>
-                    <field name="AttachmentOption"></field>
-                    <br/>
-                    <group col='2' string='Maximum turn-around time '>
-                    <p >Maximum time allowed for completion of the analysis. 
-                     A late analysis alert is raised when this period elapses</p>
-                    <p></p>
-                    <label for="Days" string="Days"/>
-                    <field name="Days" nolabel='1'></field>
-                    <label for="Hours" string="Hours"/>
-                    <field name="Hours" nolabel='1'></field>
-                    <label for="Minutes" string="Minutes"/>
-                    <field name="Minutes" nolabel='1'></field>
-                    </group>
-                    <field name="Hidden"></field>
-                    <label for="Hidden" string="Hidden"/>
-                    <br/>
-                    <field name="ManualEntryOfResults"></field>
-                    <label for="Hidden" string="Allow manual entry of results"/>
-                    <br/>
-                    <label for="Methods" string="Methods"/>
-                    <field name="Methods" widget="many2many_tags" options="{'no_create_edit': True}"></field>
-                    <field name="InstrumentEntryOfResults"></field>
-                	<label for="InstrumentEntryOfResults" string="Allow instrument entry of results"/>
-                	<br/>
-                    <label for="Instruments" string="Instruments" attrs="{'invisible':[('InstrumentEntryOfResults','=', False)]}"/>
-                    <field name="Instruments" widget="many2many_tags" options="{'no_create_edit': True}" attrs="{'invisible':[('InstrumentEntryOfResults','=', False)]}"></field>
-                    <label for="Instrument" string="Default Instrument" attrs="{'invisible':[('InstrumentEntryOfResults','=', False)]}"/>
-                    <field name="Instrument" options="{'no_create_edit': True}" attrs="{'invisible':[('InstrumentEntryOfResults','=', False)]}"></field>
-                    <label for="_Method" string="Default Method"/>
-                    <field name="_Method" options="{'no_create_edit': True}"></field>
-                    <field name="UseDefaultCalculation"></field>
-                	<label for="UseDefaultCalculation" string="Use default calculation"/>
-                    <p>Select if the calculation to be used is the calculation set by default in the default method. If unselected, the calculation can be selected manually</p>
-                    <label for="_Calculation" string="Default Calculation" attrs="{'invisible':[('UseDefaultCalculation','=', True)]}"/>
-                    <field name="_Calculation" options="{'no_create_edit': True}" attrs="{'invisible':[('UseDefaultCalculation','=', True)]}"></field>
+                    <notebook>
+                        <page string="Description">
+                            <label for="name" string="Title"/>
+                            <field name="name"></field>
+                            <label for="ShortTitle" string="Short Title"/>
+                            <p>If text is entered here, it is used instead of the title when the service is listed in column headings. HTML formatting is allowed.</p>
+                            <field name="ShortTitle"></field>
+                            <label for="CommercialID" string="Commercial ID"/>
+                            <p>The service's commercial ID for accounting purposes</p>
+                            <field name="CommercialID"></field>
+                            <label for="ProtocolID" string="Protocol ID"/>
+                            <p>The service's analytical protocol ID</p>
+                            <field name="ProtocolID"></field>
+                            <label for="Description" string="Description"/>
+                            <p>Used in item listings and search results.</p>
+                            <field name="Description"></field>
+                            <field name="ScientificName"></field>
+                            <label for="ScientificName" string="Scientific name"/>
+                            <p>If enabled, the name of the analysis will be written in italics.</p>
+                            <label for="Unit" string="Unit"/>
+                            <p>The measurement units for this analysis service' results, e.g. mg/l, ppm, dB, mV, etc.</p>
+                            <field name="Unit"></field>
+                            <label for="Keyword" string="Analysis Keyword"/>
+                            <p>The unique keyword used to identify the analysis service in import files of bulk AR requests and results imports from instruments. It is also used to identify dependent analysis services in user defined results calculations</p>
+                            <field name="Keyword"></field>
+                            <br/>
+                            <label for="PointOfCapture" string="Point of Capture"/>
+                            <p>The results of field analyses are captured during sampling at the sample point, e.g. the temperature of a water sample in the river where it is sampled. Lab analyses are done in the laboratory</p>
+                            <field name="PointOfCapture" widget="radio"></field>
+                            <br/>
+                            <label for="Category" string="Analysis Category"/>
+                            <p>The category the analysis service belongs to</p>
+                            <field name="Category" options="{'no_create_edit': True}"></field>
+                            <label for="Price" string="Price (excluding VAT)"/>
+                            <field name="Price"></field>
+                            <label for="BulkPrice" string="Bulk price (excluding VAT"/>
+                            <p>The price charged per analysis for clients who qualify for bulk discounts</p>
+                            <field name="BulkPrice"></field>
+                            <label for="VAT" string="VAT %"/>
+                            <p>Enter percentage value eg. 14.0</p>
+                            <field name="VAT"></field>
+                            <label for="Department" string="Department"/>
+                            <p>The laboratory department</p>
+                            <field name="Department" options="{'no_create_edit': True}"></field>
+                            <label for="ChangeNote" string="Change Note"/>
+                            <p>Enter a comment that describes the changes you made.</p>
+                            <field name="ChangeNote"></field>
+                        </page>
+                        <page string="Analysis">
+                            <label for="Precision" string="Precision as number of decimals"/>
+                            <p>Define the number of decimals to be used for this result.</p>
+                            <field name="Precision"></field>
+                            <label for="ExponentialFormatPrecision" string="Exponential format precision"/>
+                            <p>Define the precision when converting values to exponent notation. The default is 7.</p>
+                            <field name="ExponentialFormatPrecision"></field>
+                            <label for="LowerDetectionLimit" string="Lower Detection Limit (LDL)"/>
+                            <p>The Lower Detection Limit is the lowest value to which the measured parameter can be measured using the specified testing methodology. Results entered which are less than this value will be reported as &lt; LDL</p>
+                            <field name="LowerDetectionLimit"></field>
+                            <label for="UpperDetectionLimit" string="Upper Detection Limit (UDL"/>
+                            <p>The Upper Detection Limit is the highest value to which the measured parameter can be measured using the specified testing methodology. Results entered which are greater than this value will be reported as  &gt; UDL</p>
+                            <field name="UpperDetectionLimit"></field>
+                            <field name="DetectionLimitSelector"></field>
+                            <label for="DetectionLimitSelector" string="Display a Detection Limit selector"/>
+                            <p>If checked, a selection list will be displayed next to the analysis' result field in results entry views. By using this selector, the analyst will be able to set the value as a Detection Limit (LDL or UDL) instead of a regular result</p>
+                            <field name="AllowManualDetectionLimit" attrs="{'invisible':[('DetectionLimitSelector','=', False)]}"></field>
+                            <label for="AllowManualDetectionLimit" string="Allow Manual Detection Limit input" attrs="{'invisible':[('DetectionLimitSelector','=', False)]}"/>
+                            <field name="ReportDryMatter"></field>
+                            <label for="ReportDryMatter" string="Report as Dry Matter"/>
+                            <p>These results can be reported as dry matter</p>
+                            <label for="AttachmentOption" string="Attachment Option"/>
+                            <field name="AttachmentOption"></field>
+                            <p>Indicates whether file attachments, e.g. microscope images, are required for this analysis and whether file upload function will be available for it on data capturing screens</p>
+                            <group col='2' string='Maximum turn-around time '>
+                                <p >Maximum time allowed for completion of the analysis.A late analysis alert is raised when this period elapses</p>
+                                <p></p>
+                                <label for="Days" string="Days"/>
+                                <field name="Days" nolabel='1'></field>
+                                <label for="Hours" string="Hours"/>
+                                <field name="Hours" nolabel='1'></field>
+                                <label for="Minutes" string="Minutes"/>
+                                <field name="Minutes" nolabel='1'></field>
+                            </group>
+                            <field name="Hidden"></field>
+                            <label for="Hidden" string="Hidden"/>
+                            <p>If enabled, this analysis and its results will not be displayed by default in reports. This setting can be overrided in Analysis Profile and/or Analysis Request</p>
+                            <label for="ChangeNote" string="Change Note"/>
+                            <p>Enter a comment that describes the changes you made.</p>
+                            <field name="ChangeNote"></field>
+                        </page>
+                        <page string="Method">
+                            <field name="ManualEntryOfResults"></field>
+                            <label for="ManualEntryOfResults" string="Allow manual entry of results"/>
+                            <p>Select if the results for this Analysis Service can be set manually.</p>
+                            <label for="Methods" string="Methods"/>
+                            <p>The Analysis Service can be performed by using more than one Method. The methods selected here are displayed in the Analysis Request creation view for its selection when this Analaysis Service is selected. Only methods with 'Allow manual entry of results' enabled are displayed.</p>
+                            <field name="Methods" widget="many2many_tags" options="{'no_create_edit': True}"></field>
+                            <field name="InstrumentEntryOfResults"></field>
+                            <label for="InstrumentEntryOfResults" string="Allow instrument entry of results"/>
+                            <p>Select if the results for this Analysis Service can be set using an Instrument.</p>
+                            <label for="Instruments" string="Instruments" attrs="{'invisible':[('InstrumentEntryOfResults','=', False)]}"/>
+                            <field name="Instruments" widget="many2many_tags" options="{'no_create_edit': True}" attrs="{'invisible':[('InstrumentEntryOfResults','=', False)]}"></field>
+                            <label for="Instrument" string="Default Instrument" attrs="{'invisible':[('InstrumentEntryOfResults','=', False)]}"/>
+                            <field name="Instrument" options="{'no_create_edit': True}" attrs="{'invisible':[('InstrumentEntryOfResults','=', False)]}"></field>
+                            <label for="_Method" string="Default Method"/>
+                            <p>If 'Allow instrument entry of results' is selected, the method from the default instrument will be used. Otherwise, only the methods selected above will be displayed.</p>
+                            <field name="_Method" options="{'no_create_edit': True}"></field>
+                            <field name="UseDefaultCalculation"></field>
+                            <label for="UseDefaultCalculation" string="Use default calculation"/>
+                            <p>Select if the calculation to be used is the calculation set by default in the default method. If unselected, the calculation can be selected manually</p>
+                            <label for="_Calculation" string="Default Calculation" attrs="{'invisible':[('UseDefaultCalculation','=', True)]}"/>
+                            <field name="_Calculation" options="{'no_create_edit': True}" attrs="{'invisible':[('UseDefaultCalculation','=', True)]}"></field>
                     <!--<label for="DeferredCalculation" string="Alternative Calculation"/>
                     <field name="DeferredCalculation" options="{'no_create_edit': True}"></field>-->
-                    <label for="InterimFields" string="Calculation Interim Fields" attrs="{'invisible':[('UseDefaultCalculation','=', True)]}"/>
-                    <p>Values can be entered here which will override the defaults specified in the Calculation Interim Fields.</p>
-                    <field name="InterimFields" widget='one2many_list' attrs="{'invisible':[('UseDefaultCalculation','=', True)]}"></field>
-                    <label for="DuplicateVariation" string="Duplicate Variation %"/>
-                    <field name="DuplicateVariation"></field>
-                	<field name="Accredited"></field>
-                    <label for="Accredited" string="Accredited"/>
-                	<br/>
-                    <label for="Uncertainties" string="Uncertainties"/>
-                	<p>Specify the uncertainty value for a given range, e.g. for results in a range with minimum of 0 and maximum of 10, 
-                	where the uncertainty value is 0.5 - a result of 6.67 will be reported as 6.67 +- 0.5. You can also specify the 
-                	uncertainty value as a percentage of the result value, by adding a '%' to the value entered in the 'Uncertainty Value' 
-                	column, e.g. for results in a range with minimum of 10.01 
-                	and a maximum of 100, where the uncertainty value is 2% - 
-                	a result of 100 will be reported as 100 +- 2. Please ensure 
-                	successive ranges are continuous, e.g. 0.00 - 10.00 is 
-                	followed by 10.01 - 20.00, 20.01 - 30 .00 etc.</p>
-                	<field name="Uncertainties" widget='one2many_list'></field>
-                    <field name="PrecisionFromUncertainty"></field>
-                	<label for="PrecisionFromUncertainty" string="Calculate Precision from Uncertainties"/>
-                    <p>Precision as the number of significant digits according to the uncertainty.
-                    The decimal position will be given by the first number different from zero in the uncertainty, at that position the system will round up the uncertainty and results.
-                    For example, with a result of 5.243 and an uncertainty of 0.22, the system will display correctly as 5.2+-0.2.
-                    If no uncertainty range is set for the result, the system will use the fixed precision set.</p>
-                	<br/>
-                	<field name="AllowManualUncertainty"></field>
-                    <label for="AllowManualUncertainty" string="Allow manual uncertainty value input"/>
-                	<br/>
-                	<label for="ResultOptions" string="Result Options"/>
-                	<p>Please list all options for the analysis result if you want to restrict it to specific options only, e.g. 
-                	'Positive', 'Negative' and 'Indeterminable'. The option's result value must be a number</p>
-                	<field name="ResultOptions" widget='one2many_list'></field>
-                    <field name="Separate"></field>
-                	<label for="Separate" string="Separate Container"/>
-                	<br/>
-                	<label for="Preservation" string="Default Preservation"/>
-                	<field name="Preservation" options="{'no_create_edit': True}"></field>
-                	<label for="Container" string="Default Container"/>
-                	<field name="Container" options="{'no_create_edit': True}"></field>
-                	<label for="PartitionSetup" string="Preservation per sample type"/>
-                	<p>Please specify preservations that differ from the 
-                	analysis service's default preservation per sample type here.</p>
-                	<field name="PartitionSetup" widget='one2many_list'></field>
-                    <br/>
+                            <label for="InterimFields" string="Calculation Interim Fields" attrs="{'invisible':[('UseDefaultCalculation','=', True)]}"/>
+                            <p>Values can be entered here which will override the defaults specified in the Calculation Interim Fields.</p>
+                            <field name="InterimFields" widget='one2many_list' attrs="{'invisible':[('UseDefaultCalculation','=', True)]}"></field>
+                            <label for="DuplicateVariation" string="Duplicate Variation %"/>
+                            <p>When the results of duplicate analyses on worksheets, carried out on the same sample, differ with more than this percentage, an alert is raised</p>
+                            <field name="DuplicateVariation"></field>
+                            <field name="Accredited"></field>
+                            <label for="Accredited" string="Accredited"/>
+                            <p>Check this box if the analysis service is included in the laboratory's schedule of accredited analyses</p>
+                            <!-- This setting can be overrided in Analysis Profile and/or Analysis Request</p> -->
+                            <label for="ChangeNote" string="Change Note"/>
+                            <p>Enter a comment that describes the changes you made.</p>
+                            <field name="ChangeNote"></field>
+                        </page>
+                        <page string="Uncertainties">
+                            <label for="Uncertainties" string="Uncertainties"/>
+                            <p>Specify the uncertainty value for a given range, e.g. for results in a range with minimum of 0 and maximum of 10, where the uncertainty value is 0.5 - a result of 6.67 will be reported as 6.67 +- 0.5. You can also specify the uncertainty value as a percentage of the result value, by adding a '%' to the value entered in the 'Uncertainty Value' column, e.g. for results in a range with minimum of 10.01 and a maximum of 100, where the uncertainty value is 2% - a result of 100 will be reported as 100 +- 2. Please ensure successive ranges are continuous, e.g. 0.00 - 10.00 is followed by 10.01 - 20.00, 20.01 - 30 .00 etc.</p>
+                            <field name="Uncertainties" widget='one2many_list'></field>
+                            <field name="PrecisionFromUncertainty"></field>
+                            <label for="PrecisionFromUncertainty" string="Calculate Precision from Uncertainties"/>
+                            <p>Precision as the number of significant digits according to the uncertainty.
+                           The decimal position will be given by the first number different from zero in the uncertainty, at that position the system will round up the uncertainty and results.
+                           For example, with a result of 5.243 and an uncertainty of 0.22, the system will display correctly as 5.2+-0.2.
+                           If no uncertainty range is set for the result, the system will use the fixed precision set.</p>
+                           <field name="AllowManualUncertainty"></field>
+                           <label for="AllowManualUncertainty" string="Allow manual uncertainty value input"/>
+                           <p>Allow the analyst to manually replace the default uncertainty value.</p>
+                           <label for="ChangeNote" string="Change Note"/>
+                           <p>Enter a comment that describes the changes you made.</p>
+                           <field name="ChangeNote"></field>
+                        </page>
+                        <page string="Result Options">
+                            <label for="ResultOptions" string="Result Options"/>
+                            <p>Please list all options for the analysis result if you want to restrict it to specific options only, e.g.'Positive', 'Negative' and 'Indeterminable'. The option's result value must be a number</p>
+                            <field name="ResultOptions" widget='one2many_list'></field>
+                            <label for="ChangeNote" string="Change Note"/>
+                            <p>Enter a comment that describes the changes you made.</p>
+                            <field name="ChangeNote"></field>
+                        </page>
+                        <page string="Container and Preservation">
+                            <field name="Separate"></field>
+                            <label for="Separate" string="Separate Container"/>
+                            <p>Check this box to ensure a separate sample container is used for this analysis service</p>
+                            <label for="Preservation" string="Default Preservation"/>
+                            <p>Select a default preservation for this analysis service. If the preservation depends on the sample type combination, specify a preservation per sample type in the table below</p>
+                            <field name="Preservation" options="{'no_create_edit': True}"></field>
+                            <label for="Container" string="Default Container"/>
+                            <p>Select the default container to be used for this analysis service. If the container to be used depends on the sample type and preservation combination, specify the container in the sample type table below</p>
+                            <field name="Container" options="{'no_create_edit': True}"></field>
+                            <label for="PartitionSetup" string="Preservation per sample type"/>
+                            <p>Please specify preservations that differ from the analysis service's default preservation per sample type here.</p>
+                            <field name="PartitionSetup" widget='one2many_list'></field>
+                            <br/>
                     <!--<label for="VATAmount" string="VAT Amount"/>
                 	<field name="VATAmount"></field>
                 	<label for="TotalPrice" string="Total Price"/>
                     <field name="TotalPrice"></field>-->
-                	<label for="ChangeNote" string="Change Note"/>
-                	<field name="ChangeNote"></field>
+                            <label for="ChangeNote" string="Change Note"/>
+                            <p>Enter a comment that describes the changes you made.</p>
+                            <field name="ChangeNote"></field>
+                        </page>
+                </notebook>
                 </form>
             </field>
         </record>
