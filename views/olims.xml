@@ -3443,6 +3443,10 @@
 		                    <label for="PublicationPreference" string="Publication preference"/>
 		                    <field name="PublicationPreference"></field>
 		                </page>
+				        <page string="Login Details">
+				            <label for="user" string="User"/>
+		                    <field name="user" context="{'form_view_ref':'base.view_users_form'}"></field>
+				        </page>
                     </notebook>
                     
                     </form>
