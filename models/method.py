@@ -118,7 +118,8 @@ schema = (
     # be able to set or unset the value. The behavior for this field
     # is controlled with javascript.
     BooleanField('ManualEntryOfResults',
-        default=False,
+        default=True,
+        readonly=True,
         widget=BooleanWidget(
             label=_("Manual entry of results"),
             description=_("The results for the Analysis Services that use this method can be set manually"),
@@ -179,6 +180,13 @@ schema = (
         widget=BooleanWidget(
             label=_("Accredited"),
             description=_("Check if the method has been accredited"))
+    ),
+    StringField('ChangeNote',
+        schemata = 'Description',
+        widget=StringWidget(
+            label=_("Change Note"),
+            description=_("Enter a comment that describes the changes you made")
+        ),
     ),
 )#)
 

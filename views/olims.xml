@@ -3901,25 +3901,34 @@
                 	<label for="name" string="Title"/>
                 	<field name="name"></field>
                 	<label for="Description" string="Description"/>
+                    <p>Describes the method in layman terms. This information is made available to lab clients</p>
                 	<field name="Description"></field>
                 	<label for="MethodID" string="Method ID"/>
+                    <p>Define an identifier code for the method. It must be unique.</p>
                 	<field name="MethodID"></field>
                 	<label for="Instructions" string="Method Instructions"/>
+                    <p>Technical description and instructions intended for analysts</p>
                 	<field name="Instructions"></field>
                 	<label for="MethodDocument" string="Method Document"/>
+                    <p>Load documents describing the method here</p>
                 	<field name="MethodDocument"></field>
                     <label for="Instruments" string="Instruments"/>
-                    <p>The selected instruments have support for this method.</p>
+                    <p>The selected instruments have support for this method. Use the Instrument edit view to assign the method to a specific instrument</p>
                     <field name="Instruments" options="{'no_create': True}"></field>
+                    <field name="ManualEntryOfResults"></field>
                 	<label for="ManualEntryOfResults" string="Manual entry of results"/>
-                	<field name="ManualEntryOfResults"></field>
-                    <br/>
+                    <p>The results for the Analysis Services that use this method can be set manually</p>
                 	<!-- <label for="ManualEntryOfResultsViewField" string="Manual entry of results"/>
                 	<field name="ManualEntryOfResultsViewField"></field>-->
                 	<label for="Calculation" string="Calculation"/>
+                    <p>If required, select a calculation for the The analysis services linked to this method. Calculations can be configured under the calculations item in the LIMS set-up</p>
                     <field name="Calculation" options="{'no_create': True}"></field>
+                    <field name="Accredited"></field>
                 	<label for="Accredited" string="Accredited"/>
-                	<field name="Accredited"></field>
+                    <p>Check if the method has been accredited</p>
+                    <label for="ChangeNote" string="Change Note"/>
+                    <p>Enter a comment that describes the changes you made.</p>
+                    <field name="ChangeNote"></field>
                 </form>
             </field>
         </record>
