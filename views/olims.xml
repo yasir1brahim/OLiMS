@@ -3836,31 +3836,42 @@
             <field name="model">olims.analysis_profile</field>
             <field name="arch" type="xml">
                 <form string="Analysis Profile Form">
-                	<label for="name" string="Title"/>
-                	<field name="name"></field>
-                	<label for="Description" string="Description"/>
-                	<field name="Description"></field>
-                	<label for="ProfileKey" string="Profile Keyword"/>
-                	<field name="ProfileKey"></field>
-                	<label for="Service" string="Service"/>
-                	<p>The analyses included in this profile, grouped per category</p>
-                    <field name="Service" options="{'no_create': True}"></field>
+                    <notebook>
+                        <page string="Default">
+                            <label for="name" string="Title"/>
+                            <field name="name"></field>
+                            <label for="Description" string="Description"/>
+                            <p>Used in item listings and search results.</p>
+                            <field name="Description"></field>
+                            <label for="ProfileKey" string="Profile Keyword"/>
+                            <p>The profile's keyword is used to uniquely identify it in import files. It has to be unique, and it may not be the same as any Calculation Interim field ID.</p>
+                            <field name="ProfileKey"></field>
+                        </page>
+                        <page string="Analyses">
+                            <label for="Service" string="Service"/>
+                            <p>The analyses included in this profile, grouped per category</p>
+                            <field name="Service" options="{'no_create': True}"></field>
+                        </page>
                     <!--<label for="Remarks" string="Remarks"/>
                     <field name="Remarks"></field>-->
-                    <label for="CommercialID" string="Commercial ID"/>
-                	<field name="CommercialID"></field>
-                	<label for="UseAnalysisProfilePrice" string="Use Analysis Profile Price"/>
-                	<field name="UseAnalysisProfilePrice"></field>
-                    <br/>
-                	<label for="AnalysisProfilePrice" string="Price (excluding VAT)"/>
-                	<field name="AnalysisProfilePrice"></field>
-                	<label for="AnalysisProfileVAT" string="Analysis Profile VAT%"/>
-                	<field name="AnalysisProfileVAT"></field>
-                	<label for="VATAmount" string="VAT Amount compute "/>
-                	<field name="VATAmount"></field>
-                	<label for="TotalPrice" string="Total Price"/>
-                	<field name="TotalPrice"></field>
-                	
+                        <page string="Accounting">
+                            <label for="CommercialID" string="Commercial ID"/>
+                            <p>The profile's commercial ID for accounting purposes.</p>
+                            <field name="CommercialID"></field>
+                            <field name="UseAnalysisProfilePrice"></field>
+                            <label for="UseAnalysisProfilePrice" string="Use Analysis Profile Price"/>
+                            <p>When it's set, the system uses the analysis profile's price to quote and the system's VAT is overridden by the analysis profile's specific VAT</p>
+                            <label for="AnalysisProfilePrice" string="Price (excluding VAT)"/>
+                            <field name="AnalysisProfilePrice"></field>
+                            <label for="AnalysisProfileVAT" string="VAT %"/>
+                            <p>Enter percentage value eg. 14.0. This percentage is applied on the Analysis Profile only, overriding the systems VAT</p>
+                            <field name="AnalysisProfileVAT"></field>
+                            <!-- <label for="VATAmount" string="VAT Amount compute"/>
+                            <field name="VATAmount"></field>
+                            <label for="TotalPrice" string="Total Price"/>
+                            <field name="TotalPrice"></field> -->
+                        </page>
+                    </notebook>
                 </form>
             </field>
         </record>
