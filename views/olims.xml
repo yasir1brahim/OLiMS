@@ -558,28 +558,39 @@
             <field name="model">olims.ar_template</field>
             <field name="arch" type="xml">
                 <form string="AR Template Form">
-                	<label for="name" string="Name"/>
-                	<field name="name"></field>
-                	<label for="Description" string="Description"/>
-                    <field name="Description"></field>
-                    <label for="Sample Point" string="Sample Point"/>
-                    <field name="Sample Point" options="{'no_create': True}"></field>                     
-                    <label for="SampleType" string="Sample Type"/>
-                    <field name="SampleType" options="{'no_create': True}"></field>
-                    <label for="ReportDryMatter" string="Report Dry Matter"/>
-                    <field name="ReportDryMatter" ></field>
-                    <br/>
-                    <label for="Remarks" string="Remarks"/>
-                    <field name="Remarks" ></field>
-                    <label for="Partitions" string="Sample Partitions"/>
-                    <p>Configure the sample partitions and preservations  for this template. Assign analyses to the different 
-                    partitions on the template's Analyses tab</p>
-                    <field name="Partitions" widget='one2many_list'></field>
-                    <label for="AnalysisProfile" string="Analysis Profile"/>
-                    <field name="AnalysisProfile" options="{'no_create': True}"></field>
-                    <label for="Analyses" string="Analyses"/>
-                    <p>Select analyses to include in this template</p>
-                    <field name="Analyses" widget='one2many_list'></field>
+                    <notebook>
+                        <page string="Default">
+                            <label for="name" string="Title"/>
+                            <field name="name"></field>
+                            <label for="Description" string="Description"/>
+                            <p>Used in item listings and search results.</p>
+                            <field name="Description"></field>
+                            <label for="Sample Point" string="Sample Point"/>
+                            <p>Location where sample was taken</p>
+                            <field name="Sample Point" options="{'no_create': True}"></field>
+                            <label for="SampleType" string="Sample Type"/>
+                            <p>Create a new sample of this type</p>
+                            <field name="SampleType" options="{'no_create': True}"></field>
+                            <field name="ReportDryMatter" ></field>
+                            <label for="ReportDryMatter" string="Report Dry Matter"/>
+                            <p>These results can be reported as dry matter</p>
+                        </page>
+                    <!-- <label for="Remarks" string="Remarks"/>
+                    <field name="Remarks" ></field> -->
+                        <page string="Sample Partitions">
+                            <label for="Partitions" string="Sample Partitions"/>
+                            <p>Configure the sample partitions and preservations  for this template. Assign analyses to the different partitions on the template's Analyses tab</p>
+                            <field name="Partitions" widget='one2many_list'></field>
+                        </page>
+                        <page string="Analyses">
+                            <label for="AnalysisProfile" string="Analysis Profile"/>
+                            <p>The Analysis Profile selection for this template</p>
+                            <field name="AnalysisProfile" options="{'no_create': True}"></field>
+                            <label for="Analyses" string="Analyses"/>
+                            <p>Select analyses to include in this template</p>
+                            <field name="Analyses" widget='one2many_list'></field>
+                        </page>
+                    </notebook>
                 </form>
             </field>
         </record>
