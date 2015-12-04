@@ -751,19 +751,27 @@
                     <label for="name" string="Title"/>
                 	<field name="name"></field>
                 	<label for="Description" string="Description"/>
+                    <p>Used in item listings and search results.</p>
                 	<field name="Description"></field>
                     <label for="sortKey" string="SortKey"/>
+                    <p>Numeric value indicating the sort order of objects that are prioritised</p>
                     <field name="sortKey"></field>                     
                     <label for="pricePremium" string="pricePremium"/>
+                    <p>The percentage used to calculate the price for analyses done at this priority</p>
                     <field name="pricePremium"></field>
                     <label for="smallIcon" string="Small Icon"/>
+                    <p>16x16 pixel icon used for the this priority in listings.</p>
                     <field name="smallIcon" widget='image'></field>
-                    <label for="bigIcon" string="Big Icon"/>
-                    <field name="bigIcon" widget='image'></field>
-                    <label for="isDefault" string="isDefault"/>
-                    <field name="isDefault"></field>
                     <br/>
+                    <label for="bigIcon" string="Big Icon"/>
+                    <p>32x32 pixel icon used for the this priority in object views.</p>
+                    <field name="bigIcon" widget='image'></field>
+                    <br/>
+                    <field name="isDefault"></field>
+                    <label for="isDefault" string="isDefault"/>
+                    <p>Check this box if this is the default priority</p>
                     <label for="ChangeNote" string="Change Note"/>
+                    <p>Enter a comment that describes the changes you made.</p>
                 	<field name="ChangeNote"></field>
                 </form>
             </field>
@@ -791,7 +799,7 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="ar_priority_menu" name="AR Priority" parent="olims_settings_menu" sequence="15"
+        <menuitem id="ar_priority_menu" name="AR Priorities" parent="olims_settings_menu" sequence="15"
                   action="ar_priority_action"/>
 
 
