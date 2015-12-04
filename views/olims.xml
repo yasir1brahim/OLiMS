@@ -1454,9 +1454,11 @@
                     <label for="BulkDiscount" string="Bulk discount applies"/>
                     <field name="BulkDiscount" widget="radio"></field>
                     <label for="BulkPrice" string="Discount %"/>
+                    <p>Enter discount percentage value</p>
                     <field name="BulkPrice"></field>
-                    <label for="Descriptions" string="Include descriptions"/>
                     <field name="Descriptions"></field>
+                    <label for="Descriptions" string="Include descriptions"/>
+                    <p>Select if the descriptions should be included</p>
                 </form>
             </field>
         </record>
