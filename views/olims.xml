@@ -4098,10 +4098,13 @@
                 	<label for="name" string="Title"/>
                 	<field name="name"></field>
                 	<label for="Description" string="Description"/>
+                    <p>Used in item listings and search results.</p>
                 	<field name="Description"></field>
                 	<label for="Comments" string="Comments"/>
+                    <p>To be displayed below each Analysis Category section on results reports.</p>
                 	<field name="Comments"></field>
                 	<label for="Department" string="Department"/>
+                    <p>The laboratory department</p>
                     <field name="Department" options="{'no_create': True}"></field>
                 	
                 </form>
