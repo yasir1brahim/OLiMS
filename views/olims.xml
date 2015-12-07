@@ -2297,20 +2297,22 @@
                     <label for="name" string="Title"/>
                     <field name="name"></field>
                     <label for="Description" string="Description"/>
+                    <p>Used in item listings and search results.</p>
                     <field name="Description"></field>
                     <label for="Volume" string="Volume"/>
-                	<field name="Volume"></field>
-                	<label for="Unit" string="Unit"/>
+                    <field name="Volume"></field>
+                    <label for="Unit" string="Unit"/>
                     <field name="Unit"></field>
                     <label for="VAT" string="VAT %"/>
-                	<field name="VAT"></field>
+                    <p>Enter percentage value eg. 14.0</p>
+                    <field name="VAT"></field>
                     <label for="Price" string="Price excluding VAT"/>
-                	<field name="Price"></field>
+                    <field name="Price"></field>
                     <label for="Quantity" string="Quantity"/>
                     <field name="Quantity"></field>
                     <!--<label for="VATAmount" string="VATAmount"/>
-                	<field name="VATAmount"></field>
-                	<label for="TotalPrice" string="Total Price"/>
+                    <field name="VATAmount"></field>
+                    <label for="TotalPrice" string="Total Price"/>
                     <field name="TotalPrice"></field>-->
                 </form>
             </field>
