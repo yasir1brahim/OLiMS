@@ -4170,10 +4170,11 @@
             <field name="model">olims.manufacturer</field>
             <field name="arch" type="xml">
                 <form string="Manufacturer Form">
-                	<label for="Title" string="Title"/>
-                	<field name="Title"></field>
-                	<label for="Description" string="Description"/>
-                	<field name="Description"></field>
+                    <label for="Title" string="Title"/>
+                    <field name="Title"></field>
+                    <label for="Description" string="Description"/>
+                    <p>Used in item listings and search results.</p>
+                    <field name="Description"></field>
                 </form>
             </field>
         </record>
