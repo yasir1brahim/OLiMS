@@ -2035,26 +2035,37 @@
                     <label for="name" string="Address"/>
                     <field name="name"></field>
                     <label for="Description" string="Description"/>
+                    <p>Used in item listings and search results.</p>
                     <field name="Description"></field>
                     <label for="SiteTitle" string="Site Title"/>
+                    <p>Title of the site</p>
                 	<field name="SiteTitle"></field>
                 	<label for="SiteCode" string="Site Code"/>
+                    <p>Code for the site</p>
                     <field name="SiteCode"></field>
                     <label for="SiteDescription" string="Site Description"/>
+                    <p>Description of the site</p>
                 	<field name="SiteDescription"></field>
                     <label for="LocationTitle" string="Location Title"/>
+                    <p>Title of location</p>
                 	<field name="LocationTitle"></field>
                     <label for="LocationCode" string="Location Code"/>
+                    <p>Code for the location</p>
                 	<field name="LocationCode"></field>
                     <label for="LocationDescription" string="Location Description"/>
+                    <p>Description of the location</p>
                 	<field name="LocationDescription"></field>
                     <label for="LocationType" string="Location Type"/>
+                    <p>Type of location</p>
                 	<field name="LocationType"></field>
                     <label for="ShelfTitle" string="Shelf Title"/>
+                    <p>Title of the shelf</p>
                 	<field name="ShelfTitle"></field>
                     <label for="ShelfCode" string="Shelf Code"/>
+                    <p>Code the the shelf</p>
                 	<field name="ShelfCode"></field>
                     <label for="ShelfDescription" string="Shelf Description"/>
+                    <p>Description of the shelf</p>
                 	<field name="ShelfDescription"></field>
 
                 </form>
