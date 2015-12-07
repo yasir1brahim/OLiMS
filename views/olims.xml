@@ -1874,16 +1874,25 @@
             <field name="model">olims.worksheet_template</field>
             <field name="arch" type="xml">
                 <form string="worksheet Template Form">
-                	<label for="name" string="Title"/>
-                	<field name="name"></field>
-                	<label for="Description" string="Description"/>
-                	<field name="Description"></field>
-                	<label for="Instrument" string="Instrument"/>
-                    <p>Select the preferred instrument</p>
-                    <field name="Instrument" options="{'no_create': True}"></field>
-                    <label for="Service" string="Service"/>
-                    <p>Select which Analyses should be included on the Worksheet</p>
-                    <field name="Service" options="{'no_create': True}"></field>
+                    <notebook>
+                        <page string="Description">
+                            <label for="name" string="Title"/>
+                            <field name="name"></field>
+                            <label for="Description" string="Description"/>
+                            <p>Used in item listings and search results.</p>
+                            <field name="Description"></field>
+                            <label for="Instrument" string="Instrument"/>
+                            <p>Select the preferred instrument</p>
+                            <field name="Instrument" options="{'no_create': True}"></field>
+                        </page>
+                        <page string="Layout">
+                        </page>
+                        <page string="Analyses">
+                            <label for="Service" string="Service"/>
+                            <p>Select which Analyses should be included on the Worksheet</p>
+                            <field name="Service" options="{'no_create': True}"></field>
+                        </page>
+                    </notebook>
                 </form>
             </field>
         </record>
