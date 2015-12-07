@@ -149,7 +149,7 @@ schema = (
     fields.Selection([('physical', 'PhysicalAddress')],string='postal_copy_from'),
 
         # note line filed multi-select , multi-select need to be implemented
-    ReferenceField(string='PublicationPreference',
+    fields.Selection(string='PublicationPreference',
                selection=([ ('email', _('Email')), ('pdf', _('PDF'))]),
             # widget = MultiSelectionWidget(
             #     label=_("Publication preference"),
