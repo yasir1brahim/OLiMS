@@ -67,6 +67,7 @@
                     <label for="name" string="Title"/>
                     <field name="name"></field>
                     <label for="Description" string="Description"/>
+                    <p>Used in item listings and search results.</p>
                     <field name="Description"></field>
                 </form>
             </field>
