@@ -183,8 +183,10 @@
                     <label for="name" string="Title"/>
                     <field name="name"></field>
                     <label for="Description" string="Description"/>
+                    <p>Used in item listings and search results.</p>
                     <field name="Description"></field>
                     <label for="SortKey" string="Sort Key"/>
+                    <p>Subgroups are sorted with this key in group views</p>
                     <field name="SortKey"></field>                        
                 </form>
             </field>
