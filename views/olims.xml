@@ -3780,43 +3780,59 @@
             <field name="model">olims.instrument</field>
             <field name="arch" type="xml">
                 <form string="Instrument Form">
-                    <label for="name" string="Title"/>
-                	<field name="name"></field>
-                    <label for="AssetNumber" string="Asset Number"/>
-                    <field name="AssetNumber"></field>
-                    <label for="Description" string="Description"/>
-                	<field name="Description"></field>
-                	<label for="InstrumentType" string="Instrument Type"/>
-                    <field name="InstrumentType" options="{'no_create': True}"></field>
-                    <label for="Brand" string="Manufacturer"/>
-                    <field name="Brand" options="{'no_create': True}"></field>
-                    <label for="Supplier" string="Supplier"/>
-                    <field name="Supplier" options="{'no_create': True}"></field>
-                    <label for="Model" string="Model"/>
-                    <field name="Model"></field>
-                    <label for="SerialNo" string="Serial No"/>
-                    <p>The serial number that uniquely identifies the instrument</p>
-                    <field name="SerialNo"></field>
-                    <label for="Method" string="Method"/>
-                    <field name="Method"></field>
-                    <label for="DisposeUntilNextCalibrationTest" string="De-activate until next calibration test"/>
-                    <field name="DisposeUntilNextCalibrationTest"></field>
-                    <br/>
-                    <label for="InlabCalibrationProcedure" string="In lab Calibration Procedure"/>
-                    <field name="InlabCalibrationProcedure"></field>
-                    <label for="PreventiveMaintenanceProcedure" string="Preventive Maintenance Procedure"/>
-                    <field name="PreventiveMaintenanceProcedure"></field>
-                    <label for="Location" string="Location"/>
-                    <field name="Location"></field>
-                    <label for="Photo" string="Photo"/>
-                    <field name="Photo"  widget='image'></field>
-                    <br/>
-                    <label for="InstallationDate" string="Installation Date"/>
-                    <field name="InstallationDate"></field>
-                    <label for="InstallationCertificate" string="Installation Certificate"/>
-                    <field name="InstallationCertificate"></field>
-
-                    </form>
+                    <notebook>
+                        <page string="Default">
+                            <label for="name" string="Title"/>
+                            <field name="name"></field>
+                            <label for="AssetNumber" string="Asset Number"/>
+                            <p>The instrument's ID in the lab's asset register</p>
+                            <field name="AssetNumber"></field>
+                            <label for="Description" string="Description"/>
+                            <p>Used in item listings and search results.</p>
+                            <field name="Description"></field>
+                            <label for="InstrumentType" string="Instrument Type"/>
+                            <field name="InstrumentType" options="{'no_create': True}"></field>
+                            <label for="Brand" string="Manufacturer"/>
+                            <field name="Brand" options="{'no_create': True}"></field>
+                            <label for="Supplier" string="Supplier"/>
+                            <field name="Supplier" options="{'no_create': True}"></field>
+                            <label for="Model" string="Model"/>
+                            <p>The instrument's model number</p>
+                            <field name="Model"></field>
+                            <label for="SerialNo" string="Serial No"/>
+                            <p>The serial number that uniquely identifies the instrument</p>
+                            <field name="SerialNo"></field>
+                            <label for="Method" string="Method"/>
+                            <field name="Method"></field>
+                            <field name="DisposeUntilNextCalibrationTest"></field>
+                            <label for="DisposeUntilNextCalibrationTest" string="De-activate until next calibration test"/>
+                            <p>If checked, the instrument will be unavailable until the next valid calibration was performed. This checkbox will automatically be unchecked.</p>
+                        </page>
+                        <page string="Procedures">
+                            <label for="InlabCalibrationProcedure" string="In lab Calibration Procedure"/>
+                            <p>Instructions for in-lab regular calibration routines intended for analysts</p>
+                            <field name="InlabCalibrationProcedure"></field>
+                            <label for="PreventiveMaintenanceProcedure" string="Preventive Maintenance Procedure"/>
+                            <p>Instructions for regular preventive and maintenance routines intended for analysts</p>
+                            <field name="PreventiveMaintenanceProcedure"></field>
+                        </page>
+                        <page string="Additional Info.">
+                            <label for="Location" string="Location"/>
+                            <p>The room and location where the instrument is installed</p>
+                            <field name="Location"></field>
+                            <label for="Photo" string="Photo"/>
+                            <p>Photo of the instrument</p>
+                            <field name="Photo"  widget='image'></field>
+                            <br/>
+                            <label for="InstallationDate" string="Installation Date"/>
+                            <p>The date the instrument was installed</p>
+                            <field name="InstallationDate"></field>
+                            <label for="InstallationCertificate" string="Installation Certificate"/>
+                            <p>Installation certificate upload</p>
+                            <field name="InstallationCertificate"></field>
+                        </page>
+                    </notebook>
+                </form>
             </field>
         </record>
 
