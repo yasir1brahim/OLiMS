@@ -4248,10 +4248,11 @@
             <field name="model">olims.department</field>
             <field name="arch" type="xml">
                 <form string="Department">
-                	<label for="name" string="Title"/>
-                	<field name="name"></field>
-                	<label for="Description" string="Description"/>
-                	<field name="Description"></field>
+                    <label for="name" string="Title"/>
+                    <field name="name"></field>
+                    <label for="Description" string="Description"/>
+                    <p>Used in item listings and search results.</p>
+                    <field name="Description"></field>
                     <label for="Manager" string="Manager"/>
                     <p>Select a manager from the available personnel configured under the 'lab contacts' setup item. Departmental managers are referenced on analysis results reports containing analyses by their department.</p>
                     <field name="Manager" options="{'no_create': True}"></field>
