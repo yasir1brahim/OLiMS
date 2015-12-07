@@ -483,3 +483,27 @@ Area,Capital,Continent,name,CurrencyCode,CurrencyName,EquivalentFipsCode,id,ISO-
 ",VI,850,VIR,en-VI,+1-340,108708,,,VQ,4796775,,.vi
 329560,Hanoi,AS,Vietnam,VND,Dong,"
 ",VN,704,VNM,"vi,en,fr,zh,km",84,89571,,,,,,
+12200,Port Vila,OC,Vanuatu,VUV,Vatu,"
+",VU,548,VUT,"bi,en-VU,fr-VU",678,221552,,,NH,2134431,,.vu
+274,Mata Utu,OC,Wallis and Futuna,XPF,Franc,"
+",WF,876,WLF,"wls,fud,fr-WF",681,16025,#####,^(986\d{2})$,WF,4034749,,.wf
+2944,Apia,OC,Samoa,WST,Tala,"
+",WS,882,WSM,"sm,en-WS",685,192001,,,WS,4034894,,.ws
+527970,Sanaa,AS,Yemen,YER,Rial,"
+",YE,887,YEM,ar-YE,967,23495361,,,YM,69543,"SA,OM",.ye
+374,Mamoudzou,AF,Mayotte,EUR,Euro,"
+",YT,175,MYT,fr-YT,262,159042,#####,^(\d{5})$,MF,1024031,,.yt
+1219912,Pretoria,AF,South Africa,ZAR,Rand,"
+",ZA,710,ZAF,"zu,xh,af,nso,en-ZA,tn,st,ts,ss,ve,nr",27,49000000,####,^(\d{4})$,SF,953987,"ZW,SZ,MZ,BW,NA,LS",.za
+752614,Lusaka,AF,Zambia,ZMK,Kwacha,"
+",ZM,894,ZMB,"en-ZM,bem,loz,lun,lue,ny,toi",260,13460305,#####,^(\d{5})$,ZA,895949,"ZW,TZ,MZ,CD,NA,MW,AO",.zm
+390580,Harare,AF,Zimbabwe,ZWL,Dollar,"
+",ZW,716,ZWE,"en-ZW,sn,nr,nd",263,11651858,,,ZI,878675,"ZA,MZ,BW,ZM",.zw
+102350,Belgrade,EU,Serbia and Montenegro,RSD,Dinar,"
+",CS,891,SCG,"cu,hu,sq,sr",381,10829175,#####,^(\d{5})$,YI,,"AL,HU,MK,RO,HR,BA,BG",.cs
+960,Willemstad,NA,Netherlands Antilles,ANG,Guilder,"
+",AN,530,ANT,"nl-AN,en,es",599,136197,,,NT,,GP,.an
+468,Andorra la Vella,EU,Andorra,EUR,Euro,"
+",AD,20,AND,ca,376,84000,AD###,^(?:AD)*(\d{3})$,AN,3041565,"ES,FR",.ad
+82880,Abu Dhabi,AS,United Arab Emirates,AED,Dirham,"
+",AE,784,ARE,"ar-AE,fa,en,hi,ur",971,4975593,,,AE,290557,"SA,OM",.ae

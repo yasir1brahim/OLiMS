@@ -35,6 +35,7 @@
         'data/workflow.activity.csv',
         'data/workflow.transition.csv',
         'data/olims.country.csv',
+        'data/olims.state.csv',
     ],
     # only loaded in demonstration mode
     'demo': [
