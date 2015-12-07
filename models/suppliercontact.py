@@ -12,7 +12,7 @@
 # from lims.utils import t
 # from dependencies.dependency import implements
 
-from openerp import fields, models
+from openerp import fields, models, api
 from fields.string_field import StringField
 from base_olims_model import BaseOLiMSModel
 from fields.widget.widget import StringWidget
@@ -114,6 +114,7 @@ schema = (
     fields.Char(string='physical_city'),
     fields.Char(string='physical_postalcode'),
     fields.Char(string='physical_address'),
+    fields.Selection([('postal', 'PostalAddress')],string='physical_copy_from'),
            
           
     # # ~~~~~~~~~~ PostalAddress behavior in Odoo is as selection field ~~~~~~~~~~~
@@ -123,8 +124,7 @@ schema = (
     fields.Char(string='postal_city'),
     fields.Char(string='postal_postalcode'),
     fields.Char(string='postal_address'),
-    
-
+    fields.Selection([('physical', 'PhysicalAddress')],string='postal_copy_from'),
 )
 
 # schema['JobTitle'].schemata = 'default'
@@ -176,6 +176,28 @@ class SupplierContact(models.Model, BaseOLiMSModel): #Person
                 else:
                     fullname = '%s %s' % (record.getFirstname(), record.getSurname())
             record.Fullname = fullname.strip()
+
+    @api.onchange('physical_copy_from')
+    def _onchange_physical(self):
+        # set auto-changing field
+        if self.physical_copy_from:
+            setattr(self, 'physical_country', getattr(self,self.physical_copy_from+'_country'))
+            setattr(self, 'physical_state', getattr(self,self.physical_copy_from+'_state'))
+            setattr(self, 'physical_district', getattr(self,self.physical_copy_from+'_district'))
+            setattr(self, 'physical_city', getattr(self,self.physical_copy_from+'_city'))
+            setattr(self, 'physical_postalcode', getattr(self,self.physical_copy_from+'_postalcode'))
+            setattr(self, 'physical_address', getattr(self,self.physical_copy_from+'_address'))
+
+    @api.onchange('postal_copy_from')
+    def _onchange_postal(self):
+        # set auto-changing field
+        if self.postal_copy_from:
+            setattr(self, 'postal_country', getattr(self,self.postal_copy_from+'_country'))
+            setattr(self, 'postal_state', getattr(self,self.postal_copy_from+'_state'))
+            setattr(self, 'postal_district', getattr(self,self.postal_copy_from+'_district'))
+            setattr(self, 'postal_city', getattr(self,self.postal_copy_from+'_city'))
+            setattr(self, 'postal_postalcode', getattr(self,self.postal_copy_from+'_postalcode'))
+            setattr(self, 'postal_address', getattr(self,self.postal_copy_from+'_address'))
 
 
 #registerType(SupplierContact, PROJECTNAME)
