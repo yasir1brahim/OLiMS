@@ -1327,15 +1327,23 @@
             <field name="model">olims.reference_definition</field>
             <field name="arch" type="xml">
                 <form string="Reference Definition Form">
-                    <label for="name" string="Title"/>
-                    <field name="name"></field>
-                    <label for="Description" string="Description"/>
-                    <field name="Description"></field>
-                    <label for="Blank" string="Blank"/>
-                    <field name="Blank"></field>
-                    <br/>
-                    <label for="Hazardous" string="Hazardous"/>
-                    <field name="Hazardous"></field>
+                    <notebook>
+                        <page string="Description">
+                            <label for="name" string="Title"/>
+                            <field name="name"></field>
+                            <label for="Description" string="Description"/>
+                            <p>Used in item listings and search results.</p>
+                            <field name="Description"></field>
+                            <field name="Blank"></field>
+                            <label for="Blank" string="Blank"/>
+                            <p>Reference sample values are zero or 'blank'</p>
+                            <field name="Hazardous"></field>
+                            <label for="Hazardous" string="Hazardous"/>
+                            <p>Samples of this type should be treated as hazardous</p>
+                        </page>
+                        <page string="Reference Values">
+                        </page>
+                    </notebook>
                 </form>
             </field>
         </record>
