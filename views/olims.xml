@@ -4672,23 +4672,23 @@
             <field name="model">olims.preservation</field>
             <field name="arch" type="xml">
                 <form string="Preservation">
-                	<label for="name" string="Title"/>
-                	<field name="name"></field>
-                	<label for="Description" string="Description"/>
-                	<field name="Description"></field>
-                	<label for="Category" string="Preservation Category"/>
-                	<field name="Category" widget="radio"></field>
-                	<group col='2' string='Retention Period'>
-                	<p >Once preserved, the sample must be disposed of within this time period. 
-                	If not specified, the sample type retention period will be used.</p>
-                	<p></p>
-                	<label for="Days" string="Days"/>
-                	<field name="Days" nolabel='1'></field>
-                	<label for="Hours" string="Hours"/>
-                	<field name="Hours" nolabel='1'></field>
-                	<label for="Minutes" string="Minutes"/>
-                	<field name="Minutes" nolabel='1'></field>
-                	</group>
+                    <label for="name" string="Title"/>
+                    <field name="name"></field>
+                    <label for="Description" string="Description"/>
+                    <p>Used in item listings and search results.</p>
+                    <field name="Description"></field>
+                    <label for="Category" string="Preservation Category"/>
+                    <field name="Category" widget="radio"></field>
+                    <group col='2' string='Retention Period'>
+                        <p >Once preserved, the sample must be disposed of within this time period. If not specified, the sample type retention period will be used.</p>
+                        <p></p>
+                        <label for="Days" string="Days"/>
+                        <field name="Days" nolabel='1'></field>
+                        <label for="Hours" string="Hours"/>
+                        <field name="Hours" nolabel='1'></field>
+                        <label for="Minutes" string="Minutes"/>
+                        <field name="Minutes" nolabel='1'></field>
+                    </group>
                 </form>
             </field>
         </record>
