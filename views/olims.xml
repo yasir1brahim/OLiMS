@@ -3131,53 +3131,61 @@
             <field name="model">olims.sample_point</field>
             <field name="arch" type="xml">
                 <form string="Sample Point Form">
-                    <label for="name" string="name"/>
-                    <field name="name"></field>
-                    <label for="Description" string="Description"/>
-                    <field name="Description"></field>
-                    <group col='2' string='Sampling Frequency'>
-                    <p >If a sample is taken periodically at this sample point, enter frequency here, e.g. weekly</p>
-                    <p></p>
-                    <label for="Days" string="Days"/>
-                    <field name="Days" nolabel='1'></field>
-                    <label for="Hours" string="Hours"/>
-                    <field name="Hours" nolabel='1'></field>
-                    <label for="Minutes" string="Minutes"/>
-                    <field name="Minutes" nolabel='1'></field>
-                    </group>
-                    <label for="SampleTypes" string="Sample Types"/>
-                    <p>The list of sample types that can be collected at this sample point.  If no sample types are 
-                    selected, then all sample types are available</p>
-                    <field name="SampleTypes" widget='many2many_tags' options="{'no_create': True}"></field>
-                    <label for="Composite" string="Composite"/>
-                    <field name="Composite"></field>
-                    <group col='8' string='Latitude'>
-                    <!--p>Enter the Sample Point's latitude in degrees 0-90, 
-                    minutes 0-59, seconds 0-59 and N/S indicator</p-->
-                    <label for="Latitude_Degrees" string="Degrees"/>
-                    <field name="Latitude_Degrees" nolabel='1'></field>
-                    <label for="Latitude_Minutes" string="Minutes"/>
-                    <field name="Latitude_Minutes" nolabel='1'></field>
-                    <label for="Latitude_Seconds" string="Seconds"/>
-                    <field name="Latitude_Seconds" nolabel='1'></field>
-                    <label for="Latitude_Bearing" string="Bearing"/>
-                    <field name="Latitude_Bearing" nolabel='1'></field>
-                    </group>
-                    <group col='8' string='Longitude'>
-                    <!--p>Enter the Sample Point's longitude in degrees 0-180, minutes 0-59,
-                     seconds 0-59 and E/W indicator</p-->
-                    <label for="Longitude_Degrees" string="Degrees"/>
-                    <field name="Longitude_Degrees" nolabel='1'></field>
-                    <label for="Longitude_Minutes" string="Minutes"/>
-                    <field name="Longitude_Minutes" nolabel='1'></field>
-                    <label for="Longitude_Seconds" string="Seconds"/>
-                    <field name="Longitude_Seconds" nolabel='1'></field>
-                    <label for="Longitude_Bearing" string="Bearing"/>
-                    <field name="Longitude_Bearing" nolabel='1'></field>
-                    </group>
-                    <label for="Elevation" string="Elevation"/>
-                    <field name="Elevation"></field>
-                    </form>
+                    <notebook>
+                        <page string="Default">
+                            <label for="name" string="name"/>
+                            <field name="name"></field>
+                            <label for="Description" string="Description"/>
+                            <p>Used in item listings and search results.</p>
+                            <field name="Description"></field>
+                            <group col='2' string='Sampling Frequency'>
+                                <p >If a sample is taken periodically at this sample point, enter frequency here, e.g. weekly</p>
+                                <p></p>
+                                <label for="Days" string="Days"/>
+                                <field name="Days" nolabel='1'></field>
+                                <label for="Hours" string="Hours"/>
+                                <field name="Hours" nolabel='1'></field>
+                                <label for="Minutes" string="Minutes"/>
+                                <field name="Minutes" nolabel='1'></field>
+                            </group>
+                            <label for="SampleTypes" string="Sample Types"/>
+                            <p>The list of sample types that can be collected at this sample point. If no sample types are selected, then all sample types are available</p>
+                            <field name="SampleTypes" widget='many2many_tags' options="{'no_create': True}"></field>
+                            <field name="Composite"></field>
+                            <label for="Composite" string="Composite"/>
+                            <p>Check this box if the samples taken at this point are 'composite' and put together from more than one sub sample, e.g. several surface samples from a dam mixed together to be a representative sample for the dam. The default, unchecked, indicates 'grab' samples</p>
+                        </page>
+                        <page string="Location">
+                            <group col='8' string='Latitude'>
+                                <!-- <p>Enter the Sample Point's latitude in degrees 0-90, minutes 0-59, seconds 0-59 and N/S indicator</p>
+                                <p></p> -->
+                                <label for="Latitude_Degrees" string="Degrees"/>
+                                <field name="Latitude_Degrees" nolabel='1'></field>
+                                <label for="Latitude_Minutes" string="Minutes"/>
+                                <field name="Latitude_Minutes" nolabel='1'></field>
+                                <label for="Latitude_Seconds" string="Seconds"/>
+                                <field name="Latitude_Seconds" nolabel='1'></field>
+                                <label for="Latitude_Bearing" string="Bearing"/>
+                                <field name="Latitude_Bearing" nolabel='1'></field>
+                            </group>
+                            <group col='8' string='Longitude'>
+                                <!-- <p>Enter the Sample Point's longitude in degrees 0-180, minutes 0-59,seconds 0-59 and E/W indicator</p>
+                                <p></p> -->
+                                <label for="Longitude_Degrees" string="Degrees"/>
+                                <field name="Longitude_Degrees" nolabel='1'></field>
+                                <label for="Longitude_Minutes" string="Minutes"/>
+                                <field name="Longitude_Minutes" nolabel='1'></field>
+                                <label for="Longitude_Seconds" string="Seconds"/>
+                                <field name="Longitude_Seconds" nolabel='1'></field>
+                                <label for="Longitude_Bearing" string="Bearing"/>
+                                <field name="Longitude_Bearing" nolabel='1'></field>
+                            </group>
+                            <label for="Elevation" string="Elevation"/>
+                            <p>The height or depth at which the sample has to be taken</p>
+                            <field name="Elevation"></field>
+                        </page>
+                    </notebook>
+                </form>
             </field>
         </record>
 
