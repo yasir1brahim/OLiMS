@@ -1964,19 +1964,28 @@
             <field name="model">olims.sr_template</field>
             <field name="arch" type="xml">
                 <form string="SR Template Form">
-                    <label for="name" string="Title"/>
-                    <field name="name"></field>
-                    <label for="Description" string="Description"/>
-                    <field name="Description"></field>
-                    <label for="Department" string="Department"/>
-                    <field name="Department" options="{'no_create': True}"></field>
-                    <label for="Sampling Frequency" string="Sampling Frequency"/>
-                    <field name="Sampling Frequency"></field>
-                    <label for="Instructions" string="Instructions"/>
-                    <field name="Instructions"></field>
-                	<label for="ARTemplates" string="ARTemplates"/>
-                    <p>Select AR Templates to include</p>
-                    <field name="ARTemplates" options="{'no_create': True}"></field>
+                    <notebook>
+                        <page string="Default">
+                            <label for="name" string="Title"/>
+                            <field name="name"></field>
+                            <label for="Description" string="Description"/>
+                            <p>Used in item listings and search results.</p>
+                            <field name="Description"></field>
+                            <label for="Department" string="Department"/>
+                            <p>The laboratory department</p>
+                            <field name="Department" options="{'no_create': True}"></field>
+                            <label for="Sampling Frequency" string="Sampling Frequency"/>
+                            <p>The number of days between recurring field trips</p>
+                            <field name="Sampling Frequency"></field>
+                            <label for="Instructions" string="Instructions"/>
+                            <field name="Instructions"></field>
+                        </page>
+                        <page string="AR Templates">
+                            <label for="ARTemplates" string="AR Templates"/>
+                            <p>Select AR Templates to include</p>
+                            <field name="ARTemplates" widget="many2many_checkboxes" options="{'no_create': True}"></field>
+                        </page>
+                    </notebook>
                 </form>
             </field>
         </record>
