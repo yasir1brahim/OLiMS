@@ -586,7 +586,13 @@
                         <page string="Sample Partitions">
                             <label for="Partitions" string="Sample Partitions"/>
                             <p>Configure the sample partitions and preservations  for this template. Assign analyses to the different partitions on the template's Analyses tab</p>
-                            <field name="Partitions" widget='one2many_list'></field>
+                            <field name="Partitions" widget='one2many_list'>
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                    <field name="Container" options="{'no_create': True}"/>
+                                    <field name="Preservation" options="{'no_create': True}"/>
+                                </tree>
+                            </field>
                         </page>
                         <page string="Analyses">
                             <label for="AnalysisProfile" string="Analysis Profile"/>
