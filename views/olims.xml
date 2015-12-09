@@ -470,14 +470,15 @@
             <field name="model">olims.partition_setup</field>
             <field name="arch" type="xml">
                 <form string="Partition Setup field Form">
-                    <label for="Sample point" string="Sample point"/>
-                    <field name="Sample point"></field>                     
-                    <label for="Separate Container" string="Separate Container"/>
+                    <label for="Sample Type" string="Sample point"/>
+                    <field name="Sample Type" options="{'no_create': True}"></field>
                     <field name="Separate Container"></field>
-                    <label for="Preservation" string="Preservation"/>
-                    <field name="Preservation" ></field>
+                    <label for="Separate Container" string="Separate Container"/>
+                    <br/>
+                    <label for="Preservation" string="Preservation" />
+                    <field name="Preservation" widget="many2many_checkboxes" options="{'no_create': True}"></field>
                     <label for="Container" string="Container"/>
-                    <field name="Container" ></field>
+                    <field name="Container" widget="many2many_checkboxes" options="{'no_create': True}"></field>
                     <label for="Required Volume" string="Required Volume"/>
                     <field name="Required Volume" ></field>
                 </form>
@@ -489,7 +490,7 @@
             <field name="model">olims.partition_setup</field>
             <field name="arch" type="xml">
                 <tree string="Partition Setup">
-					<field name="Sample point"></field>                     
+					<field name="Sample Type"></field>
                     <field name="Separate Container"></field>
                     <field name="Preservation" ></field>
                     <field name="Container" ></field>
@@ -717,10 +718,10 @@
             <field name="model">olims.result_option</field>
             <field name="arch" type="xml">
                 <form string="Result Option Form">
-                    <label for="ResultValue" string="Result Value"/>
-                    <field name="ResultValue"></field>                     
-                    <label for="ResultText" string="Result Text"/>
-                    <field name="ResultText"></field>
+                    <label for="Result Value" string="Result Value"/>
+                    <field name="Result Value"></field>
+                    <label for="Display Value" string="Display Value"/>
+                    <field name="Display Value"></field>
                     
                 </form>
             </field>
@@ -731,8 +732,8 @@
             <field name="model">olims.result_option</field>
             <field name="arch" type="xml">
                 <tree string="Result Option">
-                    <field name="ResultValue"></field>                     
-                    <field name="ResultText"></field>
+                    <field name="Result Value"></field>
+                    <field name="Display Value"></field>
                 </tree>
             </field>
         </record>
@@ -4386,9 +4387,9 @@
                             <p>The results of field analyses are captured during sampling at the sample point, e.g. the temperature of a water sample in the river where it is sampled. Lab analyses are done in the laboratory</p>
                             <field name="PointOfCapture" widget="radio"></field>
                             <br/>
-                            <label for="Category" string="Analysis Category"/>
+                            <label for="category" string="Analysis Category"/>
                             <p>The category the analysis service belongs to</p>
-                            <field name="Category" options="{'no_create_edit': True}"></field>
+                            <field name="category" options="{'no_create_edit': True}"></field>
                             <label for="Price" string="Price (excluding VAT)"/>
                             <field name="Price"></field>
                             <label for="BulkPrice" string="Bulk price (excluding VAT"/>
@@ -4486,7 +4487,13 @@
                         <page string="Uncertainties">
                             <label for="Uncertainties" string="Uncertainties"/>
                             <p>Specify the uncertainty value for a given range, e.g. for results in a range with minimum of 0 and maximum of 10, where the uncertainty value is 0.5 - a result of 6.67 will be reported as 6.67 +- 0.5. You can also specify the uncertainty value as a percentage of the result value, by adding a '%' to the value entered in the 'Uncertainty Value' column, e.g. for results in a range with minimum of 10.01 and a maximum of 100, where the uncertainty value is 2% - a result of 100 will be reported as 100 +- 2. Please ensure successive ranges are continuous, e.g. 0.00 - 10.00 is followed by 10.01 - 20.00, 20.01 - 30 .00 etc.</p>
-                            <field name="Uncertainties" widget='one2many_list'></field>
+                            <field name="Uncertainties" widget='one2many_list'>
+                                <tree editable="bottom">
+                                    <field name="Range min"/>
+                                    <field name="Range max"/>
+                                    <field name="Uncertainty value"/>
+                                </tree>
+                            </field>
                             <field name="PrecisionFromUncertainty"></field>
                             <label for="PrecisionFromUncertainty" string="Calculate Precision from Uncertainties"/>
                             <p>Precision as the number of significant digits according to the uncertainty.
@@ -4503,7 +4510,12 @@
                         <page string="Result Options">
                             <label for="ResultOptions" string="Result Options"/>
                             <p>Please list all options for the analysis result if you want to restrict it to specific options only, e.g.'Positive', 'Negative' and 'Indeterminable'. The option's result value must be a number</p>
-                            <field name="ResultOptions" widget='one2many_list'></field>
+                            <field name="ResultOptions" widget='one2many_list'>
+                                <tree editable="bottom">
+                                    <field name="Result Value"/>
+                                    <field name="Display Value"/>
+                                </tree>
+                            </field>
                             <label for="ChangeNote" string="Change Note"/>
                             <p>Enter a comment that describes the changes you made.</p>
                             <field name="ChangeNote"></field>
@@ -4520,8 +4532,15 @@
                             <field name="Container" options="{'no_create_edit': True}"></field>
                             <label for="PartitionSetup" string="Preservation per sample type"/>
                             <p>Please specify preservations that differ from the analysis service's default preservation per sample type here.</p>
-                            <field name="PartitionSetup" widget='one2many_list'></field>
-                            <br/>
+                            <field name="PartitionSetup" widget='one2many_list'>
+                                <tree editable="bottom">
+                                    <field name="Sample Type"/>
+                                    <field name="Separate Container"/>
+                                    <field name="Preservation" widget="many2many_tags" mode="tree" options="{'no_create': True}"/>
+                                    <field name="Container" widget="many2many_tags" mode="tree" options="{'no_create': True}"/>
+                                    <field name="Required Volume"/>
+                                </tree>
+                            </field>
                     <!--<label for="VATAmount" string="VAT Amount"/>
                 	<field name="VATAmount"></field>
                 	<label for="TotalPrice" string="Total Price"/>
@@ -4540,7 +4559,7 @@
             <field name="arch" type="xml">
                 <tree string="Analysis Service">
                     <field name="name"></field>
-                    <field name="Category"></field>
+                    <!-- <field name="category"></field> -->
                     <field name="Keyword"></field>
                     <field name="CommercialID"></field>
                     <field name="ProtocolID"></field>
@@ -4589,6 +4608,7 @@
             <field name="res_model">olims.analysis_service</field>
             <field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
+            <field name="context">{'group_by': 'category'}</field>
        </record>
 
         <menuitem id="analysis_service_menu" name="Analysis Services" parent="olims_settings_menu" sequence="16"

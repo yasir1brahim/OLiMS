@@ -10,7 +10,7 @@ from lims import bikaMessageFactory as _
 
 
 
-schema = (
+schema = (fields.Many2one(string='analysis_service_id', comodel_name='olims.analysis_service'),
           fields.Char(string='Range min', required=True),
           fields.Char(string='Range max', required=True),
           fields.Char(string='Uncertainty value', required=True),

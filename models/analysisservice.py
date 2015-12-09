@@ -715,7 +715,7 @@ schema = (StringField('name',
 #                         "the laboratory"),
 #                 ),
     ),
-    fields.Many2one(string='Category',
+    fields.Many2one(string='category',
                    comodel_name='olims.analysis_category',
 #                    schemata="Description",
                    required=True,
@@ -821,8 +821,9 @@ fields.Float(compute='computeTotalPrice',string='TotalPrice'),
 #     ),
 
 # 
-fields.Many2many(string='Uncertainties',
+fields.One2many(string='Uncertainties',
                        comodel_name='olims.uncertinty_service',
+                       inverse_name='analysis_service_id'
         ),
 
 
@@ -869,8 +870,9 @@ fields.Many2many(string='Uncertainties',
     ),
           
           
-          fields.Many2many(string='ResultOptions',
+          fields.One2many(string='ResultOptions',
                        comodel_name='olims.result_option',
+                       inverse_name='service_resultoption_id'
 
         ),
 

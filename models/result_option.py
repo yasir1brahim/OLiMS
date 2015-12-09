@@ -10,9 +10,9 @@ from lims import bikaMessageFactory as _
 
 
 
-schema = (
-          fields.Char(string='ResultValue', required=True),
-          fields.Char(string='ResultText', required=True),
+schema = (fields.Many2one(string='service_resultoption_id', comodel_name='olims.analysis_service'),
+          fields.Char(string='Result Value', required=True),
+          fields.Char(string='Display Value', required=True),
           )
 
 class ResultOption(models.Model, BaseOLiMSModel): 
