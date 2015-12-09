@@ -1184,16 +1184,16 @@
                         <page string='Description'>
                             <label for="Title" string="Title"/>
                             <field name="Title"></field>
-                            <label for="ReferenceDefinition" string="Reference Definition"/>
-                            <field name="ReferenceDefinition" options="{'no_create_edit': True}"></field>
+                            <label for="Reference Definition" string="Reference Definition"/>
+                            <field name="Reference Definition" options="{'no_create_edit': True}"></field>
                             <field name="Blank"></field>
                             <label for="Blank" string="Blank"/>
                             <p>Reference sample values are zero or 'blank'</p>
                             <field name="Hazardous"></field>
                             <label for="Hazardous" string="Hazardous"/>
                             <p>Samples of this type should be treated as hazardous</p>
-                            <label for="ReferenceManufacturer" string="Manufacturer"/>
-                            <field name="ReferenceManufacturer"></field>
+                            <label for="Manufacturer" string="Manufacturer"/>
+                            <field name="Manufacturer"></field>
                             <label for="CatalogueNumber" string="Catalogue Number"/>
                             <field name="CatalogueNumber"></field>
                             <label for="LotNumber" string="Lot Number"/>
@@ -1202,49 +1202,30 @@
                         <page string="Dates">
                     <!-- <label for="Remarks" string="Remarks"/>
                     <field name="Remarks"></field> -->
-                            <label for="DateSampled" string="Date Sampled"/>
-                            <field name="DateSampled"></field>
-                            <label for="DateReceived" string="Date Received"/>
-                            <field name="DateReceived"></field>
-                            <label for="DateOpened" string="Date Opened"/>
-                            <field name="DateOpened"></field>
-                            <label for="ExpiryDate" string="Expiry Date"/>
-                            <field name="ExpiryDate"></field>
+                            <label for="Date Sampled" string="Date Sampled"/>
+                            <field name="Date Sampled"></field>
+                            <label for="Date Received" string="Date Received"/>
+                            <field name="Date Received"></field>
+                            <label for="Date Opened" string="Date Opened"/>
+                            <field name="Date Opened"></field>
+                            <label for="Expiry Date" string="Expiry Date"/>
+                            <field name="Expiry Date"></field>
                         </page>
                     <!-- <label for="DateExpired" string="Date Expired"/>
                     <field name="DateExpired"></field>
                     <label for="DateDisposed" string="Date Disposed"/>
                     <field name="DateDisposed"></field> -->
                         <page string="Reference Values">
-                            <!-- <field name="ReferenceResults">
+                            <label for="ReferenceResults" string="Expected Values"/>
+                            <field name="ReferenceResults">
                             <tree string="Reference Results" editable="bottom">
-                                    <field name="Service"/>
+                                    <field name="Service" options="{'no_create': True}"/>
                                     <field name="Expected Result"/>
                                     <field name="Permitted Error"/>
                                     <field name="Min"/>
                                     <field name="Max"/>
-                                    <field name="ReadonlyService"/>
                                 </tree>
-                                <form string="Reference Results">
-                                    <group col="4">
-                                        <ul class="nav nav-pills nav-stacked mt16">
-                                            <li>
-                                                <field name="Service" options="{'no_create': True}"/>
-                                            </li>
-                                        </ul>
-                                        <ul>
-                                            <li>
-                                                <field name="Expected Result"/>
-                                                <field name="Permitted Error"/>
-                                            </li>
-                                            <li>
-                                                <field name="Min"/>
-                                                <field name="Max"/>
-                                            </li>
-                                        </ul>
-                                    </group>
-                                </form>
-                            </field> -->
+                            </field>
                         </page>
                     </notebook>
                 </form>
@@ -1258,17 +1239,17 @@
                 <tree string="Reference Sample Template">
                     <field name="ID"></field>
                     <field name="Title"></field>
-                    <field name="ReferenceManufacturer"></field>
-                    <field name="ReferenceDefinition"></field>
+                    <field name="Manufacturer"></field>
+                    <field name="Reference Definition"></field>
                     <!-- <field name="Blank"></field>
                     <field name="Hazardous"></field> -->
                     <!-- <field name="CatalogueNumber"></field>
                     <field name="LotNumber"></field>
                     <field name="Remarks"></field> -->
-                    <field name="DateSampled"></field>
-                    <field name="DateReceived"></field>
-                    <field name="DateOpened"></field>
-                    <field name="ExpiryDate"></field>
+                    <field name="Date Sampled"></field>
+                    <field name="Date Received"></field>
+                    <field name="Date Opened"></field>
+                    <field name="Expiry Date"></field>
                     <!-- <field name="DateExpired"></field>
                     <field name="DateDisposed"></field> -->
                 </tree>
