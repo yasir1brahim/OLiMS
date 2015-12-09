@@ -470,7 +470,7 @@
             <field name="model">olims.partition_setup</field>
             <field name="arch" type="xml">
                 <form string="Partition Setup field Form">
-                    <label for="Sample Type" string="Sample point"/>
+                    <label for="Sample Type" string="Sample Type"/>
                     <field name="Sample Type" options="{'no_create': True}"></field>
                     <field name="Separate Container"></field>
                     <label for="Separate Container" string="Separate Container"/>
