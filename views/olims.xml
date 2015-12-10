@@ -329,8 +329,8 @@
             <field name="model">olims.records_field_artemplates</field>
             <field name="arch" type="xml">
                 <form string="Record Field Services Analysis Form">
-                    <label for="Services Analysis" string="Analysis Services"/>
-                    <field name="Services Analysis"  widget="many2many_tags" options="{'no_create_edit': True}"></field>
+                    <label for="Services" string="Analysis Services"/>
+                    <field name="Services"  widget="many2many_tags" options="{'no_create_edit': True}"></field>
                     <label for="Hidden" string="Hidden"/>
                     <field name="Hidden"></field>
                     <br/> 
@@ -347,7 +347,7 @@
             <field name="model">olims.records_field_artemplates</field>
             <field name="arch" type="xml">
                 <tree string="Analysis">
-                    <field name="Services Analysis"></field>
+                    <field name="Services"></field>
                     <field name="Hidden"></field>
                     <field name="Price"></field>
                     <field name="Partition"></field> 
@@ -600,7 +600,14 @@
                             <field name="AnalysisProfile" options="{'no_create': True}"></field>
                             <label for="Analyses" string="Analyses"/>
                             <p>Select analyses to include in this template</p>
-                            <field name="Analyses" widget='one2many_list'></field>
+                            <field name="Analyses" widget='one2many_list'>
+                                <tree editable="bottom">
+                                    <field name="Services" options="{'no_create': True}"/>
+                                    <field name="Hidden"/>
+                                    <field name="Price"/>
+                                    <field name="Partition" options="{'no_create': True}"/>
+                                </tree>
+                            </field>
                         </page>
                     </notebook>
                 </form>
