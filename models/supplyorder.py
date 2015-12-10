@@ -20,12 +20,14 @@
 
 
 from lims import bikaMessageFactory as _
-from openerp import fields, models
+from openerp import fields, models, api
 from fields.string_field import StringField
 from fields.text_field import TextField
 from fields.date_time_field import DateTimeField
+from fields.fixed_point_field import FixedPointField
 
-from fields.widget.widget import TextAreaWidget, StringWidget, DateTimeWidget
+from fields.widget.widget import TextAreaWidget, StringWidget, DateTimeWidget, \
+                                DecimalWidget
 from base_olims_model import BaseOLiMSModel
 import datetime
 ORDER_STAES = (
@@ -99,10 +101,6 @@ schema = (
             append_only=True,
         ),
     ),
-    fields.Many2many(string='Products',
-        comodel_name='olims.lab_product',
-        requried =False,
-    ),
     fields.Float(string='SubTotal',
                 compute='compute_subtotal'
     ),
@@ -117,6 +115,11 @@ schema = (
         required=True, readonly=True,
         copy=False, track_visibility='always'
         ),
+    fields.One2many('olims.supply_order_line',
+                                 'supply_order_id',
+                                 string='OrderLines'
+    ),
+
 # ~~~~~~~ To be implemented ~~~~~~~
     # ComputedField('ClientUID',
     #               expression = 'here.aq_parent.UID()',
@@ -131,7 +134,64 @@ schema = (
     #                   ),
     #               ),
 )
-
+schema_order_line = (TextField('Description',
+                               compute='_ComputeFieldsValues',
+    widget=TextAreaWidget(
+        label=_('Description'),
+        description=_('Used in item listings and search results.'),
+        ),
+    ),
+    StringField('Volume',
+                compute='_ComputeFieldsValues',
+        widget = StringWidget(
+            label=_("Volume"),
+        )
+    ),
+    StringField('Unit',
+#                 store=True,
+                compute='_ComputeFieldsValues',
+        widget = StringWidget(
+            label=_("Unit"),
+        )
+    ),
+    FixedPointField('VAT',
+                    compute='_ComputeFieldsValues',
+        default=14.00,
+        default_method = 'getDefaultVAT',
+        widget = DecimalWidget(
+            label=_("VAT %"),
+            description=_("Enter percentage value eg. 14.0"),
+        ),
+    ),
+    FixedPointField('Price',
+                    compute='_ComputeFieldsValues',
+                    required=0,
+                    widget = DecimalWidget(
+                                           label=_("Price excluding VAT"),
+                                           )
+    ),
+    StringField('Quantity',
+                required=0,
+                searchable=True,
+                widget=StringWidget(
+                    label=_("Quantity"),
+                    ),
+                ),
+    fields.Many2one('olims.supply_order',
+                    string='supply_order_id',
+                    required=False,
+                    ondelete='cascade',
+                    index=True, copy=False
+                    ),
+    fields.Many2one('olims.lab_product',
+                    string='Products',
+                    ondelete='restrict',
+                    required=True
+                    ),
+    fields.Float(string='Total',
+                compute='_ComputeFieldsValues'
+    ),
+    )
 
 #schema['title'].required = False
 
@@ -141,8 +201,8 @@ schema = (
 class SupplyOrder(models.Model, BaseOLiMSModel): #BaseFolder
     _name='olims.supply_order'
     def compute_subtotal(self):
-        if self.Products:
-            for records in self.Products:
+        if self.OrderLines:
+            for records in self.OrderLines:
                 if records.Quantity and records.Price:
                     quantity = records.Quantity
                     product_price_excluding_VAT = records.Price
@@ -152,11 +212,13 @@ class SupplyOrder(models.Model, BaseOLiMSModel): #BaseFolder
         for record in self:
             record.OrderNumber = order_string + str(record.id)
     def compute_VATAmount(self):
-        if self.Products:
-            for records in self.Products:
+        if self.OrderLines:
+            for records in self.OrderLines:
                 if records.Quantity and records.Price:
                     vat_amount = records.VAT
-                    self.VAT +=  (vat_amount * records.TotalPrice)/100
+                    self.VAT +=  (vat_amount * records.Total)/100
+#                     for item in records.Products:
+#                         self.VAT +=  (vat_amount * item.TotalPrice)/100
     def compute_Total(self):
         for recod in self:
             recod.Total = self.SubTotal + self.VAT
@@ -272,6 +334,31 @@ class SupplyOrder(models.Model, BaseOLiMSModel): #BaseFolder
     #     """ return current date """
     #     return DateTime()
 
+class SupplyOrderLine(models.Model, BaseOLiMSModel):
+    _name = 'olims.supply_order_line'
+
+    @api.onchange('Products')
+    def _onchange_product(self):
+        # set auto-changing field
+        if self.Products:
+            self.Description = self.Products.Description
+            self.Volume = self.Products.Volume
+            self.Unit = self.Products.Unit
+            self.VAT = self.Products.VAT
+            self.Price = self.Products.Price
+    @api.onchange('Products','Quantity')
+    def _ComputeFieldsValues(self):
+#         print self
+#         pass
+        for s in self:
+            if s.Products:
+                s.Total = s.Products.Price * float(s.Quantity)
+                s.Description = s.Products.Description
+                s.Volume = s.Products.Volume
+                s.Unit = s.Products.Unit
+                s.VAT = s.Products.VAT
+                s.Price = s.Products.Price
 
 #atapi.registerType(SupplyOrder, PROJECTNAME)
 SupplyOrder.initialze(schema)
+SupplyOrderLine.initialze(schema_order_line)

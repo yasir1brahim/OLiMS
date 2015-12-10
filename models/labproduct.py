@@ -56,13 +56,6 @@ schema = (StringField('name',
             label=_("Price excluding VAT"),
         )
     ),
-    StringField('Quantity',
-                required=0,
-                searchable=True,
-                widget=StringWidget(
-                    label=_("Quantity"),
-                    ),
-                ),
 #     fields.Float(compute='computeVATAmount',string='VATAmount'),
 # # ~~~~~~~ To be implemented ~~~~~~~
 #     # ComputedField('VATAmount',
@@ -72,7 +65,6 @@ schema = (StringField('name',
 #     #         visible = {'edit':'hidden', }
 #     #     ),
 #     # ),
-    fields.Float(compute='computeTotalPrice',string='TotalPrice'),
     # ComputedField('TotalPrice',
     #     expression = 'context.getTotalPrice()',
     #     widget = ComputedWidget(
@@ -95,13 +87,6 @@ class LabProduct(models.Model, BaseOLiMSModel): #BaseContent
     def _renameAfterCreation(self, check_auto_id=False):
         from lims.idserver import renameAfterCreation
         renameAfterCreation(self)
-
-    def computeTotalPrice(self):
-        """ compute total price """
-        for record in self:
-            price = record.getPrice()
-            quantity = record.getQuantity()
-            record.TotalPrice = price * float(quantity)
     
 #     def getTotalPrice(self):
 #         """ compute total price """
