@@ -14,7 +14,7 @@ class RecodrdsFieldARTemplate(models.Model, BaseOLiMSModel):
     _name='olims.records_field_artemplates'
 
     @api.onchange('Services')
-    def _onchange_postal(self):
+    def _onchange_service(self):
         # set auto-changing field
         if self.Services:
             self.Hidden = self.Services.Hidden
