@@ -4863,8 +4863,8 @@
             <field name="model">olims.sample_type</field>
             <field name="arch" type="xml">
                 <form string="Sample Type">
-                	<label for="name" string="Title"/>
-                	<field name="name"></field>
+                    <label for="Sample Type" string="Title"/>
+                    <field name="Sample Type"></field>
                 	<label for="Description" string="Description"/>
                        <p>Used in item listings and search results.</p>
                 	<field name="Description"></field>
@@ -4882,19 +4882,19 @@
                     <field name="Hazardous"></field>
                     <label for="Hazardous" string="Hazardous"/>
                     <p>Samples of this type should be treated as hazardous</p>
-                	<label for="SampleMatrix" string="Sample Matrix"/>
-                	<field name="SampleMatrix"></field>
+                    <label for="Sample Matrix" string="Sample Matrix"/>
+                    <field name="Sample Matrix"></field>
                 	<label for="Prefix" string="Sample Type Prefix"/>
                 	<field name="Prefix"></field>
-                	<label for="MinimumVolume" string="Minimum Volume"/>
+                    <label for="Minimum Volume" string="Minimum Volume"/>
                     <p>The minimum sample volume required for analysis eg. '10 ml' or '1 kg'.</p>
-                	<field name="MinimumVolume"></field>
-                	<label for="ContainerType" string="Default Container Type"/>
+                    <field name="Minimum Volume"></field>
+                    <label for="Container Type" string="Default Container Type"/>
                     <p>The default container type. New sample partitions are automatically assigned a container of this type, unless it has been specified in more details per analysis service</p>
-                    <field name="ContainerType" options="{'no_create': True}"></field>
-                    <label for="SamplePoints" string="Sample Points"/>
+                    <field name="Container Type" options="{'no_create': True}"></field>
+                    <label for="Sample Points" string="Sample Points"/>
                     <p>The list of sample points from which this sample type can be collected. If no sample points are selected, then all sample points are available.</p>
-                    <field name="SamplePoints" options="{'no_create': True}"></field>
+                    <field name="Sample Points" options="{'no_create': True}" widget="many2many_tags"></field>
                 </form>
             </field>
         </record>
@@ -4904,14 +4904,14 @@
             <field name="model">olims.sample_type</field>
             <field name="arch" type="xml">
                 <tree string="Sample Matrix">
-                	<field name="name"></field>
+                    <field name="Sample Type"></field>
                 	<field name="Description"></field>
                 	<field name="Hazardous"></field>
-                	<field name="SampleMatrix"></field>
-                    <field name="ContainerType"></field>
-                    <field name="SamplePoints"></field>
+                    <field name="Sample Matrix"></field>
+                    <field name="Container Type"></field>
+                    <field name="Sample Points"></field>
                 	<field name="Prefix"></field>
-                	<field name="MinimumVolume"></field>
+                    <field name="Minimum Volume"></field>
                 </tree>
             </field>
         </record>

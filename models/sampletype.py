@@ -25,7 +25,7 @@ from base_olims_model import BaseOLiMSModel
 from lims.utils import t
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 # schema = BikaSchema.copy() + Schema((
-schema = (StringField('name',
+schema = (StringField('Sample Type',
               required=1,        
     ),
     TextField('Description',
@@ -46,7 +46,7 @@ schema = (StringField('name',
             description=_("Samples of this type should be treated as hazardous"),
         ),
     ),
-    fields.Many2one(string='SampleMatrix',
+    fields.Many2one(string='Sample Matrix',
                     comodel_name='olims.sample_matrix',
         required = False,
 #         allowed_types = ('SampleMatrix',),
@@ -64,14 +64,14 @@ schema = (StringField('name',
             label=_("Sample Type Prefix"),
         ),
     ),
-    StringField('MinimumVolume',
+    StringField('Minimum Volume',
         required = 1,
         widget = StringWidget(
             label=_("Minimum Volume"),
             description=_("The minimum sample volume required for analysis eg. '10 ml' or '1 kg'."),
         ),
     ),
-    fields.Many2one(string='ContainerType',
+    fields.Many2one(string='Container Type',
         comodel_name='olims.container_type',
         required = False,
         help="The default container type. New sample partitions " + \
@@ -92,7 +92,7 @@ schema = (StringField('name',
 #         ),
     ),
 
-    fields.Many2many(string='SamplePoints',
+    fields.Many2many(string='Sample Points',
         required = False,
         comodel_name = 'olims.sample_point',
         help="The list of sample points from which this sample " + \
@@ -125,6 +125,7 @@ schema = (StringField('name',
 
 class SampleType(models.Model, BaseOLiMSModel):#(BaseContent, HistoryAwareMixin):
     _name = 'olims.sample_type'
+    _rec_name = 'Sample Type'
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 #     implements(ISampleType)
 #     security = ClassSecurityInfo()
