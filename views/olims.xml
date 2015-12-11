@@ -3995,9 +3995,15 @@
                             <field name="ProfileKey"></field>
                         </page>
                         <page string="Analyses">
-                            <label for="Service" string="Service"/>
+                            <label for="Service" string="Profile Analyses"/>
                             <p>The analyses included in this profile, grouped per category</p>
-                            <field name="Service" options="{'no_create': True}"></field>
+                            <field name="Service" widget="one2many_list">
+                                <tree editable="bottom">
+                                    <field name="Services" options="{'no_create': True}"/>
+                                    <field name="Hidden"/>
+                                    <field name="Price"/>
+                                </tree>
+                            </field>
                         </page>
                     <!--<label for="Remarks" string="Remarks"/>
                     <field name="Remarks"></field>-->
@@ -4008,11 +4014,11 @@
                             <field name="UseAnalysisProfilePrice"></field>
                             <label for="UseAnalysisProfilePrice" string="Use Analysis Profile Price"/>
                             <p>When it's set, the system uses the analysis profile's price to quote and the system's VAT is overridden by the analysis profile's specific VAT</p>
-                            <label for="AnalysisProfilePrice" string="Price (excluding VAT)"/>
-                            <field name="AnalysisProfilePrice"></field>
-                            <label for="AnalysisProfileVAT" string="VAT %"/>
-                            <p>Enter percentage value eg. 14.0. This percentage is applied on the Analysis Profile only, overriding the systems VAT</p>
-                            <field name="AnalysisProfileVAT"></field>
+                            <label for="AnalysisProfilePrice" string="Price (excluding VAT)" attrs="{'invisible':[('UseAnalysisProfilePrice','=', False)]}"/>
+                            <field name="AnalysisProfilePrice" attrs="{'invisible':[('UseAnalysisProfilePrice','=', False)]}"></field>
+                            <label for="AnalysisProfileVAT" string="VAT %" attrs="{'invisible':[('UseAnalysisProfilePrice','=', False)]}"/>
+                            <p attrs="{'invisible':[('UseAnalysisProfilePrice','=', False)]}">Enter percentage value eg. 14.0. This percentage is applied on the Analysis Profile only, overriding the systems VAT</p>
+                            <field name="AnalysisProfileVAT" attrs="{'invisible':[('UseAnalysisProfilePrice','=', False)]}"></field>
                             <!-- <label for="VATAmount" string="VAT Amount compute"/>
                             <field name="VATAmount"></field>
                             <label for="TotalPrice" string="Total Price"/>
@@ -4460,6 +4466,7 @@
                             <p>If checked, a selection list will be displayed next to the analysis' result field in results entry views. By using this selector, the analyst will be able to set the value as a Detection Limit (LDL or UDL) instead of a regular result</p>
                             <field name="AllowManualDetectionLimit" attrs="{'invisible':[('DetectionLimitSelector','=', False)]}"></field>
                             <label for="AllowManualDetectionLimit" string="Allow Manual Detection Limit input" attrs="{'invisible':[('DetectionLimitSelector','=', False)]}"/>
+                            <br/>
                             <field name="ReportDryMatter"></field>
                             <label for="ReportDryMatter" string="Report as Dry Matter"/>
                             <p>These results can be reported as dry matter</p>

@@ -58,8 +58,8 @@ schema = (StringField('name',
           
           
     
-    fields.Many2many(string='Service', comodel_name='olims.analysis_service', required=True,\
-                     relation='profile_service_relation',\
+    fields.Many2many(string='Service', comodel_name='olims.records_field_artemplates', required=True,\
+                     relation='records_field_service_relation',\
                      help='The analyses included in this profile, grouped per category',
           #         schemata = 'Analyses',
 #         required = 1,
