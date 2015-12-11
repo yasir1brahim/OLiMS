@@ -102,13 +102,13 @@ schema = (
         ),
     ),
     fields.Float(string='SubTotal',
-                compute='compute_subtotal'
+                compute='computeFieldsOnChange'
     ),
     fields.Float(string='VAT',
-                compute='compute_VATAmount'
+                compute='computeFieldsOnChange'
     ),
     fields.Float(string='Total',
-                compute='compute_Total'
+                compute='computeFieldsOnChange'
     ),
     fields.Selection(string='state',selection=ORDER_STAES,
         default='pending', select=True,
@@ -200,34 +200,30 @@ schema_order_line = (TextField('Description',
 
 class SupplyOrder(models.Model, BaseOLiMSModel): #BaseFolder
     _name='olims.supply_order'
-    def compute_subtotal(self):
-        if self.OrderLines:
-            for records in self.OrderLines:
-                if records.Quantity and records.Price:
-                    quantity = records.Quantity
-                    product_price_excluding_VAT = records.Price
-                    self.SubTotal +=  int(quantity) * product_price_excluding_VAT
+
     def compute_order_id(self):
         order_string = 'O-'
         for record in self:
             record.OrderNumber = order_string + str(record.id)
-    def compute_VATAmount(self):
-        if self.OrderLines:
-            for records in self.OrderLines:
-                if records.Quantity and records.Price:
-                    vat_amount = records.VAT
-                    self.VAT +=  (vat_amount * records.Total)/100
-#                     for item in records.Products:
-#                         self.VAT +=  (vat_amount * item.TotalPrice)/100
-    def compute_Total(self):
-        for recod in self:
-            recod.Total = self.SubTotal + self.VAT
+
+    @api.onchange('OrderLines')
+    def computeFieldsOnChange(self):
+        subTotal = vatAmount = 0.0;
+        for s in self:
+            if s.OrderLines:
+                for row in s.OrderLines:
+                    if row.Quantity and row.Price and row.VAT:
+                        subTotal += float(row.Quantity) * row.Price
+                        vatAmount += (float(row.Quantity) * row.Price * float(row.VAT))/100
+        self.SubTotal = subTotal
+        self.VAT = vatAmount
+        self.Total = self.SubTotal + self.VAT
+
     # implements(ISupplyOrder, IConstrainTypes)
     #
     # security = ClassSecurityInfo()
     # displayContentsTab = False
     # schema = schema
-
     # _at_rename_after_creation = True
     # supplyorder_lineitems = []
     #
