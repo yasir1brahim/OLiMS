@@ -1811,8 +1811,44 @@
                     <field name="VAT"></field>
                     <label for="Total" string="Total"/>
                     <field name="Total"></field>
-                    <label for="AnalysisService" string="Lab Analysis"/>
-                    <field name="AnalysisService" options="{'no_create': True}"></field>
+                    <label for="FieldService" string="Field Analysis"/>
+                    <field name="FieldService" options="{'no_create': True}">
+                        <tree editable="bottom">
+                            <field name="Service" options="{'no_create': True}"/>
+                            <field name="CommercialID"/>
+                            <field name="ProtocolID"/>
+                            <field name="Min" placeholder="&gt;min"/>
+                            <field name="Max" placeholder="&lt;max"/>
+                            <field name="Error" placeholder="err&#37;"/>
+                        </tree>
+                        <form>
+                            <field name="Service" options="{'no_create': True}"/>
+                            <field name="CommercialID"/>
+                            <field name="ProtocolID"/>
+                            <field name="Min" placeholder="&gt;min"/>
+                            <field name="Max" placeholder="&lt;max"/>
+                            <field name="Error" placeholder="err&#37;"/>
+                        </form>
+                    </field>
+                    <label for="LabService" string="Lab Analysis"/>
+                    <field name="LabService" options="{'no_create': True}">
+                        <tree editable="bottom">
+                            <field name="LabService" options="{'no_create': True}"/>
+                            <field name="CommercialID"/>
+                            <field name="ProtocolID"/>
+                            <field name="Min" placeholder="&gt;min"/>
+                            <field name="Max" placeholder="&lt;max"/>
+                            <field name="Error" placeholder="err&#37;"/>
+                        </tree>
+                        <form>
+                            <field name="LabService" options="{'no_create': True}"/>
+                            <field name="CommercialID"/>
+                            <field name="ProtocolID"/>
+                            <field name="Min" placeholder="&gt;min"/>
+                            <field name="Max" placeholder="&lt;max"/>
+                            <field name="Error" placeholder="err&#37;"/>
+                        </form>
+                    </field>
                 </form>
             </field>
         </record>
@@ -4360,8 +4396,8 @@
                 <form string="Analysis Service Form">
                     <notebook>
                         <page string="Description">
-                            <label for="name" string="Title"/>
-                            <field name="name"></field>
+                            <label for="Service" string="Title"/>
+                            <field name="Service"></field>
                             <label for="ShortTitle" string="Short Title"/>
                             <p>If text is entered here, it is used instead of the title when the service is listed in column headings. HTML formatting is allowed.</p>
                             <field name="ShortTitle"></field>
@@ -4559,7 +4595,7 @@
             <field name="model">olims.analysis_service</field>
             <field name="arch" type="xml">
                 <tree string="Analysis Service">
-                    <field name="name"></field>
+                    <field name="Service"></field>
                     <!-- <field name="category"></field> -->
                     <field name="Keyword"></field>
                     <field name="CommercialID"></field>

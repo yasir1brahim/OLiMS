@@ -21,7 +21,7 @@
 # from lims.config import PROJECTNAME
 
 import logging
-from openerp import models
+from openerp import models, api
 
 _logger = logging.getLogger(__name__)
 
@@ -1410,9 +1410,13 @@ schema = (fields.Char(string='RequestID',
             rows=3,
             visible=False),
     ),
-    fields.Many2many(string='AnalysisService',
-                     comodel_name='olims.analysis_service',
-                    relation='analysisservice_analysisrequest',
+    fields.One2many(string='LabService',
+                     comodel_name='olims.field_analysis_service',
+                    inverse_name='ar_service_lab_id',
+    ),
+    fields.One2many(string='FieldService',
+                     comodel_name='olims.field_analysis_service',
+                    inverse_name='analysis_request_id',
     ),
     fields.Float(string='Discount',
                  compute='getDiscountAmount',
@@ -1456,6 +1460,42 @@ schema = (fields.Char(string='RequestID',
 #          subfields=('uid', 'hidden',),
 #          widget=ComputedWidget(visible=False),
 #     ),
+)
+schema_analysis = (fields.Many2one(string='Service',
+                    comodel_name='olims.analysis_service',
+                    relation='analysisservice_analysisrequest',
+                    domain="[('PointOfCapture', '=', 'field')]"
+    ),
+    fields.Many2one(string='LabService',
+                     comodel_name='olims.analysis_service',
+                    relation='analysisservice_analysisrequest',
+                    domain="[('PointOfCapture', '=', 'lab')]"
+    ),
+    StringField('CommercialID',
+        compute='_ComputeFieldResults',
+        widget=StringWidget(
+            label=_("Commercial ID"),
+            description=_("The service's commercial ID for accounting purposes")
+        ),
+    ),
+    StringField('ProtocolID',
+        compute='_ComputeFieldResults',
+        widget=StringWidget(
+            label=_("Protocol ID"),
+            description=_("The service's analytical protocol ID")
+        ),
+    ),
+    fields.Many2one(string='analysis_request_id',
+        comodel_name='olims.analysis_request',
+        ondelete='cascade'
+    ),
+    fields.Many2one(string='ar_service_lab_id',
+        comodel_name='olims.analysis_request',
+        ondelete='cascade'
+    ),
+    StringField(string="Error"),
+    StringField(string="Min"),
+    StringField(string="Max"),
 )
 # )
 
@@ -2630,7 +2670,21 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         for analysis in analyses:
             doActionFor(analysis.getObject(), 'cancel')
 
+class FieldAnalysisService(models.Model, BaseOLiMSModel):
+    _name = 'olims.field_analysis_service'
+
+    @api.onchange('Service','LabService')
+    def _ComputeFieldResults(self):
+        for item in self:
+            if item.Service:
+                item.CommercialID = item.Service.CommercialID
+                item.ProtocolID  = item.Service.ProtocolID
+            if item.LabService:
+                item.CommercialID = item.LabService.CommercialID
+                item.ProtocolID  = item.LabService.ProtocolID
+
 AnalysisRequest.initialze(schema)
+FieldAnalysisService.initialze(schema_analysis)
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 # atapi.registerType(AnalysisRequest, PROJECTNAME)
 # registerType(AnalysisRequest, PROJECTNAME)

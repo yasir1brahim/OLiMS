@@ -212,7 +212,7 @@ ATTACHMENT_OPTIONS = (
 
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 # schema = BikaSchema.copy() + Schema((
-schema = (StringField('name',
+schema = (StringField('Service',
         required=1,
         widget=StringWidget(
             label=_('Title'),
@@ -1001,7 +1001,7 @@ fields.One2many(string='Uncertainties',
 
 class AnalysisService(models.Model, BaseOLiMSModel):#(BaseContent, HistoryAwareMixin):
     _name = 'olims.analysis_service'
-    
+    _rec_name = 'Service'
     # marked Keyword field "unique" 
     _sql_constraints = [
         ('uniq_Keyword', 'unique(Keyword)', "The unique keyword used to identify the analysis service."),
