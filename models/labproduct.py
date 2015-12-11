@@ -19,7 +19,7 @@ from base_olims_model import BaseOLiMSModel
 
 
 #schema = BikaSchema.copy() + Schema((
-schema = (StringField('name',
+schema = (StringField('Title',
         required=1,
         widget=StringWidget(
             label=_('Title'),
@@ -65,13 +65,13 @@ schema = (StringField('name',
 #     #         visible = {'edit':'hidden', }
 #     #     ),
 #     # ),
-    # ComputedField('TotalPrice',
-    #     expression = 'context.getTotalPrice()',
-    #     widget = ComputedWidget(
-    #         label=_("Total price"),
-    #         visible = {'edit':'hidden', }
-    #     ),
-    # ),
+    fields.Float(string='TotalPrice',
+        compute = '_ComputeTotalPrice',
+#         widget = ComputedWidget(
+#             label=_("Total price"),
+#             visible = {'edit':'hidden', }
+#         ),
+    ),
 )
 
 # schema['description'].schemata = 'default'
@@ -79,6 +79,7 @@ schema = (StringField('name',
 
 class LabProduct(models.Model, BaseOLiMSModel): #BaseContent
     _name ='olims.lab_product'
+    _rec_name = 'Title'
     # security = ClassSecurityInfo()
     # displayContentsTab = False
     # schema = schema
@@ -88,15 +89,16 @@ class LabProduct(models.Model, BaseOLiMSModel): #BaseContent
         from lims.idserver import renameAfterCreation
         renameAfterCreation(self)
     
-#     def getTotalPrice(self):
-#         """ compute total price """
-#         price = self.getPrice()
-#         price = Decimal(price or '0.00')
-#         vat = Decimal(self.getVAT())
-#         price = price and price or 0
-#         vat = vat and vat / 100 or 0
-#         price = price + (price * vat)
-#         return price.quantize(Decimal('0.00'))
+    def _ComputeTotalPrice(self):
+        """ compute total price """
+        for items in self:
+            price = items.getPrice()
+            price = (price or '0.00')
+            vat = (items.getVAT())
+            price = price and price or 0
+            vat = vat and vat or 0
+            price = price + vat
+            items.TotalPrice = price
 
     def getDefaultVAT(self):
         """ return default VAT from bika_setup """

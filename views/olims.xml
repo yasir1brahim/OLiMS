@@ -2348,8 +2348,8 @@
             <field name="model">olims.lab_product</field>
             <field name="arch" type="xml">
                 <form string="Lab Product Form">
-                    <label for="name" string="Title"/>
-                    <field name="name"></field>
+                    <label for="Title" string="Title"/>
+                    <field name="Title"></field>
                     <label for="Description" string="Description"/>
                     <p>Used in item listings and search results.</p>
                     <field name="Description"></field>
@@ -2375,11 +2375,12 @@
             <field name="model">olims.lab_product</field>
             <field name="arch" type="xml">
                 <tree string="Lab Product">
-                    <field name="name"></field>
+                    <field name="Title"></field>
                 	<field name="Volume"></field>
                     <field name="Unit"></field>
                 	<field name="VAT"></field>
                 	<field name="Price"></field>
+                    <field name="TotalPrice"></field>
                     <!--<field name="VATAmount"></field>-->
                 </tree>
             </field>
