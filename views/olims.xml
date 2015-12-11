@@ -148,8 +148,8 @@
                     <field name="Min"></field>
                     <label for="Max" string="Max"/>
                     <field name="Max"></field>
-                    <label for="PermittedError" string="PermittedError %"/>
-                    <field name="PermittedError"></field>
+                    <label for="Permitted Error" string="PermittedError %"/>
+                    <field name="Permitted Error"></field>
                 </form>
             </field>
         </record>
@@ -162,7 +162,7 @@
                     <field name="Service"></field>
                     <field name="Min"></field>
                     <field name="Max"></field>
-                    <field name="PermittedError"></field>
+                    <field name="Permitted Error"></field>
                 </tree>
             </field>
         </record>
@@ -1030,14 +1030,23 @@
             <field name="model">olims.analysis_spec</field>
             <field name="arch" type="xml">
                 <form string="AnalysisSpec Form">
-                    <label for="SampleType" string="SampleType"/>
-                    <field name="SampleType" options="{'no_create': True}"></field>
-                    <label for="name" string="Name"/>
-                	<field name="name"></field>
+                    <label for="Sample Type" string="Sample Type"/>
+                    <field name="Sample Type" options="{'no_create': True}"></field>
+                    <label for="Title" string="Name"/>
+                    <field name="Title"></field>
                 	<label for="Description" string="Description"/>
+                    <p>Used in item listings and search results.</p>
                 	<field name="Description"></field>
                     <label for="Specifications" string="Specifications"/>
-                    <field name="Specifications"></field>
+                    <p>Click on Analysis Categories (against shaded backgroundto see Analysis Services in each category. Enter minimum and maximum values to indicate a valid results range. Any result outside this range will raise an alert. The &#37; Error field allows for an &#37; uncertainty to be considered when evaluating results against minimum and maximum values. A result out of range but still in range if the &#37; error is taken into consideration, will raise a less severe alert. If the result is below ' Max'</p>
+                    <field name="Specifications" widget="one2many_list">
+                        <tree editable="bottom">
+                            <field name="Service" options="{'no_create': True}"></field>
+                            <field name="Min"></field>
+                            <field name="Max"></field>
+                            <field name="Permitted Error"></field>
+                        </tree>
+                    </field>
                 </form>
             </field>
         </record>
@@ -1047,9 +1056,8 @@
             <field name="model">olims.analysis_spec</field>
             <field name="arch" type="xml">
                 <tree string="AnalysisSpec Template">
-                <field name="SampleType"></field>
-                <field name="name"></field>
-                <field name="Description"></field>
+                    <field name="Title"></field>
+                    <field name="Sample Type"></field>
                 </tree>
             </field>
         </record>

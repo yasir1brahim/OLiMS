@@ -45,12 +45,12 @@ from fields.widget.widget import TextAreaWidget
 # )) + \
 # BikaSchema.copy() + \
 # Schema((
-schema = (fields.Many2one(string='SampleType',
+schema = (fields.Many2one(string='Sample Type',
                    comodel_name='olims.sample_type',
                    required=False,
                    help="Sample Type",
             ),
-    StringField('name',
+    StringField('Title',
               required=1,        
     ),
     TextField('Description',
@@ -108,6 +108,7 @@ schema = (fields.Many2one(string='SampleType',
 
 class AnalysisSpec(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
     _name = "olims.analysis_spec"
+    _rec_name = "Title"
     # implements(IAnalysisSpec)
     # security = ClassSecurityInfo()
     # schema = schema

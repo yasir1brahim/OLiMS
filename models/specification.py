@@ -7,7 +7,7 @@ schema = (fields.Many2one(string='Service',
     ),
     fields.Integer('Min'),
     fields.Integer('Max'),
-    fields.Integer('PermittedError'),
+    fields.Integer('Permitted Error'),
 )
 
 class Specifications(models.Model, BaseOLiMSModel):
