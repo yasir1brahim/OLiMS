@@ -1337,8 +1337,8 @@
                 <form string="Reference Definition Form">
                     <notebook>
                         <page string="Description">
-                            <label for="name" string="Title"/>
-                            <field name="name"></field>
+                            <label for="Title" string="Title"/>
+                            <field name="Title"></field>
                             <label for="Description" string="Description"/>
                             <p>Used in item listings and search results.</p>
                             <field name="Description"></field>
@@ -1350,6 +1350,17 @@
                             <p>Samples of this type should be treated as hazardous</p>
                         </page>
                         <page string="Reference Values">
+                            <label for="Reference Results" string="Reference Results"/>
+                            <p>Click on Analysis Categories (against shaded backgroundto see Analysis Services in each category. Enter minimum and maximum values to indicate a valid results range. Any result outside this range will raise an alert. The &#37; Error field allows for an &#37; uncertainty to be considered when evaluating results against minimum and maximum values.</p>
+                            <field name="Reference Results" widget="one2many_list">
+                                <tree string="Reference Results" editable="bottom">
+                                    <field name="Service" options="{'no_create': True}"/>
+                                    <field name="Expected Result"/>
+                                    <field name="Permitted Error"/>
+                                    <field name="Min"/>
+                                    <field name="Max"/>
+                                </tree>
+                            </field>
                         </page>
                     </notebook>
                 </form>
@@ -1361,10 +1372,8 @@
             <field name="model">olims.reference_definition</field>
             <field name="arch" type="xml">
                 <tree string="Reference Definition Template">
-                    <field name="name"></field>
+                    <field name="Title"></field>
                     <field name="Description"></field>
-                    <field name="Blank"></field>
-                    <field name="Hazardous"></field>
                 </tree>
             </field>
         </record>

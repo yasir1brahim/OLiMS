@@ -26,31 +26,11 @@ from fields.text_field import TextField
 
 
 #schema = BikaSchema.copy() + Schema((
-schema = (
-# ~~~~~~~ To be implemented ~~~~~~~
-    # ReferenceResultsField('ReferenceResults',
-    #     schemata = 'Reference Values',
-    #     required = 1,
-    #     subfield_validators = {
-    #         'result':'referencevalues_validator',
-    #         'min':'referencevalues_validator',
-    #         'max':'referencevalues_validator',
-    #         'error':'referencevalues_validator'},
-    #     widget = ReferenceResultsWidget(
-    #         label=_("Reference Values"),
-    #         description =_(
-    #             "Click on Analysis Categories (against shaded background"
-    #             "to see Analysis Services in each category. Enter minimum "
-    #             "and maximum values to indicate a valid results range. "
-    #             "Any result outside this range will raise an alert. "
-    #             "The % Error field allows for an % uncertainty to be "
-    #             "considered when evaluating results against minimum and "
-    #             "maximum values. A result out of range but still in range "
-    #             "if the % error is taken into consideration, will raise a "
-    #             "less severe alert."),
-    #     ),
-    # ),
-    StringField('name',
+schema = (fields.Many2many(string='Reference Results',
+        comodel_name = 'olims.reference_values',
+        required = True,
+    ),
+    StringField('Title',
               required=1,        
     ),
     TextField('Description',
@@ -83,6 +63,7 @@ schema = (
 
 class ReferenceDefinition(models.Model, BaseOLiMSModel): #BaseContent
     _name ='olims.reference_definition'
+    _rec_name = "Title"
     # security = ClassSecurityInfo()
     # displayContentsTab = False
     # schema = schema
