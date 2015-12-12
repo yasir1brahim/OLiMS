@@ -30,7 +30,7 @@
 #         return priority.getSortKey()
 
 
-from openerp import fields, models
+from openerp import fields, models, api
 from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
 from fields.text_field import TextField
@@ -45,9 +45,8 @@ WORKSHEET_STATES = (
     ('rejected','Rejected'),
     )
 #schema = BikaSchema.copy() + Schema((
-schema = (
-
-          fields.Many2one(string='WorksheetTemplate',
+schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId'),
+    fields.Many2one(string='Template',
                    comodel_name='olims.worksheet_template',
                    required=False,
 
@@ -72,27 +71,31 @@ schema = (
     # ),
     # all layout info lives in Layout; Analyses is used for back references.
 
-        ReferenceField(string='DefaultCategories',
-           #selection=[('Analysis', 'DuplicateAnalysis', 'ReferenceAnalysis', 'RejectAnalysis')],
-                       selection=([ ('olims.analysis', _('Analysis')), ('olims.analysis', _('DuplicateAnalysis')),
-                                    ('olims.analysis', _('ReferenceAnalysis')),
-                                    ('olims.analysis', _('RejectAnalysis'))]),
-           required=1,
-        # multiValued=1,
-        # allowed_types=('Analysis', 'DuplicateAnalysis', 'ReferenceAnalysis', 'RejectAnalysis'),
-        # relationship = 'WorksheetAnalysis',,
-    ),
+#         ReferenceField(string='DefaultCategories',
+#            #selection=[('Analysis', 'DuplicateAnalysis', 'ReferenceAnalysis', 'RejectAnalysis')],
+#                        selection=([ ('olims.analysis', _('Analysis')), ('olims.analysis', _('DuplicateAnalysis')),
+#                                     ('olims.analysis', _('ReferenceAnalysis')),
+#                                     ('olims.analysis', _('RejectAnalysis'))]),
+#            required=1,
+#         # multiValued=1,
+#         # allowed_types=('Analysis', 'DuplicateAnalysis', 'ReferenceAnalysis', 'RejectAnalysis'),
+#         # relationship = 'WorksheetAnalysis',,
+#     ),
 
-    StringField('Analyst',
+    fields.Many2one(string='Analyst',
+        comodel_name='res.users',
+        domain="[('groups_id', 'in', (14,23))]",
         searchable = True,
     ),
-    # # TODO Remove. Instruments must be assigned directly to each analysis.
-    # ReferenceField('Instrument',
-    #     required = 0,
-    #     allowed_types = ('Instrument',),
-    #     relationship = 'WorksheetInstrument',
-    #     referenceClass = HoldingReference,
-    # ),
+    # Instruments must be assigned directly to each analysis.
+    fields.Many2one(string='Instrument',
+        required = 0,
+        comodel_name='olims.instrument',
+#         compute='setInstrument'
+#         allowed_types = ('Instrument',),
+#         relationship = 'WorksheetInstrument',
+#         referenceClass = HoldingReference,
+    ),
     TextField('Remarks',
         searchable = True,
         default_content_type = 'text/plain',
@@ -104,7 +107,7 @@ schema = (
             append_only=True,
         ),
     ),
-    fields.Selection(string='state',
+    fields.Selection(string='State',
                      selection=WORKSHEET_STATES,
                      default='open',
                      select=True,
@@ -124,6 +127,11 @@ class Worksheet(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
     # implements(IWorksheet)
     # displayContentsTab = False
     # schema = schema
+
+    def _ComputeWorksheetId(self):
+        for items in self:
+            worksheetid = 'WS-0' + str(items.id)
+            items.Worksheet = worksheetid
 
     _at_rename_after_creation = True
 
@@ -562,37 +570,42 @@ class Worksheet(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
         """ return current date """
         return DateTime()
 
-    def setInstrument(self, instrument, override_analyses=False):
-        """ Sets the specified instrument to the Analysis from the
-            Worksheet. Only sets the instrument if the Analysis
-            allows it, according to its Analysis Service and Method.
-            If an analysis has already assigned an instrument, it won't
-            be overriden.
-            The Analyses that don't allow the instrument specified will
-            not be modified.
-            Returns the number of analyses affected
+    @api.onchange('Template')
+    def onchange_worksheettemplatevalue(self):
+        """Sets the specified instrument to the Analysis from the
+            Worksheet Template.
         """
-        analyses = [an for an in self.getAnalyses()
-                    if (not an.getInstrument() or override_analyses)
-                        and an.isInstrumentAllowed(instrument)]
-        total = 0
-        for an in analyses:
-            # An analysis can be done using differents Methods.
-            # Un method can be supported by more than one Instrument,
-            # but not all instruments support one method.
-            # We must force to set the instrument's method too. Otherwise,
-            # the WS manage results view will display the an's default
-            # method and its instruments displaying, only the instruments
-            # for the default method in the picklist.
-            meth = instrument.getMethod()
-            if an.isMethodAllowed(meth):
-                an.setMethod(meth)
-            success = an.setInstrument(instrument)
-            if success is True:
-                total += 1
-
-        self.getField('Instrument').set(self, instrument)
-        return total
+        self.Instrument = self.Template.Instrument.id
+#         """ Sets the specified instrument to the Analysis from the
+#             Worksheet. Only sets the instrument if the Analysis
+#             allows it, according to its Analysis Service and Method.
+#             If an analysis has already assigned an instrument, it won't
+#             be overriden.
+#             The Analyses that don't allow the instrument specified will
+#             not be modified.
+#             Returns the number of analyses affected
+#         """
+#         analyses = [an for an in self.getAnalyses()
+#                     if (not an.getInstrument() or override_analyses)
+#                         and an.isInstrumentAllowed(instrument)]
+#         total = 0
+#         for an in analyses:
+#             # An analysis can be done using differents Methods.
+#             # Un method can be supported by more than one Instrument,
+#             # but not all instruments support one method.
+#             # We must force to set the instrument's method too. Otherwise,
+#             # the WS manage results view will display the an's default
+#             # method and its instruments displaying, only the instruments
+#             # for the default method in the picklist.
+#             meth = instrument.getMethod()
+#             if an.isMethodAllowed(meth):
+#                 an.setMethod(meth)
+#             success = an.setInstrument(instrument)
+#             if success is True:
+#                 total += 1
+# 
+#         self.getField('Instrument').set(self, instrument)
+#         return total
 
     def workflow_script_submit(self):
         # Don't cascade. Shouldn't be submitting WSs directly for now,

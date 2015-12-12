@@ -1988,16 +1988,16 @@
             <field name="arch" type="xml">
                 <form string="Worksheet Form">
                     <header>
-                        <field name="state" widget="statusbar" statusbar_visible="open,attachment_due,to_be_verified,verified,rejected" statusbar_colors='{"open":"blue","to_be_verified":"blue","rejected":"red"}'/>
+                        <field name="State" widget="statusbar" statusbar_visible="open,attachment_due,to_be_verified,verified,rejected" statusbar_colors='{"open":"blue","to_be_verified":"blue","rejected":"red"}'/>
                     </header>
-                    <label for="DefaultCategories" string="Default Categories"/>
-                	<field name="DefaultCategories"></field>
-                    <label for="WorksheetTemplate" string="Worksheet Template"/>
-                	<field name="WorksheetTemplate"></field>
-                	<label for="Analyst" string="Analyst"/>
-                    <field name="Analyst"></field>
-                    <label for="Remarks" string="Remarks"/>
-                    <field name="Remarks"></field>
+                    <group col='8'>
+                        <label for="Analyst" string="Select Analyst"/>
+                        <field name="Analyst" options="{'no_create': True}" nolabel='1'></field>
+                        <label for="Template" string="Select Worksheet Template"/>
+                        <field name="Template" options="{'no_create': True}" nolabel='1'></field>
+                        <label for="Instrument" string="Select Instrument"/>
+                        <field name="Instrument" options="{'no_create': True}" nolabel='1'></field>
+                    </group>
                 </form>
             </field>
         </record>
@@ -2007,10 +2007,11 @@
             <field name="model">olims.worksheet</field>
             <field name="arch" type="xml">
                 <tree string="Worksheet">
-                	<field name="DefaultCategories"></field>
-                    <field name="WorksheetTemplate"></field>
+                    <field name="Worksheet"></field>
                     <field name="Analyst"></field>
-                    <field name="Remarks"></field>
+                    <field name="Template"></field>
+                    <field name="create_date"></field>
+                    <field name="State"></field>
                 </tree>
             </field>
         </record>
