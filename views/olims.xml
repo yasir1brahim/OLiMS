@@ -1929,8 +1929,8 @@
                 <form string="worksheet Template Form">
                     <notebook>
                         <page string="Description">
-                            <label for="name" string="Title"/>
-                            <field name="name"></field>
+                            <label for="Title" string="Title"/>
+                            <field name="Title"></field>
                             <label for="Description" string="Description"/>
                             <p>Used in item listings and search results.</p>
                             <field name="Description"></field>
@@ -1941,9 +1941,16 @@
                         <page string="Layout">
                         </page>
                         <page string="Analyses">
-                            <label for="Service" string="Service"/>
+                            <label for="Analysis Service" string="Analysis Service"/>
                             <p>Select which Analyses should be included on the Worksheet</p>
-                            <field name="Service" options="{'no_create': True}"></field>
+                            <field name="Analysis Service" options="{'no_create': True}">
+                                <tree editable="bottom">
+                                    <field name="Service" options="{'no_create': True}"/>
+                                    <field name="Keyword"/>
+                                    <field name="Method"/>
+                                    <field name="Calculation"/>
+                                </tree>
+                            </field>
                         </page>
                     </notebook>
                 </form>
@@ -1955,8 +1962,8 @@
             <field name="model">olims.worksheet_template</field>
             <field name="arch" type="xml">
                 <tree string="Worksheet Template">
-                	<field name="name"></field>
-                	<field name="Description"></field>
+                    <field name="Title"></field>
+                    <field name="Description"></field>
                     <field name="Instrument"></field>
                 </tree>
             </field>

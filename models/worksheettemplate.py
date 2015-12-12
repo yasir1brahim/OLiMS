@@ -14,14 +14,14 @@
 # import sys
 
 
-from openerp import fields, models
+from openerp import fields, models, api
 from lims import PMF, bikaMessageFactory as _
 from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
 from fields.text_field import TextField
 from fields.widget.widget import TextAreaWidget,StringWidget
 #schema = BikaSchema.copy() + Schema((
-schema = (StringField('name',
+schema = (StringField('Title',
               required=1,        
     ),
     TextField('Description',
@@ -52,9 +52,9 @@ schema = (StringField('name',
         #         "selected, indicate which sample position it should be a duplicate of"),
         # )
     #),
-# ~~~~~~~ To be implemented ~~~~~~~
-        fields.Many2many(string='Service',
-                    comodel_name='olims.analysis_service',
+        fields.One2many(string='Analysis Service',
+                    comodel_name='olims.worksheet_analysis_service',
+                    inverse_name='worksheet_analysis_id',
                     required=True,
                     help='Select which Analyses should be included on the Worksheet',
 #         schemata = 'Analyses',
@@ -93,7 +93,22 @@ schema = (StringField('name',
     #     ),
     # ),
 )
-
+schema_worksheet_analysis_servive = (fields.Many2one(string="worksheet_analysis_id",
+        comodel_name="olims.worksheet_template"
+        ),
+        fields.Many2one(string="Service",
+            comodel_name="olims.analysis_service",
+        ),
+        StringField(string="Keyword",
+            compute="_ComputeAnalysisServiceFields"
+        ),
+        StringField(string="Method",
+            compute="_ComputeAnalysisServiceFields"
+        ),
+        StringField(string="Calculation",
+            compute="_ComputeAnalysisServiceFields"
+        ),
+                                     )
 # schema['title'].schemata = 'Description'
 # schema['title'].widget.visible = True
 #
@@ -103,6 +118,7 @@ schema = (StringField('name',
 
 class WorksheetTemplate(models.Model, BaseOLiMSModel): #BaseContent
     _name = 'olims.worksheet_template'
+    _rec_name = 'Title'
     # security = ClassSecurityInfo()
     # displayContentsTab = False
     # schema = schema
@@ -128,5 +144,16 @@ class WorksheetTemplate(models.Model, BaseOLiMSModel): #BaseContent
         items.sort(lambda x, y: cmp(x[1], y[1]))
         return DisplayList(list(items))
 
+class WorksheetAnalysisService(models.Model, BaseOLiMSModel):
+    _name = 'olims.worksheet_analysis_service'
+
+    @api.onchange('Service')
+    def _ComputeAnalysisServiceFields(self):
+        for items in self:
+            items.Keyword = items.Service.Keyword
+            items.Method = items.Service._Method.getname()
+            items.Calculation = items.Service._Calculation.getname()
+
 #registerType(WorksheetTemplate, PROJECTNAME)
 WorksheetTemplate.initialze(schema)
+WorksheetAnalysisService.initialze(schema_worksheet_analysis_servive)
