@@ -101,8 +101,8 @@
             <field name="model">olims.invoice</field>
             <field name="arch" type="xml">
                 <form string="Invoice Form">
-                    <label for="name" string="Title"/>
-                    <field name="name"></field>
+                    <label for="Title" string="Title"/>
+                    <field name="Title"></field>
                     <label for="StartDate" string="Start Date"/>
                     <field name="StartDate"></field>
                     <label for="EndDate" string="End Date"/>
@@ -116,9 +116,13 @@
             <field name="model">olims.invoice</field>
             <field name="arch" type="xml">
                 <tree string="Invoice">
-                    <field name="name"></field>
-                    <field name="StartDate"></field>
-                    <field name="EndDate"></field>
+                    <field name="Title"></field>
+                    <field name="InvoiceNumber"></field>
+                    <field name="Client"></field>
+                    <field name="Invoice Date"></field>
+                    <field name="Subtotal"></field>
+                    <field name="VAT"></field>
+                    <field name="Total"></field>
                 </tree>
             </field>
         </record>
@@ -128,7 +132,7 @@
             <field name="res_model">olims.invoice</field>
             <field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
-			<field name="view_id" ref="olims_invoice_form_view"/>
+			<!-- <field name="context">{'group_by': 'Title'}</field> -->
        </record>
 
         <menuitem id="invoice_menu" name="Invoices" parent="olims_settings_menu" sequence="2"
@@ -3050,6 +3054,8 @@
                         <button string="Dispatch order" name="dispatch" type="workflow" states="pending"/>
                         <field name="state" widget="statusbar" statusbar_visible="pending,dispatched" statusbar_colors='{"pending":"blue","dispatched":"blue"}'></field>
                     </header>
+                    <label for="Client" string="Client"/>
+                    <field name="Client" options="{'no_create': True}"></field>
                     <label for="OrderDate" string="Order Date"/>
                     <field name="OrderDate"></field>
                     <label for="Contact" string="Contact"/>

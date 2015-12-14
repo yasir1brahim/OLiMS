@@ -20,7 +20,7 @@ from lims.utils import to_utf8
 
 
 from datetime import date
-from openerp import fields, models
+from openerp import fields, models, api
 from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
 from fields.text_field import TextField
@@ -29,28 +29,31 @@ from fields.date_time_field import DateTimeField
 from fields.file_field import FileField
 from fields.reference_field import ReferenceField
 from fields.widget.widget import StringWidget, TextAreaWidget, BooleanWidget, FileWidget, DateTimeWidget
-
+import datetime
 import logging
 import sys
 _logger = logging.getLogger(__name__)
 
 
 #schema = BikaSchema.copy() + Schema((
-schema = (StringField(string='name',
-                required=1),
+schema = (StringField(string='Title',required=1),
+    StringField(string='InvoiceNumber',
+                compute='_ComputeInvoiceId',
+                required=0),
     # ~~~~~~~ To be implemented ~~~~~~~
-    # ReferenceField('Client',
-    #     required=1,
-    #     vocabulary_display_path_bound=sys.maxsize,
-    #     allowed_types=('Client',),
-    #     relationship='ClientInvoice',
-    # ),
-    # ReferenceField('AnalysisRequest',
-    #     required=1,
-    #     vocabulary_display_path_bound=sys.maxsize,
-    #     allowed_types=('AnalysisRequest',),
-    #     relationship='AnalysisRequestInvoice',
-    # ),
+    fields.Char(string='Client',
+        required=0,
+#         comodel_name='olims.client',
+#         vocabulary_display_path_bound=sys.maxsize,
+#         allowed_types=('Client',),
+#         relationship='ClientInvoice',
+    ),
+    DateTimeField('Invoice Date',
+#         required=1,
+#         vocabulary_display_path_bound=sys.maxsize,
+#         allowed_types=('AnalysisRequest',),
+#         relationship='AnalysisRequestInvoice',
+    ),
 
     DateTimeField('StartDate',
         required=1,
@@ -78,7 +81,7 @@ schema = (StringField(string='name',
         ),
     ),
     
-    fields.Float(compute='getSubtotal', string='subtotal'),
+    fields.Float(string='Subtotal'),
           
     # ~~~~~~~ To be implemented ~~~~~~~
     # ComputedField('Subtotal',
@@ -88,7 +91,7 @@ schema = (StringField(string='name',
     #         visible=False,
     #     ),
     # ),
-    fields.Float(compute='getVATAmount', string='VATAmount'),
+    fields.Float(string='VAT'),
     # ComputedField('VATAmount',
     #     expression='context.getVATAmount()',
     #     widget=ComputedWidget(
@@ -96,13 +99,13 @@ schema = (StringField(string='name',
     #         visible=False,
     #     ),
     # ),
-    # ComputedField('Total',
-    #     expression='context.getTotal()',
-    #     widget=ComputedWidget(
-    #         label=_("Total"),
-    #         visible=False,
-    #     ),
-    # ),
+    fields.Float('Total',
+#         expression='context.getTotal()',
+#         widget=ComputedWidget(
+#             label=_("Total"),
+#             visible=False,
+#         ),
+    ),
     # ComputedField('ClientUID',
     #     expression='here.getClient() and here.getClient().UID()',
     #     widget=ComputedWidget(
@@ -130,11 +133,43 @@ schema = (StringField(string='name',
 
 class Invoice(models.Model, BaseOLiMSModel): #(BaseFolder):
     _name='olims.invoice'
+    _rec_name = 'Title'
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
     # implements(IInvoice)
     # security = ClassSecurityInfo()
     # displayContentsTab = False
     # schema = schema
+    def _ComputeInvoiceId(self):
+        for record in self:
+            invoiceid = 'I-0' + str(record.id)
+            record.InvoiceNumber = invoiceid
+    @api.model
+    def create(self, values):
+        order_date1 = datetime.datetime.strptime(values.get('StartDate'), "%Y-%m-%d %H:%M:%S")
+        order_date2 = datetime.datetime.strptime(values.get('EndDate'), "%Y-%m-%d %H:%M:%S")
+
+        stringdate1 = order_date1.strftime("%Y-%m-%d %H:%M:%S")
+        stringdate2 = order_date2.strftime("%Y-%m-%d %H:%M:%S")
+        order_object = self.env['olims.supply_order']
+
+        order_object_ids = order_object.search([('DateDispatched', '>=', stringdate1),('DateDispatched', '<=', stringdate2)])
+        if order_object_ids:
+            for obj in order_object_ids:
+                line = order_object.browse(obj.id)
+                client_name = line.Client.name.encode('ascii','ignore')
+                print type(client_name)
+                supply_order_value_dict = {'Invoice Date': datetime.datetime.now(),
+                                           'Subtotal': line.SubTotal,
+                                           'VAT': line.VAT,
+                                           'Total': line.Total,
+                                           'Client': client_name
+                                           }
+                values.update(supply_order_value_dict)
+                res = super(Invoice, self).create(values)
+            return res
+        else:
+            res = super(Invoice, self).create(values)
+            return res
 
     _at_rename_after_creation = True
 

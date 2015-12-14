@@ -40,7 +40,7 @@ schema = (
 
   fields.Many2one(string='Contact',
         comodel_name='olims.contact',
-        requried =True,
+        required =False,
 #         vocabulary_display_path_bound=sys.maxsize,
     #   allowed_types=('Contact',),
     #   referenceClass=HoldingReference,
@@ -59,15 +59,15 @@ schema = (
                 compute='compute_order_id',
     ),
 
-    fields.Many2one(string='Invoice',
-        comodel_name='olims.invoice',
-        requried =False,
-         help =    'contact',
-    # vocabulary_display_path_bound=sys.maxsize,
-    #                allowed_types=('Invoice',),
-    #                referenceClass=HoldingReference,
-    #                relationship='OrderInvoice',
-    ),
+#     fields.Many2one(string='Invoice',
+#         comodel_name='olims.invoice',
+#         required =False,
+#          help =    'contact',
+#     # vocabulary_display_path_bound=sys.maxsize,
+#     #                allowed_types=('Invoice',),
+#     #                referenceClass=HoldingReference,
+#     #                relationship='OrderInvoice',
+#     ),
 
     DateTimeField(
       'OrderDate',
@@ -120,13 +120,10 @@ schema = (
                                  string='OrderLines'
     ),
 
-# ~~~~~~~ To be implemented ~~~~~~~
-    # ComputedField('ClientUID',
-    #               expression = 'here.aq_parent.UID()',
-    #               widget = ComputedWidget(
-    #                   visible=False,
-    #                   ),
-    #               ),
+    fields.Many2one(string='Client',
+            comodel_name='olims.client',
+            required=True,
+                  ),
     # ComputedField('ProductUID',
     #               expression = 'context.getProductUIDs()',
     #               widget = ComputedWidget(
@@ -210,14 +207,16 @@ class SupplyOrder(models.Model, BaseOLiMSModel): #BaseFolder
     def computeFieldsOnChange(self):
         subTotal = vatAmount = 0.0;
         for s in self:
+            subTotal = 0.0
+            vatAmount = 0.0
             if s.OrderLines:
                 for row in s.OrderLines:
                     if row.Quantity and row.Price and row.VAT:
                         subTotal += float(row.Quantity) * row.Price
                         vatAmount += (float(row.Quantity) * row.Price * float(row.VAT))/100
-        self.SubTotal = subTotal
-        self.VAT = vatAmount
-        self.Total = self.SubTotal + self.VAT
+            s.SubTotal = subTotal
+            s.VAT = vatAmount
+            s.Total = s.SubTotal + s.VAT
 
     # implements(ISupplyOrder, IConstrainTypes)
     #
