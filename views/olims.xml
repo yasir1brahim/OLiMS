@@ -1772,6 +1772,9 @@
                             <field name="state" widget="statusbar" statusbar_visible="to_be_sampled,sample_received,sample_due" statusbar_colors='{"to_be_sampled":"blue","sample_received":"red","invalid":"red"}'/>
                     </header>
                 <!-- </sheet> -->
+                    <sheet>
+                        <label for="Client" string="Client"/>
+                        <field name="Client" options="{'no_create': True}"></field>
                     <label for="Contact" string="Contact"/>
                 	<field name="Contact" options="{'no_create': True}"></field>
                 	<label for="CCContact" string="CC Contact"/>
@@ -1790,6 +1793,8 @@
                     <field name="AnalysisProfile" options="{'no_create': True}"></field>
                     <label for="SamplingDate" string="Sampling Date"/>
                     <field name="SamplingDate"></field>
+                    <label for="Sampler" string="Sampler"/>
+                    <field name="Sampler" options="{'no_create': True}"></field>
                     <label for="SampleType" string="Sample Type"/>
                     <field name="SampleType" options="{'no_create': True}"></field>
                     <label for="Specification" string="Analysis Specification"/>
@@ -1805,7 +1810,7 @@
                     <label for="ClientSampleID" string="Client Sample ID"/>
                     <field name="ClientSampleID"></field>
                     <label for="SamplingDeviation" string="SamplingDeviation"/>
-                    <field name="SamplingDeviation"></field>
+                    <field name="SamplingDeviation" options="{'no_create': True}"></field>
                     <label for="SampleCondition" string="Sample Condition"/>
                     <field name="SampleCondition" options="{'no_create': True}"></field>
                     <label for="DefaultContainerType" string="Default Container Type"/>
@@ -1870,6 +1875,7 @@
                             <field name="Error" placeholder="err&#37;"/>
                         </form>
                     </field>
+                </sheet>
                 </form>
             </field>
         </record>
@@ -1886,6 +1892,7 @@
                     <field name="Sample"></field>
                     <field name="Batch"></field>
                     <field name="SubGroup"></field>
+                    <field name="Client"></field>
                     <field name="create_uid"></field>
                     <!-- <field name="Template"></field>
                     <field name="AnalysisProfile"></field> -->
@@ -1905,6 +1912,7 @@
                     <field name="ReportDryMatter"></field>
                     <field name="InvoiceExclude"></field> -->
                     <field name="Priority"></field>
+                    <field name="Sampler"></field>
                     <!-- <field name="Discount"></field>
                     <field name="Subtotal"></field>
                     <field name="VAT"></field>

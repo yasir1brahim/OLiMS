@@ -216,7 +216,7 @@ schema = (fields.Char(string='RequestID',
 
     fields.Many2one(string='Client',
                     comodel_name='olims.client',
-                    required=False,
+                    required=True,
 
     ),
 
@@ -490,12 +490,9 @@ schema = (fields.Char(string='RequestID',
         ),
     ),
     # Sample field
-# ~~~~~~~ To be implemented ~~~~~~~
-#     StringField('Sampler',
-#         mode="rw",
-#         read_permission=permissions.View,
-#         write_permission=SampleSample,
-#         vocabulary='getSamplers',
+    fields.Many2one(string='Sampler',
+        comodel_name="res.users",
+        domain="[('groups_id', 'in', (14,18))]",
 #         widget=BikaSelectionWidget(
 #             format='select',
 #             label = _("Sampler"),
@@ -517,7 +514,7 @@ schema = (fields.Char(string='RequestID',
 #                      },
 #             render_own_label=True,
 #         ),
-#     ),
+    ),
     DateTimeField(
         'SamplingDate',
         required=1,
