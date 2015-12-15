@@ -1868,7 +1868,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         """
         It computes and returns the analysis service's discount amount without VAT
         """
-        if self.AnalysisService:
+        if self.Service:
             for records in self.AnalysisService:
                 if records:
                     bulkprice = records.BulkPrice

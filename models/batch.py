@@ -75,7 +75,7 @@ BATCHE_STATES = (
 schema = (StringField(
         'name',
         searchable=True,
-        required=False,
+        required=True,
         validators=('uniquefieldvalidator',),
         widget=StringWidget(
             visible=False,
@@ -150,7 +150,8 @@ schema = (StringField(
     fields.Many2many(string='InheritedObjects',
     comodel_name='olims.inherit_from_batch',
     relation='inheritform_batch',
-    required=False
+    required=False,
+    ondelete='cascade'
         #     'InheritedObjectsUI',
     #     required=False,
     #     type='InheritedObjects',
@@ -201,11 +202,7 @@ schema = (StringField(
     #     ),
     # ),
     ),
-	# fields.Selection(string='state',selection=[
- #            ('open', 'Open'),
- #            ('closed', 'Closed'),
- #            ('cancelled', 'Cancelled'),],
- #            default='open'),
+    StringField(string='BatchId',compute='_ComputeBatchId'),
     fields.Selection(string='state',selection=BATCHE_STATES,
         default='open', select=True,
         required=True, readonly=True,
@@ -235,6 +232,11 @@ class Batch(models.Model, BaseOLiMSModel): #ATFolder
     # security = ClassSecurityInfo()
     # displayContentsTab = False
     # schema = schema
+
+    def _ComputeBatchId(self):
+        for record in self:
+            batchidstring = 'B-0' + str(record.id)
+            self.BatchId = batchidstring
 
     _at_rename_after_creation = True
 

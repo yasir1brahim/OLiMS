@@ -262,8 +262,8 @@
             <field name="model">olims.inherit_from_batch</field>
             <field name="arch" type="xml">
                 <form string="Inherit From Form">
-                    <label for="name" string="Title"/>
-                    <field name="name"></field>
+                    <label for="Title" string="Title"/>
+                    <field name="Title"></field>
                     <label for="ObjectId" string="Object ID"/>
                     <field name="ObjectId"></field>
                     <label for="Description" string="Description"/>
@@ -277,7 +277,7 @@
             <field name="model">olims.inherit_from_batch</field>
             <field name="arch" type="xml">
                 <tree string="Inherit From">
-                    <field name="name"></field>
+                    <field name="Title"></field>
                     <field name="ObjectId"></field>
                     <field name="Description"></field>
                 </tree>
@@ -1669,6 +1669,7 @@
 
                         <field name="state" widget="statusbar" statusbar_visible="open,closed,sample_due" statusbar_colors='{"open":"blue","closed":"red"}'/>
                     </header>
+                    <sheet>
                     <label for="ClientBatchID" string="Client Batch ID"/>
                     <field name="ClientBatchID"></field>
                     <label for="name" string="Title"/>
@@ -1683,7 +1684,14 @@
                     <field name="BatchLabels" widget="many2many_checkboxes"></field>
                    <label for="InheritedObjects" string="Inherit From"/>
                    <p>Include all analysis requests belonging to the selected objects</p>
-                    <field name="InheritedObjects"></field>
+                    <field name="InheritedObjects" widget="one2many_list">
+                        <tree editable="bottom">
+                            <field name="Title"></field>
+                            <field name="ObjectId"></field>
+                            <field name="Description"></field>
+                        </tree>
+                    </field>
+                    </sheet>
                 </form>
             </field>
         </record>
@@ -1693,12 +1701,12 @@
             <field name="model">olims.batch</field>
             <field name="arch" type="xml">
                 <tree string="Batch Template">
-                    <field name="ClientBatchID"></field>
+                    <!-- <field name="ClientBatchID"></field> -->
                     <field name="name"></field>
-                    <field name="Client"></field>
-                    <field name="Description"></field>
+                    <field name="BatchId"></field>
                     <field name="BatchDate"></field>
-                    <field name="InheritedObjects"></field>
+                    <field name="Description"></field>
+                    <field name="state"></field>
                 </tree>
             </field>
         </record>
