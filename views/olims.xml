@@ -1205,10 +1205,13 @@
 
                         <field name="state" widget="statusbar" statusbar_visible="current,expired,disposed" statusbar_colors='{"current":"blue","expired":"red"}'/>
                     </header>
+                    <sheet>
                     <notebook>
                         <page string='Description'>
                             <label for="Title" string="Title"/>
                             <field name="Title"></field>
+                            <label for="Supplier" string="Supplier"/>
+                            <field name="Supplier" options="{'no_create_edit': True}"></field>
                             <label for="Reference Definition" string="Reference Definition"/>
                             <field name="Reference Definition" options="{'no_create_edit': True}"></field>
                             <field name="Blank"></field>
@@ -1253,6 +1256,7 @@
                             </field>
                         </page>
                     </notebook>
+                </sheet>
                 </form>
             </field>
         </record>

@@ -179,13 +179,13 @@ schema = (StringField('Title',
 #         ),
     ),
 
-    # ~~~~~~~ To be implemented ~~~~~~~
-    # ComputedField('SupplierUID',
-    #     expression = 'context.aq_parent.UID()',
+    fields.Many2one(string='Supplier',
+        comodel_name='olims.supplier',
+        required=True
     #     widget = ComputedWidget(
     #         visible = False,
     #     ),
-    # ),
+    ),
     # ComputedField('ReferenceDefinitionUID',
     #     expression = 'here.getReferenceDefinition() and here.getReferenceDefinition().UID() or None',
     #     widget = ComputedWidget(
