@@ -157,7 +157,6 @@ class Invoice(models.Model, BaseOLiMSModel): #(BaseFolder):
             for obj in order_object_ids:
                 line = order_object.browse(obj.id)
                 client_name = line.Client.name.encode('ascii','ignore')
-                print type(client_name)
                 supply_order_value_dict = {'Invoice Date': datetime.datetime.now(),
                                            'Subtotal': line.SubTotal,
                                            'VAT': line.VAT,
