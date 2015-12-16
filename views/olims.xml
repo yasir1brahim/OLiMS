@@ -1034,6 +1034,7 @@
             <field name="model">olims.analysis_spec</field>
             <field name="arch" type="xml">
                 <form string="AnalysisSpec Form">
+                    <sheet>
                     <label for="Sample Type" string="Sample Type"/>
                     <field name="Sample Type" options="{'no_create': True}"></field>
                     <label for="Title" string="Name"/>
@@ -1049,8 +1050,12 @@
                             <field name="Min"></field>
                             <field name="Max"></field>
                             <field name="Permitted Error"></field>
+                            <field name="&#60; Min"></field>
+                            <field name="&#62; Max"></field>
+                            <field name="Range remarks&#58;"></field>
                         </tree>
                     </field>
+                </sheet>
                 </form>
             </field>
         </record>
@@ -4496,7 +4501,7 @@
                             <field name="category" options="{'no_create_edit': True}"></field>
                             <label for="Price" string="Price (excluding VAT)"/>
                             <field name="Price"></field>
-                            <label for="BulkPrice" string="Bulk price (excluding VAT"/>
+                            <label for="BulkPrice" string="Bulk price (excluding VAT)"/>
                             <p>The price charged per analysis for clients who qualify for bulk discounts</p>
                             <field name="BulkPrice"></field>
                             <label for="VAT" string="VAT %"/>
