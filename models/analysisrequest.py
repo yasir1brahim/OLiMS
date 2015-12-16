@@ -1416,19 +1416,19 @@ schema = (fields.Char(string='RequestID',
                     inverse_name='analysis_request_id',
     ),
     fields.Float(string='Discount',
-                 compute='getDiscountAmount',
+                 compute='_ComputeServiceCalculation',
                  default=0.00
     ),
     fields.Float(string='Subtotal',
-                 compute='computeSubtotal',
+                 compute='_ComputeServiceCalculation',
                  default=0.00
     ),
     fields.Float(string='VAT',
-                 compute='getVATAmount',
+                 compute='_ComputeServiceCalculation',
                  default=0.00
     ),
     fields.Float(string='Total',
-                 compute='getTotalPrice',
+                 compute='_ComputeServiceCalculation',
                  default=0.00
     ),
     fields.Selection(string='state',
@@ -1829,20 +1829,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 #     security.declareProtected(View, 'getSubtotal')
 
-    def computeSubtotal(self):
-        """ Compute Subtotal (without member discount and without vat)
-        """
-        if self.AnalysisService:
-            for records in self.AnalysisService:
-                if records:
-                    bulkprice = records.BulkPrice
-                    discount = bulkprice * 33.33 / 100
-                    self.Subtotal += float(bulkprice) - float(discount)
-#         analyses, a_profiles = self.getBillableItems()
-#         return sum(
-#             [Decimal(obj.getPrice()) for obj in analyses] +
-#             [Decimal(obj.getAnalysisProfilePrice()) for obj in a_profiles]
-#         )
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 #     security.declareProtected(View, 'getSubtotalVATAmount')
 
@@ -1864,45 +1850,98 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 #     security.declareProtected(View, 'getDiscountAmount')
 
-    def getDiscountAmount(self):
+    def _ComputeServiceCalculation(self):
         """
-        It computes and returns the analysis service's discount amount without VAT
+        It computes and returns the analysis service's discount amount without VAT, SubToatl and Total
         """
-        if self.Service:
-            for records in self.AnalysisService:
-                if records:
-                    bulkprice = records.BulkPrice
-                    self.Discount += bulkprice * 33.33 / 100
+        for record in self:
+            discount = 0.0
+            vatamout = 0.0
+            service_price = 0.0
+            service_discount = 0.0
+            service_subtotal = 0.0
+            service_vat = 0.0
+            service_total = 0.0
+            if record.FieldService and record.LabService:
+                for service in record.FieldService:
 
-#         has_client_discount = self.aq_parent.getMemberDiscountApplies()
-#         if has_client_discount:
-#             discount = Decimal(self.getDefaultMemberDiscount())
-#             return Decimal(self.getSubtotal() * discount / 100)
-#         else:
-#             return 0
+                    service_price = service.Service.Price
 
-    def getVATAmount(self):
-        """
-        It computes the VAT amount from (AnalysisService.BulkPrice)*AnalysisService.VAT/100, but each analysis has its
-        own VAT!
-        :computes: the analysis request VAT amount without the discount
-        """
-        if self.AnalysisService:
-            for records in self.AnalysisService:
-                if records:
-                    bulkprice = records.BulkPrice
-                    vatamout = records.VATAmount
-                    _logger.warning('***** GOT records.BulkPrice: %r ****' % records.BulkPrice)
-                    _logger.warning('***** GOT records.VATAmount: %r ****' % records.VATAmount)
-                    self.VAT += bulkprice * vatamout / 100
-                    _logger.warning('***** GOT self.VAT: %r ****' % self.VAT)
-#         has_client_discount = self.aq_parent.getMemberDiscountApplies()
-#         VATAmount = self.getSubtotalVATAmount()
-#         if has_client_discount:
-#             discount = Decimal(self.getDefaultMemberDiscount())
-#             return Decimal((1 - discount/100) * VATAmount)
-#         else:
-#             return VATAmount
+                    service_discount += service_price * 33.33 / 100
+
+                    #compute subtotal
+                    discount = service_price * 33.33 / 100
+                    service_subtotal += float(service_price) - float(discount)
+
+                    #compute VAT
+                    vatamout = service.Service.VATAmount
+
+                    service_vat += service_price * vatamout / 100
+                    service_total = service_subtotal + service_vat
+
+                for service in record.LabService:
+
+                    service_price = service.LabService.Price
+
+                    service_discount += service_price * 33.33 / 100
+
+                    #compute subtotal
+                    discount = service_price * 33.33 / 100
+                    service_subtotal += float(service_price) - float(discount)
+
+                    #compute VAT
+                    vatamout = service.LabService.VATAmount
+
+                    service_vat += service_price * vatamout / 100
+                    service_total = service_subtotal + service_vat
+
+                record.Discount = service_discount
+                record.Subtotal = service_subtotal
+                record.VAT = service_vat
+                record.Total = service_total
+            elif record.FieldService or record.LabService:
+                if record.FieldService:
+                    for service in record.FieldService:
+
+                        service_price = service.Service.Price
+
+                        service_discount += service_price * 33.33 / 100
+
+                        #compute subtotal
+                        discount = service_price * 33.33 / 100
+                        service_subtotal += float(service_price) - float(discount)
+
+                        #compute VAT
+                        vatamout = service.Service.VATAmount
+
+                        service_vat += service_price * vatamout / 100
+                        service_total = service_subtotal + service_vat
+                    record.Discount = service_discount
+                    record.Subtotal = service_subtotal
+                    record.VAT = service_vat
+                    record.Total = service_total
+                if record.LabService:
+                    for service in record.LabService:
+
+                        service_price = service.LabService.Price #+ record.LabService.LabService.Price
+
+                        service_discount += service_price * 33.33 / 100
+
+                        #compute subtotal
+                        discount = service_price * 33.33 / 100
+                        service_subtotal += float(service_price) - float(discount)
+
+                        #compute VAT
+                        vatamout = service.LabService.VATAmount #+ record.LabService.LabService.VATAmount
+
+                        service_vat += service_price * vatamout / 100
+                        service_total = service_subtotal + service_vat
+
+                    record.Discount = service_discount
+                    record.Subtotal = service_subtotal
+                    record.VAT = service_vat
+                    record.Total = service_total
+
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 #     security.declareProtected(View, 'getTotalPrice')
 
