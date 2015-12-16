@@ -11,7 +11,7 @@ schema = (fields.Many2one(string='Service',
     FixedPointField('< Min'),
     FixedPointField('> Max'),
     FixedPointField('Permitted Error'),
-    TextField('Range remarks:'),
+    TextField('Range Remarks'),
 )
 
 class Specifications(models.Model, BaseOLiMSModel):

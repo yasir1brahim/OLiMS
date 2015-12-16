@@ -1052,7 +1052,7 @@
                             <field name="Permitted Error"></field>
                             <field name="&#60; Min"></field>
                             <field name="&#62; Max"></field>
-                            <field name="Range remarks&#58;"></field>
+                            <field name="Range Remarks"></field>
                         </tree>
                     </field>
                 </sheet>
