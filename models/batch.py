@@ -236,7 +236,7 @@ class Batch(models.Model, BaseOLiMSModel): #ATFolder
     def _ComputeBatchId(self):
         for record in self:
             batchidstring = 'B-0' + str(record.id)
-            self.BatchId = batchidstring
+            record.BatchId = batchidstring
 
     _at_rename_after_creation = True
 
