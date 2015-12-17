@@ -568,10 +568,11 @@
             <field name="model">olims.ar_template</field>
             <field name="arch" type="xml">
                 <form string="AR Template Form">
+                    <sheet>
                     <notebook>
                         <page string="Default">
-                            <label for="name" string="Title"/>
-                            <field name="name"></field>
+                            <label for="Template" string="Title"/>
+                            <field name="Template"></field>
                             <label for="Description" string="Description"/>
                             <p>Used in item listings and search results.</p>
                             <field name="Description"></field>
@@ -592,7 +593,7 @@
                             <p>Configure the sample partitions and preservations  for this template. Assign analyses to the different partitions on the template's Analyses tab</p>
                             <field name="Partitions" widget='one2many_list'>
                                 <tree editable="bottom">
-                                    <field name="name"/>
+                                    <field name="Partition"/>
                                     <field name="Container" options="{'no_create': True}"/>
                                     <field name="Preservation" options="{'no_create': True}"/>
                                 </tree>
@@ -606,6 +607,7 @@
                             <p>Select analyses to include in this template</p>
                             <field name="Analyses" widget='one2many_list'>
                                 <tree editable="bottom">
+                                    <field name="Category" options="{'no_create': True}"/>
                                     <field name="Services" options="{'no_create': True}"/>
                                     <field name="Hidden"/>
                                     <field name="Price"/>
@@ -614,6 +616,7 @@
                             </field>
                         </page>
                     </notebook>
+                </sheet>
                 </form>
             </field>
         </record>
@@ -623,7 +626,7 @@
             <field name="model">olims.ar_template</field>
             <field name="arch" type="xml">
                 <tree string="AR Template">
-                	<field name="name"></field>
+                    <field name="Template"></field>
                 	<field name="Description"></field>
 					<!--<field name="Sample Point"></field>                     
                     <field name="SampleType"></field>
@@ -654,8 +657,8 @@
             <field name="model">olims.partition_ar_template</field>
             <field name="arch" type="xml">
                 <form string="Partition Form">
-                    <label for="name" string="Partition"/>
-                    <field name="name"></field>                     
+                    <label for="Partition" string="Partition"/>
+                    <field name="Partition"></field>
                     <label for="Container" string="Container"/>
                     <field name="Container" options="{'no_create': True}"></field>
                     <label for="Preservation" string="Preservation"/>
@@ -670,7 +673,7 @@
             <field name="model">olims.partition_ar_template</field>
             <field name="arch" type="xml">
                 <tree string="Partition">
-                    <field name="name"></field>                     
+                    <field name="Partition"></field>
                     <field name="Container"></field>
                     <field name="Preservation"></field>        
                 </tree>

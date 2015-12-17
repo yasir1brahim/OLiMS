@@ -28,7 +28,7 @@ from fields.text_field import TextField
 
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 # schema = BikaSchema.copy() + Schema(
-schema = (StringField('name',
+schema = (StringField('Template',
               required=1,        
     ),
     TextField('Description',
@@ -233,6 +233,7 @@ schema = (StringField('name',
 
 class ARTemplate(models.Model, BaseOLiMSModel):#(BaseContent):
     _name = 'olims.ar_template'
+    _rec_name = 'Template'
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 #     security = ClassSecurityInfo()
 #     schema = schema
