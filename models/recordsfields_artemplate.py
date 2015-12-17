@@ -3,11 +3,14 @@ from base_olims_model import BaseOLiMSModel
 
 schema = (fields.Many2one(string='Services',
                    comodel_name='olims.analysis_service',
+                   domain="[('category', '=', Category)]",
                    relation='recordfield_service'),
           fields.Boolean(string='Hidden',readonly=False),
           fields.Float(string='Price', default=0.00,compute='_ComputeServicePriceField'),
         fields.Many2one(string='Partition',
                   comodel_name='olims.partition_ar_template'),
+        fields.Many2one(string='Category',
+                    comodel_name='olims.analysis_category'),
           )
 
 class RecodrdsFieldARTemplate(models.Model, BaseOLiMSModel): 
