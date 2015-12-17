@@ -1251,7 +1251,8 @@
                         <page string="Reference Values">
                             <label for="ReferenceResults" string="Expected Values"/>
                             <field name="ReferenceResults">
-                            <tree string="Reference Results" editable="bottom">
+                                <tree string="Reference Results" editable="bottom">
+                                    <field name='Category' options="{'no_create': True}"/>
                                     <field name="Service" options="{'no_create': True}"/>
                                     <field name="Expected Result"/>
                                     <field name="Permitted Error"/>
@@ -1857,7 +1858,7 @@
                     <label for="FieldService" string="Field Analysis"/>
                     <field name="FieldService" options="{'no_create': True}">
                         <tree editable="bottom">
-                            <field name='Category'/>
+                            <field name='Category' options="{'no_create': True}"/>
                             <field name="Service" options="{'no_create': True}"/>
                             <field name="CommercialID"/>
                             <field name="ProtocolID"/>
@@ -1866,7 +1867,7 @@
                             <field name="Error" placeholder="err&#37;"/>
                         </tree>
                         <form>
-                            <field name='Category'/>
+                            <field name='Category' options="{'no_create': True}"/>
                             <field name="Service" options="{'no_create': True}"/>
                             <field name="CommercialID"/>
                             <field name="ProtocolID"/>
@@ -1878,7 +1879,7 @@
                     <label for="LabService" string="Lab Analysis"/>
                     <field name="LabService" options="{'no_create': True}">
                         <tree editable="bottom">
-                            <field name='Category'/>
+                            <field name='Category' options="{'no_create': True}"/>
                             <field name="LabService" options="{'no_create': True}"/>
                             <field name="CommercialID"/>
                             <field name="ProtocolID"/>
@@ -1887,7 +1888,7 @@
                             <field name="Error" placeholder="err&#37;"/>
                         </tree>
                         <form>
-                            <field name='Category'/>
+                            <field name='Category' options="{'no_create': True}"/>
                             <field name="LabService" options="{'no_create': True}"/>
                             <field name="CommercialID"/>
                             <field name="ProtocolID"/>
