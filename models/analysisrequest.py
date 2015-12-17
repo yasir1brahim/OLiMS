@@ -1461,12 +1461,12 @@ schema = (fields.Char(string='RequestID',
 schema_analysis = (fields.Many2one(string='Service',
                     comodel_name='olims.analysis_service',
                     relation='analysisservice_analysisrequest',
-                    domain="[('PointOfCapture', '=', 'field')]"
+                    domain="[('PointOfCapture', '=', 'field'),('category', '=', Category)]"
     ),
     fields.Many2one(string='LabService',
                      comodel_name='olims.analysis_service',
                     relation='analysisservice_analysisrequest',
-                    domain="[('PointOfCapture', '=', 'lab')]"
+                    domain="[('PointOfCapture', '=', 'lab'),('category', '=', Category)]"
     ),
     StringField('CommercialID',
         compute='_ComputeFieldResults',
@@ -1493,6 +1493,8 @@ schema_analysis = (fields.Many2one(string='Service',
     StringField(string="Error"),
     StringField(string="Min"),
     StringField(string="Max"),
+    fields.Many2one(string='Category',
+        comodel_name='olims.analysis_category')
 )
 # )
 
@@ -1849,7 +1851,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         return self.getSubtotal() + self.getSubtotalVATAmount()
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 #     security.declareProtected(View, 'getDiscountAmount')
-
+    @api.onchange('LabService','FieldService')
     def _ComputeServiceCalculation(self):
         """
         It computes and returns the analysis service's discount amount without VAT, SubToatl and Total
@@ -1874,9 +1876,8 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                     service_subtotal += float(service_price) - float(discount)
 
                     #compute VAT
-                    vatamout = service.Service.VATAmount
+                    service_vat += service.Service.VATAmount
 
-                    service_vat += service_price * vatamout / 100
                     service_total = service_subtotal + service_vat
 
                 for service in record.LabService:
@@ -1890,9 +1891,8 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                     service_subtotal += float(service_price) - float(discount)
 
                     #compute VAT
-                    vatamout = service.LabService.VATAmount
+                    service_vat += service.LabService.VATAmount
 
-                    service_vat += service_price * vatamout / 100
                     service_total = service_subtotal + service_vat
 
                 record.Discount = service_discount
@@ -1912,18 +1912,17 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                         service_subtotal += float(service_price) - float(discount)
 
                         #compute VAT
-                        vatamout = service.Service.VATAmount
+                        service_vat += service.Service.VATAmount
 
-                        service_vat += service_price * vatamout / 100
                         service_total = service_subtotal + service_vat
+
                     record.Discount = service_discount
                     record.Subtotal = service_subtotal
                     record.VAT = service_vat
                     record.Total = service_total
                 if record.LabService:
                     for service in record.LabService:
-
-                        service_price = service.LabService.Price #+ record.LabService.LabService.Price
+                        service_price = service.LabService.Price
 
                         service_discount += service_price * 33.33 / 100
 
@@ -1932,9 +1931,8 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                         service_subtotal += float(service_price) - float(discount)
 
                         #compute VAT
-                        vatamout = service.LabService.VATAmount #+ record.LabService.LabService.VATAmount
+                        service_vat += service.LabService.VATAmount
 
-                        service_vat += service_price * vatamout / 100
                         service_total = service_subtotal + service_vat
 
                     record.Discount = service_discount

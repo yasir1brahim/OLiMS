@@ -1857,6 +1857,7 @@
                     <label for="FieldService" string="Field Analysis"/>
                     <field name="FieldService" options="{'no_create': True}">
                         <tree editable="bottom">
+                            <field name='Category'/>
                             <field name="Service" options="{'no_create': True}"/>
                             <field name="CommercialID"/>
                             <field name="ProtocolID"/>
@@ -1865,6 +1866,7 @@
                             <field name="Error" placeholder="err&#37;"/>
                         </tree>
                         <form>
+                            <field name='Category'/>
                             <field name="Service" options="{'no_create': True}"/>
                             <field name="CommercialID"/>
                             <field name="ProtocolID"/>
@@ -1876,6 +1878,7 @@
                     <label for="LabService" string="Lab Analysis"/>
                     <field name="LabService" options="{'no_create': True}">
                         <tree editable="bottom">
+                            <field name='Category'/>
                             <field name="LabService" options="{'no_create': True}"/>
                             <field name="CommercialID"/>
                             <field name="ProtocolID"/>
@@ -1884,6 +1887,7 @@
                             <field name="Error" placeholder="err&#37;"/>
                         </tree>
                         <form>
+                            <field name='Category'/>
                             <field name="LabService" options="{'no_create': True}"/>
                             <field name="CommercialID"/>
                             <field name="ProtocolID"/>
