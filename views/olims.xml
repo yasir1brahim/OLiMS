@@ -1049,6 +1049,7 @@
                     <p>Click on Analysis Categories (against shaded backgroundto see Analysis Services in each category. Enter minimum and maximum values to indicate a valid results range. Any result outside this range will raise an alert. The &#37; Error field allows for an &#37; uncertainty to be considered when evaluating results against minimum and maximum values. A result out of range but still in range if the &#37; error is taken into consideration, will raise a less severe alert. If the result is below ' Max'</p>
                     <field name="Specifications" widget="one2many_list">
                         <tree editable="bottom">
+                            <field name='Category' options="{'no_create': True}"></field>
                             <field name="Service" options="{'no_create': True}"></field>
                             <field name="Min"></field>
                             <field name="Max"></field>

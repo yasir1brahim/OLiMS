@@ -4,6 +4,7 @@ from fields.text_field import TextField
 from fields.fixed_point_field import FixedPointField
 schema = (fields.Many2one(string='Service',
                 comodel_name='olims.analysis_service',
+                domain="[('category', '=', Category)]"
 #                 relation='analysis_service_specification'
     ),
     FixedPointField('Min'),
@@ -12,6 +13,9 @@ schema = (fields.Many2one(string='Service',
     FixedPointField('> Max'),
     FixedPointField('Permitted Error'),
     TextField('Range Remarks'),
+    fields.Many2one(string='Category',
+                    comodel_name='olims.analysis_category',
+                    ),
 )
 
 class Specifications(models.Model, BaseOLiMSModel):
