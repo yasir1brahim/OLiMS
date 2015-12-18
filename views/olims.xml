@@ -1353,6 +1353,7 @@
             <field name="model">olims.reference_definition</field>
             <field name="arch" type="xml">
                 <form string="Reference Definition Form">
+                    <sheet>
                     <notebook>
                         <page string="Description">
                             <label for="Title" string="Title"/>
@@ -1372,6 +1373,7 @@
                             <p>Click on Analysis Categories (against shaded backgroundto see Analysis Services in each category. Enter minimum and maximum values to indicate a valid results range. Any result outside this range will raise an alert. The &#37; Error field allows for an &#37; uncertainty to be considered when evaluating results against minimum and maximum values.</p>
                             <field name="Reference Results" widget="one2many_list">
                                 <tree string="Reference Results" editable="bottom">
+                                    <field name="Category" options="{'no_create': True}"/>
                                     <field name="Service" options="{'no_create': True}"/>
                                     <field name="Expected Result"/>
                                     <field name="Permitted Error"/>
@@ -1381,6 +1383,7 @@
                             </field>
                         </page>
                     </notebook>
+                </sheet>
                 </form>
             </field>
         </record>
