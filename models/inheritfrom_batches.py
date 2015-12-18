@@ -37,7 +37,7 @@ class InheritFromBatch(models.Model, BaseOLiMSModel):
                 requestid = analysis_request.RequestID.encode('utf-8')
                 id_dict.update({requestid : requestid})
                 title_dict.update({requestid : requestid})
-                clientname = analysis_request.Client.name.encode('utf-8')
+                clientname = analysis_request.Client.Name.encode('utf-8')
                 requestdesc = requestid + ' ' + clientname
                 description_dict.update({ requestdesc: requestid})
         selection = id_dict.items()

@@ -3798,10 +3798,11 @@
             <field name="model">olims.client</field>
             <field name="arch" type="xml">
                 <form string="Client Form">
+                    <sheet>
                     <notebook>
                         <page string="Default">
-                            <label for="name" string="Name"/>
-                            <field name="name"></field>
+                            <label for="Name" string="Name"/>
+                            <field name="Name"></field>
                             <label for="ClientID" string="Client ID"/>
                             <field name="ClientID"></field>
                             <label for="TaxNumber" string="VAT number"/>
@@ -3810,8 +3811,8 @@
                             <field name="Phone"></field>
                             <label for="Fax" string="Fax"/>
                             <field name="Fax"></field>
-                            <label for="EmailAddress" string="Email Address"/>
-                            <field name="EmailAddress"></field>
+                            <label for="Email Address" string="Email Address"/>
+                            <field name="Email Address"></field>
                             <label for="BulkDiscount" string="Bulk Discount"/>
                             <field name="BulkDiscount"></field>
                             <br/>
@@ -3910,6 +3911,7 @@
                             <field name="DecimalMark"></field>
                         </page>
                     </notebook>
+                </sheet>
                 </form>
             </field>
         </record>
@@ -3919,9 +3921,9 @@
             <field name="model">olims.client</field>
             <field name="arch" type="xml">
                 <tree string="CLient">
-                    <field name="name"></field>
+                    <field name="Name"></field>
                     <!--<field name="TaxNumber"></field>-->
-                	<field name="EmailAddress"></field>
+                    <field name="Email Address"></field>
                     <field name="Phone"></field>
                     <field name="Fax"></field>
                     <!--<field name="AccountType"></field>

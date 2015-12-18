@@ -49,7 +49,7 @@ EMAIL_SUBJECT_OPTIONS = (
 
 schema = (
 
-    StringField('name',
+    StringField('Name',
         required = 1,
         searchable = True,
         validators = ('uniquefieldvalidator',),
@@ -72,7 +72,7 @@ schema = (
             label=_("Fax"),
         ),
     ),
-    StringField('EmailAddress',
+    StringField('Email Address',
         schemata = 'Address',
         widget = StringWidget(
             label=_("Email Address"),
@@ -306,6 +306,7 @@ schema = (
 
 class Client(models.Model, BaseOLiMSModel):#(Organisation):
     _name='olims.client'
+    _rec_name = 'Name'
     # implements(IClient)
     # security = ClassSecurityInfo()
     # displayContentsTab = False
