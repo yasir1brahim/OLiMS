@@ -98,6 +98,7 @@ schema_worksheet_analysis_servive = (fields.Many2one(string="worksheet_analysis_
         ),
         fields.Many2one(string="Service",
             comodel_name="olims.analysis_service",
+            domain="[('category', '=', Category)]",
         ),
         StringField(string="Keyword",
             compute="_ComputeAnalysisServiceFields"
@@ -108,7 +109,9 @@ schema_worksheet_analysis_servive = (fields.Many2one(string="worksheet_analysis_
         StringField(string="Calculation",
             compute="_ComputeAnalysisServiceFields"
         ),
-                                     )
+        fields.Many2one(string='Category',
+                    comodel_name='olims.analysis_category'),
+)
 # schema['title'].schemata = 'Description'
 # schema['title'].widget.visible = True
 #

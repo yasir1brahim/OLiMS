@@ -1968,6 +1968,7 @@
             <field name="model">olims.worksheet_template</field>
             <field name="arch" type="xml">
                 <form string="worksheet Template Form">
+                    <sheet>
                     <notebook>
                         <page string="Description">
                             <label for="Title" string="Title"/>
@@ -1986,6 +1987,7 @@
                             <p>Select which Analyses should be included on the Worksheet</p>
                             <field name="Analysis Service" options="{'no_create': True}">
                                 <tree editable="bottom">
+                                    <field name="Category" options="{'no_create': True}"/>
                                     <field name="Service" options="{'no_create': True}"/>
                                     <field name="Keyword"/>
                                     <field name="Method"/>
@@ -1994,6 +1996,7 @@
                             </field>
                         </page>
                     </notebook>
+                </sheet>
                 </form>
             </field>
         </record>
