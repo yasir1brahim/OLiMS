@@ -36,6 +36,14 @@
         'data/workflow.transition.csv',
         'data/olims.country.csv',
         'data/olims.state.csv',
+        'OLiMS_report.xml',
+        'views/report_sample.xml',
+        'views/report_analysisper_service.xml',
+        'views/report_analysisper_sample_type.xml',
+        'wizard/olims_report_commom_view.xml',
+        'wizard/olims_report_sample_view.xml',
+        'wizard/olims_report_analysisper_service.xml',
+        'wizard/olims_analysis_per_sample_type_report.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
