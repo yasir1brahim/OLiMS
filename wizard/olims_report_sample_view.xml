@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="action_olims_sample_menu" model="ir.actions.act_window">
+        <field name="name">Sample</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">olims.sample_report</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="olims_common_report_view"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_report"
+        name="Reports"
+        parent="OLiMS.main_olims_menu"
+        />
+    <menuitem id="menu_daily_samples_received_report"
+        name="Daily Samples Received"
+        parent="menu_report"
+        action="action_olims_sample_menu"/>
+
+    <record id="action_olims_sample_report_values1" model="ir.values">
+        <field name="model_id" ref="OLiMS.model_olims_sample" />
+        <field name="name">Sample</field>
+        <field name="key2">client_print_multi</field>
+        <field name="value" eval="'ir.actions.act_window,' +str(ref('action_olims_sample_menu'))" />
+        <field name="key">action</field>
+        <field name="model">olims.sample</field>
+    </record>
+
+</odoo>
