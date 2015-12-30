@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <!-- <report 
+            id="report_supply_order_detail"
+            string="Supply Order"
+            model="olims.supply_order" 
+            report_type="qweb-pdf"
+            file="OLiMS.report_order_detail" 
+            name="OLiMS.report_order_detail"
+            attachment_use="True"
+        /> -->
+        <report 
+            id="action_report_sample"
+            model="olims.sample_report"
+            string="Sample Report"
+            report_type="qweb-pdf"
+            name="OLiMS.report_sample"
+            file="OLiMS.report_sample"
+            />
+        <report 
+            id="action_report_analysisper_service"
+            model="olims.analysis_request"
+            string="Analysis Request Report"
+            report_type="qweb-pdf"
+            name="OLiMS.report_analysisper_service"
+            file="OLiMS.report_analysisper_service"
+            />
+        <report 
+            id="action_report_analysisper_sampletype"
+            model="olims.analysis_request"
+            string="Analysis Request Per Sample Type Report"
+            report_type="qweb-pdf"
+            name="OLiMS.report_analysisper_sample_type"
+            file="OLiMS.report_analysisper_sample_type"
+            />
+
+    </data>
+</openerp>
