@@ -36,14 +36,14 @@ _logger = logging.getLogger(__name__)
 
 
 #schema = BikaSchema.copy() + Schema((
-schema = (StringField(string='Title',required=1),
+schema = (StringField(string='title',required=1),
     StringField(string='InvoiceNumber',
                 compute='_ComputeInvoiceId',
                 required=0),
     # ~~~~~~~ To be implemented ~~~~~~~
-    fields.Char(string='Client',
+    fields.Many2one(string='Client',
         required=0,
-#         comodel_name='olims.client',
+        comodel_name='olims.client',
 #         vocabulary_display_path_bound=sys.maxsize,
 #         allowed_types=('Client',),
 #         relationship='ClientInvoice',
@@ -133,7 +133,7 @@ schema = (StringField(string='Title',required=1),
 
 class Invoice(models.Model, BaseOLiMSModel): #(BaseFolder):
     _name='olims.invoice'
-    _rec_name = 'Title'
+    _rec_name = 'title'
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
     # implements(IInvoice)
     # security = ClassSecurityInfo()
@@ -156,12 +156,12 @@ class Invoice(models.Model, BaseOLiMSModel): #(BaseFolder):
         if order_object_ids:
             for obj in order_object_ids:
                 line = order_object.browse(obj.id)
-                client_name = line.Client.name.encode('ascii','ignore')
+                client_id = line.Client.id #.encode('ascii','ignore')
                 supply_order_value_dict = {'Invoice Date': datetime.datetime.now(),
                                            'Subtotal': line.SubTotal,
                                            'VAT': line.VAT,
                                            'Total': line.Total,
-                                           'Client': client_name
+                                           'Client': client_id
                                            }
                 values.update(supply_order_value_dict)
                 res = super(Invoice, self).create(values)
