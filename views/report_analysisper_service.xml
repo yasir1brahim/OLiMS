@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+<template id="report_analysisper_service">
+    <t t-call="report.html_container">
+    <t t-call="report.internal_layout">
+            <div class="page">
+                <div class="row mt32">
+                    <div class="col-xs-4">
+                        Printed By:
+                        <p>
+                            <span t-esc="user.partner_id.name"/>
+                        </p>
+                        Printed Date:
+                        <p>
+                            <span t-esc="time.strftime('%Y-%m-%d %H:%M:%S')"/>
+                        </p>
+                    </div>
+                </div>
+                <h2>Analyses per analysis service</h2>
+                <div class="row mb32">
+                    <div class="col-xs-12">
+                        Client
+                        <p>
+                            <span t-esc="data['client'][1]"/>
+                        </p>
+                        <p>
+                            <t t-if="data['date_from']">Requested from&#32;<span t-esc="data['date_from']"/></t>
+                            <t t-if="data['date_to']">to&#32;<span t-esc="data['date_to']"/></t>
+                        </p>
+                        Status
+                        <p>
+                            <span t-esc="data['analysis_state']"/>
+                        </p>
+                    </div>
+                </div>
+
+                <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Analysis Service</th>
+                            <th>Number of analyses</th>
+                        </tr>
+                    </thead>
+                    <tbody t-foreach="Category" t-as="category_service">
+                            
+                                    <tr>
+                                        <td colspan="2">
+                                            <strong>
+                                                <span t-att-style="style" t-esc="category_service"/>
+                                            </strong>
+                                        </td>
+                                        <!-- <td></td> -->
+                                    </tr>
+                                    <tr t-foreach="category_service_value" t-as="service">
+                                        <td>
+                                            <span t-att-style="style" t-esc="service"/>
+                                        </td>
+                                        <td>
+                                            <span t-att-style="style" t-esc="Analyses[service]"/>
+                                        </td>
+                                    </tr>
+                    </tbody>
+                    <tr>
+                        <td>
+                            <strong>Total</strong>
+                        </td>
+                        <td>
+                            <span t-att-style="style" t-esc="Total"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </t>
+    </t>
+</template>
+</openerp>
