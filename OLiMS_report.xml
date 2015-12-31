@@ -42,6 +42,14 @@
             name="OLiMS.report_sample_received_vs_reported"
             file="OLiMS.report_sample_received_vs_reported"
             />
+        <report
+            id="action_report_ar_and_analyses_per_client"
+            model="olims.ar_and_analysis_per_client_report"
+            string="Analysis requests and analyses per client "
+            report_type="qweb-pdf"
+            name="OLiMS.report_ar_and_analyses_per_client"
+            file="OLiMS.report_ar_and_analyses_per_client"
+            />
 
     </data>
 </openerp>

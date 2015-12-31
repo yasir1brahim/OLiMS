@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record id="olims_report_ar_and_analysis_per_client_view" model="ir.ui.view">
+        <field name="name">Analysis Requests and Analyses per Client</field>
+        <field name="model">olims.ar_and_analysis_per_client_report</field>
+        <field name="inherit_id" ref="olims_common_report_view"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//group[@name='active_group']" position="after">
+                    <label for="client" string="Client"/>
+                    <field name="client" options="{'no_create': True}"/>
+                    <label for="analysis_state" string="Analysis State"/>
+                    <field name="analysis_state"/>
+                    <label for="cancellation_state" string="Cancellation State"/>
+                    <field name="cancellation_state"/>
+                    <label for="worksheet_state" string="Worksheet State"/>
+                    <field name="worksheet_state"/>
+                    <newline/>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    <record id="action_olims_ar_and_analysis_per_client_menu" model="ir.actions.act_window">
+        <field name="name">Analysis requests and analyses per client</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">olims.ar_and_analysis_per_client_report</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="olims_report_ar_and_analysis_per_client_view"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_ar_and_analysis_per_client_report"
+        name="Analysis requests and analyses per client"
+        parent="OLiMS.menu_report"
+        action="action_olims_ar_and_analysis_per_client_menu"/>
+
+    <record id="action_olims_ar_and_analysis_per_client_values1" model="ir.values">
+        <field name="model_id" ref="OLiMS.model_olims_analysis_request" />
+        <field name="name">Analysis Requests and Analyses per Client</field>
+        <field name="key2">client_print_multi</field>
+        <field name="value" eval="'ir.actions.act_window,' +str(ref('action_olims_ar_and_analysis_per_client_menu'))" />
+        <field name="key">action</field>
+        <field name="model">olims.analysis_request</field>
+    </record>
+
+</odoo>
