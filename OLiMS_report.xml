@@ -13,26 +13,34 @@
         <report 
             id="action_report_sample"
             model="olims.sample_report"
-            string="Sample Report"
+            string="Daily sample received"
             report_type="qweb-pdf"
             name="OLiMS.report_sample"
             file="OLiMS.report_sample"
             />
         <report 
             id="action_report_analysisper_service"
-            model="olims.analysis_request"
-            string="Analysis Request Report"
+            model="olims.analysis_per_service_report"
+            string="Analyses per service"
             report_type="qweb-pdf"
             name="OLiMS.report_analysisper_service"
             file="OLiMS.report_analysisper_service"
             />
         <report 
             id="action_report_analysisper_sampletype"
-            model="olims.analysis_request"
-            string="Analysis Request Per Sample Type Report"
+            model="olims.analysis_per_sample_type_report"
+            string="Analyses per sample type"
             report_type="qweb-pdf"
             name="OLiMS.report_analysisper_sample_type"
             file="OLiMS.report_analysisper_sample_type"
+            />
+        <report
+            id="action_report_sample_received_vs_reported"
+            model="olims.sample_received_vs_reported"
+            string="Sample Received vs Reported"
+            report_type="qweb-pdf"
+            name="OLiMS.report_sample_received_vs_reported"
+            file="OLiMS.report_sample_received_vs_reported"
             />
 
     </data>

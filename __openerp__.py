@@ -40,10 +40,12 @@
         'views/report_sample.xml',
         'views/report_analysisper_service.xml',
         'views/report_analysisper_sample_type.xml',
+        'views/report_sample_received_vs_reported.xml',
         'wizard/olims_report_commom_view.xml',
         'wizard/olims_report_sample_view.xml',
         'wizard/olims_report_analysisper_service.xml',
         'wizard/olims_analysis_per_sample_type_report.xml',
+        'wizard/olims_sample_received_vs_reported_view.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

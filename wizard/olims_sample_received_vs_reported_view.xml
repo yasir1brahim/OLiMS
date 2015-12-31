@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="action_olims_sample_received_vs_reported_menu" model="ir.actions.act_window">
+        <field name="name">Sample Received vs Reported</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">olims.sample_received_vs_reported</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="olims_common_report_view"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_samples_received_vs_reported"
+        name="Samples received vs. samples reported"
+        parent="OLiMS.menu_report"
+        action="action_olims_sample_received_vs_reported_menu"/>
+
+    <record id="action_olims_sample_received_vs_reported_values1" model="ir.values">
+        <field name="model_id" ref="OLiMS.model_olims_sample" />
+        <field name="name">Sample Received vs Reported</field>
+        <field name="key2">client_print_multi</field>
+        <field name="value" eval="'ir.actions.act_window,' +str(ref('action_olims_sample_received_vs_reported_menu'))" />
+        <field name="key">action</field>
+        <field name="model">olims.sample</field>
+    </record>
+
+</odoo>
