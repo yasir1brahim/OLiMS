@@ -3,7 +3,7 @@ OLiMS_batch_closed,OLiMS.olims_batch_workflow,closed,Function,False,False,,,Xor,
 OLiMS_batch_open,OLiMS.olims_batch_workflow,open,Function,True,False,,,Xor,workflow_guard_open(),,Xor
 OLiMS_not_requested,OLiMS.olims_analysis_request_workflow,not_requested,Dummy,False,False,,,Xor,,,Xor
 OLiMS.attachment_due,OLiMS.olims_analysis_request_workflow,attachment_due,Dummy,False,False,,,Xor,,,Xor
-OLiMS_published,OLiMS.olims_analysis_request_workflow,published,Dummy,False,False,,,Xor,,,Xor
+OLiMS_published,OLiMS.olims_analysis_request_workflow,published,Function,False,False,,,Xor,workflow_script_publish(),,Xor
 OLiMS_sampled,OLiMS.olims_analysis_request_workflow,sampled,Function,False,False,,,Xor,workflow_script_sample(),,Xor
 OLiMS_sample_due,OLiMS.olims_analysis_request_workflow,sample_due,Function,False,False,,,Xor,workflow_script_sample_due(),,Xor
 OLiMS_sample_received,OLiMS.olims_analysis_request_workflow,sample_received,Function,False,False,,,Xor,workflow_script_receive(),,Xor
@@ -11,7 +11,7 @@ OLiMS_sample_registered,OLiMS.olims_analysis_request_workflow,sample_registered,
 OLiMS_to_be_preserved,OLiMS.olims_analysis_request_workflow,to_be_preserved,Function,False,False,,,Xor,workflow_script_to_be_preserved(),,Xor
 OLiMS_to_be_sampled,OLiMS.olims_analysis_request_workflow,to_be_sampled,Function,True,False,,,Xor,actionToBeSampled(),,Xor
 OLiMS_to_be_verified,OLiMS.olims_analysis_request_workflow,to_be_verified,Function,False,False,,,Xor,workflow_script_to_be_verified(),,Xor
-OLiMS_verified,OLiMS.olims_analysis_request_workflow,verified,Dummy,False,False,,,Xor,,,Xor
+OLiMS_verified,OLiMS.olims_analysis_request_workflow,verified,Function,False,False,,,Xor,workflow_script_verify(),,Xor
 OLiMS_invalid,OLiMS.olims_analysis_request_workflow,invalid,Function,False,False,,,Xor,isInvalid(),,Xor
 OLiMS_open,OLiMS.olims_worksheet_workflow,open,Dummy,True,False,,,Xor,,,Xor
 OLiMS_worksheet_attachment_due,OLiMS.olims_worksheet_workflow,attachment_due,Dummy,False,False,,,Xor,,,Xor

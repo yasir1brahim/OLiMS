@@ -25,7 +25,7 @@ from openerp import models, api
 
 _logger = logging.getLogger(__name__)
 
-from dependencies.dependency import DateTime
+import datetime
 from dependencies.dependency import REFERENCE_CATALOG
 from dependencies.dependency import permissions
 from dependencies.dependency import View
@@ -2667,24 +2667,33 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         return True
 
     def workflow_script_verify(self):
-        if skip(self, "verify"):
-            return
-        self.reindexObject(idxs=["review_state", ])
-        if not "verify all analyses" in self.REQUEST['workflow_skiplist']:
-            # verify all analyses in this AR.
-            analyses = self.getAnalyses(review_state='to_be_verified')
-            for analysis in analyses:
-                doActionFor(analysis.getObject(), "verify")
+        self.write({
+            'state': 'verified',
+        })
+        return True
+        # if skip(self, "verify"):
+        #     return
+        # self.reindexObject(idxs=["review_state", ])
+        # if not "verify all analyses" in self.REQUEST['workflow_skiplist']:
+        #     # verify all analyses in this AR.
+        #     analyses = self.getAnalyses(review_state='to_be_verified')
+        #     for analysis in analyses:
+        #         doActionFor(analysis.getObject(), "verify")
 
     def workflow_script_publish(self):
-        if skip(self, "publish"):
-            return
-        self.reindexObject(idxs=["review_state", "getDatePublished", ])
-        if not "publish all analyses" in self.REQUEST['workflow_skiplist']:
-            # publish all analyses in this AR. (except not requested ones)
-            analyses = self.getAnalyses(review_state='verified')
-            for analysis in analyses:
-                doActionFor(analysis.getObject(), "publish")
+        datepublished = datetime.datetime.now()
+        self.write({
+            'state': 'published', 'DatePublished' : datepublished
+        })
+        return True
+        # if skip(self, "publish"):
+        #     return
+        # self.reindexObject(idxs=["review_state", "getDatePublished", ])
+        # if not "publish all analyses" in self.REQUEST['workflow_skiplist']:
+        #     # publish all analyses in this AR. (except not requested ones)
+        #     analyses = self.getAnalyses(review_state='verified')
+        #     for analysis in analyses:
+        #         doActionFor(analysis.getObject(), "publish")
 
     def workflow_script_reinstate(self):
         if skip(self, "reinstate"):
