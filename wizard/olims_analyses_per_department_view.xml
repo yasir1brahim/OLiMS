@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+
+    <record id="olims_report_analyses_per_department_view" model="ir.ui.view">
+        <field name="name">Analyses summary per department</field>
+        <field name="model">olims.analyses_per_department_report</field>
+        <field name="inherit_id" ref="olims_common_report_view"/>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//group[@name='active_group']" position="after">
+                    <label for="analysis_state" string="Analysis State"/>
+                    <field name="analysis_state"/>
+                    <label for="groupby" string="Group By"/>
+                    <field name="groupby"/>
+                    <newline/>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    <record id="action_olims_analyses_per_department_menu" model="ir.actions.act_window">
+        <field name="name">Analyses summary per department</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">olims.analyses_per_department_report</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="olims_report_analyses_per_department_view"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_analyses_per_department_report"
+        name="Analyses summary per department"
+        parent="OLiMS.menu_report"
+        action="action_olims_analyses_per_department_menu"/>
+
+    <record id="action_olims_analyses_per_department_values1" model="ir.values">
+        <field name="model_id" ref="OLiMS.model_olims_analysis_request" />
+        <field name="name">Analyses summary per department</field>
+        <field name="key2">client_print_multi</field>
+        <field name="value" eval="'ir.actions.act_window,' +str(ref('action_olims_analyses_per_department_menu'))" />
+        <field name="key">action</field>
+        <field name="model">olims.analysis_request</field>
+    </record>
+
+</odoo>
