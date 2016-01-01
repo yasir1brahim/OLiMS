@@ -50,6 +50,14 @@
             name="OLiMS.report_ar_and_analyses_per_client"
             file="OLiMS.report_ar_and_analyses_per_client"
             />
+        <report
+            id="action_report_analyses_per_department"
+            model="olims.analyses_per_department_report"
+            string="Analyses summary per department "
+            report_type="qweb-pdf"
+            name="OLiMS.report_analyses_per_department"
+            file="OLiMS.report_analyses_per_department"
+            />
 
     </data>
 </openerp>
