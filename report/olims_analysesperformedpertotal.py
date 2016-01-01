@@ -1,48 +1,36 @@
-from dependencies.dependency import getToolByName
-from dependencies.dependency import ViewPageTemplateFile
-from lims import bikaMessageFactory as _
-from lims.browser import BrowserView
-from lims.browser.reports.selection_macros import SelectionMacrosView
-from dependencies.dependency import IViewView
-from dependencies.dependency import implements
+import time
+from openerp import api, models
+import datetime
 
 
-class Report(BrowserView):
-    implements(IViewView)
-    default_template = ViewPageTemplateFile("templates/productivity.pt")
-    template = ViewPageTemplateFile(
-        "templates/productivity_analysesperformedpertotal.pt")
+class ReportAnalysisPerformedPerTotal(models.AbstractModel):
+    _name = 'report.OLiMS.report_analysesperformedpertotal'
 
-    def __init__(self, context, request, report=None):
-        super(Report, self).__init__(context, request)
-        self.report = report
-        self.selection_macros = SelectionMacrosView(self.context, self.request)
+    @api.multi
+    def render_html(self, data):
+        groupby = str(data['form'].get('groupby'))
+        startdate = datetime.datetime.strptime(data['form'].get('date_from'), \
+            "%Y-%m-%d %H:%M:%S").strftime("%Y/%m/%d %H:%M:%S")
+        enddate = datetime.datetime.strptime(data['form'].get('date_to'), \
+            "%Y-%m-%d %H:%M:%S").strftime("%Y/%m/%d %H:%M:%S")
+        self.model = self.env.context.get('active_model')
+        docs = self.env[self.model].browse(self.env.context.get('active_id'))
+        analyses = self.env['olims.analysis_request'].search([('create_date', '>=', startdate), \
+            ('create_date', '<=', enddate),
+            ])
+        datalines, footlines = self.with_context(data['form'].get('used_context'))._get_analyses(analyses,groupby)
+        docargs = {
+            'doc_ids': self.ids,
+            'doc_model': self.model,
+            'data': data['form'],
+            'docs': docs,
+            'time': time,
+            'datalines': datalines,
+            'footlines' : footlines
+        }
+        return self.env['report'].render('OLiMS.report_analysesperformedpertotal', docargs)
 
-    def __call__(self):
-
-        parms = []
-        titles = []
-
-        # Apply filters
-        self.contentFilter = {'portal_type': 'Analysis'}
-        val = self.selection_macros.parse_daterange(self.request,
-                                                    'getDateRequested',
-                                                    _('Date Requested'))
-        if val:
-            self.contentFilter[val['contentFilter'][0]] = val['contentFilter'][1]
-            parms.append(val['parms'])
-            titles.append(val['titles'])
-
-        # Query the catalog and store results in a dictionary
-        analyses = self.bika_analysis_catalog(self.contentFilter)
-        if not analyses:
-            message = _("No analyses matched your query")
-            self.context.plone_utils.addPortalMessage(message, "error")
-            return self.default_template()
-
-        groupby = self.request.form.get('GroupingPeriod', '')
-        if (groupby != ''):
-            parms.append({"title": _("Grouping period"), "value": _(groupby)})
+    def _get_analyses(self, analyses, groupby):
 
         datalines = {}
         footlines = {}
@@ -50,10 +38,18 @@ class Report(BrowserView):
         totalpublishedcount = 0
         totalperformedcount = 0
         for analysis in analyses:
-            analysis = analysis.getObject()
-            ankeyword = analysis.getKeyword()
-            antitle = analysis.getServiceTitle()
-            daterequested = analysis.created()
+            # analysis = analysis.getObject()
+            analysisfiledservice = analysis.FieldService
+            analysislabservice  = analysis.LabService
+            for service in analysisfiledservice:
+                ankeyword = service.Service.Keyword
+                antitle = service.Service.Service
+            for service in analysislabservice:
+                ankeyword = service.LabService.Keyword
+                antitle = service.LabService.Service
+            daterequested = analysis.create_date
+            daterequested = datetime.datetime.strptime(daterequested, \
+                                                "%Y-%m-%d %H:%M:%S")
 
             group = ''
             if groupby == 'Day':
@@ -86,17 +82,16 @@ class Report(BrowserView):
             anlperformedcount = anline['Performed']
             anlpublishedcount = anline['Published']
 
-            workflow = getToolByName(self.context, 'portal_workflow')
-            arstate = workflow.getInfoFor(analysis.aq_parent, 'review_state', '')
+            arstate = analysis.state
             if (arstate == 'published'):
                 anlpublishedcount += 1
                 grouppublishedcount += 1
                 totalpublishedcount += 1
-
-            if (analysis.getResult()):
-                anlperformedcount += 1
-                groupperformedcount += 1
-                totalperformedcount += 1
+            # TODO
+            # if (analysis.getResult()):
+            #     anlperformedcount += 1
+            #     groupperformedcount += 1
+            #     totalperformedcount += 1
 
             group_performedrequested_ratio = float(groupperformedcount) / float(
                 grouptotalcount)
@@ -149,43 +144,4 @@ class Report(BrowserView):
 
         footlines['Total'] = footline
 
-        self.report_data = {'parameters': parms,
-                            'datalines': datalines,
-                            'footlines': footlines}
-
-        if self.request.get('output_format', '') == 'CSV':
-            import csv
-            import StringIO
-            import datetime
-
-            fieldnames = [
-                'Group',
-                'Analysis',
-                'Requested',
-                'Performed',
-                'Published',
-            ]
-            output = StringIO.StringIO()
-            dw = csv.DictWriter(output, extrasaction='ignore',
-                                fieldnames=fieldnames)
-            dw.writerow(dict((fn, fn) for fn in fieldnames))
-            for group_name, group in datalines.items():
-                for service_name, service in group['Analyses'].items():
-                    dw.writerow({
-                        'Group': group_name,
-                        'Analysis': service_name,
-                        'Requested': service['Requested'],
-                        'Performed': service['Performed'],
-                        'Published': service['Published'],
-                    })
-            report_data = output.getvalue()
-            output.close()
-            date = datetime.datetime.now().strftime("%Y%m%d%H%M")
-            setheader = self.request.RESPONSE.setHeader
-            setheader('Content-Type', 'text/csv')
-            setheader("Content-Disposition",
-                      "attachment;filename=\"analysesperformedpertotal_%s.csv\"" % date)
-            self.request.RESPONSE.write(report_data)
-        else:
-            return {'report_title': _('Analyses performed as % of total'),
-                    'report_data': self.template()}
+        return datalines, footlines
