@@ -43,6 +43,7 @@
         'views/report_sample_received_vs_reported.xml',
         'views/report_ar_and_analyses_per_client.xml',
         'views/report_analyses_per_department.xml',
+        'views/report_analysesperformedpertotal.xml',
         'wizard/olims_report_commom_view.xml',
         'wizard/olims_report_sample_view.xml',
         'wizard/olims_report_analysisper_service.xml',
@@ -50,6 +51,7 @@
         'wizard/olims_sample_received_vs_reported_view.xml',
         'wizard/olims_ar_and_analyses_per_client_view.xml',
         'wizard/olims_analyses_per_department_view.xml',
+        'wizard/olims_analysesperformedpertotal_view.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

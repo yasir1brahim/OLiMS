@@ -53,10 +53,18 @@
         <report
             id="action_report_analyses_per_department"
             model="olims.analyses_per_department_report"
-            string="Analyses summary per department "
+            string="Analyses summary per department"
             report_type="qweb-pdf"
             name="OLiMS.report_analyses_per_department"
             file="OLiMS.report_analyses_per_department"
+            />
+        <report
+            id="action_report_analysesperformedpertotal"
+            model="olims.analyses_performed_pertotal_report"
+            string="Analyses performed and published as % of total "
+            report_type="qweb-pdf"
+            name="OLiMS.report_analysesperformedpertotal"
+            file="OLiMS.report_analysesperformedpertotal"
             />
 
     </data>
