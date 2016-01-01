@@ -6,3 +6,4 @@ import olims_report_analysisper_service
 import olims_analysis_per_sample_type_report
 import olims_sample_received_vs_reported
 import olims_ar_and_analyses_per_client
+import olims_analysesperdepartment
