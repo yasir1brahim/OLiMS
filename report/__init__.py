@@ -8,3 +8,4 @@ import olims_sample_received_vs_reported
 import olims_ar_and_analyses_per_client
 import olims_analysesperdepartment
 import olims_analysesperformedpertotal
+import olims_dataentrydaybook
