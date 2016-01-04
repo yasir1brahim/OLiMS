@@ -2563,8 +2563,9 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         return True
 
     def workflow_script_receive(self,cr,uid,ids,context=None):
+        datereceived = datetime.datetime.now()
         self.write(cr, uid, ids, {
-            'state': 'sample_received',
+            'state': 'sample_received', 'DateReceived' : datereceived
         }, context=context)
         return True
         # if skip(self, "receive"):
