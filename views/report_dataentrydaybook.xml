@@ -1,146 +1,122 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:metal="http://xml.zope.org/namespaces/metal"
-        i18n:domain="bika"
-        tal:define="portal_url nocall:context/portal_url;
-        portal portal_url/getPortalObject;">
-
-<head>
-    <link rel="stylesheet" type="text/css" media="all" href=""
-            tal:attributes="href string:$portal_url/reports.css" />
-</head>
-
-<body tal:define="
-        report_data view/report_data;
-        parameters python:report_data.has_key('parameters') and report_data['parameters'] or [];
-        datalines python:report_data.has_key('datalines') and report_data['datalines'] or {};
-        footlines python:report_data.has_key('footlines') and report_data['footlines'] or {};">
-
-<!--
-
-Report customization notes
-==========================================================================
-Available attributes:
-
-   parameters[]
-
-   datalines {
-       <analysisrequestid>: {
-           AnalysisRequestID,
-           DateCreated,
-           DateReceived,
-           DatePublished,
-           ReceptionLag,
-           PublicationLag,
-           TotalLag,
-           SampleID,
-           SampleType,
-           ClientID,
-           BatchID,
-           NumAnalyses,
-           Creator,
-           Remarks,
-           VerificationComment
-       }
-   }
-
-   Where:
-   - dict key <analysisrequestid> is the AR ID
-
-   footlines {
-       Total: {
-           Created,    	-- total count of ARs created
-           Received,		-- total count of ARs received
-           Published,		-- total count of ARs published
-           ReceivedCreatedRatio, -- ratio of AR received amongst created
-           ReceivedCreatedRatioPercentage,
-           PublishedCreatedRatio,
-           PublishedCreatedRatioPercentage
-           PublishedReceivedRatio,
-           PublishedReceivedRatioPercentage
-           AvgReceptionLag,
-           AvgPublicationLag,
-           AvgTotalLag
-           NumAnalyses
-       }
-   }
-
--->
-
-<h1 i18n:translate="">Data entry day book</h1>
-<!-- 		<h3 i18n:translate="">Number of Analysis Requests and totals submitted
-							  between a period of time</h3>
- -->
-<!-- Summary -->
-<table class="bika-report-parms" summary="Parameters">
-    <tr tal:repeat="line parameters">
-        <td tal:content="python:line['title']"></td>
-        <td tal:content="python:line['value']"></td>
-    </tr>
-</table>
-
-<!-- Results -->
-<table class="bika-report-table" summary="Results">
-    <thead>
-    <tr>
-        <th i18n:translate="">ID</th>
-        <th i18n:translate="">Created</th>
-        <th i18n:translate="">Received</th>
-        <th i18n:translate="">Published</th>
-        <th i18n:translate="">Recept. Lag</th>
-        <th i18n:translate="">Public. Lag</th>
-        <th i18n:translate="">Total Lag</th>
-        <th i18n:translate="">Batch</th>
-        <th i18n:translate="">Sample</th>
-        <th i18n:translate="">Sample Type</th>
-        <th i18n:translate="">Analyses</th>
-        <th i18n:translate="">Client</th>
-        <th i18n:translate="">Creator</th>
-    </tr>
-    </thead>
-    <tbody>
-    <metal:block tal:repeat="ar python:datalines.keys()">
-        <tr>
-            <td tal:content="python:datalines[ar]['AnalysisRequestID']"></td>
-            <td tal:content="python:datalines[ar]['DateCreated']"></td>
-            <td tal:content="python:datalines[ar]['DateReceived']"></td>
-            <td tal:content="python:datalines[ar]['DatePublished']"></td>
-            <td tal:content="python:datalines[ar]['ReceptionLag']"></td>
-            <td tal:content="python:datalines[ar]['PublicationLag']"></td>
-            <td tal:content="python:datalines[ar]['TotalLag']"></td>
-            <td tal:content="python:datalines[ar]['BatchID']"></td>
-            <td tal:content="python:datalines[ar]['SampleID']"></td>
-            <td tal:content="python:datalines[ar]['SampleType']"></td>
-            <td tal:content="python:datalines[ar]['NumAnalyses']"></td>
-            <td tal:content="python:datalines[ar]['ClientID']"></td>
-            <td tal:content="python:datalines[ar]['Creator']"></td>
-        </tr>
-        <tr tal:condition="python:datalines[ar]['Remarks']!=''">
-            <td>&nbsp;</td>
-            <td tal:content="python:datalines[ar]['Remarks']" colspan="12"
-                                                              class="comment"></td>
-        </tr>
-    </metal:block>
-    </tbody>
-    <tfoot>
-    <tr>
-        <td class='total_label' i18n:translate="" align="right">Total</td>
-        <td tal:content="python:footlines['Total']['Created']"></td>
-        <td>
-            <span tal:content="python:footlines['Total']['Received']"></span>&nbsp;
-            (<span tal:content="python:footlines['Total']['ReceivedCreatedRatioPercentage']"></span>)
-        </td>
-        <td>
-            <span tal:content="python:footlines['Total']['Published']"></span>&nbsp;
-            (<span tal:content="python:footlines['Total']['PublishedCreatedRatioPercentage']"></span>)
-        </td>
-        <td tal:content="python:footlines['Total']['AvgReceptionLag']"></td>
-        <td tal:content="python:footlines['Total']['AvgPublicationLag']"></td>
-        <td tal:content="python:footlines['Total']['AvgTotalLag']"></td>
-        <td colspan="3">&nbsp;</td>
-        <td tal:content="python:footlines['Total']['NumAnalyses']"></td>
-        <td colspan="2">&nbsp;</td>
-    </tr>
-    </tfoot>
-</table>
-</body>
-</html>
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="report_dataentrydaybook">
+    <t t-call="report.html_container">
+    <t t-call="report.internal_layout">
+            <div class="page">
+                <div class="row mt32">
+                    <div class="col-xs-4">
+                        Printed By:
+                        <p>
+                            <span t-esc="user.partner_id.name"/>
+                        </p>
+                        Printed Date:
+                        <p>
+                            <span t-esc="time.strftime('%Y-%m-%d %H:%M:%S')"/>
+                        </p>
+                    </div>
+                </div>
+                <h2>Data entry day book</h2>
+                <div class="row mb32">
+                    <div class="col-xs-12">
+                        <p>
+                            <t t-if="data['date_from']">Requested from&#32;<span t-esc="data['date_from']"/></t>
+                            <t t-if="data['date_to']">to&#32;<span t-esc="data['date_to']"/></t>
+                        </p>
+                    </div>
+                </div>
+                <table class="table table-condensed">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th class="text-right">Created</th>
+                      <th class="text-right">Received</th>
+                      <th class="text-right">Published</th>
+                      <th class="text-right">Recept. Lag</th>
+                      <th class="text-right">Public. Lag</th>
+                      <th class="text-right">Total Lag</th>
+                      <th class="text-right">Batch</th>
+                      <th class="text-right">Sample</th>
+                      <th class="text-right">Sample Type</th>
+                      <th class="text-right">Analyses</th>
+                      <th class="text-right">Client</th>
+                      <th class="text-right">Creator</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr t-foreach="datalines" t-as="ar">
+                      <td>
+                        <span t-att-style="style" t-esc="datalines[ar]['AnalysisRequestID']"/>
+                      </td>
+                      <td class="text-right">
+                        <span t-att-style="style" t-esc="datalines[ar]['DateCreated']"/>
+                      </td>
+                      <td class="text-right">
+                        <span t-att-style="style" t-esc="datalines[ar]['DateReceived']"/>
+                      </td>
+                      <td class="text-right">
+                        <span t-att-style="style" t-esc="datalines[ar]['DatePublished']"/>
+                      </td>
+                      <td class="text-right">
+                        <span t-att-style="style" t-esc="datalines[ar]['ReceptionLag']"/>
+                      </td>
+                      <td class="text-right">
+                        <span t-att-style="style" t-esc="datalines[ar]['PublicationLag']"/>
+                      </td>
+                      <td class="text-right">
+                        <span t-att-style="style" t-esc="datalines[ar]['TotalLag']"/>
+                      </td>
+                      <td class="text-right">
+                        <span t-att-style="style" t-esc="datalines[ar]['BatchID']"/>
+                      </td>
+                      <td class="text-right">
+                        <span t-att-style="style" t-esc="datalines[ar]['SampleID']"/>
+                      </td>
+                      <td class="text-right">
+                        <span t-att-style="style" t-esc="datalines[ar]['SampleType']"/>
+                      </td>
+                      <td class="text-right">
+                        <span t-att-style="style" t-esc="datalines[ar]['NumAnalyses']"/>
+                      </td>
+                      <td class="text-right">
+                        <span t-att-style="style" t-esc="datalines[ar]['ClientID']"/>
+                      </td>
+                      <td class="text-right">
+                        <span t-att-style="style" t-esc="datalines[ar]['Creator']"/>
+                      </td>
+                    </tr>
+                  </tbody>
+                  <tr>
+                    <td>Total</td>
+                    <td class="text-right">
+                      <span t-att-style="style" t-esc="footlines['Total']['Created']"/>
+                    </td>
+                    <td class="text-right">
+                      <span t-att-style="style" t-esc="footlines['Total']['Received']"></span>&#32;
+                      (<span t-att-style="style" t-esc="footlines['Total']['ReceivedCreatedRatioPercentage']"></span>)
+                    </td>
+                    <td class="text-right">
+                      <span t-att-style="style" t-esc="footlines['Total']['Published']"></span>&#32;
+                      (<span t-att-style="style" t-esc="footlines['Total']['PublishedCreatedRatioPercentage']"></span>)
+                    </td>
+                    <td class="text-right">
+                      <span t-att-style="style" t-esc="footlines['Total']['AvgReceptionLag']"/>
+                    </td>
+                    <td class="text-right">
+                      <span t-att-style="style" t-esc="footlines['Total']['AvgPublicationLag']"/>
+                    </td>
+                    <td class="text-right">
+                      <span t-att-style="style" t-esc="footlines['Total']['AvgTotalLag']"/>
+                    </td>
+                    <td colspan="3">&#32;</td>
+                    <td class="text-right">
+                      <span t-att-style="style" t-esc="footlines['Total']['NumAnalyses']"/>
+                    </td>
+                    <td colspan="2">&#32;</td>
+                  </tr>
+                </table>
+              </div>
+            </t>
+          </t>
+</template>
+</odoo>
