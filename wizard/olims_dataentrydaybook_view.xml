@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<odoo>
+    <record id="action_olims_data_entry_day_book_menu" model="ir.actions.act_window">
+        <field name="name">Data entry day book</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">olims.data_entry_day_book</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="olims_common_report_view"/>
+        <field name="target">new</field>
+    </record>
+
+    <menuitem id="menu_data_entry_day_book_report"
+        name="Data entry day book"
+        parent="OLiMS.menu_report"
+        action="action_olims_data_entry_day_book_menu"/>
+
+    <record id="action_olims_data_entry_day_book_values1" model="ir.values">
+        <field name="model_id" ref="OLiMS.model_olims_analysis_request" />
+        <field name="name">Data entry day book</field>
+        <field name="key2">client_print_multi</field>
+        <field name="value" eval="'ir.actions.act_window,' +str(ref('action_olims_data_entry_day_book_menu'))" />
+        <field name="key">action</field>
+        <field name="model">olims.analysis_request</field>
+    </record>
+
+</odoo>
