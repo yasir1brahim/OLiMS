@@ -1541,6 +1541,11 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 #     security = ClassSecurityInfo()
 #     displayContentsTab = False
 #     schema = schema
+    @api.multi
+    def publish_analysis_request(self):
+        # self.filtered(lambda s: s.state == 'draft').write({'state': 'sent'})
+        return self.env['report'].get_action(self, 'OLiMS.report_analysis_request')
+
     def actionToBeSampled(self,cr,uid,ids,context=None):
         self.write(cr, uid, ids, {
             'state': 'to_be_sampled',

@@ -1793,6 +1793,7 @@
 
                             <button string="Verify" name="verify" type="workflow" states="to_be_verified"/>
                             <button string="Publish" name="publish" type="workflow" states="sample_received"/>
+                            <button string="Print" name="publish_analysis_request" type="object" states="published"/>
 
                             <field name="state" widget="statusbar" statusbar_visible="to_be_sampled,sample_received,sample_due" statusbar_colors='{"to_be_sampled":"blue","sample_received":"red","invalid":"red"}'/>
                     </header>

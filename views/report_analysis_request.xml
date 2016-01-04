@@ -1,0 +1,175 @@
+<openerp>
+<data>
+<template id="report_analysis_request_document">
+    <t t-call="report.external_layout">
+        <div class="page">
+            <div class="row mt32">
+                <div align="right">
+                     <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=%s' % 
+                ('Standard39', doc.RequestID, 250, 50, 1)"/>
+                </div>
+            </div>
+            <div class="row mt32">
+                <div class="col-xs-12">
+                     <p t-field="doc.Contact.name"/>
+                </div>
+            </div>
+            <div class="row mt32">
+                <div class="col-xs-12">
+                     <p t-field="doc.Client.Name"/>
+                </div>
+            </div>
+            <h2>Summary</h2>
+ 
+            <table class="table table-condensed">
+                <tbody>
+                    <tr>
+                        <td>Request ID</td>
+                        <td>
+                            <span t-field="doc.RequestID"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Sample ID</td>
+                        <td>
+                            <span t-field="doc.Sample.SampleID"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Batch ID</td>
+                        <td>
+                            <span t-field="doc.Batch.name"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >Client Batch ID</td>
+                        <td>
+                            <span t-field="doc.Batch.ClientBatchID"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >Client</td>
+                        <td>
+                            <span t-field="doc.Client.Name"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >Client SID</td>
+                        <td>
+                            <span t-field="doc.ClientSampleID"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >Sample Type</td>
+                        <td>
+                            <span t-field="doc.SampleType.SampleType"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >Specification</td>
+                        <td>
+                            <span t-field="doc.Specification.Title"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >Date Received</td>
+                        <td>
+                            <span t-field="doc.DateReceived"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >Date Published</td>
+                        <td>
+                            <span t-field="doc.DatePublished"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td >Published by</td>
+                        <td>
+                            <span t-esc="user.partner_id.name"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <h2>Results</h2>
+            <span t-if="doc.LabService">
+                <h3>Lab Analyses</h3>
+                <table class="table table-condensed">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span t-field="doc.LabService.Category"/>
+                            </td>
+                            <td>
+                                Previous Results
+                            </td>
+                            <td>
+                                Result
+                            </td>
+                            <td>
+                                Value Range
+                            </td>
+                        </tr>
+                        <tr t-foreach="doc.LabService" t-as="labservice">
+                            <td>
+                                <span t-field="labservice.LabService"/>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </span>
+            <span t-if="doc.FieldService">
+                <h3>Lab Analyses</h3>
+                <table class="table table-condensed">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <span t-field="doc.FieldService.Category"/>
+                            </td>
+                            <td>
+                                Previous Results
+                            </td>
+                            <td>
+                                Result
+                            </td>
+                            <td>
+                                Value Range
+                            </td>
+                        </tr>
+                        <tr t-foreach="doc.FieldService" t-as="fieldservice">
+                            <td>
+                                <span t-field="fieldservice.Service.Service"/>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </span>
+            <div align="right">
+                     <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=%s' % 
+                ('Standard39', doc.RequestID, 250, 50, 1)"/>
+                </div>
+        </div>
+    </t>
+</template>
+ 
+<template id="report_analysis_request">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="OLiMS.report_analysis_request_document"/>
+        </t>
+    </t>
+</template>
+</data>
+</openerp>

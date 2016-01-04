@@ -74,6 +74,14 @@
             name="OLiMS.report_dataentrydaybook"
             file="OLiMS.report_dataentrydaybook"
             />
+        <report
+            id="action_report_analysis_request"
+            model="olims.analysis_request"
+            string="Publish Analysis Request"
+            report_type="qweb-pdf"
+            name="OLiMS.report_analysis_request"
+            file="OLiMS.report_analysis_request"
+            />
 
     </data>
 </openerp>

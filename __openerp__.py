@@ -45,6 +45,7 @@
         'views/report_analyses_per_department.xml',
         'views/report_analysesperformedpertotal.xml',
         'views/report_dataentrydaybook.xml',
+        'views/report_analysis_request.xml',
         'wizard/olims_report_commom_view.xml',
         'wizard/olims_report_sample_view.xml',
         'wizard/olims_report_analysisper_service.xml',
