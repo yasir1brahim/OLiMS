@@ -45,7 +45,7 @@
         <report
             id="action_report_ar_and_analyses_per_client"
             model="olims.ar_and_analysis_per_client_report"
-            string="Analysis requests and analyses per client "
+            string="Analysis requests and analyses per client"
             report_type="qweb-pdf"
             name="OLiMS.report_ar_and_analyses_per_client"
             file="OLiMS.report_ar_and_analyses_per_client"
@@ -61,10 +61,18 @@
         <report
             id="action_report_analysesperformedpertotal"
             model="olims.analyses_performed_pertotal_report"
-            string="Analyses performed and published as % of total "
+            string="Analyses performed and published as % of total"
             report_type="qweb-pdf"
             name="OLiMS.report_analysesperformedpertotal"
             file="OLiMS.report_analysesperformedpertotal"
+            />
+        <report
+            id="action_report_dataentrydaybook"
+            model="olims.data_entry_day_book"
+            string="Data entry day book"
+            report_type="qweb-pdf"
+            name="OLiMS.report_dataentrydaybook"
+            file="OLiMS.report_dataentrydaybook"
             />
 
     </data>
