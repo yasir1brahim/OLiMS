@@ -40,7 +40,6 @@ schema = (StringField(string='title',required=1),
     StringField(string='InvoiceNumber',
                 compute='_ComputeInvoiceId',
                 required=0),
-    # ~~~~~~~ To be implemented ~~~~~~~
     fields.Many2one(string='Client',
         required=0,
         comodel_name='olims.client',
@@ -80,27 +79,23 @@ schema = (StringField(string='title',required=1),
             append_only=True,
         ),
     ),
-    
-    fields.Float(string='Subtotal'),
-          
-    # ~~~~~~~ To be implemented ~~~~~~~
-    # ComputedField('Subtotal',
-    #     expression='context.getSubtotal()',
-    #     widget=ComputedWidget(
-    #         label=_("Subtotal"),
-    #         visible=False,
-    #     ),
-    # ),
-    fields.Float(string='VAT'),
-    # ComputedField('VATAmount',
-    #     expression='context.getVATAmount()',
+
+    fields.Float(string='Subtotal',
+        compute='_getSubtotal'
+        # widget=ComputedWidget(
+        #     label=_("Subtotal"),
+        #     visible=False,
+        # ),
+    ),
+    fields.Float(string='VAT',
+        compute='_getVATAmount',
     #     widget=ComputedWidget(
     #         label=_("VAT Total"),
     #         visible=False,
     #     ),
-    # ),
+    ),
     fields.Float('Total',
-#         expression='context.getTotal()',
+        compute='_getTotal',
 #         widget=ComputedWidget(
 #             label=_("Total"),
 #             visible=False,
@@ -112,12 +107,9 @@ schema = (StringField(string='title',required=1),
     #         visible=False,
     #     ),
     # ),
-    # ComputedField('InvoiceSearchableText',
-    #     expression='here.getInvoiceSearchableText()',
-    #     widget=ComputedWidget(
-    #         visible=False,
-    #     ),
-    # ),
+    fields.Many2one(string='Order_id',
+        comodel_name='olims.supply_order',
+    ),
 )
 
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
@@ -158,10 +150,8 @@ class Invoice(models.Model, BaseOLiMSModel): #(BaseFolder):
                 line = order_object.browse(obj.id)
                 client_id = line.Client.id #.encode('ascii','ignore')
                 supply_order_value_dict = {'Invoice Date': datetime.datetime.now(),
-                                           'Subtotal': line.SubTotal,
-                                           'VAT': line.VAT,
-                                           'Total': line.Total,
-                                           'Client': client_id
+                                           'Client': client_id,
+                                           'Order_id' : line.id
                                            }
                 values.update(supply_order_value_dict)
                 res = super(Invoice, self).create(values)
@@ -183,26 +173,28 @@ class Invoice(models.Model, BaseOLiMSModel): #(BaseFolder):
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
     #security.declareProtected(View, 'getSubtotal')
 
-    def getSubtotal(self):
+    def _getSubtotal(self):
         """ Compute Subtotal """
         for record in self:
-            total = sum([float(obj['Subtotal']) for obj in record.invoice_lineitems])
-            record.subtotal = total
+            total = record.Order_id.SubTotal
+            record.Subtotal = total
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
     #security.declareProtected(View, 'getVATAmount')
 
-    def getVATAmount(self):
+    def _getVATAmount(self):
         """ Compute VAT """
         for record in self:
             
-            record.VATAmount = Decimal(record.getTotal()) - Decimal(record.getSubtotal())
+            record.VAT = record.Order_id.VAT
 
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
     #security.declareProtected(View, 'getTotal')
 
-    def getTotal(self):
+    def _getTotal(self):
         """ Compute Total """
-        total = sum([float(obj['Total']) for obj in self.invoice_lineitems])
+        for record in self:
+            record.Total = record.Order_id.Total
+        # total = sum([float(obj['Total']) for obj in self.invoice_lineitems])
         
 
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~

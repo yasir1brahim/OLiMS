@@ -82,6 +82,14 @@
             name="OLiMS.report_analysis_request"
             file="OLiMS.report_analysis_request"
             />
+        <report
+            id="action_report_invoice_detail"
+            model="olims.invoice"
+            string="Invoice"
+            report_type="qweb-pdf"
+            name="OLiMS.report_invoice_detail"
+            file="OLiMS.report_invoice_detail"
+            />
 
     </data>
 </openerp>

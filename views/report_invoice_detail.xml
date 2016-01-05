@@ -1,0 +1,101 @@
+<!--Custom report.-->
+<openerp>
+<data>
+<template id="report_invoice_detail_document">
+    <!-- <t t-set="doc_id" t-value="doc_id.with_context({'lang':lang})" /> -->
+    <t t-call="report.external_layout">
+        <div class="page">
+            <div class="row">
+                <div class="col-xs-6">
+                    <strong>Invoice To:</strong>
+                    <span t-field="doc.Client"/>
+                </div>
+                <div class="col-xs-6">
+                    <strong>Invoice &#35;:</strong>
+                    <span t-field="doc.InvoiceNumber"/>
+                </div>
+            </div>
+            <div class="row mt32">
+                <div class="col-xs-6">
+                    <strong>Phone</strong>
+                    <span t-field="doc.Client.Phone"/>
+                </div>
+                <div class="col-xs-6">
+                    <strong>Account &#35;:</strong>
+                    <span t-field="doc.Client.AccountName"/>
+                </div>
+            </div>
+            <div class="row mt32">
+                <div class="col-xs-6">
+                    <strong>Fax</strong>
+                    <span t-field="doc.Client.Fax"/>
+                </div>
+                <div class="col-xs-6">
+                    <strong>Date</strong>
+                    <span t-field="doc.create_date"/>
+                </div>
+            </div>
+            <div class="row mt32">
+                <div class="col-xs-6">
+                </div>
+                <div class="col-xs-6">
+                    <strong>Date Range</strong>
+                    <span t-field="doc.StartDate"/> to <span t-field="doc.EndDate"/>
+                </div>
+            </div>
+ 
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th style="width:20%;">Date</th>
+                        <th style="width:35%;">Description</th>
+                        <th class="text-right" style="width:15%;">Order #</th>
+                        <th class="text-right">VAT</th>
+                        <th class="text-right" style="width:15%;">Amount incl. VAT</th>
+                    </tr>
+                </thead>
+                <tbody class="invoice_tbody">
+                    <tr>
+                        <td style="width:20%;">
+                            <span t-field="doc.Order_id.OrderDate"/>
+                        </td>
+                        <td style="width:35%;">
+                            <!-- <span t-field="l.Volume"/> -->
+                        </td>
+                        <td class="text-right" style="width:15%;">
+                            <span t-field="doc.Order_id.OrderNumber"/>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="doc.VAT"/>
+                        </td>
+                        <td class="text-right" style="width:15%;">
+                            <span t-field="doc.Total"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width:20%;" colspan="3">
+                            <strong>Total</strong>
+                        </td>
+                        <td class="text-right">
+                            <span t-field="doc.VAT"/>
+                        </td>
+                        <td style="width:15%;" class="text-right">
+                            <span t-field="doc.Total"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </t>
+</template>
+ 
+<template id="report_invoice_detail">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="OLiMS.report_invoice_detail_document"/>
+            <!-- <t t-raw="translate_doc(doc, doc_model, 'OLiMS.report_order_detail_document')"/> -->
+        </t>
+    </t>
+</template>
+</data>
+</openerp>

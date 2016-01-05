@@ -100,7 +100,7 @@
             <field name="name">invoice.form</field>
             <field name="model">olims.invoice</field>
             <field name="arch" type="xml">
-                <form string="Invoice Form">
+                <form string="Invoice Form" edit="false">
                     <label for="title" string="Title"/>
                     <field name="title"></field>
                     <label for="StartDate" string="Start Date"/>
