@@ -1,0 +1,118 @@
+<!--Custom report.-->
+<openerp>
+<data>
+<template id="report_order_detail_document">
+    <t t-call="report.external_layout">
+        <div class="page">
+            <div class="row mt32">
+                <div class="col-xs-6">
+                    <strong>Client</strong>
+                    <span t-field="doc.Client"/>
+                </div>
+                <div class="col-xs-6">
+                    <strong>Order &#35;</strong>
+                    <span t-field="doc.OrderNumber"/>
+                </div>
+            </div>
+            <div class="row mt32">
+                <div class="col-xs-6">
+                    <strong>Contact</strong>
+                    <span t-field="doc.Contact"/>
+                </div>
+                <div class="col-xs-6">
+                    <strong>Phone</strong>
+                    <span t-field="doc.Contact.BusinessPhone"/>
+                </div>
+            </div>
+            <div class="row mt32">
+                <div class="col-xs-6">
+                    <strong>Fax</strong>
+                    <span t-field="doc.Contact.BusinessFax"/>
+                </div>
+                <div class="col-xs-6">
+                    <strong>Date</strong>
+                    <span t-field="doc.create_date"/>
+                </div>
+            </div>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <table class="table table-condensed">
+                <thead>
+                    <tr>
+                        <th style="width:15%;">Product</th>
+                        <th style="width:35%;">Description</th>
+                        <th class="text-right" style="width:15%;">Volume</th>
+                        <th class="text-right">Unit</th>
+                        <th class="text-right" style="width:20%;">Price</th>
+                        <th class="text-right" style="width:15%;">VAT</th>
+                        <th class="text-right">Quantity</th>
+                        <th class="text-right">Total</th>
+                    </tr>
+                </thead>
+                <tbody class="order_tbody">
+                    <tr t-foreach="doc.OrderLines" t-as="line">
+                        <td style="width:25%;"><span t-field="line.Products"/></td>
+                        <td style="width:35%;">
+                            <span t-field="line.Description"/>
+                        </td>
+                        <td class="text-right" style="width:15%;">
+                            <span t-field="line.Volume"/>
+                        </td>
+                        <td class="text-right" style="width:15%;">
+                            <span t-field="line.Unit"/>
+                        </td>
+                        <td class="text-right" style="width:20%;">
+                            <span t-esc="line.Price"/>
+                        </td>
+                        <td class="text-right" style="width:15%;">
+                            <span t-field="line.VAT"/>
+                        </td>
+                        <td class="text-right" style="width:15%;">
+                            <span t-field="line.Quantity"/>
+                        </td>
+                        <td class="text-right" style="width:15%;">
+                            <span t-field="line.Total"/>
+                        </td>
+                    </tr>
+                    <tr>
+                            <td colspan="7"><strong>Subtotal</strong></td>
+                            <td class="text-right">
+                                <span t-field="doc.SubTotal"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="7"><strong>VAT</strong></td>
+                            <td class="text-right">
+                                <span t-field="doc.VAT"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="7"><strong>Total</strong></td>
+                            <td class="text-right">
+                                 <span t-field="doc.Total"/>
+                            </td>
+                        </tr>
+                </tbody>
+            </table>
+            <!-- <div class="row">
+                <div class="col-xs-4 pull-right">
+                    <table class="table table-condensed">
+                        
+                    </table>
+                </div>
+            </div> -->
+        </div>
+    </t>
+</template>
+ 
+<template id="report_order_detail">
+    <t t-call="report.html_container">
+        <t t-foreach="docs" t-as="doc">
+            <t t-call="OLiMS.report_order_detail_document"/>
+        </t>
+    </t>
+</template>
+</data>
+</openerp>

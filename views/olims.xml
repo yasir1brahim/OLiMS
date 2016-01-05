@@ -3093,6 +3093,7 @@
                 <form string="Supply Order Form">
                     <header>
                         <button string="Dispatch order" name="dispatch" type="workflow" states="pending"/>
+                        <button string="Print" class="btn btn-sm btn-primary" name="print_order" type="object"/>
                         <field name="state" widget="statusbar" statusbar_visible="pending,dispatched" statusbar_colors='{"pending":"blue","dispatched":"blue"}'></field>
                     </header>
                     <label for="Client" string="Client"/>

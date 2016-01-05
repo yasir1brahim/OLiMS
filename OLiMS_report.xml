@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
     <data>
-        <!-- <report 
+        <report 
             id="report_supply_order_detail"
             string="Supply Order"
             model="olims.supply_order" 
@@ -9,7 +9,7 @@
             file="OLiMS.report_order_detail" 
             name="OLiMS.report_order_detail"
             attachment_use="True"
-        /> -->
+        />
         <report 
             id="action_report_sample"
             model="olims.sample_report"

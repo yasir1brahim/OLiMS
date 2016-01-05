@@ -218,6 +218,10 @@ class SupplyOrder(models.Model, BaseOLiMSModel): #BaseFolder
             s.VAT = vatAmount
             s.Total = s.SubTotal + s.VAT
 
+    @api.multi
+    def print_order(self):
+        return self.env['report'].get_action(self, 'OLiMS.report_order_detail')
+
     # implements(ISupplyOrder, IConstrainTypes)
     #
     # security = ClassSecurityInfo()
