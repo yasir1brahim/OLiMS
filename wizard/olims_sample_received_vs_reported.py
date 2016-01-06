@@ -13,4 +13,4 @@ class OlimsSampleReceivedvsReported(models.TransientModel):
 	def _print_report(self, data):
 		data['form'].update(self.read(['printed_date'])[0])
 		data = self.pre_print_report(data)
-		return self.env['report'].get_action(self, 'OLiMS.report_sample_received_vs_reported', data=data)
+		return self.env['report'].get_action(self, 'olims.report_sample_received_vs_reported', data=data)

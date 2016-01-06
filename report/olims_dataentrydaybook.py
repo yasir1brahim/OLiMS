@@ -4,7 +4,7 @@ import datetime
 
 
 class ReportDataEntryDayBook(models.AbstractModel):
-    _name = 'report.OLiMS.report_dataentrydaybook'
+    _name = 'report.olims.report_dataentrydaybook'
 
     @api.multi
     def render_html(self, data):
@@ -27,7 +27,7 @@ class ReportDataEntryDayBook(models.AbstractModel):
             'datalines': datalines,
             'footlines' : footlines
         }
-        return self.env['report'].render('OLiMS.report_dataentrydaybook', docargs)
+        return self.env['report'].render('olims.report_dataentrydaybook', docargs)
 
     def _get_analyses(self, AnalysesRequest):
 

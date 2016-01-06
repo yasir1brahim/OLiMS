@@ -6,7 +6,7 @@ import datetime
 
 
 class ReportSampleReceivedvsReported(models.AbstractModel):
-    _name = 'report.OLiMS.report_sample_received_vs_reported'
+    _name = 'report.olims.report_sample_received_vs_reported'
 
     def _get_samples(self, samples):
         datalines = {}
@@ -86,4 +86,4 @@ class ReportSampleReceivedvsReported(models.AbstractModel):
             'Samples': samples_res,
             'footlines' : footlines #sum(samples_res.values())
         }
-        return self.env['report'].render('OLiMS.report_sample_received_vs_reported', docargs)
+        return self.env['report'].render('olims.report_sample_received_vs_reported', docargs)

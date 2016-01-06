@@ -13,7 +13,7 @@
 
     <menuitem id="menu_report"
         name="Reports"
-        parent="OLiMS.main_olims_menu"
+        parent="olims.main_olims_menu"
         />
     <menuitem id="menu_daily_samples_received_report"
         name="Daily Samples Received"
@@ -21,7 +21,7 @@
         action="action_olims_sample_menu"/>
 
     <record id="action_olims_sample_report_values1" model="ir.values">
-        <field name="model_id" ref="OLiMS.model_olims_sample" />
+        <field name="model_id" ref="olims.model_olims_sample" />
         <field name="name">Sample</field>
         <field name="key2">client_print_multi</field>
         <field name="value" eval="'ir.actions.act_window,' +str(ref('action_olims_sample_menu'))" />

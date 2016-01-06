@@ -220,7 +220,7 @@ class SupplyOrder(models.Model, BaseOLiMSModel): #BaseFolder
 
     @api.multi
     def print_order(self):
-        return self.env['report'].get_action(self, 'OLiMS.report_order_detail')
+        return self.env['report'].get_action(self, 'olims.report_order_detail')
 
     # implements(ISupplyOrder, IConstrainTypes)
     #

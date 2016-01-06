@@ -3,7 +3,7 @@ from openerp import api, models
 import datetime
 
 class ReportAnalysisPerDepartment(models.AbstractModel):
-    _name = 'report.OLiMS.report_analyses_per_department'
+    _name = 'report.olims.report_analyses_per_department'
 
     @api.multi
     def render_html(self, data):
@@ -29,7 +29,7 @@ class ReportAnalysisPerDepartment(models.AbstractModel):
             'datalines': datalines,
             'footlines' : footlines
         }
-        return self.env['report'].render('OLiMS.report_analyses_per_department', docargs)
+        return self.env['report'].render('olims.report_analyses_per_department', docargs)
 
     def _get_analyses(self, analyses, groupby):
         datalines = {}

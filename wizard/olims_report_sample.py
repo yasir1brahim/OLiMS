@@ -12,4 +12,4 @@ class OlimsSampleReport(models.TransientModel):
 
 	def _print_report(self, data):
 		data = self.pre_print_report(data)
-		return self.env['report'].get_action(self, 'OLiMS.report_sample', data=data)
+		return self.env['report'].get_action(self, 'olims.report_sample', data=data)

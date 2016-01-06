@@ -4,7 +4,7 @@ import datetime
 
 
 class ReportAnalysisPerService(models.AbstractModel):
-    _name = 'report.OLiMS.report_analysisper_service'
+    _name = 'report.olims.report_analysisper_service'
 
     def _get_analyses(self, analyses, analyses_services):
         service_analyses_dict = {}
@@ -53,4 +53,4 @@ class ReportAnalysisPerService(models.AbstractModel):
             'Category': service_category,
             'Total': total
         }
-        return self.env['report'].render('OLiMS.report_analysisper_service', docargs)
+        return self.env['report'].render('olims.report_analysisper_service', docargs)

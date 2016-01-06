@@ -167,7 +167,7 @@
 <template id="report_analysis_request">
     <t t-call="report.html_container">
         <t t-foreach="docs" t-as="doc">
-            <t t-call="OLiMS.report_analysis_request_document"/>
+            <t t-call="olims.report_analysis_request_document"/>
         </t>
     </t>
 </template>

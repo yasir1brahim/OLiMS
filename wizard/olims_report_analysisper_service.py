@@ -13,4 +13,4 @@ class OlimsAnalysisPerServiceReport(models.TransientModel):
 	def _print_report(self, data):
 		data['form'].update(self.read(['client'])[0])
 		data = self.pre_print_report(data)
-		return self.env['report'].get_action(self, 'OLiMS.report_analysisper_service', data=data)
+		return self.env['report'].get_action(self, 'olims.report_analysisper_service', data=data)

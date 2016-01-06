@@ -110,7 +110,7 @@
 <template id="report_order_detail">
     <t t-call="report.html_container">
         <t t-foreach="docs" t-as="doc">
-            <t t-call="OLiMS.report_order_detail_document"/>
+            <t t-call="olims.report_order_detail_document"/>
         </t>
     </t>
 </template>

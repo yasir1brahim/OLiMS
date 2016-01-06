@@ -6,7 +6,7 @@ import datetime
 
 
 class ReportAnalysisRequestsAndAnalysesPerClient(models.AbstractModel):
-    _name = 'report.OLiMS.report_ar_and_analyses_per_client'
+    _name = 'report.olims.report_ar_and_analyses_per_client'
 
     def _get_client_analysis(self, analyses_request):
 
@@ -74,4 +74,4 @@ class ReportAnalysisRequestsAndAnalysesPerClient(models.AbstractModel):
             'Analyses': analysis_res,
             'footlines' : footlines
         }
-        return self.env['report'].render('OLiMS.report_ar_and_analyses_per_client', docargs)
+        return self.env['report'].render('olims.report_ar_and_analyses_per_client', docargs)

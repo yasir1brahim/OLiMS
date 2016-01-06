@@ -1,9 +1,9 @@
 id,name,on_create,osv
-OLiMS.olims_analysis_request_workflow,OLiMS Analysis Request Workflow,True,olims.analysis_request
-OLiMS.olims_batch_workflow,OLiMS Batch Workflow,True,olims.batch
-OLiMS.olims_worksheet_workflow,OLiMS Worksheet Workflow,True,olims.worksheet
-OLiMS.olims_reference_sample_workflow,OLiMS Reference Sample Workflow,True,olims.reference_sample
-OLiMS.olims_ar_import_workflow,OLiMS AR Import,True,olims.ar_import
-OLiMS.olims_duplicate_analysis_workflow,OLiMS Duplicate Analysis,True,olims.duplicate_analysis
-OLiMS.olims_supply_order,OLiMS Supply Order,True,olims.supply_order
-OLiMS.olims_analysis_workflow,OLiMS Analysis Workflow,True,olims.analysis
+olims.olims_analysis_request_workflow,OLiMS Analysis Request Workflow,True,olims.analysis_request
+olims.olims_batch_workflow,OLiMS Batch Workflow,True,olims.batch
+olims.olims_worksheet_workflow,OLiMS Worksheet Workflow,True,olims.worksheet
+olims.olims_reference_sample_workflow,OLiMS Reference Sample Workflow,True,olims.reference_sample
+olims.olims_ar_import_workflow,OLiMS AR Import,True,olims.ar_import
+olims.olims_duplicate_analysis_workflow,OLiMS Duplicate Analysis,True,olims.duplicate_analysis
+olims.olims_supply_order,OLiMS Supply Order,True,olims.supply_order
+olims.olims_analysis_workflow,OLiMS Analysis Workflow,True,olims.analysis

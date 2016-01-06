@@ -5,7 +5,7 @@ from collections import OrderedDict
 
 
 class ReportAnalysisPerSampleType(models.AbstractModel):
-    _name = 'report.OLiMS.report_analysisper_sample_type'
+    _name = 'report.olims.report_analysisper_sample_type'
 
     def _get_analyses(self, analyses, sample_types):
         samples_analyses_dict = {}
@@ -45,4 +45,4 @@ class ReportAnalysisPerSampleType(models.AbstractModel):
             'Analyses': analysis_res,
             'Total' : total
         }
-        return self.env['report'].render('OLiMS.report_analysisper_sample_type', docargs)
+        return self.env['report'].render('olims.report_analysisper_sample_type', docargs)

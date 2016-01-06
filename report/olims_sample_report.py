@@ -6,7 +6,7 @@ import datetime
 
 
 class ReportSample(models.AbstractModel):
-    _name = 'report.OLiMS.report_sample'
+    _name = 'report.olims.report_sample'
 
     def _get_samples(self, samples):
         samples_res = []
@@ -40,4 +40,4 @@ class ReportSample(models.AbstractModel):
             'Samples': samples_res,
             'Count' : len(samples_res)
         }
-        return self.env['report'].render('OLiMS.report_sample', docargs)
+        return self.env['report'].render('olims.report_sample', docargs)

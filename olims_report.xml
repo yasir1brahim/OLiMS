@@ -6,8 +6,8 @@
             string="Supply Order"
             model="olims.supply_order" 
             report_type="qweb-pdf"
-            file="OLiMS.report_order_detail" 
-            name="OLiMS.report_order_detail"
+            file="olims.report_order_detail" 
+            name="olims.report_order_detail"
             attachment_use="True"
         />
         <report 
@@ -15,80 +15,80 @@
             model="olims.sample_report"
             string="Daily sample received"
             report_type="qweb-pdf"
-            name="OLiMS.report_sample"
-            file="OLiMS.report_sample"
+            name="olims.report_sample"
+            file="olims.report_sample"
             />
         <report 
             id="action_report_analysisper_service"
             model="olims.analysis_per_service_report"
             string="Analyses per service"
             report_type="qweb-pdf"
-            name="OLiMS.report_analysisper_service"
-            file="OLiMS.report_analysisper_service"
+            name="olims.report_analysisper_service"
+            file="olims.report_analysisper_service"
             />
         <report 
             id="action_report_analysisper_sampletype"
             model="olims.analysis_per_sample_type_report"
             string="Analyses per sample type"
             report_type="qweb-pdf"
-            name="OLiMS.report_analysisper_sample_type"
-            file="OLiMS.report_analysisper_sample_type"
+            name="olims.report_analysisper_sample_type"
+            file="olims.report_analysisper_sample_type"
             />
         <report
             id="action_report_sample_received_vs_reported"
             model="olims.sample_received_vs_reported"
             string="Sample Received vs Reported"
             report_type="qweb-pdf"
-            name="OLiMS.report_sample_received_vs_reported"
-            file="OLiMS.report_sample_received_vs_reported"
+            name="olims.report_sample_received_vs_reported"
+            file="olims.report_sample_received_vs_reported"
             />
         <report
             id="action_report_ar_and_analyses_per_client"
             model="olims.ar_and_analysis_per_client_report"
             string="Analysis requests and analyses per client"
             report_type="qweb-pdf"
-            name="OLiMS.report_ar_and_analyses_per_client"
-            file="OLiMS.report_ar_and_analyses_per_client"
+            name="olims.report_ar_and_analyses_per_client"
+            file="olims.report_ar_and_analyses_per_client"
             />
         <report
             id="action_report_analyses_per_department"
             model="olims.analyses_per_department_report"
             string="Analyses summary per department"
             report_type="qweb-pdf"
-            name="OLiMS.report_analyses_per_department"
-            file="OLiMS.report_analyses_per_department"
+            name="olims.report_analyses_per_department"
+            file="olims.report_analyses_per_department"
             />
         <report
             id="action_report_analysesperformedpertotal"
             model="olims.analyses_performed_pertotal_report"
             string="Analyses performed and published as % of total"
             report_type="qweb-pdf"
-            name="OLiMS.report_analysesperformedpertotal"
-            file="OLiMS.report_analysesperformedpertotal"
+            name="olims.report_analysesperformedpertotal"
+            file="olims.report_analysesperformedpertotal"
             />
         <report
             id="action_report_dataentrydaybook"
             model="olims.data_entry_day_book"
             string="Data entry day book"
             report_type="qweb-pdf"
-            name="OLiMS.report_dataentrydaybook"
-            file="OLiMS.report_dataentrydaybook"
+            name="olims.report_dataentrydaybook"
+            file="olims.report_dataentrydaybook"
             />
         <report
             id="action_report_analysis_request"
             model="olims.analysis_request"
             string="Publish Analysis Request"
             report_type="qweb-pdf"
-            name="OLiMS.report_analysis_request"
-            file="OLiMS.report_analysis_request"
+            name="olims.report_analysis_request"
+            file="olims.report_analysis_request"
             />
         <report
             id="action_report_invoice_detail"
             model="olims.invoice"
             string="Invoice"
             report_type="qweb-pdf"
-            name="OLiMS.report_invoice_detail"
-            file="OLiMS.report_invoice_detail"
+            name="olims.report_invoice_detail"
+            file="olims.report_invoice_detail"
             />
 
     </data>

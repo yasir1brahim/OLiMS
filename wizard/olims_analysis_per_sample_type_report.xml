@@ -35,11 +35,11 @@
 
     <menuitem id="menu_analysispersampletype_report"
         name="Analysis Per Sample Type"
-        parent="OLiMS.menu_report"
+        parent="olims.menu_report"
         action="action_olims_analysisper_sampletype_menu"/>
 
     <record id="action_olims_analysisper_service_values1" model="ir.values">
-        <field name="model_id" ref="OLiMS.model_olims_analysis_request" />
+        <field name="model_id" ref="olims.model_olims_analysis_request" />
         <field name="name">Analysis Per Sample Type</field>
         <field name="key2">client_print_multi</field>
         <field name="value" eval="'ir.actions.act_window,' +str(ref('action_olims_analysisper_sampletype_menu'))" />

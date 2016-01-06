@@ -13,11 +13,11 @@
 
     <menuitem id="menu_samples_received_vs_reported"
         name="Samples received vs. samples reported"
-        parent="OLiMS.menu_report"
+        parent="olims.menu_report"
         action="action_olims_sample_received_vs_reported_menu"/>
 
     <record id="action_olims_sample_received_vs_reported_values1" model="ir.values">
-        <field name="model_id" ref="OLiMS.model_olims_sample" />
+        <field name="model_id" ref="olims.model_olims_sample" />
         <field name="name">Sample Received vs Reported</field>
         <field name="key2">client_print_multi</field>
         <field name="value" eval="'ir.actions.act_window,' +str(ref('action_olims_sample_received_vs_reported_menu'))" />

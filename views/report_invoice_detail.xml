@@ -92,8 +92,8 @@
 <template id="report_invoice_detail">
     <t t-call="report.html_container">
         <t t-foreach="docs" t-as="doc">
-            <t t-call="OLiMS.report_invoice_detail_document"/>
-            <!-- <t t-raw="translate_doc(doc, doc_model, 'OLiMS.report_order_detail_document')"/> -->
+            <t t-call="olims.report_invoice_detail_document"/>
+            <!-- <t t-raw="translate_doc(doc, doc_model, 'olims.report_order_detail_document')"/> -->
         </t>
     </t>
 </template>

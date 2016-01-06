@@ -4,7 +4,7 @@ import datetime
 
 
 class ReportAnalysisPerformedPerTotal(models.AbstractModel):
-    _name = 'report.OLiMS.report_analysesperformedpertotal'
+    _name = 'report.olims.report_analysesperformedpertotal'
 
     @api.multi
     def render_html(self, data):
@@ -28,7 +28,7 @@ class ReportAnalysisPerformedPerTotal(models.AbstractModel):
             'datalines': datalines,
             'footlines' : footlines
         }
-        return self.env['report'].render('OLiMS.report_analysesperformedpertotal', docargs)
+        return self.env['report'].render('olims.report_analysesperformedpertotal', docargs)
 
     def _get_analyses(self, analyses, groupby):
 

@@ -13,11 +13,11 @@
 
     <menuitem id="menu_data_entry_day_book_report"
         name="Data entry day book"
-        parent="OLiMS.menu_report"
+        parent="olims.menu_report"
         action="action_olims_data_entry_day_book_menu"/>
 
     <record id="action_olims_data_entry_day_book_values1" model="ir.values">
-        <field name="model_id" ref="OLiMS.model_olims_analysis_request" />
+        <field name="model_id" ref="olims.model_olims_analysis_request" />
         <field name="name">Data entry day book</field>
         <field name="key2">client_print_multi</field>
         <field name="value" eval="'ir.actions.act_window,' +str(ref('action_olims_data_entry_day_book_menu'))" />
