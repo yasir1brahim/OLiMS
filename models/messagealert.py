@@ -87,15 +87,16 @@ class MessageAlert(models.Model, BaseOLiMSModel):
                 if validity_date >= datetime.datetime.now():
                     certificate_expire = True
             if certificate_expire == False:
-                certificate_expiry_message = message_alert_objects.search([('Instrument', \
+                certificate_expiry_message_object = message_alert_objects.search([('Instrument', \
                                                                       '=', certificate.Instrument.id)])
                 message_vals = {
                                 'message' : "Instrument's calibration certificate expired",
                                 'severity' :"high",
                                 'Instrument' : certificate.Instrument.id,
                                 }
-                if certificate_expiry_message:
-                    certificate_expiry_message.write(message_vals)
+                if certificate_expiry_message_object:
+                    if not certificate_expiry_message_object.message == "Instrument's calibration certificate expired":
+                        certificate_expiry_message_object.write(message_vals)
                 else:
                     message_alert_objects.create(message_vals)
         for calibration in instruments_calibration_objects:
@@ -114,7 +115,8 @@ class MessageAlert(models.Model, BaseOLiMSModel):
                                 'Instrument' : calibration.Instrument.id,
                                 }
                     if calibiration_progress_message_object:
-                        if not calibiration_progress_message_object.message == "Instrument's calibration certificate expired":
+                        if not calibiration_progress_message_object.message in ["Instrument's calibration certificate expired", \
+                                                                                "Instrument disposed until new calibration tests being done"]:
                             if instrument_validation_object:
                                 calibiration_progress_message_object.write(message_vals)
                             else:
@@ -137,10 +139,12 @@ class MessageAlert(models.Model, BaseOLiMSModel):
                                 'Instrument' : validation.Instrument.id,
                                 }
                     if message_validation_progress_object:
-                        if instrument_calibration_object:
-                            message_validation_progress_object.write(message_vals)
-                        else:
-                            message_validation_progress_object.unlink()
+                        if not message_validation_progress_object.message in ["Instrument's calibration certificate expired", \
+                                                                                "Instrument disposed until new calibration tests being done"]:
+                            if instrument_calibration_object:
+                                message_validation_progress_object.write(message_vals)
+                            else:
+                                message_validation_progress_object.unlink()
                     elif not message_validation_progress_object and instrument_calibration_object:
                         message_validation_progress_object.create(message_vals)
         return True
