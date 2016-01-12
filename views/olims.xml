@@ -15,6 +15,39 @@
 		<menuitem id="olims_settings_menu" name="OLiMS Settings"
             parent="base.menu_administration"/>
 
+        <!-- Home Page with alert Messages -->
+        <record model="ir.ui.view" id="olims_message_alert_form_view">
+            <field name="name">message_alert.form</field>
+            <field name="model">olims.message_alert</field>
+            <field name="arch" type="xml">
+                <form string="Messages Alert Form" create="false" edit="false">
+                    <!-- <field name="message"></field> -->
+                    <field name="Instrument"></field>
+                    <!-- <field name="severity"></field> -->
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="olims_message_alert_tree_view">
+            <field name="name">message_alert.tree</field>
+            <field name="model">olims.message_alert</field>
+            <field name="arch" type="xml">
+                <tree string="Messages Alert" create="false" edit="false">
+                    <!-- <field name="message"></field> -->
+                    <field name="Instrument"></field>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="message_alert_action">
+            <field name="name">Home</field>
+            <field name="res_model">olims.message_alert</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'group_by': 'message'}</field>
+       </record>
+
+        <menuitem id="home_menu" name="Warnings" parent="olims_menu" sequence="12"
+                  action="message_alert_action"/>
+
 		<!-- olims.sampling_deviation form view -->
         <record model="ir.ui.view" id="olims_sampling_deviation_form_view">
             <field name="name">sampling_deviation.form</field>
@@ -2468,7 +2501,7 @@
                     <label for="AssetNumber" string="Asset Number"/>
                     <field name="AssetNumber"></field>
                     <label for="Instrument" string="Instruments"/>
-                    <field name="Instrument"></field>
+                    <field name="Instrument" options="{'no_create': True}"></field>
                     <label for="DateIssued" string="Report Date"/>
                     <p>Validation report date</p>
                 	<field name="DateIssued"></field>
@@ -2638,7 +2671,7 @@
                     <label for="Certificate Code" string="Certificate Code"/>
                     <field name="Certificate Code"></field>
                     <label for="Instrument" string="Instrument"/>
-                	<field name="Instrument"></field>
+                    <field name="Instrument" options="{'no_create': True}"></field>
                     <field name="Internal"></field>
                     <label for="Internal" string="Internal Certificate"/>
                     <p>Select if is an in-house calibration certificate</p>
@@ -2650,9 +2683,9 @@
                     <label for="ValidFrom" string="From"/>
                     <p>Date when the calibration certificate was granted</p>
                     <field name="ValidFrom"></field>
-                    <label for="ValidTo" string="To"/>
+                    <label for="DownTo" string="To"/>
                     <p>Date until the certificate is valid</p>
-                    <field name="ValidTo"></field>
+                    <field name="DownTo"></field>
                     <label for="Preparator" string="Prepared by"/>
                     <p>The person at the supplier who prepared the certificate</p>
                     <field name="Preparator" options="{'no_create': True}"></field>
@@ -2678,7 +2711,7 @@
                 	<field name="Agency"></field>
                     <!--<field name="Date"></field>-->
                     <field name="ValidFrom"></field>
-                    <field name="ValidTo"></field>
+                    <field name="DownTo"></field>
                     <!--<field name="Preparator"></field>
                     <field name="Validator"></field>-->
                     <field name="Document"></field>
@@ -2706,8 +2739,8 @@
                 <form string="Instrument Calibration Form">
                     <label for="AssetNumber" string="Asset Number"/>
                     <field name="AssetNumber"></field>
-                    <label for="Instruments" string="Instruments"/>
-                	<field name="Instruments"></field>
+                    <label for="Instrument" string="Instruments"/>
+                    <field name="Instrument" options="{'no_create': True}"></field>
                     <label for="DateIssued" string="Report Date"/>
                     <p>Calibration report date</p>
                     <field name="DateIssued"></field>
@@ -2744,7 +2777,7 @@
             <field name="arch" type="xml">
                 <tree string="Instrument Calibration">
                     <field name="AssetNumber"></field>
-                	<field name="Instruments"></field>
+                    <field name="Instrument"></field>
                     <!--<field name="DateIssued"></field>-->
                 	<field name="DownFrom"></field>
                 	<field name="DownTo"></field>
@@ -3093,7 +3126,7 @@
                 <form string="Supply Order Form">
                     <header>
                         <button string="Dispatch order" name="dispatch" type="workflow" states="pending"/>
-                        <button string="Print" class="btn btn-sm btn-primary" name="print_order" type="object"/>
+                        <button string="Print" class="btn btn-sm btn-primary oe_edit" name="print_order" type="object"/>
                         <field name="state" widget="statusbar" statusbar_visible="pending,dispatched" statusbar_colors='{"pending":"blue","dispatched":"blue"}'></field>
                     </header>
                     <label for="Client" string="Client"/>

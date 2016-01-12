@@ -75,5 +75,6 @@ from models import inheritfrom_batches
 from models import subgroup
 from models import specification
 from models import referencevalues
+from models import messagealert
 import wizard
 import report

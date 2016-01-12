@@ -27,7 +27,7 @@ from dependencies.dependency import DisplayList
 
 from lims.config import QCANALYSIS_TYPES
 
-from openerp import fields, models
+from openerp import fields, models, api
 from base_olims_model import BaseOLiMSModel
 from manufacturer import Manufacturer
 from fields.string_field import StringField
@@ -336,6 +336,17 @@ class Instrument(models.Model, BaseOLiMSModel):
     _sql_constraints = [
             ('SerialNo', 'unique(SerialNo)', 'The serial number that uniquely identifies the instrument'),
     ]
+
+    @api.model
+    def create(self, values):
+        new_record = super(Instrument,self).create(values)
+        MessageAlertsObjects = self.env['olims.message_alert']
+        alert_message_vals = { 'message' : "Instrument's calibration certificate expired",
+                'severity' :"high",
+                'Instrument' : new_record.id,
+        }
+        MessageAlertsObjects.create(alert_message_vals)
+        return new_record
     # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
     # implements(IInstrument)
     # security = ClassSecurityInfo()

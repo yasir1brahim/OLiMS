@@ -20,8 +20,9 @@ from fields.date_time_field import DateTimeField
 from fields.reference_field import ReferenceField
 from fields.boolean_field import BooleanField
 from fields.widget.widget import StringWidget, TextAreaWidget, DateTimeWidget, BooleanWidget, FileWidget
-from openerp import fields, models
+from openerp import fields, models, api
 from base_olims_model import BaseOLiMSModel
+from messagealert import write_message
 
 #schema = BikaSchema.copy() + Schema((
 schema = (StringField('Certificate Code',
@@ -41,6 +42,7 @@ schema = (StringField('Certificate Code',
 
         fields.Many2one(string='Instrument',
                    comodel_name='olims.instrument',
+                   required = True,
           #allowed_types=('Instrument',),
         #relationship='InstrumentCertificationInstrument',
      #   widget=StringWidget(
@@ -89,7 +91,7 @@ schema = (StringField('Certificate Code',
         ),
     ),
 
-    DateTimeField('ValidTo',
+    DateTimeField('DownTo',
         with_time = 1,
         with_date = 1,
         required = 1,
@@ -164,23 +166,22 @@ schema = (StringField('Certificate Code',
 )
 
 #schema['title'].widget.label=_("Certificate Code")
+sourcemodel = "InstrumentCertification"
 
 class InstrumentCertification(models.Model, BaseOLiMSModel): #BaseFolder
     _name = 'olims.instrument_certification'
 
-    def create(self, cr, uid, values, context=None):
-        if context is None:
-            context = {}
-        expiry_date = {
-                'ExpiryDate':values.get('ValidTo'),
-                }
-        instrument_object = self.pool.get("olims.instrument")
-        instrument_object.write(cr, uid, [values.get('Instrument')],expiry_date)
-        res = super(InstrumentCertification, self).create(cr, uid, values, context)
+    @api.model
+    def create(self, values):
+        write_message(self, values, sourcemodel)
+        res = super(InstrumentCertification, self).create(values)
         return res
-    # security = ClassSecurityInfo()
-    # schema = schema
-    # displayContentsTab = False
+
+    @api.multi
+    def write(self, data):
+        write_message(self, data, sourcemodel)
+        res = super(InstrumentCertification, self).write(data)
+        return res
 
     _at_rename_after_creation = True
     def _renameAfterCreation(self, check_auto_id=False):

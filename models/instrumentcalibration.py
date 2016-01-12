@@ -17,8 +17,9 @@ from fields.string_field import StringField
 from fields.text_field import TextField
 from fields.date_time_field import DateTimeField
 from fields.widget.widget import StringWidget, TextAreaWidget, DateTimeWidget
-from openerp import fields, models
+from openerp import fields, models, api
 from base_olims_model import BaseOLiMSModel
+from messagealert import write_message
 
 #schema = BikaSchema.copy() + Schema((
 schema = (StringField('AssetNumber',
@@ -36,9 +37,9 @@ schema = (StringField('AssetNumber',
     #     )
     # ),
 
-    fields.Many2one(string='Instruments',
+    fields.Many2one(string='Instrument',
                    comodel_name='olims.instrument',
-                   required=False,
+                   required=True,
 
     ),
 
@@ -145,13 +146,26 @@ schema = (StringField('AssetNumber',
 )
 
 #schema['title'].widget.label = 'Asset Number'
-
+sourcemodel = "InstrumentCalibration"
 
 class InstrumentCalibration(models.Model, BaseOLiMSModel): #BaseFolder
     _name = 'olims.instrument_calibration'
     # security = ClassSecurityInfo()
     # schema = schema
     # displayContentsTab = False
+
+    @api.model
+    def create(self, values):
+        write_message(self, values, sourcemodel)
+        new_record = super(InstrumentCalibration, self).create(values)
+        return new_record
+
+    @api.multi
+    def write(self, data):
+        write_message(self, data, sourcemodel)
+        res = super(InstrumentCalibration, self).write(data)
+        return res
+
 
     _at_rename_after_creation = True
     def _renameAfterCreation(self, check_auto_id=False):
