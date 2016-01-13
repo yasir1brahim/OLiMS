@@ -1,11 +1,11 @@
-id,name
-group_lab_managers,Lab Managers
-group_lab_clerks,Lab Clerks
-group_lab_technicians,Lab Technicians
-group_verifiers,Verifiers
-group_samplers,Samplers
-group_preservers,Preservers
-group_clients,Clients
-group_regulatory_inspectors,Regulatory Inspectors
-group_suppliers,Suppliers
-group_analyst,Analyst
+id,name,implied_ids/id
+group_lab_managers,Lab Managers,base.group_system
+group_lab_clerks,Lab Clerks,
+group_lab_technicians,Lab Technicians,
+group_verifiers,Verifiers,
+group_samplers,Samplers,
+group_preservers,Preservers,
+group_clients,Clients,
+group_regulatory_inspectors,Regulatory Inspectors,
+group_suppliers,Suppliers,
+group_analyst,Analyst,
