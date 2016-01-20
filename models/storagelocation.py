@@ -25,7 +25,7 @@ from fields.text_field import TextField
 from fields.widget.widget import StringWidget, TextAreaWidget
 from lims import bikaMessageFactory as _
 
-schema =(StringField('name',
+schema =(StringField('Storage Location',
         required=1,
         widget=StringWidget(
             label=_('Address'),
@@ -38,13 +38,13 @@ schema =(StringField('name',
             description=_('Used in item listings and search results.'),
         ),
     ),
-    StringField('SiteTitle',
+    StringField('Site Title',
         widget=StringWidget(
             label=_("Site Title"),
             description=_("Title of the site"),
         ),
     ),
-    StringField('SiteCode',
+    StringField('Site Code',
         widget=StringWidget(
             label=_("Site Code"),
             description=_("Code for the site"),
@@ -56,13 +56,13 @@ schema =(StringField('name',
             description=_("Description of the site"),
         ),
     ),
-    StringField('LocationTitle',
+    StringField('Location Title',
         widget=StringWidget(
             label=_("Location Title"),
             description=_("Title of location"),
         ),
     ),
-    StringField('LocationCode',
+    StringField('Location Code',
         widget=StringWidget(
             label=_("Location Code"),
             description=_("Code for the location"),
@@ -80,13 +80,13 @@ schema =(StringField('name',
             description=_("Type of location"),
         ),
     ),
-    StringField('ShelfTitle',
+    StringField('Shelf Title',
         widget=StringWidget(
             label=_("Shelf Title"),
             description=_("Title of the shelf"),
         ),
     ),
-    StringField('ShelfCode',
+    StringField('Shelf Code',
         widget=StringWidget(
             label=_("Shelf Code"),
             description=_("Code the the shelf"),
@@ -105,6 +105,7 @@ schema =(StringField('name',
 
 class StorageLocation(models.Model, BaseOLiMSModel): #BaseContent, HistoryAwareMixin
     _name='olims.storage_location'
+    _rec_name = 'Storage Location'
     # security = ClassSecurityInfo()
     # displayContentsTab = False
     # schema = schema
