@@ -28,7 +28,7 @@ from base_olims_model import BaseOLiMSModel
 
 #schema = BikaSchema.copy() + Schema((
 
-schema = (StringField('name',
+schema = (StringField('Sample Point',
         required=1,
         widget=StringWidget(
             label=_('Title'),
@@ -43,17 +43,17 @@ schema = (StringField('name',
     ),
           
     # for Latitude, Label and description applied on view. 
-    fields.Char(string='Latitude_Degrees', required=True),
-    fields.Char(string='Latitude_Minutes', required=True),
-    fields.Char(string='Latitude_Seconds', required=True),
-    fields.Char(string='Latitude_Bearing', required=True),
+    fields.Char(string='Latitude_Degrees', required=False),
+    fields.Char(string='Latitude_Minutes', required=False),
+    fields.Char(string='Latitude_Seconds', required=False),
+    fields.Char(string='Latitude_Bearing', required=False),
           
           
     # for Longitude, Label and description applied on view. 
-    fields.Char(string='Longitude_Degrees', required=True),
-    fields.Char(string='Longitude_Minutes', required=True),
-    fields.Char(string='Longitude_Seconds', required=True),
-    fields.Char(string='Longitude_Bearing', required=True),
+    fields.Char(string='Longitude_Degrees', required=False),
+    fields.Char(string='Longitude_Minutes', required=False),
+    fields.Char(string='Longitude_Seconds', required=False),
+    fields.Char(string='Longitude_Bearing', required=False),
          
 
     StringField('Elevation',
@@ -68,7 +68,7 @@ schema = (StringField('name',
     fields.Char(string='Hours'),
     fields.Char(string='Minutes'),
     
-    fields.Many2many(string='SampleTypes',
+    fields.Many2many(string='Sample Types',
                     comodel_name='olims.sample_type',
                     required = False,
                     help="The list of sample types that can be collected at this sample point. If no sample types are " + 
@@ -87,13 +87,10 @@ schema = (StringField('name',
     #     ),
     ),
 
-    # ComputedField(
-    #     'SampleTypeTitle',
-    #     expression="[o.Title() for o in context.getSampleTypes()]",
-    #     widget = ComputedWidget(
-    #         visibile=False,
-    #     )
-    # ),
+    fields.Many2one(
+        string='ClientSamplePoint',
+        comodel_name='olims.client',
+    ),
 
     BooleanField('Composite',
         default=False,
@@ -113,6 +110,7 @@ schema = (StringField('name',
 
 class SamplePoint(models.Model, BaseOLiMSModel):#BaseContent, HistoryAwareMixin
     _name='olims.sample_point'
+    _rec_name = 'Sample Point'
     # security = ClassSecurityInfo()
     # displayContentsTab = False
     # schema = schema
