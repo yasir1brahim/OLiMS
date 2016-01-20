@@ -63,7 +63,7 @@ schema =  (
         ),
     ),
     
-    fields.Char(compute='computeFulname', string='name'),
+    fields.Char(compute='computeFulname', string='Name'),
     
     # ComputedField('Fullname',
     #     expression = 'context.getFullname()',
@@ -78,20 +78,20 @@ schema =  (
             visible = False
         ),
     ),
-    StringField('EmailAddress',
+    StringField('Email Address',
         schemata = 'Email Telephone Fax',
         searchable = 1,
         widget = StringWidget(
             label=_("Email Address"),
         ),
     ),
-    StringField('BusinessPhone',
+    StringField('Phone',
         schemata = 'Email Telephone Fax',
         widget = StringWidget(
             label=_("Phone (business)"),
         ),
     ),
-    StringField('BusinessFax',
+    StringField('Fax',
         schemata = 'Email Telephone Fax',
         widget = StringWidget(
             label=_("Fax (business)"),
@@ -103,7 +103,7 @@ schema =  (
             label=_("Phone (home)"),
         ),
     ),
-    StringField('MobilePhone',
+    StringField('Mobile Phone',
         schemata = 'Email Telephone Fax',
         widget = StringWidget(
             label=_("Phone (mobile)"),
@@ -123,7 +123,7 @@ schema =  (
     fields.Char(string='physical_city'),
     fields.Char(string='physical_postalcode'),
     fields.Char(string='physical_address'),
-    fields.Selection([('postal', 'PostalAddress')],string='physical_copy_from'),
+    fields.Selection([('postal', 'Postal Address')],string='physical_copy_from'),
           
         # # ~~~~~~~~~~ PostalAddress behavior in Odoo is as selection field ~~~~~~~~~~~
     fields.Many2one(comodel_name='olims.country',string='postal_country'),
@@ -132,7 +132,7 @@ schema =  (
     fields.Char(string='postal_city'),
     fields.Char(string='postal_postalcode'),
     fields.Char(string='postal_address'),
-    fields.Selection([('physical', 'PhysicalAddress')],string='postal_copy_from'),
+    fields.Selection([('physical', 'Physical Address')],string='postal_copy_from'),
 
     # ~~~~~~~ To be implemented ~~~~~~~
     # AddressField('PhysicalAddress',
@@ -199,6 +199,7 @@ schema =  (
 
 class LabContact(models.Model, BaseOLiMSModel): #Person
     _name = 'olims.lab_contact'
+    _rec_name = 'Name'
     # security = ClassSecurityInfo()
     # displayContentsTab = False
     # schema = schema
@@ -235,7 +236,7 @@ class LabContact(models.Model, BaseOLiMSModel): #Person
                                             record.getSurname())
                 else:
                     fullname = '%s %s' % (record.getFirstname(), record.getSurname())
-            record.name = fullname.strip()
+            record.Name = fullname.strip()
     
 
     def Title(self):
