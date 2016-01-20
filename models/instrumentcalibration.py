@@ -39,7 +39,7 @@ schema = (StringField('AssetNumber',
 
     fields.Many2one(string='Instrument',
                    comodel_name='olims.instrument',
-                   required=True,
+                   required=False,
 
     ),
 

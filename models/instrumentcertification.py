@@ -42,7 +42,7 @@ schema = (StringField('Certificate Code',
 
         fields.Many2one(string='Instrument',
                    comodel_name='olims.instrument',
-                   required = True,
+                   required = False,
           #allowed_types=('Instrument',),
         #relationship='InstrumentCertificationInstrument',
      #   widget=StringWidget(
