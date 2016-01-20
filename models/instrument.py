@@ -58,7 +58,7 @@ schema = (
         ),
     ),
 
-    fields.Many2one(string='InstrumentType',
+    fields.Many2one(string='Type',
            comodel_name='olims.instrument_type',
            required=True,
 
@@ -289,7 +289,7 @@ schema = (
         description=_("Installation certificate upload"),
         ),
     ),
-    DateTimeField('ExpiryDate',
+    DateTimeField('Expiry Date',
                   widget = DateTimeWidget(
                             label=_("Expiry Date"),
                             description=_("Date until the certificate is valid"),

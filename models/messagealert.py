@@ -21,7 +21,7 @@ def write_message(self, values, sourcemodel):
             message = "Instrument in validation progress"
         elif sourcemodel == "InstrumentCertification":
             message = "Instrument disposed until new calibration tests being done"
-            expiry_date = {'ExpiryDate':valid_date,}
+            expiry_date = {'Expiry Date':valid_date,}
             instrument_object.write(expiry_date)
         message_alert_objects = self.env["olims.message_alert"]
         message_alert_obj = message_alert_objects.search([('Instrument', \

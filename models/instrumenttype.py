@@ -21,7 +21,7 @@ from fields.widget.widget import TextAreaWidget
 
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 # schema = BikaSchema.copy()
-schema = (StringField('name',
+schema = (StringField('Title',
               required=1,        
     ),
     TextField('Description',
@@ -29,6 +29,9 @@ schema = (StringField('name',
                 label=_('Description'),
                 description=_('Used in item listings and search results.')),    
     ),
+    fields.One2many('olims.instrument',
+                    'Type',
+                    string='Type')
     )
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 # schema['description'].schemata = 'default'
@@ -37,6 +40,7 @@ schema = (StringField('name',
 
 class InstrumentType(models.Model, BaseOLiMSModel):#(BaseContent):
     _name = 'olims.instrument_type'
+    _rec_name = 'Title'
     
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 #     implements(IInstrumentType)
