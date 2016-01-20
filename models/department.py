@@ -27,7 +27,7 @@ from base_olims_model import BaseOLiMSModel
 
 # schema = BikaSchema.copy() + Schema(
 schema = (
-    StringField('name',
+    StringField('Department',
         required=1,
         widget=StringWidget(
             label=_('Title'),
@@ -68,20 +68,18 @@ schema = (
 #         ),
 #     ),
 
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField('ManagerPhone',
-#         expression = "context.getManager() and context.getManager().getBusinessPhone() or ''",
+    fields.Char('ManagerPhone',
+        compute = "ComputeManagerData",
 #         widget = ComputedWidget(
 #             visible = False,
 #         ),
-#     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField('ManagerEmail',
-#         expression = "context.getManager() and context.getManager().getEmailAddress() or ''",
+    ),
+    fields.Char('ManagerEmail',
+        compute = "ComputeManagerData",
 #         widget = ComputedWidget(
 #             visible = False,
 #         ),
-#     ),
+    ),
 )#)
 
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
@@ -91,11 +89,17 @@ schema = (
 
 class Department(models.Model, BaseOLiMSModel):
     _name = 'olims.department'
+    _rec_name = 'Department'
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 #     security = ClassSecurityInfo()
 #     displayContentsTab = False
 #     schema = schema
-        
+
+    def ComputeManagerData(self):
+        for record in self:
+            record.ManagerPhone = record.Manager.Phone
+            record.ManagerEmail = record.Manager.EmailAddress
+            
     _at_rename_after_creation = True
     def _renameAfterCreation(self, check_auto_id=False):
         from lims.idserver import renameAfterCreation
