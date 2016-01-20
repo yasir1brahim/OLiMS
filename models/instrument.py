@@ -44,7 +44,7 @@ _logger = logging.getLogger(__name__)
 #schema = BikaFolderSchema.copy() + BikaSchema.copy() + Schema((
 schema = (
 
-    StringField('name',
+    StringField('Instrument',
         required=1,
         widget=StringWidget(
             label=_('Title'),
@@ -295,6 +295,22 @@ schema = (
                             description=_("Date until the certificate is valid"),
         ),
     ),
+    fields.One2many('olims.instrument_calibration',
+                                 'Instrument',
+                                 string='Instrument Calibration'\
+    ),
+    fields.One2many('olims.instrument_certification',
+                                 'Instrument',
+                                 string='Instrument Certification'\
+    ),
+    fields.One2many('olims.instrument_validation',
+                                 'Instrument',
+                                 string='Instrument Validation'\
+    ),
+    fields.One2many('olims.multifile',
+                                 'Instrument',
+                                 string='Document'\
+    ),
 
 ) #)
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
@@ -332,6 +348,7 @@ def getCalibrationAgents(context):
 #class Instrument(ATFolder):
 class Instrument(models.Model, BaseOLiMSModel):
     _name = 'olims.instrument'
+    _rec_name = 'Instrument'
     
     _sql_constraints = [
             ('SerialNo', 'unique(SerialNo)', 'The serial number that uniquely identifies the instrument'),

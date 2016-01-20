@@ -125,6 +125,8 @@ schema = (
     fields.Char(string='postal_postalcode'),
     fields.Char(string='postal_address'),
     fields.Selection([('physical', 'PhysicalAddress')],string='postal_copy_from'),
+    fields.Many2one(string='SupplierId',
+                    comodel_name='olims.supplier'),
 )
 
 # schema['JobTitle'].schemata = 'default'
