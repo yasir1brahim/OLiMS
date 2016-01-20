@@ -14,7 +14,7 @@ from lims import bikaMessageFactory as _
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 # schema = BikaSchema.copy() + Schema((
 # ))
-schema = (StringField('name',
+schema = (StringField('Container Type',
         required=1,
         widget=StringWidget(
             label=_('Title'),
@@ -34,6 +34,7 @@ schema = (StringField('name',
 
 class ContainerType(models.Model, BaseOLiMSModel):#(BaseContent):
     _name = 'olims.container_type'
+    _rec_name = 'Container Type'
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 #     security = ClassSecurityInfo()
 #     displayContentsTab = False
