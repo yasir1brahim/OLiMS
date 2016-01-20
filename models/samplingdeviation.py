@@ -24,7 +24,7 @@ _logger = logging.getLogger(__name__)
 #
 # ))
 
-schema = (StringField('name',
+schema = (StringField('Sampling Deviation',
               required=1,
     ),
     TextField('Description',
@@ -39,6 +39,7 @@ schema = (StringField('name',
 
 class SamplingDeviation(models.Model, BaseOLiMSModel): #BaseFolder
     _name = 'olims.sampling_deviation'
+    _rec_name = 'Sampling Deviation'
     # security = ClassSecurityInfo()
     # displayContentsTab = False
     # schema = schema
