@@ -25,7 +25,7 @@ from base_olims_model import BaseOLiMSModel
 from lims.utils import t
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 # schema = BikaSchema.copy() + Schema((
-schema = (StringField('SampleType',
+schema = (StringField('Sample Type',
               required=1,        
     ),
     TextField('Description',
@@ -34,9 +34,9 @@ schema = (StringField('SampleType',
                 description=_('Used in item listings and search results.')),    
     ),
           
-    fields.Char(string='Days', required=True),
-    fields.Char(string='Hours', required=True),
-    fields.Char(string='Minutes', required=True),    
+    fields.Char(string='Days', required=False),
+    fields.Char(string='Hours', required=False),
+    fields.Char(string='Minutes', required=False),    
       
 
     BooleanField('Hazardous',
@@ -71,7 +71,7 @@ schema = (StringField('SampleType',
             description=_("The minimum sample volume required for analysis eg. '10 ml' or '1 kg'."),
         ),
     ),
-    fields.Many2one(string='Container Type',
+    fields.Many2one(string='Default Container',
         comodel_name='olims.container_type',
         required = False,
         help="The default container type. New sample partitions " + \
@@ -125,7 +125,7 @@ schema = (StringField('SampleType',
 
 class SampleType(models.Model, BaseOLiMSModel):#(BaseContent, HistoryAwareMixin):
     _name = 'olims.sample_type'
-    _rec_name = 'SampleType'
+    _rec_name = 'Sample Type'
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 #     implements(ISampleType)
 #     security = ClassSecurityInfo()
