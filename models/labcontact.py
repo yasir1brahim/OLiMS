@@ -78,7 +78,7 @@ schema =  (
             visible = False
         ),
     ),
-    StringField('Email Address',
+    StringField('EmailAddress',
         schemata = 'Email Telephone Fax',
         searchable = 1,
         widget = StringWidget(
