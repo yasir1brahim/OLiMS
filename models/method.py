@@ -34,7 +34,7 @@ from fields.widget.widget import StringWidget, TextAreaWidget, \
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 # schema = BikaSchema.copy() + Schema(
 schema = (
-    StringField('name',
+    StringField('Method',
         required=True,
         widget=StringWidget(
             label=_('Title'),
@@ -198,6 +198,7 @@ schema = (
 
 class Method(models.Model, BaseOLiMSModel):#(BaseFolder):
     _name = 'olims.method'
+    _rec_name = 'Method'
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~      
 #     implements(IMethod)
 #     security = ClassSecurityInfo()
