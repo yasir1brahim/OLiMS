@@ -17,7 +17,7 @@ from fields.widget.widget import TextAreaWidget
 #
 # ))
 #
-schema = (StringField('name',
+schema = (StringField('Sample Condition',
               required=1,
     ),
     TextField('Description',
@@ -32,6 +32,7 @@ schema = (StringField('name',
 
 class SampleCondition(models.Model, BaseOLiMSModel): #BaseFolder
     _name='olims.sample_condition'
+    _rec_name = 'Sample Condition'
     # security = ClassSecurityInfo()
     # displayContentsTab = False
     # schema = schema
