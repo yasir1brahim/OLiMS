@@ -26,7 +26,7 @@ from fields.widget.widget import StringWidget, TextAreaWidget, \
                                 BooleanWidget
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 # schema = BikaSchema.copy() + Schema((
-schema = (StringField('name',
+schema = (StringField('Container',
         required=1,
         widget=StringWidget(
             label=_('Title'),
@@ -39,7 +39,7 @@ schema = (StringField('name',
             description=_('Used in item listings and search results.'),
         ),
     ),
-    fields.Many2one(string='ContainerType',
+    fields.Many2one(string='Container Type',
         required = False,
         comodel_name='olims.container_type',
 #         vocabulary_display_path_bound = sys.maxint,
@@ -71,7 +71,7 @@ schema = (StringField('name',
                 "for sample partitions stored in this container."),
         ),
     ),
-    fields.Many2one(string='Preservation',
+    fields.Many2one(string='Pre-preserved',
         required = False,
         comodel_name='olims.preservation',
         help="If this container is pre-preserved, then the preservation " +\
@@ -96,6 +96,7 @@ schema = (StringField('name',
 
 class Container(models.Model, BaseOLiMSModel):#(BaseContent):
     _name = 'olims.container'
+    _rec_name = 'Container'
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 #     security = ClassSecurityInfo()
 #     displayContentsTab = False
