@@ -47,7 +47,7 @@ schema = (
             label=_("Fax"),
         ),
     ),
-    StringField('EmailAddress',
+    StringField('Email Address',
         schemata = 'Address',
         widget = StringWidget(
             label=_("Email Address"),
@@ -62,7 +62,7 @@ schema = (
     fields.Char(string='physical_city'),
     fields.Char(string='physical_postalcode'),
     fields.Char(string='physical_address'),
-    fields.Selection([('postal', 'PostalAddress'),('billing','BillingAddress')],string='physical_copy_from'),
+    fields.Selection([('postal', 'Postal Address'),('billing','Billing Address')],string='physical_copy_from'),
                  
     # # ~~~~~~~~~~ PostalAddress behavior in Odoo is as selection field ~~~~~~~~~~~
     fields.Many2one(comodel_name='olims.country',string='postal_country'),
@@ -71,7 +71,7 @@ schema = (
     fields.Char(string='postal_city'),
     fields.Char(string='postal_postalcode'),
     fields.Char(string='postal_address'),
-    fields.Selection([('physical', 'PhysicalAddress'),('billing','BillingAddress')],string='postal_copy_from'),
+    fields.Selection([('physical', 'Physical Address'),('billing','Billing Address')],string='postal_copy_from'),
                 
        # # ~~~~~~~~~~ BillingAddress behavior in Odoo is as selection field ~~~~~~~~~~~
     fields.Many2one(comodel_name='olims.country',string='billing_country'),
@@ -80,7 +80,7 @@ schema = (
     fields.Char(string='billing_city'),
     fields.Char(string='billing_postalcode'),
     fields.Char(string='billing_address'),
-    fields.Selection([('physical','PhysicalAddress'),('postal', 'PostalAddress')],string='billing_copy_from'),
+    fields.Selection([('physical','Physical Address'),('postal', 'Postal Address')],string='billing_copy_from'),
                
 # ~~~~~~~~~~ AddressField behavior in Odoo is as selection field ~~~~~~~~~~~
 #     AddressField('PhysicalAddress',
