@@ -121,6 +121,10 @@ schema = (fields.Char(string='RequestID',
                      comodel_name='olims.ar_partition',
                     inverse_name='analysis_request_id',
     ),
+    fields.One2many(string='Sample Partition',
+                     comodel_name='olims.ar_sample_partition',
+                    inverse_name='analysis_request_id',
+    ),
     fields.One2many(string='Analyses',
                      comodel_name='olims.ar_analysis',
                     inverse_name='analysis_request_id',
@@ -947,11 +951,13 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 }
         sample_object = self.env["olims.sample"]
         sample_object.create(vals)
-        partition_values = {'state': res.state,
+        partition_values = {'State': res.state,
                             'analysis_request_id':res.id,
                             'Partition': 'P-0'+ str(res.id)+'-R-0'+str(res.id)
                             }
         ar_partition_object = self.env["olims.ar_partition"]
+        ar_sample_partition_object = self.env["olims.ar_sample_partition"]
+        ar_sample_partition_object.create(partition_values)
         ar_p = ar_partition_object.create(partition_values)
         ar_analysis_object = self.env['olims.ar_analysis']
         for rec in data:

@@ -1351,7 +1351,7 @@
        </record>
 
         <menuitem id="olims_reference_sample_menu" name="Reference Sample" parent="olims_menu" sequence="7"
-                  action="reference_sample_action" groups="olims.group_lab_clerks,olims.group_lab_managers,base.group_system"/>
+                  action="reference_sample_action" groups="olims.group_lab_clerks,olims.group_lab_managers,base.group_system,olims.group_analyst"/>
         <menuitem id="reference_sample_menu" name="Reference Sample" parent="olims_settings_menu" sequence="7"
                   action="reference_sample_action"/>
 
@@ -1743,7 +1743,7 @@
        </record>
 
         <menuitem id="olims_batch_menu" name="Batches" parent="olims_menu" sequence="5"
-                  action="batch_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks"/>
+                  action="batch_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_analyst"/>
         <menuitem id="batch_menu" name="Batches" parent="olims_settings_menu" sequence="5"
                   action="batch_list_action"/>
 
@@ -1795,7 +1795,7 @@
             <field name="priority" eval="1"/>
             <field name="arch" type="xml">
                 <form string="Analysis Request Form" create="false" delete="false">
-                    <!-- <sheet> -->
+                    <sheet>
                         <header>
                             <button string="Sample" name="sample_due" states="to_be_sampled" type="workflow" class="oe_highlight"/>
 
@@ -1810,7 +1810,7 @@
                             <field name="state" widget="statusbar" statusbar_visible="to_be_sampled,sample_received,sample_due" statusbar_colors='{"to_be_sampled":"blue","sample_received":"red","invalid":"red"}'/>
                     </header>
                 <!-- </sheet> -->
-                    <sheet>
+                    
                         <notebook>
                         <page string='View'>
                         <!-- <label for="Client" string="Client" invisible="1"/>
@@ -1877,8 +1877,8 @@
                     <field name="VAT"></field>
                     <label for="Total" string="Total"/>
                     <field name="Total"></field>
-                    <label for="FieldService" string="Field Analysis"/>
-                    <field name="FieldService" options="{'no_create': True}">
+                    <label for="FieldService" string="Field Analysis" attrs="{'invisible': [('id', '!=', False)]}"/>
+                    <field name="FieldService" options="{'no_create': True}" attrs="{'invisible': [('id', '!=', False)]}">
                         <tree editable="bottom">
                             <field name='Category' options="{'no_create': True}"/>
                             <field name="Service" options="{'no_create': True}"/>
@@ -1898,8 +1898,8 @@
                             <field name="Error" placeholder="err&#37;"/>
                         </form>
                     </field>
-                    <label for="LabService" string="Lab Analysis"/>
-                    <field name="LabService" options="{'no_create': True}">
+                    <label for="LabService" string="Lab Analysis" attrs="{'invisible': [('id', '!=', False)]}"/>
+                    <field name="LabService" options="{'no_create': True}" attrs="{'invisible': [('id', '!=', False)]}">
                         <tree editable="bottom">
                             <field name='Category' options="{'no_create': True}"/>
                             <field name="LabService" options="{'no_create': True}"/>
@@ -1920,6 +1920,18 @@
                         </form>
                     </field>
                     <br/><br/>
+                    <label for="Sample Partition" string="Sample Partitions" attrs="{'invisible': [('id', '=', False)]}"/>
+                    <field name="Sample Partition" widget="one2many_list">
+                        <tree editable="bottom" create="false">
+                            <field name="id" invisible="1"/>
+                            <field name="Partition" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="Container" options="{'no_create': True}"/>
+                            <field name="Preservation" options="{'no_create': True}"/>
+                            <field name="Preserver"/>
+                            <field name="Date Preserved"/>
+                            <field name="State" attrs="{'readonly': [('id', '!=', False)]}"/>
+                        </tree>
+                    </field>
                     <label string="QC Analyses" attrs="{'invisible': [('id', '=', False)]}"/><br/><br/>
                     <label for="ResultsInterpretation" string="Results interpretation" attrs="{'invisible': [('id', '=', False)]}"/>
                     <field name="result_option" widget="radio" attrs="{'invisible': [('id', '=', False)]}"/>
@@ -1936,7 +1948,7 @@
                             <field name="Partition" attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="Container" options="{'no_create': True}"/>
                             <field name="Preservation" options="{'no_create': True}"/>
-                            <field name="state" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="State" attrs="{'readonly': [('id', '!=', False)]}"/>
                         </tree>
                     </field>
                     <label for="Analyses" string="Analyses"/>
@@ -2018,7 +2030,7 @@
        </record>
 
         <menuitem id="olims_analysis_request_menu" name="Analysis Request" parent="olims_menu" sequence="4"
-                  action="analysis_request_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers"/>
+                  action="analysis_request_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst"/>
         <menuitem id="analysis_request_menu" name="Analysis Request" parent="olims_settings_menu" sequence="4"
                   action="analysis_request_list_action"/>
 
@@ -2130,7 +2142,7 @@
        </record>
 
         <menuitem id="olims_worksheet_menu" name="Worksheet" parent="olims_menu" sequence="6"
-                  action="worksheet_list_action" groups="olims.group_lab_managers,base.group_system"/>
+                  action="worksheet_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_analyst"/>
         <menuitem id="worksheet_menu" name="Worksheet" parent="olims_settings_menu" sequence="6"
                   action="worksheet_list_action"/>
 
@@ -2365,7 +2377,7 @@
        </record>
 
         <menuitem id="olims_sample_menu" name="Samples" parent="olims_menu" sequence="3"
-                  action="sample_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers"/>
+                  action="sample_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst"/>
         <menuitem id="sample_menu" name="Samples" parent="olims_settings_menu" sequence="3"
                   action="sample_list_action"/>
 
@@ -4070,7 +4082,8 @@
             <field name="groups_id" eval="[(6, 0, [
                 ref('group_clients'),
                 ref('group_lab_clerks'),
-                ref('group_samplers')])]"/>
+                ref('group_samplers'),
+                ref('group_analyst')])]"/>
             <field name="arch" type="xml">
                 <!-- <form string="Client Form" create="false" delete="false"> -->
                         <page name="Default Page" position="attributes">
@@ -4141,7 +4154,7 @@
             <field name="model">olims.client</field>
             <field name="inherit_id" ref="olims_client_form_view"/>
             <field name="groups_id" eval="[(6, 0, [ref('group_lab_clerks'),
-                ref('group_samplers')])]"/>
+                ref('group_samplers'),ref('group_analyst')])]"/>
             <field name="arch" type="xml">
                 <page name="Default Page" position="attributes">
                     <attribute name='invisible'>{'invisible': [('id', '!=', False)]}</attribute>
