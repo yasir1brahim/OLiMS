@@ -67,7 +67,7 @@ schema = (
 #         )
             ),
           
-    StringField('name',
+    StringField('Calculation',
         required=1,
         schemata='Description',
     ),
@@ -116,6 +116,7 @@ schema = (
 
 class Calculation(models.Model, BaseOLiMSModel): #:(BaseFolder, HistoryAwareMixin):
     _name = 'olims.calculation'
+    _rec_name = 'Calculation'
     
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~    
 #     security = ClassSecurityInfo()
