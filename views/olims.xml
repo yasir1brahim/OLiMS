@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <openerp>
     <data>
-    	
     	 
         <!-- top level menu: no parent -->
         <menuitem id="main_olims_menu" name="OLiMS"/>
@@ -14,7 +13,29 @@
 
 		<menuitem id="olims_settings_menu" name="OLiMS Settings"
             parent="base.menu_administration"/>
-
+        <!-- <Analysis Request Tree view with Create button> -->
+        <record model="ir.ui.view" id="olims_analysis_request_tree_view2">
+            <field name="name">analysis_request.tree</field>
+            <field name="model">olims.analysis_request</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <tree string="Analysis Request" delete="false">
+                    <field name="RequestID"></field>
+                    <field name="Sample"></field>
+                    <field name="Batch"></field>
+                    <field name="SubGroup"></field>
+                    <field name="Client"></field>
+                    <field name="create_uid"></field>
+                    <field name="SamplingDate"></field>
+                    <field name="SampleType"></field>
+                    <field name="ClientOrderNumber"></field>
+                    <field name="ClientReference"></field>
+                    <field name="ClientSampleID"></field>
+                    <field name="Priority"></field>
+                    <field name="Sampler"></field>
+                </tree>
+            </field>
+        </record>
         <!-- Home Page with alert Messages -->
         <record model="ir.ui.view" id="olims_message_alert_form_view">
             <field name="name">message_alert.form</field>
@@ -54,11 +75,13 @@
             <field name="model">olims.sampling_deviation</field>
             <field name="arch" type="xml">
                 <form string="Sampling Deviation Form">
-                    <label for="name" string="Title"/>
-                    <field name="name"></field>
+                    <sheet>
+                    <label for="Sampling Deviation" string="Title"/>
+                    <field name="Sampling Deviation"></field>
                     <label for="Description" string="Description"/>
                     <p>Used in item listings and search results.</p>
                     <field name="Description"></field>
+                </sheet>
                 </form>
             </field>
         </record>
@@ -68,7 +91,7 @@
             <field name="model">olims.sampling_deviation</field>
             <field name="arch" type="xml">
                 <tree string="Sampling Deviation">
-                    <field name="name"></field>
+                    <field name="Sampling Deviation"></field>
                     <field name="Description"></field>
                 </tree>
             </field>
@@ -98,11 +121,13 @@
             <field name="model">olims.sample_condition</field>
             <field name="arch" type="xml">
                 <form string="Sample Condition Form">
-                    <label for="name" string="Title"/>
-                    <field name="name"></field>
+                    <sheet>
+                    <label for="Sample Condition" string="Title"/>
+                    <field name="Sample Condition"></field>
                     <label for="Description" string="Description"/>
                     <p>Used in item listings and search results.</p>
                     <field name="Description"></field>
+                </sheet>
                 </form>
             </field>
         </record>
@@ -112,7 +137,7 @@
             <field name="model">olims.sample_condition</field>
             <field name="arch" type="xml">
                 <tree string="Sample Condition">
-                    <field name="name"></field>
+                    <field name="Sample Condition"></field>
                     <field name="Description"></field>
                 </tree>
             </field>
@@ -134,12 +159,14 @@
             <field name="model">olims.invoice</field>
             <field name="arch" type="xml">
                 <form string="Invoice Form" edit="false">
+                    <sheet>
                     <label for="title" string="Title"/>
                     <field name="title"></field>
                     <label for="StartDate" string="Start Date"/>
                     <field name="StartDate"></field>
                     <label for="EndDate" string="End Date"/>
                     <field name="EndDate"></field>
+                </sheet>
                 </form>
             </field>
         </record>
@@ -171,7 +198,7 @@
         <menuitem id="invoice_menu" name="Invoices" parent="olims_settings_menu" sequence="2"
                   action="invoice_action"/>
         <menuitem id="olims_invoice_menu" name="Invoices" parent="olims_menu" sequence="2"
-                  action="invoice_action"/>
+                  action="invoice_action" groups="olims.group_lab_managers,base.group_system"/>
 
         <!-- olims.specification form view -->
         <record model="ir.ui.view" id="olims_specification_form_view">
@@ -211,20 +238,22 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <!-- olims.subgroup form view -->
+       <!-- olims.subgroup form view -->
         <record model="ir.ui.view" id="olims_subgroup_form_view">
             <field name="name">subgroup.form</field>
             <field name="model">olims.subgroup</field>
             <field name="arch" type="xml">
                 <form string="Sub Group Form">
-                    <label for="name" string="Title"/>
-                    <field name="name"></field>
+                    <sheet>
+                    <label for="Sub Group" string="Title"/>
+                    <field name="Sub Group"></field>
                     <label for="Description" string="Description"/>
                     <p>Used in item listings and search results.</p>
                     <field name="Description"></field>
-                    <label for="SortKey" string="Sort Key"/>
+                    <label for="Sort Key" string="Sort Key"/>
                     <p>Subgroups are sorted with this key in group views</p>
-                    <field name="SortKey"></field>                        
+                    <field name="Sort Key"></field> 
+                    </sheet>                      
                 </form>
             </field>
         </record>
@@ -234,9 +263,9 @@
             <field name="model">olims.subgroup</field>
             <field name="arch" type="xml">
                 <tree string="Sub Group">
-                    <field name="name"></field>
+                    <field name="Sub Group"></field>
                     <field name="Description"></field>
-                    <field name="SortKey"></field> 
+                    <field name="Sort Key"></field>
                 </tree>
             </field>
         </record>
@@ -248,45 +277,7 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="attachment_type_menu" name="Sub-groups" parent="olims_settings_menu" sequence="39"
-                  action="subgroup_action"/>
-        
-        <!-- olims.subgroup form view -->
-        <record model="ir.ui.view" id="olims_subgroup_form_view">
-            <field name="name">subgroup.form</field>
-            <field name="model">olims.subgroup</field>
-            <field name="arch" type="xml">
-                <form string="Sub Group Form">
-                    <label for="name" string="Title"/>
-                    <field name="name"></field>
-                    <label for="Description" string="Description"/>
-                    <field name="Description"></field>
-                    <label for="SortKey" string="Sort Key"/>
-                    <field name="SortKey"></field>                        
-                </form>
-            </field>
-        </record>
-
-        <record model="ir.ui.view" id="olims_subgroup_tree_view">
-            <field name="name">subgroup.tree</field>
-            <field name="model">olims.subgroup</field>
-            <field name="arch" type="xml">
-                <tree string="Sub Group">
-                    <field name="name"></field>
-                    <field name="Description"></field>
-                    <field name="SortKey"></field>
-                </tree>
-            </field>
-        </record>
-
-		<record model="ir.actions.act_window" id="subgroup_action">
-            <field name="name">Sub Group</field>
-            <field name="res_model">olims.subgroup</field>
-            <field name="view_type">form</field>
-			<field name="view_mode">tree,form</field>
-       </record>
-
-        <menuitem id="olims_subgroup_menu" name="Sub Groups" parent="olims_settings_menu" sequence="41"
+        <menuitem id="olims_subgroup_menu" name="Sub Groups" parent="olims_settings_menu" sequence="40"
                   action="subgroup_action"/>
         
         <!-- olims.inherit_form_batch form view -->
@@ -330,11 +321,13 @@
             <field name="model">olims.attachment_type</field>
             <field name="arch" type="xml">
                 <form string="Attachment Type Form">
-                    <label for="name" string="Title"/>
-                    <field name="name"></field>
+                    <sheet>
+                    <label for="attachment type" string="Title"/>
+                    <field name="attachment type"></field>
                     <label for="Description" string="Description"/>
                     <p>Used in item listings and search results.</p>
-                    <field name="Description"></field>                        
+                    <field name="Description"></field>
+                    </sheet>                       
                 </form>
             </field>
         </record>
@@ -344,7 +337,7 @@
             <field name="model">olims.attachment_type</field>
             <field name="arch" type="xml">
                 <tree string="Attachment Type">
-                    <field name="name"></field>
+                    <field name="attachment type"></field>
                     <field name="Description"></field>
                 </tree>
             </field>
@@ -405,8 +398,10 @@
             <field name="model">olims.batch_label</field>
             <field name="arch" type="xml">
                 <form string="Batch Label field Form">
-                    <label for="name" string="Batch Label"/>
-                    <field name="name"></field>                        
+                    <sheet>
+                    <label for="Label" string="Batch Label"/>
+                    <field name="Label"></field>
+                    </sheet>                     
                 </form>
             </field>
         </record>
@@ -416,7 +411,7 @@
             <field name="model">olims.batch_label</field>
             <field name="arch" type="xml">
                 <tree string="Batch Label">
-                    <field name="name"></field>
+                    <field name="Label"></field>
                 </tree>
             </field>
         </record>
@@ -807,17 +802,18 @@
             <field name="model">olims.ar_priority</field>
             <field name="arch" type="xml">
                 <form string="AP Priority Form">
-                    <label for="name" string="Title"/>
-                	<field name="name"></field>
+                    <sheet>
+                    <label for="Priority" string="Title"/>
+                	<field name="Priority"></field>
                 	<label for="Description" string="Description"/>
                     <p>Used in item listings and search results.</p>
                 	<field name="Description"></field>
-                    <label for="sortKey" string="SortKey"/>
+                    <label for="Sort Key" string="Sort Key"/>
                     <p>Numeric value indicating the sort order of objects that are prioritised</p>
-                    <field name="sortKey"></field>                     
-                    <label for="pricePremium" string="pricePremium"/>
+                    <field name="Sort Key"></field>                     
+                    <label for="Premium" string="Price Premium Percentage"/>
                     <p>The percentage used to calculate the price for analyses done at this priority</p>
-                    <field name="pricePremium"></field>
+                    <field name="Premium"></field>
                     <label for="smallIcon" string="Small Icon"/>
                     <p>16x16 pixel icon used for the this priority in listings.</p>
                     <field name="smallIcon" widget='image'></field>
@@ -826,12 +822,13 @@
                     <p>32x32 pixel icon used for the this priority in object views.</p>
                     <field name="bigIcon" widget='image'></field>
                     <br/>
-                    <field name="isDefault"></field>
-                    <label for="isDefault" string="isDefault"/>
+                    <field name="Default"></field>
+                    <label for="Default" string="Default Priority ?"/>
                     <p>Check this box if this is the default priority</p>
                     <label for="ChangeNote" string="Change Note"/>
                     <p>Enter a comment that describes the changes you made.</p>
                 	<field name="ChangeNote"></field>
+                </sheet>
                 </form>
             </field>
         </record>
@@ -841,12 +838,10 @@
             <field name="model">olims.ar_priority</field>
             <field name="arch" type="xml">
                 <tree string="AR Priority">
-                	<field name="name"></field>
-                	<field name="Description"></field>
-                    <field name="sortKey"></field>                     
-                    <field name="pricePremium"></field>
-                    <field name="isDefault"></field>
-                    <field name="ChangeNote"></field>
+                	<field name="Priority"></field>
+                    <field name="Sort Key"></field>                     
+                    <field name="Premium"></field>
+                    <field name="Default"></field>
                 </tree>
             </field>
         </record>
@@ -1124,6 +1119,7 @@
             <field name="model">olims.ar_import</field>
             <field name="arch" type="xml">
                 <form string="AR Import Form">
+                    <sheet>
                     <header>
                         <button string="Submit" name="submit" type="workflow" states="imported"/>
 
@@ -1184,7 +1180,7 @@
                     
                     <label for="Priority" string="Priority"/>
                     <field name="Priority"></field>
-
+                </sheet>
                 </form>
             </field>
         </record>
@@ -1252,8 +1248,8 @@
                         <page string='Description'>
                             <label for="Title" string="Title"/>
                             <field name="Title"></field>
-                            <label for="Supplier" string="Supplier"/>
-                            <field name="Supplier" options="{'no_create_edit': True}"></field>
+                            <!-- <label for="Supplier" string="Supplier"/>
+                            <field name="Supplier" options="{'no_create_edit': True}"></field> -->
                             <label for="Reference Definition" string="Reference Definition"/>
                             <field name="Reference Definition" options="{'no_create_edit': True}"></field>
                             <field name="Blank"></field>
@@ -1263,7 +1259,7 @@
                             <label for="Hazardous" string="Hazardous"/>
                             <p>Samples of this type should be treated as hazardous</p>
                             <label for="Manufacturer" string="Manufacturer"/>
-                            <field name="Manufacturer"></field>
+                            <field name="Manufacturer" options="{'no_create_edit': True}"></field>
                             <label for="CatalogueNumber" string="Catalogue Number"/>
                             <field name="CatalogueNumber"></field>
                             <label for="LotNumber" string="Lot Number"/>
@@ -1307,8 +1303,9 @@
         <record model="ir.ui.view" id="olims_reference_sample_tree_view">
             <field name="name">reference_sample.tree</field>
             <field name="model">olims.reference_sample</field>
+            <field name="priority" eval="1"/>
             <field name="arch" type="xml">
-                <tree string="Reference Sample Template">
+                <tree string="Reference Sample Template" delete="false">
                     <field name="ID"></field>
                     <field name="Title"></field>
                     <field name="Manufacturer"></field>
@@ -1327,57 +1324,36 @@
                 </tree>
             </field>
         </record>
+        <record model="ir.ui.view" id="olims_reference_sample_tree_view2">
+            <field name="name">reference_sample.tree</field>
+            <field name="model">olims.reference_sample</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <tree string="Reference Sample Template" create="false" delete="false">
+                    <field name="ID"></field>
+                    <field name="Title"></field>
+                    <field name="Manufacturer"></field>
+                    <field name="Reference Definition"></field>
+                    <field name="Date Sampled"></field>
+                    <field name="Date Received"></field>
+                    <field name="Date Opened"></field>
+                    <field name="Expiry Date"></field>
+                </tree>
+            </field>
+        </record>
 
 		<record model="ir.actions.act_window" id="reference_sample_action">
             <field name="name">Reference Sample</field>
             <field name="res_model">olims.reference_sample</field>
             <field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
+            <field name="view_id" ref="olims_reference_sample_tree_view2"/>
        </record>
 
         <menuitem id="olims_reference_sample_menu" name="Reference Sample" parent="olims_menu" sequence="7"
-                  action="reference_sample_action"/>
+                  action="reference_sample_action" groups="olims.group_lab_clerks,olims.group_lab_managers,base.group_system"/>
         <menuitem id="reference_sample_menu" name="Reference Sample" parent="olims_settings_menu" sequence="7"
                   action="reference_sample_action"/>
-
-
-        <!-- report form view -->
-        <record model="ir.ui.view" id="olims_report_form_view">
-            <field name="name">report.form</field>
-            <field name="model">olims.report</field>
-            <field name="arch" type="xml">
-                <form string="Report Form">
-                    <label for="ReportFile" string="ReportFile"/>
-                    <field name="ReportFile"></field>
-                    <label for="ReportType" string="ReportType"/>
-                    <field name="ReportType"></field>
-                    <label for="Client" string="Client"/>
-                    <field name="Client"></field>
-                </form>
-            </field>
-        </record>
-
-        <record model="ir.ui.view" id="olims_report_tree_view">
-            <field name="name">report.tree</field>
-            <field name="model">olims.report</field>
-            <field name="arch" type="xml">
-                <tree string="Report Template">
-                    <field name="ReportFile"></field>
-                    <field name="ReportType"></field>
-                    <field name="Client"></field>
-                </tree>
-            </field>
-        </record>
-
-		<record model="ir.actions.act_window" id="report_action">
-            <field name="name">Report</field>
-            <field name="res_model">olims.report</field>
-            <field name="view_type">form</field>
-			<field name="view_mode">tree,form</field>
-       </record>
-
-        <menuitem id="report_menu" name="Report" parent="olims_settings_menu" sequence="42"
-                  action="report_action"/>
 
 
         <!--reference_definition form view -->
@@ -1539,8 +1515,9 @@
             <field name="model">olims.price_list</field>
             <field name="arch" type="xml">
                 <form string="Price List Form">
-                    <label for="name" string="Title"/>
-                    <field name="name"></field>
+                    <sheet>
+                    <label for="Title" string="Title"/>
+                    <field name="Title"></field>
                     <label for="EffectiveDate" string="Publication Date"/>
                     <p>The date when the item will be published. If no date is selected the item will be published immediately.</p>
                     <field name="EffectiveDate"></field>
@@ -1557,6 +1534,7 @@
                     <field name="Descriptions"></field>
                     <label for="Descriptions" string="Include descriptions"/>
                     <p>Select if the descriptions should be included</p>
+                </sheet>
                 </form>
             </field>
         </record>
@@ -1566,7 +1544,7 @@
             <field name="model">olims.price_list</field>
             <field name="arch" type="xml">
                 <tree string="Price List Template">
-                    <field name="name"></field>
+                    <field name="Title"></field>
                     <field name="EffectiveDate"></field>
                     <field name="ExpirationDate"></field>
                     <field name="Type"></field>
@@ -1718,8 +1696,8 @@
                     <sheet>
                     <label for="ClientBatchID" string="Client Batch ID"/>
                     <field name="ClientBatchID"></field>
-                    <label for="name" string="Title"/>
-                    <field name="name"></field>
+                    <label for="Title" string="Title"/>
+                    <field name="Title"></field>
                     <label for="Client" string="Client"/>
                     <field name="Client" options="{'no_create': True}"></field>
                     <label for="BatchDate" string="Batch Date"/>
@@ -1748,7 +1726,7 @@
             <field name="arch" type="xml">
                 <tree string="Batch Template">
                     <!-- <field name="ClientBatchID"></field> -->
-                    <field name="name"></field>
+                    <field name="Title"></field>
                     <field name="BatchId"></field>
                     <field name="BatchDate"></field>
                     <field name="Description"></field>
@@ -1765,7 +1743,7 @@
        </record>
 
         <menuitem id="olims_batch_menu" name="Batches" parent="olims_menu" sequence="5"
-                  action="batch_list_action"/>
+                  action="batch_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks"/>
         <menuitem id="batch_menu" name="Batches" parent="olims_settings_menu" sequence="5"
                   action="batch_list_action"/>
 
@@ -1814,8 +1792,9 @@
         <record model="ir.ui.view" id="olims_analysis_request_form_view">
             <field name="name">analysis_request.form</field>
             <field name="model">olims.analysis_request</field>
+            <field name="priority" eval="1"/>
             <field name="arch" type="xml">
-                <form string="Analysis Request Form">
+                <form string="Analysis Request Form" create="false" delete="false">
                     <!-- <sheet> -->
                         <header>
                             <button string="Sample" name="sample_due" states="to_be_sampled" type="workflow" class="oe_highlight"/>
@@ -1832,8 +1811,10 @@
                     </header>
                 <!-- </sheet> -->
                     <sheet>
-                        <label for="Client" string="Client"/>
-                        <field name="Client" options="{'no_create': True}"></field>
+                        <notebook>
+                        <page string='View'>
+                        <!-- <label for="Client" string="Client" invisible="1"/>
+                        <field name="Client" options="{'no_create': True}" invisible="1"></field> -->
                     <label for="Contact" string="Contact"/>
                 	<field name="Contact" options="{'no_create': True}"></field>
                 	<label for="CCContact" string="CC Contact"/>
@@ -1938,16 +1919,60 @@
                             <field name="Error" placeholder="err&#37;"/>
                         </form>
                     </field>
+                    <br/><br/>
+                    <label string="QC Analyses" attrs="{'invisible': [('id', '=', False)]}"/><br/><br/>
+                    <label for="ResultsInterpretation" string="Results interpretation" attrs="{'invisible': [('id', '=', False)]}"/>
+                    <field name="result_option" widget="radio" attrs="{'invisible': [('id', '=', False)]}"/>
+                    <field name="ResultsInterpretation" attrs="{'invisible': [('id', '=', False)]}" widget="html"/>
+                    <label for="Remarks" string="Remarks" attrs="{'invisible': [('id', '=', False)]}"/>
+                    <field name="Remarks" attrs="{'invisible': [('id', '=', False)]}"/>
+                </page>
+                <page string="Manage Analyses" attrs="{'invisible': [('id', '=', False)]}">
+                    <field name="id" invisible="1"/>
+                    <label for="Partition" string="Sample Partitions"/>
+                    <field name="Partition" widget="one2many_list">
+                        <tree editable="bottom" create="false">
+                            <field name="id" invisible="1"/>
+                            <field name="Partition" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="Container" options="{'no_create': True}"/>
+                            <field name="Preservation" options="{'no_create': True}"/>
+                            <field name="state" attrs="{'readonly': [('id', '!=', False)]}"/>
+                        </tree>
+                    </field>
+                    <label for="Analyses" string="Analyses"/>
+                    <field name="Analyses" widget="one2many_list">
+                        <tree editable="bottom">
+                            <field name="id" invisible="1"/>
+                            <field name="Category" options="{'no_create': True}" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="Services" options="{'no_create': True}" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="Price" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="Hidden"/>
+                            <field name="Priority" options="{'no_create': True}" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="Partition" options="{'no_create': True}"/>
+                            <field name="Min"/>
+                            <field name="Max"/>
+                            <field name="Error"/>
+                        </tree>
+                    </field>
+                    <label for="Remarks" string="Remarks"/>
+                    <field name="Remarks"/>
+                </page>
+                <page string="Published Results" attrs="{'invisible': [('id', '=', False)]}">
+                    <label for="Remarks" string="Remarks"/>
+                    <field name="Remarks"/>
+                </page>
+            </notebook>
                 </sheet>
                 </form>
             </field>
         </record>
-
+        <!-- <Analysis Request Tree view without Create button> -->
         <record model="ir.ui.view" id="olims_analysis_request_tree_view">
             <field name="name">analysis_request.tree</field>
             <field name="model">olims.analysis_request</field>
+            <field name="priority" eval="2"/>
             <field name="arch" type="xml">
-                <tree string="Analysis Request Template">
+                <tree string="Analysis Request" create="false" delete="false">
                     <field name="RequestID"></field>
                     <!-- <field name="Contact"></field>
                 	<field name="CCContact"></field>
@@ -1989,10 +2014,11 @@
             <field name="res_model">olims.analysis_request</field>
             <field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
+            <field name="view_id" ref="olims_analysis_request_tree_view"/>
        </record>
 
         <menuitem id="olims_analysis_request_menu" name="Analysis Request" parent="olims_menu" sequence="4"
-                  action="analysis_request_list_action"/>
+                  action="analysis_request_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks"/>
         <menuitem id="analysis_request_menu" name="Analysis Request" parent="olims_settings_menu" sequence="4"
                   action="analysis_request_list_action"/>
 
@@ -2054,7 +2080,7 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="worksheet_template_menu" name="Worksheet Templates" parent="olims_settings_menu" sequence="43"
+        <menuitem id="worksheet_template_menu" name="Worksheet Templates" parent="olims_settings_menu" sequence="41"
                   action="worksheet_template_list_action"/>
 
 
@@ -2065,6 +2091,7 @@
             <field name="model">olims.worksheet</field>
             <field name="arch" type="xml">
                 <form string="Worksheet Form">
+                    <sheet>
                     <header>
                         <field name="State" widget="statusbar" statusbar_visible="open,attachment_due,to_be_verified,verified,rejected" statusbar_colors='{"open":"blue","to_be_verified":"blue","rejected":"red"}'/>
                     </header>
@@ -2076,6 +2103,7 @@
                         <label for="Instrument" string="Select Instrument"/>
                         <field name="Instrument" options="{'no_create': True}" nolabel='1'></field>
                     </group>
+                    </sheet>
                 </form>
             </field>
         </record>
@@ -2102,7 +2130,7 @@
        </record>
 
         <menuitem id="olims_worksheet_menu" name="Worksheet" parent="olims_menu" sequence="6"
-                  action="worksheet_list_action"/>
+                  action="worksheet_list_action" groups="olims.group_lab_managers,base.group_system"/>
         <menuitem id="worksheet_menu" name="Worksheet" parent="olims_settings_menu" sequence="6"
                   action="worksheet_list_action"/>
 
@@ -2111,14 +2139,17 @@
             <field name="name">sr_template.form</field>
             <field name="model">olims.sr_template</field>
             <field name="arch" type="xml">
-                <form string="SR Template Form">
+                <form string="Sampling Round Templates">
+                    <sheet>
                     <notebook>
                         <page string="Default">
-                            <label for="name" string="Title"/>
-                            <field name="name"></field>
+                            <label for="Template" string="Title"/>
+                            <field name="Template"></field>
                             <label for="Description" string="Description"/>
                             <p>Used in item listings and search results.</p>
                             <field name="Description"></field>
+                            <label for="Sampler" string="Sampler"/>
+                            <field name="Sampler" options="{'no_create': True}"></field>
                             <label for="Department" string="Department"/>
                             <p>The laboratory department</p>
                             <field name="Department" options="{'no_create': True}"></field>
@@ -2134,6 +2165,7 @@
                             <field name="ARTemplates" widget="many2many_checkboxes" options="{'no_create': True}"></field>
                         </page>
                     </notebook>
+                </sheet>
                 </form>
             </field>
         </record>
@@ -2142,19 +2174,15 @@
             <field name="name">sr_template.tree</field>
             <field name="model">olims.sr_template</field>
             <field name="arch" type="xml">
-                <tree string="SR Template">
-                    <field name="name"></field>
+                <tree string="Sampling Round Templates">
+                    <field name="Template"></field>
                     <field name="Description"></field>
-                    <field name="Department"></field>
-                    <!--<field name="Sampling Frequency"></field>
-                    <field name="Instructions"></field>-->
-                    <field name="ARTemplates"></field>
                 </tree>
             </field>
         </record>
 
 		<record model="ir.actions.act_window" id="sr_template_list_action">
-            <field name="name">SR template</field>
+            <field name="name">Sampling Round Templates</field>
             <field name="res_model">olims.sr_template</field>
             <field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
@@ -2169,42 +2197,43 @@
             <field name="model">olims.storage_location</field>
             <field name="arch" type="xml">
                 <form string="Storage Location Form">
-                    <label for="name" string="Address"/>
-                    <field name="name"></field>
+                    <sheet>
+                    <label for="Storage Location" string="Address"/>
+                    <field name="Storage Location"></field>
                     <label for="Description" string="Description"/>
                     <p>Used in item listings and search results.</p>
                     <field name="Description"></field>
-                    <label for="SiteTitle" string="Site Title"/>
+                    <label for="Site Title" string="Site Title"/>
                     <p>Title of the site</p>
-                	<field name="SiteTitle"></field>
-                	<label for="SiteCode" string="Site Code"/>
+                	<field name="Site Title"></field>
+                	<label for="Site Code" string="Site Code"/>
                     <p>Code for the site</p>
-                    <field name="SiteCode"></field>
+                    <field name="Site Code"></field>
                     <label for="SiteDescription" string="Site Description"/>
                     <p>Description of the site</p>
                 	<field name="SiteDescription"></field>
-                    <label for="LocationTitle" string="Location Title"/>
+                    <label for="Location Title" string="Location Title"/>
                     <p>Title of location</p>
-                	<field name="LocationTitle"></field>
-                    <label for="LocationCode" string="Location Code"/>
+                	<field name="Location Title"></field>
+                    <label for="Location Code" string="Location Code"/>
                     <p>Code for the location</p>
-                	<field name="LocationCode"></field>
+                	<field name="Location Code"></field>
                     <label for="LocationDescription" string="Location Description"/>
                     <p>Description of the location</p>
                 	<field name="LocationDescription"></field>
                     <label for="LocationType" string="Location Type"/>
                     <p>Type of location</p>
                 	<field name="LocationType"></field>
-                    <label for="ShelfTitle" string="Shelf Title"/>
+                    <label for="Shelf Title" string="Shelf Title"/>
                     <p>Title of the shelf</p>
-                	<field name="ShelfTitle"></field>
-                    <label for="ShelfCode" string="Shelf Code"/>
+                	<field name="Shelf Title"></field>
+                    <label for="Shelf Code" string="Shelf Code"/>
                     <p>Code the the shelf</p>
-                	<field name="ShelfCode"></field>
+                	<field name="Shelf Code"></field>
                     <label for="ShelfDescription" string="Shelf Description"/>
                     <p>Description of the shelf</p>
                 	<field name="ShelfDescription"></field>
-
+                </sheet>
                 </form>
             </field>
         </record>
@@ -2214,15 +2243,15 @@
             <field name="model">olims.storage_location</field>
             <field name="arch" type="xml">
                 <tree string="Storage Location">
-                    <field name="name"></field>
+                    <field name="Storage Location"></field>
                     <field name="Description"></field>
-                	<field name="SiteTitle"></field>
-                    <field name="SiteCode"></field>
-                	<field name="LocationTitle"></field>
-                	<field name="LocationCode"></field>
-                	<field name="LocationType"></field>
-                	<field name="ShelfTitle"></field>
-                	<field name="ShelfCode"></field>
+                	<field name="Site Title"></field>
+                    <field name="Site Code"></field>
+                	<field name="Location Title"></field>
+                	<field name="Location Code"></field>
+                	<!-- <field name="LocationType"></field> -->
+                	<field name="Shelf Title"></field>
+                	<field name="Shelf Code"></field>
                 </tree>
             </field>
         </record>
@@ -2304,6 +2333,7 @@
             <field name="arch" type="xml">
                 <tree string="Sample" create="false">
                     <field name="SampleID"></field>
+                    <field name="Client"></field>
                     <field name="create_uid"></field>
                     <field name="ClientReference"></field>
                 	<field name="ClientSampleID"></field>
@@ -2335,7 +2365,7 @@
        </record>
 
         <menuitem id="olims_sample_menu" name="Samples" parent="olims_menu" sequence="3"
-                  action="sample_list_action"/>
+                  action="sample_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks"/>
         <menuitem id="sample_menu" name="Samples" parent="olims_settings_menu" sequence="3"
                   action="sample_list_action"/>
 
@@ -2403,11 +2433,16 @@
                 <form string="Multifile Form">
                     <label for="DocumentID" string="Document ID"/>
                 	<field name="DocumentID"></field>
+                    <label for="File" string="Document"/>
+                    <p>File upload</p>
+                    <field name="File"></field>
                 	<label for="DocumentVersion" string="Document Version"/>
                     <field name="DocumentVersion"></field>
                     <label for="DocumentLocation" string="Document Location"/>
+                    <p>Location where the document set is shelved</p>
                 	<field name="DocumentLocation"></field>
                     <label for="DocumentType" string="DocumentType"/>
+                    <p>Type of document (e.g. user manual, instrument specifications, image, ...)</p>
                 	<field name="DocumentType"></field>
                 </form>
             </field>
@@ -2422,6 +2457,7 @@
                     <field name="DocumentVersion"></field>
                 	<field name="DocumentLocation"></field>
                 	<field name="DocumentType"></field>
+                    <field name="File"></field>
                 </tree>
             </field>
         </record>
@@ -2443,6 +2479,7 @@
             <field name="model">olims.lab_product</field>
             <field name="arch" type="xml">
                 <form string="Lab Product Form">
+                    <sheet>
                     <label for="Title" string="Title"/>
                     <field name="Title"></field>
                     <label for="Description" string="Description"/>
@@ -2461,6 +2498,7 @@
                     <field name="VATAmount"></field>
                     <label for="TotalPrice" string="Total Price"/>
                     <field name="TotalPrice"></field>-->
+                </sheet>
                 </form>
             </field>
         </record>
@@ -2473,8 +2511,8 @@
                     <field name="Title"></field>
                 	<field name="Volume"></field>
                     <field name="Unit"></field>
+                    <field name="Price"></field>
                 	<field name="VAT"></field>
-                	<field name="Price"></field>
                     <field name="TotalPrice"></field>
                     <!--<field name="VATAmount"></field>-->
                 </tree>
@@ -2498,10 +2536,11 @@
             <field name="model">olims.instrument_validation</field>
             <field name="arch" type="xml">
                 <form string="instrument Validation Form">
+                    <field name="id" invisible="1"></field>
                     <label for="AssetNumber" string="Asset Number"/>
                     <field name="AssetNumber"></field>
-                    <label for="Instrument" string="Instruments"/>
-                    <field name="Instrument" options="{'no_create': True}"></field>
+                    <!-- <label for="Instrument" string="Instruments"/>
+                    <field name="Instrument" options="{'no_create': True}"></field> -->
                     <label for="DateIssued" string="Report Date"/>
                     <p>Validation report date</p>
                 	<field name="DateIssued"></field>
@@ -2560,8 +2599,8 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="instrument_validation_menu" name="Instrument Validations" parent="olims_settings_menu"
-            sequence="44" action="instrument_validation_list_action"/>
+        <!-- <menuitem id="instrument_validation_menu" name="Instrument Validations" parent="olims_settings_menu"
+            sequence="44" action="instrument_validation_list_action"/> -->
 
         <!--instrument_maintenance_task form view -->
         <record model="ir.ui.view" id="olims_instrument_scheduled_task_form_view">
@@ -2670,8 +2709,8 @@
                 <form string="Instrument Certification Form">
                     <label for="Certificate Code" string="Certificate Code"/>
                     <field name="Certificate Code"></field>
-                    <label for="Instrument" string="Instrument"/>
-                    <field name="Instrument" options="{'no_create': True}"></field>
+                    <!-- <label for="Instrument" string="Instrument"/>
+                    <field name="Instrument" options="{'no_create': True}"></field> -->
                     <field name="Internal"></field>
                     <label for="Internal" string="Internal Certificate"/>
                     <p>Select if is an in-house calibration certificate</p>
@@ -2726,8 +2765,8 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="instrument_certification_menu" name="Instrument Certifications" parent="olims_settings_menu"
-            sequence="45" action="instrument_certification_list_action"/>
+        <!-- <menuitem id="instrument_certification_menu" name="Instrument Certifications" parent="olims_settings_menu"
+            sequence="45" action="instrument_certification_list_action"/> -->
 
 
 
@@ -2739,8 +2778,8 @@
                 <form string="Instrument Calibration Form">
                     <label for="AssetNumber" string="Asset Number"/>
                     <field name="AssetNumber"></field>
-                    <label for="Instrument" string="Instruments"/>
-                    <field name="Instrument" options="{'no_create': True}"></field>
+                    <!-- <label for="Instrument" string="Instruments"/>
+                    <field name="Instrument" options="{'no_create': True}"></field> -->
                     <label for="DateIssued" string="Report Date"/>
                     <p>Calibration report date</p>
                     <field name="DateIssued"></field>
@@ -2799,8 +2838,8 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="instrument_calibration_menu" name="Instrument Calibrations" parent="olims_settings_menu"
-            sequence="46" action="instrument_calibration_list_action"/>
+       <!--  <menuitem id="instrument_calibration_menu" name="Instrument Calibrations" parent="olims_settings_menu"
+            sequence="46" action="instrument_calibration_list_action"/> -->
 
         <!--organisation form view -->
         <record model="ir.ui.view" id="olims_organisation_form_view">
@@ -3007,6 +3046,7 @@
             <field name="model">olims.supplier_contact</field>
             <field name="arch" type="xml">
                 <form string="Supplier Contact Form">
+                    <sheet>
                     <notebook>
                         <page string="Default">
                             <label for="Salutation" string="Salutation"/>
@@ -3082,6 +3122,7 @@
                             <field name="Fullname"></field> -->
                         </page>
                     </notebook>
+                </sheet>
                 </form>
             </field>
         </record>
@@ -3115,8 +3156,8 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="supplier_contact_menu" name="Supplier Contact" parent="olims_settings_menu"
-            sequence="47" action="supplier_contact_list_action"/>
+        <!-- <menuitem id="supplier_contact_menu" name="Supplier Contact" parent="olims_settings_menu"
+            sequence="47" action="supplier_contact_list_action"/> -->
 
                         <!--supply_order form view -->
         <record model="ir.ui.view" id="olims_supply_order_form_view">
@@ -3124,13 +3165,14 @@
             <field name="model">olims.supply_order</field>
             <field name="arch" type="xml">
                 <form string="Supply Order Form">
+                    <sheet>
                     <header>
                         <button string="Dispatch order" name="dispatch" type="workflow" states="pending"/>
                         <button string="Print" class="btn btn-sm btn-primary oe_edit" name="print_order" type="object"/>
                         <field name="state" widget="statusbar" statusbar_visible="pending,dispatched" statusbar_colors='{"pending":"blue","dispatched":"blue"}'></field>
                     </header>
-                    <label for="Client" string="Client"/>
-                    <field name="Client" options="{'no_create': True}"></field>
+                    <!-- <label for="Client" string="Client"/> -->
+                    <!-- <field name="Client" options="{'no_create': True}"></field> -->
                     <label for="OrderDate" string="Order Date"/>
                     <field name="OrderDate"></field>
                     <label for="Contact" string="Contact"/>
@@ -3154,7 +3196,7 @@
                     <field name="VAT"></field>
                     <label for="Total" string="Total"/>
                     <field name="Total"></field>
-
+                </sheet>
                     </form>
             </field>
         </record>
@@ -3179,7 +3221,7 @@
        </record>
 
         <menuitem id="olims_supply_order_menu" name="Supply Orders" parent="olims_menu" sequence="10"
-                  action="supply_order_list_action"/>
+                  action="supply_order_list_action" groups="olims.group_lab_managers,base.group_system"/>
         <menuitem id="supply_order_menu" name="Supply Orders" parent="olims_settings_menu" sequence="10"
                   action="supply_order_list_action"/>
 
@@ -3190,10 +3232,11 @@
             <field name="model">olims.supplier</field>
             <field name="arch" type="xml">
                 <form string="Supplier Form">
+                    <sheet>
                     <notebook>
-                        <page string='Default'>
-                            <label for="name" string="Name"/>
-		                	<field name="name"></field>
+                        <page string='Default' class="oe_edit_only">
+                            <label for="Name" string="Name"/>
+		                	<field name="Name"></field>
 		                    <label for="TaxNumber" string="VAT number"/>
 		                    <field name="TaxNumber"></field>
 		                    <label for="Phone" string="Phone"/>
@@ -3203,9 +3246,9 @@
 		                    <label for="Website" string="Website"/>
 	                    	<field name="Website"></field>
                         </page>
-                        <page string='Address'>
-                            <label for="EmailAddress" string="Email"/>
-		                	<field name="EmailAddress"></field>
+                        <page string='Address' class="oe_edit_only">
+                            <label for="Email Address" string="Email"/>
+		                	<field name="Email Address"></field>
 		                    <group col='4' string='Physical Address'>
 		                        <group col='2'>
 				                    <label for='physical_country' string='Country'/>
@@ -3214,15 +3257,15 @@
 				                    <field name="physical_state" nolabel='1'></field>
 				                    <label for='physical_district' string='District'/>
 				                    <field name="physical_district" nolabel='1'></field>
-				                    <label for='physical_city' string='city'/>
+				                    <label for='physical_city' string='City'/>
 				                    <field name="physical_city" nolabel='1'></field>
-				                    <label for='physical_postalcode' string='code'/>
+				                    <label for='physical_postalcode' string='Code'/>
 				                    <field name="physical_postalcode" nolabel='1'></field>
 				                    <label for='physical_address' string='Address'/>
 				                    <field name="physical_address" nolabel='1'></field>
 				                </group>
 			                    <group col='2' class="oe_edit_only">
-			                        <label for='physical_copy_from' string='Copy From'/>
+			                        <label for='physical_copy_from' string='Copy from'/>
 				                    <field name="physical_copy_from" nolabel='1'></field>
 			                    </group>
 		                    </group>
@@ -3234,15 +3277,15 @@
 				                    <field name="postal_state" nolabel='1'></field>
 				                    <label for='postal_district' string='District'/>
 				                    <field name="postal_district" nolabel='1'></field>
-				                    <label for='postal_city' string='city'/>
+				                    <label for='postal_city' string='City'/>
 				                    <field name="postal_city" nolabel='1'></field>
-				                    <label for='postal_postalcode' string='code'/>
+				                    <label for='postal_postalcode' string='Code'/>
 				                    <field name="postal_postalcode" nolabel='1'></field>
 				                    <label for='postal_address' string='Address'/>
 				                    <field name="postal_address" nolabel='1'></field>
 				                </group>
 			                    <group col='2' class="oe_edit_only">
-			                        <label for='postal_copy_from' string='Copy From'/>
+			                        <label for='postal_copy_from' string='Copy from'/>
 				                    <field name="postal_copy_from" nolabel='1'></field>
 			                    </group>
 		                    </group>
@@ -3254,20 +3297,20 @@
 				                    <field name="billing_state" nolabel='1'></field>
 				                    <label for='billing_district' string='District'/>
 				                    <field name="billing_district" nolabel='1'></field>
-				                    <label for='billing_city' string='city'/>
+				                    <label for='billing_city' string='City'/>
 				                    <field name="billing_city" nolabel='1'></field>
-				                    <label for='billing_postalcode' string='code'/>
+				                    <label for='billing_postalcode' string='Code'/>
 				                    <field name="billing_postalcode" nolabel='1'></field>
 				                    <label for='billing_address' string='Address'/>
 				                    <field name="billing_address" nolabel='1'></field>
 				                </group>
 			                    <group col='2' class="oe_edit_only">
-			                        <label for='billing_copy_from' string='Copy From'/>
+			                        <label for='billing_copy_from' string='Copy from'/>
 				                    <field name="billing_copy_from" nolabel='1'></field>
 			                    </group>
 		                    </group>
                         </page>
-	                    <page string='Bank Details'>
+	                    <page string='Bank Details' class="oe_edit_only">
 	                        <label for="AccountType" string="Account Type"/>
 		                    <field name="AccountType"></field>
 		                    <label for="AccountName" string="Account Name"/>
@@ -3284,8 +3327,22 @@
 		                    <field name="IBN"></field>
 		                    <label for="SWIFTcode" string="SWIFT code"/>
 		                    <field name="SWIFTcode"></field>
+                            <field name="id" invisible="1"/>
 	                    </page>
+                         <page string="Reference Samples" attrs="{'invisible': [('id', '=', False)]}">
+                            <label for="Reference Sample" string="Reference Samples"/>
+                            <field name="Reference Sample"></field>
+                        </page>
+                         <page string="Contacts" attrs="{'invisible': [('id', '=', False)]}">
+                            <label for="SupplierContact" string="Contacts"/>
+                            <field name="SupplierContact"></field>
+                        </page>
+                        <page string="Instruments" attrs="{'invisible': [('id', '=', False)]}">
+                            <label for="Instrument" string="Instruments"/>
+                            <field name="Instrument"></field>
+                        </page>
                     </notebook>
+                </sheet>
                     </form>
             </field>
         </record>
@@ -3295,8 +3352,8 @@
             <field name="model">olims.supplier</field>
             <field name="arch" type="xml">
                 <tree string="Supplier">
-                	<field name="name"></field>
-                	<field name="EmailAddress"></field>
+                	<field name="Name"></field>
+                	<field name="Email Address"></field>
                     <!--<field name="TaxNumber"></field>-->
                     <field name="Phone"></field>
                     <field name="Fax"></field>
@@ -3321,7 +3378,7 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="supplier_menu" name="Suppliers" parent="olims_settings_menu" sequence="40"
+        <menuitem id="supplier_menu" name="Suppliers" parent="olims_settings_menu" sequence="39"
                   action="supplier_list_action"/>
 
         <!--samplepoint form view -->
@@ -3330,10 +3387,11 @@
             <field name="model">olims.sample_point</field>
             <field name="arch" type="xml">
                 <form string="Sample Point Form">
+                    <sheet>
                     <notebook>
                         <page string="Default">
-                            <label for="name" string="name"/>
-                            <field name="name"></field>
+                            <label for="Sample Point" string="Title"/>
+                            <field name="Sample Point"></field>
                             <label for="Description" string="Description"/>
                             <p>Used in item listings and search results.</p>
                             <field name="Description"></field>
@@ -3347,9 +3405,9 @@
                                 <label for="Minutes" string="Minutes"/>
                                 <field name="Minutes" nolabel='1'></field>
                             </group>
-                            <label for="SampleTypes" string="Sample Types"/>
+                            <label for="Sample Types" string="Sample Types"/>
                             <p>The list of sample types that can be collected at this sample point. If no sample types are selected, then all sample types are available</p>
-                            <field name="SampleTypes" widget='many2many_tags' options="{'no_create': True}"></field>
+                            <field name="Sample Types" options="{'no_create': True}" widget="many2many_checkboxes"></field>
                             <field name="Composite"></field>
                             <label for="Composite" string="Composite"/>
                             <p>Check this box if the samples taken at this point are 'composite' and put together from more than one sub sample, e.g. several surface samples from a dam mixed together to be a representative sample for the dam. The default, unchecked, indicates 'grab' samples</p>
@@ -3384,6 +3442,7 @@
                             <field name="Elevation"></field>
                         </page>
                     </notebook>
+                </sheet>
                 </form>
             </field>
         </record>
@@ -3393,9 +3452,9 @@
             <field name="model">olims.sample_point</field>
             <field name="arch" type="xml">
                 <tree string="Sample Point">
-                    <field name="name"></field>
+                    <field name="Sample Point"></field>
                     <field name="Description"></field>
-                    <field name="SampleTypes"></field>
+                    <field name="Sample Types"></field>
 
                 </tree>
             </field>
@@ -3419,7 +3478,8 @@
             <field name="name">laboratory.form</field>
             <field name="model">olims.laboratory</field>
             <field name="arch" type="xml">
-                <form string="Laboratory Form">
+            <form string="Laboratory Form">
+                <sheet>
 		<notebook>
 		   <page string="Default">
                      <label for="Name" string="Name"/>
@@ -3432,8 +3492,8 @@
                     <field name="Fax"></field>
 		   </page>
 		   <page string="Address">
-                    <label for="EmailAddress" string="Email Address"/>
-                	<field name="EmailAddress"></field>
+                    <label for="Email Address" string="Email Address"/>
+                	<field name="Email Address"></field>
                 	<group col='4' string='Physical Address'>
 	                	<group col='2'>    
 		                    <label for='physical_country' string='Country'/>
@@ -3442,15 +3502,15 @@
 		                    <field name="physical_state" nolabel='1'></field>
 		                    <label for='physical_district' string='District'/>
 		                    <field name="physical_district" nolabel='1'></field>
-		                    <label for='physical_city' string='city'/>
+		                    <label for='physical_city' string='City'/>
 		                    <field name="physical_city" nolabel='1'></field>
-		                    <label for='physical_postalcode' string='code'/>
+		                    <label for='physical_postalcode' string='Code'/>
 		                    <field name="physical_postalcode" nolabel='1'></field>
 		                    <label for='physical_address' string='Address'/>
 		                    <field name="physical_address" nolabel='1'></field>
 	                    </group>
 	                    <group col='2' class="oe_edit_only">
-	                        <label for='physical_copy_from' string='Copy From'/>
+	                        <label for='physical_copy_from' string='Copy from'/>
 		                    <field name="physical_copy_from" nolabel='1'></field>
 	                    </group>
                     </group>
@@ -3462,15 +3522,15 @@
 		                    <field name="postal_state" nolabel='1'></field>
 		                    <label for='postal_district' string='District'/>
 		                    <field name="postal_district" nolabel='1'></field>
-		                    <label for='postal_city' string='city'/>
+		                    <label for='postal_city' string='City'/>
 		                    <field name="postal_city" nolabel='1'></field>
-		                    <label for='postal_postalcode' string='code'/>
+		                    <label for='postal_postalcode' string='Code'/>
 		                    <field name="postal_postalcode" nolabel='1'></field>
 		                    <label for='postal_address' string='Addrss'/>
 		                    <field name="postal_address" nolabel='1'></field>
 		                </group>
 		                <group col='2' class="oe_edit_only">
-	                        <label for='postal_copy_from' string='Copy From'/>
+	                        <label for='postal_copy_from' string='Copy from'/>
 		                    <field name="postal_copy_from" nolabel='1'></field>
 	                    </group>
                     </group>
@@ -3482,9 +3542,9 @@
 		                    <field name="billing_state" nolabel='1'></field>
 		                    <label for='billing_district' string='District'/>
 		                    <field name="billing_district" nolabel='1'></field>
-		                    <label for='billing_city' string='city'/>
+		                    <label for='billing_city' string='City'/>
 		                    <field name="billing_city" nolabel='1'></field>
-		                    <label for='billing_postalcode' string='code'/>
+		                    <label for='billing_postalcode' string='Code'/>
 		                    <field name="billing_postalcode" nolabel='1'></field>
 		                    <label for='billing_address' string='Addrss'/>
 		                    <field name="billing_address" nolabel='1'></field>
@@ -3495,6 +3555,7 @@
 	                    </group>
                     </group>
                     <label for="LabURL" string="Lab URL"/>
+                    <p>The Laboratory's web address</p>
                     <field name="LabURL"></field>
 		   </page>
 		   <page string="Bank Details">
@@ -3511,26 +3572,34 @@
 		   </page>
 		   <page string="Accreditation">
                     <label for="Confidence" string="Confidence Level %"/>
+                    <p>This value is reported at the bottom of all published results</p>
                     <field name="Confidence"></field>
-                    <label for="LaboratoryAccredited" string="Laboratory Accredited"/>
                     <field name="LaboratoryAccredited"></field>
+                    <label for="LaboratoryAccredited" string="Laboratory Accredited"/>
+                    <p>Check this box if your laboratory is accredited</p>
                     <br/>
                     <label for="AccreditationBody" string="Accreditation Body Abbreviation "/>
+                    <p>E.g. SANAS, APLAC, etc.</p>
                     <field name="AccreditationBody"></field>
                     <label for="AccreditationBodyURL" string="Accreditation Body URL"/>
+                    <p>Web address for the accreditation body</p>
                     <field name="AccreditationBodyURL"></field>
                     <label for="Accreditation" string="Accreditation"/>
+                    <p>The accreditation standard that applies, e.g. ISO 17025</p>
                     <field name="Accreditation"></field>
                     <label for="AccreditationReference" string="Accreditation Reference"/>
+                    <p>The reference code issued to the lab by the accreditation body</p>
                     <field name="AccreditationReference"></field>
-                    <label for="AccreditationBodyLogo" string="Accreditation Body Logo"/>
+                    <label for="AccreditationBodyLogo" string="Accreditation Logo"/>
+                    <p>Please upload the logo you are authorised to use on your website and results reports by your accreditation body. Maximum size is 175 x 175 pixels.</p>
                     <field name="AccreditationBodyLogo" widget='image'></field>
                     <br/>
-                    <label for="AccreditationPageHeader" string="Accreditation PageHeader"/>
+                    <label for="AccreditationPageHeader" string="Accrediation page header"/>
                     <p>Enter the details of your lab's service accreditations here. The following fields are available: lab_is_accredited, lab_name, lab_country, confidence, accreditation_body_name, accreditation_standard, accreditation_reference</p>
                     <field name="AccreditationPageHeader"></field>
 		   </page>
 		</notebook>
+    </sheet>
 				</form>
             </field>
         </record>
@@ -3544,7 +3613,7 @@
                     <!--<field name="TaxNumber"></field>-->
                     <field name="Fax"></field>
                 	<field name="Phone"></field>
-                	<field name="EmailAddress"></field>
+                	<field name="Email Address"></field>
                     <field name="LabURL"></field>
                     <!--<field name="AccountType"></field>
                     <field name="AccountName"></field>
@@ -3578,14 +3647,15 @@
             <field name="model">olims.lab_contact</field>
             <field name="arch" type="xml">
                 <form string="Lab Contact Form">
+                    <sheet>
                     <notebook>
                         <page string="Default">
-	                        <label for="Salutation" string="Title"/>
+	                        <label for="Salutation" string="Salutation"/>
 	                        <p class="oe_edit_only">Greeting title eg. Mr, Mrs, Dr</p>
 		                    <field name="Salutation"></field>
 		                    <label for="Firstname" string="First Name"/>
 		                    <field name="Firstname"></field>
-		                    <label for="Middleinitial" string="Middle Initial"/>
+		                    <label for="Middleinitial" string="Middle initial"/>
 		                    <field name="Middleinitial"></field>
 		                    <label for="Middlename" string="Middle Name"/>
 		                    <field name="Middlename"></field>
@@ -3603,14 +3673,14 @@
 	                    <page string="Email Telephone Fax">
 		                    <label for="EmailAddress" string="Email Address"/>
 		                    <field name="EmailAddress"></field>
-		                    <label for="BusinessPhone" string="Phone (business)"/>
-		                    <field name="BusinessPhone"></field>
-		                    <label for="BusinessFax" string="Fax (business)"/>
-		                    <field name="BusinessFax"></field>
+		                    <label for="Phone" string="Phone (business)"/>
+		                    <field name="Phone"></field>
+		                    <label for="Fax" string="Fax (business)"/>
+		                    <field name="Fax"></field>
 		                    <label for="HomePhone" string="Phone (home)"/>
 		                    <field name="HomePhone"></field>
-		                    <label for="MobilePhone" string="Phone (mobile)"/>
-		                    <field name="MobilePhone"></field>
+		                    <label for="Mobile Phone" string="Phone (mobile)"/>
+		                    <field name="Mobile Phone"></field>
 		                </page>
 		                <page string="Address">
 		                    <group col='4' string='Physical Address'>
@@ -3621,15 +3691,15 @@
 				                    <field name="physical_state" nolabel='1'></field>
 				                    <label for='physical_district' string='District'/>
 				                    <field name="physical_district" nolabel='1'></field>
-				                    <label for='physical_city' string='city'/>
+				                    <label for='physical_city' string='City'/>
 				                    <field name="physical_city" nolabel='1'></field>
-				                    <label for='physical_postalcode' string='code'/>
+				                    <label for='physical_postalcode' string='Code'/>
 				                    <field name="physical_postalcode" nolabel='1'></field>
-				                    <label for='physical_address' string='Addrss'/>
+				                    <label for='physical_address' string='Address'/>
 				                    <field name="physical_address" nolabel='1'></field>
 			                    </group>
 			                    <group col='2' class="oe_edit_only">
-			                        <label for='physical_copy_from' string='Copy From'/>
+			                        <label for='physical_copy_from' string='Copy from'/>
 				                    <field name="physical_copy_from" nolabel='1'></field>
 			                    </group>
 		                    </group>
@@ -3641,11 +3711,11 @@
 				                    <field name="postal_state" nolabel='1'></field>
 				                    <label for='postal_district' string='District'/>
 				                    <field name="postal_district" nolabel='1'></field>
-				                    <label for='postal_city' string='city'/>
+				                    <label for='postal_city' string='City'/>
 				                    <field name="postal_city" nolabel='1'></field>
-				                    <label for='postal_postalcode' string='code'/>
+				                    <label for='postal_postalcode' string='Code'/>
 				                    <field name="postal_postalcode" nolabel='1'></field>
-				                    <label for='postal_address' string='Addrss'/>
+				                    <label for='postal_address' string='Address'/>
 				                    <field name="postal_address" nolabel='1'></field>
 			                    </group>
 			                    <group col='2' class="oe_edit_only">
@@ -3663,7 +3733,7 @@
 		                    <field name="user" context="{'form_view_ref':'base.view_users_form'}"></field>
 				        </page>
                     </notebook>
-                    
+                    </sheet>
                     </form>
             </field>
         </record>
@@ -3673,20 +3743,12 @@
             <field name="model">olims.lab_contact</field>
             <field name="arch" type="xml">
                 <tree string="Lab Contact">
-                    <field name="name"></field>
+                    <field name="Name"></field>
                     <field name="Department"></field>
-                    <field name="BusinessPhone"></field>
-                    <field name="BusinessFax"></field>
-                    <field name="MobilePhone"></field>
+                    <field name="Phone"></field>
+                    <field name="Fax"></field>
+                    <field name="Mobile Phone"></field>
                     <field name="EmailAddress"></field>
-                    <!--<field name="Salutation"></field>
-                    <field name="Firstname"></field>
-                    <field name="Middleinitial"></field>
-                    <field name="Middlename"></field>
-                    <field name="Surname"></field>
-                    <field name="HomePhone"></field>
-                    <field name="JobTitle"></field>
-					<field name="name"></field> -->
                 </tree>
             </field>
         </record>
@@ -3707,9 +3769,12 @@
             <field name="model">olims.contact</field>
             <field name="arch" type="xml">
                 <form string="Contact Form">
+                    <sheet>
                     <notebook>
                         <page string="Default">
-                            <label for="Salutation" string="Title"/>
+                            <!-- <label for="Client" string="Client"/>
+                            <field name="Client" options="{'no_create': True}" class="oe_no_button"></field> -->
+                            <label for="Salutation" string="Salutation"/>
                             <p>Greeting title eg. Mr, Mrs, Dr</p>
                             <field name="Salutation"></field>
                             <label for="Firstname" string="First Name"/>
@@ -3787,8 +3852,15 @@
                             <field name="AttachmentsPermitted"></field>
                             <label for="AttachmentsPermitted" string="Attachments Permitted"/>
                             <p>File attachments to results, e.g. microscope photos, will be included in emails to recipients if this option is enabled</p>
+                            <field name="id" invisible="1"/>
+                        </page>
+                        <!-- <page string="Login Details" class="oe_edit_only"> -->
+                        <page string="Login Details" attrs="{'invisible': [('id', '=', False)]}">
+                            <label for="user" string="User"/>
+                            <field name="user" context="{'form_view_ref':'base.view_users_form'}"></field>
                         </page>
                     </notebook>
+                </sheet>
                 </form>
             </field>
         </record>
@@ -3798,7 +3870,7 @@
             <field name="model">olims.contact</field>
             <field name="arch" type="xml">
                 <tree string="Contact">
-                    <field name="name"></field>
+                    <field name="Name"></field>
                     <!--<field name="Salutation"></field>
                     <field name="Firstname"></field>
                     <field name="Middleinitial"></field>
@@ -3824,38 +3896,38 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="contact_menu" name="Contacts" parent="olims_settings_menu" sequence="48"
-                  action="contact_list_action"/>
+        <!-- <menuitem id="contact_menu" name="Contacts" parent="olims_settings_menu" sequence="48"
+                  action="contact_list_action"/> -->
 
        <!--Client form view -->
         <record model="ir.ui.view" id="olims_client_form_view">
             <field name="name">client.form</field>
             <field name="model">olims.client</field>
             <field name="arch" type="xml">
-                <form string="Client Form">
+                <form string="Client Form" create="false" delete="false">
                     <sheet>
                     <notebook>
-                        <page string="Default">
-                            <label for="Name" string="Name"/>
+                        <page string="Default" name="Default Page" class="oe_edit_only">
+                            <label for="Name" string="Name" name="Name"/>
                             <field name="Name"></field>
-                            <label for="ClientID" string="Client ID"/>
+                            <label for="ClientID" string="Client ID" name="Client ID"/>
                             <field name="ClientID"></field>
-                            <label for="TaxNumber" string="VAT number"/>
+                            <label for="TaxNumber" string="VAT number" name="VAT number"/>
                             <field name="TaxNumber"></field>
-                            <label for="Phone" string="Phone"/>
+                            <label for="Phone" string="Phone" name="Phone"/>
                             <field name="Phone"></field>
-                            <label for="Fax" string="Fax"/>
+                            <label for="Fax" string="Fax" name="Fax"/>
                             <field name="Fax"></field>
-                            <label for="Email Address" string="Email Address"/>
+                            <label for="Email Address" string="Email Address" name="Email Address"/>
                             <field name="Email Address"></field>
-                            <label for="BulkDiscount" string="Bulk Discount"/>
+                            <label for="BulkDiscount" string="Bulk Discount" name="Bulk Discount"/>
                             <field name="BulkDiscount"></field>
                             <br/>
-                            <label for="MemberDiscountApplies" string="Member Discount Applies"/>
+                            <label for="MemberDiscountApplies" string="Member Discount Applies" name="Member Discount Applies"/>
                             <field name="MemberDiscountApplies"></field>
                             <br/>
                         </page>
-                        <page string="Address">
+                        <page string="Address" name="Address Page" class="oe_edit_only">
                               <group col='4' string='Physical Address'>
                               	<group col='2'>
 	                                <label for='physical_country' string='Country'/>
@@ -3917,7 +3989,7 @@
 			                    </group>
                             </group>
                         </page>
-                        <page string="Bank Details">
+                        <page string="Bank Details" name="Bank Detail Page" class="oe_edit_only">
                             <label for="AccountType" string="Account Type"/>
                             <field name="AccountType"></field>
                             <label for="AccountName" string="Account Name"/>
@@ -3929,7 +4001,7 @@
                             <label for="BankBranch" string="Bank Branch"/>
                             <field name="BankBranch"></field>
                         </page>
-                        <page string="Preferences">
+                        <page string="Preferences" name="Preferences Page" class="oe_edit_only">
                             <label for="EmailSubject" string="Email subject line"/>
                             <p>Items to be included in email subject lines</p>
                             <field name="EmailSubject"></field>
@@ -3944,18 +4016,155 @@
                             <br/>
                             <label for="DecimalMark" string="Decimal Mark"/>
                             <field name="DecimalMark"></field>
+                            <field name="id" invisible="1" />
                         </page>
+                         <page string="Analysis Requests" attrs="{'invisible': [('id', '=', False)]}">
+                            <label for="Analysis_Request" string="Analysis Requests"/>
+                            <field name="Analysis_Request"></field>
+                        </page>
+                        <page string="Samples" attrs="{'invisible': [('id', '=', False)]}">
+                            <label for="Sample" string="Samples"/>
+                            <field name="Sample"></field>
+                        </page>
+                        <page string="Sample Points" attrs="{'invisible': [('id', '=', False)]}">
+                            <label for="Sample Point" string="Sample Points"/>
+                            <field name="Sample Point"></field>
+                        </page>
+                        <page string="Analysis Profiles" attrs="{'invisible': [('id', '=', False)]}">
+                            <label for="Analysis Profile" string="Analysis Profiles"/>
+                            <field name="Analysis Profile"></field>
+                        </page>
+                        <page string="AR Templates" attrs="{'invisible': [('id', '=', False)]}">
+                            <label for="AR Template" string="AR Templates"/>
+                            <field name="AR Template"></field>
+                        </page>
+                        <page string="Analysis Specifications" attrs="{'invisible': [('id', '=', False)]}">
+                            <label for="Analysis Specification" string="Analysis Specifications"/>
+                            <field name="Analysis Specification"></field>
+                        </page>
+                        <page string="Orders" name="Orders" attrs="{'invisible': [('id', '=', False)]}">
+                            <label for="Supply Order" string="Supply Orders"/>
+                            <field name="Supply Order"></field>
+                        </page>
+                        <page string="Contacts" name="Contacts" attrs="{'invisible': [('id', '=', False)]}">
+                            <label for="Contact" string="Contacts"/>
+                            <field name="Contact"></field>
+                        </page>
+                        <page string="Sampling Round Template " attrs="{'invisible': [('id', '=', False)]}">
+                            <label for="SR Template" string="Sampling Round Templates"/>
+                            <field name="SR Template"></field>
+                        </page>
+                        
                     </notebook>
                 </sheet>
                 </form>
             </field>
         </record>
 
+        <record model="ir.ui.view" id="olims_client_form_invisible_page_view">
+            <field name="name">client.invisible_page.form</field>
+            <field name="model">olims.client</field>
+            <field name="inherit_id" ref="olims_client_form_view"/>
+            <field name="groups_id" eval="[(6, 0, [
+                ref('group_clients'),
+                ref('group_lab_clerks')])]"/>
+            <field name="arch" type="xml">
+                <!-- <form string="Client Form" create="false" delete="false"> -->
+                        <page name="Default Page" position="attributes">
+                            <attribute name='invisible'>{'invisible': [('id', '!=', False)]}</attribute>
+                        </page>
+                        <field name="Name" position="attributes">
+                            <attribute name='invisible'>{'invisible': [('id', '!=', False)]}</attribute>
+                        </field>
+                        <field name="ClientID" position="attributes">
+                            <attribute name='invisible'>{'invisible': [('id', '!=', False)]}</attribute>
+                        </field>
+                        <field name="TaxNumber" position="attributes">
+                            <attribute name='invisible'>{'invisible': [('id', '!=', False)]}</attribute>
+                        </field>
+                        <field name="Phone" position="attributes">
+                            <attribute name='invisible'>{'invisible': [('id', '!=', False)]}</attribute>
+                        </field>
+                        <field name="Fax" position="attributes">
+                            <attribute name='invisible'>{'invisible': [('id', '!=', False)]}</attribute>
+                        </field>
+                        <field name="Email Address" position="attributes">
+                            <attribute name='invisible'>{'invisible': [('id', '!=', False)]}</attribute>
+                        </field>
+                        <field name="BulkDiscount" position="attributes">
+                            <attribute name='invisible'>{'invisible': [('id', '!=', False)]}</attribute>
+                        </field>
+                        <field name="MemberDiscountApplies" position="attributes">
+                            <attribute name='invisible'>{'invisible': [('id', '!=', False)]}</attribute>
+                        </field>
+                        <label for="Name" name="Name" position="attributes">
+                            <attribute name='invisible'>{'invisible': [('id', '!=', False)]}</attribute>
+                        </label>
+                        <label for="ClientID" name="Client ID" position="attributes">
+                            <attribute name='invisible'>{'invisible': [('id', '!=', False)]}</attribute>
+                        </label>
+                        <label for="TaxNumber" name="VAT number" position="attributes">
+                            <attribute name='invisible'>{'invisible': [('id', '!=', False)]}</attribute>
+                        </label>
+                        <label for="Phone" name="Phone" position="attributes">
+                            <attribute name='invisible'>{'invisible': [('id', '!=', False)]}</attribute>
+                        </label>
+                        <label for="Fax" name="Fax" position="attributes">
+                            <attribute name='invisible'>{'invisible': [('id', '!=', False)]}</attribute>
+                        </label>
+                        <label for="Email Address" name="Email Address" position="attributes">
+                            <attribute name='invisible'>{'invisible': [('id', '!=', False)]}</attribute>
+                        </label>
+                        <label for="BulkDiscount" name="Bulk Discount" position="attributes">
+                            <attribute name='invisible'>{'invisible': [('id', '!=', False)]}</attribute>
+                        </label>
+                        <label for="MemberDiscountApplies" name="Member Discount Applies" position="attributes">
+                            <attribute name='invisible'>{'invisible': [('id', '!=', False)]}</attribute>
+                        </label>
+                        <page name="Address Page" position="attributes">
+                            <attribute name="attrs">{'invisible': [('id', '!=', False)]}</attribute>
+                        </page>
+                        <page name="Bank Detail Page" position="attributes">
+                            <attribute name="attrs">{'invisible': [('id', '!=', False)]}</attribute>
+                        </page>
+                        <page name="Preferences Page" position="attributes">
+                            <attribute name="attrs">{'invisible': [('id', '!=', False)]}</attribute>
+                        </page>
+            <!-- </form> -->
+        </field>
+    </record>
+    <record model="ir.ui.view" id="olims_client_form_invisible_order_page_view">
+            <field name="name">client.invisible_page_for_clerk.form</field>
+            <field name="model">olims.client</field>
+            <field name="inherit_id" ref="olims_client_form_view"/>
+            <field name="groups_id" eval="[(6, 0, [ref('group_lab_clerks')])]"/>
+            <field name="arch" type="xml">
+                <page name="Default Page" position="attributes">
+                    <attribute name='invisible'>{'invisible': [('id', '!=', False)]}</attribute>
+                </page>
+                <page name="Address Page" position="attributes">
+                    <attribute name="attrs">{'invisible': [('id', '!=', False)]}</attribute>
+                </page>
+                <page name="Bank Detail Page" position="attributes">
+                    <attribute name="attrs">{'invisible': [('id', '!=', False)]}</attribute>
+                </page>
+                <page name="Preferences Page" position="attributes">
+                    <attribute name="attrs">{'invisible': [('id', '!=', False)]}</attribute>
+                </page>
+                <page name="Orders" position="attributes">
+                    <attribute name="attrs">{'invisible': [('id', '!=', False)]}</attribute>
+                </page>
+                <page name="Contacts" position="attributes">
+                    <attribute name="attrs">{'invisible': [('id', '!=', False)]}</attribute>
+                </page>
+        </field>
+    </record>
+
         <record model="ir.ui.view" id="olims_client_tree_view">
             <field name="name">client.tree</field>
             <field name="model">olims.client</field>
             <field name="arch" type="xml">
-                <tree string="CLient">
+                <tree string="CLient" delete="false">
                     <field name="Name"></field>
                     <!--<field name="TaxNumber"></field>-->
                     <field name="Email Address"></field>
@@ -3996,19 +4205,21 @@
             <field name="name">instrument.form</field>
             <field name="model">olims.instrument</field>
             <field name="arch" type="xml">
-                <form string="Instrument Form">
+                <form string="Instrument Form" create="false">
+                    <sheet>
                     <notebook>
-                        <page string="Default">
-                            <label for="name" string="Title"/>
-                            <field name="name"></field>
+                        <page string="Default" class="oe_edit_only">
+                            <field name="id" invisible="1"></field>
+                            <label for="Instrument" string="Title"/>
+                            <field name="Instrument"></field>
                             <label for="AssetNumber" string="Asset Number"/>
                             <p>The instrument's ID in the lab's asset register</p>
                             <field name="AssetNumber"></field>
                             <label for="Description" string="Description"/>
                             <p>Used in item listings and search results.</p>
                             <field name="Description"></field>
-                            <label for="InstrumentType" string="Instrument Type"/>
-                            <field name="InstrumentType" options="{'no_create': True}"></field>
+                            <label for="Type" string="Instrument Type"/>
+                            <field name="Type" options="{'no_create': True}"></field>
                             <label for="Brand" string="Manufacturer"/>
                             <field name="Brand" options="{'no_create': True}"></field>
                             <label for="Supplier" string="Supplier"/>
@@ -4020,12 +4231,12 @@
                             <p>The serial number that uniquely identifies the instrument</p>
                             <field name="SerialNo"></field>
                             <label for="Method" string="Method"/>
-                            <field name="Method"></field>
+                            <field name="Method" options="{'no_create': True}"></field>
                             <field name="DisposeUntilNextCalibrationTest"></field>
                             <label for="DisposeUntilNextCalibrationTest" string="De-activate until next calibration test"/>
                             <p>If checked, the instrument will be unavailable until the next valid calibration was performed. This checkbox will automatically be unchecked.</p>
                         </page>
-                        <page string="Procedures">
+                        <page string="Procedures" class="oe_edit_only">
                             <label for="InlabCalibrationProcedure" string="In lab Calibration Procedure"/>
                             <p>Instructions for in-lab regular calibration routines intended for analysts</p>
                             <field name="InlabCalibrationProcedure"></field>
@@ -4033,7 +4244,7 @@
                             <p>Instructions for regular preventive and maintenance routines intended for analysts</p>
                             <field name="PreventiveMaintenanceProcedure"></field>
                         </page>
-                        <page string="Additional Info.">
+                        <page string="Additional Info." class="oe_edit_only">
                             <label for="Location" string="Location"/>
                             <p>The room and location where the instrument is installed</p>
                             <field name="Location"></field>
@@ -4048,7 +4259,25 @@
                             <p>Installation certificate upload</p>
                             <field name="InstallationCertificate"></field>
                         </page>
+                        <page string="Calibration Certificates" attrs="{'invisible': [('id', '=', False)]}">
+                            <label for="Instrument Certification" string="Calibration Certificates"/>
+                            <field name="Instrument Certification"></field>
+                        </page>
+                        <page string="Validations" attrs="{'invisible': [('id', '=', False)]}">
+                            <label for="Instrument Validation" string="Instrument Validations"/>
+                            <field name="Instrument Validation"></field>
+                        </page>
+                        <page string="Calibrations" attrs="{'invisible': [('id', '=', False)]}">
+                            <label for="Instrument Calibration" string="Instrument Calibrations"/>
+                            <field name="Instrument Calibration"></field>
+                        </page>
+                        <page string="Documents" attrs="{'invisible': [('id', '=', False)]}">
+                            <label for="Document" string="Instrument Files"/>
+                            <p>Different interesting documents and files to be attached to the instrument</p>
+                            <field name="Document"></field>
+                        </page>
                     </notebook>
+                </sheet>
                 </form>
             </field>
         </record>
@@ -4058,14 +4287,13 @@
             <field name="model">olims.instrument</field>
             <field name="arch" type="xml">
                 <tree string="Instrument">
-                    <field name="name"></field>
+                    <field name="Instrument"></field>
                     <!--<field name="Description"></field>-->
-                	<field name="InstrumentType"></field>
+                	<field name="Type"></field>
                     <field name="Brand"></field>
                     <field name="Model"></field>
-                    <!--<field name="SerialNo"></field>-->
+                    <field name="Expiry Date"></field>
                     <field name="Method"></field>
-                    <field name="ExpiryDate"></field>
                     <!--<field name="DisposeUntilNextCalibrationTest"></field>
                     <field name="InlabCalibrationProcedure"></field>
                     <field name="PreventiveMaintenanceProcedure"></field>
@@ -4176,8 +4404,9 @@
             <field name="model">olims.method</field>
             <field name="arch" type="xml">
                 <form string="Method Form">
-                	<label for="name" string="Title"/>
-                	<field name="name"></field>
+                    <sheet>
+                	<label for="Method" string="Title"/>
+                	<field name="Method"></field>
                 	<label for="Description" string="Description"/>
                     <p>Describes the method in layman terms. This information is made available to lab clients</p>
                 	<field name="Description"></field>
@@ -4207,6 +4436,7 @@
                     <label for="ChangeNote" string="Change Note"/>
                     <p>Enter a comment that describes the changes you made.</p>
                     <field name="ChangeNote"></field>
+                </sheet>
                 </form>
             </field>
         </record>
@@ -4216,16 +4446,11 @@
             <field name="model">olims.method</field>
             <field name="arch" type="xml">
                 <tree string="Method">
-                	<field name="name"></field>
+                	<field name="Method"></field>
                 	<field name="Description"></field>
-                    <!--<field name="MethodID"></field>
-                	<field name="Instructions"></field>
-                    <field name="MethodDocument"></field>-->
                     <field name="Instruments"></field>
-                	<field name="ManualEntryOfResults"></field>
-                    <!-- <field name="ManualEntryOfResultsViewField"></field> 
                     <field name="Calculation"></field>
-                    <field name="Accredited"></field>-->
+                	<field name="ManualEntryOfResults"></field>
                 </tree>
             </field>
         </record>
@@ -4248,11 +4473,23 @@
             <field name="model">olims.instrument_type</field>
             <field name="arch" type="xml">
                 <form string="Instrument Type Form">
-                    <label for="name" string="Title"/>
-                    <field name="name"></field>
-                    <label for="Description" string="Description"/>
-                    <p>Used in item listings and search results.</p>
-                    <field name="Description"></field>
+                    <sheet>
+                        <notebook>
+                            <page string='Edit'>
+                                <label for="Title" string="Title"/>
+                                <field name="Title"></field>
+                                <label for="Description" string="Description"/>
+                                <p>Used in item listings and search results.</p>
+                                <field name="Description"></field>
+                                <field name="id" invisible="1"></field>
+                            </page>
+                            <page string="Instruments" attrs="{'invisible': [('id', '=', False)]}">
+                                <field name="id" invisible="1"></field>
+                                <label for="Type" string="Instruments"/>
+                                <field name="Type"></field>
+                            </page> 
+                        </notebook>
+                    </sheet>
                 </form>
             </field>
         </record>
@@ -4262,7 +4499,7 @@
             <field name="model">olims.instrument_type</field>
             <field name="arch" type="xml">
                 <tree string="Instrument Type">
-                	<field name="name"></field>
+                	<field name="Title"></field>
                 	<field name="Description"></field>
                 </tree>
             </field>
@@ -4284,10 +4521,11 @@
             <field name="model">olims.calculation</field>
             <field name="arch" type="xml">
                 <form string="Calculation Form">
+                    <sheet>
                     <notebook>
                         <page string="Description">
-                            <label for="name" string="Title"/>
-                            <field name="name"></field>
+                            <label for="Calculation" string="Title"/>
+                            <field name="Calculation"></field>
                             <label for="Description" string="Description"/>
                             <p>Used in item listings and search results.</p>
                             <field name="Description"></field>
@@ -4318,6 +4556,7 @@
                             <field name="Changenote"></field>
                         </page>
                     </notebook>
+                </sheet>
                 </form>
             </field>
         </record>
@@ -4327,7 +4566,7 @@
             <field name="model">olims.calculation</field>
             <field name="arch" type="xml">
                 <tree string="Calculation">
-                	<field name="name"></field>
+                	<field name="Calculation"></field>
                 	<field name="Description"></field>
                 	<field name="Formula"></field>
                 </tree>
@@ -4350,11 +4589,13 @@
             <field name="model">olims.manufacturer</field>
             <field name="arch" type="xml">
                 <form string="Manufacturer Form">
+                    <sheet>
                     <label for="Title" string="Title"/>
                     <field name="Title"></field>
                     <label for="Description" string="Description"/>
                     <p>Used in item listings and search results.</p>
                     <field name="Description"></field>
+                </sheet>
                 </form>
             </field>
         </record>
@@ -4386,8 +4627,9 @@
             <field name="model">olims.analysis_category</field>
             <field name="arch" type="xml">
                 <form string="Analysis Category Form">
-                	<label for="name" string="Title"/>
-                	<field name="name"></field>
+                    <sheet>
+                	<label for="Category" string="Title"/>
+                	<field name="Category"></field>
                 	<label for="Description" string="Description"/>
                     <p>Used in item listings and search results.</p>
                 	<field name="Description"></field>
@@ -4397,7 +4639,7 @@
                 	<label for="Department" string="Department"/>
                     <p>The laboratory department</p>
                     <field name="Department" options="{'no_create': True}"></field>
-                	
+                	</sheet>
                 </form>
             </field>
         </record>
@@ -4407,7 +4649,7 @@
             <field name="model">olims.analysis_category</field>
             <field name="arch" type="xml">
                 <tree string="Analysis Category">
-                	<field name="name"></field>
+                	<field name="Category"></field>
                 	<field name="Description"></field>
                     <!--<field name="Comments"></field>-->
                 	<field name="Department"></field>
@@ -4430,18 +4672,17 @@
             <field name="name">department.form</field>
             <field name="model">olims.department</field>
             <field name="arch" type="xml">
-                <form string="Department">
-                    <label for="name" string="Title"/>
-                    <field name="name"></field>
+                <form string="Lab Departments">
+                    <sheet>
+                    <label for="Department" string="Title"/>
+                    <field name="Department"></field>
                     <label for="Description" string="Description"/>
                     <p>Used in item listings and search results.</p>
                     <field name="Description"></field>
                     <label for="Manager" string="Manager"/>
                     <p>Select a manager from the available personnel configured under the 'lab contacts' setup item. Departmental managers are referenced on analysis results reports containing analyses by their department.</p>
                     <field name="Manager" options="{'no_create': True}"></field>
-                	<!--label for="ManagerName" string="Manager Name"/>
-                	<field name="ManagerName"></field-->
-                	
+                	</sheet>
                 </form>
             </field>
         </record>
@@ -4450,17 +4691,18 @@
             <field name="name">department.tree</field>
             <field name="model">olims.department</field>
             <field name="arch" type="xml">
-                <tree string="Department">
-                	<field name="name"></field>
+                <tree string="Lab Departments">
+                	<field name="Department"></field>
                 	<field name="Description"></field>
                     <field name="Manager"></field>
-                    <!--field name="ManagerName"></field-->
+                    <field name="ManagerPhone"></field>
+                    <field name="ManagerEmail"></field>
                 </tree>
             </field>
         </record>
                     
 	   <record model="ir.actions.act_window" id="olims_department_list_action">
-            <field name="name">Department</field>
+            <field name="name">Lab Departments</field>
             <field name="res_model">olims.department</field>
             <field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
@@ -4521,6 +4763,7 @@
             <field name="model">olims.analysis_service</field>
             <field name="arch" type="xml">
                 <form string="Analysis Service Form">
+                    <sheet>
                     <notebook>
                         <page string="Description">
                             <label for="Service" string="Title"/>
@@ -4706,15 +4949,12 @@
                                     <field name="Required Volume"/>
                                 </tree>
                             </field>
-                    <!--<label for="VATAmount" string="VAT Amount"/>
-                	<field name="VATAmount"></field>
-                	<label for="TotalPrice" string="Total Price"/>
-                    <field name="TotalPrice"></field>-->
                             <label for="ChangeNote" string="Change Note"/>
                             <p>Enter a comment that describes the changes you made.</p>
                             <field name="ChangeNote"></field>
                         </page>
                 </notebook>
+            </sheet>
                 </form>
             </field>
         </record>
@@ -4785,13 +5025,14 @@
             <field name="model">olims.container</field>
             <field name="arch" type="xml">
                 <form string="Container">
-                    <label for="name" string="Title"/>
-                    <field name="name"></field>
+                    <sheet>
+                    <label for="Container" string="Title"/>
+                    <field name="Container"></field>
                     <label for="Description" string="Description"/>
                     <p>Used in item listings and search results.</p>
                     <field name="Description"></field>
-                    <label for="ContainerType" string="Container Type"/>
-                    <field name="ContainerType" options="{'no_create_edit': True}"></field>
+                    <label for="Container Type" string="Container Type"/>
+                    <field name="Container Type" options="{'no_create_edit': True}"></field>
                     <label for="Capacity" string="Capacity"/>
                     <p>Maximum possible size or volume of samples.</p>
                     <field name="Capacity"></field>
@@ -4799,9 +5040,10 @@
                     <label for="PrePreserved" string="Pre-Preserved"/>
                     <p>Check this box if this container is already preserved.Setting this will short-circuit the preservation workflow for sample partitions stored in this container.</p>
                     <br/>
-                    <label for="Preservation" string="Preservation"/>
+                    <label for="Pre-preserved" string="Preservation"/>
                     <p>If this container is pre-preserved, then the preservation method could be selected here.</p>
-                    <field name="Preservation" options="{'no_create_edit': True}"></field>
+                    <field name="Pre-preserved" options="{'no_create_edit': True}" attrs="{'required': [('PrePreserved', '=', True)]}"></field>
+                </sheet>
                 </form>
             </field>
         </record>
@@ -4811,11 +5053,11 @@
             <field name="model">olims.container</field>
             <field name="arch" type="xml">
                 <tree string="Container">
-                	<field name="name"></field>
+                	<field name="Container"></field>
                 	<field name="Description"></field>
-                	<field name="ContainerType"></field>
+                	<field name="Container Type"></field>
                 	<field name="Capacity"></field>
-                	<field name="Preservation"></field>
+                	<field name="Pre-preserved"></field>
                 </tree>
             </field>
         </record>
@@ -4836,8 +5078,8 @@
             <field name="model">olims.container_type</field>
             <field name="arch" type="xml">
                 <form string="Container Type">
-                    <label for="name" string="Title"/>
-                    <field name="name"></field>
+                    <label for="Container Type" string="Title"/>
+                    <field name="Container Type"></field>
                     <label for="Description" string="Description"/>
                     <p>Used in item listings and search results.</p>
                     <field name="Description"></field>
@@ -4850,7 +5092,7 @@
             <field name="model">olims.container_type</field>
             <field name="arch" type="xml">
                 <tree string="Container Type">
-                	<field name="name"></field>
+                	<field name="Container Type"></field>
                 	<field name="Description"></field>
                 </tree>
             </field>
@@ -4872,8 +5114,9 @@
             <field name="model">olims.preservation</field>
             <field name="arch" type="xml">
                 <form string="Preservation">
-                    <label for="name" string="Title"/>
-                    <field name="name"></field>
+                    <sheet>
+                    <label for="Preservation" string="Title"/>
+                    <field name="Preservation"></field>
                     <label for="Description" string="Description"/>
                     <p>Used in item listings and search results.</p>
                     <field name="Description"></field>
@@ -4889,6 +5132,7 @@
                         <label for="Minutes" string="Minutes"/>
                         <field name="Minutes" nolabel='1'></field>
                     </group>
+                </sheet>
                 </form>
             </field>
         </record>
@@ -4898,7 +5142,7 @@
             <field name="model">olims.preservation</field>
             <field name="arch" type="xml">
                 <tree string="Preservation">
-                	<field name="name"></field>
+                	<field name="Preservation"></field>
                 	<field name="Description"></field>
                     <!--<field name="Category"></field>-->
                 </tree>
@@ -4921,11 +5165,13 @@
             <field name="model">olims.sample_matrix</field>
             <field name="arch" type="xml">
                 <form string="Sample Matrix">
-                    <label for="name" string="Title"/>
-                    <field name="name"></field>
+                    <sheet>
+                    <label for="Sample Matrix" string="Title"/>
+                    <field name="Sample Matrix"></field>
                     <label for="Description" string="Description"/>
                     <p>Used in item listings and search results.</p>
                     <field name="Description"></field>
+                </sheet>
                 </form>
             </field>
         </record>
@@ -4935,7 +5181,7 @@
             <field name="model">olims.sample_matrix</field>
             <field name="arch" type="xml">
                 <tree string="Sample Matrix">
-                	<field name="name"></field>
+                	<field name="Sample Matrix"></field>
                 	<field name="Description"></field>
                 </tree>
             </field>
@@ -4957,8 +5203,9 @@
             <field name="model">olims.sample_type</field>
             <field name="arch" type="xml">
                 <form string="Sample Type">
+                    <sheet>
                     <label for="SampleType" string="Title"/>
-                    <field name="SampleType"></field>
+                    <field name="Sample Type"></field>
                 	<label for="Description" string="Description"/>
                        <p>Used in item listings and search results.</p>
                 	<field name="Description"></field>
@@ -4977,18 +5224,19 @@
                     <label for="Hazardous" string="Hazardous"/>
                     <p>Samples of this type should be treated as hazardous</p>
                     <label for="Sample Matrix" string="Sample Matrix"/>
-                    <field name="Sample Matrix"></field>
+                    <field name="Sample Matrix" options="{'no_create': True}"></field>
                 	<label for="Prefix" string="Sample Type Prefix"/>
                 	<field name="Prefix"></field>
                     <label for="Minimum Volume" string="Minimum Volume"/>
                     <p>The minimum sample volume required for analysis eg. '10 ml' or '1 kg'.</p>
                     <field name="Minimum Volume"></field>
-                    <label for="Container Type" string="Default Container Type"/>
+                    <label for="Default Container" string="Default Container Type"/>
                     <p>The default container type. New sample partitions are automatically assigned a container of this type, unless it has been specified in more details per analysis service</p>
-                    <field name="Container Type" options="{'no_create': True}"></field>
+                    <field name="Default Container" options="{'no_create': True}"></field>
                     <label for="Sample Points" string="Sample Points"/>
                     <p>The list of sample points from which this sample type can be collected. If no sample points are selected, then all sample points are available.</p>
                     <field name="Sample Points" options="{'no_create': True}" widget="many2many_tags"></field>
+                </sheet>
                 </form>
             </field>
         </record>
@@ -4998,11 +5246,11 @@
             <field name="model">olims.sample_type</field>
             <field name="arch" type="xml">
                 <tree string="Sample Matrix">
-                    <field name="SampleType"></field>
+                    <field name="Sample Type"></field>
                 	<field name="Description"></field>
                 	<field name="Hazardous"></field>
                     <field name="Sample Matrix"></field>
-                    <field name="Container Type"></field>
+                    <field name="Default Container"></field>
                     <field name="Sample Points"></field>
                 	<field name="Prefix"></field>
                     <field name="Minimum Volume"></field>
