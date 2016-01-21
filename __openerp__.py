@@ -58,6 +58,7 @@
         'wizard/olims_analysesperformedpertotal_view.xml',
         'wizard/olims_dataentrydaybook_view.xml',
         'views/olimsscheduler.xml',
+        'security/olims_security.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
