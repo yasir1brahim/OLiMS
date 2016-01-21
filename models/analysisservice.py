@@ -669,9 +669,9 @@ schema = (StringField('Service',
 
 
     
-    fields.Char(string='Days', required=True),
-    fields.Char(string='Hours', required=True),
-    fields.Char(string='Minutes', required=True),
+    fields.Char(string='Days', required=False),
+    fields.Char(string='Hours', required=False),
+    fields.Char(string='Minutes', required=False),
     
     
     FixedPointField('DuplicateVariation',
@@ -736,7 +736,7 @@ schema = (StringField('Service',
     ),
     FixedPointField('Price',
                     schemata="Description",
-                    default='0.00',
+                    default=0.00,
                     widget=DecimalWidget(
                         label = _("Price (excluding VAT)"),
                     ),
@@ -744,7 +744,7 @@ schema = (StringField('Service',
     # read access permission
     FixedPointField('BulkPrice',
                     schemata="Description",
-                    default='0.00',
+                    default=0.00,
                     widget=DecimalWidget(
                         label = _("Bulk price (excluding VAT)"),
                         description=_(
