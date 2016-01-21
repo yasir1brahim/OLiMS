@@ -50,7 +50,6 @@ access_olims_analysisrequest_regulatoryinspector,olims.analysis_request,model_ol
 access_olims_batch_regulatoryinspector,olims.batch,model_olims_batch,group_regulatory_inspectors,1,0,0,0
 access_olims_worksheet_regulatoryinspector,olims.worksheet,model_olims_worksheet,group_regulatory_inspectors,1,0,0,0
 access_olims_method_regulatoryinspector,olims.method,model_olims_method,group_regulatory_inspectors,1,0,0,0
-access_olims_method_supplier,olims.method,model_olims_method,group_suppliers,1,0,0,0
 access_olims_method_client,olims.method,model_olims_method,group_clients,1,0,0,0
 access_olims_batch_client,olims.batch,model_olims_batch,group_clients,1,0,0,0
 access_olims_smaple_client,olims.sample,model_olims_sample,group_clients,1,1,1,0
@@ -218,3 +217,8 @@ access_olims_smaple_analyst,olims.sample,model_olims_sample,group_analyst,1,0,0,
 access_olims_batch_analyst,olims.batch,model_olims_batch,group_analyst,1,0,0,0
 access_olims_reference_sample_analyst,olims.reference_sample,model_olims_reference_sample,group_analyst,1,0,0,0
 access_olims_worksheet_analyst,olims.worksheet,model_olims_worksheet,group_analyst,1,0,0,0
+access_olims_ar_sample_partition_manager,olims.ar_sample_partition,model_olims_ar_sample_partition,group_lab_managers,1,1,1,0
+access_olims_ar_sample_partition_client,olims.ar_sample_partition,model_olims_ar_sample_partition,group_clients,1,1,1,0
+access_olims_ar_sample_partition_analyst,olims.ar_sample_partition,model_olims_ar_sample_partition,group_analyst,1,1,0,0
+access_olims_ar_sample_partition_sampler,olims.ar_sample_partition,model_olims_ar_sample_partition,group_samplers,1,1,0,0
+access_olims_ar_sample_partition_clerk,olims.ar_sample_partition,model_olims_ar_sample_partition,group_lab_clerks,1,1,0,0
