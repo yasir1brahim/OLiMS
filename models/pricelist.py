@@ -1,22 +1,3 @@
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# from dependencies.dependency import ClassSecurityInfo
-# from lims import bikaMessageFactory as _
-# from lims.utils import t
-# from lims.browser.widgets.datetimewidget import DateTimeWidget
-#from lims.config import PRICELIST_TYPES, PROJECTNAME
-# from lims.content.bikaschema import BikaFolderSchema
-# from lims.interfaces import IPricelist
-# from dependencies.dependency import DateTime
-# from dependencies.dependency import PersistentMapping
-# from dependencies import folder
-# from dependencies.dependency import *
-# from dependencies.dependency import permissions
-# from dependencies.dependency import implements
-# from dependencies.dependency import getToolByName
-# from dependencies.dependency import permissions
-
-
-
 from openerp import fields, models
 from base_olims_model import BaseOLiMSModel
 from fields.boolean_field import BooleanField
@@ -36,27 +17,18 @@ PRICELIST_TYPES = (
     ('AnalysisService', _('Analysis Services')),
     ('LabProduct', _('Lab Products')),
 )
-#schema = BikaFolderSchema.copy() + Schema((
-schema = (StringField('name',
+schema = (StringField('Title',
               required=1,        
         ),
     fields.Selection(string='Type',
            selection=PRICELIST_TYPES,
            default='AnalysisService',
            required=True,
-        #     widget = ReferenceWidget(
-        #     checkbox_bound = 0,
-        #     # format='select',
-        #     # label=_("Pricelist for"),
-        # ),
     ),
 
 
     fields.Selection(string='BulkDiscount',
         selection=BULK_DISCOUNT_OPTION
-        #widget=SelectionWidget(
-         #   label=_("Bulk discount applies"),
-        #),
     ),
     FixedPointField('BulkPrice',
         widget=DecimalWidget(
@@ -73,35 +45,7 @@ schema = (StringField('name',
     ),
     DateTimeField('ExpirationDate'),
     DateTimeField('EffectiveDate'),
-# ~~~~~~~~~~ View for Remarks does not exist ~~~~~~~~~~~
-#     TextField('Remarks',
-#         searchable=True,
-#         default_content_type='text/plain',
-#         allowed_content_types=('text/plain', ),
-#         default_output_type="text/plain",
-#         widget=TextAreaWidget(
-#             macro="bika_widgets/remarks",
-#             label=_("Remarks"),
-#             append_only=True,
-#         ),
-#     ),
 )
-
-# Field = schema['title']
-# Field.required = 1
-# Field.widget.visible = True
-#
-# Field = schema['effectiveDate']
-# Field.schemata = 'default'
-# Field.required = 0 # "If no date is selected the item will be published
-#                    #immediately."
-# Field.widget.visible = True
-#
-# Field = schema['expirationDate']
-# Field.schemata = 'default'
-# Field.required = 0 # "If no date is chosen, it will never expire."
-# Field.widget.visible = True
-
 
 def apply_discount(price=None, discount=None):
     return float(price) - (float(price) * float(discount)) / 100
@@ -110,34 +54,11 @@ def apply_discount(price=None, discount=None):
 def get_vat_amount(price, vat_perc):
     return float(price) * float(vat_perc) / 100
 
-#
-# class PricelistLineItem(PersistentMapping):
-#     pass
 
-
-class Pricelist(models.Model, BaseOLiMSModel): #folder.ATFolder
+class Pricelist(models.Model, BaseOLiMSModel):
     _name= 'olims.price_list'
-    # implements(IPricelist)
-    # security = ClassSecurityInfo()
-    # displayContentsTab = False
-    # schema = schema
+    _rec_name = 'Title'
 
-    _at_rename_after_creation = True
-
-    def _renameAfterCreation(self, check_auto_id=False):
-        from lims.idserver import renameAfterCreation
-        renameAfterCreation(self)
-
-#    security.declarePublic('current_date')
-
-    def current_date(self):
-        """ return current date """
-        return DateTime()
-
- #   security.declareProtected(permissions.ModifyPortalContent,
-  #                            'processForm')
-
-#registerType(Pricelist, PROJECTNAME)
 Pricelist.initialze(schema)
 
 def ObjectModifiedEventHandler(instance, event):
