@@ -68,7 +68,7 @@ schema = (
         ),
     ),
     
-    fields.Char(compute='computeFulname', string='name'),
+    fields.Char(compute='computeFulname', string='Name'),
 
       # ~~~~~~~ To be implemented ~~~~~~~
     # ComputedField('Fullname',
@@ -184,6 +184,15 @@ schema = (
 #             label=_("Contacts to CC"),
 #         ),
         ),
+    fields.Many2one(string='Client_Contact',
+                    comodel_name='olims.client',
+                    required=True,
+
+    ),
+    fields.Many2one(comodel_name='res.users',
+                    string='user',
+                    domain="[('id', '=', '-1')]"
+    ),
  )
 
 # schema['JobTitle'].schemata = 'default'
@@ -195,6 +204,7 @@ schema = (
 
 class Contact(models.Model, BaseOLiMSModel): #(Person)
     _name = 'olims.contact'
+    _rec_name = "Name"
     # implements(IContact)
     # security = ClassSecurityInfo()
     # displayContentsTab = False
@@ -232,7 +242,7 @@ class Contact(models.Model, BaseOLiMSModel): #(Person)
                                             record.getSurname())
                 else:
                     fullname = '%s %s' % (record.getFirstname(), record.getSurname())
-            record.name = fullname.strip()
+            record.Name = fullname.strip()
 
     @api.onchange('physical_copy_from')
     def _onchange_physical(self):
