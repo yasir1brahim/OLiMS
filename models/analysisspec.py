@@ -96,12 +96,9 @@ schema = (fields.Many2one(string='Sample Type',
     #                         "applies for results above '> Max'"),
     #     ),
     # ),
-    # ComputedField('ClientUID',
-    #     expression = "context.aq_parent.UID()",
-    #     widget = ComputedWidget(
-    #         visible = False,
-    #     ),
-    # ),
+    fields.Many2one(string='ClientUID',
+        comodel_name = "olims.client",
+    ),
 )
 # schema['description'].widget.visible = True
 # schema['title'].required = True
