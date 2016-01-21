@@ -1,27 +1,3 @@
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# from dependencies.dependency import ClassSecurityInfo
-# from lims import bikaMessageFactory as _
-# from lims.utils import t
-# from lims.config import PROJECTNAME
-# from lims.content.bikaschema import BikaFolderSchema
-# from lims.interfaces import IBatch
-# from lims.workflow import skip, BatchState, StateFlow, getCurrentState,\
-#     CancellationState
-# from lims.browser.widgets import DateTimeWidget
-# from dependencies.dependency import ATFolder
-# from dependencies.dependency import *
-# from dependencies.dependency import getToolByName
-# from dependencies.dependency import safe_unicode
-# from dependencies.dependency import implements
-# from lims.permissions import EditBatch
-# from dependencies.dependency import indexer
-# from dependencies.dependency import HoldingReference
-# from dependencies.dependency import RecordsField
-# from lims.browser.widgets import RecordsWidget as bikaRecordsWidget
-#
-# from lims.browser.widgets import ReferenceWidget
-
-
 from openerp import fields, models
 from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
@@ -33,47 +9,8 @@ from lims import bikaMessageFactory as _
 BATCHE_STATES = (
     ('open','Open'), ('closed','Closed'),
     )
-# ~~~~~~~ To be implemented ~~~~~~~
-# class InheritedObjectsUIField(RecordsField):
-#
-#     """XXX bika.lims.RecordsWidget doesn't cater for multiValued fields
-#     InheritedObjectsUI is a RecordsField because we want the RecordsWidget,
-#     but the values are stored in ReferenceField 'InheritedObjects'
-#     """
-#
-#     def get(self, instance, **kwargs):
-#         # Return the formatted contents of InheritedObjects field.
-#         field = instance.Schema()['InheritedObjects']
-#         value = field.get(instance)
-#         return [{'Title': x.Title(),
-#                  'ObjectID': x.id,
-#                  'Description': x.Description()} for x in value]
-#
-#     def getRaw(self, instance, **kwargs):
-#         # Return the formatted contents of InheritedObjects field.
-#         field = instance.Schema()['InheritedObjects']
-#         value = field.get(instance)
-#         return [{'Title': x.Title(),
-#                  'ObjectID': x.id,
-#                  'Description': x.Description()} for x in value]
-#
-#     def set(self, instance, value, **kwargs):
-#         _field = instance.Schema().getField('InheritedObjects')
-#         uids = []
-#         if value:
-#             bc = getToolByName(instance, 'bika_catalog')
-#             ids = [x['ObjectID'] for x in value]
-#             if ids:
-#                 proxies = bc(id=ids)
-#                 if proxies:
-#                     uids = [x.UID for x in proxies]
-#         RecordsField.set(self, instance, value)
-#         return _field.set(instance, uids)
-
-
-#schema = BikaFolderSchema.copy() + Schema((
 schema = (StringField(
-        'name',
+        'Title',
         searchable=True,
         required=True,
         validators=('uniquefieldvalidator',),
@@ -91,20 +28,6 @@ schema = (StringField(
     fields.Many2one(string='Client',
                     comodel_name='olims.client',
                     required=False,
-     # required=0,
-     #    allowed_types=('Client',),
-     #    relationship='BatchClient',
-     #    widget=ReferenceWidget(
-     #        label=_("Client"),
-     #        size=30,
-     #        visible=True,
-     #        base_query={'inactive_state': 'active'},
-     #        showOn=True,
-     #        colModel=[{'columnName': 'UID', 'hidden': True},
-     #                  {'columnName': 'ClientID', 'width': '20', 'label': _('Client ID')},
-     #                  {'columnName': 'Title', 'width': '80', 'label': _('Title')}
-     #                 ],
-     #  ),
     ),
 
     StringField(
@@ -123,84 +46,15 @@ schema = (StringField(
         ),
     ),
           
-          fields.Many2many(string='BatchLabels',
+    fields.Many2many(string='BatchLabels',
                    comodel_name='olims.batch_label',
-   #     'BatchLabels',
-    #     vocabulary="BatchLabelVocabulary",
-    #     accessor="getLabelNames",
-    #     widget=MultiSelectionWidget(
-    #         label=_("Batch Labels"),
-    #         format="checkbox",
-    #     )
     ),
-# ~~~~~~~  View for Remarks fields does not exist~~~~~~~
-#     TextField(
-#         'Remarks',
-#         searchable=True,
-#         default_content_type='text/x-web-intelligent',
-#         allowable_content_types=('text/plain', ),
-#         default_output_type="text/plain",
-#         widget=TextAreaWidget(
-#             macro="bika_widgets/remarks",
-#             label=_('Remarks'),
-#             append_only=True,
-#         )
-#     ),
 
     fields.Many2many(string='InheritedObjects',
     comodel_name='olims.inherit_from_batch',
     relation='inheritform_batch',
     required=False,
     ondelete='cascade'
-        #     'InheritedObjectsUI',
-    #     required=False,
-    #     type='InheritedObjects',
-    #     subfields=('Title', 'ObjectID', 'Description'),
-    #     subfield_sizes = {'Title': 25,
-    #                       'ObjectID': 25,
-    #                       'Description': 50,
-    #                       },
-    #     subfield_labels = {'Title': _('Title'),
-    #                        'ObjectID': _('Object ID'),
-    #                        'Description': _('Description')
-    #                        },
-    #     widget = bikaRecordsWidget(
-    #         label=_("Inherit From"),
-    #         description=_(
-    #             "Include all analysis requests belonging to the selected objects."),
-    #         innerJoin="<br/>",
-    #         combogrid_options={
-    #             'Title': {
-    #                 'colModel': [
-    #                     {'columnName': 'Title', 'width': '25',
-    #                      'label': _('Title'), 'align': 'left'},
-    #                     {'columnName': 'ObjectID', 'width': '25',
-    #                      'label': _('Object ID'), 'align': 'left'},
-    #                     {'columnName': 'Description', 'width': '50',
-    #                      'label': _('Description'), 'align': 'left'},
-    #                     {'columnName': 'UID', 'hidden': True},
-    #                 ],
-    #                 'url': 'getAnalysisContainers',
-    #                 'showOn': False,
-    #                 'width': '600px'
-    #             },
-    #             'ObjectID': {
-    #                 'colModel': [
-    #                     {'columnName': 'Title', 'width': '25',
-    #                      'label': _('Title'), 'align': 'left'},
-    #                     {'columnName': 'ObjectID', 'width': '25',
-    #                      'label': _('Object ID'), 'align': 'left'},
-    #                     {'columnName': 'Description', 'width': '50',
-    #                      'label': _('Description'), 'align': 'left'},
-    #                     {'columnName': 'UID', 'hidden': True},
-    #                 ],
-    #                 'url': 'getAnalysisContainers',
-    #                 'showOn': False,
-    #                 'width': '600px'
-    #             },
-    #         },
-    #     ),
-    # ),
     ),
     StringField(string='BatchId',compute='_ComputeBatchId'),
     fields.Selection(string='state',selection=BATCHE_STATES,
@@ -212,26 +66,9 @@ schema = (StringField(
 )
 
 
-
-# schema['title'].required = False
-# schema['title'].widget.visible = True
-# schema['title'].widget.description = _("If no Title value is entered, the Batch ID will be used.")
-# schema['description'].required = False
-# schema['description'].widget.visible = True
-#
-# schema.moveField('ClientBatchID', before='description')
-# schema.moveField('BatchID', before='description')
-# schema.moveField('title', before='description')
-# schema.moveField('Client', after='title')
-
-
 class Batch(models.Model, BaseOLiMSModel): #ATFolder
     _name='olims.batch'
-
-    # implements(IBatch)
-    # security = ClassSecurityInfo()
-    # displayContentsTab = False
-    # schema = schema
+    _rec_name = 'Title'
 
     def _ComputeBatchId(self):
         for record in self:
