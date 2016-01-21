@@ -1921,7 +1921,7 @@
                     </field>
                     <br/><br/>
                     <label for="Sample Partition" string="Sample Partitions" attrs="{'invisible': [('id', '=', False)]}"/>
-                    <field name="Sample Partition" widget="one2many_list">
+                    <field name="Sample Partition" widget="one2many_list" attrs="{'invisible': [('id', '=', False)]}">
                         <tree editable="bottom" create="false">
                             <field name="id" invisible="1"/>
                             <field name="Partition" attrs="{'readonly': [('id', '!=', False)]}"/>
