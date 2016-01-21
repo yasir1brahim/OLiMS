@@ -25,7 +25,7 @@ from openerp import fields, models
 from base_olims_model import BaseOLiMSModel
 
 #schema = BikaSchema.copy() + Schema((
-schema = (StringField('name',
+schema = (StringField('Template',
         required=1,
         widget=StringWidget(
             label=_('Title'),
@@ -73,6 +73,14 @@ schema = (StringField('name',
                  required=True,
                  default=7
     ),
+    fields.Many2one(string='ClientSRTemplate',
+                    comodl_name='olims.client'
+    ),
+    fields.Many2one(string='Sampler',
+        comodel_name="res.users",
+        domain="[('groups_id', 'in', (14,18))]",
+        required = True
+    ),
 
 )
 
@@ -86,6 +94,7 @@ schema = (StringField('name',
 
 class SRTemplate(models.Model, BaseOLiMSModel): #BaseContent
     _name = 'olims.sr_template'
+    _rec_name = 'Template'
     # security = ClassSecurityInfo()
     # schema = schema
     # displayContentsTab = False
