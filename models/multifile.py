@@ -9,6 +9,7 @@
 
 from lims import bikaMessageFactory as _
 from fields.string_field import StringField
+from fields.file_field import FileField
 from fields.widget.widget import StringWidget
 from openerp import fields, models
 from base_olims_model import BaseOLiMSModel
@@ -22,14 +23,13 @@ schema = (
         label=_("Document ID"),
         )
     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-    # FileField('File',
-    # required=1,
-    # widget = FileWidget(
-    #     label=_("Document"),
-    #     description=_("File upload "),
-    #     )
-    # ),
+    FileField('File',
+    required=1,
+#     widget = FileWidget(
+#         label=_("Document"),
+#         description=_("File upload "),
+#         )
+    ),
 
     StringField('DocumentVersion',
     widget = StringWidget(
@@ -51,6 +51,10 @@ schema = (
         description=_("Type of document (e.g. user manual, instrument specifications, image, ...)"),
         )
     ),
+    fields.Many2one(string='Instrument',
+                   comodel_name='olims.instrument',
+                   required = False,
+    )
 )
 
 # TitleField = schema['title']
