@@ -221,6 +221,9 @@ schema = (StringField('Template',
     fields.Many2many(string='Analyses',
                        comodel_name='olims.records_field_artemplates',
     ),
+    fields.Many2one(string='ClientARTemplate',
+                    comodel_name='olims.client',
+                    )
 )#,
 #)
 
