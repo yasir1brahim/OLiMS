@@ -432,12 +432,9 @@ schema = (StringField('name',
     ),
 
 # ~~~~~~~ To be implemented ~~~~~~~
-#  ComputedField('ClientUID',
-    #     expression = 'context.aq_parent.UID()',
-    #     widget = ComputedWidget(
-    #         visible=False,
-    #     ),
-    # ),
+    fields.Many2one(string='Client',
+           comodel_name = 'olims.client',
+       ),
     # ComputedField('SampleTypeUID',
     #     expression = 'context.getSampleType().UID()',
     #     widget = ComputedWidget(
