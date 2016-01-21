@@ -27,7 +27,7 @@ from dependencies import transaction
 
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 # schema = BikaSchema.copy() + Schema(
-schema =  (StringField('name',
+schema =  (StringField('Category',
               required=1,        
     ),
     TextField('Description',
@@ -65,6 +65,7 @@ schema =  (StringField('name',
 
 class AnalysisCategory(models.Model, BaseOLiMSModel):
     _name = "olims.analysis_category"
+    _rec_name = 'Category'
     
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~    
 #     implements(IAnalysisCategory)
