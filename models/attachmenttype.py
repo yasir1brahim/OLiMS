@@ -19,7 +19,7 @@ from fields.text_field import TextField
 from fields.widget.widget import TextAreaWidget
 
 
-schema = (StringField('name',
+schema = (StringField('attachment type',
               required=1,        
     ),
     TextField('Description',
@@ -34,6 +34,7 @@ schema = (StringField('name',
 
 class AttachmentType(models.Model, BaseOLiMSModel): #BaseContent
     _name = 'olims.attachment_type'
+    _rec_name = 'attachment type'
     # security = ClassSecurityInfo()
     # displayContentsTab = False
     # schema = schema
