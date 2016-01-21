@@ -292,6 +292,42 @@ schema = (
     #         format = 'select',
     #     )
      ),
+    fields.One2many('olims.analysis_request',
+                                 'Client',
+                                 string='Analysis_Request'
+    ),
+    fields.One2many('olims.contact',
+                                 'Client_Contact',
+                                 string='Contact'
+    ),
+    fields.One2many('olims.analysis_spec',
+                                 'ClientUID',
+                                 string='Analysis Specification'
+    ),
+    fields.One2many('olims.analysis_profile',
+                                 'ClientProfile',
+                                 string='Analysis Profile'
+    ),
+    fields.One2many('olims.sample_point',
+                                 'ClientSamplePoint',
+                                 string='Sample Point'
+    ),
+    fields.One2many('olims.ar_template',
+                                 'ClientARTemplate',
+                                 string='AR Template'
+    ),
+    fields.One2many('olims.sr_template',
+                                 'ClientSRTemplate',
+                                 string='SR Template'
+    ),
+    fields.One2many('olims.supply_order',
+                                 'Client',
+                                 string='Supply Order'
+    ),
+    fields.One2many('olims.sample',
+                                 'Client',
+                                 string='Sample'
+    ),
 
 )
 
