@@ -93,7 +93,7 @@ class LabProduct(models.Model, BaseOLiMSModel): #BaseContent
         """ compute total price """
         for items in self:
             price = items.getPrice()
-            price = (price or '0.00')
+            price = (price or 0.00)
             vat = (items.getVAT())
             price = price and price or 0
             vat = vat and vat or 0
