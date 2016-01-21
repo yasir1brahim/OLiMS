@@ -22,7 +22,7 @@ PRESERVATION_CATEGORIES = (
     ('lab', _('Lab Preservation')),
     )
 # schema = BikaSchema.copy() + Schema(
-schema = (StringField('name',
+schema = (StringField('Preservation',
         required=1,
         widget=StringWidget(
             label=_('Title'),
@@ -56,6 +56,7 @@ schema = (StringField('name',
 
 class Preservation(models.Model, BaseOLiMSModel):#(BaseContent):
     _name = 'olims.preservation'
+    _rec_name = 'Preservation'
 #     security = ClassSecurityInfo()
 #     displayContentsTab = False
 #     schema = schema
