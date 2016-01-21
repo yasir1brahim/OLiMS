@@ -1,22 +1,10 @@
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# from dependencies.dependency import ClassSecurityInfo
-# from lims.utils import t
-# from lims.config import PROJECTNAME
-# from lims.interfaces import ISubGroup
-# from lims.content.bikaschema import BikaSchema
-# from lims.fields import *
-# from dependencies.dependency import *
-# from dependencies.dependency import implements
-
 from lims import bikaMessageFactory as _
 from openerp import fields, models
 from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
 from fields.text_field import TextField
 from fields.widget.widget import TextAreaWidget, StringWidget
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# schema = BikaSchema.copy() + Schema((
-schema = (StringField('name',
+schema = (StringField('Sub Group',
               required=1,        
     ),
     TextField('Description',
@@ -25,30 +13,15 @@ schema = (StringField('name',
                             )
     ),
     StringField(
-        'SortKey',
+        'Sort Key',
         widget=StringWidget(
             label=_("Sort Key"),
             description=_("Subgroups are sorted with this key in group views")
         )
     ),
 )
-# schema['description'].widget.visible = True
-# schema['description'].schemata = 'default'
-
-
-class SubGroup(models.Model, BaseOLiMSModel): #(BaseContent):
+class SubGroup(models.Model, BaseOLiMSModel):
     _name = 'olims.subgroup'
+    _rec_name = 'Sub Group'
+
 SubGroup.initialze(schema)
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-#     implements(ISubGroup)
-#     security = ClassSecurityInfo()
-#     displayContentsTab = False
-#     schema = schema
-# 
-#     _at_rename_after_creation = True
-# 
-#     def _renameAfterCreation(self, check_auto_id=False):
-#         from lims.idserver import renameAfterCreation
-#         renameAfterCreation(self)
-# 
-# registerType(SubGroup, PROJECTNAME)
