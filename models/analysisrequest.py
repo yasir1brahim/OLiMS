@@ -88,6 +88,11 @@ def BatchUID(instance):
 schema = (fields.Char(string='RequestID',
                       compute='compute_analysisRequestId',
         ),
+    fields.Many2one(string='Client',
+                    comodel_name='olims.client',
+                    required=False,
+
+    ),
 # ~~~~~~~ View for RequestID field does not exist  ~~~~~~~
 #     StringField(
 #         'RequestID',
@@ -213,12 +218,6 @@ schema = (fields.Char(string='RequestID',
 #             showOn=True,
 #         ),
 #     ),
-
-    fields.Many2one(string='Client',
-                    comodel_name='olims.client',
-                    required=True,
-
-    ),
 
     fields.Many2one(string='Sample',
                         comodel_name='olims.sample',
@@ -393,6 +392,14 @@ schema = (fields.Char(string='RequestID',
                         comodel_name='olims.analysis_profile',
                         relation='ar_to_analysisprofile'
 
+    ),
+    fields.One2many(string='Partition',
+                     comodel_name='olims.ar_partition',
+                    inverse_name='analysis_request_id',
+    ),
+    fields.One2many(string='Analyses',
+                     comodel_name='olims.ar_analysis',
+                    inverse_name='analysis_request_id',
     ),
 #     # TODO: Profile'll be delated
 # ~~~~~~~ To be implemented ~~~~~~~
@@ -1190,26 +1197,26 @@ schema = (fields.Char(string='RequestID',
                      },
         ),
     ),
-#     TextField(
-#         'Remarks',
-#         searchable=True,
-#         default_content_type='text/x-web-intelligent',
-#         allowable_content_types = ('text/plain', ),
-#         default_output_type="text/plain",
-#         mode="rw",
-#         read_permission=permissions.View,
-#         write_permission=permissions.ModifyPortalContent,
-#         widget=TextAreaWidget(
-#             macro="bika_widgets/remarks",
-#             label = _("Remarks"),
-#             append_only=True,
-#             visible={'edit': 'visible',
-#                      'view': 'visible',
-#                      'add': 'invisible',
-#                      'sample_registered': {'view': 'invisible', 'edit': 'invisible', 'add': 'invisible'},
-#                      },
-#         ),
-#     ),
+    TextField(
+        string='Remarks',
+        searchable=True,
+        default_content_type='text/x-web-intelligent',
+        allowable_content_types = ('text/plain', ),
+        default_output_type="text/plain",
+        mode="rw",
+        read_permission=permissions.View,
+        write_permission=permissions.ModifyPortalContent,
+        widget=TextAreaWidget(
+            macro="bika_widgets/remarks",
+            label = _("Remarks"),
+            append_only=True,
+            visible={'edit': 'visible',
+                     'view': 'visible',
+                     'add': 'invisible',
+                     'sample_registered': {'view': 'invisible', 'edit': 'invisible', 'add': 'invisible'},
+                     },
+        ),
+    ),
     FixedPointField(
         'MemberDiscount',
         default_method='getDefaultMemberDiscount',
@@ -1389,23 +1396,23 @@ schema = (fields.Char(string='RequestID',
     # Old one, to be removed because of the incorporation of
     # ResultsInterpretationDepts (due to LIMS-1628)
     TextField(
-        'ResultsInterpretation',
-        searchable=True,
-        mode="rw",
-        default_content_type = 'text/html',  # Input content type for the textfield
-        default_output_type = 'text/x-html-safe',  # getResultsInterpretation returns a str with html tags
-                                                   # to conserve the txt format in the report.
-        read_permission=permissions.View,
-        write_permission=permissions.ModifyPortalContent,
-        widget=RichWidget (
-            description = _("Comments or results interpretation"),
-            label = _("Results Interpretation"),
-            size=10,
-            allow_file_upload=False,
-            default_mime_type='text/x-rst',
-            output_mime_type='text/x-html',
-            rows=3,
-            visible=False),
+        string='ResultsInterpretation',
+#         searchable=True,
+#         mode="rw",
+#         default_content_type = 'text/html',  # Input content type for the textfield
+#         default_output_type = 'text/x-html-safe',  # getResultsInterpretation returns a str with html tags
+#                                                    # to conserve the txt format in the report.
+#         read_permission=permissions.View,
+#         write_permission=permissions.ModifyPortalContent,
+#         widget=RichWidget (
+#             description = _("Comments or results interpretation"),
+#             label = _("Results Interpretation"),
+#             size=10,
+#             allow_file_upload=False,
+#             default_mime_type='text/x-rst',
+#             output_mime_type='text/x-html',
+#             rows=3,
+#             visible=False),
     ),
     fields.One2many(string='LabService',
                      comodel_name='olims.field_analysis_service',
@@ -1437,6 +1444,12 @@ schema = (fields.Char(string='RequestID',
                      select=True,
                      required=True, readonly=True,
                      copy=False, track_visibility='always'
+    ),
+    fields.Selection(string='result_option',
+                     selection=(('general','General'),
+                                ('sampling','Sampling')
+                                ),
+                     default='general',
     ),
 # ~~~~~~~ To be implemented ~~~~~~~
 #     RecordsField('ResultsInterpretationDepts',
@@ -1522,19 +1535,48 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         for record in self:
             record.RequestID = 'R-0' + str(record.id)
 
-    """Overwrite the create method of Odoo and create sample model data
-       with fields SamplingDate and SampleType
-    """
-    def create(self, cr, uid, values, context=None):
-        if context is None:
-            context = {}
+    @api.model
+    def create(self, values):
+        """Overwrite the create method of Odoo and create sample model data
+           with fields SamplingDate and SampleType
+        """
+        res = super(AnalysisRequest, self).create(values)
+        data = []
+        for LabService in values.get('LabService'): 
+            data.append(LabService)
+        for FieldService in values.get('FieldService'):
+            data.append(FieldService)
         vals = {
                 'SamplingDate':values.get('SamplingDate'),
-                'SampleType':values.get('SampleType')
+                'SampleType':values.get('SampleType'),
+                'Client': values.get('Client')
                 }
-        sample_object = self.pool.get("olims.sample")
-        sample_object.create(cr, uid, vals, context)
-        res = super(AnalysisRequest, self).create(cr, uid, values, context)
+        sample_object = self.env["olims.sample"]
+        sample_object.create(vals)
+        partition_values = {'state': res.state,
+                            'analysis_request_id':res.id,
+                            'Partition': 'P-0'+ str(res.id)+'-R-0'+str(res.id)
+                            }
+        ar_partition_object = self.env["olims.ar_partition"]
+        ar_p = ar_partition_object.create(partition_values)
+        ar_analysis_object = self.env['olims.ar_analysis']
+        for rec in data:
+            if "LabService" in rec[2]:
+                serv_temp = rec[2]['LabService']
+            elif "Service" in rec[2]:
+                serv_temp = rec[2]['Service']
+            analyses_values = {
+                               'Priority':values.get('Priority'),
+                               'Partition': ar_p.id,
+                               'analysis_request_id':res.id,
+                               'Category': rec[2]['Category'],
+                               'Services': serv_temp,
+                               'Min': rec[2]['Min'],
+                               'Max': rec[2]['Max'],
+                               'Error': rec[2]['Error']
+                               }
+            print analyses_values
+            ar_analysis_object.create(analyses_values)
         return res
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 #     implements(IAnalysisRequest)
