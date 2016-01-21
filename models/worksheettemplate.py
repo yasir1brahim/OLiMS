@@ -154,8 +154,8 @@ class WorksheetAnalysisService(models.Model, BaseOLiMSModel):
     def _ComputeAnalysisServiceFields(self):
         for items in self:
             items.Keyword = items.Service.Keyword
-            items.Method = items.Service._Method.getname()
-            items.Calculation = items.Service._Calculation.getname()
+            items.Method = items.Service._Method.getMethod()
+            items.Calculation = items.Service._Calculation.getCalculation()
 
 #registerType(WorksheetTemplate, PROJECTNAME)
 WorksheetTemplate.initialze(schema)
