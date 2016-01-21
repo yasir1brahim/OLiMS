@@ -159,6 +159,8 @@ schema = (StringField('Profile',
 #     ),
    
    fields.Float(compute='computeTotalPrice',string='TotalPrice'),
+   fields.Many2one(string='ClientProfile',
+                   comodel_name='olims.client'),
    
 #     ComputedField('TotalPrice',
 #           schemata="Accounting",
