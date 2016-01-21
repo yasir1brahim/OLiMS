@@ -25,7 +25,7 @@ from fields.widget.widget import IntegerWidget, BooleanWidget, FileWidget, \
                                 TextAreaWidget, StringWidget
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 # schema = BikaSchema.copy() + Schema((
-schema = (StringField('name',
+schema = (StringField('Priority',
               required=1,        
     ),
     TextField('Description',
@@ -33,13 +33,13 @@ schema = (StringField('name',
             description = _('Used in item listings and search results.'),
                             )
     ),
-          IntegerField('sortKey',
+          IntegerField('Sort Key',
         widget=IntegerWidget(
             label = _("Sort Key"),
             description = _("Numeric value indicating the sort order of objects that are prioritised"),
         ),
     ),
-    IntegerField('pricePremium',
+    IntegerField('Premium',
         widget=IntegerWidget(
             label = _("Price Premium Percentage"),
             description = _("The percentage used to calculate the price for analyses done at this priority"),
@@ -60,7 +60,7 @@ schema = (StringField('name',
               ),
     ),
          
-    BooleanField('isDefault',
+    BooleanField('Default',
         widget=BooleanWidget(
             label = _("Default Priority?"),
             description = _("Check this box if this is the default priority"),
@@ -79,6 +79,7 @@ schema = (StringField('name',
 
 class ARPriority(models.Model, BaseOLiMSModel):#(BaseContent):
     _name = 'olims.ar_priority'
+    _rec_name = 'Priority'
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 #     security = ClassSecurityInfo()
 #     schema = schema
