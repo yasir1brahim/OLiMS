@@ -1,24 +1,5 @@
 """The request for analysis by a client. It contains analysis instances.
 """
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# from dependencies.dependency import ClassSecurityInfo
-# from dependencies.dependency import RecordsField
-# from dependencies.dependency import indexer
-# from dependencies.dependency import registerType #atapi
-# from dependencies.dependency import *
-# from dependencies.dependency import HoldingReference
-# from dependencies.dependency import RichWidget
-# from lims.content.bikaschema import BikaSchema
-# from lims.interfaces import IAnalysisRequest
-# from lims.browser.fields import HistoryAwareReferenceField
-# from lims.browser.widgets import DateTimeWidget, DecimalWidget
-# from lims.browser.widgets import ReferenceWidget
-# from lims.browser.widgets import SelectionWidget
-# from dependencies.dependency import implements
-# from lims.browser.fields import DateTimeField
-# from lims.browser.widgets import SelectionWidget as BikaSelectionWidget
-# from lims.browser.fields import ARAnalysesField
-# from lims.config import PROJECTNAME
 
 import logging
 from openerp import models, api
@@ -64,27 +45,7 @@ AR_STATES = (
     ('published','Published'),
     ('invalid','Invalid'),
     )
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# try:
-#     from dependencies.dependency import getSite
-# except:
-#     # Plone < 4.3
-#     from dependencies.dependency import getSite
 
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# @indexer(IAnalysisRequest)
-def Priority(instance):
-    priority = instance.getPriority()
-    if priority:
-        return priority.getSortKey()
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# @indexer(IAnalysisRequest)
-def BatchUID(instance):
-    batch = instance.getBatch()
-    if batch:
-        return batch.UID()
-
-# schema = BikaSchema.copy() + Schema(
 schema = (fields.Char(string='RequestID',
                       compute='compute_analysisRequestId',
         ),
@@ -93,67 +54,11 @@ schema = (fields.Char(string='RequestID',
                     required=False,
 
     ),
-# ~~~~~~~ View for RequestID field does not exist  ~~~~~~~
-#     StringField(
-#         'RequestID',
-#         searchable=True,
-#         mode="rw",
-#         read_permission=permissions.View,
-#         write_permission=permissions.ModifyPortalContent,
-#         widget=StringWidget(
-#             label = _("Request ID"),
-#             description=_("The ID assigned to the client's request by the lab"),
-#             visible={'view': 'invisible',
-#                      'edit': 'invisible'},
-#         ),
-#     ),
     fields.Many2one(string='Contact',
                     comodel_name='olims.contact',
                     relation='ar_contact',
                     required=True
     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ReferenceField(
-#         'Contact',
-#         required=1,
-#         default_method='getContactUIDForUser',
-#         vocabulary_display_path_bound=sys.maxsize,
-#         allowed_types=('Contact',),
-#         referenceClass=HoldingReference,
-#         relationship='AnalysisRequestContact',
-#         mode="rw",
-#         read_permission=permissions.View,
-#         write_permission=EditARContact,
-#         widget=ReferenceWidget(
-#             label = _("Contact"),
-#             render_own_label=True,
-#             size=20,
-#             helper_js=("bika_widgets/referencewidget.js", "++resource++bika.lims.js/contact.js"),
-#             visible={'edit': 'visible',
-#                      'view': 'visible',
-#                      'add': 'edit',
-#                      'header_table': 'prominent',
-#                      'sample_registered': {'view': 'visible', 'edit': 'visible', 'add': 'edit'},
-#                      'to_be_sampled':     {'view': 'visible', 'edit': 'visible'},
-#                      'sampled':           {'view': 'visible', 'edit': 'visible'},
-#                      'to_be_preserved':   {'view': 'visible', 'edit': 'visible'},
-#                      'sample_due':        {'view': 'visible', 'edit': 'visible'},
-#                      'sample_received':   {'view': 'visible', 'edit': 'visible'},
-#                      'attachment_due':    {'view': 'visible', 'edit': 'visible'},
-#                      'to_be_verified':    {'view': 'visible', 'edit': 'visible'},
-#                      'verified':          {'view': 'visible', 'edit': 'invisible'},
-#                      'published':         {'view': 'visible', 'edit': 'invisible'},
-#                      'invalid':           {'view': 'visible', 'edit': 'invisible'},
-#                      },
-#             base_query={'inactive_state': 'active'},
-#             showOn=True,
-#             popup_width='400px',
-#             colModel=[{'columnName': 'UID', 'hidden': True},
-#                       {'columnName': 'Fullname', 'width': '50', 'label': _('Name')},
-#                       {'columnName': 'EmailAddress', 'width': '50', 'label': _('Email Address')},
-#                      ],
-#         ),
-#     ),
     fields.Many2one(string='CCContact',
                     comodel_name='olims.contact',
                     relation='ar__cc_contact',
@@ -185,209 +90,28 @@ schema = (fields.Char(string='RequestID',
             size=20,
         ),
     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ReferenceField(
-#         'Client',
-#         required=1,
-#         allowed_types=('Client',),
-#         relationship='AnalysisRequestClient',
-#         mode="rw",
-#         read_permission=permissions.View,
-#         write_permission=permissions.ModifyPortalContent,
-#         widget=ReferenceWidget(
-#             label = _("Client"),
-#             description = _("You must assign this request to a client"),
-#             size=20,
-#             render_own_label=True,
-#             visible={'edit': 'visible',
-#                      'view': 'visible',
-#                      'add': 'edit',
-#                      'header_table': 'visible',
-#                      'sample_registered': {'view': 'invisible', 'edit': 'visible', 'add': 'edit'},
-#                      'to_be_sampled':     {'view': 'invisible', 'edit': 'invisible'},
-#                      'sampled':           {'view': 'invisible', 'edit': 'invisible'},
-#                      'to_be_preserved':   {'view': 'invisible', 'edit': 'invisible'},
-#                      'sample_received':   {'view': 'invisible', 'edit': 'invisible'},
-#                      'attachment_due':    {'view': 'invisible', 'edit': 'invisible'},
-#                      'to_be_verified':    {'view': 'invisible', 'edit': 'invisible'},
-#                      'verified':          {'view': 'invisible', 'edit': 'invisible'},
-#                      'published':         {'view': 'invisible', 'edit': 'invisible'},
-#                      'invalid':           {'view': 'invisible', 'edit': 'invisible'},
-#                      },
-#             base_query={'inactive_state': 'active'},
-#             showOn=True,
-#         ),
-#     ),
 
-    fields.Many2one(string='Sample',
+    fields.Char(string='Sample',
+                        compute='Compute_AnalysisSample',
+
+    ),
+    fields.Many2one(string='Sample_id',
                         comodel_name='olims.sample',
 
     ),
-
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ReferenceField(
-#         'Sample',
-#         vocabulary_display_path_bound=sys.maxsize,
-#         allowed_types=('Sample',),
-#         referenceClass=HoldingReference,
-#         relationship='AnalysisRequestSample',
-#         mode="rw",
-#         read_permission=permissions.View,
-#         write_permission=permissions.ModifyPortalContent,
-#         widget=ReferenceWidget(
-#             label = _("Sample"),
-#             description = _("Select a sample to create a secondary AR"),
-#             size=20,
-#             render_own_label=True,
-#             visible={'edit': 'visible',
-#                      'view': 'visible',
-#                      'add': 'edit',
-#                      'header_table': 'visible',
-#                      'sample_registered': {'view': 'visible', 'edit': 'visible', 'add': 'edit'},
-#                      'to_be_sampled':     {'view': 'visible', 'edit': 'invisible'},
-#                      'sampled':           {'view': 'visible', 'edit': 'invisible'},
-#                      'to_be_preserved':   {'view': 'visible', 'edit': 'invisible'},
-#                      'sample_due':        {'view': 'visible', 'edit': 'invisible'},
-#                      'sample_received':   {'view': 'visible', 'edit': 'invisible'},
-#                      'attachment_due':    {'view': 'visible', 'edit': 'invisible'},
-#                      'to_be_verified':    {'view': 'visible', 'edit': 'invisible'},
-#                      'verified':          {'view': 'visible', 'edit': 'invisible'},
-#                      'published':         {'view': 'visible', 'edit': 'invisible'},
-#                      'invalid':           {'view': 'visible', 'edit': 'invisible'},
-#                      },
-#             catalog_name='bika_catalog',
-#             base_query={'cancellation_state': 'active',
-#                         'review_state': ['sample_due', 'sample_received', ]},
-#             showOn=True,
-#         ),
-#     ),
-
     fields.Many2one(string='Batch',
                         comodel_name='olims.batch',
 
     ),
-
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ReferenceField(
-#         'Batch',
-#         allowed_types=('Batch',),
-#         relationship='AnalysisRequestBatch',
-#         mode="rw",
-#         read_permission=permissions.View,
-#         write_permission=permissions.ModifyPortalContent,
-#         widget=ReferenceWidget(
-#             label = _("Batch"),
-#             size=20,
-#             render_own_label=True,
-#             visible={'edit': 'visible',
-#                      'view': 'visible',
-#                      'add': 'edit',
-#                      'header_table': 'visible',
-#                      'sample_registered': {'view': 'visible', 'edit': 'visible', 'add': 'edit'},
-#                      'to_be_sampled':     {'view': 'visible', 'edit': 'visible'},
-#                      'sampled':           {'view': 'visible', 'edit': 'visible'},
-#                      'to_be_preserved':   {'view': 'visible', 'edit': 'visible'},
-#                      'sample_due':        {'view': 'visible', 'edit': 'visible'},
-#                      'sample_received':   {'view': 'visible', 'edit': 'visible'},
-#                      'attachment_due':    {'view': 'visible', 'edit': 'visible'},
-#                      'to_be_verified':    {'view': 'visible', 'edit': 'visible'},
-#                      'verified':          {'view': 'visible', 'edit': 'visible'},
-#                      'published':         {'view': 'visible', 'edit': 'invisible'},
-#                      'invalid':           {'view': 'visible', 'edit': 'invisible'},
-#                      },
-#             catalog_name='bika_catalog',
-#             base_query={'review_state': 'open',
-#                         'cancellation_state': 'active'},
-#             showOn=True,
-#         ),
-#     ),
     fields.Many2one(string='SubGroup',
                         comodel_name='olims.subgroup',
                         relation='ar_subgroup'
 
     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ReferenceField(
-#         'SubGroup',
-#         required=False,
-#         allowed_types=('SubGroup',),
-#         referenceClass = HoldingReference,
-#         relationship = 'AnalysisRequestSubGroup',
-#         widget=ReferenceWidget(
-#             label = _("Sub-group"),
-#             size=20,
-#             render_own_label=True,
-#             visible={'edit': 'visible',
-#                      'view': 'visible',
-#                      'add': 'edit',
-#                      'header_table': 'visible',
-#                      'sample_registered': {'view': 'visible', 'edit': 'visible', 'add': 'edit'},
-#                      'to_be_sampled':     {'view': 'visible', 'edit': 'visible'},
-#                      'sampled':           {'view': 'visible', 'edit': 'visible'},
-#                      'to_be_preserved':   {'view': 'visible', 'edit': 'visible'},
-#                      'sample_due':        {'view': 'visible', 'edit': 'visible'},
-#                      'sample_received':   {'view': 'visible', 'edit': 'visible'},
-#                      'attachment_due':    {'view': 'visible', 'edit': 'visible'},
-#                      'to_be_verified':    {'view': 'visible', 'edit': 'visible'},
-#                      'verified':          {'view': 'visible', 'edit': 'visible'},
-#                      'published':         {'view': 'visible', 'edit': 'invisible'},
-#                      'invalid':           {'view': 'visible', 'edit': 'invisible'},
-#                      },
-#             catalog_name='bika_setup_catalog',
-#             colModel=[
-#                 {'columnName': 'Title', 'width': '30',
-#                  'label': _('Title'), 'align': 'left'},
-#                 {'columnName': 'Description', 'width': '70',
-#                  'label': _('Description'), 'align': 'left'},
-#                 {'columnName': 'SortKey', 'hidden': True},
-#                 {'columnName': 'UID', 'hidden': True},
-#             ],
-#             base_query={'inactive_state': 'active'},
-#             sidx='SortKey',
-#             sord='asc',
-#             showOn=True,
-#         ),
-#     ),
     fields.Many2one(string='Template',
                         comodel_name='olims.ar_template',
 
     ),
-
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ReferenceField(
-#         'Template',
-#         allowed_types=('ARTemplate',),
-#         referenceClass=HoldingReference,
-#         relationship='AnalysisRequestARTemplate',
-#         mode="rw",
-#         read_permission=permissions.View,
-#         write_permission=permissions.ModifyPortalContent,
-#         widget=ReferenceWidget(
-#             label = _("Template"),
-#             size=20,
-#             render_own_label=True,
-#             visible={'edit': 'visible',
-#                      'view': 'visible',
-#                      'add': 'edit',
-#                      'secondary': 'disabled',
-#                      'header_table': 'visible',
-#                      'sample_registered': {'view': 'visible', 'edit': 'visible', 'add': 'edit'},
-#                      'to_be_sampled':     {'view': 'visible', 'edit': 'invisible'},
-#                      'sampled':           {'view': 'visible', 'edit': 'invisible'},
-#                      'to_be_preserved':   {'view': 'visible', 'edit': 'invisible'},
-#                      'sample_due':        {'view': 'visible', 'edit': 'invisible'},
-#                      'sample_received':   {'view': 'visible', 'edit': 'invisible'},
-#                      'attachment_due':    {'view': 'visible', 'edit': 'invisible'},
-#                      'to_be_verified':    {'view': 'visible', 'edit': 'invisible'},
-#                      'verified':          {'view': 'visible', 'edit': 'invisible'},
-#                      'published':         {'view': 'visible', 'edit': 'invisible'},
-#                      'invalid':           {'view': 'visible', 'edit': 'invisible'},
-#                      },
-#             catalog_name='bika_setup_catalog',
-#             base_query={'inactive_state': 'active'},
-#             showOn=True,
-#         ),
-#     ),
     fields.Many2one(string='AnalysisProfile',
                         comodel_name='olims.analysis_profile',
                         relation='ar_to_analysisprofile'
@@ -401,203 +125,27 @@ schema = (fields.Char(string='RequestID',
                      comodel_name='olims.ar_analysis',
                     inverse_name='analysis_request_id',
     ),
-#     # TODO: Profile'll be delated
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ReferenceField(
-#         'Profile',
-#         allowed_types=('AnalysisProfile',),
-#         referenceClass=HoldingReference,
-#         relationship='AnalysisRequestAnalysisProfile',
-#         mode="rw",
-#         read_permission=permissions.View,
-#         write_permission=permissions.ModifyPortalContent,
-#         widget=ReferenceWidget(
-#             label = _("Analysis Profile"),
-#             size=20,
-#             render_own_label=True,
-#             visible=False,
-#             catalog_name='bika_setup_catalog',
-#             base_query={'inactive_state': 'active'},
-#             showOn=False,
-#         ),
-#     ),
-#
-#               fields.Many2many(string='Profiles',
-#                         comodel_name='olims.analysis_profile',
-#
-#         ),
-          # ~~~~~~~ To be implemented ~~~~~~~
-        # fields.One2many(string='Analysis Profile',
-        #                  comodel_name='olims.analysis_profile',
-        #                     #relation='abcd',
-        #                     #column1='olims_analysis_request_id',
-        #                     #column2='olims_analysis_profile',
-        #                     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ReferenceField(
-#         'Profiles',
-#         multiValued=1,
-#         allowed_types=('AnalysisProfile',),
-#         referenceClass=HoldingReference,
-#         vocabulary_display_path_bound=sys.maxsize,
-#         relationship='AnalysisRequestAnalysisProfiles',
-#         mode="rw",
-#         read_permission=permissions.View,
-#         write_permission=permissions.ModifyPortalContent,
-#         widget=ReferenceWidget(
-#             label = _("Analysis Profiles"),
-#             size=20,
-#             render_own_label=True,
-#             visible={'edit': 'visible',
-#                      'view': 'visible',
-#                      'add': 'edit',
-#                      'header_table': 'visible',
-#                      'sample_registered': {'view': 'visible', 'edit': 'visible', 'add': 'edit'},
-#                      'to_be_sampled':     {'view': 'visible', 'edit': 'invisible'},
-#                      'sampled':           {'view': 'visible', 'edit': 'invisible'},
-#                      'to_be_preserved':   {'view': 'visible', 'edit': 'invisible'},
-#                      'sample_due':        {'view': 'visible', 'edit': 'invisible'},
-#                      'sample_received':   {'view': 'visible', 'edit': 'invisible'},
-#                      'attachment_due':    {'view': 'visible', 'edit': 'invisible'},
-#                      'to_be_verified':    {'view': 'visible', 'edit': 'invisible'},
-#                      'verified':          {'view': 'visible', 'edit': 'invisible'},
-#                      'published':         {'view': 'visible', 'edit': 'invisible'},
-#                      'invalid':           {'view': 'visible', 'edit': 'invisible'},
-#                      },
-#             catalog_name='bika_setup_catalog',
-#             base_query={'inactive_state': 'active'},
-#             showOn=True,
-#         ),
-#     ),
     # Sample field
     DateTimeField('DateSampled',
-        mode="rw",
-        read_permission=permissions.View,
-        write_permission=SampleSample,
-        widget = DateTimeWidget(
-            label = _("Date Sampled"),
-            size=20,
-            visible={'edit': 'visible',
-                     'view': 'visible',
-                     'secondary': 'disabled',
-                     'header_table': 'prominent',
-                     'sample_registered': {'view': 'invisible', 'edit': 'invisible'},
-                     'to_be_sampled':     {'view': 'invisible', 'edit': 'visible'},
-                     'sampled':           {'view': 'invisible', 'edit': 'invisible'},
-                     'to_be_preserved':   {'view': 'invisible', 'edit': 'invisible'},
-                     'sample_due':        {'view': 'invisible', 'edit': 'invisible'},
-                     'sample_received':   {'view': 'invisible', 'edit': 'invisible'},
-                     'attachment_due':    {'view': 'invisible', 'edit': 'invisible'},
-                     'to_be_verified':    {'view': 'invisible', 'edit': 'invisible'},
-                     'verified':          {'view': 'invisible', 'edit': 'invisible'},
-                     'published':         {'view': 'invisible', 'edit': 'invisible'},
-                     'invalid':           {'view': 'invisible', 'edit': 'invisible'},
-                     },
-            render_own_label=True,
-        ),
     ),
     # Sample field
     fields.Many2one(string='Sampler',
         comodel_name="res.users",
         domain="[('groups_id', 'in', (14,18))]",
-#         widget=BikaSelectionWidget(
-#             format='select',
-#             label = _("Sampler"),
-#             # see SamplingWOrkflowWidgetVisibility
-#             visible={'edit': 'visible',
-#                      'view': 'visible',
-#                      'header_table': 'prominent',
-#                      'sample_registered': {'view': 'invisible', 'edit': 'invisible'},
-#                      'to_be_sampled':     {'view': 'invisible', 'edit': 'visible'},
-#                      'sampled':           {'view': 'visible', 'edit': 'invisible'},
-#                      'to_be_preserved':   {'view': 'visible', 'edit': 'invisible'},
-#                      'sample_due':        {'view': 'visible', 'edit': 'invisible'},
-#                      'sample_received':   {'view': 'visible', 'edit': 'invisible'},
-#                      'attachment_due':    {'view': 'visible', 'edit': 'invisible'},
-#                      'to_be_verified':    {'view': 'visible', 'edit': 'invisible'},
-#                      'verified':          {'view': 'visible', 'edit': 'invisible'},
-#                      'published':         {'view': 'visible', 'edit': 'invisible'},
-#                      'invalid':           {'view': 'visible', 'edit': 'invisible'},
-#                      },
-#             render_own_label=True,
-#         ),
     ),
     DateTimeField(
         'SamplingDate',
         required=1,
-        mode="rw",
-        read_permission=permissions.View,
-        write_permission=permissions.ModifyPortalContent,
-        widget = DateTimeWidget(
-            label = _("Sampling Date"),
-            size=20,
-            render_own_label=True,
-            # see SamplingWOrkflowWidgetVisibility
-            visible={'edit': 'visible',
-                     'view': 'visible',
-                     'add': 'edit',
-                     'header_table': 'visible',
-                     'sample_registered': {'view': 'visible', 'edit': 'visible', 'add': 'edit'},
-                     'to_be_sampled':     {'view': 'visible', 'edit': 'invisible'},
-                     'sampled':           {'view': 'visible', 'edit': 'invisible'},
-                     'to_be_preserved':   {'view': 'visible', 'edit': 'invisible'},
-                     'sample_due':        {'view': 'visible', 'edit': 'invisible'},
-                     'sample_received':   {'view': 'visible', 'edit': 'invisible'},
-                     'attachment_due':    {'view': 'visible', 'edit': 'invisible'},
-                     'to_be_verified':    {'view': 'visible', 'edit': 'invisible'},
-                     'verified':          {'view': 'visible', 'edit': 'invisible'},
-                     'published':         {'view': 'visible', 'edit': 'invisible'},
-                     'invalid':           {'view': 'visible', 'edit': 'invisible'},
-                     },
-        ),
     ),
     fields.Many2one(string='SampleType',
                         comodel_name='olims.sample_type',
                         required=True
 
     ),
-
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ReferenceField(
-#         'SampleType',
-#         required=1,
-#         allowed_types='SampleType',
-#         relationship='AnalysisRequestSampleType',
-#         mode="rw",
-#         read_permission=permissions.View,
-#         write_permission=permissions.ModifyPortalContent,
-#         widget=ReferenceWidget(
-#             label = _("Sample Type"),
-#             description = _("Create a new sample of this type"),
-#             size=20,
-#             render_own_label=True,
-#             visible={'edit': 'visible',
-#                      'view': 'visible',
-#                      'add': 'edit',
-#                      'secondary': 'disabled',
-#                      'header_table': 'visible',
-#                      'sample_registered': {'view': 'visible', 'edit': 'visible', 'add': 'edit'},
-#                      'to_be_sampled':     {'view': 'visible', 'edit': 'invisible'},
-#                      'sampled':           {'view': 'visible', 'edit': 'invisible'},
-#                      'to_be_preserved':   {'view': 'visible', 'edit': 'invisible'},
-#                      'sample_due':        {'view': 'visible', 'edit': 'invisible'},
-#                      'sample_received':   {'view': 'visible', 'edit': 'invisible'},
-#                      'attachment_due':    {'view': 'visible', 'edit': 'invisible'},
-#                      'to_be_verified':    {'view': 'visible', 'edit': 'invisible'},
-#                      'verified':          {'view': 'visible', 'edit': 'invisible'},
-#                      'published':         {'view': 'visible', 'edit': 'invisible'},
-#                      'invalid':           {'view': 'visible', 'edit': 'invisible'},
-#                      },
-#             catalog_name='bika_setup_catalog',
-#             base_query={'inactive_state': 'active'},
-#             showOn=True,
-#         ),
-#     ),
     fields.Many2one(string='Specification',
                         comodel_name='olims.analysis_spec',
                         relation='ar_analysis_spec',
                         required=False,
-
     ),
 # ~~~~~~~ To be implemented ~~~~~~~
 #     ReferenceField(
@@ -1234,185 +782,21 @@ schema = (fields.Char(string='RequestID',
                      },
         ),
     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField(
-#         'ClientUID',
-#         searchable=True,
-#         expression='here.aq_parent.UID()',
-#         widget=ComputedWidget(
-#             visible=False,
-#         ),
-#     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField(
-#         'SampleTypeTitle',
-#         searchable=True,
-#         expression="here.getSampleType().Title() if here.getSampleType() else ''",
-#         widget=ComputedWidget(
-#             visible=False,
-#         ),
-#     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField(
-#         'SamplePointTitle',
-#         searchable=True,
-#         expression="here.getSamplePoint().Title() if here.getSamplePoint() else ''",
-#         widget=ComputedWidget(
-#             visible=False,
-#         ),
-#     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField(
-#         'SampleUID',
-#         expression="here.getSample() and here.getSample().UID() or ''",
-#         widget=ComputedWidget(
-#             visible=False,
-#         ),
-#     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField(
-#         'SampleID',
-#         expression="here.getSample() and here.getSample().getId() or ''",
-#         widget=ComputedWidget(
-#             visible=False,
-#         ),
-#     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField(
-#         'ContactUID',
-#         expression="here.getContact() and here.getContact().UID() or ''",
-#         widget=ComputedWidget(
-#             visible=False,
-#         ),
-#     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField(
-#         'ProfilesUID',
-#         expression="here.getProfiles() and [profile.UID() for profile in here.getProfiles()] or []",
-#         widget=ComputedWidget(
-#             visible=False,
-#         ),
-#     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField(
-#         'Invoiced',
-#         expression='here.getInvoice() and True or False',
-#         default=False,
-#         widget=ComputedWidget(
-#             visible=False,
-#         ),
-#     ),
     fields.Many2one(string='ChildAnalysisRequest',
                         comodel_name='olims.analysis_request',
 
     ),
-
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ReferenceField(
-#         'ChildAnalysisRequest',
-#         allowed_types = ('AnalysisRequest',),
-#         relationship = 'AnalysisRequestChildAnalysisRequest',
-#         referenceClass = HoldingReference,
-#         mode="rw",
-#         read_permission=permissions.View,
-#         write_permission=permissions.ModifyPortalContent,
-#         widget=ReferenceWidget(
-#             visible=False,
-#         ),
-#     ),
     fields.Many2one(string='ParentAnalysisRequest',
                         comodel_name='olims.analysis_request',
 
     ),
-
-
-
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ReferenceField(
-#         'ParentAnalysisRequest',
-#         allowed_types = ('AnalysisRequest',),
-#         relationship = 'AnalysisRequestParentAnalysisRequest',
-#         referenceClass = HoldingReference,
-#         mode="rw",
-#         read_permission=permissions.View,
-#         write_permission=permissions.ModifyPortalContent,
-#         widget=ReferenceWidget(
-#             visible=False,
-#         ),
-#     ),
-
     fields.Many2one(string='Priority',
                    comodel_name='olims.ar_priority',
                    required=False,
 
     ),
-
-# ~~~~~~~ To be implemented ~~~~~~~
-#     HistoryAwareReferenceField(
-#         'Priority',
-#         allowed_types=('ARPriority',),
-#         referenceClass=HoldingReference,
-#         relationship='AnalysisRequestPriority',
-#         mode="rw",
-#         read_permission=permissions.View,
-#         write_permission=permissions.ModifyPortalContent,
-#         widget=ReferenceWidget(
-#             label = _("Priority"),
-#             size=10,
-#             render_own_label=True,
-#             visible={'edit': 'visible',
-#                      'view': 'visible',
-#                      'add': 'edit',
-#                      'header_table': 'visible',
-#                      'sample_registered': {'view': 'visible', 'edit': 'visible', 'add': 'edit'},
-#                      'to_be_sampled':     {'view': 'visible', 'edit': 'visible'},
-#                      'sampled':           {'view': 'visible', 'edit': 'visible'},
-#                      'to_be_preserved':   {'view': 'visible', 'edit': 'visible'},
-#                      'sample_due':        {'view': 'visible', 'edit': 'visible'},
-#                      'sample_received':   {'view': 'visible', 'edit': 'visible'},
-#                      'attachment_due':    {'view': 'visible', 'edit': 'visible'},
-#                      'to_be_verified':    {'view': 'visible', 'edit': 'visible'},
-#                      'verified':          {'view': 'visible', 'edit': 'visible'},
-#                      'published':         {'view': 'visible', 'edit': 'invisible'},
-#                      'invalid':           {'view': 'visible', 'edit': 'invisible'},
-#                      },
-#             catalog_name='bika_setup_catalog',
-#             base_query={'inactive_state': 'active'},
-#             colModel=[
-#                 {'columnName': 'Title', 'width': '30',
-#                  'label': _('Title'), 'align': 'left'},
-#                 {'columnName': 'Description', 'width': '70',
-#                  'label': _('Description'), 'align': 'left'},
-#                 {'columnName': 'sortKey', 'hidden': True},
-#                 {'columnName': 'UID', 'hidden': True},
-#             ],
-#             sidx='sortKey',
-#             sord='asc',
-#             showOn=True,
-#         ),
-#     ),
-# 
-    # For comments or results interpretation
-    # Old one, to be removed because of the incorporation of
-    # ResultsInterpretationDepts (due to LIMS-1628)
     TextField(
         string='ResultsInterpretation',
-#         searchable=True,
-#         mode="rw",
-#         default_content_type = 'text/html',  # Input content type for the textfield
-#         default_output_type = 'text/x-html-safe',  # getResultsInterpretation returns a str with html tags
-#                                                    # to conserve the txt format in the report.
-#         read_permission=permissions.View,
-#         write_permission=permissions.ModifyPortalContent,
-#         widget=RichWidget (
-#             description = _("Comments or results interpretation"),
-#             label = _("Results Interpretation"),
-#             size=10,
-#             allow_file_upload=False,
-#             default_mime_type='text/x-rst',
-#             output_mime_type='text/x-html',
-#             rows=3,
-#             visible=False),
     ),
     fields.One2many(string='LabService',
                      comodel_name='olims.field_analysis_service',
@@ -1534,6 +918,15 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def compute_analysisRequestId(self):
         for record in self:
             record.RequestID = 'R-0' + str(record.id)
+    @api.multi
+    def Compute_AnalysisSample(self):
+        for record in self:
+            if not record.Sample_id:
+                sample = self.env["olims.sample"].search([('Analysis_Request', '=', record.id)])
+                record.Sample = sample.SampleID
+                record.Sample_id = sample.id
+            else:
+                record.Sample = record.Sample_id.SampleID
 
     @api.model
     def create(self, values):
@@ -1549,7 +942,8 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         vals = {
                 'SamplingDate':values.get('SamplingDate'),
                 'SampleType':values.get('SampleType'),
-                'Client': values.get('Client')
+                'Client': values.get('Client'),
+                'Analysis_Request' : res.id
                 }
         sample_object = self.env["olims.sample"]
         sample_object.create(vals)
@@ -1575,7 +969,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                                'Max': rec[2]['Max'],
                                'Error': rec[2]['Error']
                                }
-            print analyses_values
             ar_analysis_object.create(analyses_values)
         return res
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~

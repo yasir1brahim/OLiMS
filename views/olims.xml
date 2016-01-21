@@ -1821,8 +1821,8 @@
                 	<field name="CCContact" options="{'no_create': True}"></field>
                 	<label for="CCEmails" string="CCEmails"/>
                     <field name="CCEmails" options="{'no_create': True}"></field>
-                    <label for="Sample" string="Sample"/>
-                    <field name="Sample" options="{'no_create': True}"></field>
+                    <label for="Sample_id" string="Sample"/>
+                    <field name="Sample_id" options="{'no_create': True}"></field>
                     <label for="Batch" string="Batch"/>
                     <field name="Batch" options="{'no_create': True}"></field>
                     <label for="SubGroup" string="Sub Group"/>
@@ -2018,7 +2018,7 @@
        </record>
 
         <menuitem id="olims_analysis_request_menu" name="Analysis Request" parent="olims_menu" sequence="4"
-                  action="analysis_request_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks"/>
+                  action="analysis_request_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers"/>
         <menuitem id="analysis_request_menu" name="Analysis Request" parent="olims_settings_menu" sequence="4"
                   action="analysis_request_list_action"/>
 
@@ -2365,7 +2365,7 @@
        </record>
 
         <menuitem id="olims_sample_menu" name="Samples" parent="olims_menu" sequence="3"
-                  action="sample_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks"/>
+                  action="sample_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers"/>
         <menuitem id="sample_menu" name="Samples" parent="olims_settings_menu" sequence="3"
                   action="sample_list_action"/>
 
@@ -4018,6 +4018,8 @@
                             <field name="DecimalMark"></field>
                             <field name="id" invisible="1" />
                         </page>
+                        <page string="Batches" attrs="{'invisible': [('id', '=', False)]}">
+                        </page>
                          <page string="Analysis Requests" attrs="{'invisible': [('id', '=', False)]}">
                             <label for="Analysis_Request" string="Analysis Requests"/>
                             <field name="Analysis_Request"></field>
@@ -4067,7 +4069,8 @@
             <field name="inherit_id" ref="olims_client_form_view"/>
             <field name="groups_id" eval="[(6, 0, [
                 ref('group_clients'),
-                ref('group_lab_clerks')])]"/>
+                ref('group_lab_clerks'),
+                ref('group_samplers')])]"/>
             <field name="arch" type="xml">
                 <!-- <form string="Client Form" create="false" delete="false"> -->
                         <page name="Default Page" position="attributes">
@@ -4137,7 +4140,8 @@
             <field name="name">client.invisible_page_for_clerk.form</field>
             <field name="model">olims.client</field>
             <field name="inherit_id" ref="olims_client_form_view"/>
-            <field name="groups_id" eval="[(6, 0, [ref('group_lab_clerks')])]"/>
+            <field name="groups_id" eval="[(6, 0, [ref('group_lab_clerks'),
+                ref('group_samplers')])]"/>
             <field name="arch" type="xml">
                 <page name="Default Page" position="attributes">
                     <attribute name='invisible'>{'invisible': [('id', '!=', False)]}</attribute>
