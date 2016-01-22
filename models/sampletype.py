@@ -25,7 +25,7 @@ from base_olims_model import BaseOLiMSModel
 from lims.utils import t
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 # schema = BikaSchema.copy() + Schema((
-schema = (StringField('Sample Type',
+schema = (StringField('SampleType',
               required=1,        
     ),
     TextField('Description',
@@ -125,7 +125,7 @@ schema = (StringField('Sample Type',
 
 class SampleType(models.Model, BaseOLiMSModel):#(BaseContent, HistoryAwareMixin):
     _name = 'olims.sample_type'
-    _rec_name = 'Sample Type'
+    _rec_name = 'SampleType'
 # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
 #     implements(ISampleType)
 #     security = ClassSecurityInfo()

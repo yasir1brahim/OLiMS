@@ -2013,6 +2013,7 @@
                     <field name="InvoiceExclude"></field> -->
                     <field name="Priority"></field>
                     <field name="Sampler"></field>
+                    <field name="state"></field>
                     <!-- <field name="Discount"></field>
                     <field name="Subtotal"></field>
                     <field name="VAT"></field>
@@ -5222,7 +5223,7 @@
                 <form string="Sample Type">
                     <sheet>
                     <label for="SampleType" string="Title"/>
-                    <field name="Sample Type"></field>
+                    <field name="SampleType"></field>
                 	<label for="Description" string="Description"/>
                        <p>Used in item listings and search results.</p>
                 	<field name="Description"></field>
@@ -5263,7 +5264,7 @@
             <field name="model">olims.sample_type</field>
             <field name="arch" type="xml">
                 <tree string="Sample Matrix">
-                    <field name="Sample Type"></field>
+                    <field name="SampleType"></field>
                 	<field name="Description"></field>
                 	<field name="Hazardous"></field>
                     <field name="Sample Matrix"></field>
