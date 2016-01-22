@@ -122,7 +122,6 @@ schema = (
 
     fields.Many2one(string='Client',
             comodel_name='olims.client',
-            required=True,
                   ),
     # ComputedField('ProductUID',
     #               expression = 'context.getProductUIDs()',

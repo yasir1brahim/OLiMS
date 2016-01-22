@@ -1,70 +1,14 @@
-import logging
-
 from openerp import fields, models,osv
-
-_logger = logging.getLogger(__name__)
-
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# from dependencies.dependency import ClassSecurityInfo
-# from lims.utils import t
-# from lims.browser.fields import HistoryAwareReferenceField
-# from lims.browser.fields import InterimFieldsField
-# from lims.browser.widgets import RecordsWidget as BikaRecordsWidget
-# from lims.content.bikaschema import BikaSchema
-# from lims.interfaces import ICalculation
-# from lims.utils import to_utf8
-# from dependencies.dependency import HoldingReference
-# from dependencies.dependency import HistoryAwareMixin
-# from dependencies.dependency import implements
-# from dependencies.dependency import *
-# from lims.config import PROJECTNAME
-
-from dependencies.dependency import safe_unicode
-from lims import bikaMessageFactory as _
-from dependencies.dependency import getToolByName
-from dependencies.dependency import WorkflowException
+from openerp.tools.translate import _
 from fields.widget.widget import TextAreaWidget, StringWidget
 from fields.string_field import StringField
 from fields.text_field import TextField
-import re
-from dependencies import transaction
 from base_olims_model import BaseOLiMSModel
-
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# schema = BikaSchema.copy() + Schema((
-
-
-# ~~~~~~~ To be implemented ~~~~~~~
-#     HistoryAwareReferenceField('DependentServices',
-#         schemata='Calculation',
-#         required=1,
-#         multiValued=1,
-#         vocabulary_display_path_bound=sys.maxsize,
-#         allowed_types=('AnalysisService',),
-#         relationship='CalculationAnalysisService',
-#         referenceClass=HoldingReference,
-#         widget=ReferenceWidget(
-#             checkbox_bound=0,
-#             visible=False,
-#             label=_("Dependent Analyses"),
-#         ),
-#     ),
 
 schema = (
           
-          fields.Many2many(string='InterimFields', comodel_name='olims.interimfield'
-                           #         schemata='Calculation',
-#         widget=BikaRecordsWidget(
-#             label=_("Calculation Interim Fields"),
-#             description=_(
-#                 "Define interim fields such as vessel mass, dilution factors, "
-#                 "should your calculation require them. The field title specified "
-#                 "here will be used as column headers and field descriptors where "
-#                 "the interim fields are displayed. If 'Apply wide' is enabled "
-#                 "the field ill be shown in a selection box on the top of the "
-#                 "worksheet, allowing to apply a specific value to all the "
-#                 "corresponding fields on the sheet."),
-#         )
+          fields.Many2many(string='InterimFields',
+                           comodel_name='olims.interimfield'
             ),
           
     StringField('Calculation',
@@ -92,8 +36,8 @@ schema = (
         allowable_content_types=('text/plain',),
         widget = TextAreaWidget(
             label=_("Calculation Formula"),
-            description=_(
-                "calculation_formula_description",
+            description=(
+                "calculation_formula_description"
                 "<p>The formula you type here will be dynamically calculated "
                 "when an analysis using this calculation is displayed.</p>"
                 "<p>To enter a Calculation, use standard maths operators,  "
@@ -106,142 +50,11 @@ schema = (
                 "two Analysis Services.</p>"),
             )
     ),
-)#)
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# schema['title'].widget.visible = True
-# schema['title'].schemata = 'Description'
-# schema['description'].widget.visible = True
-# schema['description'].schemata = 'Description'
+)
 
 
 class Calculation(models.Model, BaseOLiMSModel): #:(BaseFolder, HistoryAwareMixin):
     _name = 'olims.calculation'
     _rec_name = 'Calculation'
-    
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~    
-#     security = ClassSecurityInfo()
-#     displayContentsTab = False
-#     schema = schema
-#     implements(ICalculation)
-
-    _at_rename_after_creation = True
-
-    def _renameAfterCreation(self, check_auto_id=False):
-        from lims.idserver import renameAfterCreation
-        renameAfterCreation(self)
-
-    def setInterimFields(self, value):
-        new_value = []
-
-        for x in range(len(value)):
-            row = dict(value[x])
-            keys = row.keys()
-            if 'value' not in keys:
-                row['value'] = 0
-            new_value.append(row)
-
-        self.getField('InterimFields').set(self, new_value)
-
-    def setFormula(self, Formula=None):
-        """Set the Dependent Services from the text of the calculation Formula
-        """
-        bsc = getToolByName(self, 'bika_setup_catalog')
-        if Formula is None:
-            self.setDependentServices(None)
-            self.getField('Formula').set(self, Formula)
-        else:
-            DependentServices = []
-            keywords = re.compile(r"\[([^\.^\]]+)\]").findall(Formula)
-            for keyword in keywords:
-                service = bsc(portal_type="AnalysisService",
-                              getKeyword=keyword)
-                if service:
-                    DependentServices.append(service[0].getObject())
-
-            self.getField('DependentServices').set(self, DependentServices)
-            self.getField('Formula').set(self, Formula)
-
-    def getMinifiedFormula(self):
-        """Return the current formula value as text.
-        The result will have newlines and additional spaces stripped out.
-        """
-        value = " ".join(self.getFormula().splitlines())
-        return value
-
-    def getCalculationDependencies(self, flat=False, deps=None):
-        """ Recursively calculates all dependencies of this calculation.
-            The return value is dictionary of dictionaries (of dictionaries....)
-
-            {service_UID1:
-                {service_UID2:
-                    {service_UID3: {},
-                     service_UID4: {},
-                    },
-                },
-            }
-
-            set flat=True to get a simple list of AnalysisService objects
-        """
-        if deps == None:
-            deps = [] if flat == True else {}
-
-        for service in self.getDependentServices():
-            calc = service.getCalculation()
-            if calc:
-                calc.getCalculationDependencies(flat, deps)
-            if flat:
-                deps.append(service)
-            else:
-                deps[service.UID()] = {}
-        return deps
-
-    def getCalculationDependants(self):
-        """Return a flat list of services who's calculations depend on this."""
-        deps = []
-        for service in self.getBackReferences('AnalysisServiceCalculation'):
-            calc = service.getCalculation()
-            if calc and calc.UID() != self.UID():
-                calc.getCalculationDependants(deps)
-            deps.append(service)
-        return deps
-
-    def workflow_script_activate(self):
-        wf = getToolByName(self, 'portal_workflow')
-        pu = getToolByName(self, 'plone_utils')
-        # A calculation cannot be re-activated if services it depends on
-        # are deactivated.
-        services = self.getDependentServices()
-        inactive_services = []
-        for service in services:
-            if wf.getInfoFor(service, "inactive_state") == "inactive":
-                inactive_services.append(service.Title())
-        if inactive_services:
-            msg = _("Cannot activate calculation, because the following "
-                    "service dependencies are inactive: ${inactive_services}",
-                    mapping={'inactive_services': safe_unicode(", ".join(inactive_services))})
-            pu.addPortalMessage(msg, 'error')
-            transaction.get().abort()
-            raise WorkflowException
-
-    def workflow_script_deactivate(self):
-        bsc = getToolByName(self, 'bika_setup_catalog')
-        pu = getToolByName(self, 'plone_utils')
-        # A calculation cannot be deactivated if active services are using it.
-        services = bsc(portal_type="AnalysisService", inactive_state="active")
-        calc_services = []
-        for service in services:
-            service = service.getObject()
-            calc = service.getCalculation()
-            if calc and calc.UID() == self.UID():
-                calc_services.append(service.Title())
-        if calc_services:
-            msg = _('Cannot deactivate calculation, because it is in use by the '
-                    'following services: ${calc_services}',
-                    mapping={'calc_services': safe_unicode(", ".join(calc_services))})
-            pu.addPortalMessage(msg, 'error')
-            transaction.get().abort()
-            raise WorkflowException
         
-Calculation.initialze(schema)        
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# registerType(Calculation, PROJECTNAME)
+Calculation.initialze(schema)

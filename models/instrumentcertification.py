@@ -1,18 +1,4 @@
-
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# from dependencies.dependency import ClassSecurityInfo
-# from dependencies.dependency import schemata
-# from dependencies import atapi
-# from dependencies.dependency import *
-# from lims import bikaMessageFactory as _
-# from lims.utils import t
-# from lims.browser.widgets import DateTimeWidget, ReferenceWidget
-# from lims.config import PROJECTNAME
-# from lims.content.bikaschema import BikaSchema
-# from dependencies.dependency import permissions
-
-
-from lims import bikaMessageFactory as _
+from openerp.tools.translate import _
 from fields.string_field import StringField
 from fields.text_field import TextField
 from fields.file_field import FileField
@@ -24,38 +10,17 @@ from openerp import fields, models, api
 from base_olims_model import BaseOLiMSModel
 from messagealert import write_message
 
-#schema = BikaSchema.copy() + Schema((
 schema = (StringField('Certificate Code',
                       required=1,
                       widget = StringWidget(
                             label=_("Certificate Code"),
         ),
     ),
-    # ComputedField('AssetNumber',
-    #     expression='here.getInstrumentAssetNumber()',
-    #     widget=ComputedWidget(
-    #         label=_('Instrument Asset Number'),
-    #         visible=True,
-    #         description=_("Instrument's Asset Number")
-    #      )
-    # ),
 
-        fields.Many2one(string='Instrument',
+    fields.Many2one(string='Instrument',
                    comodel_name='olims.instrument',
                    required = False,
-          #allowed_types=('Instrument',),
-        #relationship='InstrumentCertificationInstrument',
-     #   widget=StringWidget(
-     #       visible=False,
-     #   ),
     ),
-
-    # ComputedField('InstrumentUID',
-    #     expression = 'context.getInstrument() and context.getInstrument().UID() or None',
-    #     widget=ComputedWidget(
-    #         visible=False,
-    #     ),
-    # ),
 
     # Set the Certificate as Internal
     # When selected, the 'Agency' field is hidden
@@ -104,41 +69,11 @@ schema = (StringField('Certificate Code',
     fields.Many2one(string='Preparator',
                    comodel_name='olims.lab_contact',
                    help="The person at the supplier who prepared the certificate",
-#               vocabulary='getLabContacts',
-    #     allowed_types=('LabContact',),
-    #     relationship='LabContactInstrumentCertificatePreparator',
-    #     widget=ReferenceWidget(
-    #         checkbox_bound=0,
-    #         label=_("Prepared by"),
-    #         description=_("The person at the supplier who prepared the certificate"),
-    #         size=30,
-    #         base_query={'inactive_state': 'active'},
-    #         showOn=True,
-    #         colModel=[{'columnName': 'UID', 'hidden': True},
-    #                   {'columnName': 'JobTitle', 'width': '20', 'label': _('Job Title')},
-    #                   {'columnName': 'Title', 'width': '80', 'label': _('Name')}
-    #                  ],
-    #     ),
     ),
 
     fields.Many2one(string='Validator',
                    comodel_name='olims.lab_contact',
                    help="The person at the supplier who approved the certificate"
-    #     vocabulary='getLabContacts',
-    #     allowed_types=('LabContact',),
-    #     relationship='LabContactInstrumentCertificateValidator',
-    #     widget=ReferenceWidget(
-    #         checkbox_bound=0,
-    #         label=_("Approved by"),
-    #         description=_("The person at the supplier who approved the certificate"),
-    #         size=30,
-    #         base_query={'inactive_state': 'active'},
-    #         showOn=True,
-    #         colModel=[{'columnName': 'UID', 'hidden': True},
-    #                   {'columnName': 'JobTitle', 'width': '20', 'label': _('Job Title')},
-    #                   {'columnName': 'Title', 'width': '80', 'label': _('Name')}
-    #                  ],
-    #     ),
     ),
 
 
@@ -165,10 +100,9 @@ schema = (StringField('Certificate Code',
 
 )
 
-#schema['title'].widget.label=_("Certificate Code")
 sourcemodel = "InstrumentCertification"
 
-class InstrumentCertification(models.Model, BaseOLiMSModel): #BaseFolder
+class InstrumentCertification(models.Model, BaseOLiMSModel):
     _name = 'olims.instrument_certification'
 
     @api.model
@@ -183,27 +117,4 @@ class InstrumentCertification(models.Model, BaseOLiMSModel): #BaseFolder
         res = super(InstrumentCertification, self).write(data)
         return res
 
-    _at_rename_after_creation = True
-    def _renameAfterCreation(self, check_auto_id=False):
-        from lims.idserver import renameAfterCreation
-        renameAfterCreation(self)
-
-    def getLabContacts(self):
-        bsc = getToolByName(self, 'bika_setup_catalog')
-        # fallback - all Lab Contacts
-        pairs = []
-        for contact in bsc(portal_type='LabContact',
-                           inactive_state='active',
-                           sort_on='sortable_title'):
-            pairs.append((contact.UID, contact.Title))
-        return DisplayList(pairs)
-
-    def getInstrumentAssetNumber(self):
-        """
-        Obtains the instrument's asset number
-        :return: The asset number string
-        """
-        return self.aq_parent.getAssetNumber() if self.aq_parent.getAssetNumber() else ''
-
-#atapi.registerType(InstrumentCertification, PROJECTNAME)
 InstrumentCertification.initialze(schema)

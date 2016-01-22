@@ -24,7 +24,7 @@ class InheritFromBatch(models.Model, BaseOLiMSModel):
         if batch_object_ids:
             for obj in batch_object_ids:
                 batch = batch_object.browse(obj.id)
-                batch_name = batch.name.encode('utf-8')
+                batch_name = batch.Title.encode('utf-8')
                 batchid = batch.BatchId.encode('utf-8')
                 batchdesc = batch.Description
                 id_dict.update({batchid : batchid})

@@ -4,7 +4,7 @@ from fields.string_field import StringField
 from fields.date_time_field import DateTimeField
 from fields.text_field import TextField
 from fields.widget.widget import StringWidget, DateTimeWidget,TextAreaWidget
-from lims import bikaMessageFactory as _
+from openerp.tools.translate import _
 
 BATCHE_STATES = (
     ('open','Open'), ('closed','Closed'),
@@ -75,24 +75,6 @@ class Batch(models.Model, BaseOLiMSModel): #ATFolder
             batchidstring = 'B-0' + str(record.id)
             record.BatchId = batchidstring
 
-    _at_rename_after_creation = True
-
-    def _renameAfterCreation(self, check_auto_id=False):
-        from lims.idserver import renameAfterCreation
-        renameAfterCreation(self)
-
-    def Title(self):
-        """ Return the Batch ID if title is not defined """
-        titlefield = self.Schema().getField('title')
-        if titlefield.widget.visible:
-            return safe_unicode(self.title).encode('utf-8')
-        else:
-            return safe_unicode(self.id).encode('utf-8')
-
-    def _getCatalogTool(self):
-        from lims.catalog import getCatalog
-        return getCatalog(self)
-
     def getClient(self):
         """ Retrieves the Client for which the current Batch is attached to
             Tries to retrieve the Client from the Schema property, but if not
@@ -116,73 +98,6 @@ class Batch(models.Model, BaseOLiMSModel): #ATFolder
     def getProfilesTitle(self):
         return ""
 
-    def getAnalysisCategory(self):
-        analyses = []
-        for ar in self.getAnalysisRequests():
-            analyses += list(ar.getAnalyses(full_objects=True))
-        value = []
-        for analysis in analyses:
-            val = analysis.getCategoryTitle()
-            if val not in value:
-                value.append(val)
-        return value
-
-    def getAnalysisService(self):
-        analyses = []
-        for ar in self.getAnalysisRequests():
-            analyses += list(ar.getAnalyses(full_objects=True))
-        value = []
-        for analysis in analyses:
-            val = analysis.getServiceTitle()
-            if val not in value:
-                value.append(val)
-        return value
-
-    def getAnalysts(self):
-        analyses = []
-        for ar in self.getAnalysisRequests():
-            analyses += list(ar.getAnalyses(full_objects=True))
-        value = []
-        for analysis in analyses:
-            val = analysis.getAnalyst()
-            if val not in value:
-                value.append(val)
-        return value
-
-    #security.declarePublic('getBatchID')
-
-    def getBatchID(self):
-        return self.getId()
-
-    def BatchLabelVocabulary(self):
-        """ return all batch labels """
-        bsc = getToolByName(self, 'bika_setup_catalog')
-        ret = []
-        for p in bsc(portal_type='BatchLabel',
-                     inactive_state='active',
-                     sort_on='sortable_title'):
-            ret.append((p.UID, p.Title))
-        return DisplayList(ret)
-
-    def getAnalysisRequests(self):
-        """ Return all the Analysis Requests linked to the Batch
-        """
-        return self.getBackReferences("AnalysisRequestBatch")
-
-    def isOpen(self):
-        """ Returns true if the Batch is in 'open' state
-        """
-        revstatus = getCurrentState(self, StateFlow.review)
-        canstatus = getCurrentState(self, StateFlow.cancellation)
-        return revstatus == BatchState.open \
-            and canstatus == CancellationState.active
-
-    def getLabelNames(self):
-        uc = getToolByName(self, 'uid_catalog')
-        uids = [uid for uid in self.Schema().getField('BatchLabels').get(self)]
-        labels = [label.getObject().title for label in uc(UID=uids)]
-        return labels
-
     def workflow_guard_open(self, cr, uid, ids, context=None):
         """ Permitted if current review_state is 'closed' or 'cancelled'
             The open transition is already controlled by 'Bika: Reopen Batch'
@@ -191,10 +106,6 @@ class Batch(models.Model, BaseOLiMSModel): #ATFolder
             instance-specific-needs.
         """
         return self.write(cr, uid, ids, {'state': 'open'}, context=context)
-        # revstatus = getCurrentState(self, StateFlow.review)
-        # canstatus = getCurrentState(self, StateFlow.cancellation)
-        # return revstatus == BatchState.closed \
-        #     and canstatus == CancellationState.active
 
     def workflow_guard_close(self, cr, uid, ids, context=None):
         """ Permitted if current review_state is 'open'.
@@ -204,15 +115,6 @@ class Batch(models.Model, BaseOLiMSModel): #ATFolder
             instance-specific needs.
         """
         return self.write(cr, uid, ids, {'state': 'closed'}, context=context)
-        # revstatus = getCurrentState(self, StateFlow.review)
-        # canstatus = getCurrentState(self, StateFlow.cancellation)
-        # return revstatus == BatchState.open \
-        #     and canstatus == CancellationState.active
 
 
-#registerType(Batch, PROJECTNAME)
 Batch.initialze(schema)
-
-# @indexer(IBatch)
-# def BatchDate(instance):
-#     return instance.Schema().getField('BatchDate').get(instance)

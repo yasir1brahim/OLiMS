@@ -1,44 +1,20 @@
 """The contact person at an organisation.
 """
-# # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# from dependencies.dependency import ClassSecurityInfo
-# from dependencies.dependency import manage_users
-# from dependencies.dependency import schemata
-# from dependencies import atapi
-# from dependencies.dependency import *
-# from dependencies.dependency import permissions
-# from dependencies.dependency import getToolByName
-# from dependencies.dependency import safe_unicode
-# from lims.config import ManageClients, PUBLICATION_PREFS, PROJECTNAME
-# from lims.content.person import Person
-# from lims import PMF, bikaMessageFactory as _
-# from lims.interfaces import IContact
-# from dependencies.dependency import implements
-# from lims.utils import isActive
-
-import logging
 
 from openerp import fields, models, api
-
-_logger = logging.getLogger(__name__)
 
 from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
 from fields.reference_field import ReferenceField
 from fields.boolean_field import BooleanField
-
 from fields.widget.widget import StringWidget, BooleanWidget
-from dependencies.dependency import DisplayList
-from dependencies.dependency import safe_unicode
-from lims import PMF, bikaMessageFactory as _
-from lims.utils import isActive
+from openerp.tools.translate import _
 
-#schema = Person.schema.copy() + Schema((
 
 schema = (
        StringField('Salutation',
         widget = StringWidget(
-            label = _("Salutation",
+            label = ("Salutation",
                       "Title"),
             description=_("Greeting title eg. Mr, Mrs, Dr"),
         ),
@@ -69,21 +45,6 @@ schema = (
     ),
     
     fields.Char(compute='computeFulname', string='Name'),
-
-      # ~~~~~~~ To be implemented ~~~~~~~
-    # ComputedField('Fullname',
-    #     expression = 'context.getFullname()',
-    #     searchable = 1,
-    #     widget = ComputedWidget(
-    #         label=_("Full Name"),
-    #         visible = {'edit': 'invisible', 'view': 'invisible'},
-    #     ),
-    # ),
-    # StringField('Username',
-    #     widget = StringWidget(
-    #         visible = False
-    #     ),
-    # ),
     StringField('EmailAddress',
         schemata = 'Email Telephone Fax',
         searchable = 1,
@@ -173,16 +134,6 @@ schema = (
                        relation='olims_contatct_cc_contatct',
                        column1='contact_id',
                        culomn2='contact_id',
-
-#         schemata = 'Publication preference',
-#         vocabulary = 'getContacts',
-#         multiValued = 1,
-#         allowed_types = ('Contact',),
-#         relationship = 'ContactContact',
-#         widget = ReferenceWidget(
-#             checkbox_bound = 0,
-#             label=_("Contacts to CC"),
-#         ),
         ),
     fields.Many2one(string='Client_Contact',
                     comodel_name='olims.client',
@@ -195,25 +146,9 @@ schema = (
     ),
  )
 
-# schema['JobTitle'].schemata = 'default'
-# schema['Department'].schemata = 'default'
-# # Don't make title required - it will be computed from the Person's Fullname
-# schema['title'].required = 0
-# schema['title'].widget.visible = False
-# schema.moveField('CCContact', before='AttachmentsPermitted')
-
 class Contact(models.Model, BaseOLiMSModel): #(Person)
     _name = 'olims.contact'
     _rec_name = "Name"
-    # implements(IContact)
-    # security = ClassSecurityInfo()
-    # displayContentsTab = False
-    # schema = schema
-
-    _at_rename_after_creation = True
-    def _renameAfterCreation(self, check_auto_id=False):
-        from lims.idserver import renameAfterCreation
-        renameAfterCreation(self)
     
     def computeFulname(self):
         """ return Person's Fullname """
@@ -265,29 +200,6 @@ class Contact(models.Model, BaseOLiMSModel): #(Person)
             setattr(self, 'postal_city', getattr(self,self.postal_copy_from+'_city'))
             setattr(self, 'postal_postalcode', getattr(self,self.postal_copy_from+'_postalcode'))
             setattr(self, 'postal_address', getattr(self,self.postal_copy_from+'_address'))
-    def Title(self):
-        """ Return the contact's Fullname as title """
-        return safe_unicode(self.getFullname()).encode('utf-8')
 
-    #security.declareProtected(ManageClients, 'hasUser')
-    def hasUser(self):
-        """ check if contact has user """
-        return self.portal_membership.getMemberById(
-            self.getUsername()) is not None
 
-    def getContacts(self, dl=True):
-        pairs = []
-        objects = []
-        for contact in self.aq_parent.objectValues('Contact'):
-            if isActive(contact) and contact.UID() != self.UID():
-                pairs.append((contact.UID(), contact.Title()))
-                if not dl:
-                    objects.append(contact)
-        pairs.sort(lambda x, y: cmp(x[1].lower(), y[1].lower()))
-        return dl and DisplayList(pairs) or objects
-
-    def getParentUID(self):
-        return self.aq_parent.UID();
-
-#atapi.registerType(Contact, PROJECTNAME)
 Contact.initialze(schema)

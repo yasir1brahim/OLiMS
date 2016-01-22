@@ -15,6 +15,6 @@ schema = (
 
 class State(models.Model, BaseOLiMSModel):
     _name='olims.state'
-    _rec_name = 'state_id'
+    _rec_name = 'name'
     
 State.initialze(schema)

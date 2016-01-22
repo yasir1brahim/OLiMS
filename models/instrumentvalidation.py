@@ -1,17 +1,4 @@
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# from dependencies.dependency import ClassSecurityInfo
-# from dependencies.dependency import schemata
-# from dependencies.dependency import HoldingReference
-# from dependencies import atapi
-# from dependencies.dependency import *
-# from dependencies.dependency import getToolByName
-# from lims import bikaMessageFactory as _
-# from lims.browser.widgets import DateTimeWidget, ReferenceWidget
-# from lims.config import PROJECTNAME
-# from lims.content.bikaschema import BikaSchema
-
-
-from lims import bikaMessageFactory as _
+from openerp.tools.translate import _
 from fields.string_field import StringField
 from fields.text_field import TextField
 from fields.date_time_field import DateTimeField
@@ -20,8 +7,6 @@ from openerp import fields, models, api
 from base_olims_model import BaseOLiMSModel
 from messagealert import write_message
 
-
-#schema = BikaSchema.copy() + Schema((
 schema = (StringField('AssetNumber',
                       required=1,
                       widget = StringWidget(
@@ -90,22 +75,6 @@ schema = (StringField('AssetNumber',
     fields.Many2one(string='Worker',
                    comodel_name='olims.lab_contact',
                    help='The person at the supplier who performed the task',
-        # vocabulary='getLabContacts',
-        # allowed_types=('LabContact',),
-        # relationship='LabContactInstrumentValidation',
-        # widget=ReferenceWidget(
-        #     checkbox_bound=0,
-        #     label=_("Performed by"),
-        #     description=_("The person at the supplier who performed the task"),
-        #     size=30,
-        #     base_query={'inactive_state': 'active'},
-        #     showOn=True,
-        #     colModel=[{'columnName': 'UID', 'hidden': True},
-        #               {'columnName': 'JobTitle', 'width': '20', 'label': _('Job Title')},
-        #               {'columnName': 'Title', 'width': '80', 'label': _('Name')}
-        #              ],
-        # ),
-
     ),
 
     StringField('ReportID',
@@ -126,14 +95,11 @@ schema = (StringField('AssetNumber',
 
 )
 
-#schema['title'].widget.label = 'Asset Number'
 sourcemodel = "InstrumentValidation"
 
-class InstrumentValidation(models.Model, BaseOLiMSModel): #BaseFolder
+class InstrumentValidation(models.Model, BaseOLiMSModel):
     _name='olims.instrument_validation'
-    # security = ClassSecurityInfo()
-    # schema = schema
-    # displayContentsTab = False
+
     @api.model
     def create(self, values):
         write_message(self, values, sourcemodel)
@@ -146,20 +112,5 @@ class InstrumentValidation(models.Model, BaseOLiMSModel): #BaseFolder
         res = super(InstrumentValidation, self).write(data)
         return res
 
-    _at_rename_after_creation = True
-    def _renameAfterCreation(self, check_auto_id=False):
-        from lims.idserver import renameAfterCreation
-        renameAfterCreation(self)
 
-    def getLabContacts(self):
-        bsc = getToolByName(self, 'bika_setup_catalog')
-        # fallback - all Lab Contacts
-        pairs = []
-        for contact in bsc(portal_type='LabContact',
-                           inactive_state='active',
-                           sort_on='sortable_title'):
-            pairs.append((contact.UID, contact.Title))
-        return DisplayList(pairs)
-
-#atapi.registerType(InstrumentValidation, PROJECTNAME)
 InstrumentValidation.initialze(schema)

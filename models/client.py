@@ -1,28 +1,7 @@
 """Client - the main organisational entity in bika.
 """
 
-
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# from dependencies.dependency import ClassSecurityInfo
-# from dependencies.dependency import schemata
-# from dependencies import atapi
-# from dependencies.dependency import permissions
-# from lims import interfaces
-# from lims.config import *
-# from lims.content.organisation import Organisation
-# from lims.interfaces import IClient
-# from lims.utils import isActive
-# from dependencies.dependency import getUtility
-# from dependencies.dependency import implements
-# from dependencies.dependency import alsoProvides
-
-
-
-import logging
-
 from openerp import fields, models, osv, api
-
-_logger = logging.getLogger(__name__)
 
 from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
@@ -30,22 +9,13 @@ from fields.reference_field import ReferenceField
 from fields.boolean_field import BooleanField
 from fields.text_field import TextField
 from fields.widget.widget import  TextAreaWidget, ReferenceWidget, StringWidget, BooleanWidget
-from lims import bikaMessageFactory as _
-from dependencies.dependency import DisplayList
-from dependencies.dependency import getToolByName
-from dependencies.dependency import safe_unicode
-from lims import PMF, bikaMessageFactory as _
-from lims.workflow import getCurrentState, StateFlow, InactiveState
-
-import json
-import sys
+from openerp.tools.translate import _
 EMAIL_SUBJECT_OPTIONS = (
     ('ar', _('Analysis Request ID')),
     ('co', _('Order ID')),
     ('cr', _('Client Reference')),
     ('cs', _('Client SID')),
 )
-#schema = Organisation.schema.copy() + atapi.Schema((
 
 schema = (
 
@@ -174,11 +144,6 @@ schema = (
                    help="Items to be included in email subject lines",
     #               schemata = 'Preferences',
                    default = 'ar',
-    #     vocabulary = EMAIL_SUBJECT_OPTIONS,
-    #     widget = atapi.MultiSelectionWidget(
-    #         description=_("Items to be included in email subject lines"),
-    #         label=_("Email subject line"),
-    #     ),
     ),
 
 
@@ -187,70 +152,14 @@ schema = (
 #                    schemata="Method",
                    required=False,
                    help="Always expand the selected categories in client views",
-#     schemata = 'Preferences',
-    #     required = 0,
-    #     multiValued = 1,
-    #     vocabulary = 'getAnalysisCategories',
-    #     vocabulary_display_path_bound = sys.maxint,
-    #     allowed_types = ('AnalysisCategory',),
-    #     relationship = 'ClientDefaultCategories',
-    #     widget = atapi.ReferenceWidget(
-    #         checkbox_bound = 0,
-    #         label=_("Default categories"),
-    #         description=_("Always expand the selected categories in client views"),
-    #     ),
     ),
 
-    #
-    # ReferenceField(string='RestrictedCategories',
-    #            selection=[('olims.analysis_category', 'AnalysisCategory')],
-    #            required=0,
-    #             widget = ReferenceWidget(
-    #             checkbox_bound = 0,
-    #             #label=_("Default categories"),
-    #             help=_("Always expand the selected categories in client views"),
-    #         ),
-    #     ),
-
-        fields.Many2many(string='RestrictedCategories',
+    fields.Many2many(string='RestrictedCategories',
                    comodel_name='olims.analysis_category',
 #                    schemata="Method",
                    required=False,
                    help="Show only selected categories in client views",
-    #  schemata = 'Preferences',
-    #     required = 0,
-    #     multiValued = 1,
-    #     vocabulary = 'getAnalysisCategories',
-    #     validators = ('restrictedcategoriesvalidator',),
-    #     vocabulary_display_path_bound = sys.maxint,
-    #     allowed_types = ('AnalysisCategory',),
-    #     relationship = 'ClientRestrictedCategories',
-    #     widget = atapi.ReferenceWidget(
-    #         checkbox_bound = 0,
-    #         label=_("Restrict categories"),
-    #         description=_("Show only selected categories in client views"),
-    #     ),
     ),
-
-    ## ~~~~~~~ To be implemented ~~~~~~~ multiValued
-    # atapi.ReferenceField('RestrictedCategories',
-    #     schemata = 'Preferences',
-    #     required = 0,
-    #     multiValued = 1,
-    #     vocabulary = 'getAnalysisCategories',
-    #     validators = ('restrictedcategoriesvalidator',),
-    #     vocabulary_display_path_bound = sys.maxint,
-    #     allowed_types = ('AnalysisCategory',),
-    #     relationship = 'ClientRestrictedCategories',
-    #     widget = atapi.ReferenceWidget(
-    #         checkbox_bound = 0,
-    #         label=_("Restrict categories"),
-    #         description=_("Show only selected categories in client views"),
-    #     ),
-    # ),
-
-
-
     fields.Selection(string='DefaultARSpecs',
         selection=( ('ar_specs', 'Analysis Request Specifications'),
                                  ('lab_sampletype_specs', 'Sample Type Specifications (Lab)'),
@@ -258,12 +167,6 @@ schema = (
         help="DefaultARSpecs_description",
     #     schemata = "Preferences",
         default = 'ar_specs',
-    #     vocabulary =  DEFAULT_AR_SPECS,
-    #     widget = atapi.SelectionWidget(
-    #         label=_("Default AR Specifications"),
-    #         description=_("DefaultARSpecs_description"),
-    #         format='select',
-    #     )
      ),
 
     BooleanField('DefaultDecimalMark',
@@ -285,12 +188,6 @@ schema = (
          help="Decimal mark to use in the reports from this Client.",
     #     schemata = "Preferences",
          default = '.',
-    #     vocabulary =  DECIMAL_MARKS,
-    #     widget = atapi.SelectionWidget(
-    #         label=_("Custom decimal mark"),
-    #         description=_("Decimal mark to use in the reports from this Client."),
-    #         format = 'select',
-    #     )
      ),
     fields.One2many('olims.analysis_request',
                                  'Client',
@@ -331,89 +228,9 @@ schema = (
 
 )
 
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# schema['AccountNumber'].write_permission = ManageClients
-# schema['title'].widget.visible = False
-# schema['description'].widget.visible = False
-# schema['EmailAddress'].schemata = 'default'
-#
-# schema.moveField('ClientID', after='Name')
-
-
-class Client(models.Model, BaseOLiMSModel):#(Organisation):
+class Client(models.Model, BaseOLiMSModel):
     _name='olims.client'
     _rec_name = 'Name'
-    # implements(IClient)
-    # security = ClassSecurityInfo()
-    # displayContentsTab = False
-    # schema = schema
-    
-
-    _at_rename_after_creation = True
-    def _renameAfterCreation(self, check_auto_id=False):
-        from lims.idserver import renameAfterCreation
-        renameAfterCreation(self)
-
-    def Title(self):
-        """ Return the Organisation's Name as its title """
-        return safe_unicode(self.getField('Name').get(self)).encode('utf-8')
-
-    #security.declarePublic('getContactFromUsername')
-    def getContactFromUsername(self, username):
-        for contact in self.objectValues('Contact'):
-            if contact.getUsername() == username:
-                return contact.UID()
-
-    #security.declarePublic('getContactUIDForUser')
-    def getContactUIDForUser(self):
-        """ get the UID of the user associated with the authenticated user
-        """
-        membership_tool = getToolByName(self, 'portal_membership')
-        member = membership_tool.getAuthenticatedMember()
-        username = member.getUserName()
-        r = self.portal_catalog(
-            portal_type = 'Contact',
-            getUsername = username
-        )
-        if len(r) == 1:
-            return r[0].UID
-
-
-    #security.declarePublic('getARImportOptions')
-    def getARImportOptions(self):
-        return ARIMPORT_OPTIONS
-
-    #security.declarePublic('getAnalysisCategories')
-    def getAnalysisCategories(self):
-        """ return all available analysis categories """
-        bsc = getToolByName(self, 'bika_setup_catalog')
-        cats = []
-        for st in bsc(portal_type = 'AnalysisCategory',
-                      inactive_state = 'active',
-                      sort_on = 'sortable_title'):
-            cats.append((st.UID, st.Title))
-        return DisplayList(cats)
-
-    def getContacts(self, only_active=True):
-        """ Return an array containing the contacts from this Client
-        """
-        contacts = []
-        if only_active:
-            contacts = [c for c in self.objectValues('Contact') if
-                        getCurrentState(c, StateFlow.inactive) == InactiveState.active]
-        else:
-            contacts = self.objectValues('Contact')
-        return contacts;
-
-    def getDecimalMark(self):
-        """ Return the decimal mark to be used on reports for this
-            client. If the client has DefaultDecimalMark selected, the
-            Default value from Bika Setup will be returned. Otherwise,
-            will return the value of DecimalMark.
-        """
-        if self.getDefaultDecimalMark() == False:
-            return self.Schema()['DecimalMark'].get(self)
-        return self.bika_setup.getDecimalMark()
 
     @api.onchange('physical_copy_from')
     def _onchange_physical(self):
@@ -448,9 +265,5 @@ class Client(models.Model, BaseOLiMSModel):#(Organisation):
             setattr(self, 'billing_city', getattr(self,self.billing_copy_from+'_city'))
             setattr(self, 'billing_postalcode', getattr(self,self.billing_copy_from+'_postalcode'))
             setattr(self, 'billing_address', getattr(self,self.billing_copy_from+'_address'))
-
-# schemata.finalizeATCTSchema(schema, folderish = True, moveDiscussion = False)
-#
-# atapi.registerType(Client, PROJECTNAME)
 
 Client.initialze(schema)
