@@ -11,10 +11,10 @@ class ReportAnalysisPerService(models.AbstractModel):
         service_category = {}
         for service in analyses_services:
             service_analyses_dict[service.Service] = 0
-            if service.category.name not in service_category:
-                service_category[service.category.name] = [str(service.Service)]
+            if service.category.Category not in service_category:
+                service_category[service.category.Category] = [str(service.Service)]
             else:
-                service_category[service.category.name].append(str(service.Service))
+                service_category[service.category.Category].append(str(service.Service))
         for analysis in analyses:
             for servie_val in analysis.FieldService:
                 service_analyses_dict[servie_val.Service.Service] += 1

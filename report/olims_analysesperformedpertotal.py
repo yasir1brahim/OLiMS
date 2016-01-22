@@ -35,8 +35,11 @@ class ReportAnalysisPerformedPerTotal(models.AbstractModel):
         datalines = {}
         footlines = {}
         totalcount = len(analyses)
+        total_performedrequested_ratio = 0
+        total_publishedperformed_ratio = 0
         totalpublishedcount = 0
         totalperformedcount = 0
+        antitle = ''
         for analysis in analyses:
             # analysis = analysis.getObject()
             analysisfiledservice = analysis.FieldService
@@ -127,9 +130,10 @@ class ReportAnalysisPerformedPerTotal(models.AbstractModel):
             datalines[group] = dataline
 
         # Footer total data
-        total_performedrequested_ratio = float(totalperformedcount) / float(
+        if totalcount > 0:
+            total_performedrequested_ratio = float(totalperformedcount) / float(
             totalcount)
-        total_publishedperformed_ratio = totalperformedcount > 0 and float(
+            total_publishedperformed_ratio = totalperformedcount > 0 and float(
             totalpublishedcount) / float(totalperformedcount) or 0
 
         footline = {'Requested': totalcount,

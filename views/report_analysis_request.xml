@@ -11,7 +11,7 @@
             </div>
             <div class="row mt32">
                 <div class="col-xs-12">
-                     <p t-field="doc.Contact.name"/>
+                     <p t-field="doc.Contact.Name"/>
                 </div>
             </div>
             <div class="row mt32">
@@ -32,13 +32,13 @@
                     <tr>
                         <td>Sample ID</td>
                         <td>
-                            <span t-field="doc.Sample.SampleID"/>
+                            <span t-field="doc.Sample_id.SampleID"/>
                         </td>
                     </tr>
                     <tr>
                         <td>Batch ID</td>
                         <td>
-                            <span t-field="doc.Batch.name"/>
+                            <span t-field="doc.Batch.Title"/>
                         </td>
                     </tr>
                     <tr>

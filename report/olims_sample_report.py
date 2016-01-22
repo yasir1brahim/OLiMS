@@ -15,7 +15,7 @@ class ReportSample(models.AbstractModel):
             res['SampleID'] = sample.SampleID
             res['SampleType'] = sample.SampleType.SampleType
             res['DateReceived'] = sample.DateReceived
-            res['ClientSampleID'] = sample.ClientSampleID
+            res['ClientSampleID'] = sample.Client.Name
             samples_res.append(res)
         return samples_res
 

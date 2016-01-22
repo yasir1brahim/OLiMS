@@ -18,7 +18,7 @@ class ReportSampleReceivedvsReported(models.AbstractModel):
             # For each sample, retrieve check is has results published
             # and add it to datalines
             published = False
-            analyses = self.env['olims.analysis_request'].search([('Sample', '=', sample.id)])
+            analyses = self.env['olims.analysis_request'].search([('Sample_id', '=', sample.id)])
             if analyses:
                 for analysis in analyses:
                     if not (analysis.DatePublished is False):
@@ -50,15 +50,29 @@ class ReportSampleReceivedvsReported(models.AbstractModel):
             total_published_count = published and total_published_count + 1 or total_published_count
 
         # Footer total data
-        ratio = total_published_count / total_received_count
-        footline = {'ReceivedCount': total_received_count,
+        if total_received_count > 0:
+            ratio = total_published_count / total_received_count
+        else:
+            ratio = total_published_count / 1
+        try:
+            footline = {'ReceivedCount': total_received_count,
                     'PublishedCount': total_published_count,
                     'UnpublishedCount': total_received_count - total_published_count,
                     'Ratio': ratio,
                     'RatioPercentage': '%02d' % (100 * (
                     float(total_published_count) / float(
                         total_received_count))) + '%'
-        }
+            }
+        except:
+            footline = {'ReceivedCount': total_received_count,
+                    'PublishedCount': total_published_count,
+                    'UnpublishedCount': total_received_count - total_published_count,
+                    'Ratio': ratio,
+                    'RatioPercentage': '%02d' % (100 * (
+                    float(total_published_count) / float(
+                        1))) + '%'
+            }
+            
         footlines['Total'] = footline
 
         return datalines, footlines

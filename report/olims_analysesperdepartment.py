@@ -37,14 +37,16 @@ class ReportAnalysisPerDepartment(models.AbstractModel):
         totalcount = len(analyses)
         totalpublishedcount = 0
         totalperformedcount = 0
+        total_performedrequested_ratio = 0
+        department = ''
         for analysis in analyses:
             # analysis = analysis.getObject()
             analysisservice = analysis.FieldService
             analysislabservice  = analysis.LabService
             for service in analysisservice:
-                department = service.Service.Department.name
+                department = service.Service.Department.Department
             for service in analysislabservice:
-                department = service.LabService.Department.name
+                department = service.LabService.Department.Department
             # department = analysisservice.getDepartment()
             department = department if department else ''
             daterequested = analysis.create_date
@@ -127,7 +129,8 @@ class ReportAnalysisPerDepartment(models.AbstractModel):
             datalines[group] = dataline
 
         # Footer total data
-        total_performedrequested_ratio = float(totalperformedcount) / float(
+        if totalcount > 0:
+            total_performedrequested_ratio = float(totalperformedcount) / float(
             totalcount)
         total_publishedperformed_ratio = totalperformedcount > 0 and float(
             totalpublishedcount) / float(totalperformedcount) or 0

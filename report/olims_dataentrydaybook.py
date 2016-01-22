@@ -61,7 +61,8 @@ class ReportDataEntryDayBook(models.AbstractModel):
         totalpublicationlag = 0
         datereceived = ''
         datepublished = ''
-
+        totalreceivedcreated_ratio = 0
+        totalpublishedcreated_ratio = 0
         for ar in ars:
             # ar = ar.getObject()
             datecreated = datetime.datetime.strptime(ar.create_date, \
@@ -85,8 +86,8 @@ class ReportDataEntryDayBook(models.AbstractModel):
                 "ReceptionLag": receptionlag,
                 "PublicationLag": publicationlag,
                 "TotalLag": receptionlag + publicationlag,
-                "BatchID": ar.Batch.name if ar.Batch else '',
-                "SampleID": ar.Sample.SampleID,
+                "BatchID": ar.Batch.Title if ar.Batch else '',
+                "SampleID": ar.Sample_id.SampleID,
                 "SampleType": ar.SampleType.SampleType,
                 "NumAnalyses": anlcount,
                 "ClientID": ar.Client.ClientID,
@@ -103,14 +104,16 @@ class ReportDataEntryDayBook(models.AbstractModel):
             totalpublicationlag += publicationlag
 
         # Footer total data
-        totalreceivedcreated_ratio = float(totalreceivedcount) / float(
+        if totalcreatedcount > 0:
+            totalreceivedcreated_ratio = float(totalreceivedcount) / float(
             totalcreatedcount)
-        totalpublishedcreated_ratio = float(totalpublishedcount) / float(
+            totalpublishedcreated_ratio = float(totalpublishedcount) / float(
             totalcreatedcount)
         totalpublishedreceived_ratio = totalreceivedcount and float(
             totalpublishedcount) / float(totalreceivedcount) or 0
-
-        footline = {'Created': totalcreatedcount,
+        
+        try:
+            footline = {'Created': totalcreatedcount,
                     'Received': totalreceivedcount,
                     'Published': totalpublishedcount,
                     'ReceivedCreatedRatio': totalreceivedcreated_ratio,
@@ -130,6 +133,26 @@ class ReportDataEntryDayBook(models.AbstractModel):
                                                      totalreceptionlag + totalpublicationlag) / totalcreatedcount)),
                     'NumAnalyses': totalanlcount
         }
+        except:
+            footline = {'Created': totalcreatedcount,
+                    'Received': totalreceivedcount,
+                    'Published': totalpublishedcount,
+                    'ReceivedCreatedRatio': totalreceivedcreated_ratio,
+                    'ReceivedCreatedRatioPercentage': ('{0:.0f}'.format(
+                        totalreceivedcreated_ratio * 100)) + "%",
+                    'PublishedCreatedRatio': totalpublishedcreated_ratio,
+                    'PublishedCreatedRatioPercentage': ('{0:.0f}'.format(
+                        totalpublishedcreated_ratio * 100)) + "%",
+                    'PublishedReceivedRatio': totalpublishedreceived_ratio,
+                    'PublishedReceivedRatioPercentage': ('{0:.0f}'.format(
+                        totalpublishedreceived_ratio * 100)) + "%",
+                    'AvgReceptionLag': (
+                    '{0:.1f}'.format(totalreceptionlag / 1)),
+                    'AvgPublicationLag': (
+                    '{0:.1f}'.format(totalpublicationlag / 1)),
+                    'AvgTotalLag': ('{0:.1f}'.format((
+                                                     totalreceptionlag + totalpublicationlag) / 1)),
+                    'NumAnalyses': totalanlcount}
 
         footlines['Total'] = footline
         return datalines, footlines

@@ -20,7 +20,9 @@ class ReportAnalysisPerSampleType(models.AbstractModel):
 
     @api.multi
     def render_html(self, data):
-        client = data['form'].get('client_id')[0]
+        client = None
+        if data['form'].get('client_id'):
+            client = data['form'].get('client_id')[0]
         startdate = datetime.datetime.strptime(data['form'].get('date_from'), \
             "%Y-%m-%d %H:%M:%S").strftime("%Y/%m/%d %H:%M:%S")
         enddate = datetime.datetime.strptime(data['form'].get('date_to'), \
@@ -28,10 +30,16 @@ class ReportAnalysisPerSampleType(models.AbstractModel):
         analysisstate = str(data['form'].get('analysis_state'))
         self.model = self.env.context.get('active_model')
         docs = self.env[self.model].browse(self.env.context.get('active_id'))
-        analyses = self.env['olims.analysis_request'].search([('create_date', '>=', startdate), \
+        if client:
+            analyses = self.env['olims.analysis_request'].search([('create_date', '>=', startdate), \
             ('create_date', '<=', enddate), \
             ('state', '=', analysisstate),\
             ('Client', '=', client),
+            ])
+        else:
+            analyses = self.env['olims.analysis_request'].search([('create_date', '>=', startdate), \
+            ('create_date', '<=', enddate), \
+            ('state', '=', analysisstate),
             ])
         sample_types = self.env['olims.sample_type'].search([])
         analysis_res = self.with_context(data['form'].get('used_context'))._get_analyses(analyses,sample_types)
