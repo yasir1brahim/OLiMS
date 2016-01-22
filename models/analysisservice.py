@@ -1,43 +1,5 @@
 # -*- coding: utf-8 -*-
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# from dependencies.dependency import ClassSecurityInfo
-# from dependencies.dependency import DateTime
-# from dependencies.dependency import HistoryAwareMixin
-# from dependencies.dependency import makeDisplayList
-# from dependencies.dependency import RecordField, RecordsField
-# from dependencies.dependency import registerField
-# from dependencies.dependency import DisplayList, ReferenceField, \
-#     ComputedField, ComputedWidget, BooleanField, \
-#     BooleanWidget, StringField, SelectionWidget, \
-#     FixedPointField, DecimalWidget, IntegerField, \
-#     IntegerWidget, StringWidget, BaseContent, \
-#     Schema, registerType, MultiSelectionWidget
-# from dependencies.dependency import HoldingReference
-# from lims.utils import to_unicode as _u
-# from lims.browser.widgets.durationwidget import DurationWidget
-# from lims.browser.widgets.partitionsetupwidget import PartitionSetupWidget
-# from lims.browser.widgets.recordswidget import RecordsWidget
-# from lims.browser.widgets.referencewidget import ReferenceWidget
-# from lims.browser.fields import *
-# from lims.content.bikaschema import BikaSchema
-# from magnitude import MagnitudeError
-# from OLiMS.dependencies.dependency import i18n
-# from dependencies.dependency import implements
-# import math
-# from lims.interfaces import IAnalysisService
-# from dependencies.dependency import RegexValidator
-# from lims.config import ATTACHMENT_OPTIONS, PROJECTNAME, \
-#     SERVICE_POINT_OF_CAPTURE
-# import sys
-
-from dependencies.dependency import DisplayList
-from dependencies import transaction
-from lims.utils.analysis import get_significant_digits
-# from magnitude import mg
-from dependencies.dependency import getToolByName
-from dependencies.dependency import WorkflowException
-from lims import bikaMessageFactory as _
-from lims.utils import to_utf8 as _c
+from openerp.tools.translate import _
 from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
 from fields.reference_field import ReferenceField
@@ -58,160 +20,7 @@ ATTACHMENT_OPTIONS = (
                       ('p', 'Permitted'),
                       ('n', 'Not Permitted')
                       )
-# ~~~~~~~ To be implemented ~~~~~~~
-# def getContainers(instance,
-#                   minvol=None,
-#                   allow_blank=True,
-#                   show_container_types=True,
-#                   show_containers=True):
-#     """ Containers vocabulary
-# 
-#     This is a separate class so that it can be called from ajax to filter
-#     the container list, as well as being used as the AT field vocabulary.
-# 
-#     Returns a tuple of tuples: ((object_uid, object_title), ())
-# 
-#     If the partition is flagged 'Separate', only containers are displayed.
-#     If the Separate flag is false, displays container types.
-# 
-#     XXX bsc = self.portal.bika_setup_catalog
-#     XXX obj = bsc(getKeyword='Moist')[0].getObject()
-#     XXX u'Container Type: Canvas bag' in obj.getContainers().values()
-#     XXX True
-# 
-#     """
-# 
-#     bsc = getToolByName(instance, 'bika_setup_catalog')
-# 
-#     items = allow_blank and [['', _('Any')]] or []
-# 
-#     containers = []
-#     for container in bsc(portal_type='Container', sort_on='sortable_title'):
-#         container = container.getObject()
-# 
-#         # verify container capacity is large enough for required sample volume.
-#         if minvol is not None:
-#             capacity = container.getCapacity()
-#             try:
-#                 capacity = capacity.split(' ', 1)
-#                 capacity = mg(float(capacity[0]), capacity[1])
-#                 if capacity < minvol:
-#                     continue
-#             except:
-#                 # if there's a unit conversion error, allow the container
-#                 # to be displayed.
-#                 pass
-# 
-#         containers.append(container)
-# 
-#     if show_containers:
-#         # containers with no containertype first
-#         for container in containers:
-#             if not container.getContainerType():
-#                 items.append((container.UID(), container.Title()))
-# 
-#     ts = getToolByName(instance, 'translation_service').translate
-#     cat_str = _c(ts(_('Container Type')))
-#     containertypes = [c.getContainerType() for c in containers]
-#     containertypes = dict([(ct.UID(), ct.Title())
-#                            for ct in containertypes if ct])
-#     for ctype_uid, ctype_title in containertypes.items():
-#         ctype_title = _c(ctype_title)
-#         if show_container_types:
-#             items.append((ctype_uid, "%s: %s" % (cat_str, ctype_title)))
-#         if show_containers:
-#             for container in containers:
-#                 ctype = container.getContainerType()
-#                 if ctype and ctype.UID() == ctype_uid:
-#                     items.append((container.UID(), container.Title()))
-# 
-#     items = tuple(items)
-#     return items
 
-# ~~~~~~~ To be implemented ~~~~~~~
-# class PartitionSetupField(RecordsField):
-#     _properties = RecordsField._properties.copy()
-#     _properties.update({
-#         'subfields': (
-#             'sampletype',
-#             'separate',
-#             'preservation',
-#             'container',
-#             'vol',
-#             # 'retentionperiod',
-#         ),
-#         'subfield_labels': {
-#             'sampletype': _('Sample Type'),
-#             'separate': _('Separate Container'),
-#             'preservation': _('Preservation'),
-#             'container': _('Container'),
-#             'vol': _('Required Volume'),
-#             # 'retentionperiod': _('Retention Period'),
-#         },
-#         'subfield_types': {
-#             'separate': 'boolean',
-#             'vol': 'string',
-#             'preservation': 'sampletype',
-#             'container': 'selection',
-#             'preservation': 'selection',
-#         },
-#         'subfield_vocabularies': {
-#             'sampletype': 'SampleTypes',
-#             'preservation': 'Preservations',
-#             'container': 'Containers',
-#         },
-#         'subfield_sizes': {
-#             'sampletype': 1,
-#             'preservation': 6,
-#             'vol': 8,
-#             'container': 6,
-#             # 'retentionperiod':10,
-#         }
-#     })
-#     security = ClassSecurityInfo()
-# 
-#     security.declarePublic('SampleTypes')
-# 
-#     def SampleTypes(self, instance=None):
-#         instance = instance or self
-#         bsc = getToolByName(instance, 'bika_setup_catalog')
-#         items = []
-#         for st in bsc(portal_type='SampleType',
-#                       inactive_state='active',
-#                       sort_on='sortable_title'):
-#             st = st.getObject()
-#             title = st.Title()
-#             items.append((st.UID(), title))
-#         items = [['', '']] + list(items)
-#         return DisplayList(items)
-# 
-#     security.declarePublic('Preservations')
-# 
-#     def Preservations(self, instance=None):
-#         instance = instance or self
-#         bsc = getToolByName(instance, 'bika_setup_catalog')
-#         items = [(c.UID, c.title) for c in
-#                  bsc(portal_type='Preservation',
-#                      inactive_state='active',
-#                      sort_on='sortable_title')]
-#         items = [['', _('Any')]] + list(items)
-#         return DisplayList(items)
-# 
-#     security.declarePublic('Containers')
-# 
-#     def Containers(self, instance=None):
-#         instance = instance or self
-#         items = getContainers(instance, allow_blank=True)
-#         return DisplayList(items)
-
-
-# registerField(PartitionSetupField, title="", description="")
-
-# # XXX When you modify this schema, be sure to edit the list of fields
-## to duplicate, in bika_analysisservices.py.
-
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# schema = BikaSchema.copy() + Schema((
 schema = (StringField('Service',
         required=1,
         widget=StringWidget(
@@ -274,7 +83,7 @@ schema = (StringField('Service',
     ),
     FixedPointField('LowerDetectionLimit',
                     schemata="Analysis",
-                    default='0.0',
+                    default=0.0,
                     precision=7,
                     widget=DecimalWidget(
                         label = _("Lower Detection Limit (LDL)"),
@@ -290,7 +99,7 @@ schema = (StringField('Service',
     ),
     FixedPointField('UpperDetectionLimit',
                 schemata="Analysis",
-                default='1000000000.0',
+                default=1000000000.0,
                 precision=7,
                 widget=DecimalWidget(
                     label = _("Upper Detection Limit (UDL)"),
@@ -367,15 +176,6 @@ schema = (StringField('Service',
                 help="Indicates whether file attachments, e.g. microscope images, " + \
                         "are required for this analysis and whether file upload function " + \
                         "will be available for it on data capturing screens",
-#                 vocabulary=ATTACHMENT_OPTIONS,
-#                 widget=SelectionWidget(
-#                     label = _("Attachment Option"),
-#                     description=_(
-#                         "Indicates whether file attachments, e.g. microscope images, "
-#                         "are required for this analysis and whether file upload function "
-#                         "will be available for it on data capturing screens"),
-#                     format='select',
-#                 ),
     ),
     StringField('Keyword',
                 schemata="Description",
@@ -436,21 +236,6 @@ schema = (StringField('Service',
                                     "Analysis Request creation view for its " + \
                                     "selection when this Analysis Service is " + \
                                     "selected.",
-#                    multiValued=1,
-#                    vocabulary_display_path_bound=sys.maxint,
-#                    vocabulary='_getAvailableInstrumentsDisplayList',
-#                    allowed_types=('Instrument',),
-#                    relationship='AnalysisServiceInstruments',
-#                    referenceClass=HoldingReference,
-#                    widget=MultiSelectionWidget(
-#                        label = _("Instruments"),
-#                        description=_("More than one instrument can do an " + \
-#                                      "Analysis Service. The instruments " + \
-#                                      "selected here are displayed in the " + \
-#                                      "Analysis Request creation view for its " + \
-#                                      "selection when this Analysis Service is " + \
-#                                      "selected."),
-#                    )
     ),
     # Default instrument to be used.
     # Gets populated with the instruments selected in the multiselection
@@ -464,27 +249,8 @@ schema = (StringField('Service',
     fields.Many2one(string='Instrument',
                     comodel_name='olims.instrument',
 #                    schemata="Method",
-#                    searchable=True,
                     required=False,
-# #                 vocabulary_display_path_bound=sys.maxint,
-#                   vocabulary='_getAvailableInstrumentsDisplayList',
-#                   allowed_types=('Instrument',),
-#                   relationship='AnalysisServiceInstrument',
-#                   referenceClass=HoldingReference,
-#                   widget=SelectionWidget(
-#                       format='select',
-#                       label = _("Default Instrument"),
-#                   ),
     ),
-    # Returns the Default's instrument title. If no default instrument
-    # set, returns string.empty
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField('InstrumentTitle',
-#                   expression="context.getInstrument() and context.getInstrument().Title() or ''",
-#                   widget=ComputedWidget(
-#                       visible=False,
-#                   ),
-#     ),
     # Manual methods associated to the AS
     # List of methods capable to perform the Analysis Service. The
     # Methods selected here are displayed in the Analysis Request
@@ -506,23 +272,6 @@ schema = (StringField('Service',
                             "displayed.",
 #         schemata = "Method",
         required = False,
-#         multiValued = 1,
-#         vocabulary_display_path_bound = sys.maxint,
-#         vocabulary = '_getAvailableMethodsDisplayList',
-#         allowed_types = ('Method',),
-#         relationship = 'AnalysisServiceMethods',
-#         referenceClass = HoldingReference,
-#         widget = MultiSelectionWidget(
-#             label = _("Methods"),
-#             description = _("The Analysis Service can be performed by " + \
-#                             "using more than one Method. The methods " + \
-#                             "selected here are displayed in the " + \
-#                             "Analysis Request creation view for its " + \
-#                             "selection when this Analaysis Service " + \
-#                             "is selected. Only methods with 'Allow " + \
-#                             "manual entry of results' enabled are " + \
-#                             "displayed."),
-#         )
     ),
     # Default method to be used. This field is used in Analysis Service
     # Edit view, use getMethod() to retrieve the Method to be used in
@@ -542,20 +291,6 @@ schema = (StringField('Service',
                         "is selected, the method from the default instrument " + \
                         "will be used. Otherwise, only the methods " + \
                         "selected above will be displayed.",
-#         searchable = True,
-#         vocabulary_display_path_bound = sys.maxint,
-#         allowed_types = ('Method',),
-#         vocabulary = '_getAvailableMethodsDisplayList',
-#         relationship = 'AnalysisServiceMethod',
-#         referenceClass = HoldingReference,
-#         widget = SelectionWidget(
-#             format='select',
-#             label = _("Default Method"),
-#             description=_("If 'Allow instrument entry of results' " + \
-#                           "is selected, the method from the default instrument " + \
-#                           "will be used. Otherwise, only the methods " + \
-#                           "selected above will be displayed.")
-#         ),
     ),
     # Allow/Disallow to set the calculation manually
     # Behavior controlled by javascript depending on Instruments field:
@@ -589,21 +324,6 @@ schema = (StringField('Service',
                                     "default Method selected. The Calculation " + \
                                     "for a method can be assigned in the Method " + \
                                     "edit view.",
-#                    vocabulary_display_path_bound=sys.maxint,
-#                    vocabulary='_getAvailableCalculationsDisplayList',
-#                    allowed_types=('Calculation',),
-#                    relationship='AnalysisServiceCalculation',
-#                    referenceClass=HoldingReference,
-#                    widget=SelectionWidget(
-#                        format='select',
-#                        label = _("Default Calculation"),
-#                        description=_("Default calculation to be used from the " + \
-#                                      "default Method selected. The Calculation " + \
-#                                      "for a method can be assigned in the Method " + \
-#                                      "edit view."),
-#                        catalog_name='bika_setup_catalog',
-#                        base_query={'inactive_state': 'active'},
-#                    ),
     ),
     # Default calculation is not longer linked directly to the AS: it
     # currently uses the calculation linked to the default Method.
@@ -624,56 +344,14 @@ schema = (StringField('Service',
                    help="If required, select a calculation for the analysis here. " + \
                             "Calculations can be configured under the calculations item " + \
                             "in the LIMS set-up",
-#                    vocabulary_display_path_bound=sys.maxint,
-#                    vocabulary='_getAvailableCalculationsDisplayList',
-#                    allowed_types=('Calculation',),
-#                    relationship='AnalysisServiceDeferredCalculation',
-#                    referenceClass=HoldingReference,
-#                    widget=SelectionWidget(
-#                        format='select',
-#                        label = _("Alternative Calculation"),
-#                        description=_(
-#                            "If required, select a calculation for the analysis here. "
-#                            "Calculations can be configured under the calculations item "
-#                            "in the LIMS set-up"),
-#                        catalog_name='bika_setup_catalog',
-#                        base_query={'inactive_state': 'active'},
-#                    ),
     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField('CalculationTitle',
-#                   expression="context.getCalculation() and context.getCalculation().Title() or ''",
-#                   searchable=True,
-#                   widget=ComputedWidget(
-#                       visible=False,
-#                   ),
-#     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField('CalculationUID',
-#                   expression="context.getCalculation() and context.getCalculation().UID() or ''",
-#                   widget=ComputedWidget(
-#                       visible=False,
-#                   ),
-#     ),
-
     fields.Many2many(string='InterimFields',
                     comodel_name='olims.interimfield',
                           #        schemata='Method',
-#                        widget=RecordsWidget(
-#                            label = _("Calculation Interim Fields"),
-#                            description=_(
-#                                "Values can be entered here which will override the defaults "
-#                                "specified in the Calculation Interim Fields."),
-#                        )
-),
-
-
-    
+    ),
     fields.Char(string='Days', required=False),
     fields.Char(string='Hours', required=False),
     fields.Char(string='Minutes', required=False),
-    
-    
     FixedPointField('DuplicateVariation',
                     schemata="Method",
                     widget=DecimalWidget(
@@ -704,35 +382,12 @@ schema = (StringField('Service',
                         "at the sample point, e.g. the temperature of a water sample " + \
                         "in the river where it is sampled. Lab analyses are done in " + \
                         "the laboratory",
-#                 vocabulary=SERVICE_POINT_OF_CAPTURE,
-#                 widget=SelectionWidget(
-#                     format='flex',
-#                     label = _("Point of Capture"),
-#                     description=_(
-#                         "The results of field analyses are captured during sampling "
-#                         "at the sample point, e.g. the temperature of a water sample "
-#                         "in the river where it is sampled. Lab analyses are done in "
-#                         "the laboratory"),
-#                 ),
     ),
     fields.Many2one(string='category',
                    comodel_name='olims.analysis_category',
 #                    schemata="Description",
                    required=True,
                    help="The category the analysis service belongs to",
-#                    vocabulary_display_path_bound=sys.maxint,
-#                    allowed_types=('AnalysisCategory',),
-#                    relationship='AnalysisServiceAnalysisCategory',
-#                    referenceClass=HoldingReference,
-#                    vocabulary='getAnalysisCategories',
-#                    widget=ReferenceWidget(
-#                        checkbox_bound=0,
-#                        label = _("Analysis Category"),
-#                        description=_(
-#                            "The category the analysis service belongs to"),
-#                        catalog_name='bika_setup_catalog',
-#                        base_query={'inactive_state': 'active'},
-#                    ),
     ),
     FixedPointField('Price',
                     schemata="Description",
@@ -752,26 +407,7 @@ schema = (StringField('Service',
                     ),
     ),
     fields.Float(compute='computeVATAmount',string='VATAmount'),
-    
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField('VATAmount',
-#                   schemata="Description",
-#                   expression='context.getVATAmount()',
-#                   widget=ComputedWidget(
-#                       label = _("VAT"),
-#                       visible={'edit': 'hidden', }
-#                   ),
-#     ),
-fields.Float(compute='computeTotalPrice',string='TotalPrice'),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField('TotalPrice',
-#                   schemata="Description",
-#                   expression='context.getTotalPrice()',
-#                   widget=ComputedWidget(
-#                       label = _("Total price"),
-#                       visible={'edit': 'hidden', }
-#                   ),
-#     ),
+    fields.Float(compute='computeTotalPrice',string='TotalPrice'),
     FixedPointField('VAT',
                     schemata="Description",
                     default_method='getDefaultVAT',
@@ -780,52 +416,16 @@ fields.Float(compute='computeTotalPrice',string='TotalPrice'),
                         description = _("Enter percentage value eg. 14.0"),
                     ),
     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField('CategoryTitle',
-#                   expression="context.getCategory() and context.getCategory().Title() or ''",
-#                   widget=ComputedWidget(
-#                       visible=False,
-#                   ),
-#     ),
-#     ComputedField('CategoryUID',
-#                   expression="context.getCategory() and context.getCategory().UID() or ''",
-#                   widget=ComputedWidget(
-#                       visible=False,
-#                   ),
-#     ),
     fields.Many2one(string='Department',
                    comodel_name='olims.department',
 #                    schemata="Description",
                    required=False,
                    help="The laboratory department",
-#                    vocabulary_display_path_bound=sys.maxint,
-#                    allowed_types=('Department',),
-#                    vocabulary='getDepartments',
-#                    relationship='AnalysisServiceDepartment',
-#                    referenceClass=HoldingReference,
-#                    widget=ReferenceWidget(
-#                        checkbox_bound=0,
-#                        label = _("Department"),
-#                        description = _("The laboratory department"),
-#                        catalog_name='bika_setup_catalog',
-#                        base_query={'inactive_state': 'active'},
-#                    ),
     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField('DepartmentTitle',
-#                   expression="context.getDepartment() and context.getDepartment().Title() or ''",
-#                   searchable=True,
-#                   widget=ComputedWidget(
-#                       visible=False,
-#                   ),
-#     ),
-
-# 
-fields.One2many(string='Uncertainties',
+    fields.One2many(string='Uncertainties',
                        comodel_name='olims.uncertinty_service',
                        inverse_name='analysis_service_id'
         ),
-
 
     # Calculate the precision from Uncertainty value
     # Behavior controlled by javascript
@@ -894,22 +494,6 @@ fields.One2many(string='Uncertainties',
                                     "the sample type combination, specify a preservation " + \
                                     "per sample type in the table below",
                     required=False,
-#                    schemata='Container and Preservation',
-#                    allowed_types=('Preservation',),
-#                    relationship='AnalysisServicePreservation',
-#                    referenceClass=HoldingReference,
-#                    vocabulary='getPreservations',
-#                    multiValued=0,
-#                    widget=ReferenceWidget(
-#                        checkbox_bound=0,
-#                        label = _("Default Preservation"),
-#                        description=_("Select a default preservation for this " + \
-#                                      "analysis service. If the preservation depends on " + \
-#                                      "the sample type combination, specify a preservation " + \
-#                                      "per sample type in the table below"),
-#                        catalog_name='bika_setup_catalog',
-#                        base_query={'inactive_state': 'active'},
-#                    ),
     ),
     fields.Many2one(string='Container',
                    comodel_name='olims.container',
@@ -918,36 +502,11 @@ fields.One2many(string='Uncertainties',
                             "analysis service. If the container to be used " + \
                             "depends on the sample type and preservation " + \
                             "combination, specify the container in the sample " + \
-                            "type table below",                  
-#                    schemata='Container and Preservation',
-#                    allowed_types=('Container', 'ContainerType'),
-#                    relationship='AnalysisServiceContainer',
-#                    referenceClass=HoldingReference,
-#                    vocabulary='getContainers',
-
-#                    multiValued=0,
-#                    widget=ReferenceWidget(
-#                        checkbox_bound=0,
-#                        label = _("Default Container"),
-#                        description=_(
-#                            "Select the default container to be used for this "
-#                            "analysis service. If the container to be used "
-#                            "depends on the sample type and preservation "
-#                            "combination, specify the container in the sample "
-#                            "type table below"),
-#                        catalog_name='bika_setup_catalog',
-#                        base_query={'inactive_state': 'active'},
-#                    ),
+                            "type table below",
     ),
-    fields.Many2many(string='PartitionSetup', comodel_name='olims.partition_setup'
-                           #                         schemata='Container and Preservation',
-#                         widget=PartitionSetupWidget(
-#                             label=PMF("Preservation per sample type"),
-#                             description=_(
-#                                 "Please specify preservations that differ from the "
-#                                 "analysis service's default preservation per sample "
-#                                 "type here."),
-                           ),
+    fields.Many2many(string='PartitionSetup',
+                     comodel_name='olims.partition_setup'
+    ),
 
     BooleanField('Hidden',
                  schemata="Analysis",
@@ -986,63 +545,17 @@ fields.One2many(string='Uncertainties',
             description=_("Enter a comment that describes the changes you made")
         ),
     ),
-)#)
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# schema['id'].widget.visible = False
-# schema['description'].schemata = 'Description'
-# schema['description'].widget.visible = True
-# schema['title'].required = True
-# schema['title'].widget.visible = True
-# schema['title'].schemata = 'Description'
-# schema.moveField('ShortTitle', after='title')
-# schema.moveField('CommercialID', after='ShortTitle')
-# schema.moveField('ProtocolID', after='CommercialID')
+)
 
 
-class AnalysisService(models.Model, BaseOLiMSModel):#(BaseContent, HistoryAwareMixin):
+class AnalysisService(models.Model, BaseOLiMSModel):
     _name = 'olims.analysis_service'
     _rec_name = 'Service'
     # marked Keyword field "unique" 
     _sql_constraints = [
         ('uniq_Keyword', 'unique(Keyword)', "The unique keyword used to identify the analysis service."),
     ]
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-#     security = ClassSecurityInfo()
-#     schema = schema
-#     displayContentsTab = False
-#     implements(IAnalysisService)
 
-    _at_rename_after_creation = True
-
-    def _renameAfterCreation(self, check_auto_id=False):
-        from lims.idserver import renameAfterCreation
-
-        return renameAfterCreation(self)
-
-    def Title(self):
-        return _c(self.title)
-
-#     security.declarePublic('getDiscountedPrice')
-
-    def getDiscountedPrice(self):
-        """ compute discounted price excl. vat """
-        price = self.getPrice()
-        price = price and price or 0
-        discount = self.bika_setup.getMemberDiscount()
-        discount = discount and discount or 0
-        return float(price) - (float(price) * float(discount)) / 100
-
-#     security.declarePublic('getDiscountedBulkPrice')
-
-    def getDiscountedBulkPrice(self):
-        """ compute discounted bulk discount excl. vat """
-        price = self.getBulkPrice()
-        price = price and price or 0
-        discount = self.bika_setup.getMemberDiscount()
-        discount = discount and discount or 0
-        return float(price) - (float(price) * float(discount)) / 100
-
-    
     def computeTotalPrice(self):
         """ compute total price """
         for record in self:
@@ -1051,14 +564,7 @@ class AnalysisService(models.Model, BaseOLiMSModel):#(BaseContent, HistoryAwareM
             price = price and price or 0
             vat = vat and vat or 0
             record.TotalPrice = float(price) + (float(price) * float(vat)) / 100
-    
-    def getTotalPrice(self):
-        """ compute total price """
-        price = self.getPrice()
-        vat = self.getVAT()
-        price = price and price or 0
-        vat = vat and vat or 0
-        return float(price) + (float(price) * float(vat)) / 100
+
 
     def getTotalBulkPrice(self):
         """ compute total price """
@@ -1068,7 +574,6 @@ class AnalysisService(models.Model, BaseOLiMSModel):#(BaseContent, HistoryAwareM
         vat = vat and vat or 0
         return float(price) + (float(price) * float(vat)) / 100
 
-#     security.declarePublic('getTotalDiscountedPrice')
 
     def getTotalDiscountedPrice(self):
         """ compute total discounted price """
@@ -1078,7 +583,6 @@ class AnalysisService(models.Model, BaseOLiMSModel):#(BaseContent, HistoryAwareM
         vat = vat and vat or 0
         return float(price) + (float(price) * float(vat)) / 100
 
-#     security.declarePublic('getTotalDiscountedCorporatePrice')
 
     def getTotalDiscountedBulkPrice(self):
         """ compute total discounted corporate price """
@@ -1096,200 +600,12 @@ class AnalysisService(models.Model, BaseOLiMSModel):#(BaseContent, HistoryAwareM
         except ValueError:
             return "0.00"
 
-#     security.declarePublic('getVATAmount')
     
     def computeVATAmount(self):
         for record in self:
             price, vat = record.getPrice(), record.getVAT()
             record.VATAmount = (float(price) * (float(vat) / 100))
         
-#     def getVATAmount(self):
-#         """ Compute VATAmount
-#         """
-#         price, vat = self.getPrice(), self.getVAT()
-#         return (float(price) * (float(vat) / 100))
-
-    def getAnalysisCategories(self):
-        bsc = getToolByName(self, 'bika_setup_catalog')
-        items = [(o.UID, o.Title) for o in
-                 bsc(portal_type='AnalysisCategory',
-                     inactive_state='active')]
-        o = self.getCategory()
-        if o and o.UID() not in [i[0] for i in items]:
-            items.append((o.UID(), o.Title()))
-        items.sort(lambda x, y: cmp(x[1], y[1]))
-        return DisplayList(list(items))
-
-    def _getAvailableInstrumentsDisplayList(self):
-        """ Returns a DisplayList with the available Instruments
-            registered in Bika-Setup. Only active Instruments are
-            fetched. Used to fill the Instruments MultiSelectionWidget
-        """
-        bsc = getToolByName(self, 'bika_setup_catalog')
-        items = [(i.UID, i.Title) \
-                 for i in bsc(portal_type='Instrument',
-                              inactive_state='active')]
-        items.sort(lambda x, y: cmp(x[1], y[1]))
-        return DisplayList(list(items))
-
-    def _getAvailableMethodsDisplayList(self):
-        """ Returns a DisplayList with the available Methods
-            registered in Bika-Setup. Only active Methods and those
-            with Manual Entry field active are fetched.
-            Used to fill the Methods MultiSelectionWidget when 'Allow
-            Instrument Entry of Results is not selected'.
-        """
-        bsc = getToolByName(self, 'bika_setup_catalog')
-        items = [(i.UID, i.Title) \
-                 for i in bsc(portal_type='Method',
-                              inactive_state='active') \
-                 if i.getObject().isManualEntryOfResults()]
-        items.sort(lambda x, y: cmp(x[1], y[1]))
-        items.insert(0, ('', _("None")))
-        return DisplayList(list(items))
-
-    def _getAvailableCalculationsDisplayList(self):
-        """ Returns a DisplayList with the available Calculations
-            registered in Bika-Setup. Only active Calculations are
-            fetched. Used to fill the _Calculation and DeferredCalculation
-            List fields
-        """
-        bsc = getToolByName(self, 'bika_setup_catalog')
-        items = [(i.UID, i.Title) \
-                 for i in bsc(portal_type='Calculation',
-                              inactive_state='active')]
-        items.sort(lambda x, y: cmp(x[1], y[1]))
-        items.insert(0, ('', _("None")))
-        return DisplayList(list(items))
-
-    def getCalculation(self):
-        """ Returns the calculation to be used in this AS.
-            If UseDefaultCalculation() is set, returns the calculation
-            from the default method selected or none (if method hasn't
-            defined any calculation). If UseDefaultCalculation is set
-            to false, returns the Deferred Calculation (manually set)
-        """
-        if self.getUseDefaultCalculation():
-            return self.getMethod().getCalculation() \
-                if (self.getMethod() \
-                    and self.getMethod().getCalculation()) \
-                else None
-        else:
-            return self.getDeferredCalculation()
-
-    def getMethod(self):
-        """ Returns the method assigned by default to the AS.
-            If Instrument Entry Of Results selected, returns the method
-            from the Default Instrument or None.
-            If Instrument Entry of Results is not selected, returns the
-            method assigned directly by the user using the _Method Field
-        """
-        method = None
-        if (self.getInstrumentEntryOfResults() == True):
-            method = self.getInstrument().getMethod() \
-                if (self.getInstrument() \
-                    and self.getInstrument().getMethod()) \
-                else None
-        else:
-            method = self.get_Method();
-        return method
-
-    def getAvailableMethods(self):
-        """ Returns the methods available for this analysis.
-            If the service has the getInstrumentEntryOfResults(), returns
-            the methods available from the instruments capable to perform
-            the service, as well as the methods set manually for the
-            analysis on its edit view. If getInstrumentEntryOfResults()
-            is unset, only the methods assigned manually to that service
-            are returned.
-        """
-        methods = self.getMethods()
-        muids = [m.UID() for m in methods]
-        if self.getInstrumentEntryOfResults() == True:
-            # Add the methods from the instruments capable to perform
-            # this analysis service
-            for ins in self.getInstruments():
-                method = ins.getMethod()
-                if method and method.UID() not in muids:
-                    methods.append(method)
-                    muids.append(method.UID())
-
-        return methods
-
-    def getAvailableInstruments(self):
-        """ Returns the instruments available for this analysis.
-            If the service has the getInstrumentEntryOfResults(), returns
-            the instruments capable to perform this service. Otherwhise,
-            returns an empty list.
-        """
-        instruments = self.getInstruments() \
-            if self.getInstrumentEntryOfResults() == True \
-            else None
-        return instruments if instruments else []
-
-    def getDepartments(self):
-        bsc = getToolByName(self, 'bika_setup_catalog')
-        items = [('', '')] + [(o.UID, o.Title) for o in
-                              bsc(portal_type='Department',
-                                  inactive_state='active')]
-        o = self.getDepartment()
-        if o and o.UID() not in [i[0] for i in items]:
-            items.append((o.UID(), o.Title()))
-        items.sort(lambda x, y: cmp(x[1], y[1]))
-        return DisplayList(list(items))
-
-    def getUncertainty(self, result=None):
-        """
-        Return the uncertainty value, if the result falls within
-        specified ranges for this service.
-        """
-
-        if result is None:
-            return None
-
-        uncertainties = self.getUncertainties()
-        if uncertainties:
-            try:
-                result = float(result)
-            except ValueError:
-                # if analysis result is not a number, then we assume in range
-                return None
-
-            for d in uncertainties:
-                if float(d['intercept_min']) <= result <= float(
-                        d['intercept_max']):
-                    unc = 0
-                    if str(d['errorvalue']).strip().endswith('%'):
-                        try:
-                            percvalue = float(d['errorvalue'].replace('%', ''))
-                        except ValueError:
-                            return None
-                        unc = result / 100 * percvalue
-                    else:
-                        unc = float(d['errorvalue'])
-
-                    return unc
-        return None
-
-    def getLowerDetectionLimit(self):
-        """ Returns the Lower Detection Limit for this service as a
-            floatable
-        """
-        ldl = self.Schema().getField('LowerDetectionLimit').get(self)
-        try:
-            return float(ldl)
-        except ValueError:
-            return 0
-
-    def getUpperDetectionLimit(self):
-        """ Returns the Upper Detection Limit for this service as a
-            floatable
-        """
-        udl = self.Schema().getField('UpperDetectionLimit').get(self)
-        try:
-            return float(udl)
-        except ValueError:
-            return 0
 
     def getPrecision(self, result=None):
         """
@@ -1320,19 +636,7 @@ class AnalysisService(models.Model, BaseOLiMSModel):#(BaseContent, HistoryAwareM
                        fixed-precision will be used.
         :return: the precision
         """
-        if self.getPrecisionFromUncertainty() == False:
-            return self.Schema().getField('Precision').get(self)
-        else:
-            uncertainty = self.getUncertainty(result);
-            if uncertainty is None:
-                return self.Schema().getField('Precision').get(self);
-
-            # Calculate precision according to uncertainty
-            # https://jira.bikalabs.com/browse/LIMS-1334
-            if uncertainty == 0:
-                return 1
-            return abs(get_significant_digits(uncertainty))
-        return None
+        pass
 
 
     def getExponentialFormatPrecision(self, result=None):
@@ -1372,71 +676,9 @@ class AnalysisService(models.Model, BaseOLiMSModel):#(BaseContent, HistoryAwareM
                        fixed-precision will be used.
         :return: the precision
         """
-        if not result or self.getPrecisionFromUncertainty() == False:
-            return self.Schema().getField('ExponentialFormatPrecision').get(self)
-        else:
-            uncertainty = self.getUncertainty(result)
-            if uncertainty is None:
-                return self.Schema().getField('ExponentialFormatPrecision').get(self);
-
-            try:
-                result = float(result)
-            except ValueError:
-                # if analysis result is not a number, then we assume in range
-                return self.Schema().getField('ExponentialFormatPrecision').get(self)
-
-            return get_significant_digits(uncertainty)
+        pass
 
 
-#     security.declarePublic('getContainers')
-# ~~~~~~~ To be implemented ~~~~~~~
-#     def getContainers(self, instance=None):
-#         # On first render, the containers must be filtered
-#         instance = instance or self
-#         separate = self.getSeparate()
-#         containers = getContainers(instance,
-#                                    allow_blank=True,
-#                                    show_container_types=not separate,
-#                                    show_containers=separate)
-#         return DisplayList(containers)
 
-    def getPreservations(self):
-        bsc = getToolByName(self, 'bika_setup_catalog')
-        items = [(o.UID, o.Title) for o in
-                 bsc(portal_type='Preservation', inactive_state='active')]
-        items.sort(lambda x, y: cmp(x[1], y[1]))
-        return DisplayList(list(items))
-
-    def workflow_script_activate(self):
-        workflow = getToolByName(self, 'portal_workflow')
-        pu = getToolByName(self, 'plone_utils')
-        # A service cannot be activated if it's calculation is inactive
-        calc = self.getCalculation()
-        if calc and \
-                        workflow.getInfoFor(calc, "inactive_state") == "inactive":
-            message = _("This Analysis Service cannot be activated "
-                        "because it's calculation is inactive.")
-            pu.addPortalMessage(message, 'error')
-            transaction.get().abort()
-            raise WorkflowException
-
-    def workflow_scipt_deactivate(self):
-        bsc = getToolByName(self, 'bika_setup_catalog')
-        pu = getToolByName(self, 'plone_utils')
-        # A service cannot be deactivated if "active" calculations list it
-        # as a dependency.
-        active_calcs = bsc(portal_type='Calculation', inactive_state="active")
-        calculations = (c.getObject() for c in active_calcs)
-        for calc in calculations:
-            deps = [dep.UID() for dep in calc.getDependentServices()]
-            if self.UID() in deps:
-                message = _("This Analysis Service cannot be deactivated "
-                            "because one or more active calculations list "
-                            "it as a dependency")
-                pu.addPortalMessage(message, 'error')
-                transaction.get().abort()
-                raise WorkflowException
 
 AnalysisService.initialze(schema)
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# registerType(AnalysisService, PROJECTNAME)
