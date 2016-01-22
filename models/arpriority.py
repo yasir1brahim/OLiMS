@@ -1,20 +1,6 @@
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# from dependencies.dependency import ClassSecurityInfo
-# from lims.utils import t
-# from lims.content.bikaschema import BikaSchema
-# from lims.config import PROJECTNAME
-# from lims.interfaces import IARPriority
-# from dependencies import atapi
-# from dependencies.dependency import *
-# from dependencies.dependency import implements
 
-import logging
 from openerp import models
-
-_logger = logging.getLogger(__name__)
-
-from lims.idserver import renameAfterCreation
-from lims import bikaMessageFactory as _
+from openerp.tools.translate import _
 from base_olims_model import BaseOLiMSModel
 from fields.integer_field import IntegerField
 from fields.file_field import FileField
@@ -23,8 +9,6 @@ from fields.string_field import StringField
 from fields.text_field import TextField
 from fields.widget.widget import IntegerWidget, BooleanWidget, FileWidget, \
                                 TextAreaWidget, StringWidget
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# schema = BikaSchema.copy() + Schema((
 schema = (StringField('Priority',
               required=1,        
     ),
@@ -72,24 +56,11 @@ schema = (StringField('Priority',
             description=_("Enter a comment that describes the changes you made")
         ),
     ),
-)#)
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# schema['description'].widget.visible = True
+)
 
-
-class ARPriority(models.Model, BaseOLiMSModel):#(BaseContent):
+class ARPriority(models.Model, BaseOLiMSModel):
     _name = 'olims.ar_priority'
     _rec_name = 'Priority'
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-#     security = ClassSecurityInfo()
-#     schema = schema
-#     displayContentsTab = False
-#     implements(IARPriority)
-#     _at_rename_after_creation = True
 
-    def _renameAfterCreation(self, check_auto_id=False):
-        renameAfterCreation(self)
 
 ARPriority.initialze(schema)
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# atapi.registerType(ARPriority, PROJECTNAME)
