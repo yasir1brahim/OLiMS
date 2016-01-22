@@ -1,17 +1,3 @@
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# from dependencies.dependency import ClassSecurityInfo
-# from dependencies.dependency import HistoryAwareMixin
-# from dependencies.dependency import *
-# from dependencies.dependency import HoldingReference
-# from lims.browser import BrowserView
-# from lims.config import PROJECTNAME
-# from lims.browser.widgets import DurationWidget
-# from lims.browser.fields import DurationField
-# from lims.content.bikaschema import BikaSchema
-# from lims.interfaces import ISampleType
-# from magnitude import mg, MagnitudeError
-# from dependencies.dependency import implements
-# import json
 import sys
 from dependencies.dependency import getToolByName
 from dependencies.dependency import safe_unicode
@@ -23,8 +9,6 @@ from fields.boolean_field import BooleanField
 from fields.widget.widget import TextAreaWidget, BooleanWidget, StringWidget
 from base_olims_model import BaseOLiMSModel
 from lims.utils import t
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# schema = BikaSchema.copy() + Schema((
 schema = (StringField('SampleType',
               required=1,        
     ),
@@ -49,14 +33,6 @@ schema = (StringField('SampleType',
     fields.Many2one(string='Sample Matrix',
                     comodel_name='olims.sample_matrix',
         required = False,
-#         allowed_types = ('SampleMatrix',),
-#         vocabulary = 'SampleMatricesVocabulary',
-#         relationship = 'SampleTypeSampleMatrix',
-#         referenceClass = HoldingReference,
-#         widget = ReferenceWidget(
-#             checkbox_bound = 0,
-#             label=_("Sample Matrix"),
-#         ),
     ),
     StringField('Prefix',
         required = True,
@@ -78,18 +54,6 @@ schema = (StringField('SampleType',
                 "are automatically assigned a container of this " + \
                 "type, unless it has been specified in more details " + \
                 "per analysis service",
-#         allowed_types = ('ContainerType',),
-#         vocabulary = 'ContainerTypesVocabulary',
-#         relationship = 'SampleTypeContainerType',
-#         widget = ReferenceWidget(
-#             checkbox_bound = 0,
-#             label=_("Default Container Type"),
-#             description =_(
-#                 "The default container type. New sample partitions "
-#                 "are automatically assigned a container of this "
-#                 "type, unless it has been specified in more details "
-#                 "per analysis service"),
-#         ),
     ),
 
     fields.Many2many(string='Sample Points',
@@ -98,39 +62,13 @@ schema = (StringField('SampleType',
         help="The list of sample points from which this sample " + \
                             "type can be collected.  If no sample points are " + \
                             "selected, then all sample points are available."
-#         multiValued = 1,
-#         allowed_types = ('SamplePoint',),
-#         vocabulary = 'SamplePointsVocabulary',
-#         relationship = 'SampleTypeSamplePoint',
-#         widget = ReferenceWidget(
-#             checkbox_bound = 0,
-#             label=_("Sample Points"),
-#             description =_("The list of sample points from which this sample "
-#                            "type can be collected.  If no sample points are "
-#                            "selected, then all sample points are available."),
-#         ),
     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField(
-#         'SamplePointTitle',
-#         expression="[o.Title() for o in context.getSamplePoints()]",
-#         widget = ComputedWidget(
-#             visibile=False,
-#         )
-#     ),
-)#)
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# schema['description'].schemata = 'default'
-# schema['description'].widget.visible = True
 
-class SampleType(models.Model, BaseOLiMSModel):#(BaseContent, HistoryAwareMixin):
+)
+
+class SampleType(models.Model, BaseOLiMSModel):
     _name = 'olims.sample_type'
     _rec_name = 'SampleType'
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-#     implements(ISampleType)
-#     security = ClassSecurityInfo()
-#     displayContentsTab = False
-#     schema = schema
 
     _at_rename_after_creation = True
     def _renameAfterCreation(self, check_auto_id=False):
@@ -139,26 +77,6 @@ class SampleType(models.Model, BaseOLiMSModel):#(BaseContent, HistoryAwareMixin)
 
     def Title(self):
         return safe_unicode(self.getField('title').get(self)).encode('utf-8')
-# ~~~~~~~ To be implemented ~~~~~~~
-#     def getJSMinimumVolume(self, **kw):
-#         """Try convert the MinimumVolume to 'ml' or 'g' so that JS has an
-#         easier time working with it.  If conversion fails, return raw value.
-#         """
-#         default = self.Schema()['MinimumVolume'].get(self)
-#         try:
-#             mgdefault = default.split(' ', 1)
-#             mgdefault = mg(float(mgdefault[0]), mgdefault[1])
-#         except:
-#             mgdefault = mg(0, 'ml')
-#         try:
-#             return str(mgdefault.ounit('ml'))
-#         except:
-#             pass
-#         try:
-#             return str(mgdefault.ounit('g'))
-#         except:
-#             pass
-#         return str(default)
 
     def getDefaultLifetime(self):
         """ get the default retention period """
@@ -208,16 +126,3 @@ class SampleType(models.Model, BaseOLiMSModel):#(BaseContent, HistoryAwareMixin)
         from lims.content.containertype import ContainerTypes
         return ContainerTypes(self, allow_blank=True)
 SampleType.initialze(schema)
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# registerType(SampleType, PROJECTNAME)
-# ~~~~~~~ To be implemented ~~~~~~~
-# def SampleTypes(self, instance=None, allow_blank=False):
-#     instance = instance or self
-#     bsc = getToolByName(instance, 'bika_setup_catalog')
-#     items = []
-#     for st in bsc(portal_type='SampleType',
-#                   inactive_state='active',
-#                   sort_on = 'sortable_title'):
-#         items.append((st.UID, st.Title))
-#     items = allow_blank and [['','']] + list(items) or list(items)
-#     return DisplayList(items)

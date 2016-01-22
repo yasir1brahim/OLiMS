@@ -1,35 +1,3 @@
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# from dependencies.dependency import ClassSecurityInfo
-# from lims import bikaMessageFactory as _, logger
-# from lims.idserver import renameAfterCreation
-# from lims.utils import t, tmpID, changeWorkflowState
-# from lims.utils import to_utf8 as _c
-# from lims.browser.fields import HistoryAwareReferenceField
-# from lims.config import PROJECTNAME
-# from lims.content.bikaschema import BikaSchema
-# from lims.interfaces import IWorksheet
-# from lims.permissions import EditWorksheet, ManageWorksheets
-# from lims.workflow import doActionFor
-# from lims.workflow import skip
-# from dependencies.dependency import DateTime
-# from operator import itemgetter
-# from dependencies.dependency import indexer
-# from dependencies.dependency import REFERENCE_CATALOG
-# from dependencies.dependency import *
-# from dependencies.dependency import HoldingReference
-# from dependencies.dependency import HistoryAwareMixin
-# from dependencies.dependency import RecordsField
-# from dependencies.dependency import getToolByName
-# from dependencies.dependency import safe_unicode, _createObjectByType
-# from dependencies.dependency import implements
-
-# @indexer(IWorksheet)
-# def Priority(instance):
-#     priority = instance.getPriority()
-#     if priority:
-#         return priority.getSortKey()
-
-
 from openerp import fields, models, api
 from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
@@ -44,44 +12,12 @@ WORKSHEET_STATES = (
     ('verified','Verified'),
     ('rejected','Rejected'),
     )
-#schema = BikaSchema.copy() + Schema((
 schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId'),
     fields.Many2one(string='Template',
                    comodel_name='olims.worksheet_template',
                    required=False,
 
             ),
-
-    # ~~~~~~~ To be implemented ~~~~~~~
-    # HistoryAwareReferenceField('WorksheetTemplate',
-    #     allowed_types=('WorksheetTemplate',),
-    #     relationship='WorksheetAnalysisTemplate',
-    # ),
-    # ComputedField('WorksheetTemplateTitle',
-    #     searchable=True,
-    #     expression="context.getWorksheetTemplate() and context.getWorksheetTemplate().Title() or ''",
-    #     widget=ComputedWidget(
-    #         visible=False,
-    #     ),
-    # ),
-    # RecordsField('Layout',
-    #     required=1,
-    #     subfields=('position', 'type', 'container_uid', 'analysis_uid'),
-    #     subfield_types={'position': 'int'},
-    # ),
-    # all layout info lives in Layout; Analyses is used for back references.
-
-#         ReferenceField(string='DefaultCategories',
-#            #selection=[('Analysis', 'DuplicateAnalysis', 'ReferenceAnalysis', 'RejectAnalysis')],
-#                        selection=([ ('olims.analysis', _('Analysis')), ('olims.analysis', _('DuplicateAnalysis')),
-#                                     ('olims.analysis', _('ReferenceAnalysis')),
-#                                     ('olims.analysis', _('RejectAnalysis'))]),
-#            required=1,
-#         # multiValued=1,
-#         # allowed_types=('Analysis', 'DuplicateAnalysis', 'ReferenceAnalysis', 'RejectAnalysis'),
-#         # relationship = 'WorksheetAnalysis',,
-#     ),
-
     fields.Many2one(string='Analyst',
         comodel_name='res.users',
         domain="[('groups_id', 'in', (14,23))]",
@@ -91,10 +27,6 @@ schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId'),
     fields.Many2one(string='Instrument',
         required = 0,
         comodel_name='olims.instrument',
-#         compute='setInstrument'
-#         allowed_types = ('Instrument',),
-#         relationship = 'WorksheetInstrument',
-#         referenceClass = HoldingReference,
     ),
     TextField('Remarks',
         searchable = True,
@@ -115,18 +47,11 @@ schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId'),
                      copy=False, track_visibility='always'
     ),
 )
-# schema['id'].required = 0
-# schema['id'].widget.visible = False
-# schema['title'].required = 0
-# schema['title'].widget.visible = {'edit': 'hidden', 'view': 'invisible'}
 
 
-class Worksheet(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
+
+class Worksheet(models.Model, BaseOLiMSModel):
     _name ='olims.worksheet'
-    # security = ClassSecurityInfo()
-    # implements(IWorksheet)
-    # displayContentsTab = False
-    # schema = schema
 
     def _ComputeWorksheetId(self):
         for items in self:
@@ -576,36 +501,6 @@ class Worksheet(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
             Worksheet Template.
         """
         self.Instrument = self.Template.Instrument.id
-#         """ Sets the specified instrument to the Analysis from the
-#             Worksheet. Only sets the instrument if the Analysis
-#             allows it, according to its Analysis Service and Method.
-#             If an analysis has already assigned an instrument, it won't
-#             be overriden.
-#             The Analyses that don't allow the instrument specified will
-#             not be modified.
-#             Returns the number of analyses affected
-#         """
-#         analyses = [an for an in self.getAnalyses()
-#                     if (not an.getInstrument() or override_analyses)
-#                         and an.isInstrumentAllowed(instrument)]
-#         total = 0
-#         for an in analyses:
-#             # An analysis can be done using differents Methods.
-#             # Un method can be supported by more than one Instrument,
-#             # but not all instruments support one method.
-#             # We must force to set the instrument's method too. Otherwise,
-#             # the WS manage results view will display the an's default
-#             # method and its instruments displaying, only the instruments
-#             # for the default method in the picklist.
-#             meth = instrument.getMethod()
-#             if an.isMethodAllowed(meth):
-#                 an.setMethod(meth)
-#             success = an.setInstrument(instrument)
-#             if success is True:
-#                 total += 1
-# 
-#         self.getField('Instrument').set(self, instrument)
-#         return total
 
     def workflow_script_submit(self):
         # Don't cascade. Shouldn't be submitting WSs directly for now,
@@ -902,6 +797,5 @@ class Worksheet(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
         if priorities:
             return priorities[-1]
 
-#registerType(Worksheet, PROJECTNAME)
 
 Worksheet.initialze(schema)

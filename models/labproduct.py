@@ -1,13 +1,3 @@
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# from dependencies.dependency import ClassSecurityInfo
-# from dependencies.dependency import *
-# from lims.config import PROJECTNAME
-# from lims.content.bikaschema import BikaSchema
-# from dependencies.dependency import Decimal
-# from lims import bikaMessageFactory as _
-# from lims.utils import t
-# from dependencies.dependency import implements
-
 from lims import bikaMessageFactory as _
 from fields.string_field import StringField
 
@@ -17,8 +7,6 @@ from fields.widget.widget import StringWidget, DecimalWidget, TextAreaWidget
 from openerp import fields, models
 from base_olims_model import BaseOLiMSModel
 
-
-#schema = BikaSchema.copy() + Schema((
 schema = (StringField('Title',
         required=1,
         widget=StringWidget(
@@ -56,33 +44,16 @@ schema = (StringField('Title',
             label=_("Price excluding VAT"),
         )
     ),
-#     fields.Float(compute='computeVATAmount',string='VATAmount'),
-# # ~~~~~~~ To be implemented ~~~~~~~
-#     # ComputedField('VATAmount',
-#     #     expression = 'context.getVATAmount()',
-#     #     widget = ComputedWidget(
-#     #         label=_("VAT"),
-#     #         visible = {'edit':'hidden', }
-#     #     ),
-#     # ),
+
     fields.Float(string='TotalPrice',
         compute = '_ComputeTotalPrice',
-#         widget = ComputedWidget(
-#             label=_("Total price"),
-#             visible = {'edit':'hidden', }
-#         ),
     ),
 )
 
-# schema['description'].schemata = 'default'
-# schema['description'].widget.visible = True
-
-class LabProduct(models.Model, BaseOLiMSModel): #BaseContent
+class LabProduct(models.Model, BaseOLiMSModel):
     _name ='olims.lab_product'
     _rec_name = 'Title'
-    # security = ClassSecurityInfo()
-    # displayContentsTab = False
-    # schema = schema
+
 
     _at_rename_after_creation = True
     def _renameAfterCreation(self, check_auto_id=False):
@@ -119,6 +90,5 @@ class LabProduct(models.Model, BaseOLiMSModel): #BaseContent
                 vatamount = 0
             record.VATAmount= vatamount
 
-#registerType(LabProduct, PROJECTNAME)
 
 LabProduct.initialze(schema)

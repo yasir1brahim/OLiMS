@@ -1,16 +1,3 @@
-# # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-#
-# from dependencies.dependency import DateTime
-# from dependencies.dependency import ClassSecurityInfo
-# from dependencies.dependency import UniqueObject
-# from dependencies.dependency import View
-# from dependencies import folder
-# from dependencies.dependency import *
-# from dependencies.dependency import safe_unicode
-# from lims.content.organisation import Organisation
-# from lims.config import ManageBika, PROJECTNAME
-
-
 from openerp import fields, models, api
 from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
@@ -21,7 +8,6 @@ from fields.widget.widget import StringWidget, BooleanWidget, IntegerWidget, Fil
 from dependencies.dependency import safe_unicode
 from lims import PMF, bikaMessageFactory as _
 
-#schema = Organisation.schema.copy() + Schema((
 schema = (
 
      StringField('Name',
@@ -81,26 +67,6 @@ schema = (
     fields.Char(string='billing_postalcode'),
     fields.Char(string='billing_address'),
     fields.Selection([('physical','Physical Address'),('postal', 'Postal Address')],string='billing_copy_from'),
-               
-# ~~~~~~~~~~ AddressField behavior in Odoo is as selection field ~~~~~~~~~~~
-#     AddressField('PhysicalAddress',
-#         schemata = 'Address',
-#         widget = AddressWidget(
-#            label=_("Physical address"),
-#         ),
-#     ),
-#     AddressField('PostalAddress',
-#         schemata = 'Address',
-#         widget = AddressWidget(
-#            label=_("Postal address"),
-#         ),
-#     ),
-#     AddressField('BillingAddress',
-#         schemata = 'Address',
-#         widget = AddressWidget(
-#            label=_("Billing address"),
-#         ),
-#     ),
     StringField('AccountType',
         schemata = 'Bank details',
         widget = StringWidget(
@@ -206,41 +172,15 @@ schema = (
                 "here.  The following fields are available:  lab_is_accredited, "+
                 "lab_name, lab_country, confidence, accreditation_body_name, "+
                 "accreditation_standard, accreditation_reference<br/>"
-    # TextField('AccreditationPageHeader',
-    #     schemata = 'Accreditation',
-    #     default = "${lab_name} has been accredited as ${accreditation_standard} conformant by ${accreditation_body_abbr}, ${accreditation_body_name}<br/><br/>" + \
-    #               "${accreditation_body_abbr} is the single national accreditation body assessing testing and calibration laboratories for compliance to the ISO/IEC 17025 standard.<br/></br/>\n" + \
-    #               "The following analysis services have been included in the ${accreditation_body_abbr} schedule of Accreditation for this Laboratory:",
-    #     widget = TextAreaWidget(
-    #         label=_("Accreditation page header"),
-    #         description = _(
-    #             "Enter the details of your lab's service accreditations "
-    #             "here.  The following fields are available:  lab_is_accredited, "
-    #             "lab_name, lab_country, confidence, accreditation_body_name, "
-    #             "accreditation_standard, accreditation_reference<br/>"),
-    #             rows = 10
-    #     ),
     ),
 
 )
 
 
-# # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# IdField = schema['id']
-# IdField.widget.visible = {'edit':'hidden', 'view': 'invisible'}
-#
-# schema['Name'].validators = ()
-# # Update the validation layer after change the validator in runtime
-# schema['Name']._validationLayer()
-
-class Laboratory(models.Model, BaseOLiMSModel): #UniqueObject, Organisation
+class Laboratory(models.Model, BaseOLiMSModel):
     _name='olims.laboratory'
     _rec_name = 'Name'
-    # security = ClassSecurityInfo()
-    # displayContentsTab = False
-    # schema = schema
 
-    #security.declareProtected(View, 'getSchema')
     def getSchema(self):
         return self.schema
 
@@ -282,6 +222,5 @@ class Laboratory(models.Model, BaseOLiMSModel): #UniqueObject, Organisation
             setattr(self, 'billing_postalcode', getattr(self,self.billing_copy_from+'_postalcode'))
             setattr(self, 'billing_address', getattr(self,self.billing_copy_from+'_address'))
 
-#registerType(Laboratory, PROJECTNAME)
 
 Laboratory.initialze(schema)

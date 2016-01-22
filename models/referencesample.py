@@ -1,32 +1,5 @@
 """ReferenceSample represents a reference sample used for quality control testing
 """
-
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# from dependencies.dependency import ClassSecurityInfo
-# from dependencies.dependency import DateTime
-# from dependencies.dependency import REFERENCE_CATALOG
-# from dependencies.dependency import *
-# from dependencies.dependency import HoldingReference
-# from dependencies.dependency import permissions
-# from dependencies.dependency import WorkflowException
-# from dependencies.dependency import View
-# from dependencies.dependency import getToolByName
-# from dependencies.dependency import _createObjectByType
-# from lims import PMF, bikaMessageFactory as _
-# from lims.idserver import renameAfterCreation
-# from lims.utils import t
-# from lims.browser.fields import ReferenceResultsField
-# from lims.browser.widgets import DateTimeWidget as bika_DateTimeWidget
-# from lims.browser.widgets import ReferenceResultsWidget
-# from lims.config import PROJECTNAME
-# from lims.content.bikaschema import BikaSchema
-# from lims.interfaces import IReferenceSample
-# from lims.utils import sortable_title, tmpID
-# from lims.utils import to_unicode as _u
-# from lims.utils import to_utf8
-# from dependencies.dependency import implements
-# import sys, time
-
 from lims import bikaMessageFactory as _
 from fields.string_field import StringField
 from fields.date_time_field import DateTimeField
@@ -41,7 +14,7 @@ REFERENCE_SAMPLE_STATES = (
     ('expired','Expired'),
     ('disposed','Disposed'),
     )
-#schema = BikaSchema.copy() + Schema((
+
 schema = (StringField('Title',
         required = 1,
         widget = StringWidget(
@@ -51,15 +24,6 @@ schema = (StringField('Title',
     fields.Char(string="ID",compute="computeReferenceSampleId"),
     fields.Many2one(string='Reference Definition',
                    comodel_name='olims.reference_definition',
-        # schemata = 'Description',
-        # allowed_types = ('ReferenceDefinition',),
-        # relationship = 'ReferenceSampleReferenceDefinition',
-        # referenceClass = HoldingReference,
-        # vocabulary = "getReferenceDefinitions",
-        # widget = ReferenceWidget(
-        #     checkbox_bound = 0,
-        #     label=_("Reference Definition"),
-        # ),
                     ),
 
     BooleanField('Blank',
@@ -81,15 +45,6 @@ schema = (StringField('Title',
 
     fields.Many2one(string='Manufacturer',
                    comodel_name='olims.manufacturer',
-        # schemata = 'Description',
-        # allowed_types = ('Manufacturer',),
-        # relationship = 'ReferenceSampleManufacturer',
-        # vocabulary = "getReferenceManufacturers",
-        # referenceClass = HoldingReference,
-        # widget = ReferenceWidget(
-        #     checkbox_bound = 0,
-        #     label=_("Manufacturer"),
-        # ),
                     ),
     StringField('CatalogueNumber',
         schemata = 'Description',
@@ -163,45 +118,20 @@ schema = (StringField('Title',
         required=True, readonly=True,
         copy=False, track_visibility='always'
         ),
-    
-    # ~~~~~~~ To be implemented ~~~~~~~
     fields.One2many(string='ReferenceResults',
         comodel_name = 'olims.reference_values',
         inverse_name='reference_sample_id',
         required = True,
-#         subfield_validators = {
-#                     'result':'referencevalues_validator',
-#                     'min':'referencevalues_validator',
-#                     'max':'referencevalues_validator',
-#                     'error':'referencevalues_validator'},
-#         widget = ReferenceResultsWidget(
-#             label=_("Expected Values"),
-#         ),
     ),
 
     fields.Many2one(string='Supplier',
         comodel_name='olims.supplier',
-        required=True
-    #     widget = ComputedWidget(
-    #         visible = False,
-    #     ),
     ),
-    # ComputedField('ReferenceDefinitionUID',
-    #     expression = 'here.getReferenceDefinition() and here.getReferenceDefinition().UID() or None',
-    #     widget = ComputedWidget(
-    #         visible = False,
-    #     ),
-    # ),
 )
 
-#schema['title'].schemata = 'Description'
-
-class ReferenceSample(models.Model, BaseOLiMSModel): #BaseFolder
+class ReferenceSample(models.Model, BaseOLiMSModel):
     _name='olims.reference_sample'
-    # implements(IReferenceSample)
-    # security = ClassSecurityInfo()
-    # displayContentsTab = False
-    # schema = schema
+
 
     def computeReferenceSampleId(self):
         for record in self:
@@ -212,7 +142,6 @@ class ReferenceSample(models.Model, BaseOLiMSModel): #BaseFolder
         from lims.idserver import renameAfterCreation
         renameAfterCreation(self)
 
-    #security.declarePublic('current_date')
     def current_date(self):
         return DateTime()
 
@@ -383,7 +312,6 @@ class ReferenceSample(models.Model, BaseOLiMSModel): #BaseFolder
         return analysis.UID()
 
 
-    #security.declarePublic('getServices')
     def getServices(self):
         """ get all services for this Sample """
         tool = getToolByName(self, REFERENCE_CATALOG)
@@ -438,5 +366,5 @@ class ReferenceSample(models.Model, BaseOLiMSModel): #BaseFolder
         # self.setDateDisposed(DateTime())
         # self.reindexObject()
 
-#registerType(ReferenceSample, PROJECTNAME)
+
 ReferenceSample.initialze(schema)

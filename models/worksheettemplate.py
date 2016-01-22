@@ -1,26 +1,9 @@
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# from dependencies.dependency import ClassSecurityInfo
-# from dependencies.dependency import aq_base, aq_inner
-# from dependencies.dependency import RecordsField
-# from dependencies.dependency import *
-# from dependencies.dependency import HoldingReference
-# from dependencies.dependency import getToolByName
-# from lims.browser.widgets import ServicesWidget
-# from lims.browser.widgets import WorksheetTemplateLayoutWidget
-# from lims.config import ANALYSIS_TYPES, PROJECTNAME
-# from lims.content.bikaschema import BikaSchema
-# from lims import PMF, bikaMessageFactory as _
-# from dependencies.dependency import implements
-# import sys
-
-
 from openerp import fields, models, api
 from lims import PMF, bikaMessageFactory as _
 from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
 from fields.text_field import TextField
 from fields.widget.widget import TextAreaWidget,StringWidget
-#schema = BikaSchema.copy() + Schema((
 schema = (StringField('Title',
               required=1,        
     ),
@@ -30,68 +13,17 @@ schema = (StringField('Title',
             description=_('Used in item listings and search results.'),
         ),
     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-        # RecordsField('Layout',
-        # schemata = 'Layout',
-        # required = 1,
-        # type = 'templateposition',
-        # subfields = ('pos', 'type', 'blank_ref', 'control_ref', 'dup'),
-        # required_subfields = ('pos', 'type'),
-        # subfield_labels = {'pos': _('Position'),
-        #                    'type': _('Analysis Type'),
-        #                    'blank_ref': _('Reference'),
-        #                    'control_ref': _('Reference'),
-        #                    'dup': _('Duplicate Of')},
-        # widget = WorksheetTemplateLayoutWidget(
-        #     label=_("Worksheet Layout"),
-        #     description =_(
-        #         "Specify the size of the Worksheet, e.g. corresponding to a "
-        #         "specific instrument's tray size. Then select an Analysis 'type' "
-        #         "per Worksheet position. Where QC samples are selected, also select "
-        #         "which Reference Sample should be used. If a duplicate analysis is "
-        #         "selected, indicate which sample position it should be a duplicate of"),
-        # )
-    #),
-        fields.One2many(string='Analysis Service',
+    fields.One2many(string='Analysis Service',
                     comodel_name='olims.worksheet_analysis_service',
                     inverse_name='worksheet_analysis_id',
                     required=True,
                     help='Select which Analyses should be included on the Worksheet',
-#         schemata = 'Analyses',
-#         required = 1,
-#         multiValued = 1,
-#         allowed_types = ('AnalysisService',),
-#         relationship = 'WorksheetTemplateAnalysisService',
-#         referenceClass = HoldingReference,
-#         widget = ServicesWidget(
-#             label=_("Analysis Service"),
-#             description=_("Select which Analyses should be included on the Worksheet"),
     ),
     fields.Many2one(string='Instrument',
                     comodel_name='olims.instrument',
         required = False,
         help='Select the preferred instrument'
-#             #     schemata = "Description",
-    #     required = 0,
-    #     vocabulary_display_path_bound = sys.maxint,
-    #     vocabulary = 'getInstruments',
-    #     allowed_types = ('Instrument',),
-    #     relationship = 'WorksheetTemplateInstrument',
-    #     referenceClass = HoldingReference,
-    #     widget = ReferenceWidget(
-    #         checkbox_bound = 0,
-    #         label=_("Instrument"),
-    #         description=_("Select the preferred instrument"),
-    #     ),
     ),
-
-# ~~~~~~~ To be implemented ~~~~~~~
-    # ComputedField('InstrumentTitle',
-    #     expression = "context.getInstrument() and context.getInstrument().Title() or ''",
-    #     widget = ComputedWidget(
-    #         visible = False,
-    #     ),
-    # ),
 )
 schema_worksheet_analysis_servive = (fields.Many2one(string="worksheet_analysis_id",
         comodel_name="olims.worksheet_template"
@@ -112,26 +44,16 @@ schema_worksheet_analysis_servive = (fields.Many2one(string="worksheet_analysis_
         fields.Many2one(string='Category',
                     comodel_name='olims.analysis_category'),
 )
-# schema['title'].schemata = 'Description'
-# schema['title'].widget.visible = True
-#
-# schema['description'].schemata = 'Description'
-# schema['description'].widget.visible = True
-
 
 class WorksheetTemplate(models.Model, BaseOLiMSModel): #BaseContent
     _name = 'olims.worksheet_template'
     _rec_name = 'Title'
-    # security = ClassSecurityInfo()
-    # displayContentsTab = False
-    # schema = schema
 
     _at_rename_after_creation = True
     def _renameAfterCreation(self, check_auto_id=False):
         from lims.idserver import renameAfterCreation
         renameAfterCreation(self)
 
-    #security.declarePublic('getAnalysisTypes')
     def getAnalysisTypes(self):
         """ return Analysis type displaylist """
         return ANALYSIS_TYPES
@@ -157,6 +79,5 @@ class WorksheetAnalysisService(models.Model, BaseOLiMSModel):
             items.Method = items.Service._Method.getMethod()
             items.Calculation = items.Service._Calculation.getCalculation()
 
-#registerType(WorksheetTemplate, PROJECTNAME)
 WorksheetTemplate.initialze(schema)
 WorksheetAnalysisService.initialze(schema_worksheet_analysis_servive)

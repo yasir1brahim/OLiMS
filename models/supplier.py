@@ -1,17 +1,3 @@
-# # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# from dependencies.dependency import ClassSecurityInfo
-# from lims import bikaMessageFactory as _
-# from lims.utils import t
-# from lims.config import PROJECTNAME, ManageSuppliers
-# from lims.content.bikaschema import BikaSchema
-# from lims.content.organisation import Organisation
-# from lims.interfaces import ISupplier
-# from dependencies.dependency import *
-# from dependencies.dependency import safe_unicode
-# from dependencies.dependency import implements
-#schema = Organisation.schema.copy() + ManagedSchema((
-
-
 from dependencies.dependency import safe_unicode
 from lims import bikaMessageFactory as _
 from openerp import fields, models, api
@@ -19,8 +5,6 @@ from fields.string_field import StringField
 from fields.text_field import TextField
 from fields.widget.widget import TextAreaWidget, StringWidget
 from base_olims_model import BaseOLiMSModel
-
-
 
 schema = (
     StringField('Name',
@@ -175,15 +159,10 @@ schema = (
     ),
 )
 
-#schema['AccountNumber'].write_permission = ManageSuppliers
 
-class Supplier(models.Model, BaseOLiMSModel): #Organisation
+class Supplier(models.Model, BaseOLiMSModel):
     _name='olims.supplier'
     _rec_name = 'Name'
-    # implements(ISupplier)
-    # security = ClassSecurityInfo()
-    # displayContentsTab = False
-    # schema = schema
 
     def Title(self):
         """ Return the Organisation's Name as its title """
@@ -228,5 +207,5 @@ class Supplier(models.Model, BaseOLiMSModel): #Organisation
             setattr(self, 'billing_postalcode', getattr(self,self.billing_copy_from+'_postalcode'))
             setattr(self, 'billing_address', getattr(self,self.billing_copy_from+'_address'))
 
-#registerType(Supplier, PROJECTNAME)
+
 Supplier.initialze(schema)

@@ -1,23 +1,10 @@
 """The contact person at a reference supplier organisation.
 """
-# # ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# from dependencies.dependency import ClassSecurityInfo
-# from dependencies.dependency import manage_users
-# from dependencies.dependency import *
-# from lims.content.person import Person
-# from dependencies.dependency import permissions
-# from dependencies.dependency import getToolByName
-# from lims.config import PROJECTNAME
-# from lims import bikaMessageFactory as _
-# from lims.utils import t
-# from dependencies.dependency import implements
-
 from openerp import fields, models, api
 from fields.string_field import StringField
 from base_olims_model import BaseOLiMSModel
 from fields.widget.widget import StringWidget
 from lims import bikaMessageFactory as _
-#schema = Person.schema.copy()
 
 schema = (
      StringField('Salutation',
@@ -53,14 +40,6 @@ schema = (
     ),
     
     fields.Char(compute='computeFulname', string='Fullname'),
-    # ComputedField('Fullname',
-    #     expression = 'context.getFullname()',
-    #     searchable = 1,
-    #     widget = ComputedWidget(
-    #         label=_("Full Name"),
-    #         visible = {'edit': 'invisible', 'view': 'invisible'},
-    #     ),
-    # ),
     StringField('Username',
         widget = StringWidget(
             visible = False
@@ -129,22 +108,8 @@ schema = (
                     comodel_name='olims.supplier'),
 )
 
-# schema['JobTitle'].schemata = 'default'
-# schema['Department'].schemata = 'default'
-#
-# schema['id'].schemata = 'default'
-# schema['id'].widget.visible = False
-# # Don't make title required - it will be computed from the Person's
-# # Fullname
-# schema['title'].schemata = 'default'
-# schema['title'].required = 0
-# schema['title'].widget.visible = False
-
 class SupplierContact(models.Model, BaseOLiMSModel): #Person
     _name = 'olims.supplier_contact'
-    # security = ClassSecurityInfo()
-    # displayContentsTab = False
-    # schema = schema
 
     _at_rename_after_creation = True
     def _renameAfterCreation(self, check_auto_id=False):
@@ -201,7 +166,5 @@ class SupplierContact(models.Model, BaseOLiMSModel): #Person
             setattr(self, 'postal_postalcode', getattr(self,self.postal_copy_from+'_postalcode'))
             setattr(self, 'postal_address', getattr(self,self.postal_copy_from+'_address'))
 
-
-#registerType(SupplierContact, PROJECTNAME)
 
 SupplierContact.initialze(schema)

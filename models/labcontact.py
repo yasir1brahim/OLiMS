@@ -1,21 +1,5 @@
 """The lab staff
 """
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# from dependencies.dependency import ClassSecurityInfo
-# from dependencies.dependency import manage_users
-# from dependencies.dependency import permissions
-# from dependencies.dependency import getToolByName
-# from dependencies.dependency import safe_unicode
-# from dependencies.dependency import *
-# from dependencies.dependency import HoldingReference
-# from lims.content.person import Person
-# from lims.config import PUBLICATION_PREFS, PROJECTNAME
-# from lims import bikaMessageFactory as _
-# from lims.utils import t
-# from dependencies.dependency import implements
-# from lims.interfaces import ILabContact
-# import sys
-
 from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
 from fields.file_field import FileField
@@ -29,7 +13,6 @@ from lims import PMF, bikaMessageFactory as _
 PUBLICATION_PREFS = (
     ('email', _('Email')),
     ('pdf', _('PDF')))
-#schema = Person.schema.copy() + Schema((
 schema =  (
         StringField('Salutation',
         widget = StringWidget(
@@ -64,15 +47,6 @@ schema =  (
     ),
     
     fields.Char(compute='computeFulname', string='Name'),
-    
-    # ComputedField('Fullname',
-    #     expression = 'context.getFullname()',
-    #     searchable = 1,
-    #     widget = ComputedWidget(
-    #         label=_("Full Name"),
-    #         visible = {'edit': 'invisible', 'view': 'invisible'},
-    #     ),
-    # ),
     StringField('Username',
         widget = StringWidget(
             visible = False
@@ -133,29 +107,10 @@ schema =  (
     fields.Char(string='postal_postalcode'),
     fields.Char(string='postal_address'),
     fields.Selection([('physical', 'Physical Address')],string='postal_copy_from'),
-
-    # ~~~~~~~ To be implemented ~~~~~~~
-    # AddressField('PhysicalAddress',
-    #     schemata = 'Address',
-    #     widget = AddressWidget(
-    #        label=_("Physical address"),
-    #     ),
-    # ),
-    # AddressField('PostalAddress',
-    #     schemata = 'Address',
-    #     widget = AddressWidget(
-    #        label=_("Postal address"),
-    #     ),
-    # ),
     
     fields.Selection(string='PublicationPreference',
                    selection=PUBLICATION_PREFS,
-                   #     vocabulary = PUBLICATION_PREFS,
                    default = 'email',
-    #     schemata = 'Publication preference',
-    #     widget = MultiSelectionWidget(
-    #         label=_("Publication preference"),
-    #     ),
    ),
     
     FileField('Signature',
@@ -168,42 +123,14 @@ schema =  (
     
     fields.Many2one(string='Department',
                        comodel_name='olims.department',
-    #     required = 0,
-    #     vocabulary_display_path_bound = sys.maxint,
-    #     allowed_types = ('Department',),
-    #     relationship = 'LabContactDepartment',
-    #     vocabulary = 'getDepartments',
-    #     referenceClass = HoldingReference,
-    #     widget = ReferenceWidget(
-    #         checkbox_bound = 0,
-    #         label=_("Department"),
-    #         description=_("The laboratory department"),
-    #     ),
         ),
 
     fields.Many2one(comodel_name='res.users',string='user',domain="[('id', '=', '-1')]"),
-
-    # ~~~~~~~ To be implemented ~~~~~~~
-    # ComputedField('DepartmentTitle',
-    #     expression = "context.getDepartment() and context.getDepartment().Title() or ''",
-    #     widget = ComputedWidget(
-    #         visible = False,
-    #     ),
-    # ),
 )
-#
-# schema['JobTitle'].schemata = 'default'
-# # Don't make title required - it will be computed from the Person's Fullname
-# schema['title'].required = 0
-# schema['title'].widget.visible = False
 
 class LabContact(models.Model, BaseOLiMSModel): #Person
     _name = 'olims.lab_contact'
     _rec_name = 'Name'
-    # security = ClassSecurityInfo()
-    # displayContentsTab = False
-    # schema = schema
-    # implements(ILabContact)
 
     _at_rename_after_creation = True
     def _renameAfterCreation(self, check_auto_id=False):
@@ -281,6 +208,5 @@ class LabContact(models.Model, BaseOLiMSModel): #Person
             setattr(self, 'postal_postalcode', getattr(self,self.postal_copy_from+'_postalcode'))
             setattr(self, 'postal_address', getattr(self,self.postal_copy_from+'_address'))
 
-#registerType(LabContact, PROJECTNAME)
 
 LabContact.initialze(schema)

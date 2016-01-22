@@ -1,9 +1,4 @@
 """ RejectAnalysis """
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# from dependencies.dependency import ReferenceField, Schema, registerType
-# from lims.content.analysis import Analysis
-# from lims.config import PROJECTNAME
-# from lims.content.analysis import schema as analysis_schema
 
 from openerp import fields, models
 from lims import bikaMessageFactory as _
@@ -17,48 +12,14 @@ from fields.widget.widget import ComputedWidget, DateTimeWidget, \
                                 IntegerWidget, DecimalWidget
 from base_olims_model import BaseOLiMSModel
 
-#schema = analysis_schema + Schema((
-schema = (
-
-
-# ~~~~~~~ To be implemented ~~~~~~~
-#         HistoryAwareReferenceField('Service',
-#         required=1,
-#         allowed_types=('AnalysisService',),
-#         relationship='AnalysisAnalysisService',
-#         referenceClass=HoldingReference,
-#         widget=ReferenceWidget(
-#             label = _("Analysis Service"),
-#         )
-#     ),
-
-
-
-      fields.Many2one(string='Calculation',
+schema = (fields.Many2one(string='Calculation',
                    comodel_name='olims.calculation',
                    required=False,
 
             ),
-
-# ~~~~~~~ To be implemented ~~~~~~~
-#     HistoryAwareReferenceField('Calculation',
-#         allowed_types=('Calculation',),
-#         relationship='AnalysisCalculation',
-#         referenceClass=HoldingReference,
-#     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ReferenceField('Attachment',
-#         multiValued=1,
-#         allowed_types=('Attachment',),
-#         referenceClass = HoldingReference,
-#         relationship = 'AnalysisAttachment',
-#     ),
-
-fields.Many2many(string='InterimFields', comodel_name='olims.interimfield',
-           #      widget = BikaRecordsWidget(
-#             label = _("Calculation Interim Fields"),
-#         )),
-),
+    fields.Many2many(string='InterimFields',
+                     comodel_name='olims.interimfield',
+    ),
 
     StringField('Result',
     ),
@@ -105,85 +66,6 @@ fields.Many2many(string='InterimFields', comodel_name='olims.interimfield',
     ),
     TextField('Remarks',
     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ReferenceField('Instrument',
-#         required = 0,
-#         allowed_types = ('Instrument',),
-#         relationship = 'AnalysisInstrument',
-#         referenceClass = HoldingReference,
-#     ),
-#     ReferenceField('Method',
-#         required = 0,
-#         allowed_types = ('Method',),
-#         relationship = 'AnalysisMethod',
-#         referenceClass = HoldingReference,
-#     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ReferenceField('SamplePartition',
-#         required = 0,
-#         allowed_types = ('SamplePartition',),
-#         relationship = 'AnalysisSamplePartition',
-#         referenceClass = HoldingReference,
-#     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField('ClientUID',
-#         expression = 'context.aq_parent.aq_parent.UID()',
-#     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField('ClientTitle',
-#         expression = 'context.aq_parent.aq_parent.Title()',
-#     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField('RequestID',
-#         expression = 'context.aq_parent.getRequestID()',
-#     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField('ClientOrderNumber',
-#         expression = 'context.aq_parent.getClientOrderNumber()',
-#     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField('Keyword',
-#         expression = 'context.getService().getKeyword()',
-#     ),
-#     ComputedField('ServiceTitle',
-#         expression = 'context.getService().Title()',
-#     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField('ServiceUID',
-#         expression = 'context.getService().UID()',
-#     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField('SampleTypeUID',
-#         expression = 'context.aq_parent.getSample().getSampleType().UID()',
-#     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField('SamplePointUID',
-#         expression = 'context.aq_parent.getSample().getSamplePoint().UID() if context.aq_parent.getSample().getSamplePoint() else None',
-#     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField('CategoryUID',
-#         expression = 'context.getService().getCategoryUID()',
-#     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField('CategoryTitle',
-#         expression = 'context.getService().getCategoryTitle()',
-#     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField('PointOfCapture',
-#         expression = 'context.getService().getPointOfCapture()',
-#     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField('DateReceived',
-#         expression = 'context.aq_parent.getDateReceived()',
-#     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField('DateSampled',
-#         expression = 'context.aq_parent.getSample().getDateSampled()',
-#     ),
-# ~~~~~~~ To be implemented ~~~~~~~
-#     ComputedField('InstrumentValid',
-#         expression = 'context.isInstrumentValid()'
-#     ),
     FixedPointField('Uncertainty',
         widget=DecimalWidget(
             label = _("Uncertainty"),
@@ -203,9 +85,6 @@ fields.Many2many(string='InterimFields', comodel_name='olims.interimfield',
 
 class RejectAnalysis(models.Model, BaseOLiMSModel): #Analysis
     _name ='olims.reject_analysis'
-    #archetype_name = 'RejectAnalysis'
-    #schema = schema
 
 
-#registerType(RejectAnalysis, PROJECTNAME)
 RejectAnalysis.initialze(schema)

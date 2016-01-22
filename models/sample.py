@@ -112,9 +112,6 @@ schema = (StringField('name',
 )
 
 
-#schema['title'].required = False
-
-
 class Sample(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
     _name = 'olims.sample'
 
@@ -484,7 +481,5 @@ class Sample(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
             if no_results:
                 return False
         return True
-
-#atapi.registerType(Sample, PROJECTNAME)
 
 Sample.initialze(schema)

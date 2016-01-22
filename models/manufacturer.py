@@ -1,13 +1,3 @@
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# from dependencies.dependency import ClassSecurityInfo
-# from dependencies.dependency import *
-# from lims import bikaMessageFactory as _
-# from lims.utils import t
-# from lims.config import PROJECTNAME
-# from lims.content.bikaschema import BikaSchema
-# from lims.interfaces import IManufacturer
-# from dependencies.dependency import implements
-
 import logging
 
 from openerp import fields, models,osv
@@ -20,8 +10,6 @@ from fields.text_field import TextField
 from fields.widget.widget import  TextAreaWidget
 from lims import bikaMessageFactory as _
 
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# schema = BikaSchema.copy()
 schema = (fields.Char(string='name',
                       compute='getNameFromTitle'),
     StringField(string='Title',
@@ -33,9 +21,6 @@ schema = (fields.Char(string='name',
                 description=_('Used in item listings and search results.')),    
     ),
     )
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# schema['description'].schemata = 'default'
-# schema['description'].widget.visible = True
 
 
 class Manufacturer(models.Model, BaseOLiMSModel):#(BaseContent):
@@ -44,11 +29,6 @@ class Manufacturer(models.Model, BaseOLiMSModel):#(BaseContent):
     def getNameFromTitle(self):
         for record in self:
             record.name = record.Title
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~    
-#     implements(IManufacturer)
-#     security = ClassSecurityInfo()
-#     displayContentsTab = False
-#     schema = schema
 
     _at_rename_after_creation = True
     def _renameAfterCreation(self, check_auto_id=False):
@@ -56,6 +36,3 @@ class Manufacturer(models.Model, BaseOLiMSModel):#(BaseContent):
         renameAfterCreation(self)
 
 Manufacturer.initialze(schema)
-
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# registerType(Manufacturer, PROJECTNAME)

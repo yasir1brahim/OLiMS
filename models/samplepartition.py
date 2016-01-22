@@ -1,47 +1,16 @@
-# ~~~~~~~~~~ Irrelevant code for Odoo ~~~~~~~~~~~
-# from dependencies.dependency import ClassSecurityInfo
-# from lims.browser.fields import DurationField
-# from lims.config import PROJECTNAME
-# from lims.content.bikaschema import BikaSchema
-# from lims.interfaces import ISamplePartition
-# from lims.workflow import doActionFor
-# from lims.workflow import skip
-# from dependencies.dependency import DateTime
-# from datetime import timedelta
-# from dependencies.dependency import *
-# from dependencies.dependency import HistoryAwareMixin
-# from dependencies.dependency import DT2dt, dt2DT
-# from dependencies.dependency import getToolByName
-# from dependencies.dependency import safe_unicode
-# from dependencies.dependency import implements
-
-
 from openerp import fields, models
 from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
 from fields.boolean_field import BooleanField
 from fields.date_time_field import DateTimeField
 
-
-#schema = BikaSchema.copy() + Schema((
-schema = (
-
-
-    fields.Many2one(string='Container',
+schema = (fields.Many2one(string='Container',
         required = False,
         comodel_name='olims.container',
-#         allowed_types=('Container',),
-#         relationship='SamplePartitionContainer',
-#         required=1,
-#         multiValued=0,
     ),
         fields.Many2one(string='Preservation',
         required = False,
         comodel_name='olims.preservation',
-#       allowed_types=('Preservation',),
-#         relationship='SamplePartitionPreservation',
-#         required=0,
-#         multiValued=0,
     ),
 
 
@@ -51,10 +20,6 @@ schema = (
             fields.Many2one(string='Analyses',
         required = False,
         comodel_name='olims.analyses',
-#       allowed_types=('Analyses',),
-#         relationship='SamplePartitionAnalysis',
-#         required=0,
-#         multiValued=0,
     ),
 
     DateTimeField('DatePreserved',
@@ -67,28 +32,10 @@ schema = (
     fields.Char(string='Days'),
     fields.Char(string='Hours'),
     fields.Char(string='Minutes'),
-# ~~~~~~~ To be implemented ~~~~~~~
-    # DurationField('RetentionPeriod',
-    # ),
-    
-    # ComputedField('DisposalDate',
-    #     expression = 'context.disposal_date()',
-    #     widget = ComputedWidget(
-    #         visible=False,
-    #     ),
-    # ),
 )
 
-
-#schema['title'].required = False
-
-
-class SamplePartition(models.Model, BaseOLiMSModel): #BaseContent, HistoryAwareMixin
+class SamplePartition(models.Model, BaseOLiMSModel):
     _name='olims.sample_partition'
-    # implements(ISamplePartition)
-    # security = ClassSecurityInfo()
-    # displayContentsTab = False
-    # schema = schema
 
     _at_rename_after_creation = True
 
@@ -282,5 +229,4 @@ class SamplePartition(models.Model, BaseOLiMSModel): #BaseContent, HistoryAwareM
             if sample_c_state == 'active' and not active:
                 workflow.doActionFor(sample, 'cancel')
 
-#registerType(SamplePartition, PROJECTNAME)
 SamplePartition.initialze(schema)
