@@ -1,4 +1,4 @@
-from lims import bikaMessageFactory as _
+from openerp.tools.translate import _
 from fields.string_field import StringField
 from fields.file_field import FileField
 from fields.widget.widget import StringWidget

@@ -1,5 +1,5 @@
 from dependencies.dependency import safe_unicode
-from lims import bikaMessageFactory as _
+from openerp.tools.translate import _
 from openerp import fields, models
 from fields.string_field import StringField
 from fields.widget.widget import StringWidget

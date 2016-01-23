@@ -1,4 +1,4 @@
-from lims import bikaMessageFactory as _
+from openerp.tools.translate import _
 from openerp import fields, models
 from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField

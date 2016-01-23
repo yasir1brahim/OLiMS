@@ -2,12 +2,12 @@ from openerp import fields, models
 from fields.string_field import StringField
 from base_olims_model import BaseOLiMSModel
 from fields.widget.widget import StringWidget
-from lims import bikaMessageFactory as _
+from openerp.tools.translate import _
 
 schema = (
     StringField('Salutation',
         widget = StringWidget(
-            label = _("Salutation",
+            label = ("Salutation",
                       "Title"),
             description=_("Greeting title eg. Mr, Mrs, Dr"),
         ),

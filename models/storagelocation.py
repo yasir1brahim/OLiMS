@@ -3,7 +3,7 @@ from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
 from fields.text_field import TextField
 from fields.widget.widget import StringWidget, TextAreaWidget
-from lims import bikaMessageFactory as _
+from openerp.tools.translate import _
 
 schema =(StringField('Storage Location',
         required=1,

@@ -6,7 +6,7 @@ from fields.boolean_field import BooleanField
 from fields.file_field import FileField
 from fields.widget.widget import StringWidget, BooleanWidget, IntegerWidget, FileWidget
 from dependencies.dependency import safe_unicode
-from lims import PMF, bikaMessageFactory as _
+from openerp.tools.translate import _
 
 schema = (
 

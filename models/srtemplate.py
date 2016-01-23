@@ -1,10 +1,7 @@
 """
     Sample Round Template
 """
-
-
-
-from lims import bikaMessageFactory as _
+from openerp.tools.translate import _
 from fields.text_field import TextField
 from fields.string_field import StringField
 from fields.integer_field import IntegerField

@@ -8,7 +8,7 @@ from openerp import fields, models, api
 
 from dependencies.dependency import DisplayList
 from dependencies.dependency import safe_unicode
-from lims import PMF, bikaMessageFactory as _
+from openerp.tools.translate import _
 
 PUBLICATION_PREFS = (
     ('email', _('Email')),
@@ -16,7 +16,7 @@ PUBLICATION_PREFS = (
 schema =  (
         StringField('Salutation',
         widget = StringWidget(
-            label = _("Salutation",
+            label = ("Salutation",
                       "Title"),
             description=_("Greeting title eg. Mr, Mrs, Dr"),
         ),

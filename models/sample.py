@@ -1,11 +1,10 @@
 """Sample represents a physical sample submitted for testing
 """
-from lims.utils import to_unicode
 from dependencies.dependency import DT2dt, dt2DT
 import sys
 from dependencies.dependency import getToolByName
 from dependencies.dependency import safe_unicode
-from lims import bikaMessageFactory as _
+from openerp.tools.translate import _
 from openerp import fields, models
 from fields.string_field import StringField
 from fields.text_field import TextField
@@ -196,51 +195,6 @@ class Sample(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
                 value.append(val)
         return value
 
-    # Forms submit Title Strings which need
-    # to be converted to objects somewhere along the way...
-    def setSampleType(self, value, **kw):
-        """ Accept Object, Title or UID, and convert SampleType title to UID
-        before saving.
-        """
-        if hasattr(value, "portal_type") and value.portal_type == "SampleType":
-            pass
-        else:
-            bsc = getToolByName(self, 'bika_setup_catalog')
-            sampletypes = bsc(portal_type='SampleType', title=to_unicode(value))
-            if sampletypes:
-                value = sampletypes[0].UID
-            else:
-                sampletypes = bsc(portal_type='SampleType', UID=value)
-                if sampletypes:
-                    value = sampletypes[0].UID
-                else:
-                    value = None
-        for ar in self.getAnalysisRequests():
-            ar.Schema()['SampleType'].set(ar, value)
-        return self.Schema()['SampleType'].set(self, value)
-
-    # Forms submit Title Strings which need
-    # to be converted to objects somewhere along the way...
-    def setSamplePoint(self, value, **kw):
-        """ Accept Object, Title or UID, and convert SampleType title to UID
-        before saving.
-        """
-        if hasattr(value, "portal_type") and value.portal_type == "SamplePoint":
-            pass
-        else:
-            bsc = getToolByName(self, 'bika_setup_catalog')
-            sampletypes = bsc(portal_type='SamplePoint', title=to_unicode(value))
-            if sampletypes:
-                value = sampletypes[0].UID
-            else:
-                sampletypes = bsc(portal_type='SamplePoint', UID=value)
-                if sampletypes:
-                    value = sampletypes[0].UID
-                else:
-                    value = None
-        for ar in self.getAnalysisRequests():
-            ar.Schema()['SamplePoint'].set(ar, value)
-        return self.Schema()['SamplePoint'].set(self, value)
 
     def setClientReference(self, value, **kw):
         """ Set the field on Analysis Requests.

@@ -4,7 +4,7 @@ from fields.string_field import StringField
 from fields.text_field import TextField
 from fields.reference_field import ReferenceField
 from fields.widget.widget import TextAreaWidget
-from lims import bikaMessageFactory as _
+from openerp.tools.translate import _
 WORKSHEET_STATES = (
     ('open','open'),
     ('attachment_due','Attachment Outstanding'),

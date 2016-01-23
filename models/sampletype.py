@@ -1,7 +1,7 @@
 import sys
 from dependencies.dependency import getToolByName
 from dependencies.dependency import safe_unicode
-from lims import bikaMessageFactory as _
+from openerp.tools.translate import _
 from openerp import fields, models
 from fields.string_field import StringField
 from fields.text_field import TextField

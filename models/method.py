@@ -5,9 +5,7 @@ from openerp import fields, models,osv
 _logger = logging.getLogger(__name__)
 
 from dependencies.dependency import getToolByName
-from lims.config import PROJECTNAME
-import sys
-from lims import bikaMessageFactory as _
+from openerp.tools.translate import _
 from lims.utils import t
 from dependencies.dependency import DisplayList
 from base_olims_model import BaseOLiMSModel
@@ -50,7 +48,7 @@ schema = (
         allowed_content_types= ('text/plain', ),
         default_output_type="text/plain",
         widget = TextAreaWidget(
-            label = _("Method Instructions",
+            label = ("Method Instructions",
                       "Instructions"),
             description=_("Technical description and instructions intended for analysts"),
         ),

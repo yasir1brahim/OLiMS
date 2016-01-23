@@ -1,5 +1,5 @@
 from openerp import fields, models, api
-from lims import PMF, bikaMessageFactory as _
+from openerp.tools.translate import _
 from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
 from fields.text_field import TextField

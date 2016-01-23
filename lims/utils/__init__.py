@@ -13,7 +13,7 @@ from dependencies.dependency import getToolByName
 from dependencies.dependency import safe_unicode
 from socket import timeout
 from time import time
-from weasyprint import HTML, CSS
+# from weasyprint import HTML, CSS
 from dependencies.dependency import queryUtility
 from dependencies.dependency import translate
 from dependencies.dependency import locales

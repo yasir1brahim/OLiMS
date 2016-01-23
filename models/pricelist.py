@@ -7,7 +7,7 @@ from fields.text_field import TextField
 from fields.string_field import StringField
 from fields.date_time_field import DateTimeField
 from fields.widget.widget import DecimalWidget, BooleanWidget, TextAreaWidget, ReferenceWidget
-from lims import bikaMessageFactory as _
+from openerp.tools.translate import _
 BULK_DISCOUNT_OPTION =(
                            ('yes', _('Yes')),
                            ('no', _('NO')),

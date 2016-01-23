@@ -1,6 +1,4 @@
-import json
-from operator import itemgetter
-from lims import bikaMessageFactory as _
+from openerp.tools.translate import _
 from fields.string_field import StringField
 from fields.text_field import TextField
 from fields.widget.widget import StringWidget, TextAreaWidget

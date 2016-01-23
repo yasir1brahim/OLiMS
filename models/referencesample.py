@@ -1,6 +1,6 @@
 """ReferenceSample represents a reference sample used for quality control testing
 """
-from lims import bikaMessageFactory as _
+from openerp.tools.translate import _
 from fields.string_field import StringField
 from fields.date_time_field import DateTimeField
 from fields.boolean_field import BooleanField

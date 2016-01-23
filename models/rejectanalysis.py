@@ -1,7 +1,7 @@
 """ RejectAnalysis """
 
 from openerp import fields, models
-from lims import bikaMessageFactory as _
+from openerp.tools.translate import _
 from fields.string_field import StringField
 from fields.boolean_field import BooleanField
 from fields.fixed_point_field import FixedPointField
