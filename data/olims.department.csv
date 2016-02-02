@@ -1,0 +1,6 @@
+id,Department,Description,Manager/id
+department_1,Chemistry,Analytical chemistry department,olims.contact_labman1
+department_2,Sampling,Sampling & Online Instrumentation,olims.contact_sampler1
+department_3,Admin,Lab administartion and accounts,olims.contact_labman1
+department_4,Microbiology,Micro-Biological analysis,olims.contact_labman2
+department_5,»Test,Testing,olims.contact_labman1

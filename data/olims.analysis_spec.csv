@@ -1,0 +1,5 @@
+id,Title,Sample Type/id,Specifications/id
+analysis_spec_ap,Apple Pulp,sample_type_ap,specification_service_1
+analysis_spec_bar,Barley,sample_type_ba,specification_service_2
+analysis_spec_bran,Bran,sample_type_br,specification_service_3
+analysis_spec_can,Canola,sample_type_ca,specification_service_4

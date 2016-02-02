@@ -1,0 +1,8 @@
+id,Calculation,Description,Formula
+calculation_titration,Titration,Standard titration,[TV] * [TF]
+calculation_weightloss,Weight Loss,Weight loss as % moisture,( [GM] - [NM] ) / ( [GM] - [VM] ) * 100
+calculation_wstare,Weight Loss (tare),Weight loss (tare) as % moisture,(( [VM] + [SM] - [NM] ) / [SM] ) * 100
+calculation_residual,Residual Weight,Residual Weight as % ash,(( [NM] - [VM] ) / ( [GM] - [VM] )) * 100
+calculation_resweght,Residual Weight (tare),Residual Weight (tare) as % ash,(( [NM] - [VM] ) / [SM] ) * 100
+calculation_drymatter,Dry Matter,Percentage dry matter. Dependent on Moisture Analysis,100 - [Moist]
+calculation_hardness,Total Hardness,Calcium Hardness + Magnesium Hardness,[Ca] + [Mg]

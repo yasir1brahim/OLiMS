@@ -1,0 +1,5 @@
+id,Salutation,Firstname,Surname,JobTitle,Department,BusinessPhone,BusinessFax,MobilePhone,EmailAddress,SupplierId/id
+"supplier_contact_supplier_inc
+",Mr,Bob,Dobson,Salesman,Sales,028 274 8819,086 222 3600,089 445 0440,dobson@example.come,supplier_inc
+"supplier_contact_supplier_refersample
+",Mr,Bob,Dobson,Salesman,Sales,028 274 8819,086 222 3600,089 445 0440,dobson@example.come,supplier_refersample

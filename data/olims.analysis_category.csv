@@ -1,0 +1,4 @@
+id,Category,Description,Department/id
+analysis_category_metals,Metals,Trace metals in feeds and water,olims.department_1
+analysis_category_microbiology,Microbiology,Micro-Biological analyses grouped together,olims.department_4
+analysis_category_chemistry,Water Chemistry,These apply to water only,olims.department_1

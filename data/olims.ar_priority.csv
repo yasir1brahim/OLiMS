@@ -1,0 +1,5 @@
+id,Priority,Description,Premium,Sort Key,Default
+ar_priority1,Hold,Hold,0,10,False
+ar_priority2,Normal,Normal,0,20,True
+ar_priority3,High,High,10,30,False
+ar_priority4,Urgent,Urgent,20,40,False

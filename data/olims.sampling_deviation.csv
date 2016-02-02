@@ -1,0 +1,5 @@
+id,Sampling Deviation,Description
+sampling_deviation_client,Sampled by client,The client collected and submitted the sample
+sampling_deviation_sampler,Auto Sampler,Grab sample every hour
+sampling_deviation_composite,Remote composite sample,Dust filter collected once a month
+sampling_deviation_imported,Imported sample data,The sample was not created in the LIMS UI

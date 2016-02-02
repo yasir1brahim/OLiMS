@@ -1,0 +1,3 @@
+id,Name,TaxNumber,Phone,Fax,Email Address
+supplier_inc,Instruments Inc,12345,012 440 9555,012 440 9765,supplier1@example.com
+supplier_refersample,Reference Samples cc,12345,012 440 8445,012 440 8447,supplier2@example.com

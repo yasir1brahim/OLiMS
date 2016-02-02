@@ -1,0 +1,14 @@
+id,Title
+instrument_type_nir,NIR
+instrument_type_aut,Auto titrator
+instrument_type_aa,AA
+instrument_type_con,Conductivity Meter
+instrument_type_mass,Mass Spectrometer
+instrument_type_mic,Microscope
+instrument_type_prot,Protein Analyser
+instrument_type_spec,Spectrophotometer
+instrument_type_turb,Turbidity Meter
+instrument_type_unvis,Un/Vis Spectrophotometer
+instrument_type_inc,Incubator
+instrument_type_elec,Electronic balance
+instrument_type_fias,Fiastar

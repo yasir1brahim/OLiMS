@@ -1,0 +1,3 @@
+id,Template,ClientARTemplate/id,Description,SampleType/id,Sample Point/id,AnalysisProfile/id,ReportDryMatter
+ar_template_1,Borehole 12 Hardness,,,sample_type_wa,sample_point_bor,analysis_profile_th,True
+ar_template_2,Bruma Metals,,,sample_type_wa,sample_point_brl,analysis_profile_ptm,False

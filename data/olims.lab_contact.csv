@@ -1,0 +1,6 @@
+id,Salutation,Firstname,Surname,user/id,Phone,Mobile Phone,JobTitle,HomePhone,Fax,EmailAddress
+contact_labman1,Mr,»Lab,» Manager 1,olims.labman1,048 813 9515,082 555 9910,»Manager,048 813 9515,021 555 1233,labmanager1@example.com
+contact_labman2,Mr,Lab,Manager 2,olims.labman2,021 555 1234,083 555 8108,Assistant manager,050 866 9887,021 555 1233,labmanager2@example.com
+contact_labclerk1,Mr,Lab,Clerk 1,olims.labclerk1,010 417 2743,073 965 3368,Clerk,010417 5849,010 417 3007,labclerk1@example.com
+contact_analyst1,Ms,Lab,Analyst 1,olims.analyst1,021 555 1236,083 555 8108,Assistant manager,050 866 9887,021 555 1233,analyst1@example.com
+contact_sampler1,Mr,Lab,Sampler 1,olims.sampler1,065 463 9615,078 813 2950,Sampler,065 463 1715,065 463 2791,sampler1@example.com

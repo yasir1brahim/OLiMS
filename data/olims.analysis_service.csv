@@ -1,0 +1,26 @@
+id,Service,ShortTitle,Description,Keyword,PointOfCapture,category/id,Department/id,ReportDryMatter,AttachmentOption,Unit,Precision,Days,Hours,Minutes,Price,BulkPrice,VAT,_Calculation/id,DuplicateVariation,Accredited,Separate
+analysis_service_temp,Temperature,Temp,Temperature at time of sample capture,Temp,field,analysis_category_chemistry,olims.department_2,False,p,Deg. C,2,0,2,0,10,7.5,14,,10,False,False
+analysis_service_phfield,pH (field),pH field,pH measured at sample capture,pHField,field,analysis_category_chemistry,olims.department_2,False,p,,2,0,2,0,10,7.5,14,,10,False,False
+analysis_service_ca,Calcium,Ca,,Ca,lab,analysis_category_metals,olims.department_1,False,p,mg/l,2,0,2,0,10,7.5,14,,10,False,False
+analysis_service_cod,COD,COD,,COD,lab,analysis_category_chemistry,olims.department_1,False,p,mg/l,2,0,2,0,10,7.5,14,,10,False,False
+analysis_service_cond,Conductivity @ 25 deg C,Cond,,Conductivity,lab,analysis_category_chemistry,olims.department_1,False,p,mS/m,2,0,2,0,10,7.5,14,,10,True,False
+analysis_service_cu,Copper,Cu,,Cu,lab,analysis_category_metals,olims.department_1,False,p,mg/l,2,0,2,0,10,7.5,14,,10,False,False
+analysis_service_fe,Iron,Fe,,Fe,lab,analysis_category_metals,olims.department_1,False,p,mg/l,2,0,2,0,10,7.5,14,,10,False,False
+analysis_service_mg,Magnesium,Mg,,Mg,lab,analysis_category_metals,olims.department_1,False,p,mg/l,2,0,2,0,10,7.5,14,,10,False,False
+analysis_service_mn,Manganese,Mn,,Mn,lab,analysis_category_metals,olims.department_1,False,p,mg/l,2,0,2,0,10,7.5,14,,10,False,False
+analysis_service_moist,Moisture,Moist,Dry sample and container are captured. The result is determined by the formula: (wet sample - dry sample) / (wet sample - container),Moist,lab,analysis_category_chemistry,olims.department_1,False,p,%,2,0,2,0,10,7.5,14,calculation_weightloss,10,True,False
+analysis_service_phos,Phosphorus,Phos,,Phos,lab,analysis_category_metals,olims.department_1,False,p,mg/l,2,0,2,0,10,7.5,14,,10,False,False
+analysis_service_phlab,pH (laboratory),pH lab,,pH,lab,analysis_category_chemistry,olims.department_1,False,p,,2,0,2,0,10,7.5,14,,10,False,False
+analysis_service_na,Sodium,Na,,Na,lab,analysis_category_metals,olims.department_1,False,p,mg/l,2,0,2,0,10,7.5,14,,10,False,False
+analysis_service_alk,Tot. Alkalinity (CaCO3),Tot. Alk,,CaCO3,lab,analysis_category_chemistry,olims.department_1,False,p,mg/l,2,0,2,0,10,7.5,14,,10,True,False
+analysis_service_hard,Tot. Hardness (THCaCO3),Tot. Hard,,THCaCO3,lab,analysis_category_chemistry,olims.department_1,False,p,mg/l,2,0,2,0,10,7.5,14,calculation_hardness,10,False,False
+analysis_service_zn,Zinc,Zn,,Zn,lab,analysis_category_metals,olims.department_1,False,p,mg/l,2,0,2,0,10,7.5,14,,10,False,False
+analysis_service_test,Ƭest,Te,Testing,T,lab,analysis_category_metals,olims.department_1,False,p,mg/l,2,0,2,0,10,7.5,14,,10,False,False
+analysis_service_dry,Dry Matter,Dry,Description for percentage dry matter. Dependant on Moisture,DM,lab,analysis_category_chemistry,olims.department_1,False,p,%,2,0,2,0,10,7.5,14,calculation_drymatter,10,False,False
+analysis_service_clos,Clostridia,Clos,ISO incubation method,Clos,lab,analysis_category_microbiology,olims.department_4,False,p,,2,0,2,0,10,7.5,14,,10,True,False
+analysis_service_entro,Enterococcus,Entero,ISO incubation method,Entero,lab,analysis_category_microbiology,olims.department_4,False,p,,2,0,2,0,10,7.5,14,,10,False,False
+analysis_service_ecoli,Ecoli,Ecoli,ISO incubation method,Ecoli,lab,analysis_category_microbiology,olims.department_4,False,p,,2,0,2,0,10,7.5,14,,10,False,False
+analysis_service_salm,Salmonella,Salmonella,ISO incubation method,Salmon,lab,analysis_category_microbiology,olims.department_4,False,p,,2,0,2,0,10,7.5,14,,10,True,False
+analysis_service_cnt,Ecoli Count,Ecoli CNT,ISO incubation method,Ecolicnt,lab,analysis_category_microbiology,olims.department_4,False,p,,2,0,2,0,10,7.5,14,,10,False,False
+analysis_service_entcnt,Enterococcus count,Enteri CNT,ISO incubation method,Enterocnt,lab,analysis_category_microbiology,olims.department_4,False,p,,2,0,2,0,10,7.5,14,,10,False,False
+analysis_service_tvb,Total Viable Bacteria count,TVB CNT,ISO incubation method,TVBcnt,lab,analysis_category_microbiology,olims.department_4,False,p,,2,0,2,0,10,7.5,14,,10,True,False

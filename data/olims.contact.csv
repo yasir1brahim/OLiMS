@@ -1,0 +1,8 @@
+id,Salutation,Firstname,Surname,JobTitle,Department,BusinessPhone,BusinessFax,HomePhone,MobilePhone,EmailAddress,Client_Contact/id,user/id
+contact_sarelse,Mr,Ŝarel,Seemonster,Manager,Nutrient management,040 666 6630,040 666 7834,040 666 7858,083 644 8576,seemonster@example.com,olims.client_hh,olims.sarelse
+contact_ritamo,Ms,Rita,Mohale,Product assistant,Chemistry,038 664 6469,038 664 7338,038 664 7757,082 607 8405,mohale@example.com,olims.client_hh,olims.ritamo
+contact_neilst,Mr,Neil,Ŝtandard,Research  assistant,Product development,035 597 5814,035 597 6876,035 597 6344,080 564 7509,standard@example.com,olims.client_kl,olims.neilst
+contact_johannasm,Ms,Johanna,Smith,Scientist,Soil science,036 640 6016,036 6406911,036 6407167,081 569 7909,smith@example.com,olims.client_kl,olims.johannasm
+contact_fredtu,Mr,Fred,Turner,QC manager,Production,041 670 6654,041 6708002,041 670 8848,084 677 8884,turner@example.com,olims.client_my,olims.fredtu
+contact_chrisru,Mr,Chris,Ruffian,Controller,Chemistry,025 557 4204,025 557 4531,025 557 3131,074 304 5021,ruffian@example.com,olims.client_ruf,olims.chrisru
+contact_andreco,Mr,Andre,Corbin,Administrator,R&D,032 586 5303,032 586 6331,032 586 5622,078 469 7035,corbin@example.com,olims.client_ss,olims.andreco

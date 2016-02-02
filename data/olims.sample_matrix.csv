@@ -1,0 +1,8 @@
+id,Sample Matrix,Description
+sample_matrix_af,Animal feed,Animal feed products
+sample_matrix_dust,Dust,Dust
+sample_matrix_fiber,Fiber,Raw animal fodder
+sample_matrix_grain,Grain,Grain
+sample_matrix_ie,Industrial Effluent,Industrial Effluent
+sample_matrix_sew,Sewage,Sewage
+sample_matrix_water,Water,Different type water samples

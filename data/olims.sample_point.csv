@@ -1,0 +1,13 @@
+id,Sample Point,Description,Sample Types/id,ClientSamplePoint/id
+sample_point_kls,Klaymore Shaft 1,Shaft floor,,olims.client_kl
+sample_point_bor,Borehole 12,Farm borehole for sheep,sample_type_wa,
+sample_point_bhw,Broiler House W,Western broiler house,,
+sample_point_rof,Rooikloof Farm,Potato fields,,
+sample_point_dry,Dry stock,On production line 2,,
+sample_point_mill,Mill,On production line 2,,
+sample_point_mix,Mixer,On production line 2,,
+sample_point_pack,Packaging,On production line 2,,
+sample_point_disp,Dispatch,On production line 2,,
+sample_point_brl,Bruma Lake,Public lake,sample_type_wa,
+sample_point_sbbs,Shop - BB Supermarket,From the shelves,,
+sample_point_abat,Abattoir,Gross,,

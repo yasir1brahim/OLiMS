@@ -1,0 +1,6 @@
+id,Name,ClientID,MemberDiscountApplies,BulkDiscount,TaxNumber,Phone,Fax,Email Address
+client_hh,Happy Hills,HH,True,False,SA62914-27121,021 555 4220,021 555 4220,happyhills@example.com
+client_kl,Klaymore,KL,True,True,SA62914-27120,021 555 3026,021 555 3157,klaymore@example.com
+client_my,Myrtle,MY,True,True,SA62914-27118,021 555 1901,021 555 3417,mwf@example.com
+client_ruf,Ruff,RUF,True,True,SA62914-27114,021 555 1705,021 555 1705,ruff@example.com
+client_ss,Ŝunnyside,SS,True,True,SA62914-27113,021 555 1663,021 555 3295,sunnyside@example.com

@@ -1,0 +1,7 @@
+id,Container Type,Description
+container_type_gb,Glass bottle,Screw top glass bottles
+container_type_pb,Plastic bottle,Screw top plastic bottles
+container_type_pzb,Plastic ziplock bag,"Plastic pouches, airtight seal"
+container_type_cb,Canvas bag,Strong canvas bag for soil samples
+container_type_vac,Vacutainer,"Sterile plastic tube, evacuated"
+container_type_misc,Miscellaneous,For imported sample data

@@ -1,0 +1,4 @@
+id,Preservation,Description,Days,Hours,Minutes
+preservation_chill,Chill (4 degrees),Chill sample to 4 degrees C,2,0,0
+preservation_h2so4,H2SO4,pH < 2,2,0,0
+preservation_hno3,HNO3,pH 2,2,0,0

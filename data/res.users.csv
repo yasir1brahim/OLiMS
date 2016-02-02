@@ -1,0 +1,13 @@
+id,groups_id/id,login,password,name
+labman1,"base.group_erp_manager,base.group_configuration,base.group_partner_manager,base.group_user,olims.group_lab_managers,base.group_system,base.group_no_one",labmanager1@example.com,labman1,»Lab » Manager 1
+labman2,"base.group_erp_manager,base.group_configuration,base.group_partner_manager,base.group_user,olims.group_lab_managers,base.group_system,base.group_no_one",labmanager2@example.com,labman2,Lab Manager 2
+labclerk1,"base.group_partner_manager,base.group_user,olims.group_lab_clerks,base.group_no_one",labclerk1@example.com,labclerk1,Lab Clerk 1
+analyst1,"olims.group_analyst,base.group_partner_manager,base.group_user,base.group_no_one",analyst1@example.com,analyst1,Lab Analyst 1
+sampler1,"base.group_partner_manager,base.group_user,olims.group_samplers,base.group_no_one",sampler1@example.com,sampler1,Lab Sampler 1
+ritamo,"olims.group_clients,base.group_partner_manager,base.group_user,base.group_no_one",mohale@example.com,ritamo,Rita Mohale
+sarelse,"olims.group_clients,base.group_partner_manager,base.group_user,base.group_no_one",seemonster@example.com,sarelse,Ŝarel Seemonster
+neilst,"olims.group_clients,base.group_partner_manager,base.group_user,base.group_no_one",standard@example.com,neilst,Neil Ŝtandard
+johannasm,"olims.group_clients,base.group_partner_manager,base.group_user,base.group_no_one",smith@example.com,johannasm,Johanna Smith
+fredtu,"olims.group_clients,base.group_partner_manager,base.group_user,base.group_no_one",turner@example.com,fredtu,Fred Turner
+chrisru,"olims.group_clients,base.group_partner_manager,base.group_user,base.group_no_one",ruffian@example.com,chrisru,Chris Ruffian
+andreco,"olims.group_clients,base.group_partner_manager,base.group_user,base.group_no_one",corbin@example.com,andreco,Andre Corbin 

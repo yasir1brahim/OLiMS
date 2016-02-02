@@ -1,0 +1,5 @@
+id,Title,Description,Volume,Unit,VAT,Price
+lab_product_1,Glass Container,Typical glass container,1,item,14,100
+lab_product_2,Rare Specimen,Exremely rare specimen for control purposes,1,Bag,14,599.66
+lab_product_3,Titanium Oxide,Titanium Oxide powder,1,Gram,14,5.99
+lab_product_4,Glass Pipet,Typical glass pipet,1,Item,14,10.12

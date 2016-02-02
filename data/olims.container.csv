@@ -1,0 +1,8 @@
+id,Container,Description,Capacity,Container Type/id,Pre-preserved/id,PrePreserved
+container_gb,Glass Bottle 500ml,Glass Bottle 500ml,500 ml,olims.container_type_gb,,False
+container_aas,AAS Glass Bottle 1 Liter,Glass Bottle 1 Liter,1 l,olims.container_type_gb,,False
+container_pb,Plastic Bottle 1 Liter,Plastic Bottle 1 Liter,1 l,olims.container_type_pb,,False
+container_cpb,Chem Plastic Bottle 2 Litre,Chem Plastic Bottle 2 Litre,2 l,olims.container_type_pb,,False
+container_mgb,Micro Glass Bottle 500ml,For Micro Testing,500 ml,olims.container_type_gb,,False
+container_pp,Pre Preserved,With H2SO4,500 ml,olims.container_type_gb,olims.preservation_h2so4,True
+container_ns,None Specified,For imported sample data,0 ml,olims.container_type_misc,,False

@@ -1,0 +1,13 @@
+id,SampleType,Description,Days,Hazardous,Sample Matrix/id,Prefix,Minimum Volume,Default Container/id
+sample_type_ap,Apple Pulp,Chilled apple pulp,10,False,sample_matrix_af,AP,100 g,olims.container_type_pzb
+sample_type_ba,Barley,Whole grains,10,False,sample_matrix_grain,BAR,100 g,olims.container_type_pzb
+sample_type_br,Bran,No whole grains,10,False,sample_matrix_grain,BR,100 g,olims.container_type_pzb
+sample_type_ca,Canola,"Whole grains, not crushed or milled",10,False,sample_matrix_grain,CN,100 g,olims.container_type_pzb
+sample_type_du,Dust,Keep dry,10,False,sample_matrix_dust,DU,100 g,olims.container_type_pzb
+sample_type_wa,Water,Potable or river water. Not sewage,10,True,sample_matrix_water,H2O,100 ml,olims.container_type_gb
+sample_type_ha,Hay,Moist or dry. Any cultivar,10,False,sample_matrix_fiber,HAY,100 g,olims.container_type_pzb
+sample_type_li,Lime,Fine powder,10,False,sample_matrix_af,L,100 g,olims.container_type_pzb
+sample_type_lu,Lucerne,Dry or moist. Must be 99% Lucerne,10,False,sample_matrix_fiber,LUC,100 g,olims.container_type_pzb
+sample_type_sun,Sunflower,Whole grains,10,False,sample_matrix_grain,SON,100 g,olims.container_type_pzb
+sample_type_soy,Soya,Whole seeds,10,False,sample_matrix_grain,SOY,100 g,olims.container_type_pzb
+sample_type_wh,Wheat,Whole grains,10,True,sample_matrix_grain,WH,100 g,olims.container_type_pzb

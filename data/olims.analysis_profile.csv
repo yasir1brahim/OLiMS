@@ -1,0 +1,6 @@
+id,Profile,Description,ProfileKey,Service/id
+analysis_profile_ptm,Trace Metals,Trace metals in feeds and Water,PTM,records_field_artemplates_service_ca
+analysis_profile_th,Total Hardness,Total permanent hardness of water (CACO3),TH,records_field_artemplates_service_hard
+analysis_profile_mbcheck,Micro-Bio check,Tests presence of organisms only,Mbcheck,records_field_artemplates_service_clos
+analysis_profile_mbcount,Micro-Bio counts,Size of infestation,Mbcount,records_field_artemplates_service_cnt
+analysis_profile_test,țest,Test,Test,records_field_artemplates_service_test
