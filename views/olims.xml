@@ -13,6 +13,53 @@
 
 		<menuitem id="olims_settings_menu" name="OLiMS Settings"
             parent="base.menu_administration"/>
+
+        <record model="ir.ui.view" id="olims_loaddata_form_view">
+            <field name="name">loaddata.form</field>
+            <field name="model">olims.loaddata</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <form string="Load Demo Data" delete="false">
+                    <sheet>
+                        <header>
+                            <button name="load_demo_data" string="Load Demo Data" type="object" class="oe_highlight"/>
+                        </header>
+                        <field name="select_data">
+                    </field>
+                </sheet>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="olims_login_tree_view">
+            <field name="name">users_login_detail.tree</field>
+            <field name="model">olims.users_login_detail</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <tree string="Login Details" delete="false">
+                    <field name="login_user">
+                    </field>
+                    <field name="login_password">
+                    </field>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="loaddata_action">
+            <field name="name">Load Demo Data</field>
+            <field name="res_model">olims.loaddata</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="olims_loaddata_form_view"/>
+       </record>
+       <menuitem id="demo_data_menu" name="Load Demo Data" parent="olims_settings_menu" action="loaddata_action" sequence="42"/>
+       
+       <record model="ir.actions.act_window" id="logindata_tree_action">
+            <field name="name">User Login Detail</field>
+            <field name="res_model">olims.users_login_detail</field>
+            <field name="view_type">tree</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="olims_login_tree_view"/>
+       </record>
+       <menuitem id="user_data_menu" name="Login Detals" parent="olims_settings_menu" action="logindata_tree_action" sequence="43"/>
         <!-- <Analysis Request Tree view with Create button> -->
         <record model="ir.ui.view" id="olims_analysis_request_tree_view2">
             <field name="name">analysis_request.tree</field>

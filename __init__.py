@@ -76,5 +76,6 @@ from models import subgroup
 from models import specification
 from models import referencevalues
 from models import messagealert
+from models import loaddata
 import wizard
 import report
