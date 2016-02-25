@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <t t-name="FieldColor">
+    <div class="oe_field_color">
+        <t t-if="widget.get('effective_readonly')">
+            <div class="oe_field_color_content" />
+        </t>
+        <t t-if="! widget.get('effective_readonly')">
+            <input type="color"></input>
+        </t>
+    </div>
+</t>
+    <tr t-extend="ListView.row">
+        <t t-jquery="t td t" t-operation="replace"><t t-if="column.widget =='color' || column.type == 'color'"><div t-att-style="'background-color:' + render_cell(record, column)"/></t><t t-raw="render_cell(record, column)"/></t>
+    </tr>
+</templates>

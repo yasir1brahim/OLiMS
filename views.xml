@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+  <template id="assets_backend" name="petstore_assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/labpal/static/src/css/widget.css"/>
+                <script type="text/javascript" src="/labpal/static/lib/jscolor/jscolor.js"></script>
+                <script type="text/javascript" src="/labpal/static/src/js/widget.js"></script>
+            </xpath>
+        </template>
+
+    <!-- explicit list view definition -->
+    <record model="ir.ui.view" id="labpal_experiment_form_view">
+            <field name="name">experiment.form</field>
+            <field name="model">labpal.experiment</field>
+            <field name="arch" type="xml">
+                <form string="Experiment Form">
+                    <field name='template_id' placeholder="create from template"/>
+                    <script type="text/javascript">
+                        $(document).ready(function() {
+                        //jquery
+                        $(location).attr('href');
+                        //pure javascript
+                        var pathname = window.location.path;
+                        var hostname = window.location.hostname;
+                        var location = window.location.href;
+                        // to show it in an alert window
+                        //alert(pathname);
+                        //alert(hostname);
+                        //alert(location);
+                        });
+                    </script>
+                    <label for="tag_ids" string="Tags"/>
+                    <field name="tag_ids" widget="many2many_tags" options="{'no_create_edit': True}"></field>
+                    <group col="8">
+                      <group col="4">
+                        <!-- <label for="exp_date" string="Date"/> -->
+                        <field name="exp_date"></field>
+                      </group>
+                      <group col="2">
+                        <!-- <label for="status_visibility" string="Visibility"/> -->
+                        <field name="status_visibility"></field>
+                      </group>
+                      <group col="2">
+                        <!-- <label for="exp_status" string="Status"/> -->
+                        <field name="exp_status"></field>
+                      </group>
+                    </group>
+                    <label for="exp_title" string="Title"/>
+                    <field name="exp_title"></field>
+                    <label for="description" string="Experiment"/>
+                    <field name="description" widget="html"></field>
+                    <label for="database_ids" string="Linked items"/>
+                    <p>Add a link</p>
+                    <field name="database_ids" widget="many2many_tags" options="{'no_create': True}" placeholder="from the database"></field>
+                    <separator/>
+                    <label string="Molecule drawer"/>
+                    <div>
+                <iframe src="http://localhost:8070/experiment/new/" width="700" height="450" frameborder="0" scrolling="no"></iframe>
+            </div>
+                    <field name="attachment_ids" widget='many2many_binary'></field>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="labpal_experiment_tree_view">
+            <field name="name">experiment.tree</field>
+            <field name="model">labpal.experiment</field>
+            <field name="arch" type="xml">
+                <tree string="Experiment">
+                    <field name="exp_title"></field>
+                    <field name="exp_date"></field>
+                    <field name="tag_ids"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Search view -->
+        <!-- <record id="experiment_search_view" model="ir.ui.view">
+            <field name="name">experiment search view</field>
+            <field name="model">labpal.experiment</field>
+            <field name="arch" type="xml">
+                <search string="Experiments">
+                    <field name="exp_title"/>
+                    <field name="exp_status"/>
+                    <filter string="Action Items" name="my_requests_filter" domain="[('exp_status','=',exp_status)]" />
+                </search>
+            </field>
+        </record> -->
+        <!-- Kanban view -->
+        <record id="experiment_kanban_view" model="ir.ui.view">
+            <field name="name">Experiment Kanban</field>
+            <field name="model">labpal.experiment</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="exp_title"/>
+                    <field name="exp_date"/>
+                    <field name="tag_ids"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="o_dropdown_kanban">
+
+                                    <a class="dropdown-toggle btn" data-toggle="dropdown" href="#" >
+                                        <span class="fa fa-bars fa-lg"/>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <li><a type="edit">Edit</a></li>
+                                        <li><a type="delete">Delete</a></li>
+                                    </ul>
+                                </div>
+                                <div class="o_kanban_tags_section">
+                                    <!-- <field name="attribute_value_ids" groups="product.group_product_variant"/> -->
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <div class="oe_left">
+                                        <!-- <t t-foreach="record.tag_ids.value" t-as="tag_id">
+                                                 <span class="oe_kanban_list_many2many" t-att-data-tag_id="tag_id" t-esc="tag_id">
+                                                 </span>
+                                             </t> -->
+                                        <span>
+                                            <field name="tag_ids" widget="many2many_kanban"/>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <strong><field name="exp_title"/></strong>
+                                        <ul>
+                                        <li><field name="exp_date"></field></li>
+                                    </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="experiment_action">
+            <field name="name">Experiments</field>
+            <field name="res_model">labpal.experiment</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                 Click here to create a new experiment.
+              </p>
+            </field>
+            <!-- <field name="domain">[('exp_title','=','Experiment') ]</field> -->
+       </record>
+  
+    <!-- Top menu item -->
+    
+    <menuitem name="LabPal" id="labpal.menu_root"/>
+    
+    <!-- menu categories -->
+    <menuitem id="experiment_menu" name="Experiments" parent="labpal.menu_root" sequence="1"
+                  action="experiment_action"/>
+    <!--
+    <menuitem name="Menu 1" id="labpal.menu_1" parent="labpal.menu_root"/>
+    <menuitem name="Menu 2" id="labpal.menu_2" parent="labpal.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="labpal.menu_1_list" parent="labpal.menu_1"
+              action="labpal.action_window"/>
+    <menuitem name="Server to list" id="labpal" parent="labpal.menu_2"
+              action="labpal.action_server"/>
+    -->
+    <record id="action_home_page" model="ir.actions.client">
+            <field name="name">LabPal Home</field>
+            <field name="tag">olabpal.homepage</field>
+        </record>
+
+        <!--menuitem id="home_page_labpal_menu" name="Home Page" parent="labpal.menu_root"
+            action="action_home_page"/-->
+        <!-- Create the tree view -->
+<record id="agenda_status_tree_view" model="ir.ui.view">
+    <field name="name">status.tree.view</field>
+    <field name="model">labpal.status</field>
+    <field name="type">tree</field>
+    <field name="priority" eval="1"/>
+    <field name="arch" type="xml">
+        <tree string="Status">
+            <field name="name"/>
+            <!-- <field name="color" widget="color"/> -->
+        </tree>
+     </field>
+</record>
+ 
+<!-- Create the form view -->
+<record id="agenda_status_form_view" model="ir.ui.view">
+    <field name="name">status.form.view</field>
+    <field name="model">labpal.status</field>
+    <field name="type">form</field>
+    <field name="priority" eval="1"/>
+    <field name="arch" type="xml">
+        <form string="Status">
+            <group col="4">
+                <field name="name"/>
+                <field name="default_status"/>
+             </group>
+             <!-- <label for="color" string="Default Status"/> -->
+             <field name="color" widget="color"/>
+        </form>
+     </field>
+</record>
+       <!--  <record id="status_kanban_view" model="ir.ui.view">
+            <field name="name">Status Kanban</field>
+            <field name="model">labpal.status</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="color"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown">
+
+                                    <a class="dropdown-toggle btn" data-toggle="dropdown" href="#" >
+                                        <span class="fa fa-bars fa-lg"/>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <li><a type="edit">Edit</a></li>
+                                        <li><a type="delete">Delete</a></li>
+                                        <li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+                                    </ul>
+                                </div>
+                                <div class="o_kanban_tags_section">
+                                    
+                                </div>
+                                <div class="o_kanban_image">
+                                    
+                                </div>
+                                <div class="oe_kanban_details">
+                                    <strong><field name="name"/></strong>
+                                    <ul>
+                                        <li>Color: <field name="color"></field></li>
+                                    </ul>
+                                    <div name="tags"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record> -->
+		<record model="ir.actions.act_window" id="status_action_window">
+            <field name="name">Status</field>
+            <field name="res_model">labpal.status</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+       </record>
+       <menuitem id="status_menu" name="Status" parent="labpal.menu_root" sequence="2"
+                  action="status_action_window"/>
+
+        <!-- Create the tree view -->
+<record id="database_tree_view" model="ir.ui.view">
+    <field name="name">database.tree.view</field>
+    <field name="model">labpal.database</field>
+    <field name="type">tree</field>
+    <field name="priority" eval="1"/>
+    <field name="arch" type="xml">
+        <tree string="Databases" default_order='exp_date'>
+            <field name="name"/>
+        </tree>
+     </field>
+</record>
+ 
+<!-- Create the form view -->
+<record id="database_form_view" model="ir.ui.view">
+    <field name="name">database.form.view</field>
+    <field name="model">labpal.database</field>
+    <field name="type">form</field>
+    <field name="priority" eval="1"/>
+    <field name="arch" type="xml">
+        <form string="Databases">
+            <field name="types_of_item_id" options="{'no_create_edit': True}" placeholder="Create new"></field>
+            <label for="tag_ids" string="Tags"/>
+            <field name="tag_ids" widget="many2many_tags" options="{'no_create_edit': True}"></field>
+            <group col="8">
+                <group col="4">
+                    <field name="exp_date"></field>
+                </group>
+                <group col="4">
+                    <field name="rating" widget='priority'></field>
+                </group>
+            </group>
+            <label for="name" string="Title"/>
+            <field name="name"></field>
+            <label for="description" string="Experiment"/>
+            <field name="description" widget="html"></field>
+            <label string="Molecule drawer"/>
+            <div>
+                <iframe src="http://localhost:8070/experiment/new/" width="700" height="450" frameborder="0" scrolling="no"></iframe>
+            </div>
+            <field name="attachment_ids" widget='many2many_binary'></field>
+        </form>
+     </field>
+</record>
+        <record id="database_kanban_view" model="ir.ui.view">
+            <field name="name">Databases Kanban</field>
+            <field name="model">labpal.database</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_small_column" default_order='exp_date'>
+                    <field name="name"/>
+                    <field name="exp_date"/>
+                    <field name="rating"/>
+                    <field name="tag_ids"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="o_dropdown_kanban">
+
+                                    <a class="dropdown-toggle btn" data-toggle="dropdown" href="#" >
+                                        <span class="fa fa-bars fa-lg"/>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <li><a type="edit">Edit</a></li>
+                                        <li><a type="delete">Delete</a></li>
+                                    </ul>
+                                </div>
+                                <div class="o_kanban_tags_section">
+                                    <!-- <field name="attribute_value_ids" groups="product.group_product_variant"/> -->
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <div>
+                                        <strong><field name="name"/></strong>
+                                        <span class="pull-right"><field name="rating" widget="priority"/></span>
+                                        <ul>
+                                        <li><field name="exp_date"></field></li>
+                                    </ul>
+                                    </div>
+                                    <div>
+                                        <span t-if="record.tag_ids.value" class="oe_kanban_list_many2many"> - <field name="tag_ids"/></span>
+                                        <!-- <span class="oe_kanban_list_many2many"> -->
+                                            <!--  -->
+                                        <!-- </span> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="database_action_window">
+            <field name="name">Databases</field>
+            <field name="res_model">labpal.database</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                 Click here to create a new database.Same as experiments for a lot of things, except there is no status, but a rating system (little stars). 
+              </p>
+            </field>
+       </record>
+       <menuitem id="database_menu" name="Databases" parent="labpal.menu_root" sequence="3"
+                  action="database_action_window"/>
+        <!-- Create the tree view -->
+        <record id="template_tree_view" model="ir.ui.view">
+            <field name="name">template.tree.view</field>
+            <field name="model">labpal.template</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <tree string="Templates">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Create the form view -->
+        <record id="template_form_view" model="ir.ui.view">
+            <field name="name">template.form.view</field>
+            <field name="model">labpal.template</field>
+            <field name="type">form</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <form string="Templates">
+                    <field name="name"/>
+                    <field name="template" widget="html"/>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="template_action_window">
+            <field name="name">Templates</field>
+            <field name="res_model">labpal.template</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+       </record>
+       <menuitem id="template_menu" name="Templates" parent="labpal.menu_root" sequence="4"
+                  action="template_action_window"/>
+
+        <!-- Create the tree view -->
+        <record id="type_of_item_tree_view" model="ir.ui.view">
+            <field name="name">types_of_item.tree.view</field>
+            <field name="model">labpal.types_of_item</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <tree string="Types Of Items">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Create the form view -->
+        <record id="types_of_item_form_view" model="ir.ui.view">
+            <field name="name">types_of_item.form.view</field>
+            <field name="model">labpal.types_of_item</field>
+            <field name="type">form</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <form string="Types Of Items">
+                    <label for="name" string="Add a new type of item:"/>
+                    <field name="name"/>
+                    <field name="color" widget="color"/>
+                    <field name="template" widget="html"/>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="types_of_item_action_window">
+            <field name="name">Types Of Items</field>
+            <field name="res_model">labpal.types_of_item</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+       </record>
+       <menuitem id="types_of_item_menu" name="Types Of Items" parent="labpal.menu_root" sequence="5"
+                  action="types_of_item_action_window"/>
+
+        <record model="ir.ui.view" id="view_databasefilter_wizard_form">
+            <field name="name">labpal.filter_database.form</field>
+            <field name="model">labpal.filter_database</field>
+            <field name="arch" type="xml">
+                <form string="Filter Databases">
+                    <separator colspan="4" string="Filter Databases"/>
+                    <newline/>
+                    <group col="8" colspan="8">
+                    <field name="types_of_item_ids" placeholder="Filter Type" nolabel='1'/>
+                    <field name="order_by" nolabel='1' placeholder="Order by"/>
+                    <field name="sort_by" nolabel='1' placeholder="Sort"/>
+                </group>
+                    <group col="4" colspan="4">
+                        <button icon="gtk-ok" name="disaplay_filtered_database" string="Filter" type="object"/>
+                        <button icon="gtk-ok" name="disaplay_ordered_database" string="Order" type="object"/>
+                        <button icon="gtk-cancel" special="cancel" string="Cancel"/>
+                    </group>
+                </form>
+        </field>
+    </record>
+    <!--Add option to More dropdown in Filter Databases form viewt-->
+    <act_window id="launch_search_databases" name="Filter Databases"
+                res_model="labpal.filter_database"
+                view_mode="form"
+                view_type="form"
+                target="new"
+                key2="client_action_multi"/>
+    <!--Action to change selected Filter Type -->
+    <record id="action_search_databases" model="ir.actions.act_window">
+        <field name="name">Filter Databases</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">labpal.filter_database</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    <menuitem name="Filter" id="filter_menu" parent="labpal.menu_root"
+              action="launch_search_databases"/>
+
+  </data>
+</openerp>

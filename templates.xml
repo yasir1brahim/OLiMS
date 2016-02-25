@@ -1,0 +1,24 @@
+<openerp>
+    <data>
+        <template id="listing">
+            <html>
+                <head>
+                    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+                </head>
+                <body>
+                    <link rel='stylesheet' href='/labpal/static/src/css/ChemDoodleWeb.css' type='text/css'/>
+                    <link rel='stylesheet' href='/labpal/static/src/css/jquery-ui-1.10.3.custom.css' type='text/css'/>
+                    <script src='/labpal/static/src/js/ChemDoodleWeb.js'></script>
+                    <script src='/labpal/static/src/js/ChemDoodleWeb-uis.js'></script>
+                    <div class='box chemdoodle'>
+                        <div class='center'>
+                            <script>
+                                var sketcher = new ChemDoodle.SketcherCanvas('sketcher', 550, 300, {oneMolecule:true})
+                            </script>
+                        </div>
+                    </div>
+                </body>
+            </html>
+        </template>
+    </data>
+</openerp>

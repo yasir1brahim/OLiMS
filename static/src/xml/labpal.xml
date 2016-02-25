@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="HomePageTemplate">
+    	<html>
+    		<head>
+    			<link rel='stylesheet' href='/labpal/static/src/css/ChemDoodleWeb.css' type='text/css'/>
+    			<link rel='stylesheet' href='/labpal/static/src/css/jquery-ui-1.10.3.custom.css' type='text/css'/>
+    			<script src='/labpal/static/src/js/ChemDoodleWeb.js'></script>
+    			<!-- <script src='/labpal/static/src/js/ChemDoodleWeb-uis.js'></script> -->
+    			<!-- <script src='/labpal/static/src/js/tinymce.min.js'></script> -->
+    			<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+    			<!-- <script src="//code.jquery.com/jquery-1.10.2.js"></script> -->
+    			<!-- <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script> -->
+    		</head>
+    		<body>
+    			<div class='box chemdoodle'>
+            <h3>Molecule drawer</h3>
+            <div class='center'>
+            	<script>ChemDoodle.iChemLabs.useHTTPS();</script>
+                <script>
+                    var sketcher = new ChemDoodle.SketcherCanvas('sketcher', 550, 300, {oneMolecule:true});
+                </script>
+            </div>
+    </div>
+    		</body>
+    	</html>
+        <!-- <div style="background-color: red;">This is some simple HTML</div> -->
+        <!-- <div>Hello <t t-esc="name"/></div> -->
+    </t>
+    <t t-name="ProductsWidget">
+        <div>
+            <t t-foreach="widget.products" t-as="product">
+                <span class="oe_products_item"
+                      t-attf-style="background-color: {{ widget.color }};">
+                    <t t-esc="product"/>
+                </span>
+                <br/>
+            </t>
+        </div>
+    </t>
+    <t t-name="ColorInputWidget">
+        <div>
+            Red: <input type="text" class="oe_color_red" value="00"></input><br />
+            Green: <input type="text" class="oe_color_green" value="00"></input><br />
+            Blue: <input type="text" class="oe_color_blue" value="00"></input><br />
+        </div>
+    </t>
+    <t t-name="HomePage">
+        <div>
+            <div class="oe_color_div"></div>
+        </div>
+    </t>
+</templates>
