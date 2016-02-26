@@ -21,13 +21,10 @@
                         //jquery
                         $(location).attr('href');
                         //pure javascript
-                        var pathname = window.location.path;
-                        var hostname = window.location.hostname;
                         var location = window.location.href;
-                        // to show it in an alert window
-                        //alert(pathname);
-                        //alert(hostname);
-                        //alert(location);
+                        var url_str = location.split("/");
+                        var c_url = "http://" + url_str[2] + "/experiment/new/"
+                        top.document.getElementById('moleculer-drawer').setAttribute("src",c_url);
                         });
                     </script>
                     <label for="tag_ids" string="Tags"/>
@@ -56,7 +53,7 @@
                     <separator/>
                     <label string="Molecule drawer"/>
                     <div>
-                <iframe src="http://localhost:8070/experiment/new/" width="700" height="450" frameborder="0" scrolling="no"></iframe>
+                <iframe id="moleculer-drawer" src="" width="700" height="450" frameborder="0" scrolling="no"></iframe>
             </div>
                     <field name="attachment_ids" widget='many2many_binary'></field>
                 </form>
