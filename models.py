@@ -118,6 +118,10 @@ class TypesofItems(models.Model):
         size=7
     )
 
+class ToDoList(models.Model):
+    _name = 'labpal.todolist'
+    name = fields.Char('Name')
+
 class FilterDatabase(models.TransientModel):
     _name = 'labpal.filter_database'
 
@@ -146,7 +150,6 @@ class FilterDatabase(models.TransientModel):
     @api.multi
     def disaplay_filtered_database(self):
         data = self.read()[0]
-        print 'Data'#, data['types_of_item_ids'][0]
         ids_list = []
         if data['types_of_item_ids']:
             database_res = self.env['labpal.database'].search([('types_of_item_id',
@@ -156,30 +159,26 @@ class FilterDatabase(models.TransientModel):
             return {
             'type': 'ir.actions.act_window',
             'res_model': 'labpal.database',
-            'views': [[False, 'kanban']],
+            'views': [[False, 'tree']],
             'domain' : [('id', 'in', ids_list)]
             }
         else:
             return {
             'type': 'ir.actions.act_window',
             'res_model': 'labpal.database',
-            'views': [[False, 'kanban']],
+            'views': [[False, 'tree']],
             }
 
     @api.multi
     def disaplay_ordered_database(self):
         data = self.read()[0]
-        print 'Data', data['order_by'], data['sort_by']#, data['types_of_item_ids'][0]
         ids_list = []
         kanban_view = self.env.ref('labpal.database_kanban_view', False)
-#         print kanban_view.id
         if data['order_by'] and data['sort_by']:
             sortBy = data['order_by'] + " " + data['sort_by']
-            print sortBy
             database_res = self.env['labpal.database'].search([], order=sortBy)
             for ids in database_res:
                 ids_list.append(ids.id)
-            print ids_list
             return {
             'type': 'ir.actions.act_window',
             'res_model': 'labpal.database',
@@ -191,11 +190,9 @@ class FilterDatabase(models.TransientModel):
             }
         elif data['order_by']:
             sortBy = data['order_by'] + " " + 'desc'
-            print sortBy
             database_res = self.env['labpal.database'].search([], order=sortBy)
             for ids in database_res:
                 ids_list.append(ids.id)
-            print ids_list
             return {
             'type': 'ir.actions.act_window',
             'res_model': 'labpal.database',

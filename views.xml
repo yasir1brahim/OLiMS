@@ -460,6 +460,61 @@
     </record>
     <menuitem name="Filter" id="filter_menu" parent="labpal.menu_root"
               action="launch_search_databases"/>
+    
+    <record id="action_todolist_launch" model="ir.actions.act_window">
+            <field name="name">ToDoList</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">labpal.todolist</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+        
+    
+    <record  id="form_todolist" model="ir.ui.view">
+            <field name="name">tlabpal.todolist.form</field>
+            <field name="model">labpal.todolist</field>
+            <field name="arch" type="xml">
+                <form string="ToDoList" version="7.0">
+                    <group col="4">
+                        <field name="name" />
+                    </group>
+                    <footer> <button name="write" type="object" string="Save"/> or 
+                   <button name="cancel" string="Cancel" special="cancel" class="oe_link"/> </footer>
+                </form>
+            </field>
+        </record>
+    
+     
+        
+   
+    <record model="ir.ui.view" id="custom_module_kanban_view">
+            <field name="name">labpal.todolist.kanban</field>
+            <field name="model">labpal.todolist</field>
+            <field name="type">kanban</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <!--list of field to be loaded -->
+                    <field name="name" />
+                    <templates>
+                    <t t-name="kanban-box">
+                            <div class="oe_product_vignette">
+                                <div class="oe_product_desc">
+                                    <h4>
+                                        <a type="edit">
+                                            <field name="name"></field>
+                                        </a>
+                                    </h4>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        
+    <menuitem name="TodoList" id="todolist_menu" parent="labpal.menu_root"
+              action="action_todolist_launch"/>
 
   </data>
 </openerp>
