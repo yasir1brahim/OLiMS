@@ -270,7 +270,18 @@
     <field name="priority" eval="1"/>
     <field name="arch" type="xml">
         <form string="Databases">
-            <field name="types_of_item_id" options="{'no_create_edit': True}" placeholder="Create new"></field>
+            <script type="text/javascript">
+                        $(document).ready(function() {
+                        //jquery
+                        $(location).attr('href');
+                        //pure javascript
+                        var location = window.location.href;
+                        var url_str = location.split("/");
+                        var c_url = "http://" + url_str[2] + "/experiment/new/"
+                        top.document.getElementById('moleculer-drawer-database').setAttribute("src",c_url);
+                        });
+                    </script>
+            <field name="types_of_item_id" options="{'no_create': True}" placeholder="Create new"></field>
             <label for="tag_ids" string="Tags"/>
             <field name="tag_ids" widget="many2many_tags" options="{'no_create_edit': True}"></field>
             <group col="8">
@@ -286,8 +297,8 @@
             <label for="description" string="Experiment"/>
             <field name="description" widget="html"></field>
             <label string="Molecule drawer"/>
-            <div>
-                <iframe src="http://localhost:8070/experiment/new/" width="700" height="450" frameborder="0" scrolling="no"></iframe>
+            <div id="moleculer-drawer">
+                <iframe id="moleculer-drawer-database" src="" width="700" height="450" frameborder="0" scrolling="no"></iframe>
             </div>
             <field name="attachment_ids" widget='many2many_binary'></field>
         </form>
@@ -302,6 +313,7 @@
                     <field name="exp_date"/>
                     <field name="rating"/>
                     <field name="tag_ids"/>
+                    <field name="types_of_item_id"/>
                     <templates>
                         <t t-name="kanban-box">
                             <div class="oe_kanban_global_click">
@@ -323,11 +335,11 @@
                                         <strong><field name="name"/></strong>
                                         <span class="pull-right"><field name="rating" widget="priority"/></span>
                                         <ul>
-                                        <li><field name="exp_date"></field></li>
+                                        <li><span t-if="record.types_of_item_id.value"><field name="types_of_item_id"/></span>&#32; &#32;<field name="exp_date"></field></li>
                                     </ul>
                                     </div>
                                     <div>
-                                        <span t-if="record.tag_ids.value" class="oe_kanban_list_many2many"> - <field name="tag_ids"/></span>
+                                        <span t-if="record.tag_ids.value" class="oe_kanban_list_many2many"><field name="tag_ids"/></span>
                                         <!-- <span class="oe_kanban_list_many2many"> -->
                                             <!--  -->
                                         <!-- </span> -->
@@ -466,8 +478,8 @@
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">labpal.todolist</field>
             <field name="view_type">form</field>
-            <field name="view_mode">form</field>
-            <field name="target">new</field>
+            <field name="view_mode">kanban,form</field>
+            <field name="target">current</field>
         </record>
         
     

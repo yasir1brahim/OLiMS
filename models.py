@@ -96,6 +96,14 @@ class Databases(models.Model):
     types_of_item_id = fields.Many2one('labpal.types_of_item',
                                          string='Types of Items')
 
+    @api.onchange('types_of_item_id')
+    def _onchange_itemtype(self):
+        for record in self:
+            template = self.env['labpal.types_of_item'].search([('id', '=', record.types_of_item_id.id)])
+            form_view = self.env.ref('labpal.database_formedit_view', False)
+            if template:
+                record.description = template.template
+
 class Tags(models.Model):
     _name = 'labpal.tag'
     _rec_name = 'name'
