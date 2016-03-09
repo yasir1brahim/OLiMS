@@ -464,13 +464,13 @@
     <!--Action to change selected Filter Type -->
     <record id="action_search_databases" model="ir.actions.act_window">
         <field name="name">Filter Databases</field>
-        <field name="type">ir.actions.act_window</field>
+        <!-- <field name="type">ir.actions.act_window</field> -->
         <field name="res_model">labpal.filter_database</field>
         <field name="view_type">form</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
     </record>
-    <menuitem name="Filter" id="filter_menu" parent="labpal.menu_root"
+    <menuitem name="Filter" id="filter_menu" parent="labpal.menu_root" sequence="6"
               action="launch_search_databases"/>
     
     <record id="action_todolist_launch" model="ir.actions.act_window">
@@ -525,8 +525,69 @@
             </field>
         </record>
         
-    <menuitem name="TodoList" id="todolist_menu" parent="labpal.menu_root"
+    <menuitem name="TodoList" id="todolist_menu" parent="labpal.menu_root" sequence="7"
               action="action_todolist_launch"/>
+
+    <record model="ir.ui.view" id="view_searchmodel_form">
+            <field name="name">labpal_serach_model.form</field>
+            <field name="model">labpal.serach_model</field>
+            <field name="arch" type="xml">
+                <form string="Search" create="false" edit="false" write="false">
+                    <sheet>
+                        <header>
+                            <button name="%(experiment_action)d" string="Back to experiments listing" type="action" colspan="1" class="oe_link"/>
+                        </header>
+                    <group col='8'>
+                        <group col="2">
+                            <field name="search_type" nolabel='0'/>
+                        </group>
+                        <group col="2">
+                            <field name="tags_id" nolabel='0' widget="selection" placeholder="Select a Tag"/>
+                        </group>
+                        <group col="4">
+                            <field name="search_by_created_uid" nolabel='0'/>
+                        </group>
+                    </group>
+                    <group col="8">
+                        <group col="2"></group>
+                        <group col="2"></group>
+                        <group col="4">
+                            <field name="search_in_all" nolabel='0'/>
+                        </group>
+                    </group>
+                    <group col="4">
+                        <field name="start_date" nolabel='0'/>
+                        <field name="end_date" nolabel='0'/>
+                    </group>
+                    <group col="4">
+                        <field name="contain_title" nolabel='0'/>
+                        <field name="status_id" nolabel='0' widget="selection" placeholder="select status"/>
+                    </group>
+                    <group col="4">
+                        <field name="body_contains" nolabel='0'/>
+                        <field name="ratting" nolabel='0' placeholder="select number of stars"/>
+                    </group>
+                    <group col="2">
+                        <field name="space_mean" nolabel='1' placeholder="space means"/>
+                    </group>
+                    <footer>
+                        <group col="8">
+                            <button name="search_data" string="LAUNCH SEARCH" type="object" class="oe_highlight"/>
+                        </group>
+                    </footer>
+                </sheet>
+                </form>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="search_action_window">
+            <field name="name">Search</field>
+            <field name="res_model">labpal.serach_model</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+       </record>
+       <menuitem id="search_menu" name="Search" parent="labpal.menu_root" sequence="8"
+                  action="search_action_window"/>
 
   </data>
 </openerp>

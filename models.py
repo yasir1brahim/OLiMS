@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from openerp import models, fields, api
+from openerp.tools.translate import _
+import datetime
 
 AVAILABLE_PRIORITIES = [
     ('0', 'Normal'),
@@ -219,3 +221,2683 @@ class FilterDatabase(models.TransientModel):
             'view_id': kanban_view.id,
             'target' : "current"
             }
+
+class SerachModel(models.TransientModel):
+    _name = "labpal.serach_model"
+
+    @api.multi
+    def _selection_values(self):
+        list_of_name = [('experiment','Experiments'),('database','Database')]
+        items_types_object = self.env['labpal.types_of_item'].search([])
+        for name in items_types_object:
+            list_of_name.append((name.name,name.name))
+        return list_of_name
+
+    @api.multi
+    def _selection_values_createdby(self):
+        list_create_uids = [(self.env.uid , 'Yourself')]
+        created_by_object = self.env['res.users'].search([('id', '!=', self.env.uid)])
+        if created_by_object:
+            for name_and_id in created_by_object:
+                list_create_uids.append((name_and_id.id,name_and_id.name))
+        return list_create_uids
+
+    @api.onchange('search_by_created_uid')
+    def _change_search_in_all_value(self):
+        for record in self:
+            record.search_in_all = False
+
+    search_type = fields.Selection(_selection_values, 'Search in',
+        default='experiment',
+        required=True)
+    tags_id = fields.Many2one('labpal.tag',
+                              string='With the tag')
+    search_by_created_uid = fields.Selection(_selection_values_createdby, 'Search only in experiments owned by:'
+        ,required=True)
+    search_in_all = fields.Boolean(string="search in everyone experiments")
+    start_date = fields.Date('Where date is between')
+    end_date = fields.Date('and')
+    contain_title = fields.Char('And title contains')
+    status_id = fields.Many2one(string='And status is', comodel_name='labpal.status')
+    body_contains = fields.Char('And body contains')
+    ratting = fields.Selection((
+        ('unrate', 'Unrated'),
+        ('0', '0'),
+        ('1', '1'),
+        ('2', '2'),
+        ('3', '3'),
+        ('4', '4'),
+        ('5', '5'),
+    ),string="And rating is")
+    space_mean = fields.Selection(
+        (
+            ('or', 'or'),
+            ('and', 'and')
+        ),
+        string="Space Means")
+
+    @api.model
+    def _get_default_user_id(self):
+        return self.env.uid
+
+    _defaults = {
+     'search_by_created_uid':_get_default_user_id,
+     }
+
+    @api.multi
+    def search_data(self):
+        data = self.read()[0]
+        ids_list = []
+        model = ''
+        if data['search_type'] and data['search_by_created_uid'] \
+        and data['start_date'] == False \
+        and data['end_date'] == False \
+        and data['status_id'] == False \
+        and data['ratting'] == False \
+        and data['contain_title'] == False \
+        and data['body_contains'] == False:
+            if data['search_type'] == 'experiment':
+                if data['search_in_all']:
+                    experiment_object = self.env['labpal.experiment'].search([])
+                elif data['search_by_created_uid']:
+                    u_id = int(data['search_by_created_uid'])
+                    experiment_object = self.env['labpal.experiment'].search([('create_uid', '=', u_id)])
+                model = 'labpal.experiment'
+                for obj_id in experiment_object:
+                    ids_list.append(obj_id.id)
+            elif data['search_type'] == 'database':
+                if data['search_in_all']:
+                    database_object = self.env['labpal.database'].search([])
+                elif data['search_by_created_uid']:
+                    database_object = self.env['labpal.database'].search([('create_uid', \
+                        '=', int(data['search_by_created_uid']))])
+                model = 'labpal.database'
+                for obj_id in database_object:
+                    ids_list.append(obj_id.id)
+            else:
+                if data['search_in_all']:
+                    database_object = self.env['labpal.database'].search([('types_of_item_id.name', \
+                        '=', data['search_type'])])
+                elif data['search_by_created_uid']:
+                    database_object = self.env['labpal.database'].search([('types_of_item_id.name', \
+                        '=', data['search_type']), \
+                    ('create_uid', '=', int(data['search_by_created_uid']))])
+                model = 'labpal.database'
+                for obj_id in database_object:
+                    ids_list.append(obj_id.id)
+        elif data['search_type'] and data['status_id'] == False \
+        and data['ratting'] == False and data['contain_title'] == False \
+        and data['body_contains'] == False:
+            if data['search_type'] == 'experiment':
+                if data['start_date'] and data['end_date']:
+                    start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                    end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                    if data['search_by_created_uid'] and data['search_in_all'] == False:
+                        experiment_object = self.env['labpal.experiment'].search([
+                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                            ('exp_date', '>=', start_date),
+                            ('exp_date', '<=', end_date),])
+                    elif data['search_in_all']:
+                        experiment_object = self.env['labpal.experiment'].search([
+                            ('exp_date', '>=', start_date),
+                            ('exp_date', '<=', end_date),])
+                elif data['start_date'] and data['end_date'] == False:
+                    start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                    if data['search_by_created_uid'] and data['search_in_all'] == False:
+                        experiment_object = self.env['labpal.experiment'].search([
+                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                            ('exp_date', '=', start_date)])
+                    elif data['search_in_all']:
+                        experiment_object = self.env['labpal.experiment'].search([
+                            ('exp_date', '=', start_date)])
+                elif data['start_date'] == False and data['end_date']:
+                    end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                    if data['search_by_created_uid'] and data['search_in_all'] == False:
+                        experiment_object = self.env['labpal.experiment'].search([
+                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                            ('exp_date', '=', end_date)])
+                    elif data['search_in_all']:
+                        experiment_object = self.env['labpal.experiment'].search([('exp_date', '=', end_date)])
+                model = 'labpal.experiment'
+                for exp_obj in experiment_object:
+                    ids_list.append(exp_obj.id)
+            elif data['search_type'] == 'database':
+                if data['start_date'] and data['end_date']:
+                    start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                    end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                    if data['search_by_created_uid'] and data['search_in_all'] == False:
+                        database_object = self.env['labpal.database'].search([
+                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                            ('exp_date', '>=', start_date),
+                            ('exp_date', '<=', end_date),])
+                    elif data['search_in_all']:
+                        database_object = self.env['labpal.database'].search([
+                            ('exp_date', '>=', start_date),
+                            ('exp_date', '<=', end_date),])
+                elif data['start_date'] and data['end_date'] == False:
+                    start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                    if data['search_by_created_uid'] and data['search_in_all'] == False:
+                        database_object = self.env['labpal.database'].search([
+                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                            ('exp_date', '=', start_date)])
+                    elif data['search_in_all']:
+                        database_object = self.env['labpal.database'].search([('exp_date', '=', start_date)])
+                elif data['start_date'] == False and data['end_date']:
+                    end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                    if data['search_by_created_uid'] and data['search_in_all'] == False:
+                        database_object = self.env['labpal.database'].search([
+                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                            ('exp_date', '=', end_date)])
+                    elif data['search_in_all']:
+                        database_object = self.env['labpal.database'].search([('exp_date', '=', end_date)])
+                model = 'labpal.database'
+                for db_obj in database_object:
+                    ids_list.append(db_obj.id)
+            else:
+                if data['start_date'] and data['end_date']:
+                    start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                    end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                    if data['search_by_created_uid'] and data['search_in_all'] == False:
+                        database_object = self.env['labpal.database'].search([
+                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                            ('exp_date', '>=', start_date),
+                            ('exp_date', '<=', end_date),
+                            ('types_of_item_id.name', '=', data['search_type'])])
+                    elif data['search_in_all']:
+                        database_object = self.env['labpal.database'].search([('exp_date', '>=', start_date),
+                            ('exp_date', '<=', end_date),
+                            ('types_of_item_id.name', '=', data['search_type'])])
+                elif data['start_date'] and data['end_date'] == False:
+                    start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                    if data['search_by_created_uid'] and data['search_in_all'] == False:
+                        database_object = self.env['labpal.database'].search([
+                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                            ('exp_date', '=', start_date),
+                            ('types_of_item_id.name', '=', data['search_type'])])
+                    elif data['search_in_all']:
+                        database_object = self.env['labpal.database'].search([('exp_date', '=', start_date),
+                            ('types_of_item_id.name', '=', data['search_type'])])
+                elif data['start_date'] == False and data['end_date']:
+                    end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                    if data['search_by_created_uid'] and data['search_in_all'] == False:
+                        database_object = self.env['labpal.database'].search([
+                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                            ('exp_date', '=', end_date),
+                            ('types_of_item_id.name', '=', data['search_type'])])
+                    elif data['search_in_all']:
+                        database_object = self.env['labpal.database'].search([('exp_date', '=', end_date),
+                            ('types_of_item_id.name', '=', data['search_type'])])
+                model = 'labpal.database'
+                for db_obj in database_object:
+                    ids_list.append(db_obj.id)
+
+        elif data['search_type'] == 'experiment' and data['status_id'] \
+        and data['contain_title'] == False and data['body_contains'] == False:
+            StatusId = int(data['status_id'][0])
+            if data['start_date'] and data['end_date']:
+                    start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                    end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                    if data['search_by_created_uid'] and data['search_in_all'] == False:
+                        experiment_object = self.env['labpal.experiment'].search([
+                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                            ('exp_date', '>=', start_date),
+                            ('exp_date', '<=', end_date),
+                            ('exp_status', '=', StatusId)])
+                    elif data['search_in_all']:
+                        experiment_object = self.env['labpal.experiment'].search([('exp_date', '>=', start_date),
+                            ('exp_date', '<=', end_date),
+                            ('exp_status', '=', StatusId)])
+            elif data['start_date'] and data['end_date'] == False:
+                    start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                    if data['search_by_created_uid'] and data['search_in_all'] == False:
+                        experiment_object = self.env['labpal.experiment'].search([
+                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                            ('exp_date', '=', start_date),
+                            ('exp_status', '=', StatusId)])
+                    elif data['search_in_all']:
+                        experiment_object = self.env['labpal.experiment'].search([('exp_date', '=', start_date),
+                            ('exp_status', '=', StatusId)])
+            elif data['start_date'] == False and data['end_date']:
+                    end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                    if data['search_by_created_uid'] and data['search_in_all'] == False:
+                        experiment_object = self.env['labpal.experiment'].search([
+                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                            ('exp_date', '=', end_date),
+                            ('exp_status', '=', StatusId)])
+                    elif data['search_in_all']:
+                        experiment_object = self.env['labpal.experiment'].search([('exp_date', '=', end_date),
+                            ('exp_status', '=', StatusId)])
+            elif data['start_date'] == False and data['end_date'] == False:
+                    if data['search_by_created_uid'] and data['search_in_all'] == False:
+                        experiment_object = self.env['labpal.experiment'].search([
+                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                            ('exp_status', '=', StatusId)])
+                    elif data['search_in_all']:
+                        experiment_object = self.env['labpal.experiment'].search([
+                            ('exp_status', '=', StatusId)])
+            model = 'labpal.experiment'
+            for exp_obj in experiment_object:
+                    ids_list.append(exp_obj.id)
+        elif data['search_type'] == 'database' and data['ratting'] \
+        and data['contain_title'] == False \
+        and data['body_contains'] == False:
+            if data['start_date'] and data['end_date']:
+                    start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                    end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                    if data['search_by_created_uid'] and data['search_in_all'] == False:
+                        database_object = self.env['labpal.database'].search([
+                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                            ('exp_date', '>=', start_date),
+                            ('exp_date', '<=', end_date),
+                            ('rating', '=', data['ratting'])])
+                    elif data['search_in_all']:
+                        database_object = self.env['labpal.database'].search([('exp_date', '>=', start_date),
+                            ('exp_date', '<=', end_date),
+                            ('rating', '=', data['ratting'])])
+            elif data['start_date'] and data['end_date'] == False:
+                    start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                    if data['search_by_created_uid'] and data['search_in_all'] == False:
+                        database_object = self.env['labpal.database'].search([
+                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                            ('exp_date', '=', start_date),
+                            ('rating', '=', data['ratting'])])
+                    elif data['search_in_all']:
+                        database_object = self.env['labpal.database'].search([('exp_date', '=', start_date),
+                            ('rating', '=', data['ratting'])])
+            elif data['start_date'] == False and data['end_date']:
+                    end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                    if data['search_by_created_uid'] and data['search_in_all'] == False:
+                        database_object = self.env['labpal.database'].search([
+                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                            ('exp_date', '=', end_date),
+                            ('rating', '=', data['ratting'])])
+                    elif data['search_in_all']:
+                        database_object = self.env['labpal.database'].search([('exp_date', '=', end_date),
+                            ('rating', '=', data['ratting'])])
+            elif data['start_date'] == False and data['end_date'] == False:
+                    if data['search_by_created_uid'] and data['search_in_all'] == False:
+                        database_object = self.env['labpal.database'].search([
+                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                            ('rating', '=', data['ratting'])])
+                    elif data['search_in_all']:
+                        database_object = self.env['labpal.database'].search([
+                            ('rating', '=', data['ratting'])])
+            model = "labpal.database"
+            for db_obj in database_object:
+                    ids_list.append(db_obj.id)
+        elif data['search_type'] not in ['experiment','database'] \
+        and data['ratting'] and data['contain_title'] == False \
+        and data['body_contains'] == False:
+            if data['start_date'] and data['end_date']:
+                    start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                    end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                    if data['search_by_created_uid'] and data['search_in_all'] == False:
+                        database_object = self.env['labpal.database'].search([
+                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                            ('exp_date', '>=', start_date),
+                            ('exp_date', '<=', end_date),
+                            ('rating', '=', data['ratting']),
+                            ('types_of_item_id.name', '=', data['search_type'])])
+                    elif data['search_in_all']:
+                        database_object = self.env['labpal.database'].search([('exp_date', '>=', start_date),
+                            ('exp_date', '<=', end_date),
+                            ('rating', '=', data['ratting']),
+                            ('types_of_item_id.name', '=', data['search_type'])])
+            elif data['start_date'] and data['end_date'] == False:
+                    start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                    if data['search_by_created_uid'] and data['search_in_all'] == False:
+                        database_object = self.env['labpal.database'].search([
+                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                            ('exp_date', '=', start_date),
+                            ('rating', '=', data['ratting']),
+                            ('types_of_item_id.name', '=', data['search_type'])])
+                    elif data['search_in_all']:
+                        database_object = self.env['labpal.database'].search([('exp_date', '=', start_date),
+                            ('rating', '=', data['ratting']),
+                            ('types_of_item_id.name', '=', data['search_type'])])
+            elif data['start_date'] == False and data['end_date']:
+                    end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                    if data['search_by_created_uid'] and data['search_in_all'] == False:
+                        database_object = self.env['labpal.database'].search([
+                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                            ('exp_date', '=', end_date),
+                            ('rating', '=', data['ratting']),
+                            ('types_of_item_id.name', '=', data['search_type'])])
+                    elif data['search_in_all']:
+                        database_object = self.env['labpal.database'].search([('exp_date', '=', end_date),
+                            ('rating', '=', data['ratting']),
+                            ('types_of_item_id.name', '=', data['search_type'])])
+            elif data['start_date'] == False and data['end_date'] == False:
+                    if data['search_by_created_uid'] and data['search_in_all'] == False:
+                        database_object = self.env['labpal.database'].search([
+                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                            ('rating', '=', data['ratting']),
+                            ('types_of_item_id.name', '=', data['search_type'])])
+                    elif data['search_in_all']:
+                        database_object = self.env['labpal.database'].search([('rating', '=', data['ratting']),
+                            ('types_of_item_id.name', '=', data['search_type'])])
+            model = "labpal.database"
+            for db_obj in database_object:
+                    ids_list.append(db_obj.id)
+        elif data['contain_title'] and data['body_contains']:
+            if data['search_type'] == 'experiment' and data['status_id']:
+                StatusId = int(data['status_id'][0])
+                if data['space_mean'] == 'or':
+                    titles = str(data['contain_title']).split()
+                    templates_text = str(data['body_contains']).split()
+                    if data['end_date'] and data['start_date']:
+                        start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for title in titles:
+                                for item_text in templates_text:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('description', 'ilike', item_text),
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),
+                                        ('exp_status', '=', StatusId)])
+                                    for exp_obj in experiment_object:
+                                        ids_list.append(exp_obj.id)
+                        elif data['search_in_all']:
+                            for title in titles:
+                                for item_text in templates_text:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('description', 'ilike', item_text),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),
+                                        ('exp_status', '=', StatusId)])
+                                    for exp_obj in experiment_object:
+                                        ids_list.append(exp_obj.id)
+                    elif data['end_date'] and data['start_date'] == False:
+                        end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for title in titles:
+                                for item_text in templates_text:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('description', 'ilike', item_text),
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('exp_date', '=', end_date),
+                                        ('exp_status', '=', StatusId)])
+                                    for exp_obj in experiment_object:
+                                        ids_list.append(exp_obj.id)
+                        elif data['search_in_all']:
+                            for title in titles:
+                                for item_text in templates_text:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('description', 'ilike', item_text),
+                                        ('exp_date', '=', end_date),
+                                        ('exp_status', '=', StatusId)])
+                                    for exp_obj in experiment_object:
+                                        ids_list.append(exp_obj.id)
+                    elif data['end_date'] == False and data['start_date']:
+                        start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for title in titles:
+                                for item_text in templates_text:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('description', 'ilike', item_text),
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('exp_date', '=', start_date),
+                                        ('exp_status', '=', StatusId)])
+                                    for exp_obj in experiment_object:
+                                        ids_list.append(exp_obj.id)
+                        elif data['search_in_all']:
+                            for title in titles:
+                                for item_text in templates_text:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('description', 'ilike', item_text),
+                                        ('exp_date', '=', start_date),
+                                        ('exp_status', '=', StatusId)])
+                                    for exp_obj in experiment_object:
+                                        ids_list.append(exp_obj.id)
+                    elif data['end_date'] == False and data['start_date'] == False:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for title in titles:
+                                for item_text in templates_text:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('description', 'ilike', item_text),
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('exp_status', '=', StatusId)])
+                                    for exp_obj in experiment_object:
+                                        ids_list.append(exp_obj.id)
+                        elif data['search_in_all']:
+                            for title in titles:
+                                for item_text in templates_text:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('description', 'ilike', item_text),
+                                        ('exp_status', '=', StatusId)])
+                                    for exp_obj in experiment_object:
+                                        ids_list.append(exp_obj.id)
+                elif data['space_mean'] in ['and', False]:
+                    if data['end_date'] and data['start_date']:
+                        start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('exp_date', '>=', start_date),
+                                    ('exp_date', '<=', end_date),
+                                    ('exp_status', '=', StatusId)])
+                        elif data['search_in_all']:
+                            experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '>=', start_date),
+                                    ('exp_date', '<=', end_date),
+                                    ('exp_status', '=', StatusId)])
+                    elif data['end_date'] == False and data['start_date']:
+                        start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('exp_date', '=', start_date),
+                                    ('exp_status', '=', StatusId)])
+                        elif data['search_in_all']:
+                            experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '=', start_date),
+                                    ('exp_status', '=', StatusId)])
+                    elif data['end_date'] and data['start_date'] == False:
+                        end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('exp_date', '=', end_date),
+                                    ('exp_status', '=', StatusId)])
+                        elif data['search_in_all']:
+                            experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '=', end_date),
+                                    ('exp_status', '=', StatusId)])
+                    elif data['end_date'] == False and data['start_date'] == False:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('exp_status', '=', StatusId)])
+                        elif data['search_in_all']:
+                            experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_status', '=', StatusId)])
+                    else:
+                        pass
+                    for exp_obj in experiment_object:
+                        ids_list.append(exp_obj.id)
+                model = "labpal.experiment"
+                ids_set = set(ids_list)
+                ids_list = list(ids_set)
+            elif data['search_type'] == 'experiment' and data['status_id'] == False:
+                if data['space_mean'] == 'or':
+                    titles = str(data['contain_title']).split()
+                    templates_text = str(data['body_contains']).split()
+                    if data['end_date'] and data['start_date']:
+                        start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for title in titles:
+                                for item_text in templates_text:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('description', 'ilike', item_text),
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),])
+                                    for exp_obj in experiment_object:
+                                        ids_list.append(exp_obj.id)
+                        elif data['search_in_all']:
+                            for title in titles:
+                                for item_text in templates_text:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('description', 'ilike', item_text),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),])
+                                    for exp_obj in experiment_object:
+                                        ids_list.append(exp_obj.id)
+                    elif data['end_date'] and data['start_date'] == False:
+                        end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for title in titles:
+                                for item_text in templates_text:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('description', 'ilike', item_text),
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('exp_date', '=', end_date),])
+                                    for exp_obj in experiment_object:
+                                        ids_list.append(exp_obj.id)
+                        elif data['search_in_all']:
+                            for title in titles:
+                                for item_text in templates_text:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('description', 'ilike', item_text),
+                                        ('exp_date', '=', end_date),])
+                                    for exp_obj in experiment_object:
+                                        ids_list.append(exp_obj.id)
+                    elif data['end_date'] == False and data['start_date']:
+                        start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for title in titles:
+                                for item_text in templates_text:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('description', 'ilike', item_text),
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('exp_date', '=', start_date),])
+                                    for exp_obj in experiment_object:
+                                        ids_list.append(exp_obj.id)
+                        elif data['search_in_all']:
+                            for title in titles:
+                                for item_text in templates_text:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('description', 'ilike', item_text),
+                                        ('exp_date', '=', start_date),])
+                                    for exp_obj in experiment_object:
+                                        ids_list.append(exp_obj.id)
+                    elif data['end_date'] == False and data['start_date'] == False:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for title in titles:
+                                for item_text in templates_text:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('description', 'ilike', item_text),
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),])
+                                    for exp_obj in experiment_object:
+                                        ids_list.append(exp_obj.id)
+                        elif data['search_in_all']:
+                            for title in titles:
+                                for item_text in templates_text:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('description', 'ilike', item_text),])
+                                    for exp_obj in experiment_object:
+                                        ids_list.append(exp_obj.id)
+                elif data['space_mean'] == 'and':
+                    if data['end_date'] and data['start_date']:
+                        start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', '=', data['contain_title']),
+                                    ('description', '=', data['body_contains']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('exp_date', '>=', start_date),
+                                    ('exp_date', '<=', end_date),
+                                    ])
+                        elif data['search_in_all']:
+                            experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', '=', data['contain_title']),
+                                    ('description', '=', data['body_contains']),
+                                    ('exp_date', '>=', start_date),
+                                    ('exp_date', '<=', end_date),
+                                    ])
+                    elif data['end_date'] == False and data['start_date']:
+                        start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', '=', data['contain_title']),
+                                    ('description', '=', data['body_contains']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('exp_date', '=', start_date),
+                                    ])
+                        elif data['search_in_all']:
+                            experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', '=', data['contain_title']),
+                                    ('description', '=', data['body_contains']),
+                                    ('exp_date', '=', start_date),
+                                    ])
+                    elif data['end_date'] and data['start_date'] == False:
+                        end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', '=', data['contain_title']),
+                                    ('description', '=', data['body_contains']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('exp_date', '=', end_date),
+                                    ])
+                        elif data['search_in_all']:
+                            experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', '=', data['contain_title']),
+                                    ('description', '=', data['body_contains']),
+                                    ('exp_date', '=', end_date),
+                                    ])
+                    elif data['end_date'] == False and data['start_date'] == False:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', '=', data['contain_title']),
+                                    ('description', '=', data['body_contains']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ])
+                        elif data['search_in_all']:
+                            experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', '=', data['contain_title']),
+                                    ('description', '=', data['body_contains']),
+                                    ])
+                    else:
+                        pass
+                    for exp_obj in experiment_object:
+                        ids_list.append(exp_obj.id)
+                else:
+                    if data['end_date'] and data['start_date']:
+                        start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('exp_date', '>=', start_date),
+                                    ('exp_date', '<=', end_date),
+                                    ])
+                        elif data['search_in_all']:
+                            experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '>=', start_date),
+                                    ('exp_date', '<=', end_date),
+                                    ])
+                    elif data['end_date'] == False and data['start_date']:
+                        start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('exp_date', '=', start_date),
+                                    ])
+                        elif data['search_in_all']:
+                            experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '=', start_date),
+                                    ])
+                    elif data['end_date'] and data['start_date'] == False:
+                        end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('exp_date', '=', end_date),
+                                    ])
+                        elif data['search_in_all']:
+                            experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '=', end_date),
+                                    ])
+                    elif data['end_date'] == False and data['start_date'] == False:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ])
+                        elif data['search_in_all']:
+                            experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ])
+                    else:
+                        pass
+                    for exp_obj in experiment_object:
+                        ids_list.append(exp_obj.id)
+                model = "labpal.experiment"
+                ids_set = set(ids_list)
+                ids_list = list(ids_set)
+            elif data['search_type'] == 'database':
+                if data['space_mean'] == 'or':
+                    titles = str(data['contain_title']).split()
+                    templates_text = str(data['body_contains']).split()
+                    if data['start_date'] and data['end_date']:
+                        start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for title in titles:
+                                for body_text in templates_text:
+                                    if data['ratting']:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('exp_date', '>=', start_date),
+                                            ('exp_date', '<=', end_date),
+                                            ('rating', '=', data['ratting']),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('exp_date', '>=', start_date),
+                                            ('exp_date', '<=', end_date),])
+                                    for db_obj in database_object:
+                                        ids_list.append(db_obj.id)
+                        elif data['search_in_all']:
+                            for title in titles:
+                                for body_text in templates_text:
+                                    if data['ratting']:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('exp_date', '>=', start_date),
+                                            ('exp_date', '<=', end_date),
+                                            ('rating', '=', data['ratting']),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('exp_date', '>=', start_date),
+                                            ('exp_date', '<=', end_date),])
+                                    for db_obj in database_object:
+                                        ids_list.append(db_obj.id)
+                    elif data['start_date'] and data['end_date'] == False:
+                        start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for title in titles:
+                                for body_text in templates_text:
+                                    if data['ratting']:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('exp_date', '=', start_date),
+                                            ('rating', '=', data['ratting']),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('exp_date', '=', start_date),])
+                                    for db_obj in database_object:
+                                        ids_list.append(db_obj.id)
+                        elif data['search_in_all']:
+                            for title in titles:
+                                for body_text in templates_text:
+                                    if data['ratting']:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('exp_date', '=', start_date),
+                                            ('rating', '=', data['ratting']),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('exp_date', '=', start_date),])
+                                    for db_obj in database_object:
+                                        ids_list.append(db_obj.id)
+                    elif data['start_date'] == False and data['end_date']:
+                        end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for title in titles:
+                                for body_text in templates_text:
+                                    if data['ratting']:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('exp_date', '=', end_date),
+                                            ('rating', '=', data['ratting']),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('exp_date', '=', end_date),])
+                                    for db_obj in database_object:
+                                        ids_list.append(db_obj.id)
+                        elif data['search_in_all']:
+                            for title in titles:
+                                for body_text in templates_text:
+                                    if data['ratting']:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('exp_date', '=', end_date),
+                                            ('rating', '=', data['ratting']),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('exp_date', '=', end_date),])
+                                    for db_obj in database_object:
+                                        ids_list.append(db_obj.id)
+                    elif data['start_date'] == False and data['end_date'] == False:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for title in titles:
+                                for body_text in templates_text:
+                                    if data['ratting']:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('rating', '=', data['ratting']),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),])
+                                    for db_obj in database_object:
+                                        ids_list.append(db_obj.id)
+                        elif data['search_in_all']:
+                            for title in titles:
+                                for body_text in templates_text:
+                                    if data['ratting']:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('rating', '=', data['ratting']),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),])
+                                    for db_obj in database_object:
+                                        ids_list.append(db_obj.id)
+                    else:
+                        pass
+                elif data['space_mean'] in ['and', False]:
+                    if data['start_date'] and data['end_date']:
+                        start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            if data['ratting']:
+                                database_object = self.env['labpal.database'].search([
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '>=', start_date),
+                                    ('exp_date', '<=', end_date),
+                                    ('rating', '=', data['ratting']),])
+                            else:
+                                database_object = self.env['labpal.database'].search([
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '>=', start_date),
+                                    ('exp_date', '<=', end_date),])
+                        elif data['search_in_all']:
+                            if data['ratting']:
+                                database_object = self.env['labpal.database'].search([
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike',  data['body_contains']),
+                                    ('exp_date', '>=', start_date),
+                                    ('exp_date', '<=', end_date),
+                                    ('rating', '=', data['ratting']),])
+                            else:
+                                database_object = self.env['labpal.database'].search([
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike',  data['body_contains']),
+                                    ('exp_date', '>=', start_date),
+                                    ('exp_date', '<=', end_date),])
+                    elif data['start_date'] and data['end_date'] == False:
+                        start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            if data['ratting']:
+                                database_object = self.env['labpal.database'].search([
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike',  data['body_contains']),
+                                    ('exp_date', '=', start_date),
+                                    ('rating', '=', data['ratting']),])
+                            else:
+                                database_object = self.env['labpal.database'].search([
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike',  data['body_contains']),
+                                    ('exp_date', '=', start_date),])
+                        elif data['search_in_all']:
+                            if data['ratting']:
+                                database_object = self.env['labpal.database'].search([
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '=', start_date),
+                                    ('rating', '=', data['ratting']),])
+                            else:
+                                database_object = self.env['labpal.database'].search([
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '=', start_date),])
+                    elif data['start_date'] == False and data['end_date']:
+                        end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            if data['ratting']:
+                                database_object = self.env['labpal.database'].search([
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '=', end_date),
+                                    ('rating', '=', data['ratting']),])
+                            else:
+                                database_object = self.env['labpal.database'].search([
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '=', end_date),])
+                        elif data['search_in_all']:
+                            if data['ratting']:
+                                database_object = self.env['labpal.database'].search([
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '=', end_date),
+                                    ('rating', '=', data['ratting']),])
+                            else:
+                                database_object = self.env['labpal.database'].search([
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '=', end_date),])
+                    elif data['start_date'] == False and data['end_date'] == False:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            if data['ratting']:
+                                database_object = self.env['labpal.database'].search([
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('rating', '=', data['ratting']),])
+                            else:
+                                database_object = self.env['labpal.database'].search([
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),])
+                        elif data['search_in_all']:
+                            if data['ratting']:
+                                database_object = self.env['labpal.database'].search([
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('rating', '=', data['ratting']),])
+                            else:
+                                database_object = self.env['labpal.database'].search([
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),])
+                    else:
+                        pass
+                    for db_obj in database_object:
+                        ids_list.append(db_obj.id)
+                model = 'labpal.database'
+                ids_set = set(ids_list)
+                ids_list = list(ids_set)
+            else:
+                if data['space_mean'] == 'or':
+                    titles = str(data['contain_title']).split()
+                    templates_text = str(data['body_contains']).split()
+                    if data['start_date'] and data['end_date']:
+                        start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for title in titles:
+                                for body_text in templates_text:
+                                    if data['ratting']:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('exp_date', '>=', start_date),
+                                            ('exp_date', '<=', end_date),
+                                            ('rating', '=', data['ratting']),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('exp_date', '>=', start_date),
+                                            ('exp_date', '<=', end_date),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                    for db_obj in database_object:
+                                        ids_list.append(db_obj.id)
+                        elif data['search_in_all']:
+                            for title in titles:
+                                for body_text in templates_text:
+                                    if data['ratting']:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('exp_date', '>=', start_date),
+                                            ('exp_date', '<=', end_date),
+                                            ('rating', '=', data['ratting']),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('exp_date', '>=', start_date),
+                                            ('exp_date', '<=', end_date),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                    for db_obj in database_object:
+                                        ids_list.append(db_obj.id)
+                    elif data['start_date'] and data['end_date'] == False:
+                        start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for title in titles:
+                                for body_text in templates_text:
+                                    if data['ratting']:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('exp_date', '=', start_date),
+                                            ('rating', '=', data['ratting']),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('exp_date', '=', start_date),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                    for db_obj in database_object:
+                                        ids_list.append(db_obj.id)
+                        elif data['search_in_all']:
+                            for title in titles:
+                                for body_text in templates_text:
+                                    if data['ratting']:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('exp_date', '=', start_date),
+                                            ('rating', '=', data['ratting']),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('exp_date', '=', start_date),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                    for db_obj in database_object:
+                                        ids_list.append(db_obj.id)
+                    elif data['start_date'] == False and data['end_date']:
+                        end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for title in titles:
+                                for body_text in templates_text:
+                                    if data['ratting']:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('exp_date', '=', end_date),
+                                            ('rating', '=', data['ratting']),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('exp_date', '=', end_date),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                    for db_obj in database_object:
+                                        ids_list.append(db_obj.id)
+                        elif data['search_in_all']:
+                            for title in titles:
+                                for body_text in templates_text:
+                                    if data['ratting']:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('exp_date', '=', end_date),
+                                            ('rating', '=', data['ratting']),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('exp_date', '=', end_date),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                    for db_obj in database_object:
+                                        ids_list.append(db_obj.id)
+                    elif data['start_date'] == False and data['end_date'] == False:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for title in titles:
+                                for body_text in templates_text:
+                                    if data['ratting']:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('rating', '=', data['ratting']),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                    for db_obj in database_object:
+                                        ids_list.append(db_obj.id)
+                        elif data['search_in_all']:
+                            for title in titles:
+                                for body_text in templates_text:
+                                    if data['ratting']:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('rating', '=', data['ratting']),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('description', 'ilike', body_text),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                    for db_obj in database_object:
+                                        ids_list.append(db_obj.id)
+                    else:
+                        pass
+                elif data['space_mean'] in ['and', False]:
+                    if data['start_date'] and data['end_date']:
+                        start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            if data['ratting']:
+                                database_object = self.env['labpal.database'].search([
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '>=', start_date),
+                                    ('exp_date', '<=', end_date),
+                                    ('rating', '=', data['ratting']),
+                                    ('types_of_item_id.name', '=', data['search_type'])])
+                            else:
+                                database_object = self.env['labpal.database'].search([
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '>=', start_date),
+                                    ('exp_date', '<=', end_date),
+                                    ('types_of_item_id.name', '=', data['search_type'])])
+                        elif data['search_in_all']:
+                            if data['ratting']:
+                                database_object = self.env['labpal.database'].search([
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike',  data['body_contains']),
+                                    ('exp_date', '>=', start_date),
+                                    ('exp_date', '<=', end_date),
+                                    ('rating', '=', data['ratting']),
+                                    ('types_of_item_id.name', '=', data['search_type'])])
+                            else:
+                                database_object = self.env['labpal.database'].search([
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike',  data['body_contains']),
+                                    ('exp_date', '>=', start_date),
+                                    ('exp_date', '<=', end_date),
+                                    ('types_of_item_id.name', '=', data['search_type'])])
+                    elif data['start_date'] and data['end_date'] == False:
+                        start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            if data['ratting']:
+                                database_object = self.env['labpal.database'].search([
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike',  data['body_contains']),
+                                    ('exp_date', '=', start_date),
+                                    ('rating', '=', data['ratting']),
+                                    ('types_of_item_id.name', '=', data['search_type'])])
+                            else:
+                                database_object = self.env['labpal.database'].search([
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike',  data['body_contains']),
+                                    ('exp_date', '=', start_date),
+                                    ('types_of_item_id.name', '=', data['search_type'])])
+                        elif data['search_in_all']:
+                            if data['ratting']:
+                                database_object = self.env['labpal.database'].search([
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '=', start_date),
+                                    ('rating', '=', data['ratting']),
+                                    ('types_of_item_id.name', '=', data['search_type'])])
+                            else:
+                                database_object = self.env['labpal.database'].search([
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '=', start_date),
+                                    ('types_of_item_id.name', '=', data['search_type'])])
+                    elif data['start_date'] == False and data['end_date']:
+                        end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            if data['ratting']:
+                                database_object = self.env['labpal.database'].search([
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '=', end_date),
+                                    ('rating', '=', data['ratting']),
+                                    ('types_of_item_id.name', '=', data['search_type'])])
+                            else:
+                                database_object = self.env['labpal.database'].search([
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '=', end_date),
+                                    ('types_of_item_id.name', '=', data['search_type'])])
+                        elif data['search_in_all']:
+                            if data['ratting']:
+                                database_object = self.env['labpal.database'].search([
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '=', end_date),
+                                    ('rating', '=', data['ratting']),
+                                    ('types_of_item_id.name', '=', data['search_type'])])
+                            else:
+                                database_object = self.env['labpal.database'].search([
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '=', end_date),
+                                    ('types_of_item_id.name', '=', data['search_type'])])
+                    elif data['start_date'] == False and data['end_date'] == False:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            if data['ratting']:
+                                database_object = self.env['labpal.database'].search([
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('rating', '=', data['ratting']),
+                                    ('types_of_item_id.name', '=', data['search_type'])])
+                            else:
+                                database_object = self.env['labpal.database'].search([
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('types_of_item_id.name', '=', data['search_type'])])
+                        elif data['search_in_all']:
+                            if data['ratting']:
+                                database_object = self.env['labpal.database'].search([
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('rating', '=', data['ratting']),
+                                    ('types_of_item_id.name', '=', data['search_type'])])
+                            else:
+                                database_object = self.env['labpal.database'].search([
+                                    ('name', 'ilike', data['contain_title']),
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('types_of_item_id.name', '=', data['search_type'])])
+                    else:
+                        pass
+                    for db_obj in database_object:
+                        ids_list.append(db_obj.id)
+                model = 'labpal.database'
+                ids_set = set(ids_list)
+                ids_list = list(ids_set)
+        elif data['contain_title'] and data['body_contains'] == False:
+            if data['search_type'] == 'experiment':
+                if data['end_date']:
+                    end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                if data['start_date']:
+                    start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                if data['space_mean'] == 'or':
+                    titles = str(data['contain_title']).split()
+                    if data['end_date'] and data['start_date']:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for title in titles:
+                                if data['status_id']:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),
+                                        ('exp_status', '=', int(data['status_id'][0]))])
+                                else:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),])
+                                for exp_obj in experiment_object:
+                                    ids_list.append(exp_obj.id)
+                        elif data['search_in_all']:
+                            for title in titles:
+                                if data['status_id']:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),
+                                        ('exp_status', '=', int(data['status_id'][0]))])
+                                else:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),])
+                                for exp_obj in experiment_object:
+                                    ids_list.append(exp_obj.id)
+                    elif data['end_date'] and data['start_date'] == False:
+                        # end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for title in titles:
+                                if data['status_id']:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('exp_date', '=', end_date),
+                                        ('exp_status', '=', int(data['status_id'][0]))])
+                                else:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('exp_date', '=', end_date),])
+                                for exp_obj in experiment_object:
+                                    ids_list.append(exp_obj.id)
+                        elif data['search_in_all']:
+                            for title in titles:
+                                if data['status_id']:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('exp_date', '=', end_date),
+                                        ('exp_status', '=', int(data['status_id'][0]))])
+                                else:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('exp_date', '=', end_date),])
+                                for exp_obj in experiment_object:
+                                    ids_list.append(exp_obj.id)
+                    elif data['end_date'] == False and data['start_date']:
+                        # start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for title in titles:
+                                if data['status_id']:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('exp_date', '=', start_date),
+                                        ('exp_status', '=', int(data['status_id'][0]))])
+                                else:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('exp_date', '=', start_date),])
+                                for exp_obj in experiment_object:
+                                    ids_list.append(exp_obj.id)
+                        elif data['search_in_all']:
+                            for title in titles:
+                                if data['status_id']:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('exp_date', '=', start_date),
+                                        ('exp_status', '=', int(data['status_id'][0]))])
+                                else:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('exp_date', '=', start_date),])
+                                for exp_obj in experiment_object:
+                                    ids_list.append(exp_obj.id)
+                    elif data['end_date'] == False and data['start_date'] == False:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for title in titles:
+                                if data['status_id']:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('exp_status', '=', int(data['status_id'][0]))])
+                                else:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),])
+                                for exp_obj in experiment_object:
+                                    ids_list.append(exp_obj.id)
+                        elif data['search_in_all']:
+                            for title in titles:
+                                if data['status_id']:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),
+                                        ('exp_status', '=', int(data['status_id'][0]))])
+                                else:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('exp_title', 'ilike', title),])
+                                for exp_obj in experiment_object:
+                                    ids_list.append(exp_obj.id)
+                elif data['space_mean'] in ['and', False]:
+                    if data['end_date'] and data['start_date']:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            if data['status_id']:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('exp_date', '>=', start_date),
+                                    ('exp_date', '<=', end_date),
+                                    ('exp_status', '=', int(data['status_id'][0]))])
+                            else:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('exp_date', '>=', start_date),
+                                    ('exp_date', '<=', end_date),])
+                        elif data['search_in_all']:
+                            if data['status_id']:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('exp_date', '>=', start_date),
+                                    ('exp_date', '<=', end_date),
+                                    ('exp_status', '=', int(data['status_id'][0]))])
+                            else:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('exp_date', '>=', start_date),
+                                    ('exp_date', '<=', end_date),])
+                    elif data['end_date'] and data['start_date'] == False:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            if data['status_id']:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('exp_date', '=', end_date),
+                                    ('exp_status', '=', int(data['status_id'][0]))])
+                            else:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('exp_date', '=', end_date),])
+                        elif data['search_in_all']:
+                            if data['status_id']:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('exp_date', '=', end_date),
+                                    ('exp_status', '=', int(data['status_id'][0]))])
+                            else:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('exp_date', '=', end_date),])
+                    elif data['end_date'] == False and data['start_date']:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            if data['status_id']:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('exp_date', '=', start_date),
+                                    ('exp_status', '=', int(data['status_id'][0]))])
+                            else:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('exp_date', '=', start_date),])
+                        elif data['search_in_all']:
+                            if data['status_id']:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('exp_date', '=', start_date),
+                                    ('exp_status', '=', int(data['status_id'][0]))])
+                            else:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('exp_date', '=', start_date),])
+                    elif data['end_date'] == False and data['start_date'] == False:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            if data['status_id']:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('exp_status', '=', int(data['status_id'][0]))])
+                            else:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),])
+                        elif data['search_in_all']:
+                            if data['status_id']:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),
+                                    ('exp_status', '=', int(data['status_id'][0]))])
+                            else:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('exp_title', 'ilike', data['contain_title']),])
+                    for exp_obj in experiment_object:
+                        ids_list.append(exp_obj.id)
+                model = 'labpal.experiment'
+                ids_set = set(ids_list)
+                ids_list = list(ids_set)
+            elif data['search_type'] != 'experiment':
+                if data['start_date']:
+                    start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                if data['end_date']:
+                    end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                if data['space_mean'] == 'or':
+                    titles = str(data['contain_title']).split()
+                    if data['start_date'] and data['end_date']:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for title in titles:
+                                if data['ratting']:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('exp_date', '>=', start_date),
+                                            ('exp_date', '<=', end_date),
+                                            ('rating', '=', data['ratting']),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('exp_date', '>=', start_date),
+                                            ('exp_date', '<=', end_date),
+                                            ('rating', '=', data['ratting']),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                else:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('exp_date', '>=', start_date),
+                                            ('exp_date', '<=', end_date),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('exp_date', '>=', start_date),
+                                            ('exp_date', '<=', end_date),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                for db_obj in database_object:
+                                    ids_list.append(db_obj.id)
+                        elif data['search_in_all']:
+                            for title in titles:
+                                if data['ratting']:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('exp_date', '>=', start_date),
+                                            ('exp_date', '<=', end_date),
+                                            ('rating', '=', data['ratting']),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('exp_date', '>=', start_date),
+                                            ('exp_date', '<=', end_date),
+                                            ('rating', '=', data['ratting']),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                else:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('exp_date', '>=', start_date),
+                                            ('exp_date', '<=', end_date),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('exp_date', '>=', start_date),
+                                            ('exp_date', '<=', end_date),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                for db_obj in database_object:
+                                    ids_list.append(db_obj.id)
+                    elif data['start_date'] and data['end_date'] == False:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for title in titles:
+                                if data['ratting']:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('exp_date', '=', start_date),
+                                            ('rating', '=', data['ratting']),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('exp_date', '=', start_date),
+                                            ('rating', '=', data['ratting']),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                else:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('exp_date', '=', start_date),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('exp_date', '=', start_date),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                for db_obj in database_object:
+                                    ids_list.append(db_obj.id)
+                        elif data['search_in_all']:
+                            for title in titles:
+                                if data['ratting']:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('exp_date', '=', start_date),
+                                            ('rating', '=', data['ratting']),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('exp_date', '=', start_date),
+                                            ('rating', '=', data['ratting']),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                else:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('exp_date', '=', start_date),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('exp_date', '=', start_date),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                for db_obj in database_object:
+                                    ids_list.append(db_obj.id)
+                    elif data['start_date'] == False and data['end_date']:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for title in titles:
+                                if data['ratting']:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('exp_date', '=', end_date),
+                                            ('rating', '=', data['ratting']),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('exp_date', '=', end_date),
+                                            ('rating', '=', data['ratting']),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                else:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('exp_date', '=', end_date),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('exp_date', '=', end_date),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                for db_obj in database_object:
+                                    ids_list.append(db_obj.id)
+                        elif data['search_in_all']:
+                            for title in titles:
+                                if data['ratting']:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('exp_date', '=', end_date),
+                                            ('rating', '=', data['ratting']),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('exp_date', '=', end_date),
+                                            ('rating', '=', data['ratting']),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                else:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('exp_date', '=', end_date),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('exp_date', '=', end_date),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                for db_obj in database_object:
+                                    ids_list.append(db_obj.id)
+                    elif data['start_date'] == False and data['end_date'] == False:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for title in titles:
+                                if data['ratting']:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('rating', '=', data['ratting']),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('rating', '=', data['ratting']),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                else:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('name', 'ilike', title),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                for db_obj in database_object:
+                                    ids_list.append(db_obj.id)
+                        elif data['search_in_all']:
+                            for title in titles:
+                                if data['ratting']:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('rating', '=', data['ratting']),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('rating', '=', data['ratting']),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                else:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('name', 'ilike', title),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                for db_obj in database_object:
+                                    ids_list.append(db_obj.id)
+                    else:
+                        pass
+                elif data['space_mean'] in ['and', False]:
+                    if data['start_date'] and data['end_date']:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            if data['ratting']:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),
+                                        ('rating', '=', data['ratting']),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),
+                                        ('rating', '=', data['ratting']),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                            else:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                        elif data['search_in_all']:
+                            if data['ratting']:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),
+                                        ('rating', '=', data['ratting']),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),
+                                        ('rating', '=', data['ratting']),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                            else:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                    elif data['start_date'] and data['end_date'] == False:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            if data['ratting']:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('exp_date', '=', start_date),
+                                        ('rating', '=', data['ratting']),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('exp_date', '=', start_date),
+                                        ('rating', '=', data['ratting']),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                            else:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('exp_date', '=', start_date),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('exp_date', '=', start_date),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                        elif data['search_in_all']:
+                            if data['ratting']:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('exp_date', '=', start_date),
+                                        ('rating', '=', data['ratting']),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('exp_date', '=', start_date),
+                                        ('rating', '=', data['ratting']),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                            else:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('exp_date', '=', start_date),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('exp_date', '=', start_date),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                    elif data['start_date'] == False and data['end_date']:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            if data['ratting']:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('exp_date', '=', end_date),
+                                        ('rating', '=', data['ratting']),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('exp_date', '=', end_date),
+                                        ('rating', '=', data['ratting']),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                            else:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('exp_date', '=', end_date),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('exp_date', '=', end_date),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                        elif data['search_in_all']:
+                            if data['ratting']:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('exp_date', '=', end_date),
+                                        ('rating', '=', data['ratting']),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('exp_date', '=', end_date),
+                                        ('rating', '=', data['ratting']),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                            else:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('exp_date', '=', end_date),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('exp_date', '=', end_date),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                    elif data['start_date'] == False and data['end_date'] == False:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            if data['ratting']:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('rating', '=', data['ratting']),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('rating', '=', data['ratting']),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                            else:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('name', 'ilike', data['contain_title']),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                        elif data['search_in_all']:
+                            if data['ratting']:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('rating', '=', data['ratting']),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('rating', '=', data['ratting']),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                            else:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('name', 'ilike', data['contain_title']),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('name', 'ilike', data['contain_title']),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                    else:
+                        pass
+                    for db_obj in database_object:
+                        ids_list.append(db_obj.id)
+                model = 'labpal.database'
+                ids_set = set(ids_list)
+                ids_list = list(ids_set)
+        elif data['contain_title'] == False and data['body_contains']:
+            if data['search_type'] == 'experiment':
+                if data['end_date']:
+                    end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                if data['start_date']:
+                    start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                if data['space_mean'] == 'or':
+                    description = str(data['body_contains']).split()
+                    if data['end_date'] and data['start_date']:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for text in description:
+                                if data['status_id']:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('description', 'ilike', text),
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),
+                                        ('exp_status', '=', int(data['status_id'][0]))])
+                                else:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('description', 'ilike', text),
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),])
+                                for exp_obj in experiment_object:
+                                    ids_list.append(exp_obj.id)
+                        elif data['search_in_all']:
+                            for text in description:
+                                if data['status_id']:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('description', 'ilike', text),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),
+                                        ('exp_status', '=', int(data['status_id'][0]))])
+                                else:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('description', 'ilike', text),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),])
+                                for exp_obj in experiment_object:
+                                    ids_list.append(exp_obj.id)
+                    elif data['end_date'] and data['start_date'] == False:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for text in description:
+                                if data['status_id']:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('description', 'ilike', text),
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('exp_date', '=', end_date),
+                                        ('exp_status', '=', int(data['status_id'][0]))])
+                                else:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('description', 'ilike', text),
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('exp_date', '=', end_date),])
+                                for exp_obj in experiment_object:
+                                    ids_list.append(exp_obj.id)
+                        elif data['search_in_all']:
+                            for text in description:
+                                if data['status_id']:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('description', 'ilike', text),
+                                        ('exp_date', '=', end_date),
+                                        ('exp_status', '=', int(data['status_id'][0]))])
+                                else:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('description', 'ilike', text),
+                                        ('exp_date', '=', end_date),])
+                                for exp_obj in experiment_object:
+                                    ids_list.append(exp_obj.id)
+                    elif data['end_date'] == False and data['start_date']:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for text in description:
+                                if data['status_id']:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('description', 'ilike', text),
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('exp_date', '=', start_date),
+                                        ('exp_status', '=', int(data['status_id'][0]))])
+                                else:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('description', 'ilike', text),
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('exp_date', '=', start_date),])
+                                for exp_obj in experiment_object:
+                                    ids_list.append(exp_obj.id)
+                        elif data['search_in_all']:
+                            for text in description:
+                                if data['status_id']:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('description', 'ilike', text),
+                                        ('exp_date', '=', start_date),
+                                        ('exp_status', '=', int(data['status_id'][0]))])
+                                else:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('description', 'ilike', text),
+                                        ('exp_date', '=', start_date),])
+                                for exp_obj in experiment_object:
+                                    ids_list.append(exp_obj.id)
+                    elif data['end_date'] == False and data['start_date'] == False:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for text in description:
+                                if data['status_id']:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('description', 'ilike', text),
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('exp_status', '=', int(data['status_id'][0]))])
+                                else:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('description', 'ilike', text),
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),])
+                                for exp_obj in experiment_object:
+                                    ids_list.append(exp_obj.id)
+                        elif data['search_in_all']:
+                            for text in description:
+                                if data['status_id']:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('description', 'ilike', text),
+                                        ('exp_status', '=', int(data['status_id'][0]))])
+                                else:
+                                    experiment_object = self.env['labpal.experiment'].search([
+                                        ('description', 'ilike', text),])
+                                for exp_obj in experiment_object:
+                                    ids_list.append(exp_obj.id)
+                elif data['space_mean'] in ['and', False]:
+                    if data['end_date'] and data['start_date']:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            if data['status_id']:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('exp_date', '>=', start_date),
+                                    ('exp_date', '<=', end_date),
+                                    ('exp_status', '=', int(data['status_id'][0]))])
+                            else:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('exp_date', '>=', start_date),
+                                    ('exp_date', '<=', end_date),])
+                        elif data['search_in_all']:
+                            if data['status_id']:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '>=', start_date),
+                                    ('exp_date', '<=', end_date),
+                                    ('exp_status', '=', int(data['status_id'][0]))])
+                            else:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '>=', start_date),
+                                    ('exp_date', '<=', end_date),])
+                    elif data['end_date'] and data['start_date'] == False:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            if data['status_id']:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('exp_date', '=', end_date),
+                                    ('exp_status', '=', int(data['status_id'][0]))])
+                            else:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('exp_date', '=', end_date),])
+                        elif data['search_in_all']:
+                            if data['status_id']:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '=', end_date),
+                                    ('exp_status', '=', int(data['status_id'][0]))])
+                            else:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '=', end_date),])
+                    elif data['end_date'] == False and data['start_date']:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            if data['status_id']:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('exp_date', '=', start_date),
+                                    ('exp_status', '=', int(data['status_id'][0]))])
+                            else:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('exp_date', '=', start_date),])
+                        elif data['search_in_all']:
+                            if data['status_id']:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '=', start_date),
+                                    ('exp_status', '=', int(data['status_id'][0]))])
+                            else:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_date', '=', start_date),])
+                    elif data['end_date'] == False and data['start_date'] == False:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            if data['status_id']:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),
+                                    ('exp_status', '=', int(data['status_id'][0]))])
+                            else:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('create_uid', '=', int(data['search_by_created_uid'])),])
+                        elif data['search_in_all']:
+                            if data['status_id']:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('description', 'ilike', data['body_contains']),
+                                    ('exp_status', '=', int(data['status_id'][0]))])
+                            else:
+                                experiment_object = self.env['labpal.experiment'].search([
+                                    ('description', 'ilike', data['body_contains']),])
+                    for exp_obj in experiment_object:
+                        ids_list.append(exp_obj.id)
+                model = 'labpal.experiment'
+                ids_set = set(ids_list)
+                ids_list = list(ids_set)
+            elif data['search_type'] != 'experiment':
+                if data['start_date']:
+                    start_date = datetime.datetime.strptime(data['start_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                if data['end_date']:
+                    end_date = datetime.datetime.strptime(data['end_date'], '%Y-%m-%d').strftime('%Y/%m/%d')
+                if data['space_mean'] == 'or':
+                    description = str(data['body_contains']).split()
+                    if data['start_date'] and data['end_date']:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for text in description:
+                                if data['ratting']:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('description', 'ilike', text),
+                                            ('exp_date', '>=', start_date),
+                                            ('exp_date', '<=', end_date),
+                                            ('rating', '=', data['ratting']),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('description', 'ilike', text),
+                                            ('exp_date', '>=', start_date),
+                                            ('exp_date', '<=', end_date),
+                                            ('rating', '=', data['ratting']),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                else:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('description', 'ilike', text),
+                                            ('exp_date', '>=', start_date),
+                                            ('exp_date', '<=', end_date),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('description', 'ilike', text),
+                                            ('exp_date', '>=', start_date),
+                                            ('exp_date', '<=', end_date),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                for db_obj in database_object:
+                                    ids_list.append(db_obj.id)
+                        elif data['search_in_all']:
+                            for text in description:
+                                if data['ratting']:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('description', 'ilike', text),
+                                            ('exp_date', '>=', start_date),
+                                            ('exp_date', '<=', end_date),
+                                            ('rating', '=', data['ratting']),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('description', 'ilike', text),
+                                            ('exp_date', '>=', start_date),
+                                            ('exp_date', '<=', end_date),
+                                            ('rating', '=', data['ratting']),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                else:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('description', 'ilike', text),
+                                            ('exp_date', '>=', start_date),
+                                            ('exp_date', '<=', end_date),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('description', 'ilike', text),
+                                            ('exp_date', '>=', start_date),
+                                            ('exp_date', '<=', end_date),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                for db_obj in database_object:
+                                    ids_list.append(db_obj.id)
+                    elif data['start_date'] and data['end_date'] == False:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for text in description:
+                                if data['ratting']:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('description', 'ilike', text),
+                                            ('exp_date', '=', start_date),
+                                            ('rating', '=', data['ratting']),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('description', 'ilike', text),
+                                            ('exp_date', '=', start_date),
+                                            ('rating', '=', data['ratting']),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                else:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('description', 'ilike', text),
+                                            ('exp_date', '=', start_date),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('description', 'ilike', text),
+                                            ('exp_date', '=', start_date),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                for db_obj in database_object:
+                                    ids_list.append(db_obj.id)
+                        elif data['search_in_all']:
+                            for text in description:
+                                if data['ratting']:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('description', 'ilike', text),
+                                            ('exp_date', '=', start_date),
+                                            ('rating', '=', data['ratting']),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('description', 'ilike', text),
+                                            ('exp_date', '=', start_date),
+                                            ('rating', '=', data['ratting']),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                else:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('description', 'ilike', text),
+                                            ('exp_date', '=', start_date),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('description', 'ilike', text),
+                                            ('exp_date', '=', start_date),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                for db_obj in database_object:
+                                    ids_list.append(db_obj.id)
+                    elif data['start_date'] == False and data['end_date']:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for text in description:
+                                if data['ratting']:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('description', 'ilike', text),
+                                            ('exp_date', '=', end_date),
+                                            ('rating', '=', data['ratting']),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('description', 'ilike', text),
+                                            ('exp_date', '=', end_date),
+                                            ('rating', '=', data['ratting']),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                else:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('description', 'ilike', text),
+                                            ('exp_date', '=', end_date),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('description', 'ilike', text),
+                                            ('exp_date', '=', end_date),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                for db_obj in database_object:
+                                    ids_list.append(db_obj.id)
+                        elif data['search_in_all']:
+                            for text in description:
+                                if data['ratting']:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('description', 'ilike', text),
+                                            ('exp_date', '=', end_date),
+                                            ('rating', '=', data['ratting']),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('description', 'ilike', text),
+                                            ('exp_date', '=', end_date),
+                                            ('rating', '=', data['ratting']),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                else:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('description', 'ilike', text),
+                                            ('exp_date', '=', end_date),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('description', 'ilike', text),
+                                            ('exp_date', '=', end_date),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                for db_obj in database_object:
+                                    ids_list.append(db_obj.id)
+                    elif data['start_date'] == False and data['end_date'] == False:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            for text in description:
+                                if data['ratting']:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('description', 'ilike', text),
+                                            ('rating', '=', data['ratting']),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('description', 'ilike', text),
+                                            ('rating', '=', data['ratting']),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                else:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('description', 'ilike', text),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('create_uid', '=', int(data['search_by_created_uid'])),
+                                            ('description', 'ilike', text),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                for db_obj in database_object:
+                                    ids_list.append(db_obj.id)
+                        elif data['search_in_all']:
+                            for text in description:
+                                if data['ratting']:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('description', 'ilike', text),
+                                            ('rating', '=', data['ratting']),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('description', 'ilike', text),
+                                            ('rating', '=', data['ratting']),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                else:
+                                    if data['search_type'] == 'database':
+                                        database_object = self.env['labpal.database'].search([
+                                            ('description', 'ilike', text),])
+                                    else:
+                                        database_object = self.env['labpal.database'].search([
+                                            ('description', 'ilike', text),
+                                            ('types_of_item_id.name', '=', data['search_type'])])
+                                for db_obj in database_object:
+                                    ids_list.append(db_obj.id)
+                    else:
+                        pass
+                elif data['space_mean'] in ['and', False]:
+                    if data['start_date'] and data['end_date']:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            if data['ratting']:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),
+                                        ('rating', '=', data['ratting']),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),
+                                        ('rating', '=', data['ratting']),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                            else:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                        elif data['search_in_all']:
+                            if data['ratting']:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),
+                                        ('rating', '=', data['ratting']),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),
+                                        ('rating', '=', data['ratting']),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                            else:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('exp_date', '>=', start_date),
+                                        ('exp_date', '<=', end_date),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                    elif data['start_date'] and data['end_date'] == False:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            if data['ratting']:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('exp_date', '=', start_date),
+                                        ('rating', '=', data['ratting']),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('exp_date', '=', start_date),
+                                        ('rating', '=', data['ratting']),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                            else:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('exp_date', '=', start_date),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('exp_date', '=', start_date),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                        elif data['search_in_all']:
+                            if data['ratting']:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('exp_date', '=', start_date),
+                                        ('rating', '=', data['ratting']),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('exp_date', '=', start_date),
+                                        ('rating', '=', data['ratting']),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                            else:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('exp_date', '=', start_date),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('exp_date', '=', start_date),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                    elif data['start_date'] == False and data['end_date']:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            if data['ratting']:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('exp_date', '=', end_date),
+                                        ('rating', '=', data['ratting']),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('exp_date', '=', end_date),
+                                        ('rating', '=', data['ratting']),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                            else:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('exp_date', '=', end_date),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('exp_date', '=', end_date),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                        elif data['search_in_all']:
+                            if data['ratting']:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('exp_date', '=', end_date),
+                                        ('rating', '=', data['ratting']),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('exp_date', '=', end_date),
+                                        ('rating', '=', data['ratting']),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                            else:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('exp_date', '=', end_date),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('exp_date', '=', end_date),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                    elif data['start_date'] == False and data['end_date'] == False:
+                        if data['search_by_created_uid'] and data['search_in_all'] == False:
+                            if data['ratting']:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('rating', '=', data['ratting']),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('rating', '=', data['ratting']),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                            else:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('description', 'ilike', data['body_contains']),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('create_uid', '=', int(data['search_by_created_uid'])),
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                        elif data['search_in_all']:
+                            if data['ratting']:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('rating', '=', data['ratting']),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('rating', '=', data['ratting']),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                            else:
+                                if data['search_type'] == 'database':
+                                    database_object = self.env['labpal.database'].search([
+                                        ('description', 'ilike', data['body_contains']),])
+                                else:
+                                    database_object = self.env['labpal.database'].search([
+                                        ('description', 'ilike', data['body_contains']),
+                                        ('types_of_item_id.name', '=', data['search_type'])])
+                    else:
+                        pass
+                    for db_obj in database_object:
+                        ids_list.append(db_obj.id)
+                model = 'labpal.database'
+                ids_set = set(ids_list)
+                ids_list = list(ids_set)
+        else:
+            pass
+        if model and len(ids_list) > 0:
+            return{
+                'views': [[False, 'kanban'],[False, "form"],[False, 'tree']],
+                'res_model': model,
+                'type': 'ir.actions.act_window',
+                'domain': [['id', 'in', ids_list]],
+            }
+        else:
+            return{
+                'views': [[False, "form"]],
+                'res_model': 'labpal.serach_model',
+                'type': 'ir.actions.act_window',
+                'target' : 'inline'
+            }
+
+
+
