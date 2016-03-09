@@ -1,2 +1,10 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_labpal_labpal,labpal.labpal,model_labpal_labpal,,1,0,0,0
+access_labpal_experiment,labpal.experiment,model_labpal_experiment,,1,1,1,1
+access_labpal_status,labpal.status,model_labpal_status,,1,1,1,1
+access_labpal_database,labpal.database,model_labpal_database,,1,1,1,1
+access_labpal_tag,labpal.tag,model_labpal_tag,,1,1,1,1
+access_labpal_types_of_item,labpal.types_of_item,model_labpal_types_of_item,,1,1,1,1
+access_labpal_todolist,labpal.todolist,model_labpal_todolist,,1,1,1,1
+access_labpal_filter_database,labpal.filter_database,model_labpal_filter_database,,1,1,1,1
+access_labpal_serach_model,labpal.serach_model,model_labpal_serach_model,,1,1,1,1
+access_labpal_template,labpal.template,model_labpal_template,,1,1,1,1
