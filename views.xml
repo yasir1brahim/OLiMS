@@ -71,17 +71,17 @@
             </field>
         </record>
         <!-- Search view -->
-        <!-- <record id="experiment_search_view" model="ir.ui.view">
+        <record id="experiment_search_view" model="ir.ui.view">
             <field name="name">experiment search view</field>
             <field name="model">labpal.experiment</field>
             <field name="arch" type="xml">
                 <search string="Experiments">
                     <field name="exp_title"/>
                     <field name="exp_status"/>
-                    <filter string="Action Items" name="my_requests_filter" domain="[('exp_status','=',exp_status)]" />
+                    <!-- <filter string="Action Items" name="my_requests_filter" domain="[]" context="{'group_by' : 'exp_status'}"/> -->
                 </search>
             </field>
-        </record> -->
+        </record>
         <!-- Kanban view -->
         <record id="experiment_kanban_view" model="ir.ui.view">
             <field name="name">Experiment Kanban</field>
@@ -351,6 +351,18 @@
                 </kanban>
             </field>
         </record>
+        <!-- Search view -->
+        <record id="database_search_view" model="ir.ui.view">
+            <field name="name">database search view</field>
+            <field name="model">labpal.database</field>
+            <field name="arch" type="xml">
+                <search string="Databases">
+                    <field name="name"/>
+                    <field name="types_of_item_id"/>
+                    <!-- <filter string="Action Items" name="my_requests_filter" domain="[]" context="{'group_by' : 'types_of_item_id'}"/> -->
+                </search>
+            </field>
+        </record>
         <record model="ir.actions.act_window" id="database_action_window">
             <field name="name">Databases</field>
             <field name="res_model">labpal.database</field>
@@ -454,24 +466,47 @@
                 </form>
         </field>
     </record>
-    <!--Add option to More dropdown in Filter Databases form viewt-->
-    <act_window id="launch_search_databases" name="Filter Databases"
-                res_model="labpal.filter_database"
-                view_mode="form"
-                view_type="form"
-                target="new"
-                key2="client_action_multi"/>
-    <!--Action to change selected Filter Type -->
+    <record model="ir.ui.view" id="view_experimentfilter_wizard_form">
+            <field name="name">labpal.filter_database.form</field>
+            <field name="model">labpal.filter_database</field>
+            <field name="arch" type="xml">
+                <form string="Filter Experiment">
+                    <separator colspan="4" string="Filter Experiment"/>
+                    <newline/>
+                    <group col="8" colspan="8">
+                    <field name="status_id" placeholder="Filter status" nolabel='1'/>
+                    <field name="order_by" nolabel='1' placeholder="Order by"/>
+                    <field name="sort_by" nolabel='1' placeholder="Sort"/>
+                </group>
+                    <group col="4" colspan="4">
+                        <button icon="gtk-ok" name="disaplay_filtered_experiment" string="Filter" type="object"/>
+                        <button icon="gtk-ok" name="disaplay_ordered_experiment" string="Order" type="object"/>
+                        <button icon="gtk-cancel" special="cancel" string="Cancel"/>
+                    </group>
+                </form>
+        </field>
+    </record>
+    <record id="launch_search_experiment" model="ir.actions.act_window">
+        <field name="name">Filter Experiments"</field>
+        <field name="res_model">labpal.filter_database</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="view_id" ref="view_experimentfilter_wizard_form"/>
+    </record>
     <record id="action_search_databases" model="ir.actions.act_window">
         <field name="name">Filter Databases</field>
         <!-- <field name="type">ir.actions.act_window</field> -->
         <field name="res_model">labpal.filter_database</field>
         <field name="view_type">form</field>
         <field name="view_mode">form</field>
-        <field name="target">new</field>
+        <field name="target">inline</field>
     </record>
-    <menuitem name="Filter" id="filter_menu" parent="labpal.menu_root" sequence="6"
-              action="launch_search_databases"/>
+    <menuitem name="Filters" id="filter_menu" parent="labpal.menu_root" sequence="6"/>
+    <menuitem name="Database" id="filter_database_menu" parent="labpal.filter_menu"
+              action="action_search_databases"/>
+    <menuitem name="Experiment" id="filter_experiment_menu" parent="labpal.filter_menu"
+              action="launch_search_experiment"/>
     
     <record id="action_todolist_launch" model="ir.actions.act_window">
             <field name="name">ToDoList</field>

@@ -78,7 +78,6 @@ class Status(models.Model):
 class Databases(models.Model):
     _name = 'labpal.database'
     _inherit = 'labpal.experiment'
-    _order = "name asc"
 
     _defaults = {'rating': lambda *a: AVAILABLE_PRIORITIES[0][0],
                  }
@@ -156,6 +155,8 @@ class FilterDatabase(models.TransientModel):
 #                                 default="sortby",
                                 select=True
                                 )
+    status_id = fields.Many2one('labpal.status',
+        string='Filter status')
 
     @api.multi
     def disaplay_filtered_database(self):
@@ -169,34 +170,57 @@ class FilterDatabase(models.TransientModel):
             return {
             'type': 'ir.actions.act_window',
             'res_model': 'labpal.database',
-            'views': [[False, 'tree']],
+            'views': [[False, 'kanban'],[False, 'tree'],[False, 'form']],
             'domain' : [('id', 'in', ids_list)]
             }
         else:
             return {
             'type': 'ir.actions.act_window',
             'res_model': 'labpal.database',
-            'views': [[False, 'tree']],
+            'views': [[False, 'kanban'],[False, 'tree'],[False, 'form']],
+            }
+    @api.multi
+    def disaplay_filtered_experiment(self):
+        data = self.read()[0]
+        ids_list = []
+        if data['status_id']:
+            experiment_res = self.env['labpal.experiment'].search([('exp_status',
+                                                            '=', data['status_id'][0])])
+            for ids in experiment_res:
+                ids_list.append(ids.id)
+            return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'labpal.experiment',
+            'views': [[False, 'kanban'],[False, 'tree'],[False, 'form']],
+            'domain' : [('id', 'in', ids_list)]
+            }
+        else:
+            return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'labpal.experiment',
+            'views': [[False, 'kanban'],[False, 'tree'],[False, 'form']],
             }
 
     @api.multi
     def disaplay_ordered_database(self):
         data = self.read()[0]
         ids_list = []
-        kanban_view = self.env.ref('labpal.database_kanban_view', False)
+        # kanban_view = self.env.ref('labpal.database_kanban_view', False)
         if data['order_by'] and data['sort_by']:
             sortBy = data['order_by'] + " " + data['sort_by']
             database_res = self.env['labpal.database'].search([], order=sortBy)
+            print database_res
             for ids in database_res:
                 ids_list.append(ids.id)
+            print ids_list
             return {
             'type': 'ir.actions.act_window',
             'res_model': 'labpal.database',
-            'views': [[kanban_view.id, 'kanban']],
+            'views': [[False, 'kanban'],[False, 'tree'],[False, 'form']],
             'domain' : [('id', 'in', ids_list)],
-            'view_mode': 'kanban',
-            'view_id': kanban_view.id,
-            'flags': {'action_buttons': True},
+            # 'view_mode': 'kanban',
+            # 'view_id': kanban_view.id,
+            # 'flags': {'action_buttons': True},
             }
         elif data['order_by']:
             sortBy = data['order_by'] + " " + 'desc'
@@ -206,20 +230,27 @@ class FilterDatabase(models.TransientModel):
             return {
             'type': 'ir.actions.act_window',
             'res_model': 'labpal.database',
-            'views': [[kanban_view.id, 'kanban']],
-            'domain' : [('id', 'in', ids_list)],
-            'view_mode': 'kanban',
-            'view_id': kanban_view.id,
-            'flags': {'action_buttons': True},
+            'views': [[False, 'kanban'],[False, 'tree'],[False, 'form']],
+            'domain' : [('id', 'in', [ids_list])],
+            # 'view_mode': 'kanban',
+            # 'view_id': kanban_view.id,
+            # 'flags': {'action_buttons': True},
             }
         else:
             return {
             'type': "ir.actions.act_window",
             'res_model': "labpal.database",
-            'views': [[kanban_view.id, "tree"]],
-            'view_mode': 'tree',
-            'view_id': kanban_view.id,
-            'target' : "current"
+            'views': [[False, 'kanban'],[False, 'tree'],[False, 'form']],
+            # 'view_mode': 'tree',
+            # 'view_id': kanban_view.id,
+            # 'target' : "current"
+            }
+    @api.multi
+    def disaplay_ordered_experiment(self):
+        return {
+            'type': "ir.actions.act_window",
+            'res_model': "labpal.experiment",
+            'views': [[False, 'kanban'],[False, 'tree'],[False, 'form']],
             }
 
 class SerachModel(models.TransientModel):
