@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+        <report 
+            id="report_experiment_model"
+            string="Experiment"
+            model="labpal.experiment" 
+            report_type="qweb-pdf"
+            file="labpal.report_experiment" 
+            name="labpal.report_experiment" 
+        />
+    </data>
+</openerp>

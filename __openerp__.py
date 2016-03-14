@@ -31,6 +31,8 @@
         'security/ir.model.access.csv',
         'views.xml',
         'templates.xml',
+        'labpal_report.xml',
+        'report_experiment.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
