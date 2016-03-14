@@ -209,10 +209,8 @@ class FilterDatabase(models.TransientModel):
         if data['order_by'] and data['sort_by']:
             sortBy = data['order_by'] + " " + data['sort_by']
             database_res = self.env['labpal.database'].search([], order=sortBy)
-            print database_res
             for ids in database_res:
                 ids_list.append(ids.id)
-            print ids_list
             return {
             'type': 'ir.actions.act_window',
             'res_model': 'labpal.database',

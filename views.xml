@@ -514,7 +514,6 @@
             <field name="res_model">labpal.todolist</field>
             <field name="view_type">form</field>
             <field name="view_mode">kanban,form</field>
-            <field name="target">current</field>
         </record>
         
     
@@ -526,8 +525,6 @@
                     <group col="4">
                         <field name="name" />
                     </group>
-                    <footer> <button name="write" type="object" string="Save"/> or 
-                   <button name="cancel" string="Cancel" special="cancel" class="oe_link"/> </footer>
                 </form>
             </field>
         </record>
@@ -540,18 +537,24 @@
             <field name="model">labpal.todolist</field>
             <field name="type">kanban</field>
             <field name="arch" type="xml">
-                <kanban>
-                    <!--list of field to be loaded -->
-                    <field name="name" />
+                <kanban class="o_kanban_small_column">
+                    <field name="name"/>
                     <templates>
-                    <t t-name="kanban-box">
-                            <div class="oe_product_vignette">
-                                <div class="oe_product_desc">
-                                    <h4>
-                                        <a type="edit">
-                                            <field name="name"></field>
-                                        </a>
-                                    </h4>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="o_dropdown_kanban">
+                                    <a class="dropdown-toggle btn" data-toggle="dropdown" href="#" >
+                                        <span class="fa fa-bars fa-lg"/>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <li><a type="edit">Edit</a></li>
+                                        <li><a type="delete">Delete</a></li>
+                                    </ul>
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <div>
+                                        <strong><field name="name"/></strong>
+                                    </div>
                                 </div>
                             </div>
                         </t>
