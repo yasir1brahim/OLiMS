@@ -15,6 +15,12 @@
             <field name="model">labpal.experiment</field>
             <field name="arch" type="xml">
                 <form string="Experiment Form">
+                    <header>
+        <!--The oe_highlight class gives the button a red color when it is saved.
+        It is usually used to indicate the expected behaviour. -->
+            <button name="get_pdf" string="Generate PDF file for this Experiment" type="object" class="btn-primary"/>
+            <button name="get_csv" attachment_use="1" string="Generate CSV file for this Experiment" type="object" class="oe_highlight"/>
+        </header>
                     <field name='template_id' placeholder="create from template"/>
                     <script type="text/javascript">
                         $(document).ready(function() {
@@ -270,6 +276,10 @@
     <field name="priority" eval="1"/>
     <field name="arch" type="xml">
         <form string="Databases">
+            <header>
+                 <button name="get_pdf_db" string="Generate PDF file for this Database" type="object" class="btn-primary"/>
+                 <button name="get_csv_db" string="Generate CSV file for this Database" type="object" class="oe_highlight"/>
+            </header>
             <script type="text/javascript">
                         $(document).ready(function() {
                         //jquery

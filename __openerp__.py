@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','web'],
+    'depends': ['base','web','report'],
     'css': ['static/css/js/*.css'],
     'qweb': ['static/src/xml/*.xml'],
     'installable': True,
@@ -31,8 +31,15 @@
         'security/ir.model.access.csv',
         'views.xml',
         'templates.xml',
-        'labpal_report.xml',
-        'report_experiment.xml'
+        #'labpal_report.xml',
+        #'report_experiment.xml',
+        'pdf_template.xml',
+        'topdf.xml',
+        'pdf_db_template.xml',
+        'topdf_db.xml',
+        #'tocsv.xml',
+        'csv_template.xml',
+        'csvdb_template.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

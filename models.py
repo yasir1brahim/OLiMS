@@ -1,8 +1,33 @@
 # -*- coding: utf-8 -*-
 
+import datetime
+import base64
 from openerp import models, fields, api
 from openerp.tools.translate import _
-import datetime
+from openerp.osv import osv
+import sys
+import psycopg2
+from openerp.report import report_sxw
+import logging
+import re
+import time
+import os
+import webbrowser
+from os.path import expanduser
+import subprocess
+import unicodedata
+from HTMLParser import HTMLParser
+import Tkinter as tk
+import tkFileDialog as filedialog
+import shutil
+import tempfile
+import urllib2
+import urllib
+from pyramid.response import Response
+from StringIO import StringIO
+import csv
+import web
+
 
 AVAILABLE_PRIORITIES = [
     ('0', 'Normal'),
@@ -12,6 +37,15 @@ AVAILABLE_PRIORITIES = [
     ('4', 'High'),
     ('5', 'Very High'),
     ]
+
+class MLStripper(HTMLParser):
+    def __init__(self):
+        self.reset()
+        self.fed = []
+    def handle_data(self, d):
+        self.fed.append(d)
+    def get_data(self):
+        return ''.join(self.fed)
 
 class Experiment(models.Model):
     _name = 'labpal.experiment'
@@ -41,6 +75,187 @@ class Experiment(models.Model):
     template_id = fields.Many2one('labpal.template',
                                   string='Template')
 
+    @api.multi
+    def get_csv(self):
+
+        #filename = expanduser("~")
+        #filename = os.path.join('labpal.csv')
+
+       # if sys.platform == 'darwin':
+           # def openFolder(path):
+            #    subprocess.check_call(['open', '--', path])
+        #elif sys.platform == 'linux2':
+         #   def openFolder(path):
+          #      subprocess.check_call(['xdg-open', '--', path])
+        #elif sys.platform == 'win32':
+         #   def openFolder(path):
+          #      subprocess.check_call(['explorer', path])
+
+
+        #query = "SELECT exp_title,exp_date, description FROM labpal_experiment where id="+ str(self.id) + ""
+
+        file_csv = tempfile.gettempdir()
+        print "file", file_csv
+        file_csv = os.path.join(file_csv,'labpal.csv')
+    
+        query_desc = "SELECT description FROM labpal_experiment where id="+ str(self.id) + ""
+
+
+        join_q = "SELECT tag_id FROM experiment_tag_rel where experiment_id="+ str(self.id) + ""
+        conn = psycopg2.connect("dbname = 'labpal' user = 'dev' host = 'localhost' password = 'labpal9'")
+        cur = conn.cursor()
+
+        cur.execute(join_q)
+        tagid = cur.fetchone()
+        tagid = str(tagid[0])
+
+        query = "select t1.exp_title,t1.exp_date,t2.name,t1.description from labpal_experiment t1,labpal_tag t2 where t1.id="+str(self.id)+" and t2.id ="+ tagid+""
+
+        cur.execute(query_desc)
+
+        result = cur.fetchone()
+    
+        #result=[result[0] for result in cur.fetchall()]
+        result = "'"+result[0]+"'"
+
+        #p = re.compile(r'<.*?>')
+    
+        s = MLStripper()
+        s.feed(result)
+        result = s.get_data()
+
+        result = result.replace('/n','')
+    
+
+        update_query = "UPDATE labpal_experiment SET description="+result+" WHERE id="+str(self.id)+""  
+
+        #print update_query
+
+        cur.execute(update_query)
+        conn.commit()
+
+        def GET(self):
+        
+            outputquery = "COPY ({0}) TO STDOUT WITH CSV HEADER".format(query)
+
+        #root = tk.Tk()
+        #root.withdraw()
+        #filename = filedialog.asksaveasfilename()
+        #filename = os.path.join('.csv')
+
+        #strIO = StringIO.StringIO()
+       # def POST(self):
+            csv_file = StringIO()
+            csv_writer = csv.writer(csv_file)
+            web.header('Content-Type','text/csv')
+            web.header('Content-disposition', 'attachment; filename=yourfilename.csv')
+            return csv_file.getvalue()
+        #response = urllib2.urlopen('http://www.google.com')
+        #html = response.read() 
+       # print file_csv
+       # file = '/home/developer/Desktop/LABPAL/labpal.csv'
+        #with open(file, 'wb') as f:
+         #       cur.copy_expert(outputquery , f)
+          #      cur.copy_expert(outputquery, f)
+        conn.close()
+
+
+        #testfile = urllib.URLopener()
+        #testfile.retrieve('/home/developer/Desktop/LABPAL/labpal.csv', "file.gz")
+
+       #resp = Response()
+        #resp.content_type = 'text/csv'
+        #resp.content_disposition = 'attachment;filename="/home/developer/Desktop/LABPAL/labpal.csv"'
+        #Response['Content-Disposition'] = 'attachment; filename="/home/developer/Desktop/LABPAL/labpal.csv"'
+
+        #shutil.move(file_csv, filename)
+        #os.remove(file_csv)
+        #return outputquery
+        #path = os.path.expanduser(filename)
+        #logFile = open(path, 'r+')
+        #webbrowser.open(filename)
+        
+        #print file
+        #return file
+
+    
+
+    @api.multi
+    def get_csv_db(self):
+        filename = expanduser("~")
+        filename = os.path.join('labpaldb.csv')
+
+       # if sys.platform == 'darwin':
+           # def openFolder(path):
+            #    subprocess.check_call(['open', '--', path])
+        #elif sys.platform == 'linux2':
+         #   def openFolder(path):
+          #      subprocess.check_call(['xdg-open', '--', path])
+        #elif sys.platform == 'win32':
+         #   def openFolder(path):
+          #      subprocess.check_call(['explorer', path])
+
+
+
+        query_desc = "SELECT description FROM labpal_database where id="+ str(self.id) + ""
+        join_q = "SELECT tag_id FROM database_tag_rel where database_id="+ str(self.id) + ""
+
+        conn = psycopg2.connect("dbname = 'labpal' user = 'dev' host = 'localhost' password = 'labpal9'")
+        cur = conn.cursor()
+
+        cur.execute(join_q)
+        tagid = cur.fetchone()
+        tagid = str(tagid[0])
+
+        query = "select t1.name,t1.exp_date,t2.name,t1.description from labpal_database t1,labpal_tag t2 where t1.id="+str(self.id)+" and t2.id ="+ tagid+""
+
+
+
+        cur.execute(query_desc)
+
+        result = cur.fetchone()
+        print result[0]
+        #result=[result[0] for result in cur.fetchall()]
+        result = "'"+result[0]+"'"
+        print result
+        s = MLStripper()
+        s.feed(result)
+        result = s.get_data()
+        result = result.replace('/n','')
+        
+        #result = str(result)
+        
+        print result
+
+        update_query = "UPDATE labpal_database SET description="+result+" WHERE id="+str(self.id)+""  
+
+        #print update_query
+
+        cur.execute(update_query)
+        conn.commit()
+
+        outputquery = "COPY ({0}) TO STDOUT WITH CSV HEADER".format(query)
+
+        with open(filename, 'w+') as f:
+                cur.copy_expert(outputquery , f)
+                #cur.copy_expert(outputquery, f)
+        conn.close()
+        #return outputquery
+        #path = os.path.expanduser(filename)
+        #logFile = open(path, 'r+')
+        webbrowser.open(filename)
+        return True
+
+    @api.multi
+    def get_pdf(self):
+        #self.filtered(lambda s: s.state == 'draft').write({'state': 'sent'})
+        return self.env['report'].get_action(self, 'labpal.pdf_template')
+
+    @api.multi    
+    def get_pdf_db(self):
+        #self.filtered(lambda s: s.state == 'draft').write({'state': 'sent'})
+        return self.env['report'].get_action(self, 'labpal.pdf_db_template')    
+
     @api.model
     def _get_default_status(self):
         res = self.env['labpal.status'].search([('default_status','=',True)])
@@ -51,6 +266,65 @@ class Experiment(models.Model):
     _defaults = {
      'exp_status':_get_default_status,
      }
+
+
+
+    @api.multi
+    def get_zip():
+
+
+        file_csv = tempfile.gettempdir()
+
+        query_desc = "SELECT description FROM labpal_experiment where id="+ str(self.id) + ""
+
+
+        join_q = "SELECT tag_id FROM experiment_tag_rel where experiment_id="+ str(self.id) + ""
+        conn = psycopg2.connect("dbname = 'labpal' user = 'dev' host = 'localhost' password = 'labpal9'")
+        cur = conn.cursor()
+
+        cur.execute(join_q)
+        tagid = cur.fetchone()
+        tagid = str(tagid[0])
+
+        query = "select t1.exp_title,t1.exp_date,t2.name,t1.description from labpal_experiment t1,labpal_tag t2 where t1.id="+str(self.id)+" and t2.id ="+ tagid+""
+
+        cur.execute(query_desc)
+
+        result = cur.fetchone()
+
+        result = "'"+result[0]+"'"
+        
+        s = MLStripper()
+        s.feed(result)
+        result = s.get_data()
+
+        result = result.replace('/n','')
+
+        update_query = "UPDATE labpal_experiment SET description="+result+" WHERE id="+str(self.id)+""  
+
+        cur.execute(update_query)
+        conn.commit()
+
+        outputquery = "COPY ({0}) TO STDOUT WITH CSV HEADER".format(query)
+
+
+        
+
+        with open(file_csv, 'w+') as f:
+                cur.copy_expert(outputquery , f)
+                #cur.copy_expert(outputquery, f)
+        conn.close()
+        
+        filename = filedialog.asksaveasfilename()
+                
+        shutil.make_archive(filename,'zip','/home/developer/Desktop/LABPAL/Reports/')
+
+        shutil.move(file_csv, filename)
+        
+        webbrowser.open(filename)
+
+
+
     @api.onchange('template_id')
     def _onchange_template(self):
         for record in self:
@@ -63,6 +337,11 @@ class Experiment(models.Model):
 #     @api.depends('value')
 #     def _value_pc(self):
 #         self.value2 = float(self.value) / 100
+
+
+
+
+
 class Status(models.Model):
 
     _name = 'labpal.status'

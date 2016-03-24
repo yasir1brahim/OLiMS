@@ -3,6 +3,7 @@ from openerp import http
 import openerp
 from werkzeug.utils import redirect
 
+
 class Labpal(http.Controller):
     @http.route('/experiment/new/', auth='public', website=True)
     def index(self, **kw):
