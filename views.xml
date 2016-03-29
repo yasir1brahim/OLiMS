@@ -19,7 +19,9 @@
         <!--The oe_highlight class gives the button a red color when it is saved.
         It is usually used to indicate the expected behaviour. -->
             <button name="get_pdf" string="Generate PDF file for this Experiment" type="object" class="btn-primary"/>
-            <button name="get_csv" attachment_use="1" string="Generate CSV file for this Experiment" type="object" class="oe_highlight"/>
+            <button name="csv_http" string="Generate CSV file for this Experiment" type="object" class="btn-primary"/>
+            <button name="get_zip_test" string="Generate Compressed files for this Experiment" type="object" class="btn-primary"/>
+            <button name="send_email" string="Generate Email" type="object" class="btn-primary"/>
         </header>
                     <field name='template_id' placeholder="create from template"/>
                     <script type="text/javascript">

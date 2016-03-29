@@ -21,12 +21,14 @@ import Tkinter as tk
 import tkFileDialog as filedialog
 import shutil
 import tempfile
-import urllib2
-import urllib
-from pyramid.response import Response
 from StringIO import StringIO
 import csv
-import web
+from openerp import http
+from openerp.http import request
+
+
+
+#from openerp.http import request
 
 
 AVAILABLE_PRIORITIES = [
@@ -48,6 +50,7 @@ class MLStripper(HTMLParser):
         return ''.join(self.fed)
 
 class Experiment(models.Model):
+
     _name = 'labpal.experiment'
 
     tag_ids = fields.Many2many('labpal.tag',
@@ -75,30 +78,30 @@ class Experiment(models.Model):
     template_id = fields.Many2one('labpal.template',
                                   string='Template')
 
+
+
+
+
+    @api.multi
+    def csv_http(self):
+        return {
+             'type' : 'ir.actions.act_url',
+             'url': '/web/binary/download_document?model=wizard.product.stock.report&field=datas&id=%s&filename=product_stock.xls'%(self.id),
+             'target': 'self',
+                }    
+
+
+
     @api.multi
     def get_csv(self):
 
-        #filename = expanduser("~")
-        #filename = os.path.join('labpal.csv')
+        print "IN GET CSV"
 
-       # if sys.platform == 'darwin':
-           # def openFolder(path):
-            #    subprocess.check_call(['open', '--', path])
-        #elif sys.platform == 'linux2':
-         #   def openFolder(path):
-          #      subprocess.check_call(['xdg-open', '--', path])
-        #elif sys.platform == 'win32':
-         #   def openFolder(path):
-          #      subprocess.check_call(['explorer', path])
+        
 
+        print "DATA"
 
-        #query = "SELECT exp_title,exp_date, description FROM labpal_experiment where id="+ str(self.id) + ""
-
-        file_csv = tempfile.gettempdir()
-        print "file", file_csv
-        file_csv = os.path.join(file_csv,'labpal.csv')
-    
-        query_desc = "SELECT description FROM labpal_experiment where id="+ str(self.id) + ""
+        query_desc="SELECT description FROM labpal_experiment where id="+ str(self.id) + ""
 
 
         join_q = "SELECT tag_id FROM experiment_tag_rel where experiment_id="+ str(self.id) + ""
@@ -134,9 +137,8 @@ class Experiment(models.Model):
         cur.execute(update_query)
         conn.commit()
 
-        def GET(self):
         
-            outputquery = "COPY ({0}) TO STDOUT WITH CSV HEADER".format(query)
+        outputquery = "COPY ({0}) TO STDOUT WITH CSV HEADER".format(query)
 
         #root = tk.Tk()
         #root.withdraw()
@@ -145,11 +147,32 @@ class Experiment(models.Model):
 
         #strIO = StringIO.StringIO()
        # def POST(self):
-            csv_file = StringIO()
-            csv_writer = csv.writer(csv_file)
-            web.header('Content-Type','text/csv')
-            web.header('Content-disposition', 'attachment; filename=yourfilename.csv')
-            return csv_file.getvalue()
+        #cherrypy.response.headers['Content-Type'] = 'text/csv'
+        #cherrypy.response.headers['Content-Disposition'] = "attachment; filename=test.csv"
+            
+        csv_file = StringIO()
+        csv_writer = csv.writer(csv_file)
+        csv_writer.writerow(["1","a","b","c"])
+
+        conn.close()
+
+        #response = HttpResponse(get_csv(), mimetype="text/csv")
+        #response["Content-Disposition"] = "attachment; filename=test.csv"
+        
+        print "CONTENTS", csv_file.getvalue()
+        #return request.make_response(csv_file.getvalue(),
+         #                   [('Content-Type', 'application/octet-stream'),
+          #                   ('Content-Disposition', content_disposition('test.csv'))]) 
+
+
+
+
+
+        #return response
+        #return csv_file.getvalue()
+        #web.header('Content-Type','text/csv')
+        #web.header('Content-disposition', 'attachment; filename=yourfilename.csv')
+        #return csv_file.getvalue()
         #response = urllib2.urlopen('http://www.google.com')
         #html = response.read() 
        # print file_csv
@@ -157,8 +180,7 @@ class Experiment(models.Model):
         #with open(file, 'wb') as f:
          #       cur.copy_expert(outputquery , f)
           #      cur.copy_expert(outputquery, f)
-        conn.close()
-
+       
 
         #testfile = urllib.URLopener()
         #testfile.retrieve('/home/developer/Desktop/LABPAL/labpal.csv', "file.gz")
@@ -249,6 +271,7 @@ class Experiment(models.Model):
     @api.multi
     def get_pdf(self):
         #self.filtered(lambda s: s.state == 'draft').write({'state': 'sent'})
+        file = self.env['report'].get_action(self, 'labpal.pdf_template')
         return self.env['report'].get_action(self, 'labpal.pdf_template')
 
     @api.multi    
@@ -268,9 +291,13 @@ class Experiment(models.Model):
      }
 
 
-
     @api.multi
     def get_zip():
+        file = self.env['report'].get_action(self, 'labpal.pdf_template')
+
+
+    @api.multi
+    def get_zip_test(self):
 
 
         file_csv = tempfile.gettempdir()
@@ -309,20 +336,23 @@ class Experiment(models.Model):
 
 
         
-
-        with open(file_csv, 'w+') as f:
+        
+        with open('test.csv', 'w+') as f:
                 cur.copy_expert(outputquery , f)
                 #cur.copy_expert(outputquery, f)
         conn.close()
         
-        filename = filedialog.asksaveasfilename()
-                
-        shutil.make_archive(filename,'zip','/home/developer/Desktop/LABPAL/Reports/')
+        filename = filedialog.asksaveasfilename()        
+        shutil.make_archive(filename,'zip','test.csv')
 
-        shutil.move(file_csv, filename)
+        #shutil.move(file_csv, filename)
         
         webbrowser.open(filename)
 
+
+    @api.multi
+    def send_email():
+        pass
 
 
     @api.onchange('template_id')

@@ -38,8 +38,6 @@
         'pdf_db_template.xml',
         'topdf_db.xml',
         #'tocsv.xml',
-        'csv_template.xml',
-        'csvdb_template.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
