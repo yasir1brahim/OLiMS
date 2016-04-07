@@ -9,6 +9,7 @@ from fields.file_field import FileField
 from fields.reference_field import ReferenceField
 from fields.widget.widget import StringWidget, TextAreaWidget, BooleanWidget, FileWidget, DateTimeWidget
 from openerp.tools.translate import _
+from openerp.exceptions import Warning
 schema = (
 
     StringField('Instrument',
@@ -158,10 +159,6 @@ schema = (
 class Instrument(models.Model, BaseOLiMSModel):
     _name = 'olims.instrument'
     _rec_name = 'Instrument'
-    
-    _sql_constraints = [
-            ('SerialNo', 'unique(SerialNo)', 'The serial number that uniquely identifies the instrument'),
-    ]
 
     @api.model
     def create(self, values):
@@ -174,5 +171,15 @@ class Instrument(models.Model, BaseOLiMSModel):
         MessageAlertsObjects.create(alert_message_vals)
         return new_record
 
+    @api.one
+    @api.constrains("SerialNo")
+    def check_unique_serial_number(self):
+        if self.SerialNo :
+            filters = [("SerialNo", '=', self.SerialNo),
+                       ]
+            instrument_ids = self.search(filters)
+            if len(instrument_ids) > 1:
+                raise Warning(
+                    _('There can not be two instruments with the same serial number.'))
 
 Instrument.initialze(schema)

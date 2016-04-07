@@ -8,7 +8,8 @@ from fields.integer_field import IntegerField
 from fields.fixed_point_field import FixedPointField
 from fields.text_field import TextField
 from fields.widget.widget import *
-from openerp import fields, models
+from openerp import fields, models, api
+from openerp.exceptions import Warning
 
 SERVICE_POINT_OF_CAPTURE =(
                            ('field', _('Field')),
@@ -551,10 +552,6 @@ schema = (StringField('Service',
 class AnalysisService(models.Model, BaseOLiMSModel):
     _name = 'olims.analysis_service'
     _rec_name = 'Service'
-    # marked Keyword field "unique" 
-    _sql_constraints = [
-        ('uniq_Keyword', 'unique(Keyword)', "The unique keyword used to identify the analysis service."),
-    ]
 
     def computeTotalPrice(self):
         """ compute total price """
@@ -678,6 +675,16 @@ class AnalysisService(models.Model, BaseOLiMSModel):
         """
         pass
 
+    @api.one
+    @api.constrains("Keyword")
+    def check_unique_keyword(self):
+        if self.Keyword :
+            filters = [("Keyword", '=', self.Keyword),
+                       ]
+            analysis_service_ids = self.search(filters)
+            if len(analysis_service_ids) > 1:
+                raise Warning(
+                    _('There can not be two services with the same keyword.'))
 
 
 
