@@ -1,9 +1,6 @@
 from openerp import fields
-import logging
 
 from fields_utils import boolean_value_based_mapper
-
-_logger = logging.getLogger(__name__)
 
 class ReferenceField(fields.Reference):
     """ type = 'reference' will auto inherit from the base class of Reference """

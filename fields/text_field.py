@@ -1,10 +1,5 @@
 from openerp import fields
-import logging
-
 from fields_utils import boolean_value_based_mapper, direct_mapper
-
-
-_logger = logging.getLogger(__name__)
 
 class TextField(fields.Text):
 #    type = 'text' will auto inherit from the base class of Text

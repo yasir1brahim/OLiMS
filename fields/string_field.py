@@ -1,10 +1,5 @@
 from openerp import fields
-import logging
-
 from fields_utils import boolean_value_based_mapper, direct_mapper
-
-
-_logger = logging.getLogger(__name__)
 
 class StringField(fields.Char):
 #    type = 'char' will auto inherit from the base class of Char
@@ -21,7 +16,6 @@ class StringField(fields.Char):
 
         
     def __bika_2_odoo_attrs_mapping(self):
-        _logger.info('***** GOT in __bika_2_odoo_attrs_mapping: ****')
         boolean_value_based_mapper(self, 'required', 1, 'required', True, False)
         boolean_value_based_mapper(self, 'searchable', 1, 'search', True, False)
         direct_mapper(self, 'description', 'help')

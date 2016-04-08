@@ -1,9 +1,4 @@
-import logging
-
 from openerp import fields, models,osv
-
-_logger = logging.getLogger(__name__)
-
 from dependencies.dependency import getToolByName
 from openerp.tools.translate import _
 from lims.utils import t

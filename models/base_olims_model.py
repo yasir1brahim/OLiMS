@@ -31,10 +31,6 @@ def add_a_getter(cls, fieldname):
     setattr(cls, getterTemplate.__name__, getterTemplate)
     pass
 
-import logging
-_logger = logging.getLogger(__name__)
-
-
 class BaseOLiMSModel(object):
     '''
     This is the base class of all OLiMS model. In addition to models.Model, every OLiMS model will 
@@ -51,12 +47,6 @@ class BaseOLiMSModel(object):
         # 1. make a model variable for it, and assign this field to this variable
         # 2. make getter methods for each model variable defined in step 1
         for field in schema:
-            
-            if field.args: 
-                _logger.warning('***** GOT in BaseOLiMSModel.initialze field.args: %r ****' % field.args)
-#             if field._attrs: 
-#                 _logger.warning('***** GOT in BaseOLiMSModel.initialze field._attrs: %r ****' % field._attrs)
-            
             add_a_field(cls, field)
             add_a_getter(cls, field.args['string'])
             pass

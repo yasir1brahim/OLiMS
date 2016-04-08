@@ -1,10 +1,5 @@
 from openerp import fields
-import logging
-
 from fields_utils import direct_mapper, boolean_value_based_mapper
-
-
-_logger = logging.getLogger(__name__)
 
 class FixedPointField(fields.Float):
 #    type = 'float' will auto inherit from the base class of Float

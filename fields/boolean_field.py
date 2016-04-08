@@ -1,10 +1,6 @@
 from openerp import fields
-import logging
 
 from fields_utils import direct_mapper
-
-
-_logger = logging.getLogger(__name__)
 
 class BooleanField(fields.Boolean):
 #    type = 'bool' will auto inherit from the base class of Boolean

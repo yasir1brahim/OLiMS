@@ -3,11 +3,7 @@
 "DuplicateAnalysis uses this as it's base.  This accounts for much confusion."
 import datetime
 import math
-import logging
 from openerp import fields, models
-
-_logger = logging.getLogger(__name__)
-
 from fields.string_field import StringField
 from fields.boolean_field import BooleanField
 from fields.fixed_point_field import FixedPointField

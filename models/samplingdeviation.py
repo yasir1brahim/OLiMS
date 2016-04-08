@@ -3,8 +3,6 @@ from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
 from fields.text_field import TextField
 from fields.widget.widget import TextAreaWidget
-import logging
-_logger = logging.getLogger(__name__)
 
 schema = (StringField('Sampling Deviation',
               required=1,

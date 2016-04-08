@@ -1,7 +1,5 @@
 from openerp import fields, models
 from base_olims_model import BaseOLiMSModel
-import logging
-_logger = logging.getLogger(__name__)
 
 schema = (fields.Many2one(string="Service",
                           comodel_name='olims.analysis_service',

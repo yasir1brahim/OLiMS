@@ -1,10 +1,5 @@
 from openerp import fields
-import logging
-
 from fields_utils import direct_mapper
-
-
-_logger = logging.getLogger(__name__)
 
 class FileField(fields.Binary):
 #    type = 'binary' will auto inherit from the base class of Binary
