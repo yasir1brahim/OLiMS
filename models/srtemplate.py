@@ -49,7 +49,7 @@ schema = (StringField('Template',
                  default=7
     ),
     fields.Many2one(string='ClientSRTemplate',
-                    comodl_name='olims.client'
+                    comodel_name='olims.client'
     ),
     fields.Many2one(string='Sampler',
         comodel_name="res.users",

@@ -19,7 +19,7 @@ schema = (fields.Many2one(string='Container',
     ),
             fields.Many2one(string='Analyses',
         required = False,
-        comodel_name='olims.analyses',
+        comodel_name='olims.analysis',
     ),
 
     DateTimeField('DatePreserved',
