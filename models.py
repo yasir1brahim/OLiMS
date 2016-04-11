@@ -3237,5 +3237,13 @@ class SerachModel(models.TransientModel):
                 'target' : 'inline'
             }
 
+class Preferences(models.TransientModel):
+    _inherit = 'res.config.settings'
+    _name = "labpal.preferences"
+
+    create_key_value = fields.Char('Create',default="Ctrl + N")
+    edit_key_value = fields.Char('Edit',default="Ctrl + E")
+    save_key_value = fields.Char('Save',default="Ctrl + S")
+    cancel_key_value = fields.Char('Cancel',default="Ctrl + Z")
 
 
