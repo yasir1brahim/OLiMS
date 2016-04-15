@@ -17,16 +17,25 @@ from os.path import expanduser
 import subprocess
 import unicodedata
 from HTMLParser import HTMLParser
-import Tkinter as tk
-import tkFileDialog as filedialog
+#import Tkinter as tk
+#import tkFileDialog as filedialog
 import shutil
 import tempfile
-import urllib2
-import urllib
-from pyramid.response import Response
-from StringIO import StringIO
+import StringIO
 import csv
-import web
+from openerp import http
+from openerp.http import request
+import openerp
+from openerp import SUPERUSER_ID
+import json
+import gzip
+import zipfile
+from zipfile import ZipFile
+import zlib
+
+
+
+#from openerp.http import request
 
 
 AVAILABLE_PRIORITIES = [
@@ -38,7 +47,15 @@ AVAILABLE_PRIORITIES = [
     ('5', 'Very High'),
     ]
 
+
+class Labpal_Mail(models.Model):
+
+    _name = 'labpal.mail'
+    email_From = fields.Char('Description')
+
+
 class MLStripper(HTMLParser):
+    print "MLSSS"
     def __init__(self):
         self.reset()
         self.fed = []
@@ -48,7 +65,12 @@ class MLStripper(HTMLParser):
         return ''.join(self.fed)
 
 class Experiment(models.Model):
+
     _name = 'labpal.experiment'
+    _inherit = 'mail.thread'
+    
+    # _inherit = 'mail.compose.message'
+    #_inherit = 'mail.compose.message'
 
     tag_ids = fields.Many2many('labpal.tag',
                               'experiment_tag_rel',
@@ -75,180 +97,72 @@ class Experiment(models.Model):
     template_id = fields.Many2one('labpal.template',
                                   string='Template')
 
+
+
+
+
     @api.multi
-    def get_csv(self):
-
-        #filename = expanduser("~")
-        #filename = os.path.join('labpal.csv')
-
-       # if sys.platform == 'darwin':
-           # def openFolder(path):
-            #    subprocess.check_call(['open', '--', path])
-        #elif sys.platform == 'linux2':
-         #   def openFolder(path):
-          #      subprocess.check_call(['xdg-open', '--', path])
-        #elif sys.platform == 'win32':
-         #   def openFolder(path):
-          #      subprocess.check_call(['explorer', path])
+    def csv_http(self):
 
 
-        #query = "SELECT exp_title,exp_date, description FROM labpal_experiment where id="+ str(self.id) + ""
+        data ={
+           "model": 'labpal.experiment',
+           "fields":[
+                       {"name":"id","label":"External ID"},
+                       {"name":"attachment_ids/id","label":"Attachments"},
+                       {"name":"create_uid/id","label":"Created by"},
+                       {"name":"create_date","label":"Created on"},
+                       {"name":"database_ids/id","label":"Database"},
+                       {"name":"exp_date","label":"Date"},
+                       {"name":"description","label":"Description"},
+                       {"name":"write_uid/id","label":"Last Updated by"},
+                       {"name":"write_date","label":"Last Updated on"},
+                       {"name":"exp_status/id","label":"Status"},
+                       {"name":"tag_ids/id","label":"Tags"},
+                       {"name":"template_id/id","label":"Template"},
+                       {"name":"exp_title","label":"Title"},
+                       {"name":"status_visibility","label":"Visibility"}
+                       ],
+            "ids":self.id,
+            "domain":[],
+            "context":{"lang":"en_US",
+                       "tz":False,
+                       "uid":1,
+                       "params":{
+                                 "action":79,
+                                 "page":0,
+#                                  "limit":80,
+                                 "view_type":"list",
+                                 "model": 'labpal.experiment',
+                                 "_push_me":False
+                                 }
+                       },
+            "import_compat":True
+            }
 
-        file_csv = tempfile.gettempdir()
-        print "file", file_csv
-        file_csv = os.path.join(file_csv,'labpal.csv')
+        print "GENERATING CSV"
     
-        query_desc = "SELECT description FROM labpal_experiment where id="+ str(self.id) + ""
-
-
-        join_q = "SELECT tag_id FROM experiment_tag_rel where experiment_id="+ str(self.id) + ""
-        conn = psycopg2.connect("dbname = 'labpal' user = 'dev' host = 'localhost' password = 'labpal9'")
-        cur = conn.cursor()
-
-        cur.execute(join_q)
-        tagid = cur.fetchone()
-        tagid = str(tagid[0])
-
-        query = "select t1.exp_title,t1.exp_date,t2.name,t1.description from labpal_experiment t1,labpal_tag t2 where t1.id="+str(self.id)+" and t2.id ="+ tagid+""
-
-        cur.execute(query_desc)
-
-        result = cur.fetchone()
-    
-        #result=[result[0] for result in cur.fetchall()]
-        result = "'"+result[0]+"'"
-
-        #p = re.compile(r'<.*?>')
-    
-        s = MLStripper()
-        s.feed(result)
-        result = s.get_data()
-
-        result = result.replace('/n','')
-    
-
-        update_query = "UPDATE labpal_experiment SET description="+result+" WHERE id="+str(self.id)+""  
-
-        #print update_query
-
-        cur.execute(update_query)
-        conn.commit()
-
-        def GET(self):
-        
-            outputquery = "COPY ({0}) TO STDOUT WITH CSV HEADER".format(query)
-
-        #root = tk.Tk()
-        #root.withdraw()
-        #filename = filedialog.asksaveasfilename()
-        #filename = os.path.join('.csv')
-
-        #strIO = StringIO.StringIO()
-       # def POST(self):
-            csv_file = StringIO()
-            csv_writer = csv.writer(csv_file)
-            web.header('Content-Type','text/csv')
-            web.header('Content-disposition', 'attachment; filename=yourfilename.csv')
-            return csv_file.getvalue()
-        #response = urllib2.urlopen('http://www.google.com')
-        #html = response.read() 
-       # print file_csv
-       # file = '/home/developer/Desktop/LABPAL/labpal.csv'
-        #with open(file, 'wb') as f:
-         #       cur.copy_expert(outputquery , f)
-          #      cur.copy_expert(outputquery, f)
-        conn.close()
-
-
-        #testfile = urllib.URLopener()
-        #testfile.retrieve('/home/developer/Desktop/LABPAL/labpal.csv', "file.gz")
-
-       #resp = Response()
-        #resp.content_type = 'text/csv'
-        #resp.content_disposition = 'attachment;filename="/home/developer/Desktop/LABPAL/labpal.csv"'
-        #Response['Content-Disposition'] = 'attachment; filename="/home/developer/Desktop/LABPAL/labpal.csv"'
-
-        #shutil.move(file_csv, filename)
-        #os.remove(file_csv)
-        #return outputquery
-        #path = os.path.expanduser(filename)
-        #logFile = open(path, 'r+')
-        #webbrowser.open(filename)
-        
-        #print file
-        #return file
-
-    
+        d = json.dumps(data)
+        print "d ====", d 
+        # print  '/web/export/csv?data=' + json.dumps(data) + '&token=' + str(None)
+        return {
+             'type' : 'ir.actions.act_url',
+             'url': '/web/export/csv?data=' + json.dumps(data) + '&token=' + str(None),
+             # 'url': '/web/application/zip?data=' + json.dumps(data) + '&token=' + str(None),
+             'target': 'self'
+        }
+  
 
     @api.multi
     def get_csv_db(self):
-        filename = expanduser("~")
-        filename = os.path.join('labpaldb.csv')
 
-       # if sys.platform == 'darwin':
-           # def openFolder(path):
-            #    subprocess.check_call(['open', '--', path])
-        #elif sys.platform == 'linux2':
-         #   def openFolder(path):
-          #      subprocess.check_call(['xdg-open', '--', path])
-        #elif sys.platform == 'win32':
-         #   def openFolder(path):
-          #      subprocess.check_call(['explorer', path])
-
-
-
-        query_desc = "SELECT description FROM labpal_database where id="+ str(self.id) + ""
-        join_q = "SELECT tag_id FROM database_tag_rel where database_id="+ str(self.id) + ""
-
-        conn = psycopg2.connect("dbname = 'labpal' user = 'dev' host = 'localhost' password = 'labpal9'")
-        cur = conn.cursor()
-
-        cur.execute(join_q)
-        tagid = cur.fetchone()
-        tagid = str(tagid[0])
-
-        query = "select t1.name,t1.exp_date,t2.name,t1.description from labpal_database t1,labpal_tag t2 where t1.id="+str(self.id)+" and t2.id ="+ tagid+""
-
-
-
-        cur.execute(query_desc)
-
-        result = cur.fetchone()
-        print result[0]
-        #result=[result[0] for result in cur.fetchall()]
-        result = "'"+result[0]+"'"
-        print result
-        s = MLStripper()
-        s.feed(result)
-        result = s.get_data()
-        result = result.replace('/n','')
-        
-        #result = str(result)
-        
-        print result
-
-        update_query = "UPDATE labpal_database SET description="+result+" WHERE id="+str(self.id)+""  
-
-        #print update_query
-
-        cur.execute(update_query)
-        conn.commit()
-
-        outputquery = "COPY ({0}) TO STDOUT WITH CSV HEADER".format(query)
-
-        with open(filename, 'w+') as f:
-                cur.copy_expert(outputquery , f)
-                #cur.copy_expert(outputquery, f)
-        conn.close()
-        #return outputquery
-        #path = os.path.expanduser(filename)
-        #logFile = open(path, 'r+')
-        webbrowser.open(filename)
-        return True
+        pass
 
     @api.multi
-    def get_pdf(self):
-        #self.filtered(lambda s: s.state == 'draft').write({'state': 'sent'})
+    def get_pdf_exp(self):
+        
+        #fetch the qweb-pdf file
+
         return self.env['report'].get_action(self, 'labpal.pdf_template')
 
     @api.multi    
@@ -267,10 +181,141 @@ class Experiment(models.Model):
      'exp_status':_get_default_status,
      }
 
+    @api.multi
+    def file_compression_old(self):
+
+        file_csv_location = tempfile.gettempdir()
+        source = os.path.join(file_csv_location, 'TESTING/')
+
+        # shutil.make_archive('destination','zip','source')
+
+        
 
 
     @api.multi
-    def get_zip():
+    def file_compression(self):
+
+        data ={
+           "model": 'labpal.experiment',
+           "fields":[
+                       {"name":"id","label":"External ID"},
+                       # {"name":"attachment_ids/id","label":"Attachments"},
+                       # {"name":"create_uid/id","label":"Created by"},
+                       # {"name":"create_date","label":"Created on"},
+                       # {"name":"database_ids/id","label":"Database"},
+                       # {"name":"exp_date","label":"Date"},
+                       # {"name":"description","label":"Description"},
+                       # {"name":"write_uid/id","label":"Last Updated by"},
+                       # {"name":"write_date","label":"Last Updated on"},
+                       # {"name":"exp_status/id","label":"Status"},
+                       # {"name":"tag_ids/id","label":"Tags"},
+                       # {"name":"template_id/id","label":"Template"},
+                       {"name":"exp_title","label":"Title"},
+                       # {"name":"status_visibility","label":"Visibility"}
+                       ],
+            "ids":self.id,
+            "domain":[],
+            "context":{"lang":"en_US",
+                       "tz":False,
+                       "uid":1,
+                       "params":{
+                                 "action":79,
+                                 "page":0,
+#                                  "limit":80,
+                                 "view_type":"list",
+                                 "model": 'labpal.experiment',
+                                 "_push_me":False
+                                 }
+                       },
+            "import_compat":True
+            }
+
+        #getting experiment csv 
+        csv_file = StringIO.StringIO()
+        # data = data['fields'][0:]
+
+        content = json.dumps(data)
+        print "content === ", content
+
+        writer = csv.writer(csv_file)
+        writer.writerows(content)
+
+        #compressing the StringIO csv object
+
+        # zip_archive = zipfile.ZipFile(csv_file,'w')
+        # zip_archive.writestr('labpal_test.csv',csv_file.getvalue())
+        # zip_archive.close()
+
+        #compressing the qweb-pdf file
+
+        file = self.env['report'].get_action(self, 'labpal.pdf_template')
+        # zip_archive_pdf = zipfile.ZipFile(file,'w')
+        # zip_archive_pdf.write()
+
+        zip = zipfile.ZipFile('THE_FOLDER_.zip','a')
+        zip.writestr('odoo.csv',csv_file.getvalue())
+        # zip.write('/home/developer06/Desktop/Test_LP.pdf')
+
+        ir_actions_report = self.pool.get('ir.actions.report.xml')
+
+        report_obj = self.env['report']
+
+        report_in = report_obj._get_report_from_name('labpal.pdf_template')
+
+        print "GET REPORT ==== ", report_in
+
+        datas = {}
+        matching_reports = ir_actions_report.search(
+            self.env.cr,self.env.uid, [('name', '=', 'Download as a pdf file')])
+        matching_reports = matching_reports[1]
+        print "matching_reports", matching_reports
+    
+        if matching_reports:
+            report = ir_actions_report.browse(self.env.cr, self.env.uid, matching_reports)
+
+            print "report_to ==== ", report
+            report_service = 'report.' + report.report_name
+            # service = netsvc.LocalService(report_service)
+            result, format = openerp.report.render_report(self.env.cr, self.env.uid,[1],'labpal.pdf_template',datas,{})
+            result = base64.b64encode(result)
+            file_name = "odooo.pdf"
+
+            print "result ==== ", result
+
+        # attachment_id = attachment_obj.create(cr, uid,
+        #             {
+        #                 'name': file_name,
+        #                 'datas': result,
+        #                 'datas_fname': file_name,
+        #                 'res_model': self._name,
+        #                 'res_id': record.id,
+        #                 'type': 'binary'
+        #             }, context=context)
+
+        zip.write(file)
+
+
+        zip.close()
+
+
+        #getting experiment pdf
+        # with open('/home/developer06/Desktop/LABPAL_TEST.zip','w+') as f:
+        #     f.write(csv_file.getvalue())
+
+        return {
+             'type' : 'ir.actions.act_url',
+             'url': '/web/export/csv?data=' + json.dumps(data) + '&token=' + str(None),
+             'target': 'self'
+        }
+
+        
+
+        
+
+
+
+    @api.multi
+    def get_zip_test(self):
 
 
         file_csv = tempfile.gettempdir()
@@ -279,7 +324,7 @@ class Experiment(models.Model):
 
 
         join_q = "SELECT tag_id FROM experiment_tag_rel where experiment_id="+ str(self.id) + ""
-        conn = psycopg2.connect("dbname = 'labpal' user = 'dev' host = 'localhost' password = 'labpal9'")
+        conn = psycopg2.connect("dbname = 'labpal-odoo' user = 'admin' host = 'localhost' password = 'knysys'")
         cur = conn.cursor()
 
         cur.execute(join_q)
@@ -309,37 +354,64 @@ class Experiment(models.Model):
 
 
         
-
-        with open(file_csv, 'w+') as f:
+        
+        with open('test.csv', 'w+') as f:
                 cur.copy_expert(outputquery , f)
                 #cur.copy_expert(outputquery, f)
         conn.close()
         
-        filename = filedialog.asksaveasfilename()
-                
-        shutil.make_archive(filename,'zip','/home/developer/Desktop/LABPAL/Reports/')
+        # filename = filedialog.asksaveasfilename()        
+        shutil.make_archive('/home/developer06/Desktop','zip','test.csv')
 
-        shutil.move(file_csv, filename)
+        return {
+             'type' : 'ir.actions.act_url',
+             'url': '/web/export/csv?data=' + json.dumps('test.csv') + '&token=' + str(None),
+             'target': 'self'
+        }
+
         
-        webbrowser.open(filename)
 
-
-
-    @api.onchange('template_id')
-    def _onchange_template(self):
-        for record in self:
-            template = self.env['labpal.template'].search([('id', '=', record.template_id.id)])
-            if template:
-                record.description = template.template
     
-    
-#
-#     @api.depends('value')
-#     def _value_pc(self):
-#         self.value2 = float(self.value) / 100
+    @api.multi
+    def test_form(self):
+        '''
+        This function opens a window to compose an email, with the edi sale template message loaded by default
+        '''
 
 
-
+        print "IN test FORM"
+        self.ensure_one()
+        ir_model_data = self.env['ir.model.data']
+        try:
+            template_id = ir_model_data.get_object_reference('labpal', 'labpal_send_report_mail_template')[1]
+        except ValueError:
+            template_id = False
+        try:
+            compose_form_id = ir_model_data.get_object_reference('mail', 'email_compose_message_wizard_form')[1]
+        except ValueError:
+            compose_form_id = False
+        ctx = dict()
+        ctx.update({
+            'default_model': 'labpal.experiment',
+            'default_res_id': self.ids[0],
+            'default_use_template': bool(template_id),
+            'default_template_id': template_id,
+            'default_composition_mode': 'comment',
+            'mark_so_as_sent': True
+        })
+        print "ENVIRONMENT",self.env['labpal.experiment']
+        print "SELF", self.id
+        #print "SELF", self.env['labpal.experiment'].message_get_reply_to([self.id])
+        return {
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'mail.compose.message',
+            'views': [(compose_form_id, 'form')],
+            'view_id': compose_form_id,
+            'target': 'new',
+            'context': ctx,
+        }
 
 
 class Status(models.Model):
@@ -3207,5 +3279,101 @@ class SerachModel(models.TransientModel):
                 'target' : 'inline'
             }
 
+class MailComposer(models.TransientModel):
+    """ Generic message composition wizard. You may inherit from this wizard
+        at model and view levels to provide specific features.
+
+        The behavior of the wizard depends on the composition_mode field:
+        - 'comment': post on a record. The wizard is pre-populated via ``get_record_data``
+        - 'mass_mail': wizard in mass mailing mode where the mail details can
+            contain template placeholders that will be merged with actual data
+            before being sent to each recipient.
+    """
+    _name = 'mail.compose.message'
+    _inherit = ['mail.compose.message','labpal.experiment']
+    _description = 'Email composition wizard'
+    _log_access = True
+    _batch_size = 500
+
+    @api.multi
+    def experiment_email(self):
+    
+
+        print "MAIL COMPOSE"
+
+        email_obj = self.pool.get('mail.template')
+
+        print "email_obj = ", email_obj
+
+
+        template_id = self.pool.get('mail.template').search(self.env.cr, self.env.uid, 
+            [('name', '=', 'Labpal Email Template')], context=self.env.context)[0]
+
+        template_num = email_obj.search(self.env.cr,self.env.uid,[('name','=','Labpal Email Template')])
+        print "template_num = ", template_num[0]
+        print "template_id = ", template_id
+
+        email = email_obj.browse(self.env.cr, self.env.uid, template_num[0])
+
+        print "email = ", email 
+
+        attachment_obj = self.pool.get('ir.attachment')
+
+        print " attachment_obj = ", attachment_obj
+        ir_actions_report = self.pool.get('ir.actions.report.xml')
+
+        print "ir_actions_report = ",ir_actions_report
+
+        datas = {}
+        matching_reports = ir_actions_report.search(
+            self.env.cr, self.env.uid, [('name', '=', 'Download as a pdf file')])
+        matching_reports = matching_reports[0]
+        print "matching_reports", matching_reports
+    
+        if matching_reports:
+            report = ir_actions_report.browse(self.env.cr, self.env.uid, matching_reports)
+            report_service = 'report.' + report.report_name
+            print "report var = ", report
+            rep = 'report.'+ report.report_file
+            print "Report", rep
+
+
+
+
+            # result, format = openerp.report.render_report(cr, uid,[''],report.report_name,datas,{})
+            #result, format = openerp.report.render_report(cr, uid,report.report_name, datas, context)
+            # result, format = openerp.report.render_report(self.env.cr,self.env.uid,,port.report_name, {}, {})
+            if not report.attachment:
+                file_name = "Labpal Experiment Report.pdf"
+               
+                # attachment_id = attachment_obj.create(self.env.cr, self.env.uid,
+                #                                       {
+                #                                           'name': file_name,
+                #                                           'datas': base64.b64encode(result),
+                #                                           'datas_fname': file_name,
+                #                                           'type': 'binary'
+                #                                       }, context=self.env.context)
+                # print "attachment = ", attachment_id
+                print "email.email_from = ", email.email_from
+                print "email.email_to = " , email.email_to
+                print "email.subject = " , email.subject
+                print "body_html = ", email.body_html 
+
+                print "uid = ", self.env.uid
+                print "cr = " , self.env.cr
+                email_obj.write(self.env.cr, self.env.uid, template_num[0], {'email_from':email.email_from,
+                                                   'email_to':email.email_to,
+                                                   'subject':email.subject,
+                                                   'body_html':email.body_html,
+                                                   #'attachment_ids': [(6, 0, [attachment_id])],
+                                                   })
+                # #print "STATUS",email_obj.send_mail(cr, uid,template_num[0], ['']) 
+                #req_id = self.pool.get('res.users').search(cr, '', [('login' , '=', email.email_to)])
+                #print "req_id = ", req_id
+                email_obj.send_mail(self.env.cr, self.env.uid,template_num[0], 1, True, {})
+                #email_obj.send_mail(cr, uid, template_id, False, True, context=context)
+                #print "Email Response",email_obj.send_mail(cr, uid,['5'], history_id)
+
+        return True
 
 
