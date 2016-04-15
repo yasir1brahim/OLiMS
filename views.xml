@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <openerp>
   <data>
-  <template id="assets_backend" name="petstore_assets" inherit_id="web.assets_backend">
+  <template id="assets_backend" name="labpal_assets" inherit_id="web.assets_backend">
             <xpath expr="." position="inside">
                 <link rel="stylesheet" href="/labpal/static/src/css/widget.css"/>
                 <script type="text/javascript" src="/labpal/static/lib/jscolor/jscolor.js"></script>
                 <script type="text/javascript" src="/labpal/static/src/js/widget.js"></script>
+                <script type="text/javascript" src="/labpal/static/src/js/web_keyboard_navigation.js"></script>
             </xpath>
         </template>
 
@@ -18,10 +19,12 @@
                     <header>
         <!--The oe_highlight class gives the button a red color when it is saved.
         It is usually used to indicate the expected behaviour. -->
+
             <button name="get_pdf_exp" string="Generate PDF file for this Experiment" type="object" class="btn-primary"/>
             <button name="csv_http" string="Generate CSV file for this Experiment" type="object" class="btn-primary"/>
-            <!-- <button name="file_compression" string="Generate Compressed files for this Experiment" type="object" class="btn-primary"/> -->
+            <!-- <button name="file_compression" string="Generate Compressed files for this Experiment" type="object"class="btn-primary"/> -->
             <button name="test_form" string="Generate Email" type="object" class="btn-primary"/>
+
         </header>
                     <field name='template_id' placeholder="create from template"/>
                     <script type="text/javascript">
@@ -644,6 +647,7 @@
        <menuitem id="search_menu" name="Search" parent="labpal.menu_root" sequence="8"
                   action="search_action_window"/>
 
+
  <record id="labpal_send_report_mail_template" model="mail.template">
             <field name="name">Labpal Email Template</field>
             <field name="email_from" eval="'sshaukat.knysys@gmail.com'"></field>
@@ -817,6 +821,41 @@
                             'default_active_domain': [['id', 'in', context.get('active_ids', [])]],
                         }"/>
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                        
-</data>
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+
+    <record id="prefernces_configuration" model="ir.ui.view">
+    <field name="name">Prefernces</field>
+    <field name="model">labpal.preferences</field>
+    <field name="arch" type="xml">
+        <form string="Prefernces" class="oe_form_configuration">
+            <group col="8">
+                <field name="create_key_value" readonly="1"/>
+            </group>
+            <group col="8">
+                <field name="edit_key_value" readonly="1"/>
+            </group>
+            <group col="8">
+                <field name="save_key_value" readonly="1"/>
+            </group>
+            <group col="8">
+                <field name="cancel_key_value" readonly="1"/>
+            </group>
+
+        </form>
+    </field>
+    </record>
+    <record id="prefernces_settings_action" model="ir.actions.act_window">
+    <field name="name">Prefernces configuration</field>
+    <field name="res_model">labpal.preferences</field>
+    <field name="view_id" ref="prefernces_configuration"/>
+    <field name="view_mode">form</field>
+    <field name="target">inline</field>
+    </record>
+    <menuitem id="prefernces_settings_menu" name="Prefernces"
+            parent="base.menu_administration"/>
+    <menuitem id="keyboard_menu" name="Keyboard Shortcuts"
+    parent="prefernces_settings_menu" action="prefernces_settings_action"/>
+
+  </data>
+
 </openerp>

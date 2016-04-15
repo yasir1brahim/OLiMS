@@ -34,7 +34,6 @@ from zipfile import ZipFile
 import zlib
 
 
-
 #from openerp.http import request
 
 
@@ -99,8 +98,6 @@ class Experiment(models.Model):
 
 
 
-
-
     @api.multi
     def csv_http(self):
 
@@ -151,7 +148,6 @@ class Experiment(models.Model):
              # 'url': '/web/application/zip?data=' + json.dumps(data) + '&token=' + str(None),
              'target': 'self'
         }
-  
 
     @api.multi
     def get_csv_db(self):
@@ -189,8 +185,49 @@ class Experiment(models.Model):
 
         # shutil.make_archive('destination','zip','source')
 
-        
+        outputquery = "COPY ({0}) TO STDOUT WITH CSV HEADER".format(query)
 
+        #root = tk.Tk()
+        #root.withdraw()
+        #filename = filedialog.asksaveasfilename()
+        #filename = os.path.join('.csv')
+
+        #strIO = StringIO.StringIO()
+       # def POST(self):
+        #cherrypy.response.headers['Content-Type'] = 'text/csv'
+        #cherrypy.response.headers['Content-Disposition'] = "attachment; filename=test.csv"
+            
+        csv_file = StringIO()
+        csv_writer = csv.writer(csv_file)
+        csv_writer.writerow(["1","a","b","c"])
+
+        conn.close()
+
+        #response = HttpResponse(get_csv(), mimetype="text/csv")
+        #response["Content-Disposition"] = "attachment; filename=test.csv"
+        
+        print "CONTENTS", csv_file.getvalue()
+        #return request.make_response(csv_file.getvalue(),
+         #                   [('Content-Type', 'application/octet-stream'),
+          #                   ('Content-Disposition', content_disposition('test.csv'))]) 
+
+
+
+
+
+        #return response
+        #return csv_file.getvalue()
+        #web.header('Content-Type','text/csv')
+        #web.header('Content-disposition', 'attachment; filename=yourfilename.csv')
+        #return csv_file.getvalue()
+        #response = urllib2.urlopen('http://www.google.com')
+        #html = response.read() 
+       # print file_csv
+       # file = '/home/developer/Desktop/LABPAL/labpal.csv'
+        #with open(file, 'wb') as f:
+         #       cur.copy_expert(outputquery , f)
+          #      cur.copy_expert(outputquery, f)
+       
 
     @api.multi
     def file_compression(self):
@@ -298,10 +335,6 @@ class Experiment(models.Model):
         zip.close()
 
 
-        #getting experiment pdf
-        # with open('/home/developer06/Desktop/LABPAL_TEST.zip','w+') as f:
-        #     f.write(csv_file.getvalue())
-
         return {
              'type' : 'ir.actions.act_url',
              'url': '/web/export/csv?data=' + json.dumps(data) + '&token=' + str(None),
@@ -313,63 +346,9 @@ class Experiment(models.Model):
         
 
 
-
     @api.multi
-    def get_zip_test(self):
-
-
-        file_csv = tempfile.gettempdir()
-
-        query_desc = "SELECT description FROM labpal_experiment where id="+ str(self.id) + ""
-
-
-        join_q = "SELECT tag_id FROM experiment_tag_rel where experiment_id="+ str(self.id) + ""
-        conn = psycopg2.connect("dbname = 'labpal-odoo' user = 'admin' host = 'localhost' password = 'knysys'")
-        cur = conn.cursor()
-
-        cur.execute(join_q)
-        tagid = cur.fetchone()
-        tagid = str(tagid[0])
-
-        query = "select t1.exp_title,t1.exp_date,t2.name,t1.description from labpal_experiment t1,labpal_tag t2 where t1.id="+str(self.id)+" and t2.id ="+ tagid+""
-
-        cur.execute(query_desc)
-
-        result = cur.fetchone()
-
-        result = "'"+result[0]+"'"
-        
-        s = MLStripper()
-        s.feed(result)
-        result = s.get_data()
-
-        result = result.replace('/n','')
-
-        update_query = "UPDATE labpal_experiment SET description="+result+" WHERE id="+str(self.id)+""  
-
-        cur.execute(update_query)
-        conn.commit()
-
-        outputquery = "COPY ({0}) TO STDOUT WITH CSV HEADER".format(query)
-
-
-        
-        
-        with open('test.csv', 'w+') as f:
-                cur.copy_expert(outputquery , f)
-                #cur.copy_expert(outputquery, f)
-        conn.close()
-        
-        # filename = filedialog.asksaveasfilename()        
-        shutil.make_archive('/home/developer06/Desktop','zip','test.csv')
-
-        return {
-             'type' : 'ir.actions.act_url',
-             'url': '/web/export/csv?data=' + json.dumps('test.csv') + '&token=' + str(None),
-             'target': 'self'
-        }
-
-        
+    def get_zip():
+        file = self.env['report'].get_action(self, 'labpal.pdf_template')
 
     
     @api.multi
@@ -3279,101 +3258,13 @@ class SerachModel(models.TransientModel):
                 'target' : 'inline'
             }
 
-class MailComposer(models.TransientModel):
-    """ Generic message composition wizard. You may inherit from this wizard
-        at model and view levels to provide specific features.
+class Preferences(models.TransientModel):
+    _inherit = 'res.config.settings'
+    _name = "labpal.preferences"
 
-        The behavior of the wizard depends on the composition_mode field:
-        - 'comment': post on a record. The wizard is pre-populated via ``get_record_data``
-        - 'mass_mail': wizard in mass mailing mode where the mail details can
-            contain template placeholders that will be merged with actual data
-            before being sent to each recipient.
-    """
-    _name = 'mail.compose.message'
-    _inherit = ['mail.compose.message','labpal.experiment']
-    _description = 'Email composition wizard'
-    _log_access = True
-    _batch_size = 500
-
-    @api.multi
-    def experiment_email(self):
-    
-
-        print "MAIL COMPOSE"
-
-        email_obj = self.pool.get('mail.template')
-
-        print "email_obj = ", email_obj
-
-
-        template_id = self.pool.get('mail.template').search(self.env.cr, self.env.uid, 
-            [('name', '=', 'Labpal Email Template')], context=self.env.context)[0]
-
-        template_num = email_obj.search(self.env.cr,self.env.uid,[('name','=','Labpal Email Template')])
-        print "template_num = ", template_num[0]
-        print "template_id = ", template_id
-
-        email = email_obj.browse(self.env.cr, self.env.uid, template_num[0])
-
-        print "email = ", email 
-
-        attachment_obj = self.pool.get('ir.attachment')
-
-        print " attachment_obj = ", attachment_obj
-        ir_actions_report = self.pool.get('ir.actions.report.xml')
-
-        print "ir_actions_report = ",ir_actions_report
-
-        datas = {}
-        matching_reports = ir_actions_report.search(
-            self.env.cr, self.env.uid, [('name', '=', 'Download as a pdf file')])
-        matching_reports = matching_reports[0]
-        print "matching_reports", matching_reports
-    
-        if matching_reports:
-            report = ir_actions_report.browse(self.env.cr, self.env.uid, matching_reports)
-            report_service = 'report.' + report.report_name
-            print "report var = ", report
-            rep = 'report.'+ report.report_file
-            print "Report", rep
-
-
-
-
-            # result, format = openerp.report.render_report(cr, uid,[''],report.report_name,datas,{})
-            #result, format = openerp.report.render_report(cr, uid,report.report_name, datas, context)
-            # result, format = openerp.report.render_report(self.env.cr,self.env.uid,,port.report_name, {}, {})
-            if not report.attachment:
-                file_name = "Labpal Experiment Report.pdf"
-               
-                # attachment_id = attachment_obj.create(self.env.cr, self.env.uid,
-                #                                       {
-                #                                           'name': file_name,
-                #                                           'datas': base64.b64encode(result),
-                #                                           'datas_fname': file_name,
-                #                                           'type': 'binary'
-                #                                       }, context=self.env.context)
-                # print "attachment = ", attachment_id
-                print "email.email_from = ", email.email_from
-                print "email.email_to = " , email.email_to
-                print "email.subject = " , email.subject
-                print "body_html = ", email.body_html 
-
-                print "uid = ", self.env.uid
-                print "cr = " , self.env.cr
-                email_obj.write(self.env.cr, self.env.uid, template_num[0], {'email_from':email.email_from,
-                                                   'email_to':email.email_to,
-                                                   'subject':email.subject,
-                                                   'body_html':email.body_html,
-                                                   #'attachment_ids': [(6, 0, [attachment_id])],
-                                                   })
-                # #print "STATUS",email_obj.send_mail(cr, uid,template_num[0], ['']) 
-                #req_id = self.pool.get('res.users').search(cr, '', [('login' , '=', email.email_to)])
-                #print "req_id = ", req_id
-                email_obj.send_mail(self.env.cr, self.env.uid,template_num[0], 1, True, {})
-                #email_obj.send_mail(cr, uid, template_id, False, True, context=context)
-                #print "Email Response",email_obj.send_mail(cr, uid,['5'], history_id)
-
-        return True
+    create_key_value = fields.Char('Create',default="Ctrl + N")
+    edit_key_value = fields.Char('Edit',default="Ctrl + E")
+    save_key_value = fields.Char('Save',default="Ctrl + S")
+    cancel_key_value = fields.Char('Cancel',default="Ctrl + Z")
 
 
