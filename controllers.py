@@ -11,12 +11,6 @@ from openerp.addons.web.controllers.main import serialize_exception,content_disp
 import base64
 import StringIO
 
-##print "Work"
-#csv = request.session.model('labpal.experiment').get_csv_old()
-#print "CSV CSV", csv.getvalue()
-
-
-
 class Binary(http.Controller):
  @http.route('/web/binary/download_document', type='http', auth="public")
  @serialize_exception
@@ -65,18 +59,6 @@ class Labpal(http.Controller):
                 return werkzeug.exceptions.InternalServerError(json.dumps(error))
         return wrap
 
-
-
-    #@http.route('/web/dataset/call_kw/labpal.experiment/write', type='json', auth="user", website = "True")
-    #@serialize_exception
-    #def get_csv_one(self,**kw):
-        #web.header('Content-Type','text/csv')
-        #web.header('Content-disposition', 'attachment; filename=yourfilename.csv')
-     #   return "Hello World"
-      #  csv = request.session.model('labpal.experiment').get_csv_old()
-       # print csv.getvalue()
-        #return csv.getvalue()
-
     @http.route('/experiment/new/', auth='public', website=True)
     def index(self, **kw):
         return http.request.render( "labpal.listing", {})
@@ -94,15 +76,6 @@ class Labpal(http.Controller):
 
     @http.route('/experiments/<model("labpal.experiment"):obj>/edit/', website=True)
     def edit(self, obj):
-        # form = PostsNewForm(request.httprequest.form)
-        # if request.httprequest.method == 'POST' and form.validate():
-        #     post.write({
-        #         'title': form_data.get('title', ''),
-        #         'content': form_data.get('content', ''),
-        #     })
-        #     return redirect("/posts/%s/view" % slug(post))
-        # form.title.data = post.title
-        # form.content.data = post.content
         return http.request.render('labpal.exp_edit',
                               {'obj': obj})
 

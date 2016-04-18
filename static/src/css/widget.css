@@ -26,3 +26,12 @@
     width: 50px;
     border: 1px solid black;
 }
+
+
+.labpal-experiment{
+	display:inline !important;
+}
+
+.labpal-experiment-card{
+	min-height: 80px !important;
+}

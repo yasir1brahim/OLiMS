@@ -37,6 +37,7 @@
         'topdf.xml',
         'pdf_db_template.xml',
         'topdf_db.xml',
+        'wizard/export_experiment_view.xml'
         #'tocsv.xml',
     ],
     # only loaded in demonstration mode
