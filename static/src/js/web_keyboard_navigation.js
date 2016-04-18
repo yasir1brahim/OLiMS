@@ -36,8 +36,8 @@ $.ctrl('Z', function() {
 });
 
 //New object
-$.ctrl('N', function() {
-	$('.oe_form_button_create').each(function() {
+$.ctrl('C', function() {
+	$('button[accessKey="C"]').each(function() {
 		if($(this).parents('div:hidden').length == 0){
 			$(this).trigger('click');
 		}

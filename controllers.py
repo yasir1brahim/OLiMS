@@ -81,9 +81,7 @@ class Labpal(http.Controller):
 
     @http.route('/labpal/experiment/', auth='public', methods=['POST'], csrf=False, website=True)
     def object(self, **post):
-    	print post.get('tag')
     	db_name = http.request.session._db
-    	print db_name
     	experiment_model = http.request.session.model('labpal.experiment')
     	values = {'exp_tags':'asdf',
     		'exp_date': post.get('date'),
@@ -94,7 +92,6 @@ class Labpal(http.Controller):
     	}
     	experiment_model.create(values)
     	experiment_obj = experiment_model.search([('id', '=', 1)])
-    	print experiment_obj
     	# cr = openerp.pooler.get_db(db_name).cursor() 
      # 	pool = openerp.pooler.get_pool(db_name)
      # 	experiment_model = pool.get('labpal.experiment')

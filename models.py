@@ -29,17 +29,24 @@ import tempfile
 import time
 import unicodedata
 from HTMLParser import HTMLParser
-import Tkinter as tk
-import tkFileDialog as filedialog
+#import Tkinter as tk
+#import tkFileDialog as filedialog
 import shutil
 import tempfile
-from StringIO import StringIO
+import StringIO
 import csv
 from openerp import http
 from openerp.http import request
 
 import tkFileDialog as filedialog
 from wizard.export_experiment import generate_csv 
+import openerp
+from openerp import SUPERUSER_ID
+import json
+import gzip
+import zipfile
+from zipfile import ZipFile
+import zlib
 
 
 #from openerp.http import request
@@ -54,6 +61,13 @@ AVAILABLE_PRIORITIES = [
     ('5', 'Very High'),
     ]
 
+
+class Labpal_Mail(models.Model):
+
+    _name = 'labpal.mail'
+    email_From = fields.Char('Description')
+
+
 class MLStripper(HTMLParser):
     def __init__(self):
         self.reset()
@@ -66,6 +80,10 @@ class MLStripper(HTMLParser):
 class Experiment(models.Model):
 
     _name = 'labpal.experiment'
+    _inherit = 'mail.thread'
+    
+    # _inherit = 'mail.compose.message'
+    #_inherit = 'mail.compose.message'
 
     tag_ids = fields.Many2many('labpal.tag',
                               'experiment_tag_rel',
@@ -94,56 +112,89 @@ class Experiment(models.Model):
 
 
 
-
-
     @api.multi
     def csv_http(self):
-        return generate_csv(self, self.ids, self._name)
+
+
+        data ={
+           "model": 'labpal.experiment',
+           "fields":[
+                       {"name":"id","label":"External ID"},
+                       {"name":"attachment_ids/id","label":"Attachments"},
+                       {"name":"create_uid/id","label":"Created by"},
+                       {"name":"create_date","label":"Created on"},
+                       {"name":"database_ids/id","label":"Database"},
+                       {"name":"exp_date","label":"Date"},
+                       {"name":"description","label":"Description"},
+                       {"name":"write_uid/id","label":"Last Updated by"},
+                       {"name":"write_date","label":"Last Updated on"},
+                       {"name":"exp_status/id","label":"Status"},
+                       {"name":"tag_ids/id","label":"Tags"},
+                       {"name":"template_id/id","label":"Template"},
+                       {"name":"exp_title","label":"Title"},
+                       {"name":"status_visibility","label":"Visibility"}
+                       ],
+            "ids":self.id,
+            "domain":[],
+            "context":{"lang":"en_US",
+                       "tz":False,
+                       "uid":1,
+                       "params":{
+                                 "action":79,
+                                 "page":0,
+#                                  "limit":80,
+                                 "view_type":"list",
+                                 "model": 'labpal.experiment',
+                                 "_push_me":False
+                                 }
+                       },
+            "import_compat":True
+            }
+    
+        d = json.dumps(data)
+        return {
+             'type' : 'ir.actions.act_url',
+             'url': '/web/export/csv?data=' + json.dumps(data) + '&token=' + str(None),
+             # 'url': '/web/application/zip?data=' + json.dumps(data) + '&token=' + str(None),
+             'target': 'self'
+        }
 
     @api.multi
-    def get_csv(self):
+    def get_csv_db(self):
 
-        print "IN GET CSV"
+        pass
 
+    @api.multi
+    def get_pdf_exp(self):
         
+        #fetch the qweb-pdf file
 
-        print "DATA"
+        return self.env['report'].get_action(self, 'labpal.pdf_template')
 
-        query_desc="SELECT description FROM labpal_experiment where id="+ str(self.id) + ""
+    @api.multi    
+    def get_pdf_db(self):
+        #self.filtered(lambda s: s.state == 'draft').write({'state': 'sent'})
+        return self.env['report'].get_action(self, 'labpal.pdf_db_template')    
 
+    @api.model
+    def _get_default_status(self):
+        res = self.env['labpal.status'].search([('default_status','=',True)])
+        if res:
+            return res[0] 
+        else:
+            False
+    _defaults = {
+     'exp_status':_get_default_status,
+     }
 
-        join_q = "SELECT tag_id FROM experiment_tag_rel where experiment_id="+ str(self.id) + ""
-        conn = psycopg2.connect("dbname = 'labpal' user = 'dev' host = 'localhost' password = 'labpal9'")
-        cur = conn.cursor()
+    @api.multi
+    def file_compression_old(self):
 
-        cur.execute(join_q)
-        tagid = cur.fetchone()
-        tagid = str(tagid[0])
+        file_csv_location = tempfile.gettempdir()
+        source = os.path.join(file_csv_location, 'TESTING/')
 
-        query = "select t1.exp_title,t1.exp_date,t2.name,t1.description from labpal_experiment t1,labpal_tag t2 where t1.id="+str(self.id)+" and t2.id ="+ tagid+""
+        # shutil.make_archive('destination','zip','source')
 
-        cur.execute(query_desc)
-
-        result = cur.fetchone()
-    
-        #result=[result[0] for result in cur.fetchall()]
-        result = "'"+result[0]+"'"
-
-        #p = re.compile(r'<.*?>')
-    
-        s = MLStripper()
-        s.feed(result)
-        result = s.get_data()
-
-        result = result.replace('/n','')
-    
-
-        update_query = "UPDATE labpal_experiment SET description="+result+" WHERE id="+str(self.id)+""
-
-        cur.execute(update_query)
-        conn.commit()
-
-        
         outputquery = "COPY ({0}) TO STDOUT WITH CSV HEADER".format(query)
             
         csv_file = StringIO()
@@ -175,25 +226,59 @@ class Experiment(models.Model):
 
         result = cur.fetchone()
         result = "'"+result[0]+"'"
-        print result
         s = MLStripper()
         s.feed(result)
         result = s.get_data()
         result = result.replace('/n','')
         
         #result = str(result)
-        
-        print result
 
-        update_query = "UPDATE labpal_database SET description="+result+" WHERE id="+str(self.id)+""  
+        update_query = "UPDATE labpal_database SET description="+result+" WHERE id="+str(self.id)+""
+       
 
-        #print update_query
+    @api.multi
+    def file_compression(self):
 
-        cur.execute(update_query)
-        conn.commit()
+        data ={
+           "model": 'labpal.experiment',
+           "fields":[
+                       {"name":"id","label":"External ID"},
+                       # {"name":"attachment_ids/id","label":"Attachments"},
+                       # {"name":"create_uid/id","label":"Created by"},
+                       # {"name":"create_date","label":"Created on"},
+                       # {"name":"database_ids/id","label":"Database"},
+                       # {"name":"exp_date","label":"Date"},
+                       # {"name":"description","label":"Description"},
+                       # {"name":"write_uid/id","label":"Last Updated by"},
+                       # {"name":"write_date","label":"Last Updated on"},
+                       # {"name":"exp_status/id","label":"Status"},
+                       # {"name":"tag_ids/id","label":"Tags"},
+                       # {"name":"template_id/id","label":"Template"},
+                       {"name":"exp_title","label":"Title"},
+                       # {"name":"status_visibility","label":"Visibility"}
+                       ],
+            "ids":self.id,
+            "domain":[],
+            "context":{"lang":"en_US",
+                       "tz":False,
+                       "uid":1,
+                       "params":{
+                                 "action":79,
+                                 "page":0,
+#                                  "limit":80,
+                                 "view_type":"list",
+                                 "model": 'labpal.experiment',
+                                 "_push_me":False
+                                 }
+                       },
+            "import_compat":True
+            }
 
-        outputquery = "COPY ({0}) TO STDOUT WITH CSV HEADER".format(query)
+        #getting experiment csv 
+        csv_file = StringIO.StringIO()
+        # data = data['fields'][0:]
 
+        content = json.dumps(data)
         with open(filename, 'w+') as f:
                 cur.copy_expert(outputquery , f)
         conn.close()
@@ -216,90 +301,100 @@ class Experiment(models.Model):
             return res[0] 
         else:
             False
-    _defaults = {
-     'exp_status':_get_default_status,
-     }
+        writer = csv.writer(csv_file)
+        writer.writerows(content)
+
+        #compressing the StringIO csv object
+
+        # zip_archive = zipfile.ZipFile(csv_file,'w')
+        # zip_archive.writestr('labpal_test.csv',csv_file.getvalue())
+        # zip_archive.close()
+
+        #compressing the qweb-pdf file
+
+        file = self.env['report'].get_action(self, 'labpal.pdf_template')
+        # zip_archive_pdf = zipfile.ZipFile(file,'w')
+        # zip_archive_pdf.write()
+
+        zip = zipfile.ZipFile('THE_FOLDER_.zip','a')
+        zip.writestr('odoo.csv',csv_file.getvalue())
+        # zip.write('/home/developer06/Desktop/Test_LP.pdf')
+
+        ir_actions_report = self.pool.get('ir.actions.report.xml')
+
+        report_obj = self.env['report']
+
+        report_in = report_obj._get_report_from_name('labpal.pdf_template')
+
+        datas = {}
+        matching_reports = ir_actions_report.search(
+            self.env.cr,self.env.uid, [('name', '=', 'Download as a pdf file')])
+        matching_reports = matching_reports[1]
+    
+        if matching_reports:
+            report = ir_actions_report.browse(self.env.cr, self.env.uid, matching_reports)
+            report_service = 'report.' + report.report_name
+            # service = netsvc.LocalService(report_service)
+            result, format = openerp.report.render_report(self.env.cr, self.env.uid,[1],'labpal.pdf_template',datas,{})
+            result = base64.b64encode(result)
+            file_name = "odooo.pdf"
+
+        zip.write(file)
+
+
+        zip.close()
+
+
+        return {
+             'type' : 'ir.actions.act_url',
+             'url': '/web/export/csv?data=' + json.dumps(data) + '&token=' + str(None),
+             'target': 'self'
+        }
+
+        
+
+        
 
 
     @api.multi
     def get_zip():
         file = self.env['report'].get_action(self, 'labpal.pdf_template')
 
-
-    @api.multi
-    def get_zip_test(self):
-
-
-        file_csv = tempfile.gettempdir()
-
-        query_desc = "SELECT description FROM labpal_experiment where id="+ str(self.id) + ""
-
-
-        join_q = "SELECT tag_id FROM experiment_tag_rel where experiment_id="+ str(self.id) + ""
-        conn = psycopg2.connect("dbname = 'labpal' user = 'dev' host = 'localhost' password = 'labpal9'")
-        cur = conn.cursor()
-
-        cur.execute(join_q)
-        tagid = cur.fetchone()
-        tagid = str(tagid[0])
-
-        query = "select t1.exp_title,t1.exp_date,t2.name,t1.description from labpal_experiment t1,labpal_tag t2 where t1.id="+str(self.id)+" and t2.id ="+ tagid+""
-
-        cur.execute(query_desc)
-
-        result = cur.fetchone()
-
-        result = "'"+result[0]+"'"
-        
-        s = MLStripper()
-        s.feed(result)
-        result = s.get_data()
-
-        result = result.replace('/n','')
-
-        update_query = "UPDATE labpal_experiment SET description="+result+" WHERE id="+str(self.id)+""  
-
-        cur.execute(update_query)
-        conn.commit()
-
-        outputquery = "COPY ({0}) TO STDOUT WITH CSV HEADER".format(query)
-
-
-        
-        
-        with open('test.csv', 'w+') as f:
-                cur.copy_expert(outputquery , f)
-                #cur.copy_expert(outputquery, f)
-        conn.close()
-        
-        filename = filedialog.asksaveasfilename()        
-        shutil.make_archive(filename,'zip','test.csv')
-
-        #shutil.move(file_csv, filename)
-        
-        webbrowser.open(filename)
-
-
-    @api.multi
-    def send_email():
-        pass
-
-
-    @api.onchange('template_id')
-    def _onchange_template(self):
-        for record in self:
-            template = self.env['labpal.template'].search([('id', '=', record.template_id.id)])
-            if template:
-                record.description = template.template
     
-    
-#
-#     @api.depends('value')
-#     def _value_pc(self):
-#         self.value2 = float(self.value) / 100
-
-
-
+    @api.multi
+    def test_form(self):
+        '''
+        This function opens a window to compose an email, with the edi sale template message loaded by default
+        '''
+        self.ensure_one()
+        ir_model_data = self.env['ir.model.data']
+        try:
+            template_id = ir_model_data.get_object_reference('labpal', 'labpal_send_report_mail_template')[1]
+        except ValueError:
+            template_id = False
+        try:
+            compose_form_id = ir_model_data.get_object_reference('mail', 'email_compose_message_wizard_form')[1]
+        except ValueError:
+            compose_form_id = False
+        ctx = dict()
+        ctx.update({
+            'default_model': 'labpal.experiment',
+            'default_res_id': self.ids[0],
+            'default_use_template': bool(template_id),
+            'default_template_id': template_id,
+            'default_composition_mode': 'comment',
+            'mark_so_as_sent': True
+        })
+        return {
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'mail.compose.message',
+            'views': [(compose_form_id, 'form')],
+            'view_id': compose_form_id,
+            'target': 'new',
+            'context': ctx,
+        }
 
 
 class Status(models.Model):
@@ -3171,7 +3266,7 @@ class Preferences(models.TransientModel):
     _inherit = 'res.config.settings'
     _name = "labpal.preferences"
 
-    create_key_value = fields.Char('Create',default="Ctrl + N")
+    create_key_value = fields.Char('Create',default="Ctrl + C")
     edit_key_value = fields.Char('Edit',default="Ctrl + E")
     save_key_value = fields.Char('Save',default="Ctrl + S")
     cancel_key_value = fields.Char('Cancel',default="Ctrl + Z")
