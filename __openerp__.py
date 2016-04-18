@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','web','mail','report'],
+    'depends': ['base','web','mail','report','report_webkit'],
     'css': ['static/css/js/*.css'],
     'qweb': ['static/src/xml/*.xml'],
     'installable': True,
@@ -33,9 +33,9 @@
         # 'experiment_export.xml',
         'templates.xml',
         #'labpal_mail_compose_wizard.xml',
-        #'labpal_report.xml',
+        # 'labpal_report.xml',
         # 'sale_template.xml',
-        #'report_experiment.xml',
+        # 'report_experiment.xml',
         'pdf_template.xml',
         'topdf.xml',
         'pdf_db_template.xml',

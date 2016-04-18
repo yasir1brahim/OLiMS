@@ -6,12 +6,17 @@
     <t t-call="report.external_layout">
         <!-- <t t-set="doc" t-value="doc.with_context({'lang':doc.partner_id.lang})" /> -->
         <div class="page">
-
-            <h1 > <span t-field="doc.exp_title" > </span> </h1>
-            <h5 t-field="doc.exp_date"/>
-            <h5 t-field="doc.tag_ids"/>
-            <h5 t-field="doc.exp_status"/>
-            <h5 > <span t-esc="get_formatted_desc(doc.description)" > </span> </h5>  
+            <div class="oe_structure"/>
+                <div class="row">
+                <h1 > <span t-field="doc.exp_title" > </span> </h1>
+                <h5 t-field="doc.exp_date"/>
+                <h4>Tags:</h4>
+                        <t t-foreach="doc.tag_ids" t-as="tag">
+                            <span t-field="tag.name"/>&#44;
+                        </t>
+                <h5 t-field="doc.exp_status"/>
+                <h5 > <span t-esc="get_formatted_desc(doc.description)" > </span> </h5>
+            </div>
         </div>
     </t>
 </ul>
