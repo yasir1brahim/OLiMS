@@ -29,20 +29,12 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
-        'views.xml',
-        # 'experiment_export.xml',
         'templates.xml',
-        #'labpal_mail_compose_wizard.xml',
-        # 'labpal_report.xml',
-        # 'sale_template.xml',
-        # 'report_experiment.xml',
-        'pdf_template.xml',
-        'topdf.xml',
-        'pdf_db_template.xml',
-        'topdf_db.xml',
-        'wizard/export_experiment_view.xml',
-        'labpal_mail_template.xml'
-        #'tocsv.xml',
+        'labpal_report.xml',
+        'labpal_database_template.xml',
+        'labpal_experiment_template.xml',
+        'labpal_mail_template.xml',
+        'views.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

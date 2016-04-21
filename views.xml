@@ -20,10 +20,10 @@
         <!--The oe_highlight class gives the button a red color when it is saved.
         It is usually used to indicate the expected behaviour. -->
 
-            <button name="get_pdf_exp" string="Generate PDF file for this Experiment" type="object" class="btn-primary"/>
-            <button name="csv_http" string="Generate CSV file for this Experiment" type="object" class="btn-primary"/>
-            <!-- <button name="file_compression" string="Generate Compressed files for this Experiment" type="object"class="btn-primary"/> -->
-            <button name="test_form" string="Generate Email" type="object" class="btn-primary"/>
+            <button name="experiment_pdf_export" string="Generate PDF file for this Experiment" type="object" class="btn-primary"/>
+            <button name="experiment_csv_export" string="Generate CSV file for this Experiment" type="object" class="btn-primary"/>
+            <button name="file_compression" string="Compression" type="object" class="btn-primary"/>
+            <button name="experiment_mail_compose" string="Generate Email" type="object" class="btn-primary"/>
 
         </header>
                     <field name='template_id' placeholder="create from template"/>
@@ -163,8 +163,7 @@
     <menuitem name="LabPal" id="labpal.menu_root"/>
     
     <!-- menu categories -->
-    <menuitem id="experiment_menu" name="Experiments" parent="labpal.menu_root" sequence="1"/>
-	<menuitem id="main_experiment_menu" name="Experiments" parent="labpal.experiment_menu" sequence="1"
+    <menuitem id="experiment_menu" name="Experiments" parent="labpal.menu_root" sequence="1"
                   action="experiment_action"/>
     <!--
     <menuitem name="Menu 1" id="labpal.menu_1" parent="labpal.menu_root"/>
@@ -289,8 +288,10 @@
     <field name="arch" type="xml">
         <form string="Databases">
             <header>
-                 <button name="get_pdf_db" string="Generate PDF file for this Database" type="object" class="btn-primary"/>
-                 <button name="get_csv_db" string="Generate CSV file for this Database" type="object" class="oe_highlight"/>
+                 <button name="experiment_database_pdf_export" string="Generate PDF file for this Database" type="object" class="btn-primary"/>
+                 <button name="experiment_database_csv_export" string="Generate CSV file for this Database"
+                  type="object" class="oe_highlight"/>
+                   <button name="file_compression_database" string="Compression" type="object" class="btn-primary"/>
             </header>
             <script type="text/javascript">
                         $(document).ready(function() {

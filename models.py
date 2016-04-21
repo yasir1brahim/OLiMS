@@ -9,28 +9,8 @@ import datetime
 import logging
 from openerp import http
 from openerp import models, fields, api
+from openerp import models, fields, api, netsvc
 from openerp.tools.translate import _
-from openerp.osv import osv
-import sys
-import psycopg2
-from openerp.report import report_sxw
-import logging
-import re
-import time
-import os
-import webbrowser
-from os.path import expanduser
-import psycopg2
-import re
-import shutil
-import subprocess
-import sys
-import tempfile
-import time
-import unicodedata
-from HTMLParser import HTMLParser
-#import Tkinter as tk
-#import tkFileDialog as filedialog
 import shutil
 import tempfile
 import StringIO
@@ -63,19 +43,45 @@ AVAILABLE_PRIORITIES = [
 
 
 class Labpal_Mail(models.Model):
+class InMemoryZip(object):
+    def __init__(self):
+        # Create the in-memory file-like object
+        self.in_memory_zip = StringIO.StringIO()
 
     _name = 'labpal.mail'
     email_From = fields.Char('Description')
 
+    def append(self, filename_in_zip, file_contents,filename_in_zip_csv, file_contents_csv):
+        '''Appends a file with name filename_in_zip and contents of 
+        file_contents to the in-memory zip.'''
+        # Get a handle to the in-memory zip in append mode
+        zf = zipfile.ZipFile(self.in_memory_zip, "a", zipfile.ZIP_DEFLATED, False)
 
-class MLStripper(HTMLParser):
-    def __init__(self):
-        self.reset()
-        self.fed = []
-    def handle_data(self, d):
-        self.fed.append(d)
-    def get_data(self):
-        return ''.join(self.fed)
+        # Write the file to the in-memory zip
+        zf.writestr(filename_in_zip, file_contents)
+        zf.writestr(filename_in_zip_csv,file_contents_csv)
+
+        # Mark the files as having been created on Windows so that
+        # Unix permissions are not inferred as 0000
+        for zfile in zf.filelist:
+            zfile.create_system = 0        
+
+        return self
+
+    def read(self):
+        '''Returns a string with the contents of the in-memory zip.'''
+        # self.in_memory_zip.seek(0)
+        # print "self.in_memory_zip ==== ",self.in_memory_zip.read()
+        self.in_memory_zip.seek(0)
+        return self.in_memory_zip.read()
+
+    def writetofile(self, filename):
+        '''Writes the in-memory zip to a file.'''
+        f = file(filename, "w")
+        f.write(self.read())
+        f.close()
+
+
 
 class Experiment(models.Model):
 
@@ -84,6 +90,7 @@ class Experiment(models.Model):
     
     # _inherit = 'mail.compose.message'
     #_inherit = 'mail.compose.message'
+    _inherit = ['mail.thread', 'ir.needaction_mixin']
 
     tag_ids = fields.Many2many('labpal.tag',
                               'experiment_tag_rel',
@@ -98,6 +105,9 @@ class Experiment(models.Model):
     	])
     exp_title = fields.Char('Title')
     description = fields.Text()
+    description = fields.Text(default="""Goal :
+        Procedure :
+        Results :""")
     attachment_ids = fields.Many2many(
         'ir.attachment', 'experiment_attachment_rel',
         'experiment_id', 'attachment_id',
@@ -113,7 +123,7 @@ class Experiment(models.Model):
 
 
     @api.multi
-    def csv_http(self):
+    def experiment_csv_export(self):
 
 
         data ={
@@ -165,16 +175,12 @@ class Experiment(models.Model):
         pass
 
     @api.multi
-    def get_pdf_exp(self):
+    def experiment_pdf_export(self):
         
         #fetch the qweb-pdf file
 
-        return self.env['report'].get_action(self, 'labpal.pdf_template')
+        return self.env['report'].get_action(self, 'labpal.labpal_experiment_template')   
 
-    @api.multi    
-    def get_pdf_db(self):
-        #self.filtered(lambda s: s.state == 'draft').write({'state': 'sent'})
-        return self.env['report'].get_action(self, 'labpal.pdf_db_template')    
 
     @api.model
     def _get_default_status(self):
@@ -284,6 +290,7 @@ class Experiment(models.Model):
         conn.close()
         webbrowser.open(filename)
         return True
+        labpal = self.env['labpal.experiment']
 
     @api.multi
     def get_pdf(self):
@@ -299,6 +306,12 @@ class Experiment(models.Model):
         res = self.env['labpal.status'].search([('default_status','=',True)])
         if res:
             return res[0] 
+        experiment = labpal.browse(self.id)
+        data = {}
+        tag = []
+        data['id'] = experiment.id
+        if experiment.exp_title:
+            title = experiment.exp_title
         else:
             False
         writer = csv.writer(csv_file)
@@ -309,8 +322,25 @@ class Experiment(models.Model):
         # zip_archive = zipfile.ZipFile(csv_file,'w')
         # zip_archive.writestr('labpal_test.csv',csv_file.getvalue())
         # zip_archive.close()
+            title = 'Untitled'
+        data["Experiment Title"] = title
+        data["Date"] = experiment.exp_date
+        for tag_name in experiment.tag_ids:
+            tag.append(tag_name.name)
+        data["Tags"] = ','.join(tag)
+        data["Status"] = experiment.exp_status.name
+        data["Description"] = experiment.description
+
+        writer = csv.DictWriter(csv_file,data.keys())
+        writer.writeheader()
+        writer.writerow(data)
 
         #compressing the qweb-pdf file
+        ir_actions_report = self.env['ir.actions.report.xml'].search([('name', '=', 'Experiment')])
+        if ir_actions_report:
+            report_service = 'report.' + ir_actions_report.report_name
+            service = netsvc.LocalService(report_service)
+            result, format = openerp.report.render_report(self.env.cr, self.env.uid, [self.id], ir_actions_report.report_name, {'model': self._name}, context=self.env.context)
 
         file = self.env['report'].get_action(self, 'labpal.pdf_template')
         # zip_archive_pdf = zipfile.ZipFile(file,'w')
@@ -321,8 +351,11 @@ class Experiment(models.Model):
         # zip.write('/home/developer06/Desktop/Test_LP.pdf')
 
         ir_actions_report = self.pool.get('ir.actions.report.xml')
+        imz = InMemoryZip()
+        imz.append(str(title)+'.pdf',result,str(title)+'.csv',csv_file.getvalue())
 
         report_obj = self.env['report']
+        compressed_file = imz.read()
 
         report_in = report_obj._get_report_from_name('labpal.pdf_template')
 
@@ -340,10 +373,19 @@ class Experiment(models.Model):
             file_name = "odooo.pdf"
 
         zip.write(file)
+        attachment_obj = self.pool.get('ir.attachment')
 
+        filename = str(datetime.date.today())+'-'+str(title)+'-'+'labpal.zip'
 
         zip.close()
 
+        new_attachemet_obj = attachment_obj.create(self.env.cr, self.env.uid,
+                                                      {
+                                                          'name': filename,
+                                                          'datas': base64.b64encode(compressed_file),
+                                                          'datas_fname': filename,
+                                                          'type': 'binary'
+                                                      }, context={})
 
         return {
              'type' : 'ir.actions.act_url',
@@ -359,6 +401,8 @@ class Experiment(models.Model):
     @api.multi
     def get_zip():
         file = self.env['report'].get_action(self, 'labpal.pdf_template')
+             'url': '/web/content/'+str(new_attachemet_obj)+'?download=true',
+             }
 
     
     @api.multi
@@ -438,6 +482,115 @@ class Databases(models.Model):
             form_view = self.env.ref('labpal.database_formedit_view', False)
             if template:
                 record.description = template.template
+
+
+    @api.multi    
+    def experiment_database_pdf_export(self):
+        return self.env['report'].get_action(self, 'labpal.labpal_database_template') 
+
+
+    @api.multi
+    def experiment_database_csv_export(self):
+
+        data ={
+           "model": 'labpal.database',
+           "fields":[
+                       {"name":"id","label":"External ID"},
+                       {"name":"attachment_ids/id","label":"Attachments"},
+                       {"name":"create_uid/id","label":"Created by"},
+                       {"name":"create_date","label":"Created on"},
+                       {"name":"database_ids/id","label":"Database"},
+                       {"name":"exp_date","label":"Date"},
+                       {"name":"description","label":"Description"},
+                       {"name":"write_uid/id","label":"Last Updated by"},
+                       {"name":"write_date","label":"Last Updated on"},
+                       {"name":"exp_status/id","label":"Status"},
+                       {"name":"tag_ids/id","label":"Tags"},
+                       {"name":"template_id/id","label":"Template"},
+                       {"name":"exp_title","label":"Title"},
+                       {"name":"status_visibility","label":"Visibility"}
+                       ],
+            "ids":self.id,
+            "domain":[],
+            "context":{"lang":"en_US",
+                       "tz":False,
+                       "uid":1,
+                       "params":{
+                                 "action":79,
+                                 "page":0,
+#                                  "limit":80,
+                                 "view_type":"list",
+                                 "model": 'labpal.database',
+                                 "_push_me":False
+                                 }
+                       },
+            "import_compat":True
+            }
+
+        return {
+             'type' : 'ir.actions.act_url',
+             'url': '/web/export/csv?data=' + json.dumps(data) + '&token=' + str(None),
+             'target': 'self'
+        }
+
+    
+    @api.multi
+    def file_compression_database(self):
+
+        #getting experiment csv 
+        csv_file = StringIO.StringIO()
+
+        labpal = self.env['labpal.database']
+
+        database = labpal.browse(self.id)
+        data = {}
+        tag = []
+        data['id'] = database.id
+        if database.name:
+            title = database.name
+        else:
+            title = 'Untitled'
+        data["Title"] = title
+        data["Date"] = database.exp_date
+        for tag_name in database.tag_ids:
+            tag.append(tag_name.name)
+        data["Tags"] = ','.join(tag)
+        data["Rating"] = database.rating
+        data["Description"] = database.description
+        data["Type"] = database.types_of_item_id.name
+
+        writer = csv.DictWriter(csv_file,data.keys())
+        writer.writeheader()
+        writer.writerow(data)
+
+        #compressing the qweb-pdf file
+        ir_actions_report = self.env['ir.actions.report.xml'].search([('name', '=', 'Database')])
+        if ir_actions_report:
+            report_service = 'report.' + ir_actions_report.report_name
+            service = netsvc.LocalService(report_service)
+            result, format = openerp.report.render_report(self.env.cr, self.env.uid, [self.id], ir_actions_report.report_name, {'model': self._name}, context=self.env.context)
+
+        imz = InMemoryZip()
+        imz.append(str(title)+'.pdf',result,str(title)+'.csv',csv_file.getvalue())
+
+        compressed_file = imz.read()
+
+        attachment_obj = self.pool.get('ir.attachment')
+
+        filename = str(datetime.date.today())+'-'+str(title)+'-'+'labpal.zip'
+
+        new_attachemet_obj = attachment_obj.create(self.env.cr, self.env.uid,
+                                                      {
+                                                          'name': filename,
+                                                          'datas': base64.b64encode(compressed_file),
+                                                          'datas_fname': filename,
+                                                          'type': 'binary'
+                                                      }, context={})
+
+        return {
+             'type' : 'ir.actions.act_url',
+             'url': '/web/content/'+str(new_attachemet_obj)+'?download=true',
+             }
 
 class Tags(models.Model):
     _name = 'labpal.tag'
