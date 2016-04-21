@@ -31,7 +31,7 @@ class pdf_template_db(report_sxw.rml_parse):
 		
 
 class report_pdf_template_document(osv.AbstractModel):
-    _name = 'report.labpal.pdf_db_template'
+    _name = 'report.labpal.labpal_database_template'
     _inherit = 'report.abstract_report'
-    _template = 'labpal.pdf_db_template'
+    _template = 'labpal.labpal_database_template'
     _wrapped_report_class = pdf_template_db

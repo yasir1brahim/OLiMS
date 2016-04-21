@@ -2,12 +2,20 @@
 <openerp>
     <data>
         <report 
-            id="report_experiment_model"
+            id="report_experiment_pdf"
             string="Experiment"
-            model="labpal.experiment" 
+            model="labpal.experiment"
             report_type="qweb-pdf"
-            file="labpal.report_experiment" 
-            name="labpal.report_experiment" 
-        />
+            file="labpal.labpal_experiment_template"
+            name="labpal.labpal_experiment_template"
+            />
+        <report 
+            id="report_experiment_pdf_db"
+            string="Database"
+            model="labpal.database"
+            report_type="qweb-pdf"
+            file="labpal.labpal_database_template"
+            name="labpal.labpal_database_template"
+            />
     </data>
 </openerp>
