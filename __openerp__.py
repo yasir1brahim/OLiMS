@@ -94,4 +94,8 @@
         'data/olims.sampling_deviation.csv',
         'data/olims.users_login_detail.csv',
     ],
+    #Added installation method for odoo to recognize new module
+    'installable': True,
+    'application': True,
+    'auto_install': False,
 }
