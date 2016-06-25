@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<openerp>
+	<data>	
+		<report 
+			id="report_experiment_pdf_db"
+			string="Download as a pdf file"
+			model="labpal.database"
+			report_type="qweb-pdf"
+			file ="olims.pdf_db_template"
+			name="olims.pdf_db_template"
+			/>
+		</data>
+</openerp>

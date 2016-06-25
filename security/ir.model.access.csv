@@ -229,3 +229,12 @@ access_olims_report_labmanager,olims.report,model_olims_report,group_lab_manager
 access_olims_email_subject_labmanager,olims.email_subject,model_olims_email_subject,group_lab_managers,1,1,1,1
 access_olims_loaddata_labmanager,olims.loaddata,model_olims_loaddata,group_lab_managers,1,1,1,1
 access_olims_users_login_detail_labmanager,olims.users_login_detail,model_olims_users_login_detail,group_lab_managers,1,1,1,1
+access_labpal_experiment,labpal.experiment,model_labpal_experiment,,1,1,1,1
+access_labpal_status,labpal.status,model_labpal_status,,1,1,1,1
+access_labpal_database,labpal.database,model_labpal_database,,1,1,1,1
+access_labpal_tag,labpal.tag,model_labpal_tag,,1,1,1,1
+access_labpal_types_of_item,labpal.types_of_item,model_labpal_types_of_item,,1,1,1,1
+access_labpal_todolist,labpal.todolist,model_labpal_todolist,,1,1,1,1
+access_labpal_filter_database,labpal.filter_database,model_labpal_filter_database,,1,1,1,1
+access_labpal_serach_model,labpal.serach_model,model_labpal_serach_model,,1,1,1,1
+access_labpal_template,labpal.template,model_labpal_template,,1,1,1,1

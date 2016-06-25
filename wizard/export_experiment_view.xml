@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+
+        <record id="labpal_export_experiment_view" model="ir.ui.view">
+            <field name="name">labpal.experiment.export.view</field>
+            <field name="model">labpal.experiment_export</field>
+            <field name="arch" type="xml">
+                <form string="Export Experiments">
+                    <group>
+                    	<field name="export_type" string="Export"/>
+                        <field name="start_date" attrs="{'invisible': [('export_type', '=', 'all')]}"/>
+                        <field name="end_date" attrs="{'invisible': [('export_type', '=', 'all')]}"/>
+                    </group>
+                    <footer>
+                        <button name="export_excel" string="Get Excel" type="object" class="btn btn-sm oe_button btn-primary"/>
+                        <button string="Cancel" class="oe_link" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_experiment_export" model="ir.actions.act_window"> 
+            <field name="name">Export Experiments</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">labpal.experiment_export</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="labpal_export_experiment_view"/>
+            <field name="target">new</field>
+        </record>
+        <menuitem id="export_experiment_menu" name="Export Experiments" parent="labpal.experiment_menu" sequence="2" action="action_experiment_export"/>
+
+    </data>
+</openerp>

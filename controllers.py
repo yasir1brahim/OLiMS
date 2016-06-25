@@ -61,22 +61,22 @@ class Labpal(http.Controller):
 
     @http.route('/experiment/new/', auth='public', website=True)
     def index(self, **kw):
-        return http.request.render( "olims.listing", {})
+        return http.request.render( "labpal.listing", {})
 
     @http.route('/experiments', auth='public', website=True)
     def list(self, **kw):
-        return http.request.render('olims.experiment_list', {
+        return http.request.render('labpal.experiment_list', {
             'objects': http.request.env['labpal.experiment'].search([]),
         })
 
     @http.route('/experiments/<model("labpal.experiment"):obj>/view/', website=True)
     def view(self, obj):
-        return http.request.render('olims.exp_view',
+        return http.request.render('labpal.exp_view',
                               {'obj': obj})
 
     @http.route('/experiments/<model("labpal.experiment"):obj>/edit/', website=True)
     def edit(self, obj):
-        return http.request.render('olims.exp_edit',
+        return http.request.render('labpal.exp_edit',
                               {'obj': obj})
 
     @http.route('/labpal/experiment/', auth='public', methods=['POST'], csrf=False, website=True)

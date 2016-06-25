@@ -1,0 +1,800 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>
+  <template id="assets_backend" name="labpal_assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <link rel="stylesheet" href="/olims/static/src/css/widget.css"/>
+                <script type="text/javascript" src="/olims/static/lib/jscolor/jscolor.js"></script>
+                <script type="text/javascript" src="/olims/static/src/js/widget.js"></script>
+                <script type="text/javascript" src="/olims/static/src/js/web_keyboard_navigation.js"></script>
+            </xpath>
+        </template>
+
+    <!-- explicit list view definition -->
+    <record model="ir.ui.view" id="labpal_experiment_form_view">
+            <field name="name">experiment.form</field>
+            <field name="model">labpal.experiment</field>
+            <field name="arch" type="xml">
+                <form string="Experiment Form">
+                    <header>
+        <!--The oe_highlight class gives the button a red color when it is saved.
+        It is usually used to indicate the expected behaviour. -->
+
+            <button name="experiment_pdf_export" string="Generate PDF file for this Experiment" type="object" class="btn-primary"/>
+            <button name="experiment_csv_export" string="Generate CSV file for this Experiment" type="object" class="btn-primary"/>
+            <button name="file_compression" string="Compression" type="object" class="btn-primary"/>
+            <button name="experiment_mail_compose" string="Generate Email" type="object" class="btn-primary"/>
+
+        </header>
+                    <field name='template_id' placeholder="create from template"/>
+                    <script type="text/javascript">
+                        $(document).ready(function() {
+                        //jquery
+                        $(location).attr('href');
+                        //pure javascript
+                        var location = window.location.href;
+                        var url_str = location.split("/");
+                        var c_url = "http://" + url_str[2] + "/experiment/new/"
+                        top.document.getElementById('moleculer-drawer').setAttribute("src",c_url);
+                        });
+                    </script>
+                    <label for="tag_ids" string="Tags"/>
+                    <field name="tag_ids" widget="many2many_tags" options="{'no_create_edit': True}"></field>
+                    <group col="8">
+                      <group col="4">
+                        <!-- <label for="exp_date" string="Date"/> -->
+                        <field name="exp_date"></field>
+                      </group>
+                      <group col="2">
+                        <!-- <label for="status_visibility" string="Visibility"/> -->
+                        <field name="status_visibility"></field>
+                      </group>
+                      <group col="2">
+                        <!-- <label for="exp_status" string="Status"/> -->
+                        <field name="exp_status"></field>
+                      </group>
+                    </group>
+                    <label for="exp_title" string="Title"/>
+                    <field name="exp_title"></field>
+                    <label for="description" string="Experiment"/>
+                    <field name="description" widget="html"></field>
+                    <label for="database_ids" string="Linked items"/>
+                    <p>Add a link</p>
+                    <field name="database_ids" widget="many2many_tags" options="{'no_create': True}" placeholder="from the database"></field>
+                    <separator/>
+                    <label string="Molecule drawer"/>
+                    <div>
+                <iframe id="moleculer-drawer" src="" width="700" height="450" frameborder="0" scrolling="no"></iframe>
+            </div>
+                    <field name="attachment_ids" widget='many2many_binary'></field>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="labpal_experiment_tree_view">
+            <field name="name">experiment.tree</field>
+            <field name="model">labpal.experiment</field>
+            <field name="arch" type="xml">
+                <tree string="Experiment">
+                    <field name="exp_title"></field>
+                    <field name="exp_date"></field>
+                    <field name="tag_ids"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Search view -->
+        <record id="experiment_search_view" model="ir.ui.view">
+            <field name="name">experiment search view</field>
+            <field name="model">labpal.experiment</field>
+            <field name="arch" type="xml">
+                <search string="Experiments">
+                    <field name="exp_title"/>
+                    <field name="exp_status"/>
+                    <!-- <filter string="Action Items" name="my_requests_filter" domain="[]" context="{'group_by' : 'exp_status'}"/> -->
+                </search>
+            </field>
+        </record>
+        <!-- Kanban view -->
+        <record id="experiment_kanban_view" model="ir.ui.view">
+            <field name="name">Experiment Kanban</field>
+            <field name="model">labpal.experiment</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_small_column">
+                    <field name="exp_title"/>
+                    <field name="exp_date"/>
+                    <field name="tag_ids"/>
+                    <templates>
+	                        <t t-name="kanban-box" t-attf-class="oe_kanban_color_#{kanban_getcolor(record.color.raw_value)} oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown" t-if="widget.editable">
+
+                                    <a class="dropdown-toggle btn" data-toggle="dropdown" href="#" >
+                                        <span class="fa fa-bars fa-lg"/>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <li><a type="edit">Edit</a></li>
+                                        <li><a type="delete">Delete</a></li>
+                                        <li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+                                    </ul>	
+                                </div>
+                                <div class="o_kanban_tags_section">
+                                    <!-- <field name="attribute_value_ids" groups="product.group_product_variant"/> -->
+                                </div>
+                                <div class="oe_kanban_content">
+                                	<h4 class="oe_center"><field name="exp_title" /></h4>
+                                    <div class="oe_left">
+                                        <!-- <t t-foreach="record.tag_ids.value" t-as="tag_id">
+                                                 <span class="oe_kanban_list_many2many" t-att-data-tag_id="tag_id" t-esc="tag_id">
+                                                 </span>
+                                             </t> -->
+                                        <span>
+                                            <field name="tag_ids" widget="many2many_kanban"/>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <ul>
+                                        <li><field name="exp_date"></field></li>
+                                    </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="experiment_action">
+            <field name="name">Experiments</field>
+            <field name="res_model">labpal.experiment</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                 Click here to create a new experiment.
+              </p>
+            </field>
+            <!-- <field name="domain">[('exp_title','=','Experiment') ]</field> -->
+       </record>
+  
+    <!-- Top menu item -->
+
+
+    
+    <menuitem name="LabPal" id="olims.menu_root" parent="olims.olims_menu" sequence="13"/>
+    
+    <!-- menu categories -->
+    <menuitem id="experiment_menu" name="Experiments" parent="olims.menu_root" sequence="1"
+                  action="experiment_action"/>
+    <!--
+    <menuitem name="Menu 1" id="labpal.menu_1" parent="olims.menu_root"/>
+    <menuitem name="Menu 2" id="labpal.menu_2" parent="olims.menu_root"/>
+    -->
+    <!-- actions -->
+    <!--
+    <menuitem name="List" id="labpal.menu_1_list" parent="labpal.menu_1"
+              action="labpal.action_window"/>
+    <menuitem name="Server to list" id="labpal" parent="labpal.menu_2"
+              action="labpal.action_server"/>
+    -->
+
+
+    
+    <record id="action_home_page" model="ir.actions.client">
+            <field name="name">LabPal Home</field>
+            <field name="tag">olabpal.homepage</field>
+        </record>
+
+        <!--menuitem id="home_page_labpal_menu" name="Home Page" parent="olims.menu_root"
+            action="action_home_page"/-->
+        <!-- Create the tree view -->
+<record id="agenda_status_tree_view" model="ir.ui.view">
+    <field name="name">status.tree.view</field>
+    <field name="model">labpal.status</field>
+    <field name="type">tree</field>
+    <field name="priority" eval="1"/>
+    <field name="arch" type="xml">
+        <tree string="Status">
+            <field name="name"/>
+            <!-- <field name="color" widget="color"/> -->
+        </tree>
+     </field>
+</record>
+ 
+<!-- Create the form view -->
+<record id="agenda_status_form_view" model="ir.ui.view">
+    <field name="name">status.form.view</field>
+    <field name="model">labpal.status</field>
+    <field name="type">form</field>
+    <field name="priority" eval="1"/>
+    <field name="arch" type="xml">
+        <form string="Status">
+            <group col="4">
+                <field name="name"/>
+                <field name="default_status"/>
+             </group>
+             <!-- <label for="color" string="Default Status"/> -->
+             <field name="color" widget="color"/>
+        </form>
+     </field>
+</record>
+       <!--  <record id="status_kanban_view" model="ir.ui.view">
+            <field name="name">Status Kanban</field>
+            <field name="model">labpal.status</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="color"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="o_dropdown_kanban dropdown">
+
+                                    <a class="dropdown-toggle btn" data-toggle="dropdown" href="#" >
+                                        <span class="fa fa-bars fa-lg"/>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <li><a type="edit">Edit</a></li>
+                                        <li><a type="delete">Delete</a></li>
+                                        <li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
+                                    </ul>
+                                </div>
+                                <div class="o_kanban_tags_section">
+                                    
+                                </div>
+                                <div class="o_kanban_image">
+                                    
+                                </div>
+                                <div class="oe_kanban_details">
+                                    <strong><field name="name"/></strong>
+                                    <ul>
+                                        <li>Color: <field name="color"></field></li>
+                                    </ul>
+                                    <div name="tags"/>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record> -->
+		<record model="ir.actions.act_window" id="status_action_window">
+            <field name="name">Status</field>
+            <field name="res_model">labpal.status</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+       </record>
+       <menuitem id="status_menu" name="Status" parent="olims.menu_root" sequence="2"
+                  action="status_action_window"/>
+
+        <!-- Create the tree view -->
+<record id="database_tree_view" model="ir.ui.view">
+    <field name="name">database.tree.view</field>
+    <field name="model">labpal.database</field>
+    <field name="type">tree</field>
+    <field name="priority" eval="1"/>
+    <field name="arch" type="xml">
+        <tree string="Databases" default_order='exp_date'>
+            <field name="name"/>
+        </tree>
+     </field>
+</record>
+ 
+<!-- Create the form view -->
+<record id="database_form_view" model="ir.ui.view">
+    <field name="name">database.form.view</field>
+    <field name="model">labpal.database</field>
+    <field name="type">form</field>
+    <field name="priority" eval="1"/>
+    <field name="arch" type="xml">
+        <form string="Databases">
+            <header>
+                 <button name="experiment_database_pdf_export" string="Generate PDF file for this Database" type="object" class="btn-primary"/>
+                 <button name="experiment_database_csv_export" string="Generate CSV file for this Database"
+                  type="object" class="oe_highlight"/>
+                   <button name="file_compression_database" string="Compression" type="object" class="btn-primary"/>
+            </header>
+            <script type="text/javascript">
+                        $(document).ready(function() {
+                        //jquery
+                        $(location).attr('href');
+                        //pure javascript
+                        var location = window.location.href;
+                        var url_str = location.split("/");
+                        var c_url = "http://" + url_str[2] + "/experiment/new/"
+                        top.document.getElementById('moleculer-drawer-database').setAttribute("src",c_url);
+                        });
+                    </script>
+            <field name="types_of_item_id" options="{'no_create': True}" placeholder="Create new"></field>
+            <label for="tag_ids" string="Tags"/>
+            <field name="tag_ids" widget="many2many_tags" options="{'no_create_edit': True}"></field>
+            <group col="8">
+                <group col="4">
+                    <field name="exp_date"></field>
+                </group>
+                <group col="4">
+                    <field name="rating" widget='priority'></field>
+                </group>
+            </group>
+            <label for="name" string="Title"/>
+            <field name="name"></field>
+            <label for="description" string="Experiment"/>
+            <field name="description" widget="html"></field>
+            <label string="Molecule drawer"/>
+            <div id="moleculer-drawer">
+                <iframe id="moleculer-drawer-database" src="" width="700" height="450" frameborder="0" scrolling="no"></iframe>
+            </div>
+            <field name="attachment_ids" widget='many2many_binary'></field>
+        </form>
+     </field>
+</record>
+        <record id="database_kanban_view" model="ir.ui.view">
+            <field name="name">Databases Kanban</field>
+            <field name="model">labpal.database</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_small_column" default_order='exp_date'>
+                    <field name="name"/>
+                    <field name="exp_date"/>
+                    <field name="rating"/>
+                    <field name="tag_ids"/>
+                    <field name="types_of_item_id"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="o_dropdown_kanban">
+
+                                    <a class="dropdown-toggle btn" data-toggle="dropdown" href="#" >
+                                        <span class="fa fa-bars fa-lg"/>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <li><a type="edit">Edit</a></li>
+                                        <li><a type="delete">Delete</a></li>
+                                    </ul>
+                                </div>
+                                <div class="o_kanban_tags_section">
+                                    <!-- <field name="attribute_value_ids" groups="product.group_product_variant"/> -->
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <div>
+                                        <strong><field name="name"/></strong>
+                                        <span class="pull-right"><field name="rating" widget="priority"/></span>
+                                        <ul>
+                                        <li><span t-if="record.types_of_item_id.value"><field name="types_of_item_id"/></span>&#32; &#32;<field name="exp_date"></field></li>
+                                    </ul>
+                                    </div>
+                                    <div>
+                                        <span t-if="record.tag_ids.value" class="oe_kanban_list_many2many"><field name="tag_ids"/></span>
+                                        <!-- <span class="oe_kanban_list_many2many"> -->
+                                            <!--  -->
+                                        <!-- </span> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <!-- Search view -->
+        <record id="database_search_view" model="ir.ui.view">
+            <field name="name">database search view</field>
+            <field name="model">labpal.database</field>
+            <field name="arch" type="xml">
+                <search string="Databases">
+                    <field name="name"/>
+                    <field name="types_of_item_id"/>
+                    <!-- <filter string="Action Items" name="my_requests_filter" domain="[]" context="{'group_by' : 'types_of_item_id'}"/> -->
+                </search>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="database_action_window">
+            <field name="name">Databases</field>
+            <field name="res_model">labpal.database</field>
+            <!-- <field name="view_type">form</field> -->
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="help" type="html">
+              <p class="oe_view_nocontent_create">
+                 Click here to create a new database.Same as experiments for a lot of things, except there is no status, but a rating system (little stars). 
+              </p>
+            </field>
+       </record>
+       <menuitem id="database_menu" name="Databases" parent="olims.menu_root" sequence="3"
+                  action="database_action_window"/>
+        <!-- Create the tree view -->
+        <record id="template_tree_view" model="ir.ui.view">
+            <field name="name">template.tree.view</field>
+            <field name="model">labpal.template</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <tree string="Templates">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Create the form view -->
+        <record id="template_form_view" model="ir.ui.view">
+            <field name="name">template.form.view</field>
+            <field name="model">labpal.template</field>
+            <field name="type">form</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <form string="Templates">
+                    <field name="name"/>
+                    <field name="template" widget="html"/>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="template_action_window">
+            <field name="name">Templates</field>
+            <field name="res_model">labpal.template</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+       </record>
+       <menuitem id="template_menu" name="Templates" parent="olims.menu_root" sequence="4"
+                  action="template_action_window"/>
+
+        <!-- Create the tree view -->
+        <record id="type_of_item_tree_view" model="ir.ui.view">
+            <field name="name">types_of_item.tree.view</field>
+            <field name="model">labpal.types_of_item</field>
+            <field name="type">tree</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <tree string="Types Of Items">
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+        <!-- Create the form view -->
+        <record id="types_of_item_form_view" model="ir.ui.view">
+            <field name="name">types_of_item.form.view</field>
+            <field name="model">labpal.types_of_item</field>
+            <field name="type">form</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <form string="Types Of Items">
+                    <label for="name" string="Add a new type of item:"/>
+                    <field name="name"/>
+                    <field name="color" widget="color"/>
+                    <field name="template" widget="html"/>
+                </form>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="types_of_item_action_window">
+            <field name="name">Types Of Items</field>
+            <field name="res_model">labpal.types_of_item</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+       </record>
+       <menuitem id="types_of_item_menu" name="Types Of Items" parent="olims.menu_root" sequence="5"
+                  action="types_of_item_action_window"/>
+
+        <record model="ir.ui.view" id="view_databasefilter_wizard_form">
+            <field name="name">labpal.filter_database.form</field>
+            <field name="model">labpal.filter_database</field>
+            <field name="arch" type="xml">
+                <form string="Filter Databases">
+                    <separator colspan="4" string="Filter Databases"/>
+                    <newline/>
+                    <group col="8" colspan="8">
+                    <field name="types_of_item_ids" placeholder="Filter Type" nolabel='1'/>
+                    <field name="order_by" nolabel='1' placeholder="Order by"/>
+                    <field name="sort_by" nolabel='1' placeholder="Sort"/>
+                </group>
+                    <group col="4" colspan="4">
+                        <button icon="gtk-ok" name="disaplay_filtered_database" string="Filter" type="object"/>
+                        <button icon="gtk-ok" name="disaplay_ordered_database" string="Order" type="object"/>
+                        <button icon="gtk-cancel" special="cancel" string="Cancel"/>
+                    </group>
+                </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="view_experimentfilter_wizard_form">
+            <field name="name">labpal.filter_database.form</field>
+            <field name="model">labpal.filter_database</field>
+            <field name="arch" type="xml">
+                <form string="Filter Experiment">
+                    <separator colspan="4" string="Filter Experiment"/>
+                    <newline/>
+                    <group col="8" colspan="8">
+                    <field name="status_id" placeholder="Filter status" nolabel='1'/>
+                    <field name="order_by" nolabel='1' placeholder="Order by"/>
+                    <field name="sort_by" nolabel='1' placeholder="Sort"/>
+                </group>
+                    <group col="4" colspan="4">
+                        <button icon="gtk-ok" name="disaplay_filtered_experiment" string="Filter" type="object"/>
+                        <button icon="gtk-ok" name="disaplay_ordered_experiment" string="Order" type="object"/>
+                        <button icon="gtk-cancel" special="cancel" string="Cancel"/>
+                    </group>
+                </form>
+        </field>
+    </record>
+    <record id="launch_search_experiment" model="ir.actions.act_window">
+        <field name="name">Filter Experiments"</field>
+        <field name="res_model">labpal.filter_database</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="view_id" ref="view_experimentfilter_wizard_form"/>
+    </record>
+    <record id="action_search_databases" model="ir.actions.act_window">
+        <field name="name">Filter Databases</field>
+        <!-- <field name="type">ir.actions.act_window</field> -->
+        <field name="res_model">labpal.filter_database</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+    </record>
+    <menuitem name="Filters" id="filter_menu" parent="olims.menu_root" sequence="6"/>
+    <menuitem name="Database" id="filter_database_menu" parent="olims.filter_menu"
+              action="action_search_databases"/>
+    <menuitem name="Experiment" id="filter_experiment_menu" parent="olims.filter_menu"
+              action="launch_search_experiment"/>
+    
+    <record id="action_todolist_launch" model="ir.actions.act_window">
+            <field name="name">ToDoList</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">labpal.todolist</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">kanban,form</field>
+        </record>
+        
+    
+    <record  id="form_todolist" model="ir.ui.view">
+            <field name="name">tlabpal.todolist.form</field>
+            <field name="model">labpal.todolist</field>
+            <field name="arch" type="xml">
+                <form string="ToDoList" version="7.0">
+                    <group col="4">
+                        <field name="name" />
+                    </group>
+                </form>
+            </field>
+        </record>
+    
+     
+        
+   
+    <record model="ir.ui.view" id="custom_module_kanban_view">
+            <field name="name">labpal.todolist.kanban</field>
+            <field name="model">labpal.todolist</field>
+            <field name="type">kanban</field>
+            <field name="arch" type="xml">
+                <kanban class="o_kanban_small_column">
+                    <field name="name"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <div class="o_dropdown_kanban">
+                                    <a class="dropdown-toggle btn" data-toggle="dropdown" href="#" >
+                                        <span class="fa fa-bars fa-lg"/>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <li><a type="edit">Edit</a></li>
+                                        <li><a type="delete">Delete</a></li>
+                                    </ul>
+                                </div>
+                                <div class="oe_kanban_content">
+                                    <div>
+                                        <strong><field name="name"/></strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        
+    <menuitem name="TodoList" id="todolist_menu" parent="olims.menu_root" sequence="7"
+              action="action_todolist_launch"/>
+
+    <record model="ir.ui.view" id="view_searchmodel_form">
+            <field name="name">labpal_serach_model.form</field>
+            <field name="model">labpal.serach_model</field>
+            <field name="arch" type="xml">
+                <form string="Search" create="false" edit="false" write="false">
+                    <sheet>
+                        <header>
+                            <button name="%(experiment_action)d" string="Back to experiments listing" type="action" colspan="1" class="oe_link"/>
+                        </header>
+                    <group col='8'>
+                        <group col="2">
+                            <field name="search_type" nolabel='0'/>
+                        </group>
+                        <group col="2">
+                            <field name="tags_id" nolabel='0' widget="selection" placeholder="Select a Tag"/>
+                        </group>
+                        <group col="4">
+                            <field name="search_by_created_uid" nolabel='0'/>
+                        </group>
+                    </group>
+                    <group col="8">
+                        <group col="2"></group>
+                        <group col="2"></group>
+                        <group col="4">
+                            <field name="search_in_all" nolabel='0'/>
+                        </group>
+                    </group>
+                    <group col="4">
+                        <field name="start_date" nolabel='0'/>
+                        <field name="end_date" nolabel='0'/>
+                    </group>
+                    <group col="4">
+                        <field name="contain_title" nolabel='0'/>
+                        <field name="status_id" nolabel='0' widget="selection" placeholder="select status"/>
+                    </group>
+                    <group col="4">
+                        <field name="body_contains" nolabel='0'/>
+                        <field name="ratting" nolabel='0' placeholder="select number of stars"/>
+                    </group>
+                    <group col="2">
+                        <field name="space_mean" nolabel='1' placeholder="space means"/>
+                    </group>
+                    <footer>
+                        <group col="8">
+                            <button name="search_data" string="LAUNCH SEARCH" type="object" class="oe_highlight"/>
+                        </group>
+                    </footer>
+                </sheet>
+                </form>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="search_action_window">
+            <field name="name">Search</field>
+            <field name="res_model">labpal.serach_model</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+       </record>
+       <menuitem id="search_menu" name="Search" parent="olims.menu_root" sequence="8"
+                  action="search_action_window"/>
+
+      <!--  <record id="mail_form_labpal" model="ir.ui.view">
+        <field name="name">labpal.mail.form</field>
+        <field name="model">labpal.mail</field>
+        <field name="arch" type="xml">
+        <form string="Email Compose labpal">
+            <field name="email_From"/>
+            <field name="email_To"/>
+            
+        </form>
+        </field>
+    </record>
+ -->
+        <record model="ir.ui.view" id="olims.email_compose_message_wizard_form_labpal">
+            <field name="name">mail.compose.message.form</field>
+            <field name="model">mail.compose.message</field>
+            <!-- <field name="groups_id" eval="[(4,ref('base.group_user'))]"/> -->
+            <field name="arch" type="xml">
+                <form string="Compose Email">
+                    <group>
+                        <!-- truly invisible fields for control and options -->
+                        <field name="composition_mode" invisible="1"/>
+                        <field name="model" invisible="1"/>
+                        <field name="res_id" invisible="1"/>
+                        <field name="is_log" invisible="1"/>
+                        <field name="parent_id" invisible="1"/>
+                        <field name="mail_server_id" invisible="1"/>
+                        <field name="active_domain" invisible="1"/>
+
+                        <!-- Various warnings -->
+                        <field name="use_active_domain" invisible="1"/>
+                        <div colspan="2" class="oe_form_box_info oe_text_center"
+                                attrs="{'invisible': [('use_active_domain', '!=', True)]}">
+                            <p>
+                                <strong>All records matching your current search filter will be mailed,
+                                    not only the ids selected in the list view.</strong><br />
+                                If you want to work only with selected ids, please uncheck the
+                                list header checkbox.
+                            </p>
+                            <br/>
+                            <p>
+                                <strong>Moreover, if you want to send a lot of emails, we recommend you to use the mass mailing module</strong>. <br />
+                                Confirming this wizard will probably take a few minutes blocking your browser.</p>
+                        </div>
+                        <!-- visible wizard -->
+                        <field name="email_from"
+                            attrs="{'invisible':[('composition_mode', '!=', 'mass_mail')]}"/>
+                        <label for="partner_ids" string="Recipients"  attrs="{'invisible': [('is_log', '=', True)]}" groups="base.group_user"/>
+                        <div groups="base.group_user" attrs="{'invisible': [('is_log', '=', True)]}">
+                            <span attrs="{'invisible': [('composition_mode', '!=', 'mass_mail')]}">
+                                <strong>Email mass mailing</strong> on
+                                <span attrs="{'invisible': [('use_active_domain', '=', True)]}">the selected records</span>
+                                <span attrs="{'invisible': [('use_active_domain', '=', False)]}">the current search filter</span>.
+                            </span>
+                            <span attrs="{'invisible':['|', ('model', '=', False), ('composition_mode', '=', 'mass_mail')]}">Followers of the document and</span>
+                            <field name="partner_ids" widget="many2many_tags_email" placeholder="Add contacts to notify..."
+                                context="{'force_email':True, 'show_email':True}"
+                                attrs="{'invisible': [('composition_mode', '!=', 'comment')]}"/>
+                        </div>
+                        <field name="subject" placeholder="Subject..." required="True"/>
+                        <!-- mass post -->
+                        <field name="notify"
+                            attrs="{'invisible':['|', ('composition_mode', '!=', 'mass_post')]}"/>
+                        <!-- mass mailing -->
+                        <field name="no_auto_thread" attrs="{'invisible':[('composition_mode', '!=', 'mass_mail')]}"/>
+                        <field name="reply_to" placeholder="Email address to redirect replies..."
+                            attrs="{'invisible':['|', ('no_auto_thread', '=', False), ('composition_mode', '!=', 'mass_mail')],
+                                    'required':[('no_auto_thread', '=', True), ('composition_mode', '=', 'mass_mail')]}"/>
+                    </group>
+                    <field name="body" options="{'style-inline': true}"/>
+                    <group col="4">
+                        <field name="attachment_ids" widget="many2many_binary" string="Attach a file" nolabel="1" colspan="2"/>
+                        <field name="template_id" options="{'no_create': True}"
+                               context="{'default_model': model, 'default_body_html': body, 'default_subject': subject}"/>
+                    </group>
+                    <footer>
+                        <button string="Send" name="experiment_email" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel" />
+
+                        <button icon="fa-lg fa-save" type="object" name="save_as_template" string="Save as new template"
+                                class="pull-right btn-default" help="Save as a new template"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_email_compose_message_wizard" model="ir.actions.act_window">
+            <field name="name">Compose Email</field>
+            <field name="res_model">mail.compose.message</field>
+            <field name="src_model">mail.compose.message</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+        </record>
+
+        <!--  Replace the default mass-mailing wizard in base with the composition wizard -->
+        <act_window name="Partner Mass Mailing"
+                res_model="mail.compose.message"
+                src_model="res.partner"
+                view_mode="form"
+                multi="True"
+                target="new"
+                key2="client_action_multi"
+                id="base.action_partner_mass_mail"
+                context="{
+                            'default_composition_mode': 'mass_mail',
+                            'default_partner_to': '${object.id or \'\'}',
+                            'default_active_domain': [['id', 'in', context.get('active_ids', [])]],
+                        }"/>
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    
+
+    <record id="prefernces_configuration" model="ir.ui.view">
+    <field name="name">Prefernces</field>
+    <field name="model">labpal.preferences</field>
+    <field name="arch" type="xml">
+        <form string="Prefernces" class="oe_form_configuration">
+            <group col="8">
+                <field name="create_key_value" readonly="1"/>
+            </group>
+            <group col="8">
+                <field name="edit_key_value" readonly="1"/>
+            </group>
+            <group col="8">
+                <field name="save_key_value" readonly="1"/>
+            </group>
+            <group col="8">
+                <field name="cancel_key_value" readonly="1"/>
+            </group>
+
+        </form>
+    </field>
+    </record>
+    <record id="prefernces_settings_action" model="ir.actions.act_window">
+    <field name="name">Prefernces configuration</field>
+    <field name="res_model">labpal.preferences</field>
+    <field name="view_id" ref="prefernces_configuration"/>
+    <field name="view_mode">form</field>
+    <field name="target">inline</field>
+    </record>
+    <menuitem id="prefernces_settings_menu" name="Prefernces"
+            parent="base.menu_administration"/>
+    <menuitem id="keyboard_menu" name="Keyboard Shortcuts"
+    parent="prefernces_settings_menu" action="prefernces_settings_action"/>
+
+  </data>
+
+</openerp>

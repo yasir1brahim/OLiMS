@@ -14,7 +14,7 @@
 		<menuitem id="olims_settings_menu" name="OLiMS Settings"
             parent="base.menu_administration"/>
 
-        <record model="ir.ui.view" id="olims_loaddata_form_view">
+        <!-- <record model="ir.ui.view" id="olims_loaddata_form_view">
             <field name="name">loaddata.form</field>
             <field name="model">olims.loaddata</field>
             <field name="priority" eval="1"/>
@@ -29,7 +29,7 @@
                 </sheet>
                 </form>
             </field>
-        </record>
+        </record> -->
         <record model="ir.ui.view" id="olims_login_tree_view">
             <field name="name">users_login_detail.tree</field>
             <field name="model">olims.users_login_detail</field>
@@ -43,14 +43,14 @@
                 </tree>
             </field>
         </record>
-        <record model="ir.actions.act_window" id="loaddata_action">
+        <!-- <record model="ir.actions.act_window" id="loaddata_action">
             <field name="name">Load Demo Data</field>
             <field name="res_model">olims.loaddata</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="olims_loaddata_form_view"/>
-       </record>
-       <menuitem id="demo_data_menu" name="Load Demo Data" parent="olims_settings_menu" action="loaddata_action" sequence="42"/>
+       </record> -->
+       <!-- <menuitem id="demo_data_menu" name="Load Demo Data" parent="olims_settings_menu" action="loaddata_action" sequence="42"/> -->
        
        <record model="ir.actions.act_window" id="logindata_tree_action">
             <field name="name">User Login Detail</field>

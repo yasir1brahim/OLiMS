@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': ['base','web','mail','report','report_webkit'],
 
     # always loaded
     'data': [
@@ -59,6 +59,12 @@
         'wizard/olims_dataentrydaybook_view.xml',
         'views/olimsscheduler.xml',
         'security/olims_security.xml',
+        'templates.xml',
+        'labpal_report.xml',
+        'labpal_database_template.xml',
+        'labpal_experiment_template.xml',
+        'labpal_mail_template.xml',
+        'views.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
@@ -94,8 +100,13 @@
         'data/olims.sampling_deviation.csv',
         'data/olims.users_login_detail.csv',
     ],
+
+    'css': ['static/css/js/*.css'],
+    'qweb': ['static/src/xml/*.xml'],
     #Added installation method for odoo to recognize new module
     'installable': True,
     'application': True,
     'auto_install': False,
+    'web_preload': True,
 }
+
