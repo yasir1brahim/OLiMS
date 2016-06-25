@@ -59,12 +59,11 @@
         'wizard/olims_dataentrydaybook_view.xml',
         'views/olimsscheduler.xml',
         'security/olims_security.xml',
-        'templates.xml',
-        'labpal_report.xml',
-        'labpal_database_template.xml',
-        'labpal_experiment_template.xml',
-        'labpal_mail_template.xml',
-        'views.xml',
+        'views/templates.xml',
+        'views/labpal_database_template.xml',
+        'views/labpal_experiment_template.xml',
+        'views/labpal_mail_template.xml',
+        'views/views.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

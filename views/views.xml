@@ -42,15 +42,15 @@
                     <field name="tag_ids" widget="many2many_tags" options="{'no_create_edit': True}"></field>
                     <group col="8">
                       <group col="4">
-                        <!-- <label for="exp_date" string="Date"/> -->
+                        
                         <field name="exp_date"></field>
                       </group>
                       <group col="2">
-                        <!-- <label for="status_visibility" string="Visibility"/> -->
+                        
                         <field name="status_visibility"></field>
                       </group>
                       <group col="2">
-                        <!-- <label for="exp_status" string="Status"/> -->
+                        
                         <field name="exp_status"></field>
                       </group>
                     </group>
@@ -89,7 +89,6 @@
                 <search string="Experiments">
                     <field name="exp_title"/>
                     <field name="exp_status"/>
-                    <!-- <filter string="Action Items" name="my_requests_filter" domain="[]" context="{'group_by' : 'exp_status'}"/> -->
                 </search>
             </field>
         </record>
@@ -117,15 +116,10 @@
                                     </ul>	
                                 </div>
                                 <div class="o_kanban_tags_section">
-                                    <!-- <field name="attribute_value_ids" groups="product.group_product_variant"/> -->
                                 </div>
                                 <div class="oe_kanban_content">
                                 	<h4 class="oe_center"><field name="exp_title" /></h4>
                                     <div class="oe_left">
-                                        <!-- <t t-foreach="record.tag_ids.value" t-as="tag_id">
-                                                 <span class="oe_kanban_list_many2many" t-att-data-tag_id="tag_id" t-esc="tag_id">
-                                                 </span>
-                                             </t> -->
                                         <span>
                                             <field name="tag_ids" widget="many2many_kanban"/>
                                         </span>
@@ -146,14 +140,12 @@
         <record model="ir.actions.act_window" id="experiment_action">
             <field name="name">Experiments</field>
             <field name="res_model">labpal.experiment</field>
-            <!-- <field name="view_type">form</field> -->
             <field name="view_mode">kanban,tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
                  Click here to create a new experiment.
               </p>
             </field>
-            <!-- <field name="domain">[('exp_title','=','Experiment') ]</field> -->
        </record>
   
     <!-- Top menu item -->
@@ -165,28 +157,11 @@
     <!-- menu categories -->
     <menuitem id="experiment_menu" name="Experiments" parent="olims.menu_root" sequence="1"
                   action="experiment_action"/>
-    <!--
-    <menuitem name="Menu 1" id="labpal.menu_1" parent="olims.menu_root"/>
-    <menuitem name="Menu 2" id="labpal.menu_2" parent="olims.menu_root"/>
-    -->
-    <!-- actions -->
-    <!--
-    <menuitem name="List" id="labpal.menu_1_list" parent="labpal.menu_1"
-              action="labpal.action_window"/>
-    <menuitem name="Server to list" id="labpal" parent="labpal.menu_2"
-              action="labpal.action_server"/>
-    -->
-
-
-    
     <record id="action_home_page" model="ir.actions.client">
             <field name="name">LabPal Home</field>
             <field name="tag">olabpal.homepage</field>
         </record>
 
-        <!--menuitem id="home_page_labpal_menu" name="Home Page" parent="olims.menu_root"
-            action="action_home_page"/-->
-        <!-- Create the tree view -->
 <record id="agenda_status_tree_view" model="ir.ui.view">
     <field name="name">status.tree.view</field>
     <field name="model">labpal.status</field>
@@ -195,7 +170,7 @@
     <field name="arch" type="xml">
         <tree string="Status">
             <field name="name"/>
-            <!-- <field name="color" widget="color"/> -->
+            
         </tree>
      </field>
 </record>
@@ -217,46 +192,6 @@
         </form>
      </field>
 </record>
-       <!--  <record id="status_kanban_view" model="ir.ui.view">
-            <field name="name">Status Kanban</field>
-            <field name="model">labpal.status</field>
-            <field name="arch" type="xml">
-                <kanban>
-                    <field name="name"/>
-                    <field name="color"/>
-                    <templates>
-                        <t t-name="kanban-box">
-                            <div class="oe_kanban_global_click">
-                                <div class="o_dropdown_kanban dropdown">
-
-                                    <a class="dropdown-toggle btn" data-toggle="dropdown" href="#" >
-                                        <span class="fa fa-bars fa-lg"/>
-                                    </a>
-                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-                                        <li><a type="edit">Edit</a></li>
-                                        <li><a type="delete">Delete</a></li>
-                                        <li><ul class="oe_kanban_colorpicker" data-field="color"/></li>
-                                    </ul>
-                                </div>
-                                <div class="o_kanban_tags_section">
-                                    
-                                </div>
-                                <div class="o_kanban_image">
-                                    
-                                </div>
-                                <div class="oe_kanban_details">
-                                    <strong><field name="name"/></strong>
-                                    <ul>
-                                        <li>Color: <field name="color"></field></li>
-                                    </ul>
-                                    <div name="tags"/>
-                                </div>
-                            </div>
-                        </t>
-                    </templates>
-                </kanban>
-            </field>
-        </record> -->
 		<record model="ir.actions.act_window" id="status_action_window">
             <field name="name">Status</field>
             <field name="res_model">labpal.status</field>
@@ -351,7 +286,6 @@
                                     </ul>
                                 </div>
                                 <div class="o_kanban_tags_section">
-                                    <!-- <field name="attribute_value_ids" groups="product.group_product_variant"/> -->
                                 </div>
                                 <div class="oe_kanban_content">
                                     <div>
@@ -363,9 +297,6 @@
                                     </div>
                                     <div>
                                         <span t-if="record.tag_ids.value" class="oe_kanban_list_many2many"><field name="tag_ids"/></span>
-                                        <!-- <span class="oe_kanban_list_many2many"> -->
-                                            <!--  -->
-                                        <!-- </span> -->
                                     </div>
                                 </div>
                             </div>
@@ -382,14 +313,12 @@
                 <search string="Databases">
                     <field name="name"/>
                     <field name="types_of_item_id"/>
-                    <!-- <filter string="Action Items" name="my_requests_filter" domain="[]" context="{'group_by' : 'types_of_item_id'}"/> -->
                 </search>
             </field>
         </record>
         <record model="ir.actions.act_window" id="database_action_window">
             <field name="name">Databases</field>
             <field name="res_model">labpal.database</field>
-            <!-- <field name="view_type">form</field> -->
             <field name="view_mode">kanban,tree,form</field>
             <field name="help" type="html">
               <p class="oe_view_nocontent_create">
@@ -519,7 +448,6 @@
     </record>
     <record id="action_search_databases" model="ir.actions.act_window">
         <field name="name">Filter Databases</field>
-        <!-- <field name="type">ir.actions.act_window</field> -->
         <field name="res_model">labpal.filter_database</field>
         <field name="view_type">form</field>
         <field name="view_mode">form</field>
@@ -650,22 +578,9 @@
        <menuitem id="search_menu" name="Search" parent="olims.menu_root" sequence="8"
                   action="search_action_window"/>
 
-      <!--  <record id="mail_form_labpal" model="ir.ui.view">
-        <field name="name">labpal.mail.form</field>
-        <field name="model">labpal.mail</field>
-        <field name="arch" type="xml">
-        <form string="Email Compose labpal">
-            <field name="email_From"/>
-            <field name="email_To"/>
-            
-        </form>
-        </field>
-    </record>
- -->
         <record model="ir.ui.view" id="olims.email_compose_message_wizard_form_labpal">
             <field name="name">mail.compose.message.form</field>
             <field name="model">mail.compose.message</field>
-            <!-- <field name="groups_id" eval="[(4,ref('base.group_user'))]"/> -->
             <field name="arch" type="xml">
                 <form string="Compose Email">
                     <group>

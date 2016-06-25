@@ -4,7 +4,6 @@
 <template id="labpal_database_template_document">
     <ul>
     <t t-call="report.external_layout">
-        <!-- <t t-set="doc" t-value="doc.with_context({'lang':doc.partner_id.lang})" /> -->
         <div class="page">
             <div class="oe_structure"/>
             <div class="row">

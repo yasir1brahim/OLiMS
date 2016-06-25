@@ -9,3 +9,5 @@ import olims_ar_and_analyses_per_client
 import olims_analysesperdepartment
 import olims_analysesperformedpertotal
 import olims_dataentrydaybook
+import pdf_template
+import pdf_template_db

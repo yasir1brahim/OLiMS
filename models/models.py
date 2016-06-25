@@ -47,8 +47,6 @@ class InMemoryZip(object):
 
     def read(self):
         '''Returns a string with the contents of the in-memory zip.'''
-        # self.in_memory_zip.seek(0)
-        # print "self.in_memory_zip ==== ",self.in_memory_zip.read()
         self.in_memory_zip.seek(0)
         return self.in_memory_zip.read()
 
@@ -63,10 +61,6 @@ class InMemoryZip(object):
 class Experiment(models.Model):
 
     _name = 'labpal.experiment'
-    _inherit = 'mail.thread'
-    
-    # _inherit = 'mail.compose.message'
-    #_inherit = 'mail.compose.message'
     _inherit = ['mail.thread', 'ir.needaction_mixin']
 
     tag_ids = fields.Many2many('labpal.tag',
@@ -142,7 +136,6 @@ class Experiment(models.Model):
         return {
              'type' : 'ir.actions.act_url',
              'url': '/web/export/csv?data=' + json.dumps(data) + '&token=' + str(None),
-             # 'url': '/web/application/zip?data=' + json.dumps(data) + '&token=' + str(None),
              'target': 'self'
         }
 
@@ -510,7 +503,6 @@ class FilterDatabase(models.TransientModel):
     def disaplay_ordered_database(self):
         data = self.read()[0]
         ids_list = []
-        # kanban_view = self.env.ref('labpal.database_kanban_view', False)
         if data['order_by'] and data['sort_by']:
             sortBy = data['order_by'] + " " + data['sort_by']
             database_res = self.env['labpal.database'].search([], order=sortBy)
@@ -521,9 +513,6 @@ class FilterDatabase(models.TransientModel):
             'res_model': 'labpal.database',
             'views': [[False, 'kanban'],[False, 'tree'],[False, 'form']],
             'domain' : [('id', 'in', ids_list)],
-            # 'view_mode': 'kanban',
-            # 'view_id': kanban_view.id,
-            # 'flags': {'action_buttons': True},
             }
         elif data['order_by']:
             sortBy = data['order_by'] + " " + 'desc'
@@ -535,18 +524,12 @@ class FilterDatabase(models.TransientModel):
             'res_model': 'labpal.database',
             'views': [[False, 'kanban'],[False, 'tree'],[False, 'form']],
             'domain' : [('id', 'in', [ids_list])],
-            # 'view_mode': 'kanban',
-            # 'view_id': kanban_view.id,
-            # 'flags': {'action_buttons': True},
             }
         else:
             return {
             'type': "ir.actions.act_window",
             'res_model': "labpal.database",
             'views': [[False, 'kanban'],[False, 'tree'],[False, 'form']],
-            # 'view_mode': 'tree',
-            # 'view_id': kanban_view.id,
-            # 'target' : "current"
             }
     @api.multi
     def disaplay_ordered_experiment(self):

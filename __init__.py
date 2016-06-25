@@ -80,5 +80,3 @@ import wizard
 import report
 from controllers import controllers
 from models import models
-import pdf_template
-import pdf_template_db
