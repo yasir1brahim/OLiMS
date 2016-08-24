@@ -93,7 +93,7 @@ schema = (fields.Char(string='RequestID',
     # Sample field
     fields.Many2one(string='Sampler',
         comodel_name="res.users",
-        domain="[('groups_id', 'in', (14,18))]",
+        domain="[('groups_id', 'in', [14,18])]",
     ),
     DateTimeField(
         'SamplingDate',
@@ -168,6 +168,9 @@ schema = (fields.Char(string='RequestID',
     DateTimeField(
         'DatePublished',
     ),
+    DateTimeField(
+        'DateDue',
+    ),
     TextField(
         string='Remarks',
         searchable=True,
@@ -228,6 +231,15 @@ schema = (fields.Char(string='RequestID',
                                 ),
                      default='general',
     ),
+    fields.One2many(string="Field_Manage_Result",
+        comodel_name="olims.manage_analyses",
+        inverse_name="manage_analysis_id"),
+    fields.One2many(string="Lab_Manage_Result",
+        comodel_name="olims.manage_analyses",
+        inverse_name="lab_manage_analysis_id"),
+    fields.One2many(string="AddAnalysis",
+        comodel_name="olims.add_analysis",
+        inverse_name="add_analysis_id")
 )
 schema_analysis = (fields.Many2one(string='Service',
                     comodel_name='olims.analysis_service',
@@ -265,11 +277,43 @@ schema_analysis = (fields.Many2one(string='Service',
     StringField(string="Min"),
     StringField(string="Max"),
     fields.Many2one(string='Category',
-        comodel_name='olims.analysis_category')
+        comodel_name='olims.analysis_category'),
 )
+
+manage_result_schema = (
+    StringField(string="Partition"),
+    StringField(string="Result"),
+    BooleanField('+-', default=False),
+    DateTimeField('Capture'),
+    DateTimeField('Due Date'),
+    # fields.Many2one(string="Result",
+    #     comodel_name="olims.result_option"),
+    fields.Many2one(string="Instrument",
+        comodel_name="olims.instrument"),
+    fields.Many2one(string="Analyst",
+        comodel_name="res.users",
+        domain="[('groups_id', 'in', [14,22])]"),
+    StringField('Specifications'),
+    fields.Many2one(string='manage_analysis_id',
+        comodel_name='olims.analysis_request',
+        # domain="[('state', '=', 'sample_received')]",
+        ondelete='cascade'
+    ),
+    fields.Many2one(string='lab_manage_analysis_id',
+        comodel_name='olims.analysis_request',
+        # domain="[('state', '=', 'sample_received')]",
+        ondelete='cascade'
+    ),
+    fields.Many2one(string='Method',
+        comodel_name='olims.method',
+        ),
+    fields.Many2one(string='Category',
+        comodel_name='olims.analysis_category'),
+    )
 
 class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     _name = 'olims.analysis_request'
+    _rec_name = "RequestID"
 
     def compute_analysisRequestId(self):
         for record in self:
@@ -289,20 +333,62 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         """Overwrite the create method of Odoo and create sample model data
            with fields SamplingDate and SampleType
         """
-        res = super(AnalysisRequest, self).create(values)
         data = []
-        for LabService in values.get('LabService'): 
-            data.append(LabService)
+        lab_result_list = []
+        field_result_list = []
+        analysis_object = super(AnalysisRequest, self).search([])
+        if len(analysis_object) > 0:
+            for ar_item in analysis_object[len(analysis_object)-1]:
+                Partition = 'P-0'+ str(ar_item.id+1)+'-R-0'+str(ar_item.id+1)
+        else:
+            Partition = "P-01-R-01"
+        for LabService in values.get('LabService'):
+            Specification = ">"+str(LabService[2]['Min'])+", <"+str(LabService[2]['Max'])+", %"+str(LabService[2]['Error'])
+            service_instance = self.env['olims.analysis_service'].search([('id', '=', LabService[2]['LabService'])])
+            if service_instance._Method and service_instance.InstrumentEntryOfResults == False:
+                LabService[2].update({'Method':service_instance._Method.id})
+            elif service_instance.InstrumentEntryOfResults:
+                LabService[2].update({'Method':None, 'Instrument': service_instance.Instrument})
+            LabService[2].update({'Specifications':Specification,
+                "Due Date": datetime.datetime.now(),
+                'Partition':Partition})
+            lab_result_list.append([0,0, LabService[2]])
         for FieldService in values.get('FieldService'):
+            Specification = ">"+str(FieldService[2]['Min'])+", <"+str(FieldService[2]['Max'])+", %"+str(FieldService[2]['Error'])
+            service_instance = self.env['olims.analysis_service'].search([('id', '=', FieldService[2]['Service'])])
+            if service_instance._Method and service_instance.InstrumentEntryOfResults == False:
+                FieldService[2].update({'Method':service_instance._Method.id})
+            elif service_instance.InstrumentEntryOfResults:
+                FieldService[2].update({'Method':None, 'Instrument': service_instance.Instrument})
+            FieldService[2].update({'Specifications':Specification,
+                "Due Date": datetime.datetime.now(),
+                'Partition':Partition})
+
+            field_result_list.append([0,0, FieldService[2]])
             data.append(FieldService)
-        vals = {
+
+        values.update({"Field_Manage_Result": field_result_list,
+            "Lab_Manage_Result": lab_result_list})
+        res = super(AnalysisRequest, self).create(values)
+        
+        smaple_vals_dict = {
                 'SamplingDate':values.get('SamplingDate'),
                 'SampleType':values.get('SampleType'),
                 'Client': values.get('Client'),
-                'Analysis_Request' : res.id
+                'Analysis_Request': res.id,
+                'ClientReference': values.get('ClientReference'),
+                'ClientSampleID': values.get('ClientSampleID'),
+                'SamplePoint': values.get('SamplePoint'),
+                'StorageLocation': values.get('StorageLocation'),
+                'SamplingDeviation': values.get('SamplingDeviation'),
+                'SampleCondition': values.get('SampleCondition'),
                 }
         sample_object = self.env["olims.sample"]
-        sample_object.create(vals)
+        new_sample = sample_object.create(smaple_vals_dict)
+
+        analysis_object = super(AnalysisRequest, self).search([('id', '=',res.id)])
+        analysis_object.write({"Sample_id":new_sample.id})
+
         partition_values = {'State': res.state,
                             'analysis_request_id':res.id,
                             'Partition': 'P-0'+ str(res.id)+'-R-0'+str(res.id)
@@ -312,6 +398,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         ar_sample_partition_object.create(partition_values)
         ar_p = ar_partition_object.create(partition_values)
         ar_analysis_object = self.env['olims.ar_analysis']
+        ar_service_lab_id = None
         for rec in data:
             if "LabService" in rec[2]:
                 serv_temp = rec[2]['LabService']
@@ -329,6 +416,45 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                                }
             ar_analysis_object.create(analyses_values)
         return res
+
+    @api.multi
+    def write(self, values):
+        result_val_dict = {}
+        if values.get("Analyses", None):
+            for items in values.get("Analyses"):
+                if items[0] == 0:
+                    result_val_dict.update({
+                            "Specifications":">"+str(items[2].get("Min", None))+", <"+str(items[2].get("Max", None))+", %"+str(items[2].get("Error", None)),
+                            "Category": items[2].get("Category"),
+                            'Due Date':datetime.datetime.now()
+                            })
+                    if items[2].get("Partition", None):
+                        partition = self.env["olims.ar_partition"].search([("id", '=', items[2].get("Partition"))])
+                        result_val_dict.update({"Partition": partition.Partition})
+                    else:
+                        result_val_dict.update({"Partition": 'P-0'+ str(self.id)+'-R-0'+str(self.id)})
+                    if items[2].get("Services", None):
+                        service = self.env["olims.analysis_service"].search([('id', '=', items[2].get("Services"))])
+                        if service._Method and service.InstrumentEntryOfResults == False:
+                            result_val_dict.update({'Method':service._Method.id})
+                        elif service.InstrumentEntryOfResults:
+                            result_val_dict.update({'Method':None, 'Instrument': service.Instrument})
+                        if service.PointOfCapture == 'field':
+                            result_val_dict.update({
+                                'Service': items[2].get("Services"),
+                                })
+                            values.update({"Field_Manage_Result": [[0, False, result_val_dict]]})
+                        else:
+                            result_val_dict.update({
+                                'LabService': items[2].get("Services"),
+                                })
+                            values.update({"Lab_Manage_Result": [[0, False, result_val_dict]]})
+                if items[0] == 2:
+                    pass
+                if items[0] == 1:
+                   pass
+        res = super(AnalysisRequest, self).write(values)
+        return res  
 
     @api.multi
     def publish_analysis_request(self):
@@ -452,9 +578,29 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         return True
 
     def workflow_script_receive(self,cr,uid,ids,context=None):
+        analysis_dict = {}
+        add_analysis_object = self.pool.get('olims.add_analysis')
+        analysis_request_obj = self.pool.get('olims.analysis_request').browse(cr,uid,ids,context)
+        manage_result_object = self.pool.get('olims.manage_analyses').search(cr,uid,['|',
+            ('manage_analysis_id', '=', ids),('lab_manage_analysis_id', '=', ids)],context)
+        for items in self.pool.get('olims.manage_analyses').browse(cr,uid,manage_result_object,context):
+            analysis_dict.update({
+                'category':items.Category.id,
+                'client': analysis_request_obj.Client.id,
+                'order':analysis_request_obj.ClientOrderNumber,
+                'priority':analysis_request_obj.Priority.id,
+                'due_date':analysis_request_obj.DateDue,
+                'received_date':datetime.datetime.now()
+                })
+            if items.Service:
+                analysis_dict.update({'analysis':items.Service.id })
+            if items.LabService:
+                analysis_dict.update({'analysis':items.LabService.id })
+            self.write(cr, uid, ids, {'AddAnalysis': [[0,0, analysis_dict]]
+                }, context=context)
         datereceived = datetime.datetime.now()
         self.write(cr, uid, ids, {
-            'state': 'sample_received', 'DateReceived' : datereceived
+            'state': 'sample_received', 'DateReceived' : datereceived,
         }, context=context)
         return True
 
@@ -479,7 +625,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 
     def workflow_script_sample_due(self,cr,uid,ids,context=None):
         self.write(cr, uid, ids, {
-            'state': 'sample_due',
+            'state': 'sample_due', 'DateDue':datetime.datetime.now()
         }, context=context)
         return True
 
@@ -516,6 +662,12 @@ class FieldAnalysisService(models.Model, BaseOLiMSModel):
                 item.CommercialID = item.LabService.CommercialID
                 item.ProtocolID  = item.LabService.ProtocolID
 
+class ManageAnalyses(models.Model, BaseOLiMSModel):
+    _inherit = 'olims.field_analysis_service'
+    _name = 'olims.manage_analyses'
+
+
 AnalysisRequest.initialze(schema)
 FieldAnalysisService.initialze(schema_analysis)
+ManageAnalyses.initialze(manage_result_schema)
 

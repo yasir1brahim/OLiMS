@@ -471,7 +471,7 @@ schema = (StringField('Service',
     ),
           
           
-          fields.One2many(string='ResultOptions',
+    fields.One2many(string='ResultOptions',
                        comodel_name='olims.result_option',
                        inverse_name='service_resultoption_id'
 
@@ -685,6 +685,12 @@ class AnalysisService(models.Model, BaseOLiMSModel):
             if len(analysis_service_ids) > 1:
                 raise Warning(
                     _('There can not be two services with the same keyword.'))
+
+    @api.onchange('Methods')
+    def onchanage_methods_set_default_method(self):
+        for item in self:
+            if item.Methods:
+                item._Method = item.Methods[0]
 
 
 

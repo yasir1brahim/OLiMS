@@ -113,6 +113,7 @@ schema = (StringField('name',
 
 class Sample(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
     _name = 'olims.sample'
+    _rec_name = "name"
 
     def compute_smapleId(self):
         for record in self:

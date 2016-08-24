@@ -1850,18 +1850,19 @@
 
                             <button string="Receive Sample" name="receive" type="workflow" states="sample_due"/>
 
+                            <button string="Submit for Verification" name="submit" type="workflow" states="sample_received"/>
                             <button string="Verify" name="verify" type="workflow" states="to_be_verified"/>
-                            <button string="Publish" name="publish" type="workflow" states="sample_received"/>
+                            <button string="Publish" name="publish" type="workflow" states="verified"/>
                             <button string="Print" name="publish_analysis_request" type="object" states="published"/>
 
-                            <field name="state" widget="statusbar" statusbar_visible="to_be_sampled,sample_received,sample_due" statusbar_colors='{"to_be_sampled":"blue","sample_received":"red","invalid":"red"}'/>
+                            <field name="state" widget="statusbar" statusbar_visible="to_be_sampled,sample_received,sample_due, to_be_verified, verified" statusbar_colors='{"to_be_sampled":"blue","sample_received":"red","invalid":"red"}'/>
                     </header>
                 <!-- </sheet> -->
                     
                         <notebook>
                         <page string='View'>
-                        <!-- <label for="Client" string="Client" invisible="1"/>
-                        <field name="Client" options="{'no_create': True}" invisible="1"></field> -->
+                        <label for="Client" string="Client" invisible="1"/>
+                        <field name="Client" options="{'no_create': True}" invisible="1"></field>
                     <label for="Contact" string="Contact"/>
                 	<field name="Contact" options="{'no_create': True}"></field>
                 	<label for="CCContact" string="CC Contact"/>
@@ -1995,7 +1996,7 @@
                             <field name="Partition" attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="Container" options="{'no_create': True}"/>
                             <field name="Preservation" options="{'no_create': True}"/>
-                            <field name="State" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <!-- <field name="State" attrs="{'readonly': [('id', '!=', False)]}"/> -->
                         </tree>
                     </field>
                     <label for="Analyses" string="Analyses"/>
@@ -2015,6 +2016,42 @@
                     </field>
                     <label for="Remarks" string="Remarks"/>
                     <field name="Remarks"/>
+                </page>
+                <page string="Manage Results" attrs="{'invisible': [('state', '!=', 'sample_received'),('state', '!=', 'published'),('state', '!=', 'verified'),('state', '!=', 'to_be_verified')]}">
+                    <label for="Field_Manage_Result" string="Field Analysis" attrs="{'invisible': [('Field_Manage_Result', '=', [])]}"/>
+                    <field name="Field_Manage_Result" attrs="{'invisible': [('Field_Manage_Result', '=', [])]}">
+                        <tree editable="bottom" create='false' delete='false'>
+                            <field name="id" invisible="1"/>
+                            <field name='Category' attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="Service" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="Partition" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="Result"/>
+                            <field name="Specifications" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="Method" options="{'no_create': True}" attrs="{'readonly': [('Result', '!=', '')]}"/>
+                            <field name="Instrument" options="{'no_create': True}" attrs="{'readonly': [('Method', '!=', False)]}"/>
+                            <field name="Analyst" options="{'no_create': True}"/>
+                            <field name="+-"/>
+                            <field name="Capture" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="Due Date" attrs="{'readonly': [('id', '!=', False)]}"/>
+                        </tree>
+                    </field>
+                    <label for="Lab_Manage_Result" string="Lab Analysis" attrs="{'invisible': [('Lab_Manage_Result', '=', [])]}"/>
+                    <field name="Lab_Manage_Result" attrs="{'invisible': [('Lab_Manage_Result', '=', [])]}">
+                        <tree editable="bottom" create='false' delete='false'>
+                            <field name="id" invisible="1"/>
+                            <field name='Category' attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="LabService" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="Partition" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="Result"/>
+                            <field name="Specifications" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="Method" options="{'no_create': True}" attrs="{'readonly': [('Result', '!=', '')]}"/>
+                            <field name="Instrument" options="{'no_create': True}" attrs="{'readonly': [('Method', '!=', False)]}"/>
+                            <field name="Analyst" options="{'no_create': True}"/>
+                            <field name="+-"/>
+                            <field name="Capture" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="Due Date" attrs="{'readonly': [('id', '!=', False)]}"/>
+                        </tree>
+                    </field>
                 </page>
                 <page string="Published Results" attrs="{'invisible': [('id', '=', False)]}">
                     <label for="Remarks" string="Remarks"/>
@@ -2152,17 +2189,87 @@
             <field name="arch" type="xml">
                 <form string="Worksheet Form">
                     <sheet>
-                    <header>
-                        <field name="State" widget="statusbar" statusbar_visible="open,attachment_due,to_be_verified,verified,rejected" statusbar_colors='{"open":"blue","to_be_verified":"blue","rejected":"red"}'/>
-                    </header>
-                    <group col='8'>
-                        <label for="Analyst" string="Select Analyst"/>
-                        <field name="Analyst" options="{'no_create': True}" nolabel='1'></field>
-                        <label for="Template" string="Select Worksheet Template"/>
-                        <field name="Template" options="{'no_create': True}" nolabel='1'></field>
-                        <label for="Instrument" string="Select Instrument"/>
-                        <field name="Instrument" options="{'no_create': True}" nolabel='1'></field>
-                    </group>
+                        <header>
+                            <field name="State" widget="statusbar" statusbar_visible="open,attachment_due,to_be_verified,verified,rejected" statusbar_colors='{"open":"blue","to_be_verified":"blue","rejected":"red"}'/>
+                            </header>
+                        <notebook>
+                            <page string="Add" class="oe_edit_only" attrs="{'invisible': [('id', '!=', False)]}">
+                                <group col='8'>
+                                    <label for="Analyst" string="Select Analyst"/>
+                                    <field name="Analyst" options="{'no_create': True}" nolabel='1'></field>
+                                    <label for="Template" string="Select Worksheet Template"/>
+                                    <field name="Template" options="{'no_create': True}" nolabel='1'></field>
+                                    <label for="Instrument" string="Select Instrument"/>
+                                    <field name="Instrument" options="{'no_create': True}" nolabel='1'></field>
+                                    <field name="id" invisible="1"/>
+                                </group>
+                            </page>
+                            <page string="Add Analyses" attrs="{'invisible': [('id', '=', False)]}">
+                                <label for="AnalysisRequest" string="Analysis Request"/>
+                                <field name="AnalysisRequest" options="{'no_create': True}"></field>
+                            </page>
+                            <page string="Manage Result" attrs="{'invisible': ['|', ('AnalysisRequest', '=', []),('id', '=', False)]}">
+                                <group string="Attachments">
+                                    <label for="AttachmentFile" string="Attachment File"/>
+                                    <field name="AttachmentFile" nolabel='1'></field>
+                                    <label for="AttachmentType" string="Attachment Type"/>
+                                    <field name="AttachmentType" options="{'no_create': True}" nolabel='1'></field>
+                                    <label for="AttachmentKeys" string="keywords"/>
+                                    <field name="AttachmentKeys" nolabel='1'></field>
+                                    <label for="Analysis" string="Attach to Analysis" attrs="{'invisible': ['|', ('ManageResult', '=', []),('id', '=', False)]}"/>
+                                    <field name="Analysis" nolabel='1' options="{'no_create': True}" domain="[('id', 'in', ManageResult[0][2])]" attrs="{'invisible': ['|', ('ManageResult', '=', []),('id', '=', False)]}"></field>
+                                </group>
+                                <group col='8'>
+                                    <label for="_Analyst" string="Analyst"/>
+                                    <field name="_Analyst" options="{'no_create': True}" nolabel='1'></field>
+                                    <label for="_Instrument" string="Select Instrument"/>
+                                    <field name="_Instrument" options="{'no_create': True}" nolabel='1'></field>
+                                    <field name="id" invisible="1"/>
+                                    <button string="Print" name="print_ws_manage_results" type="object"/>
+                                </group>
+                                <separator/>
+                                <label for="ManageResult" string="Manage Result"/>
+                                <field name="ManageResult" options="{'no_create': True}" widget="one2many_list">
+                                    <tree string="Manage Results" create="false"  editable="top">
+                                        <field name="position" string="Position"/>
+                                        <field name="client" string="Client" readonly="1"/>
+                                        <field name="request_analysis_id" string="Request ID" readonly="1"/>
+                                        <field name="sample_type" string="Sample Type" readonly="1"/>
+                                        <field name="analysis" string="Analysis" readonly="1"/>
+                                        <field name="priority" string="Priority" readonly="1"/>
+                                        <field name="result" string="Result"/>
+                                        <field name="captured" string="+-"/>
+                                        <field name="due_date" string="Due Date" readonly="1"/>
+                                    </tree>
+                                    <!-- <form string="Manage Results" create="false">
+                                        <field name="client" string="Client" readonly="1"/>
+                                        <field name="request_analysis_id" string="Request ID" readonly="1"/>
+                                        <field name="sample_type" string="Sample Type" readonly="1"/>
+                                        <field name="analysis" string="Analysis"/>
+                                        <field name="priority" string="Priority" readonly="1"/>
+                                        <field name="result" string="Result"/>
+                                        <field name="captured" string="+-"/>
+                                        <field name="due_date" string="Due Date" readonly="1"/>
+                                    </form> -->
+                                </field>
+                            </page>
+                            <page string="Add Blank Reference" attrs="{'invisible': [('id', '=', False)]}">
+                                <field name="Add-Blank-Refrence" widget="one2many_list">
+                                    <tree string="Add Blank Refrence" editable="bottom">
+                                        <field name="category" options="{'no_create': True}"/>
+                                        <field name="analysis" options="{'no_create': True}"/>
+                                    </tree>
+                                </field> 
+                            </page>
+                            <page string="Add Control Reference" attrs="{'invisible': [('id', '=', False)]}">
+                                <field name="Add-Control-Refrence" widget="one2many_list">
+                                    <tree string="Add Control Refrence" editable="bottom">
+                                        <field name="category" options="{'no_create': True}"/>
+                                        <field name="analysis" options="{'no_create': True}"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>
@@ -4096,6 +4203,9 @@
                         <page string="Batches" attrs="{'invisible': [('id', '=', False)]}">
                         </page>
                          <page string="Analysis Requests" attrs="{'invisible': [('id', '=', False)]}">
+                            <header>
+                                <!-- <button name="create_customer_invoice" string="Create Invoice" type="object" class="oe_highlight"/> -->
+                            </header>
                             <label for="Analysis_Request" string="Analysis Requests"/>
                             <field name="Analysis_Request"></field>
                         </page>
@@ -5346,6 +5456,76 @@
        </record>
 
         <menuitem id="sample_type" name="Sample Types" parent="olims_settings_menu" sequence="35"
-                  action="olims_sample_type_list_action"/>                                                                             
+                  action="olims_sample_type_list_action"/>
+
+        <record model="ir.ui.view" id="olims_manage_analysis_tree_view">
+            <field name="name">manage_analysis.tree</field>
+            <field name="model">olims.manage_analyses</field>
+            <field name="arch" type="xml">
+                <tree string="Manage Results">
+                    <field name="Category"/>
+                    <field name="Service"/>
+                    <field name="LabService"/>
+                    <field name="Result"/>
+                    <field name="Due Date"/>
+                </tree>
+            </field>
+        </record>   
+        <record model="ir.ui.view" id="olims_manage_analysis_form_view">
+            <field name="name">manage_analysis.form</field>
+            <field name="model">olims.manage_analyses</field>
+            <field name="arch" type="xml">
+                <form string="Manage Results">
+                    <field name="id" invisible="True"/>
+                    <label for="Category " string="Category"/>
+                    <field name="Category" readonly="1"/>
+                    <label for="Service " string="Service"/>
+                    <field name="Service" readonly="1"/>
+                    <label for="LabService " string="Lab Service"/>
+                    <field name="LabService" readonly="1"/>
+                    <label for="Due Date" string="Due Date"/>
+                    <field name="Due Date" readonly="1"/>
+                    <label for="Result" string="Result"/>
+                    <field name="Result"/>
+                </form>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="olims_add_analysis_tree_view">
+            <field name="name">add_analysis.tree</field>
+            <field name="model">olims.add_analysis</field>
+            <field name="arch" type="xml">
+                <tree string="Manage Results" edit='false' delete='false'>
+                    <field name="client"/>
+                    <field name="order"/>
+                    <field name="add_analysis_id"/>
+                    <field name="priority"/>
+                    <field name="category"/>
+                    <field name="analysis"/>
+                    <field name="received_date"/>
+                    <field name="due_date"/>
+                </tree>
+            </field>  
+        </record>
+
+        <record id="view_add_analysis_filter" model="ir.ui.view">
+            <field name="name">olims.add_analysis.list.select</field>
+            <field name="model">olims.add_analysis</field>
+            <field name="arch" type="xml">
+                <search string="Search Analyses">
+                    <!-- <field name="name" string="Sales Order" filter_domain="['|',('name','ilike',self),('client_order_ref','ilike',self)]"/> -->
+                    <field name="category"/>
+                    <field name="client"/>
+                    <field name="analysis"/>
+               </search>
+            </field>
+        </record>
+        <record id="action_add_analysis" model="ir.actions.act_window">
+            <field name="name">Add Analyses</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">olims.add_analysis</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_add_analysis_filter"/>   
+        </record>                                         
     </data>
 </openerp>

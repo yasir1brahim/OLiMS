@@ -64,6 +64,7 @@
         'views/labpal_experiment_template.xml',
         'views/labpal_mail_template.xml',
         'views/views.xml',
+        'views/report_ws_manage_results.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

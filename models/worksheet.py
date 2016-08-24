@@ -4,6 +4,9 @@ from fields.string_field import StringField
 from fields.text_field import TextField
 from fields.reference_field import ReferenceField
 from fields.widget.widget import TextAreaWidget
+from fields.widget.widget import StringWidget
+from fields.file_field import FileField
+from fields.widget.widget import FileWidget
 from openerp.tools.translate import _
 WORKSHEET_STATES = (
     ('open','open'),
@@ -20,11 +23,22 @@ schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId'),
             ),
     fields.Many2one(string='Analyst',
         comodel_name='res.users',
-        domain="[('groups_id', 'in', (14,23))]",
+        domain="[('groups_id', 'in', (14,22))]",
         searchable = True,
+        required=True
     ),
     # Instruments must be assigned directly to each analysis.
     fields.Many2one(string='Instrument',
+        required = 0,
+        comodel_name='olims.instrument',
+    ),
+    fields.Many2one(string='_Analyst',
+        comodel_name='res.users',
+        domain="[('groups_id', 'in', (14,22))]",
+        searchable = True,
+        # required=True
+    ),
+    fields.Many2one(string='_Instrument',
         required = 0,
         comodel_name='olims.instrument',
     ),
@@ -39,6 +53,8 @@ schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId'),
             append_only=True,
         ),
     ),
+    fields.Many2many(string='AnalysisRequest',
+        comodel_name="olims.add_analysis"),
     fields.Selection(string='State',
                      selection=WORKSHEET_STATES,
                      default='open',
@@ -46,17 +62,69 @@ schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId'),
                      required=True, readonly=True,
                      copy=False, track_visibility='always'
     ),
+    fields.Many2many(string="ManageResult",
+        comodel_name="olims.ws_manage_results"),
+    FileField('AttachmentFile',
+        widget = FileWidget(
+            label=_("Attachment"),
+        ),
+    ),
+    fields.Many2one(string='AttachmentType',
+                    comodel_name='olims.attachment_type',
+                    required=False,
+                    help='Attachment Type'
+        ),
+
+     StringField('AttachmentKeys',
+        searchable = True,
+        widget = StringWidget(
+            label=_("Attachment Keys"),
+        ),
+    ),
+    fields.Many2one(string="Analysis",
+        comodel_name="olims.ws_manage_results",
+        ondelete='set null'),
+    fields.Many2many('olims.ws_refrence_contorled_analysis',
+        string="Add-Blank-Refrence",ondelete='set null'),
+    fields.Many2many('olims.ws_refrence_contorled_analysis',
+        string="Add-Control-Refrence",ondelete='set null'),
 )
 
 
 
 class Worksheet(models.Model, BaseOLiMSModel):
     _name ='olims.worksheet'
+    _rec_name = "Worksheet"
 
     def _ComputeWorksheetId(self):
         for items in self:
             worksheetid = 'WS-0' + str(items.id)
             items.Worksheet = worksheetid
+
+    @api.multi
+    def write(self, values):
+        data_list = []
+        
+        if values.get("AnalysisRequest", None):
+            for items in values["AnalysisRequest"][0][2]:
+                values_dict_manage_results = {}
+                add_analysis_obj = self.env["olims.add_analysis"].browse(items)
+                values_dict_manage_results.update({"request_analysis_id":add_analysis_obj.add_analysis_id.id,
+                    "analysis": add_analysis_obj.analysis.id,
+                    "client":add_analysis_obj.client.id,
+                    "due_date": add_analysis_obj.due_date,
+                    "received_date": add_analysis_obj.received_date,
+                    "sampling_date": add_analysis_obj.add_analysis_id.SamplingDate,
+                    "sample_type": add_analysis_obj.add_analysis_id.SampleType.id,
+                    "sample": add_analysis_obj.add_analysis_id.Sample_id.id,
+                    "analyst": self.Analyst.id,
+                    "instrument": self.Instrument.id,
+                    "priority": add_analysis_obj.priority.id})
+                data_list.append([0,0, values_dict_manage_results])
+            values.update({"ManageResult": data_list})
+        return super(Worksheet, self).write(values)
+
+
 
     _at_rename_after_creation = True
 
@@ -797,5 +865,95 @@ class Worksheet(models.Model, BaseOLiMSModel):
         if priorities:
             return priorities[-1]
 
+    @api.multi
+    def print_ws_manage_results(self):
+        # self.filtered(lambda s: s.state == 'draft').write({'state': 'sent'})
+        return self.env['report'].get_action(self, 'olims.report_ws_manage_results')
+
+    @api.onchange('Analyst','_Analyst','Instrument', '_Instrument')
+    def onchange_worksheettemplatevalue(self):
+        if self.Analyst:
+            self._Analyst = self.Analyst.id
+        elif self._Analyst:
+             self.Analyst = self._Analyst.id
+        else:
+            pass
+        if self.Instrument:
+            self._Instrument = self.Instrument.id
+        elif self._Instrument:
+             self.Instrument = self._Instrument.id
+        else:
+            pass
+
+
+class AddAnalysis(models.Model):
+    _name = "olims.add_analysis"
+
+    category = fields.Many2one('olims.analysis_category',string='Category',
+        ondelete='set null')
+    analysis = fields.Many2one(string='Analysis',
+        comodel_name="olims.analysis_service", ondelete='set null')
+    client = fields.Many2one('olims.client',
+        ondelete='set null', string="Client")
+    order = fields.Char('Order', readonly="True")
+    priority = fields.Many2one('olims.ar_priority',
+        ondelete='set null', string="Priority")
+    due_date = fields.Datetime('Due Date', readonly="True")
+    received_date = fields.Datetime('Date Received', readonly="True")
+    add_analysis_id = fields.Many2one("olims.analysis_request",
+        ondelete='set null', string="Request ID")
+
+    @api.model
+    def create(self, values):
+        res = super(AddAnalysis, self).create(values)
+        return res
+
+class WorkSheetManageResults(models.Model):
+    _name = "olims.ws_manage_results"
+    _rec_name = "analysis"
+
+    analysis = fields.Many2one(string='Analysis',
+        comodel_name="olims.analysis_service", ondelete='set null')
+    client = fields.Many2one('olims.client',
+        ondelete='set null', string="Client")
+    request_analysis_id = fields.Many2one("olims.analysis_request",
+        ondelete='set null', string="Request ID")
+    due_date = fields.Datetime("Due Date")
+    sample_type = fields.Many2one(string="Sample Type",
+        comodel_name="olims.sample_type")
+    sample = fields.Many2one(string="Sample",
+        comodel_name="olims.sample")
+    sampling_date = fields.Datetime("Sampling Date")
+    received_date = fields.Datetime("Received Date")
+    result = fields.Char("Results")
+    position = fields.Integer(string="Position",compute="_get_id")
+    analyst = fields.Many2one(string='Analyst',
+        comodel_name='res.users',
+        domain="[('groups_id', 'in', (14,22))]",
+    )
+    instrument = fields.Many2one(string='Instrument',
+        required = 0,
+        comodel_name='olims.instrument',
+    )
+    priority = fields.Many2one('olims.ar_priority',
+        ondelete='set null', string="Priority")
+    captured = fields.Boolean("+-")
+
+    @api.multi
+    def _get_id(self):
+        count = 0
+        for record in self:
+            count += 1
+            record.position = count
+
+class WorkSheetAddRefreceAnalysis(models.Model):
+    _name = "olims.ws_refrence_contorled_analysis"
+
+    category = fields.Many2one('olims.analysis_category',string='Category',
+        ondelete='set null')
+    analysis = fields.Many2one(string='Service',
+        comodel_name="olims.analysis_service",
+        ondelete='set null', domain="[('category', '=', category)]")
 
 Worksheet.initialze(schema)
+
