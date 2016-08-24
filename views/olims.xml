@@ -2138,6 +2138,18 @@
                             <field name="Instrument" options="{'no_create': True}"></field>
                         </page>
                         <page string="Layout">
+                            <label for="Layout" string="Worksheet Layout"/>
+                            <p>Specify the size of the Worksheet, e.g. corresponding to a specific instrument's tray size. Then select an Analysis 'type' per Worksheet position. Where QC samples are selected, also select which Reference Sample should be used. If a duplicate analysis is selected, indicate which sample position it should be a duplicate of</p>
+                            <label for="number_of_pos" string="Number of Positions"/><field name="number_of_pos"/>
+                            <button name="add_layout_data" string="Reset" type="object" class="oe_highlight"/>
+                            <field name="Layout" options="{'no_create': True}">
+                                <tree editable="bottom" create='false' delete='false'>
+                                    <field name="position" readonly="True"/>
+                                    <field name="analysis_type"/>
+                                    <field name="ref_definition" attrs="{'invisible': ['|', ('analysis_type', '=', 'analysis'), ('analysis_type', '=', 'duplicate')]}"/>
+                                    <field name="dup_of" attrs="{'invisible': [('analysis_type', '!=', 'duplicate')]}"/>
+                                </tree>
+                            </field>
                         </page>
                         <page string="Analyses">
                             <label for="Analysis Service" string="Analysis Service"/>

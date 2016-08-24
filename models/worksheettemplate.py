@@ -3,7 +3,9 @@ from openerp.tools.translate import _
 from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
 from fields.text_field import TextField
+from fields.integer_field import IntegerField
 from fields.widget.widget import TextAreaWidget,StringWidget
+from openerp.tools.translate import _
 schema = (StringField('Title',
               required=1,        
     ),
@@ -24,6 +26,11 @@ schema = (StringField('Title',
         required = False,
         help='Select the preferred instrument'
     ),
+    fields.One2many(string='Layout',
+                    comodel_name='olims.ws_template_layout',
+                    inverse_name='worksheet_layout_id',
+    ),
+    IntegerField('number_of_pos'),
 )
 schema_worksheet_analysis_servive = (fields.Many2one(string="worksheet_analysis_id",
         comodel_name="olims.worksheet_template"
@@ -48,6 +55,38 @@ schema_worksheet_analysis_servive = (fields.Many2one(string="worksheet_analysis_
 class WorksheetTemplate(models.Model, BaseOLiMSModel): #BaseContent
     _name = 'olims.worksheet_template'
     _rec_name = 'Title'
+
+    @api.multi
+    def add_layout_data(self):
+        if self.number_of_pos > 0:
+            ws_template_obj = self.search([('id','=', self.id)])
+            for layout in ws_template_obj.Layout:
+                #TODO in same style
+                # {'connect': [(2, c.id) for c in list  ] 
+                self.write({"Layout":[(2, layout.id)]})
+            pos = 0
+            for index in range(0, self.number_of_pos):
+                pos += 1
+                self.write({"Layout":[[0,0, {"analysis_type":'analysis','position': pos}]]})
+    
+        #Get the view ref. by paasing module & name of the required form
+        view_ref = self.env['ir.model.data'].get_object_reference('olims', 'olims_worksheet_template_form_view')
+        view_id = view_ref[1] if view_ref else False
+
+        #Let's prepare a dictionary with all necessary info to open current form in edit mode
+        res = {
+           'type': 'ir.actions.act_window',
+           'name': _('worksheet_template.form'),
+           'res_model': 'olims.worksheet_template',
+           'view_type': 'form',
+           'view_mode': 'form',
+           'view_id': view_id,
+           'target': 'current',
+           'res_id': self.id,
+           'flags': {'form': {'action_buttons': True, 'options': {'mode': 'edit'}}},
+        }
+
+        return res
 
     _at_rename_after_creation = True
     def _renameAfterCreation(self, check_auto_id=False):
@@ -78,6 +117,38 @@ class WorksheetAnalysisService(models.Model, BaseOLiMSModel):
             items.Keyword = items.Service.Keyword
             items.Method = items.Service._Method.getMethod()
             items.Calculation = items.Service._Calculation.getCalculation()
+
+class WorkSheetTemplateLayout(models.Model):
+    _name = "olims.ws_template_layout"
+
+    analysis_type = fields.Selection(string="Analysis Type",
+        selection=[
+            ('analysis', 'Analysis'),('blank', 'Blank'),
+            ('control', 'Control'), ('duplicate', 'Duplicate')],
+        default='analysis', select=True,
+        copy=False, track_visibility='always'
+        )
+    position = fields.Integer('pos')
+    ref_definition = fields.Selection(string='Reference Definition',
+        selection=[('select-one','select-one')],
+        default='select-one', select=True,
+        copy=False, track_visibility='always')
+    dup_of = fields.Selection(string='Dup of',
+        selection=[('0',0)],
+        default='0', select=True,
+        copy=False, track_visibility='always')
+    worksheet_layout_id = fields.Many2one(string="WS Layout",
+        comodel_name="olims.worksheet_template")
+    #TODO
+    # @api.onchange('analysis_type')
+    # def get_refrence_definition(self):
+    #     if self.analysis_type == "blank":
+    #         for ref_object in self.env["olims.reference_definition"].search([("Blank", '=', True)]):
+    #             self.ref_definition.selection = ref_object.Title
+    #     elif self.analysis_type == "control":
+    #         for ref_object in self.env["olims.reference_definition"].search([("Blank", '=', False)]):
+    #             self.ref_definition.selection = ref_object.Title
+
 
 WorksheetTemplate.initialze(schema)
 WorksheetAnalysisService.initialze(schema_worksheet_analysis_servive)
