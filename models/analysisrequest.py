@@ -353,6 +353,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 "Due Date": datetime.datetime.now(),
                 'Partition':Partition})
             lab_result_list.append([0,0, LabService[2]])
+            data.append(LabService)
         for FieldService in values.get('FieldService'):
             Specification = ">"+str(FieldService[2]['Min'])+", <"+str(FieldService[2]['Max'])+", %"+str(FieldService[2]['Error'])
             service_instance = self.env['olims.analysis_service'].search([('id', '=', FieldService[2]['Service'])])
@@ -648,6 +649,19 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         })
         return True
 
+    @api.multi
+    @api.onchange("AnalysisProfile")
+    def _add_values_in_analyses(self):
+        for recode in self:
+            for service in recode.AnalysisProfile.Service:
+                if service.Services.PointOfCapture == 'lab':
+                    l_service = {'LabService':service.Services.id,
+                        'Category':service.Services.category.id}
+                    self.LabService += self.LabService.new(l_service)
+                if service.Services.PointOfCapture == 'field':
+                    f_service = {'Service':service.Services.id,
+                        'Category':service.Services.category.id}
+                    self.FieldService += self.FieldService.new(f_service)
 
 class FieldAnalysisService(models.Model, BaseOLiMSModel):
     _name = 'olims.field_analysis_service'
