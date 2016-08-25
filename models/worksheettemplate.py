@@ -60,10 +60,7 @@ class WorksheetTemplate(models.Model, BaseOLiMSModel): #BaseContent
     def add_layout_data(self):
         if self.number_of_pos > 0:
             ws_template_obj = self.search([('id','=', self.id)])
-            for layout in ws_template_obj.Layout:
-                #TODO in same style
-                # {'connect': [(2, c.id) for c in list  ] 
-                self.write({"Layout":[(2, layout.id)]})
+            self.write({"Layout":[(2, layout.id) for layout in ws_template_obj.Layout]})
             pos = 0
             for index in range(0, self.number_of_pos):
                 pos += 1
@@ -129,25 +126,23 @@ class WorkSheetTemplateLayout(models.Model):
         copy=False, track_visibility='always'
         )
     position = fields.Integer('pos')
-    ref_definition = fields.Selection(string='Reference Definition',
-        selection=[('select-one','select-one')],
-        default='select-one', select=True,
-        copy=False, track_visibility='always')
+    ref_definition = fields.Many2one(string='Reference Definition',
+        comodel_name="olims.reference_definition")
     dup_of = fields.Selection(string='Dup of',
-        selection=[('0',0)],
+        selection=[('0','0'), ('1','1'),
+        ('2','2')],
         default='0', select=True,
         copy=False, track_visibility='always')
     worksheet_layout_id = fields.Many2one(string="WS Layout",
         comodel_name="olims.worksheet_template")
-    #TODO
-    # @api.onchange('analysis_type')
-    # def get_refrence_definition(self):
-    #     if self.analysis_type == "blank":
-    #         for ref_object in self.env["olims.reference_definition"].search([("Blank", '=', True)]):
-    #             self.ref_definition.selection = ref_object.Title
-    #     elif self.analysis_type == "control":
-    #         for ref_object in self.env["olims.reference_definition"].search([("Blank", '=', False)]):
-    #             self.ref_definition.selection = ref_object.Title
+
+    @api.onchange('analysis_type')
+    def get_refrence_definition(self):
+        selection = []
+        if self.analysis_type == "blank":
+            return {'domain':{'ref_definition':[('Blank', '=', True)]}}
+        elif self.analysis_type == "control":
+            return {'domain':{'ref_definition':[('Blank', '=', False)]}}
 
 
 WorksheetTemplate.initialze(schema)

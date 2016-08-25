@@ -2146,7 +2146,7 @@
                                 <tree editable="bottom" create='false' delete='false'>
                                     <field name="position" readonly="True"/>
                                     <field name="analysis_type"/>
-                                    <field name="ref_definition" attrs="{'invisible': ['|', ('analysis_type', '=', 'analysis'), ('analysis_type', '=', 'duplicate')]}"/>
+                                    <field name="ref_definition" attrs="{'invisible': ['|', ('analysis_type', '=', 'analysis'), ('analysis_type', '=', 'duplicate')]}" options="{'no_create': True}"/>
                                     <field name="dup_of" attrs="{'invisible': [('analysis_type', '!=', 'duplicate')]}"/>
                                 </tree>
                             </field>
