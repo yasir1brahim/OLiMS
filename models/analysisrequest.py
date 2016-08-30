@@ -652,16 +652,18 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     @api.multi
     @api.onchange("AnalysisProfile")
     def _add_values_in_analyses(self):
-        for recode in self:
-            for service in recode.AnalysisProfile.Service:
+        self.LabService = None
+        self.FieldService = None
+        for record in self:
+            for service in record.AnalysisProfile.Service:
                 if service.Services.PointOfCapture == 'lab':
                     l_service = {'LabService':service.Services.id,
                         'Category':service.Services.category.id}
-                    self.LabService += self.LabService.new(l_service)
+                    record.LabService += record.LabService.new(l_service)
                 if service.Services.PointOfCapture == 'field':
                     f_service = {'Service':service.Services.id,
                         'Category':service.Services.category.id}
-                    self.FieldService += self.FieldService.new(f_service)
+                    record.FieldService += record.FieldService.new(f_service)
 
 class FieldAnalysisService(models.Model, BaseOLiMSModel):
     _name = 'olims.field_analysis_service'

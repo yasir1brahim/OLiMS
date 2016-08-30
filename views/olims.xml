@@ -1877,8 +1877,8 @@
                     <field name="SubGroup" options="{'no_create': True}"></field>
                     <label for="Template" string="Template"/>
                     <field name="Template" options="{'no_create': True}"></field>
-                    <label for="AnalysisProfile" string="Analysis Profile"/>
-                    <field name="AnalysisProfile" options="{'no_create': True}"></field>
+                    <label for="AnalysisProfile" string="Analysis Profile" attrs="{'invisible': [('id', '!=', False)]}"/>
+                    <field name="AnalysisProfile" options="{'no_create': True}" attrs="{'invisible': [('id', '!=', False)]}"></field>
                     <label for="SamplingDate" string="Sampling Date"/>
                     <field name="SamplingDate"></field>
                     <label for="Sampler" string="Sampler"/>
