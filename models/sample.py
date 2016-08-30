@@ -333,6 +333,10 @@ class Sample(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
         # self.reindexObject(idxs=["review_state", "getDateDisposed", ])
 
     def workflow_script_sample(self,cr,uid,ids,context=None):
+        samples = self.pool.get('olims.sample').browse(cr,uid,ids,context)
+        for sample in samples:
+            if sample.state != "to_be_sampled":
+                ids.remove(sample.id)
         self.write(cr, uid, ids, {
             'state': 'sampled',
         })
@@ -436,5 +440,6 @@ class Sample(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
             if no_results:
                 return False
         return True
+
 
 Sample.initialze(schema)
