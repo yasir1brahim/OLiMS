@@ -1861,70 +1861,274 @@
                     
                         <notebook>
                         <page string='View'>
-                        <label for="Client" string="Client" invisible="1"/>
-                        <field name="Client" options="{'no_create': True}" invisible="1"></field>
-                    <label for="Contact" string="Contact"/>
-                	<field name="Contact" options="{'no_create': True}"></field>
-                	<label for="CCContact" string="CC Contact"/>
-                	<field name="CCContact" options="{'no_create': True}"></field>
-                	<label for="CCEmails" string="CCEmails"/>
-                    <field name="CCEmails" options="{'no_create': True}"></field>
-                    <label for="Sample_id" string="Sample"/>
-                    <field name="Sample_id" options="{'no_create': True}"></field>
-                    <label for="Batch" string="Batch"/>
-                    <field name="Batch" options="{'no_create': True}"></field>
-                    <label for="SubGroup" string="Sub Group"/>
-                    <field name="SubGroup" options="{'no_create': True}"></field>
-                    <label for="Template" string="Template"/>
-                    <field name="Template" options="{'no_create': True}"></field>
-                    <label for="AnalysisProfile" string="Analysis Profile"/>
-                    <field name="AnalysisProfile" options="{'no_create': True}"></field>
-                    <label for="SamplingDate" string="Sampling Date"/>
-                    <field name="SamplingDate"></field>
-                    <label for="Sampler" string="Sampler"/>
-                    <field name="Sampler" options="{'no_create': True}"></field>
-                    <label for="SampleType" string="Sample Type"/>
-                    <field name="SampleType" options="{'no_create': True}"></field>
-                    <label for="Specification" string="Analysis Specification"/>
-                    <field name="Specification" options="{'no_create': True}"></field>
-                    <label for="SamplePoint" string="Sample Point"/>
-                    <field name="SamplePoint" options="{'no_create': True}"></field>
-                    <label for="StorageLocation" string="StorageLocation"/>
-                    <field name="StorageLocation" options="{'no_create': True}"></field>
-                    <label for="ClientOrderNumber" string="Client Order Number"/>
-                    <field name="ClientOrderNumber"></field>
-                    <label for="ClientReference" string="Client Reference"/>
-                    <field name="ClientReference"></field>
-                    <label for="ClientSampleID" string="Client Sample ID"/>
-                    <field name="ClientSampleID"></field>
-                    <label for="SamplingDeviation" string="SamplingDeviation"/>
-                    <field name="SamplingDeviation" options="{'no_create': True}"></field>
-                    <label for="SampleCondition" string="Sample Condition"/>
-                    <field name="SampleCondition" options="{'no_create': True}"></field>
-                    <label for="DefaultContainerType" string="Default Container Type"/>
-                    <field name="DefaultContainerType" options="{'no_create': True}"></field>
-                    <label for="AdHoc" string="Ad Hoc"/>
-                    <field name="AdHoc"></field>
+                                <label for="Client" string="Client" invisible="1"/>
+                                <field name="Client" options="{'no_create': True}" invisible="1"></field>
+                                <field name="id" invisible="1"/>
+                            <group>
+                                <label for="Contact" string="Contact"/>
+                                <div>
+                                   <field name="CopyContact" class="fa fa-copy" width="25%" nolabel='1' attrs="{'invisible': [('id', '!=', False)]}"/>
+                                    <field name="Contact" options="{'no_create': True}" nolabel='1' width="25%"></field>
+                                    <field name="Contact1" options="{'no_create': True}" nolabel='1' width="25%" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="Contact2" options="{'no_create': True}" nolabel='1' width="25%" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                </div>
+                            </group>
+                        <group>
+                            <label for="CCContact" string="CC Contact"/>
+                            <div>
+                                <field name="CopyCCContact" class="fa fa-copy" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
+                                <field name="CCContact" options="{'no_create': True}" nolabel="1" ></field>
+                                <field name="CCContact1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="CCContact2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="CCEmails" string="CCEmails"/>
+                            <div>
+                                <field name="CopyEmail" class="fa fa-copy" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
+                                <field name="CCEmails" nolabel="1"></field>
+                                <field name="CCEmails1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="CCEmails2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="Sample_id" string="Sample"/>
+                            <div>
+                                <field name="Copysample" class="fa fa-copy" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
+                                <field name="Sample_id" options="{'no_create': True}" nolabel="1"></field>
+                                <field name="Sample_id1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Sample_id2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="Batch" string="Batch"/>
+                            <div>
+                                <field name="Copybatch" class="fa fa-copy" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
+                                <field name="Batch" options="{'no_create': True}" nolabel="1"></field>
+                                <field name="Batch1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Batch2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="SubGroup" string="Sub Group"/>
+                            <div>
+                                <field name="Copysubgroup" class="fa fa-copy" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
+                                <field name="SubGroup" options="{'no_create': True}" nolabel="1"></field>
+                                <field name="SubGroup1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SubGroup2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="Template" string="Template"/>
+                            <div>
+                                <field name="Copytemplate" class="fa fa-copy" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
+                                <field name="Template" options="{'no_create': True}" nolabel="1"></field>
+                                <field name="Template1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Template2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="AnalysisProfile" string="Analysis Profile"/>
+                            <div>
+                                <field name="Copyprofile" class="fa fa-copy" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
+                                <field name="AnalysisProfile" options="{'no_create': True}" nolabel="1"></field>
+                                <field name="AnalysisProfile1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="AnalysisProfile2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="SamplingDate" string="Sampling Date"/>
+                            <div>
+                                <field name="Copysmaplingdate" class="fa fa-copy" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
+                                <field name="SamplingDate" nolabel="1"></field>
+                                <field name="SamplingDate1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SamplingDate2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="Sampler" string="Sampler"/>
+                            <div>
+                                <field name="Copysampler" class="fa fa-copy" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
+                                <field name="Sampler" options="{'no_create': True}" nolabel="1"></field>
+                                <field name="Sampler1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Sampler2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="SampleType" string="Sample Type"/>
+                            <div>
+                                <field name="Copysampletype" class="fa fa-copy" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
+                                <field name="SampleType" options="{'no_create': True}" nolabel="1"></field>
+                                <field name="SampleType1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SampleType2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="Specification" string="Analysis Specification"/>
+                            <div>
+                                <field name="Copyspecification" class="fa fa-copy" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
+                                <field name="Specification" options="{'no_create': True}" nolabel="1"></field>
+                                <field name="Specification1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Specification2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="SamplePoint" string="Sample Point"/>
+                            <div>
+                                <field name="Copysamplepoint" class="fa fa-copy" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
+                                <field name="SamplePoint" options="{'no_create': True}" nolabel="1"></field>
+                                <field name="SamplePoint1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SamplePoint2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="StorageLocation" string="StorageLocation"/>
+                            <div>
+                                <field name="Copystorage" class="fa fa-copy" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
+                                <field name="StorageLocation" options="{'no_create': True}" nolabel="1"></field>
+                                <field name="StorageLocation1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="StorageLocation2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="ClientOrderNumber" string="Client Order Number"/>
+                            <div>
+                                <field name="CopyClientOrderNumber" class="fa fa-copy" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
+                                <field name="ClientOrderNumber" nolabel="1"></field>
+                                <field name="ClientOrderNumber1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="ClientOrderNumber2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="ClientReference" string="Client Reference"/>
+                            <div>
+                                <field name="CopyClientReference" class="fa fa-copy" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
+                                <field name="ClientReference" nolabel="1"></field>
+                                <field name="ClientReference1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="ClientReference2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="ClientSampleID" string="Client Sample ID"/>
+                            <div>
+                                <field name="CopyClientSampleID" class="fa fa-copy" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
+                                <field name="ClientSampleID" nolabel="1"></field>
+                                <field name="ClientSampleID1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="ClientSampleID2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="SamplingDeviation" string="SamplingDeviation"/>
+                            <div>
+                                <field name="CopySamplingDeviation" class="fa fa-copy" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
+                                <field name="SamplingDeviation" options="{'no_create': True}" nolabel="1"></field>
+                                <field name="SamplingDeviation1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SamplingDeviation2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="SampleCondition" string="Sample Condition"/>
+                            <div>
+                                <field name="CopySampleCondition" class="fa fa-copy" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
+                                <field name="SampleCondition" options="{'no_create': True}" nolabel="1"></field>
+                                <field name="SampleCondition1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SampleCondition2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="DefaultContainerType" string="Default Container Type"/>
+                            <div>
+                                <field name="CopyDefaultContainerType" class="fa fa-copy" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
+                                <field name="DefaultContainerType" options="{'no_create': True}" nolabel="1"></field>
+                                <field name="DefaultContainerType1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="DefaultContainerType2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="AdHoc" string="Ad Hoc"/>
+                            <div>
+                                <field name="CopyAdHoc" class="fa fa-copy" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
+                                <field name="AdHoc" nolabel="1"></field>
+                                <field name="AdHoc1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="AdHoc2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            </div>
+                        </group>
                     <br/>
-                    <label for="Composite" string="Composite"/>
-                    <field name="Composite"></field>
+                    <group>
+                        <label for="Composite" string="Composite"/>
+                        <div>
+                            <field name="CopyComposite" class="fa fa-copy" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
+                            <field name="Composite" nolabel="1"></field>
+                            <field name="Composite1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Composite2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                        </div>
+                    </group>
                     <br/>
-                    <label for="ReportDryMatter" string="Report Dry Matter"/>
-                    <field name="ReportDryMatter"></field>
+                    <group>
+                        <label for="ReportDryMatter" string="Report Dry Matter"/>
+                        <div>
+                            <field name="CopyReportDryMatter" class="fa fa-copy" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
+                            <field name="ReportDryMatter" nolabel="1"></field>
+                            <field name="ReportDryMatter1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="ReportDryMatter2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                        </div>
+                    </group>
                     <br/>
-                    <label for="InvoiceExclude" string="Invoice Exclude"/>
-                    <field name="InvoiceExclude"></field>
+                     <group>
+                        <label for="InvoiceExclude" string="Invoice Exclude"/>
+                        <div>
+                            <field name="CopyInvoiceExclude" class="fa fa-copy" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
+                            <field name="InvoiceExclude" nolabel="1"></field>
+                            <field name="InvoiceExclude1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="InvoiceExclude2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                        </div>
+                    </group>
                     <br/>
-                    <label for="Priority" string="Priority"/>
-                    <field name="Priority" options="{'no_create': True}"></field>
-                    <label for="Discount" string="Discount (33.33 %)"/>
-                    <field name="Discount"></field>
-                    <label for="Subtotal" string="Subtotal"/>
-                    <field name="Subtotal"></field>
-                    <label for="VAT" string="VAT"/>
-                    <field name="VAT"></field>
-                    <label for="Total" string="Total"/>
-                    <field name="Total"></field>
+                    <group>
+                        <label for="Priority" string="Priority"/>
+                        <div>
+                            <field name="CopyPriority" class="fa fa-copy" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
+                            <field name="Priority" options="{'no_create': True}" nolabel="1"></field>
+                            <field name="Priority1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Priority2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                        </div>
+                    </group>
+                    <group>
+                        <label for="Discount" string="Discount (33.33 %)"/>
+                        <div>
+                            <!-- <field name="CopyDiscount" class="fa fa-copy" nolabel="1"/> -->
+                            <field name="Discount" nolabel="1"></field>
+                            <field name="Discount1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Discount2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                        </div>
+                    </group>
+                    <group>
+                        <label for="Subtotal" string="Subtotal"/>
+                        <div>
+                            <!-- <field name="CopySubtotal" class="fa fa-copy" nolabel="1"/> -->
+                            <field name="Subtotal" nolabel="1"></field>
+                            <field name="Subtotal1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Subtotal2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                        </div>
+                    </group>
+                    <group>
+                        <label for="VAT" string="VAT"/>
+                        <div>
+                            <!-- <field name="CopyVAT" class="fa fa-copy" nolabel="1"/> -->
+                            <field name="VAT" nolabel="1"></field>
+                            <field name="VAT1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="VAT2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                        </div>
+                    </group>
+                    <group>
+                        <label for="Total" string="Total"/>
+                        <div>
+                            <!-- <field name="CopyTotal" class="fa fa-copy" nolabel="1"/> -->
+                            <field name="Total" nolabel="1"></field>
+                            <field name="Total1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Total2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                        </div>
+                    </group>
                     <label for="FieldService" string="Field Analysis" attrs="{'invisible': [('id', '!=', False)]}"/>
                     <field name="FieldService" options="{'no_create': True}" attrs="{'invisible': [('id', '!=', False)]}">
                         <tree editable="bottom">
