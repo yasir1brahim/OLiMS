@@ -583,22 +583,23 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         add_analysis_object = self.pool.get('olims.add_analysis')
         analysis_request_obj = self.pool.get('olims.analysis_request').browse(cr,uid,ids,context)
         manage_result_object = self.pool.get('olims.manage_analyses').search(cr,uid,['|',
-            ('manage_analysis_id', '=', ids),('lab_manage_analysis_id', '=', ids)],context)
-        for items in self.pool.get('olims.manage_analyses').browse(cr,uid,manage_result_object,context):
-            analysis_dict.update({
-                'category':items.Category.id,
-                'client': analysis_request_obj.Client.id,
-                'order':analysis_request_obj.ClientOrderNumber,
-                'priority':analysis_request_obj.Priority.id,
-                'due_date':analysis_request_obj.DateDue,
-                'received_date':datetime.datetime.now()
-                })
-            if items.Service:
-                analysis_dict.update({'analysis':items.Service.id })
-            if items.LabService:
-                analysis_dict.update({'analysis':items.LabService.id })
-            self.write(cr, uid, ids, {'AddAnalysis': [[0,0, analysis_dict]]
-                }, context=context)
+            ('manage_analysis_id', 'in', ids),('lab_manage_analysis_id', 'in', ids)],None)
+        for ar_object in analysis_request_obj:
+            for items in self.pool.get('olims.manage_analyses').browse(cr,uid,manage_result_object,context):
+                analysis_dict.update({
+                    'category':items.Category.id,
+                    'client': ar_object.Client.id,
+                    'order':ar_object.ClientOrderNumber,
+                    'priority':ar_object.Priority.id,
+                    'due_date':ar_object.DateDue,
+                    'received_date':datetime.datetime.now()
+                    })
+                if items.Service:
+                    analysis_dict.update({'analysis':items.Service.id })
+                if items.LabService:
+                    analysis_dict.update({'analysis':items.LabService.id })
+                self.write(cr, uid, ids, {'AddAnalysis': [[0,0, analysis_dict]]
+                    }, context=context)
         datereceived = datetime.datetime.now()
         self.write(cr, uid, ids, {
             'state': 'sample_received', 'DateReceived' : datereceived,

@@ -280,13 +280,17 @@ class Sample(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
 
     def workflow_script_sample_receive(self,cr,uid,ids,context=None):
         samples = self.pool.get('olims.sample').browse(cr,uid,ids,context)
+        ar_ids = []
         for sample in samples:
             if sample.state != "sample_due":
                 ids.remove(sample.id)
+            else:
+                ar_ids.append(sample.Analysis_Request.id)
         datereceive = datetime.datetime.now()
         self.write(cr, uid, ids, {
             'state': 'sample_received','DateReceived': datereceive,
         })
+        self.pool.get('olims.analysis_request').workflow_script_receive(cr,uid,ar_ids,context)
         return True
     # def workflow_script_receive(self):
         # workflow = getToolByName(self, 'portal_workflow')
@@ -386,12 +390,16 @@ class Sample(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
 
     def workflow_script_sample_due(self,cr,uid,ids,context=None):
         samples = self.pool.get('olims.sample').browse(cr,uid,ids,context)
+        ar_ids = []
         for sample in samples:
             if sample.state != "to_be_sampled":
                 ids.remove(sample.id)
+            else:
+                ar_ids.append(sample.Analysis_Request.id)
         self.write(cr, uid, ids, {
             'state': 'sample_due',
         })
+        self.pool.get('olims.analysis_request').workflow_script_sample_due(cr,uid,ar_ids,context)
         return True
         # if skip(self, "sample_due"):
         #     return
