@@ -2505,17 +2505,65 @@
                 </form>
             </field>
         </record>
-        <record id="change_state_bulk_id" model="ir.actions.server">
-            <field name="name">Sampled</field>
+        <record id="change_state_bulk_sample_id" model="ir.actions.server">
+            <field name="name">Sample</field>
             <field name="type">ir.actions.server</field>
             <field name="model_id" ref="model_olims_sample"/>
             <field name="state">code</field>
-            <field name="code">self.workflow_script_sample(cr, uid, context.get('active_ids'), context=context)</field>
+            <field name="code">self.workflow_script_sample_due(cr, uid, context.get('active_ids'), context=context)</field>
         </record>
         <record id="id_of_the_action_value" model="ir.values">
-            <field name="name">Sampled</field>
-            <field name="action_id" ref="change_state_bulk_id"/>
-            <field name="value" eval="'ir.actions.server,' + str(ref('change_state_bulk_id'))"/>
+            <field name="name">Sample</field>
+            <field name="action_id" ref="change_state_bulk_sample_id"/>
+            <field name="value" eval="'ir.actions.server,' + str(ref('change_state_bulk_sample_id'))"/>
+            <field name="key">action</field>
+            <field name="model_id" ref="model_olims_sample"/>
+            <field name="model">olims.sample</field>
+            <field name="key2">client_action_multi</field>
+        </record>
+        <record id="change_state_bulk_receive_id" model="ir.actions.server">
+            <field name="name">Receive Sample</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_olims_sample"/>
+            <field name="state">code</field>
+            <field name="code">self.workflow_script_sample_receive(cr, uid, context.get('active_ids'), context=context)</field>
+        </record>
+        <record id="id_of_the_action_value_receive" model="ir.values">
+            <field name="name">Receive Sample</field>
+            <field name="action_id" ref="change_state_bulk_receive_id"/>
+            <field name="value" eval="'ir.actions.server,' + str(ref('change_state_bulk_receive_id'))"/>
+            <field name="key">action</field>
+            <field name="model_id" ref="model_olims_sample"/>
+            <field name="model">olims.sample</field>
+            <field name="key2">client_action_multi</field>
+        </record>
+        <record id="change_state_bulk_expire_id" model="ir.actions.server">
+            <field name="name">Expire</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_olims_sample"/>
+            <field name="state">code</field>
+            <field name="code">self.workflow_script_expire(cr, uid, context.get('active_ids'), context=context)</field>
+        </record>
+        <record id="id_of_the_action_value_expire" model="ir.values">
+            <field name="name">Expire</field>
+            <field name="action_id" ref="change_state_bulk_expire_id"/>
+            <field name="value" eval="'ir.actions.server,' + str(ref('change_state_bulk_expire_id'))"/>
+            <field name="key">action</field>
+            <field name="model_id" ref="model_olims_sample"/>
+            <field name="model">olims.sample</field>
+            <field name="key2">client_action_multi</field>
+        </record>
+        <record id="change_state_bulk_dispose_id" model="ir.actions.server">
+            <field name="name">Dispose</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_olims_sample"/>
+            <field name="state">code</field>
+            <field name="code">self.workflow_script_dispose(cr, uid, context.get('active_ids'), context=context)</field>
+        </record>
+        <record id="id_of_the_action_value_dispose" model="ir.values">
+            <field name="name">Dispose</field>
+            <field name="action_id" ref="change_state_bulk_dispose_id"/>
+            <field name="value" eval="'ir.actions.server,' + str(ref('change_state_bulk_dispose_id'))"/>
             <field name="key">action</field>
             <field name="model_id" ref="model_olims_sample"/>
             <field name="model">olims.sample</field>
@@ -2525,7 +2573,7 @@
             <field name="name">sample.tree</field>
             <field name="model">olims.sample</field>
             <field name="arch" type="xml">
-                <tree string="Sample" create="false">
+                <tree string="Sample" create="false" delete="false">
                     <field name="SampleID"></field>
                     <field name="Client"></field>
                     <field name="create_uid"></field>

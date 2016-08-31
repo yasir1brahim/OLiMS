@@ -279,6 +279,10 @@ class Sample(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
         return last_ar_number
 
     def workflow_script_sample_receive(self,cr,uid,ids,context=None):
+        samples = self.pool.get('olims.sample').browse(cr,uid,ids,context)
+        for sample in samples:
+            if sample.state != "sample_due":
+                ids.remove(sample.id)
         datereceive = datetime.datetime.now()
         self.write(cr, uid, ids, {
             'state': 'sample_received','DateReceived': datereceive,
@@ -315,6 +319,10 @@ class Sample(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
             ar.reindexObject()
 
     def workflow_script_expire(self,cr,uid,ids,context=None):
+        samples = self.pool.get('olims.sample').browse(cr,uid,ids,context)
+        for sample in samples:
+            if sample.state != "sample_received":
+                ids.remove(sample.id)
         expired_date = datetime.datetime.now()
         self.write(cr, uid, ids, {
             'state': 'expired', 'DateExpired': expired_date,
@@ -324,6 +332,10 @@ class Sample(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
         # self.reindexObject(idxs=["review_state", "getDateExpired", ])
 
     def workflow_script_dispose(self,cr,uid,ids,context=None):
+        samples = self.pool.get('olims.sample').browse(cr,uid,ids,context)
+        for sample in samples:
+            if sample.state != "expired":
+                ids.remove(sample.id)
         date_disposed = datetime.datetime.now()
         self.write(cr, uid, ids, {
             'state': 'disposed', 'DateDisposed': date_disposed
@@ -333,10 +345,6 @@ class Sample(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
         # self.reindexObject(idxs=["review_state", "getDateDisposed", ])
 
     def workflow_script_sample(self,cr,uid,ids,context=None):
-        samples = self.pool.get('olims.sample').browse(cr,uid,ids,context)
-        for sample in samples:
-            if sample.state != "to_be_sampled":
-                ids.remove(sample.id)
         self.write(cr, uid, ids, {
             'state': 'sampled',
         })
@@ -377,6 +385,10 @@ class Sample(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
         #     ar.reindexObject()
 
     def workflow_script_sample_due(self,cr,uid,ids,context=None):
+        samples = self.pool.get('olims.sample').browse(cr,uid,ids,context)
+        for sample in samples:
+            if sample.state != "to_be_sampled":
+                ids.remove(sample.id)
         self.write(cr, uid, ids, {
             'state': 'sample_due',
         })
