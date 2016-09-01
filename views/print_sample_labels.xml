@@ -1,0 +1,34 @@
+<openerp>
+<data>
+<!-- <template id="print_sample_labels_document">
+    <t t-call="report.external_layout">
+        <div class="page">
+            <div class="row">
+                <div>
+                     <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=%s' % 
+                ('Standard39', doc.SampleID, 250, 50, 1)"/>
+                </div>
+            </div>
+        </div>
+    </t>
+</template> -->
+ 
+<template id="print_sample_labels">
+    <t t-call="report.html_container">
+        <t t-call="report.external_layout">
+            <div class="page">
+                <t t-foreach="docs" t-as="doc">
+                    <div class="row">
+                        <div>
+                             <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=%s' % 
+                        ('Standard39', doc.SampleID, 250, 50, 1)"/>
+                        </div>
+                    </div>
+                    <br/>
+                </t>
+            </div>
+        </t>
+    </t>
+</template>
+</data>
+</openerp>
