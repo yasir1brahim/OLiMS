@@ -84,9 +84,11 @@ schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId'),
     fields.Many2one(string="Analysis",
         comodel_name="olims.ws_manage_results",
         ondelete='set null'),
-    fields.Many2many('olims.ws_refrence_contorled_analysis',
+    fields.One2many('olims.ws_refrence_contorled_analysis',
+        inverse_name='ws_control_reference_id',
         string="Add-Blank-Refrence",ondelete='set null'),
-    fields.Many2many('olims.ws_refrence_contorled_analysis',
+    fields.One2many('olims.ws_refrence_contorled_analysis',
+        inverse_name='ws_blank_reference_id',
         string="Add-Control-Refrence",ondelete='set null'),
 )
 
@@ -954,6 +956,8 @@ class WorkSheetAddRefreceAnalysis(models.Model):
     analysis = fields.Many2one(string='Service',
         comodel_name="olims.analysis_service",
         ondelete='set null', domain="[('category', '=', category)]")
+    ws_control_reference_id = fields.Many2one('olims.worksheet',ondelete='set null')
+    ws_blank_reference_id = fields.Many2one('olims.worksheet',ondelete='set null')
 
 Worksheet.initialze(schema)
 

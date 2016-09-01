@@ -2499,7 +2499,7 @@
                                 </field>
                             </page>
                             <page string="Add Blank Reference" attrs="{'invisible': [('id', '=', False)]}">
-                                <field name="Add-Blank-Refrence" widget="one2many_list">
+                                <field name="Add-Blank-Refrence">
                                     <tree string="Add Blank Refrence" editable="bottom">
                                         <field name="category" options="{'no_create': True}"/>
                                         <field name="analysis" options="{'no_create': True}"/>
@@ -2507,7 +2507,7 @@
                                 </field> 
                             </page>
                             <page string="Add Control Reference" attrs="{'invisible': [('id', '=', False)]}">
-                                <field name="Add-Control-Refrence" widget="one2many_list">
+                                <field name="Add-Control-Refrence">
                                     <tree string="Add Control Refrence" editable="bottom">
                                         <field name="category" options="{'no_create': True}"/>
                                         <field name="analysis" options="{'no_create': True}"/>
