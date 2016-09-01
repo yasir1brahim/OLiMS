@@ -40,13 +40,39 @@ schema = (fields.Char(string='RequestID',
                     relation='ar_contact',
                     required=True
     ),
+    fields.Many2one(string='Contact1',
+                    comodel_name='olims.contact',
+                    relation='ar_contact',
+                    required=False
+    ),
+    fields.Many2one(string='Contact2',
+                    comodel_name='olims.contact',
+                    relation='ar_contact',
+                    required=False
+    ),
     fields.Many2one(string='CCContact',
+                    comodel_name='olims.contact',
+                    relation='ar__cc_contact',
+                    required=False
+    ),
+    fields.Many2one(string='CCContact1',
+                    comodel_name='olims.contact',
+                    relation='ar__cc_contact',
+                    required=False
+    ),
+    fields.Many2one(string='CCContact2',
                     comodel_name='olims.contact',
                     relation='ar__cc_contact',
                     required=False
     ),
     StringField(
         'CCEmails',
+    ),
+    StringField(
+        'CCEmails1',
+    ),
+    StringField(
+        'CCEmails2',
     ),
 
     fields.Char(string='Sample',
@@ -57,7 +83,23 @@ schema = (fields.Char(string='RequestID',
                         comodel_name='olims.sample',
 
     ),
+    fields.Many2one(string='Sample_id1',
+                        comodel_name='olims.sample',
+
+    ),
+    fields.Many2one(string='Sample_id2',
+                        comodel_name='olims.sample',
+
+    ),
     fields.Many2one(string='Batch',
+                        comodel_name='olims.batch',
+
+    ),
+    fields.Many2one(string='Batch1',
+                        comodel_name='olims.batch',
+
+    ),
+    fields.Many2one(string='Batch2',
                         comodel_name='olims.batch',
 
     ),
@@ -66,11 +108,39 @@ schema = (fields.Char(string='RequestID',
                         relation='ar_subgroup'
 
     ),
+    fields.Many2one(string='SubGroup1',
+                        comodel_name='olims.subgroup',
+                        relation='ar_subgroup'
+
+    ),
+    fields.Many2one(string='SubGroup2',
+                        comodel_name='olims.subgroup',
+                        relation='ar_subgroup'
+
+    ),
     fields.Many2one(string='Template',
                         comodel_name='olims.ar_template',
 
     ),
+    fields.Many2one(string='Template1',
+                        comodel_name='olims.ar_template',
+
+    ),
+    fields.Many2one(string='Template2',
+                        comodel_name='olims.ar_template',
+
+    ),
     fields.Many2one(string='AnalysisProfile',
+                        comodel_name='olims.analysis_profile',
+                        relation='ar_to_analysisprofile'
+
+    ),
+    fields.Many2one(string='AnalysisProfile1',
+                        comodel_name='olims.analysis_profile',
+                        relation='ar_to_analysisprofile'
+
+    ),
+    fields.Many2one(string='AnalysisProfile2',
                         comodel_name='olims.analysis_profile',
                         relation='ar_to_analysisprofile'
 
@@ -90,8 +160,20 @@ schema = (fields.Char(string='RequestID',
     # Sample field
     DateTimeField('DateSampled',
     ),
+    DateTimeField('DateSampled1',
+    ),
+    DateTimeField('DateSampled2',
+    ),
     # Sample field
     fields.Many2one(string='Sampler',
+        comodel_name="res.users",
+        domain="[('groups_id', 'in', [14,18])]",
+    ),
+    fields.Many2one(string='Sampler1',
+        comodel_name="res.users",
+        domain="[('groups_id', 'in', [14,18])]",
+    ),
+    fields.Many2one(string='Sampler2',
         comodel_name="res.users",
         domain="[('groups_id', 'in', [14,18])]",
     ),
@@ -99,12 +181,40 @@ schema = (fields.Char(string='RequestID',
         'SamplingDate',
         required=1,
     ),
+    DateTimeField(
+        'SamplingDate1',
+        required=0,
+    ),
+    DateTimeField(
+        'SamplingDate2',
+        required=0,
+    ),
     fields.Many2one(string='SampleType',
                         comodel_name='olims.sample_type',
                         required=True
 
     ),
+    fields.Many2one(string='SampleType1',
+                        comodel_name='olims.sample_type',
+                        required=False
+
+    ),
+    fields.Many2one(string='SampleType2',
+                        comodel_name='olims.sample_type',
+                        required=False
+
+    ),
     fields.Many2one(string='Specification',
+                        comodel_name='olims.analysis_spec',
+                        relation='ar_analysis_spec',
+                        required=False,
+    ),
+    fields.Many2one(string='Specification1',
+                        comodel_name='olims.analysis_spec',
+                        relation='ar_analysis_spec',
+                        required=False,
+    ),
+    fields.Many2one(string='Specification2',
                         comodel_name='olims.analysis_spec',
                         relation='ar_analysis_spec',
                         required=False,
@@ -113,16 +223,46 @@ schema = (fields.Char(string='RequestID',
                         comodel_name='olims.sample_point',
 
     ),
+    fields.Many2one(string='SamplePoint1',
+                        comodel_name='olims.sample_point',
+
+    ),
+    fields.Many2one(string='SamplePoint2',
+                        comodel_name='olims.sample_point',
+
+    ),
     fields.Many2one(string='StorageLocation',
+                        comodel_name='olims.storage_location',
+
+    ),
+    fields.Many2one(string='StorageLocation1',
+                        comodel_name='olims.storage_location',
+
+    ),
+    fields.Many2one(string='StorageLocation2',
                         comodel_name='olims.storage_location',
 
     ),
     StringField(
         'ClientOrderNumber',
     ),
+    StringField(
+        'ClientOrderNumber1',
+    ),
+    StringField(
+        'ClientOrderNumber2',
+    ),
     # Sample field
     StringField(
         'ClientReference',
+        searchable=True,
+    ),
+    StringField(
+        'ClientReference1',
+        searchable=True,
+    ),
+    StringField(
+        'ClientReference2',
         searchable=True,
     ),
     # Sample field
@@ -130,8 +270,24 @@ schema = (fields.Char(string='RequestID',
         'ClientSampleID',
         searchable=True,
     ),
+    StringField(
+        'ClientSampleID1',
+        searchable=True,
+    ),
+    StringField(
+        'ClientSampleID2',
+        searchable=True,
+    ),
 
     fields.Many2one(string='SamplingDeviation',
+                        comodel_name='olims.sampling_deviation',
+
+    ),
+    fields.Many2one(string='SamplingDeviation1',
+                        comodel_name='olims.sampling_deviation',
+
+    ),
+    fields.Many2one(string='SamplingDeviation2',
                         comodel_name='olims.sampling_deviation',
 
     ),
@@ -140,7 +296,23 @@ schema = (fields.Char(string='RequestID',
                         comodel_name='olims.sample_condition',
 
     ),
+    fields.Many2one(string='SampleCondition1',
+                        comodel_name='olims.sample_condition',
+
+    ),
+    fields.Many2one(string='SampleCondition2',
+                        comodel_name='olims.sample_condition',
+
+    ),
     fields.Many2one(string='DefaultContainerType',
+                        comodel_name='olims.container_type',
+
+    ),
+    fields.Many2one(string='DefaultContainerType1',
+                        comodel_name='olims.container_type',
+
+    ),
+    fields.Many2one(string='DefaultContainerType2',
                         comodel_name='olims.container_type',
 
     ),
@@ -149,9 +321,25 @@ schema = (fields.Char(string='RequestID',
         'AdHoc',
         default=False,
     ),
+    BooleanField(
+        'AdHoc1',
+        default=False,
+    ),
+    BooleanField(
+        'AdHoc2',
+        default=False,
+    ),
     # Sample field
     BooleanField(
         'Composite',
+        default=False,
+    ),
+    BooleanField(
+        'Composite1',
+        default=False,
+    ),
+    BooleanField(
+        'Composite2',
         default=False,
     ),
     BooleanField(
@@ -159,7 +347,23 @@ schema = (fields.Char(string='RequestID',
         default=False,
     ),
     BooleanField(
+        'ReportDryMatter1',
+        default=False,
+    ),
+    BooleanField(
+        'ReportDryMatter2',
+        default=False,
+    ),
+    BooleanField(
         'InvoiceExclude',
+        default=False,
+    ),
+    BooleanField(
+        'InvoiceExclude1',
+        default=False,
+    ),
+    BooleanField(
+        'InvoiceExclude2',
         default=False,
     ),
     DateTimeField(
@@ -191,6 +395,16 @@ schema = (fields.Char(string='RequestID',
                    required=False,
 
     ),
+    fields.Many2one(string='Priority1',
+                   comodel_name='olims.ar_priority',
+                   required=False,
+
+    ),
+    fields.Many2one(string='Priority2',
+                   comodel_name='olims.ar_priority',
+                   required=False,
+
+    ),
     TextField(
         string='ResultsInterpretation',
     ),
@@ -206,7 +420,23 @@ schema = (fields.Char(string='RequestID',
                  compute='_ComputeServiceCalculation',
                  default=0.00
     ),
+    fields.Float(string='Discount1',
+                 compute='_ComputeServiceCalculation',
+                 default=0.00
+    ),
+    fields.Float(string='Discount2',
+                 compute='_ComputeServiceCalculation',
+                 default=0.00
+    ),
     fields.Float(string='Subtotal',
+                 compute='_ComputeServiceCalculation',
+                 default=0.00
+    ),
+    fields.Float(string='Subtotal1',
+                 compute='_ComputeServiceCalculation',
+                 default=0.00
+    ),
+    fields.Float(string='Subtotal2',
                  compute='_ComputeServiceCalculation',
                  default=0.00
     ),
@@ -214,7 +444,23 @@ schema = (fields.Char(string='RequestID',
                  compute='_ComputeServiceCalculation',
                  default=0.00
     ),
+    fields.Float(string='VAT1',
+                 compute='_ComputeServiceCalculation',
+                 default=0.00
+    ),
+    fields.Float(string='VAT2',
+                 compute='_ComputeServiceCalculation',
+                 default=0.00
+    ),
     fields.Float(string='Total',
+                 compute='_ComputeServiceCalculation',
+                 default=0.00
+    ),
+    fields.Float(string='Total1',
+                 compute='_ComputeServiceCalculation',
+                 default=0.00
+    ),
+    fields.Float(string='Total2',
                  compute='_ComputeServiceCalculation',
                  default=0.00
     ),
@@ -239,7 +485,123 @@ schema = (fields.Char(string='RequestID',
         inverse_name="lab_manage_analysis_id"),
     fields.One2many(string="AddAnalysis",
         comodel_name="olims.add_analysis",
-        inverse_name="add_analysis_id")
+        inverse_name="add_analysis_id"),
+    BooleanField(
+        'CopyContact',
+        default=False,
+    ),
+    BooleanField(
+        'CopyCCContact',
+        default=False,
+    ),
+    BooleanField(
+        'CopyEmail',
+        default=False,
+    ),
+    BooleanField(
+        'Copysample',
+        default=False,
+    ),
+    BooleanField(
+        'Copybatch',
+        default=False,
+    ),
+    BooleanField(
+        'Copysubgroup',
+        default=False,
+    ),
+    BooleanField(
+        'Copytemplate',
+        default=False,
+    ),
+    BooleanField(
+        'Copyprofile',
+        default=False,
+    ),
+    BooleanField(
+        'Copysmaplingdate',
+        default=False,
+    ),
+    BooleanField(
+        'Copysampler',
+        default=False,
+    ),
+    BooleanField(
+        'Copysampletype',
+        default=False,
+    ),
+    BooleanField(
+        'Copyspecification',
+        default=False,
+    ),
+    BooleanField(
+        'Copysamplepoint',
+        default=False,
+    ),
+    BooleanField(
+        'Copystorage',
+        default=False,
+    ),
+    BooleanField(
+        'CopyClientOrderNumber',
+        default=False,
+    ),
+    BooleanField(
+        'CopyClientReference',
+        default=False,
+    ),
+    BooleanField(
+        'CopyClientSampleID',
+        default=False,
+    ),
+    BooleanField(
+        'CopySamplingDeviation',
+        default=False,
+    ),
+    BooleanField(
+        'CopySampleCondition',
+        default=False,
+    ),
+    BooleanField(
+        'CopyDefaultContainerType',
+        default=False,
+    ),
+    BooleanField(
+        'CopyAdHoc',
+        default=False,
+    ),
+    BooleanField(
+        'CopyComposite',
+        default=False,
+    ),
+    BooleanField(
+        'CopyReportDryMatter',
+        default=False,
+    ),
+    BooleanField(
+        'CopyInvoiceExclude',
+        default=False,
+    ),
+    BooleanField(
+        'CopyPriority',
+        default=False,
+    ),
+    BooleanField(
+        'CopyDiscount',
+        default=False,
+    ),
+    BooleanField(
+        'CopySubtotal',
+        default=False,
+    ),
+    BooleanField(
+        'CopyVAT',
+        default=False,
+    ),
+    BooleanField(
+        'CopyTotal',
+        default=False,
+    ),
 )
 schema_analysis = (fields.Many2one(string='Service',
                     comodel_name='olims.analysis_service',
@@ -333,6 +695,118 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         """Overwrite the create method of Odoo and create sample model data
            with fields SamplingDate and SampleType
         """
+        list_of_dicts = []
+        analysis_request_0_dict = {'StorageLocation': values.get('StorageLocation', None),
+        'AdHoc': values.get('AdHoc', None),
+        'Template': values.get('Template', None),
+        'AnalysisProfile': values.get('AnalysisProfile', None),
+        'ClientSampleID': values.get('ClientSampleID', None),
+        'ClientOrderNumber': values.get('ClientOrderNumber', None),
+        'SubGroup': values.get('SubGroup', None),
+        'SampleType': values.get('SampleType', None),
+        'Batch': values.get('Batch', None),
+        'SamplingDeviation': values.get('SamplingDeviation', None),
+        'ResultsInterpretation': values.get('ResultsInterpretation', None),
+        'Sample Partition': values.get('Sample Partition', None),
+        'SamplePoint': values.get('SamplePoint', None),
+        'Specification': values.get('Specification', None),
+        'Priority': values.get('Priority', None),
+        'Partition': values.get('Partition', None),
+        'SamplingDate': values.get('SamplingDate', None),
+        'ReportDryMatter': values.get('ReportDryMatter', None),
+        'Contact': values.get('Contact', None),
+        'FieldService': values.get('FieldService', None),
+        'CCEmails': values.get('CCEmails', None),
+        'CCContact': values.get('CCContact', None),
+        'Sampler': values.get('Sampler', None),
+        'Composite': values.get('Composite', None),
+        'Sample_id': values.get('Sample_id', None),
+        'Analyses': values.get('Analyses', None),
+        'Client': values.get('Client', None),
+        'InvoiceExclude': values.get('InvoiceExclude', None),
+        'LabService': values.get('LabService', None),
+        'Lab_Manage_Result': values.get('Lab_Manage_Result', None),
+        'result_option': values.get('result_option', None),
+        'Field_Manage_Result': values.get('Field_Manage_Result', None),
+        'SampleCondition': values.get('SampleCondition', None),
+        'Remarks': values.get('Remarks', None),
+        'DefaultContainerType': values.get('DefaultContainerType', None),
+        }
+
+        analysis_request_1_dict = {'StorageLocation': values.get('StorageLocation1', None),
+        'AdHoc': values.get('AdHoc1', None),
+        'Template': values.get('Template1', None),
+        'AnalysisProfile': values.get('AnalysisProfile1', None),
+        'ClientSampleID': values.get('ClientSampleID1', None),
+        'ClientOrderNumber': values.get('ClientOrderNumber1', None),
+        'SubGroup': values.get('SubGroup1', None),
+        'SampleType': values.get('SampleType1', None),
+        'Batch': values.get('Batch1', None),
+        'SamplingDeviation': values.get('SamplingDeviation1', None),
+        'ResultsInterpretation': values.get('ResultsInterpretation', None),
+        'Sample Partition': values.get('Sample Partition', None),
+        'SamplePoint': values.get('SamplePoint1', None),
+        'Specification': values.get('Specification1', None),
+        'Priority': values.get('Priority1', None),
+        'Partition': values.get('Partition', None),
+        'SamplingDate': values.get('SamplingDate1', None),
+        'ReportDryMatter': values.get('ReportDryMatter1', None),
+        'Contact': values.get('Contact1', None),
+        'FieldService': values.get('FieldService', None),
+        'CCEmails': values.get('CCEmails1', None),
+        'CCContact': values.get('CCContact1', None),
+        'Sampler': values.get('Sampler1', None),
+        'Composite': values.get('Composite1', None),
+        'Sample_id': values.get('Sample_id1', None),
+        'Analyses': values.get('Analyses', None),
+        'Client': values.get('Client', None),
+        'InvoiceExclude': values.get('InvoiceExclude1', None),
+        'LabService': values.get('LabService', None),
+        'Lab_Manage_Result': values.get('Lab_Manage_Result', None),
+        'result_option': values.get('result_option', None),
+        'Field_Manage_Result': values.get('Field_Manage_Result', None),
+        'SampleCondition': values.get('SampleCondition1', None),
+        'Remarks': values.get('Remarks', None),
+        'DefaultContainerType': values.get('DefaultContainerType1', None),
+        }
+
+        analysis_request_2_dict = {'StorageLocation': values.get('StorageLocation2', None),
+        'AdHoc': values.get('AdHoc2', None),
+        'Template': values.get('Template2', None),
+        'AnalysisProfile': values.get('AnalysisProfile2', None),
+        'ClientSampleID': values.get('ClientSampleID2', None),
+        'ClientOrderNumber': values.get('ClientOrderNumber2', None),
+        'SubGroup': values.get('SubGroup2', None),
+        'SampleType': values.get('SampleType2', None),
+        'Batch': values.get('Batch2', None),
+        'SamplingDeviation': values.get('SamplingDeviation2', None),
+        'ResultsInterpretation': values.get('ResultsInterpretation', None),
+        'Sample Partition': values.get('Sample Partition', None),
+        'SamplePoint': values.get('SamplePoint2', None),
+        'Specification': values.get('Specification2', None),
+        'Priority': values.get('Priority2', None),
+        'Partition': values.get('Partition', None),
+        'SamplingDate': values.get('SamplingDate2', None),
+        'ReportDryMatter': values.get('ReportDryMatter2', None),
+        'Contact': values.get('Contact2', None),
+        'FieldService': values.get('FieldService', None),
+        'CCEmails': values.get('CCEmails2', None),
+        'CCContact': values.get('CCContact2', None),
+        'Sampler': values.get('Sampler2', None),
+        'Composite': values.get('Composite2', None),
+        'Sample_id': values.get('Sample_id2', None),
+        'Analyses': values.get('Analyses', None),
+        'Client': values.get('Client', None),
+        'InvoiceExclude': values.get('InvoiceExclude2', None),
+        'LabService': values.get('LabService', None),
+        'Lab_Manage_Result': values.get('Lab_Manage_Result', None),
+        'result_option': values.get('result_option', None),
+        'Field_Manage_Result': values.get('Field_Manage_Result', None),
+        'SampleCondition': values.get('SampleCondition2', None),
+        'Remarks': values.get('Remarks', None),
+        'DefaultContainerType': values.get('DefaultContainerType2', None),
+        }
+
         data = []
         lab_result_list = []
         field_result_list = []
@@ -370,52 +844,64 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 
         values.update({"Field_Manage_Result": field_result_list,
             "Lab_Manage_Result": lab_result_list})
-        res = super(AnalysisRequest, self).create(values)
-        
-        smaple_vals_dict = {
-                'SamplingDate':values.get('SamplingDate'),
-                'SampleType':values.get('SampleType'),
-                'Client': values.get('Client'),
-                'Analysis_Request': res.id,
-                'ClientReference': values.get('ClientReference'),
-                'ClientSampleID': values.get('ClientSampleID'),
-                'SamplePoint': values.get('SamplePoint'),
-                'StorageLocation': values.get('StorageLocation'),
-                'SamplingDeviation': values.get('SamplingDeviation'),
-                'SampleCondition': values.get('SampleCondition'),
-                }
-        sample_object = self.env["olims.sample"]
-        new_sample = sample_object.create(smaple_vals_dict)
+        analysis_request_0_dict.update({"Field_Manage_Result": field_result_list,
+            "Lab_Manage_Result": lab_result_list})
+        analysis_request_1_dict.update({"Field_Manage_Result": field_result_list,
+            "Lab_Manage_Result": lab_result_list})
+        analysis_request_2_dict.update({"Field_Manage_Result": field_result_list,
+            "Lab_Manage_Result": lab_result_list})
 
-        analysis_object = super(AnalysisRequest, self).search([('id', '=',res.id)])
-        analysis_object.write({"Sample_id":new_sample.id})
+        list_of_dicts.append(analysis_request_0_dict)
+        list_of_dicts.append(analysis_request_1_dict)
+        list_of_dicts.append(analysis_request_2_dict)
 
-        partition_values = {'State': res.state,
-                            'analysis_request_id':res.id,
-                            'Partition': 'P-0'+ str(res.id)+'-R-0'+str(res.id)
-                            }
-        ar_partition_object = self.env["olims.ar_partition"]
-        ar_sample_partition_object = self.env["olims.ar_sample_partition"]
-        ar_sample_partition_object.create(partition_values)
-        ar_p = ar_partition_object.create(partition_values)
-        ar_analysis_object = self.env['olims.ar_analysis']
-        ar_service_lab_id = None
-        for rec in data:
-            if "LabService" in rec[2]:
-                serv_temp = rec[2]['LabService']
-            elif "Service" in rec[2]:
-                serv_temp = rec[2]['Service']
-            analyses_values = {
-                               'Priority':values.get('Priority'),
-                               'Partition': ar_p.id,
-                               'analysis_request_id':res.id,
-                               'Category': rec[2]['Category'],
-                               'Services': serv_temp,
-                               'Min': rec[2]['Min'],
-                               'Max': rec[2]['Max'],
-                               'Error': rec[2]['Error']
-                               }
-            ar_analysis_object.create(analyses_values)
+        for ar_values in list_of_dicts:
+            if ar_values.get("Contact") and ar_values.get('SamplingDate') and ar_values.get('SampleType'):
+                res = super(AnalysisRequest, self).create(ar_values)
+                smaple_vals_dict = {
+                        'SamplingDate':ar_values.get('SamplingDate'),
+                        'SampleType':ar_values.get('SampleType'),
+                        'Client': ar_values.get('Client'),
+                        'Analysis_Request': res.id,
+                        'ClientReference': ar_values.get('ClientReference'),
+                        'ClientSampleID': ar_values.get('ClientSampleID'),
+                        'SamplePoint': ar_values.get('SamplePoint'),
+                        'StorageLocation': ar_values.get('StorageLocation'),
+                        'SamplingDeviation': ar_values.get('SamplingDeviation'),
+                        'SampleCondition': ar_values.get('SampleCondition'),
+                        }
+                sample_object = self.env["olims.sample"]
+                new_sample = sample_object.create(smaple_vals_dict)
+
+                analysis_object = super(AnalysisRequest, self).search([('id', '=',res.id)])
+                analysis_object.write({"Sample_id":new_sample.id})
+
+                partition_values = {'State': res.state,
+                                    'analysis_request_id':res.id,
+                                    'Partition': 'P-0'+ str(res.id)+'-R-0'+str(res.id)
+                                    }
+                ar_partition_object = self.env["olims.ar_partition"]
+                ar_sample_partition_object = self.env["olims.ar_sample_partition"]
+                ar_sample_partition_object.create(partition_values)
+                ar_p = ar_partition_object.create(partition_values)
+                ar_analysis_object = self.env['olims.ar_analysis']
+                ar_service_lab_id = None
+                for rec in data:
+                    if "LabService" in rec[2]:
+                        serv_temp = rec[2]['LabService']
+                    elif "Service" in rec[2]:
+                        serv_temp = rec[2]['Service']
+                    analyses_values = {
+                                       'Priority':ar_values.get('Priority'),
+                                       'Partition': ar_p.id,
+                                       'analysis_request_id':res.id,
+                                       'Category': rec[2]['Category'],
+                                       'Services': serv_temp,
+                                       'Min': rec[2]['Min'],
+                                       'Max': rec[2]['Max'],
+                                       'Error': rec[2]['Error']
+                                       }
+                    ar_analysis_object.create(analyses_values)
         return res
 
     @api.multi
@@ -665,6 +1151,106 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                     f_service = {'Service':service.Services.id,
                         'Category':service.Services.category.id}
                     record.FieldService += record.FieldService.new(f_service)
+
+    @api.onchange('CopyContact')
+    def copy_contact(self):
+        self.Contact1 = self.Contact2 = self.Contact
+
+    @api.onchange('CopyCCContact')
+    def copy_cccontact(self):
+        self.CCContact1 = self.CCContact2 = self.CCContact
+
+    @api.onchange('CopyEmail')
+    def copy_email(self):
+        self.CCEmails1 = self.CCEmails2 = self.CCEmails
+
+    @api.onchange('Copysample')
+    def copy_sample(self):
+        self.Sample_id1 = self.Sample_id2 = self.Sample_id
+
+    @api.onchange('Copybatch')
+    def copy_batch(self):
+        self.Batch1 = self.Batch2 = self.Batch
+
+    @api.onchange('Copysubgroup')
+    def copy_subgroup(self):
+        self.SubGroup1 = self.SubGroup2 = self.SubGroup
+
+    @api.onchange('Copytemplate')
+    def copy_template(self):
+        self.Template1 = self.Template2 = self.Template
+
+    @api.onchange('Copyprofile')
+    def copy_profile(self):
+        self.AnalysisProfile1 = self.AnalysisProfile2 = self.AnalysisProfile
+
+    @api.onchange('Copysmaplingdate')
+    def copy_sampledate(self):
+        self.SamplingDate1 = self.SamplingDate2 = self.SamplingDate
+
+    @api.onchange('Copysampler')
+    def copy_sampler(self):
+        self.Sampler1 = self.Sampler2 = self.Sampler
+
+    @api.onchange('Copysampletype')
+    def copy_sample_type(self):
+        self.SampleType1 = self.SampleType2 = self.SampleType
+
+    @api.onchange('Copyspecification')
+    def copy_specification(self):
+        self.Specification1 = self.Specification2 = self.Specification
+
+    @api.onchange('Copysamplepoint')
+    def copy_sample_point(self):
+        self.SamplePoint1 = self.SamplePoint2 = self.SamplePoint
+
+    @api.onchange('Copystorage')
+    def copy_storage_location(self):
+        self.StorageLocation1 = self.StorageLocation2 = self.StorageLocation
+
+    @api.onchange('CopyClientOrderNumber')
+    def copy_client_order_num(self):
+        self.ClientOrderNumber1 = self.ClientOrderNumber2 = self.ClientOrderNumber
+
+    @api.onchange('CopyClientReference')
+    def copy_client_reference(self):
+        self.ClientReference1 = self.ClientReference2 = self.ClientReference
+
+    @api.onchange('CopyClientSampleID')
+    def copy_client_sample_id(self):
+        self.ClientSampleID1 = self.ClientSampleID2 = self.ClientSampleID
+
+    @api.onchange('CopySamplingDeviation')
+    def copy_sampling_deviation(self):
+        self.SamplingDeviation1 = self.SamplingDeviation2 = self.SamplingDeviation
+
+    @api.onchange('CopySampleCondition')
+    def copy_sample_condition(self):
+        self.SampleCondition1 = self.SampleCondition2 = self.SampleCondition
+
+    @api.onchange('CopyDefaultContainerType')
+    def copy_container_type(self):
+        self.DefaultContainerType1 = self.DefaultContainerType2 = self.DefaultContainerType
+
+    @api.onchange('CopyAdHoc')
+    def copy_adhoc(self):
+        self.AdHoc1 = self.AdHoc2 = self.AdHoc
+
+    @api.onchange('CopyComposite')
+    def copy_composite(self):
+        self.Composite1 = self.Composite2 = self.Composite
+
+    @api.onchange('CopyReportDryMatter')
+    def copy_report_dry_matter(self):
+        self.ReportDryMatter1 = self.ReportDryMatter2 = self.ReportDryMatter
+
+    @api.onchange('CopyInvoiceExclude')
+    def copy_invoice_exclude(self):
+        self.InvoiceExclude1 = self.InvoiceExclude2 = self.InvoiceExclude
+
+    @api.onchange('CopyPriority')
+    def copy_priority(self):
+        self.Priority1 = self.Priority2 = self.Priority
 
 class FieldAnalysisService(models.Model, BaseOLiMSModel):
     _name = 'olims.field_analysis_service'
