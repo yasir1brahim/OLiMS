@@ -930,7 +930,8 @@ class WorkSheetManageResults(models.Model):
     sampling_date = fields.Datetime("Sampling Date")
     received_date = fields.Datetime("Received Date")
     result = fields.Char("Results")
-    position = fields.Integer(string="Position",compute="_get_id")
+    position = fields.Integer(string="Position",compute="_get_id",
+                              Store=True)
     analyst = fields.Many2one(string='Analyst',
         comodel_name='res.users',
         domain="[('groups_id', 'in', (14,22))]",
