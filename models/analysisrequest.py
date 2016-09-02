@@ -933,7 +933,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def get_fields_value_dicts(self, values):
         client = values.get('Client', None)
         if not client:
-            client = self._context.get('Client', None)
+            client = self._context.get('client_context', None)
         analysis_request_0_dict = {
             'StorageLocation': values.get('StorageLocation', None),
             'AdHoc': values.get('AdHoc', None),
