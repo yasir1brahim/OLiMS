@@ -2346,6 +2346,13 @@
 			<field name="view_mode">tree,form</field>
             <field name="view_id" ref="olims_analysis_request_tree_view"/>
        </record>
+       <record model="ir.actions.act_window" id="analysis_request_form_action">
+            <field name="name">Analysis Request</field>
+            <field name="res_model">olims.analysis_request</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">current</field>
+       </record>
 
         <menuitem id="olims_analysis_request_menu" name="Analysis Request" parent="olims_menu" sequence="4"
                   action="analysis_request_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst"/>
@@ -4512,7 +4519,7 @@
                         </page>
                          <page string="Analysis Requests" attrs="{'invisible': [('id', '=', False)]}">
                             <header>
-                                <!-- <button name="create_customer_invoice" string="Create Invoice" type="object" class="oe_highlight"/> -->
+                                <button name="%(analysis_request_form_action)d" string="Add Analysis Request" type="action" class="oe_highlight"/>
                             </header>
                             <label for="Analysis_Request" string="Analysis Requests"/>
                             <field name="Analysis_Request"></field>

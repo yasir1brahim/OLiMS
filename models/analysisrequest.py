@@ -931,6 +931,9 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         return data, field_result_list, lab_result_list
 
     def get_fields_value_dicts(self, values):
+        client = values.get('Client', None)
+        if not client:
+            client = self._context.get('Client', None)
         analysis_request_0_dict = {
             'StorageLocation': values.get('StorageLocation', None),
             'AdHoc': values.get('AdHoc', None),
@@ -958,7 +961,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Composite': values.get('Composite', None),
             'Sample_id': values.get('Sample_id', None),
             'Analyses': values.get('Analyses', None),
-            'Client': values.get('Client', None),
+            'Client': client,
             'InvoiceExclude': values.get('InvoiceExclude', None),
             'LabService': values.get('LabService', None),
             'Lab_Manage_Result': values.get('Lab_Manage_Result', None),
@@ -995,7 +998,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Composite': values.get('Composite1', None),
             'Sample_id': values.get('Sample_id1', None),
             'Analyses': values.get('Analyses', None),
-            'Client': values.get('Client', None),
+            'Client': client,
             'InvoiceExclude': values.get('InvoiceExclude1', None),
             'LabService': values.get('LabService', None),
             'Lab_Manage_Result': values.get('Lab_Manage_Result', None),
@@ -1032,7 +1035,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Composite': values.get('Composite2', None),
             'Sample_id': values.get('Sample_id2', None),
             'Analyses': values.get('Analyses', None),
-            'Client': values.get('Client', None),
+            'Client': client,
             'InvoiceExclude': values.get('InvoiceExclude2', None),
             'LabService': values.get('LabService', None),
             'Lab_Manage_Result': values.get('Lab_Manage_Result', None),
@@ -1069,7 +1072,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Composite': values.get('Composite3', None),
             'Sample_id': values.get('Sample_id3', None),
             'Analyses': values.get('Analyses', None),
-            'Client': values.get('Client', None),
+            'Client': client,
             'InvoiceExclude': values.get('InvoiceExclude3', None),
             'LabService': values.get('LabService', None),
             'Lab_Manage_Result': values.get('Lab_Manage_Result', None),
