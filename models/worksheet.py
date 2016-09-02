@@ -63,7 +63,8 @@ schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId'),
                      copy=False, track_visibility='always'
     ),
     fields.Many2many(string="ManageResult",
-        comodel_name="olims.ws_manage_results"),
+        comodel_name="olims.ws_manage_results",
+                     ondelete='set null'),
     FileField('AttachmentFile',
         widget = FileWidget(
             label=_("Attachment"),
@@ -106,7 +107,7 @@ class Worksheet(models.Model, BaseOLiMSModel):
     @api.multi
     def write(self, values):
         data_list = []
-        
+
         if values.get("AnalysisRequest", None):
             for items in values["AnalysisRequest"][0][2]:
                 values_dict_manage_results = {}
@@ -903,7 +904,8 @@ class AddAnalysis(models.Model):
     due_date = fields.Datetime('Due Date', readonly="True")
     received_date = fields.Datetime('Date Received', readonly="True")
     add_analysis_id = fields.Many2one("olims.analysis_request",
-        ondelete='set null', string="Request ID")
+        ondelete='set null', string="Request ID",
+        domain="[('state', '=', 'sample_received']")
 
     @api.model
     def create(self, values):
