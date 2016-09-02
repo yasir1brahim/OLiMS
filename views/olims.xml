@@ -66,7 +66,7 @@
             <field name="model">olims.analysis_request</field>
             <field name="priority" eval="1"/>
             <field name="arch" type="xml">
-                <tree string="Analysis Request" delete="false">
+                <tree string="Analysis Request" create="false" delete="false">
                     <field name="RequestID"></field>
                     <field name="Sample"></field>
                     <field name="Batch"></field>
@@ -1868,7 +1868,7 @@
                                 <label for="Contact" string="Contact"/>
                                 <div>
                                    <field name="CopyContact" class="fa fa-forward" width="25%" nolabel='1' attrs="{'invisible': [('id', '!=', False)]}"/>
-                                    <field name="Contact" options="{'no_create': True}" nolabel='1' width="25%"></field>
+                                    <field name="Contact" options="{'no_create': True}" nolabel='1' width="25%" domain="['|',('Client_Contact','=',context.get('client_context')),('Client_Contact','=',Client)]"></field>
                                     <field name="Contact1" options="{'no_create': True}" nolabel='1' width="25%" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                     <field name="Contact2" options="{'no_create': True}" nolabel='1' width="25%" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                     <field name="Contact3" options="{'no_create': True}" nolabel='1' width="25%" attrs="{'invisible': [('id', '!=', False)]}"></field>
@@ -2345,6 +2345,14 @@
             <field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
             <field name="view_id" ref="olims_analysis_request_tree_view"/>
+       </record>
+       <record model="ir.actions.act_window" id="analysis_request_form_action">
+            <field name="name">Analysis Request</field>
+            <field name="res_model">olims.analysis_request</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">current</field>
+            <field name="context">{"client_context":active_id}</field>
        </record>
 
         <menuitem id="olims_analysis_request_menu" name="Analysis Request" parent="olims_menu" sequence="4"
@@ -4512,7 +4520,7 @@
                         </page>
                          <page string="Analysis Requests" attrs="{'invisible': [('id', '=', False)]}">
                             <header>
-                                <!-- <button name="create_customer_invoice" string="Create Invoice" type="object" class="oe_highlight"/> -->
+                                <button name="%(analysis_request_form_action)d" string="Add Analysis Request" type="action" class="oe_highlight"/>
                             </header>
                             <label for="Analysis_Request" string="Analysis Requests"/>
                             <field name="Analysis_Request"></field>
