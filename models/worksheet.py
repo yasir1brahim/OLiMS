@@ -107,9 +107,11 @@ class Worksheet(models.Model, BaseOLiMSModel):
     @api.multi
     def write(self, values):
         data_list = []
-
+        self.ManageResult.unlink()
+        count = 0
         if values.get("AnalysisRequest", None):
-            for items in values["AnalysisRequest"][0][2]:
+            for items in sorted(values["AnalysisRequest"][0][2]):
+                count += 1
                 values_dict_manage_results = {}
                 add_analysis_obj = self.env["olims.add_analysis"].browse(items)
                 values_dict_manage_results.update({"request_analysis_id":add_analysis_obj.add_analysis_id.id,
@@ -122,7 +124,8 @@ class Worksheet(models.Model, BaseOLiMSModel):
                     "sample": add_analysis_obj.add_analysis_id.Sample_id.id,
                     "analyst": self.Analyst.id,
                     "instrument": self.Instrument.id,
-                    "priority": add_analysis_obj.priority.id})
+                    "priority": add_analysis_obj.priority.id,
+                    "position": count})
                 data_list.append([0,0, values_dict_manage_results])
             values.update({"ManageResult": data_list})
         return super(Worksheet, self).write(values)
@@ -870,7 +873,6 @@ class Worksheet(models.Model, BaseOLiMSModel):
 
     @api.multi
     def print_ws_manage_results(self):
-        # self.filtered(lambda s: s.state == 'draft').write({'state': 'sent'})
         return self.env['report'].get_action(self, 'olims.report_ws_manage_results')
 
     @api.onchange('Analyst','_Analyst','Instrument', '_Instrument')
@@ -930,8 +932,7 @@ class WorkSheetManageResults(models.Model):
     sampling_date = fields.Datetime("Sampling Date")
     received_date = fields.Datetime("Received Date")
     result = fields.Char("Results")
-    position = fields.Integer(string="Position",compute="_get_id",
-                              Store=True)
+    position = fields.Integer(string="Position")
     analyst = fields.Many2one(string='Analyst',
         comodel_name='res.users',
         domain="[('groups_id', 'in', (14,22))]",
@@ -943,13 +944,6 @@ class WorkSheetManageResults(models.Model):
     priority = fields.Many2one('olims.ar_priority',
         ondelete='set null', string="Priority")
     captured = fields.Boolean("+-")
-
-    @api.multi
-    def _get_id(self):
-        count = 0
-        for record in self:
-            count += 1
-            record.position = count
 
 class WorkSheetAddRefreceAnalysis(models.Model):
     _name = "olims.ws_refrence_contorled_analysis"
