@@ -2483,7 +2483,7 @@
                                 <separator/>
                                 <label for="ManageResult" string="Manage Result"/>
                                 <field name="ManageResult" options="{'no_create': True}" widget="one2many_list">
-                                    <tree string="Manage Results" create="false"  delete="false" editable="top" default_order="position,request_analysis_id">
+                                    <tree string="Manage Results" create="false"  delete="false" editable="top" default_order="request_analysis_id">
                                         <field name="position" string="Position"/>
                                         <field name="client" string="Client" readonly="1"/>
                                         <field name="request_analysis_id" string="Request ID" readonly="1"/>
