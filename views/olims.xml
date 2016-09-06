@@ -2443,20 +2443,18 @@
                 <form string="Worksheet Form">
                     <sheet>
                         <header>
-                            <field name="State" widget="statusbar" statusbar_visible="open,attachment_due,to_be_verified,verified,rejected" statusbar_colors='{"open":"blue","to_be_verified":"blue","rejected":"red"}'/>
+                            <!-- <field name="State" widget="statusbar" statusbar_visible="open,attachment_due,to_be_verified,verified,rejected" statusbar_colors='{"open":"blue","to_be_verified":"blue","rejected":"red"}'/> -->
                             </header>
+                        <group col='8'>
+                            <field name="id" invisible="1"/>
+                            <label for="Analyst" string="Select Analyst" attrs="{'invisible': [('id', '!=', False)]}"/>
+                            <field name="Analyst" options="{'no_create': True}" nolabel='1' attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <label for="Template" string="Select Worksheet Template" attrs="{'invisible': [('id', '!=', False)]}"/>
+                            <field name="Template" options="{'no_create': True}" nolabel='1' attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <label for="Instrument" string="Select Instrument" attrs="{'invisible': [('id', '!=', False)]}"/>
+                            <field name="Instrument" options="{'no_create': True}" nolabel='1' attrs="{'invisible': [('id', '!=', False)]}"></field>
+                        </group>
                         <notebook>
-                            <page string="Add" class="oe_edit_only" attrs="{'invisible': [('id', '!=', False)]}">
-                                <group col='8'>
-                                    <label for="Analyst" string="Select Analyst"/>
-                                    <field name="Analyst" options="{'no_create': True}" nolabel='1'></field>
-                                    <label for="Template" string="Select Worksheet Template"/>
-                                    <field name="Template" options="{'no_create': True}" nolabel='1'></field>
-                                    <label for="Instrument" string="Select Instrument"/>
-                                    <field name="Instrument" options="{'no_create': True}" nolabel='1'></field>
-                                    <field name="id" invisible="1"/>
-                                </group>
-                            </page>
                             <page string="Add Analyses" attrs="{'invisible': [('id', '=', False)]}">
                                 <label for="AnalysisRequest" string="Analysis Request"/>
                                 <field name="AnalysisRequest" options="{'no_create': True}"></field>
