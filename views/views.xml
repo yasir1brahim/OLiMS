@@ -34,7 +34,7 @@
                         //pure javascript
                         var location = window.location.href;
                         var url_str = location.split("/");
-                        var c_url = "http://" + url_str[2] + "/experiment/new/"
+                        var c_url = url_str[0]+"//" + url_str[2] + "/experiment/new/"
                         top.document.getElementById('moleculer-drawer').setAttribute("src",c_url);
                         });
                     </script>
@@ -235,7 +235,7 @@
                         //pure javascript
                         var location = window.location.href;
                         var url_str = location.split("/");
-                        var c_url = "http://" + url_str[2] + "/experiment/new/"
+                        var c_url = url_str[0]+"//" + url_str[2] + "/experiment/new/"
                         top.document.getElementById('moleculer-drawer-database').setAttribute("src",c_url);
                         });
                     </script>
