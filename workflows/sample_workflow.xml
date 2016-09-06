@@ -26,6 +26,12 @@
         <field name="action">actionToBeSampled()</field>
         <field name="split_mode">OR</field>
     </record>
+    <record model="workflow.activity" id="act_sample_due">
+        <field name="wkf_id" ref="wkf_sample" />
+        <field name="name">sample_due</field>
+        <field name="kind">function</field>
+        <field name="action">workflow_script_sample_due()</field>
+    </record>
     <record model="workflow.activity" id="act_sampled">
         <field name="wkf_id" ref="wkf_sample" />
         <field name="name">sampled</field>
@@ -44,12 +50,6 @@
         <field name="flow_start" eval="False"/>
         <field name="kind">function</field>
         <field name="action">workflow_script_sample_receive()</field>
-    </record>
-    <record model="workflow.activity" id="act_sample_due">
-        <field name="wkf_id" ref="wkf_sample" />
-        <field name="name">sample_due</field>
-        <field name="kind">function</field>
-        <field name="action">workflow_script_sample_due()</field>
     </record>
     <record model="workflow.activity" id="act_expired">
         <field name="wkf_id" ref="wkf_sample" />
@@ -86,24 +86,24 @@
     <!-- For Lab Manager -->
     <record model="workflow.transition" id="trns_to_be_sampled2sampled_by_manager">
         <field name="act_from" ref="act_to_be_sampled" />
-        <field name="act_to" ref="act_sampled" />
-        <field name="signal">sampled</field>
+        <field name="act_to" ref="act_sample_due" />
+        <field name="signal">sample_due</field>
         <field name="condition">True</field>
         <field name="group_id" ref="group_lab_managers"/>
     </record>
     <!-- For Lab Clerk -->
     <record model="workflow.transition" id="trns_to_be_sampled2sampled_by_clerk">
         <field name="act_from" ref="act_to_be_sampled" />
-        <field name="act_to" ref="act_sampled" />
-        <field name="signal">sampled</field>
+        <field name="act_to" ref="act_sample_due" />
+        <field name="signal">sample_due</field>
         <field name="condition">True</field>
         <field name="group_id" ref="group_lab_clerks"/>
     </record>
     <!-- For Sampler -->
     <record model="workflow.transition" id="trns_to_be_sampled2sampled_by_sampler">
         <field name="act_from" ref="act_to_be_sampled" />
-        <field name="act_to" ref="act_sampled" />
-        <field name="signal">sampled</field>
+        <field name="act_to" ref="act_sample_due" />
+        <field name="signal">sample_due</field>
         <field name="condition">True</field>
         <field name="group_id" ref="group_samplers"/>
     </record>
@@ -190,29 +190,29 @@
     </record> -->
     <!-- SampleSample, ['Manager', 'LabManager', 'Sampler', 'Sampler'] changed -->
     <!-- For Lab Manager -->
-    <record model="workflow.transition" id="trns_to_be_sample2sample_due_by_manager">
+    <!-- <record model="workflow.transition" id="trns_to_be_sample2sample_due_by_manager">
         <field name="act_from" ref="act_to_be_sampled" />
         <field name="act_to" ref="act_sample_due" />
         <field name="signal">sampled</field>
         <field name="condition">True</field>
         <field name="group_id" ref="group_lab_managers"/>
-    </record>
+    </record> -->
     <!-- For Lab Clerk -->
-    <record model="workflow.transition" id="trns_to_be_sample2sample_due_by_clerk">
+    <!-- <record model="workflow.transition" id="trns_to_be_sample2sample_due_by_clerk">
         <field name="act_from" ref="act_to_be_sampled" />
         <field name="act_to" ref="act_sample_due" />
         <field name="signal">sampled</field>
         <field name="condition">True</field>
         <field name="group_id" ref="group_lab_clerks"/>
-    </record>
+    </record> -->
     <!-- For Sampler -->
-    <record model="workflow.transition" id="trns_to_be_sample2sample_due_by_sampler">
+    <!-- <record model="workflow.transition" id="trns_to_be_sample2sample_due_by_sampler">
         <field name="act_from" ref="act_to_be_sampled" />
         <field name="act_to" ref="act_sample_due" />
         <field name="signal">sampled</field>
         <field name="condition">True</field>
         <field name="group_id" ref="group_samplers"/>
-    </record>
+    </record> -->
 
 </data>
 </openerp>

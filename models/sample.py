@@ -15,12 +15,12 @@ import datetime
 SAMPLE_STATES = (
                 ('sample_registered', 'Registered'),
                 ('to_be_sampled', 'To Be Sampled'),
-                ('sampled', 'Sampled'),
-                ('to_be_preserved', 'To Be Preserved'),
-                ('sample_received', 'Sample Received'),
                 ('sample_due', 'Sample Due'),
+                ('sample_received', 'Sample Received'),
+                ('sampled', 'Sampled'),
                 ('expired', 'Expired'),
                 ('disposed', 'Disposed'),
+                ('to_be_preserved', 'To Be Preserved'),
                 )
 schema = (StringField('name',
               compute='compute_smapleName',        
