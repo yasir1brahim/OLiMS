@@ -1267,13 +1267,15 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         return True
 
     def workflow_script_receive(self,cr,uid,ids,context=None):
-        analysis_dict = {}
+        
+        data_list = []
         add_analysis_object = self.pool.get('olims.add_analysis')
         analysis_request_obj = self.pool.get('olims.analysis_request').browse(cr,uid,ids,context)
         manage_result_object = self.pool.get('olims.manage_analyses').search(cr,uid,['|',
             ('manage_analysis_id', 'in', ids),('lab_manage_analysis_id', 'in', ids)],None)
         for ar_object in analysis_request_obj:
             for items in self.pool.get('olims.manage_analyses').browse(cr,uid,manage_result_object,context):
+                analysis_dict = {}
                 analysis_dict.update({
                     'category':items.Category.id,
                     'client': ar_object.Client.id,
@@ -1286,11 +1288,11 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                     analysis_dict.update({'analysis':items.Service.id })
                 if items.LabService:
                     analysis_dict.update({'analysis':items.LabService.id })
-                self.write(cr, uid, ids, {'AddAnalysis': [[0,0, analysis_dict]]
-                    }, context=context)
+                data_list.append([0,0, analysis_dict])
         datereceived = datetime.datetime.now()
         self.write(cr, uid, ids, {
             'state': 'sample_received', 'DateReceived' : datereceived,
+            'AddAnalysis': data_list
         }, context=context)
         return True
 
@@ -1320,8 +1322,13 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         return True
 
     def workflow_script_to_be_verified(self,cr,uid,ids,context=None):
+        data_list = []
+        for items in self.browse(cr,uid,ids,context):
+            for objects in items.AddAnalysis:
+                data_list.append([2, objects.id])
+
         self.write(cr, uid, ids, {
-            'state': 'to_be_verified',
+            'state': 'to_be_verified', 'AddAnalysis': data_list
         }, context=context)
         return True
 
