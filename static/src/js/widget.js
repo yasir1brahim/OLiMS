@@ -110,6 +110,7 @@ var One2ManySelectable = FieldOne2Many.extend({
 			var model_obj=new Model("olims.ws_manage_results");
 			model_obj.call('bulk_verify',[selected_ids],{context:self.dataset.context})
 			.then(function(result){
+				location.reload();
 			});
 			
 	   },

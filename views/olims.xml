@@ -2493,6 +2493,7 @@
                                         <field name="result" string="Result"/>
                                         <field name="captured" string="+-"/>
                                         <field name="due_date" string="Due Date" readonly="1"/>
+                                        <field name="state" string="State" readonly="1"/>
                                     </tree>
                                     <!-- <form string="Manage Results" create="false">
                                         <field name="client" string="Client" readonly="1"/>

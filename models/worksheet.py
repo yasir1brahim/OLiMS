@@ -8,6 +8,20 @@ from fields.widget.widget import StringWidget
 from fields.file_field import FileField
 from fields.widget.widget import FileWidget
 from openerp.tools.translate import _
+AR_STATES = (
+    ('sample_registered','Sample Registered'),
+    ('not_requested','Not Requested'),
+    ('to_be_sampled','To Be Sampled'),
+    ('sampled','Sampled'),
+    ('to_be_preserved','To Be Preserved'),
+    ('sample_due','Sample Due'),
+    ('sample_received','Received'),
+    ('attachment_due','Attachment Outstanding'),
+    ('to_be_verified','To be verified'),
+    ('verified','Verified'),
+    ('published','Published'),
+    ('invalid','Invalid'),
+    )
 WORKSHEET_STATES = (
     ('open','open'),
     ('attachment_due','Attachment Outstanding'),
@@ -107,7 +121,8 @@ class Worksheet(models.Model, BaseOLiMSModel):
     @api.multi
     def write(self, values):
         data_list = []
-        self.ManageResult.unlink()
+        if not values.get("ManageResult", None):
+            self.ManageResult.unlink()
         count = 0
         if values.get("AnalysisRequest", None):
             for items in sorted(values["AnalysisRequest"][0][2]):
@@ -944,6 +959,13 @@ class WorkSheetManageResults(models.Model):
     priority = fields.Many2one('olims.ar_priority',
         ondelete='set null', string="Priority")
     captured = fields.Boolean("+-")
+    state = fields.Selection(string='State',
+                     selection=AR_STATES,
+                     default='sample_received',
+                     select=True,
+                     readonly=True,
+                     copy=False, track_visibility='always'
+    )
 
     @api.multi
     def bulk_verify(self):
@@ -951,6 +973,7 @@ class WorkSheetManageResults(models.Model):
         for record in self:
             if not record.result:
                 continue
+            record.write({"state":"to_be_verified"})
             analyses = self.env["olims.manage_analyses"].search([
                 "|",("Service","=",record.analysis.id)
                     ,("LabService","=",record.analysis.id),
