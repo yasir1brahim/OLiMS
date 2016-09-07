@@ -2266,6 +2266,7 @@
                             <field name="+-"/>
                             <field name="Capture" attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="Due Date" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="state" string="State" readonly="1"/>
                         </tree>
                     </field>
                     <label for="Lab_Manage_Result" string="Lab Analysis" attrs="{'invisible': [('Lab_Manage_Result', '=', [])]}"/>
@@ -2283,6 +2284,7 @@
                             <field name="+-"/>
                             <field name="Capture" attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="Due Date" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="state" string="State" readonly="1"/>
                         </tree>
                     </field>
                 </page>
@@ -2482,7 +2484,7 @@
                                 </group>
                                 <separator/>
                                 <label for="ManageResult" string="Manage Result"/>
-                                <field name="ManageResult" options="{'no_create': True}" widget="one2many_list">
+                                <field name="ManageResult" options="{'no_create': True}" widget="one2many_selectable">
                                     <tree string="Manage Results" create="false"  delete="false" editable="top" default_order="request_analysis_id">
                                         <field name="position" string="Position"/>
                                         <field name="client" string="Client" readonly="1"/>

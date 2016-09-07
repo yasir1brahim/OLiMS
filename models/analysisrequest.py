@@ -786,6 +786,13 @@ manage_result_schema = (
         ),
     fields.Many2one(string='Category',
         comodel_name='olims.analysis_category'),
+    fields.Selection(string='state',
+                     selection=AR_STATES,
+                     default='sample_received',
+                     select=True,
+                     readonly=True,
+                     copy=False, track_visibility='always'
+    )
     )
 
 class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):

@@ -951,6 +951,37 @@ class WorkSheetManageResults(models.Model):
             count += 1
             record.position = count
 
+    @api.multi
+    def bulk_verify(self):
+        ar_ids = []
+        for record in self:
+            if not record.result:
+                continue
+            analyses = self.env["olims.manage_analyses"].search([
+                "|",("Service","=",record.analysis.id)
+                    ,("LabService","=",record.analysis.id),
+                "|",("manage_analysis_id","=",record.request_analysis_id.id),
+                    ("lab_manage_analysis_id","=",record.request_analysis_id.id)
+                ])
+            for analysis in analyses:
+                analysis.write({"state":"to_be_verified","Result":record.result})
+            arecs = self.env["olims.manage_analyses"].search([
+                "|",("manage_analysis_id","=",record.request_analysis_id.id),
+                    ("lab_manage_analysis_id","=",record.request_analysis_id.id)
+                ])
+            all_submitted = True
+            for arec in arecs:
+                if arec.state != "to_be_verified":
+                    all_submitted = False
+                    break
+            if all_submitted:
+                ar_ids.append(record.request_analysis_id.id)
+        # self.pool.get("olims.analysis_request").workflow_script_to_be_verified(self._cr,self._uid,ar_ids,None)
+        # self.env["olims.analysis_request"].browse(ar_ids).workflow_script_to_be_verified()
+        self.env["olims.analysis_request"].browse(ar_ids).signal_workflow("submit")
+        return True
+
+
 class WorkSheetAddRefreceAnalysis(models.Model):
     _name = "olims.ws_refrence_contorled_analysis"
 
