@@ -1850,7 +1850,6 @@
 
                             <button string="Receive Sample" name="receive" type="workflow" states="sample_due"/>
 
-                            <button string="Submit for Verification" name="submit" type="workflow" states="sample_received"/>
                             <button string="Verify" name="verify" type="workflow" states="to_be_verified"/>
                             <button string="Publish" name="publish" type="workflow" states="verified"/>
                             <button string="Print" name="publish_analysis_request" type="object" states="published"/>
@@ -2252,7 +2251,7 @@
                 </page>
                 <page string="Manage Results" attrs="{'invisible': [('state', '!=', 'sample_received'),('state', '!=', 'published'),('state', '!=', 'verified'),('state', '!=', 'to_be_verified')]}">
                     <label for="Field_Manage_Result" string="Field Analysis" attrs="{'invisible': [('Field_Manage_Result', '=', [])]}"/>
-                    <field name="Field_Manage_Result" attrs="{'invisible': [('Field_Manage_Result', '=', [])]}">
+                    <field name="Field_Manage_Result" attrs="{'invisible': [('Field_Manage_Result', '=', [])]}" widget="one2many_selectable_request">
                         <tree editable="bottom" create='false' delete='false'>
                             <field name="id" invisible="1"/>
                             <field name='Category' attrs="{'readonly': [('id', '!=', False)]}"/>
@@ -2270,7 +2269,7 @@
                         </tree>
                     </field>
                     <label for="Lab_Manage_Result" string="Lab Analysis" attrs="{'invisible': [('Lab_Manage_Result', '=', [])]}"/>
-                    <field name="Lab_Manage_Result" attrs="{'invisible': [('Lab_Manage_Result', '=', [])]}">
+                    <field name="Lab_Manage_Result" attrs="{'invisible': [('Lab_Manage_Result', '=', [])]}" widget="one2many_selectable_request">
                         <tree editable="bottom" create='false' delete='false'>
                             <field name="id" invisible="1"/>
                             <field name='Category' attrs="{'readonly': [('id', '!=', False)]}"/>

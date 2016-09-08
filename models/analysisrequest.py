@@ -1478,6 +1478,40 @@ class ManageAnalyses(models.Model, BaseOLiMSModel):
     _inherit = 'olims.field_analysis_service'
     _name = 'olims.manage_analyses'
 
+    @api.multi
+    def bulk_verify(self):
+        print "inside bulk"
+        ar_ids = []
+        for record in self:
+            if not record.Result:
+                continue
+            record.write({"state":"to_be_verified"})
+            if len(record.Service) != 0:
+                analysis_id = record.Service.id
+                request_id = record.manage_analysis_id.id
+            else:
+                analysis_id = record.LabService.id
+                request_id = record.lab_manage_analysis_id.id
+            analyses = self.env["olims.ws_manage_results"].search([
+                ("analysis","=",analysis_id),
+                ("request_analysis_id","=",request_id)
+                ])
+            for analysis in analyses:
+                analysis.write({"state":"to_be_verified","result":record.Result})
+            arecs = self.env["olims.manage_analyses"].search([
+                "|",("manage_analysis_id","=",request_id),
+                    ("lab_manage_analysis_id","=",request_id)
+                ])
+            all_submitted = True
+            for arec in arecs:
+                if arec.state != "to_be_verified":
+                    all_submitted = False
+                    break
+            if all_submitted:
+                ar_ids.append(request_id)
+        self.env["olims.analysis_request"].browse(ar_ids).signal_workflow("submit")
+        return True
+
 
 AnalysisRequest.initialze(schema)
 FieldAnalysisService.initialze(schema_analysis)
