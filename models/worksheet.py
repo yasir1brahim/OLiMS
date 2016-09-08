@@ -931,6 +931,8 @@ class AddAnalysis(models.Model):
     add_analysis_id = fields.Many2one("olims.analysis_request",
         ondelete='set null', string="Request ID",
         domain="[('state', '=', 'sample_received']")
+    sample_type = fields.Many2one(string="Sample Type",
+        comodel_name="olims.sample_type",ondelete='set null')
     state = fields.Selection(string='State',
                      selection=[
                      ('assigned', 'Assigned'),

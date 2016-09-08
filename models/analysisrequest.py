@@ -1279,7 +1279,8 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                     'priority':ar_object.Priority.id,
                     'due_date':ar_object.DateDue,
                     'received_date':datetime.datetime.now(),
-                    'analysis':items.Services.id
+                    'analysis':items.Services.id,
+                    'sample_type': ar_object.SampleType.id
                     })
                 data_list.append([0,0, analysis_dict])
             ar_object.write({'AddAnalysis': data_list})

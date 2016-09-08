@@ -5818,6 +5818,7 @@
                     <field name="priority"/>
                     <field name="category"/>
                     <field name="analysis"/>
+                    <field name="sample_type"/>
                     <field name="received_date"/>
                     <field name="due_date"/>
                 </tree>
@@ -5833,6 +5834,7 @@
                     <field name="category"/>
                     <field name="client"/>
                     <field name="analysis"/>
+                    <field name="sample_type"/>
                </search>
             </field>
         </record>
