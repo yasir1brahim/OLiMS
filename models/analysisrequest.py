@@ -1267,14 +1267,10 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         return True
 
     def workflow_script_receive(self,cr,uid,ids,context=None):
-        
-        data_list = []
-        add_analysis_object = self.pool.get('olims.add_analysis')
         analysis_request_obj = self.pool.get('olims.analysis_request').browse(cr,uid,ids,context)
-        manage_result_object = self.pool.get('olims.manage_analyses').search(cr,uid,['|',
-            ('manage_analysis_id', 'in', ids),('lab_manage_analysis_id', 'in', ids)],None)
         for ar_object in analysis_request_obj:
-            for items in self.pool.get('olims.manage_analyses').browse(cr,uid,manage_result_object,context):
+            data_list = []
+            for items in ar_object.Analyses:
                 analysis_dict = {}
                 analysis_dict.update({
                     'category':items.Category.id,
@@ -1282,17 +1278,15 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                     'order':ar_object.ClientOrderNumber,
                     'priority':ar_object.Priority.id,
                     'due_date':ar_object.DateDue,
-                    'received_date':datetime.datetime.now()
+                    'received_date':datetime.datetime.now(),
+                    'analysis':items.Services.id
                     })
-                if items.Service:
-                    analysis_dict.update({'analysis':items.Service.id })
-                if items.LabService:
-                    analysis_dict.update({'analysis':items.LabService.id })
                 data_list.append([0,0, analysis_dict])
+            ar_object.write({'AddAnalysis': data_list})
+
         datereceived = datetime.datetime.now()
         self.write(cr, uid, ids, {
             'state': 'sample_received', 'DateReceived' : datereceived,
-            'AddAnalysis': data_list
         }, context=context)
         return True
 
