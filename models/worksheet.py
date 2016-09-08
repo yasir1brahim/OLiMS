@@ -68,7 +68,8 @@ schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId'),
         ),
     ),
     fields.Many2many(string='AnalysisRequest',
-        comodel_name="olims.add_analysis"),
+        comodel_name="olims.add_analysis",
+        domain="[('state', '=', 'unassigned')]"),
     fields.Selection(string='State',
                      selection=WORKSHEET_STATES,
                      default='open',
@@ -127,6 +128,7 @@ class Worksheet(models.Model, BaseOLiMSModel):
                 count += 1
                 values_dict_manage_results = {}
                 add_analysis_obj = self.env["olims.add_analysis"].browse(items)
+                add_analysis_obj.write({'state':'assigned'})
                 cont = False
                 for record in self.ManageResult:
                     if record.request_analysis_id.id == add_analysis_obj.add_analysis_id.id and record.analysis.id == add_analysis_obj.analysis.id:
@@ -929,6 +931,15 @@ class AddAnalysis(models.Model):
     add_analysis_id = fields.Many2one("olims.analysis_request",
         ondelete='set null', string="Request ID",
         domain="[('state', '=', 'sample_received']")
+    state = fields.Selection(string='State',
+                     selection=[
+                     ('assigned', 'Assigned'),
+                     ('unassigned', 'Unassigned')],
+                     default='unassigned',
+                     select=True,
+                     readonly=True,
+                     copy=False, track_visibility='always'
+    )
 
     @api.model
     def create(self, values):
