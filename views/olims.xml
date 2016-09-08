@@ -2461,7 +2461,7 @@
                                 <label for="AnalysisRequest" string="Analysis Request"/>
                                 <field name="AnalysisRequest" options="{'no_create': True}"></field>
                             </page>
-                            <page string="Manage Result" attrs="{'invisible': ['|', ('AnalysisRequest', '=', []),('id', '=', False)]}">
+                            <page string="Manage Result" attrs="{'invisible': [('id', '=', False)]}">
                                 <group string="Attachments">
                                     <label for="AttachmentFile" string="Attachment File"/>
                                     <field name="AttachmentFile" nolabel='1'></field>

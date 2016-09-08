@@ -121,14 +121,19 @@ class Worksheet(models.Model, BaseOLiMSModel):
     @api.multi
     def write(self, values):
         data_list = []
-        if not values.get("ManageResult", None):
-            self.ManageResult.unlink()
         count = 0
         if values.get("AnalysisRequest", None):
             for items in sorted(values["AnalysisRequest"][0][2]):
                 count += 1
                 values_dict_manage_results = {}
                 add_analysis_obj = self.env["olims.add_analysis"].browse(items)
+                cont = False
+                for record in self.ManageResult:
+                    if record.request_analysis_id.id == add_analysis_obj.add_analysis_id.id and record.analysis.id == add_analysis_obj.analysis.id:
+                        cont = True
+                if cont:
+                    continue
+
                 values_dict_manage_results.update({"request_analysis_id":add_analysis_obj.add_analysis_id.id,
                     "analysis": add_analysis_obj.analysis.id,
                     "client":add_analysis_obj.client.id,
@@ -141,7 +146,8 @@ class Worksheet(models.Model, BaseOLiMSModel):
                     "instrument": self.Instrument.id,
                     "priority": add_analysis_obj.priority.id,
                     "position": count})
-                data_list.append([0,0, values_dict_manage_results])
+                rec_id = self.env["olims.ws_manage_results"].create(values_dict_manage_results)
+                data_list.append([4,rec_id.id])
             values.update({"ManageResult": data_list})
         return super(Worksheet, self).write(values)
 
