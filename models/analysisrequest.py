@@ -1474,6 +1474,23 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                         'Category':service.Services.category.id}
                     record.FieldService += record.FieldService.new(f_service)
 
+    def bulk_change_states(self,state,cr,uid,ids,context=None):
+        previous_state = ""
+        if state == "sample_due":
+            previous_state = "to_be_sampled"
+        elif state == "sample_received":
+            previous_state = "sample_due"
+        requests = self.browse(cr,uid,ids)
+        sample_ids = []
+        for request in requests:
+            if request.state != previous_state:
+                ids.remove(request.id)
+            else:
+                sample_ids.append(request.Sample_id.id)
+        self.browse(cr,uid,ids).signal_workflow(state)
+        self.pool.get("olims.sample").browse(cr,uid,sample_ids).signal_workflow(state)
+        return True
+
     @api.onchange('CopyContact')
     def copy_contact(self):
         if self.CopyContact == '1':
