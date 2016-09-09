@@ -1845,7 +1845,7 @@
                     <sheet>
                         <header>
                             <button string="Preserve Sample" name="preserve" states="to_be_preserved" type="workflow" class="oe_highlight"/>
-
+                            <button name="cancel" string="Cancel" type="workflow" states="to_be_sampled,sample_due,sample_received,verified,to_be_verified,published" confirm="Are you sure you want to cancel this?"/>
                             <button string="Verify" name="verify" type="workflow" states="to_be_verified"/>
                             <button string="Publish" name="publish" type="workflow" states="verified"/>
                             <button string="Print" name="publish_analysis_request" type="object" states="published"/>
@@ -2325,6 +2325,22 @@
             <field name="model">olims.analysis_request</field>
             <field name="key2">client_action_multi</field>
         </record>
+        <!-- <record id="ar_change_state_cancel_id" model="ir.actions.server">
+            <field name="name">Cancel</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_olims_analysis_request"/>
+            <field name="state">code</field>
+            <field name="code">self.workflow_script_cancel(cr, uid, context.get('active_ids'), context=context)</field>
+        </record>
+        <record id="ar_change_state_cancel_id" model="ir.values">
+            <field name="name">Cancel</field>
+            <field name="action_id" ref="ar_change_state_cancel_id"/>
+            <field name="value" eval="'ir.actions.server,' + str(ref('ar_change_state_cancel_id'))"/>
+            <field name="key">action</field>
+            <field name="model_id" ref="model_olims_analysis_request"/>
+            <field name="model">olims.analysis_request</field>
+            <field name="key2">client_action_multi</field>
+        </record> -->
         <!-- <Analysis Request Tree view without Create button> -->
         <record model="ir.ui.view" id="olims_analysis_request_tree_view">
             <field name="name">analysis_request.tree</field>

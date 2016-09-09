@@ -25,6 +25,7 @@ AR_STATES = (
     ('verified','Verified'),
     ('published','Published'),
     ('invalid','Invalid'),
+    ('cancelled', 'Cancel')
     )
 COPY_OPTIONS=(
     ('0','Select-to-copy'),
@@ -1456,6 +1457,12 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         self.write({
             'state': 'published', 'DatePublished' : datepublished
         })
+        return True
+
+    def workflow_script_cancel(self,cr,uid,ids,context=None):
+        self.write(cr, uid, ids,{
+            'state': 'cancelled'
+        },context)
         return True
 
     @api.multi
