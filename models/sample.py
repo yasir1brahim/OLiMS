@@ -279,18 +279,10 @@ class Sample(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
         return last_ar_number
 
     def workflow_script_sample_receive(self,cr,uid,ids,context=None):
-        samples = self.pool.get('olims.sample').browse(cr,uid,ids,context)
-        ar_ids = []
-        for sample in samples:
-            if sample.state != "sample_due":
-                ids.remove(sample.id)
-            else:
-                ar_ids.append(sample.Analysis_Request.id)
         datereceive = datetime.datetime.now()
         self.write(cr, uid, ids, {
             'state': 'sample_received','DateReceived': datereceive,
         })
-        self.pool.get('olims.analysis_request').workflow_script_receive(cr,uid,ar_ids,context)
         return True
     # def workflow_script_receive(self):
         # workflow = getToolByName(self, 'portal_workflow')
@@ -389,17 +381,9 @@ class Sample(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
         #     ar.reindexObject()
 
     def workflow_script_sample_due(self,cr,uid,ids,context=None):
-        samples = self.pool.get('olims.sample').browse(cr,uid,ids,context)
-        ar_ids = []
-        for sample in samples:
-            if sample.state != "to_be_sampled":
-                ids.remove(sample.id)
-            else:
-                ar_ids.append(sample.Analysis_Request.id)
         self.write(cr, uid, ids, {
             'state': 'sample_due',
         })
-        self.pool.get('olims.analysis_request').workflow_script_sample_due(cr,uid,ar_ids,context)
         return True
         # if skip(self, "sample_due"):
         #     return
@@ -459,6 +443,23 @@ class Sample(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
             no_results = [a for a in field_analyses if a.getResult() == '']
             if no_results:
                 return False
+        return True
+
+    def bulk_change_states(self,state,cr,uid,ids,context=None):
+        previous_state = ""
+        if state == "sample_due":
+            previous_state = "to_be_sampled"
+        elif state == "sample_received":
+            previous_state = "sample_due"
+        samples = self.browse(cr,uid,ids)
+        request_ids = []
+        for sample in samples:
+            if sample.state != previous_state:
+                ids.remove(sample.id)
+            else:
+                request_ids.append(sample.Analysis_Request.id)
+        self.browse(cr,uid,ids).signal_workflow(state)
+        self.pool.get("olims.analysis_request").browse(cr,uid,request_ids).signal_workflow(state)
         return True
 
 

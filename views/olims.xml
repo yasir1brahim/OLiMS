@@ -1844,11 +1844,7 @@
                 <form string="Analysis Request Form" create="false" delete="false">
                     <sheet>
                         <header>
-                            <button string="Sample" name="sample_due" states="to_be_sampled" type="workflow" class="oe_highlight"/>
-
                             <button string="Preserve Sample" name="preserve" states="to_be_preserved" type="workflow" class="oe_highlight"/>
-
-                            <button string="Receive Sample" name="receive" type="workflow" states="sample_due"/>
 
                             <button string="Verify" name="verify" type="workflow" states="to_be_verified"/>
                             <button string="Publish" name="publish" type="workflow" states="verified"/>
@@ -2296,6 +2292,39 @@
                 </form>
             </field>
         </record>
+        <!--For action menu in analysis request-->
+        <record id="ar_change_state_bulk_sample_id" model="ir.actions.server">
+            <field name="name">Sample</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_olims_analysis_request"/>
+            <field name="state">code</field>
+            <field name="code">self.bulk_change_states("sample_due",cr, uid, context.get('active_ids'), context=context)</field>
+        </record>
+        <record id="ar_id_of_the_action_value" model="ir.values">
+            <field name="name">Sample</field>
+            <field name="action_id" ref="ar_change_state_bulk_sample_id"/>
+            <field name="value" eval="'ir.actions.server,' + str(ref('ar_change_state_bulk_sample_id'))"/>
+            <field name="key">action</field>
+            <field name="model_id" ref="model_olims_analysis_request"/>
+            <field name="model">olims.analysis_request</field>
+            <field name="key2">client_action_multi</field>
+        </record>
+        <record id="ar_change_state_bulk_receive_id" model="ir.actions.server">
+            <field name="name">Receive Sample</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_olims_analysis_request"/>
+            <field name="state">code</field>
+            <field name="code">self.bulk_change_states("sample_received",cr, uid, context.get('active_ids'), context=context)</field>
+        </record>
+        <record id="ar_change_state_bulk_receive_id" model="ir.values">
+            <field name="name">Receive Sample</field>
+            <field name="action_id" ref="ar_change_state_bulk_receive_id"/>
+            <field name="value" eval="'ir.actions.server,' + str(ref('ar_change_state_bulk_receive_id'))"/>
+            <field name="key">action</field>
+            <field name="model_id" ref="model_olims_analysis_request"/>
+            <field name="model">olims.analysis_request</field>
+            <field name="key2">client_action_multi</field>
+        </record>
         <!-- <Analysis Request Tree view without Create button> -->
         <record model="ir.ui.view" id="olims_analysis_request_tree_view">
             <field name="name">analysis_request.tree</field>
@@ -2693,15 +2722,7 @@
             <field name="arch" type="xml">
                 <form string="Sample Form" create="false">
                     <header>
-                        <button string="Sample" name="sample_due" states="to_be_sampled" type="workflow" class="oe_highlight"/>
-
                         <button string="Preserve Sample" name="to_be_preserved" states="to_be_preserved" type="workflow" class="oe_highlight"/>
-
-                        <button string="Expire" name="expired" states="sample_received" type="workflow"/>
-
-                        <button string="Despose" name="disposed" states="expired" type="workflow"/>
-
-                        <button string="Receive Sample" name="sample_received" type="workflow" states="sample_due"/>
 
                         <field name="state" widget="statusbar" statusbar_visible="to_be_sampled,sample_due,sample_received,expired,disposed"/>
                     </header>
@@ -2746,12 +2767,13 @@
                 </form>
             </field>
         </record>
+        <!--For action menu in sample--> 
         <record id="change_state_bulk_sample_id" model="ir.actions.server">
             <field name="name">Sample</field>
             <field name="type">ir.actions.server</field>
             <field name="model_id" ref="model_olims_sample"/>
             <field name="state">code</field>
-            <field name="code">self.workflow_script_sample_due(cr, uid, context.get('active_ids'), context=context)</field>
+            <field name="code">self.bulk_change_states("sample_due",cr, uid, context.get('active_ids'), context=context)</field>
         </record>
         <record id="id_of_the_action_value" model="ir.values">
             <field name="name">Sample</field>
@@ -2767,7 +2789,7 @@
             <field name="type">ir.actions.server</field>
             <field name="model_id" ref="model_olims_sample"/>
             <field name="state">code</field>
-            <field name="code">self.workflow_script_sample_receive(cr, uid, context.get('active_ids'), context=context)</field>
+            <field name="code">self.bulk_change_states("sample_received",cr, uid, context.get('active_ids'), context=context)</field>
         </record>
         <record id="id_of_the_action_value_receive" model="ir.values">
             <field name="name">Receive Sample</field>
