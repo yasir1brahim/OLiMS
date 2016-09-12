@@ -90,6 +90,7 @@ var One2ManySelectable = FieldOne2Many.extend({
 		   		this.do_warn(_t("You must choose at least one record."));
 		   		return false;
 		   }
+		   var model_obj=new Model(this.dataset.model);
 		   for(var i=0; i<selected_ids.length; i++)
 		   {
 			   if(isNaN(selected_ids[i]))
@@ -99,13 +100,35 @@ var One2ManySelectable = FieldOne2Many.extend({
 		   			return false;
 			   }
 		   }
-/*		   Uncomment the following lines and put your model name and function name to call your python function */
-			var model_obj=new Model("olims.ws_manage_results");
-			model_obj.call('bulk_verify',[selected_ids],{context:self.dataset.context})
-			.then(function(result){
-				location.reload();
+		   var validator_promise = model_obj.query(['id','result','Result'])
+		   	.filter([['id','in',selected_ids]])
+		   	.all()
+		   	.then(function(results){
+		   		for(var i=0; i<results.length; i++)
+		   		{
+		   			var res;
+		   			if(results[i].hasOwnProperty('result')){
+		   				res = results[i].result;
+		   			}
+		   			else if(results[i].hasOwnProperty('Result')){
+		   				res = results[i].Result;
+		   			}
+		   			if (res == false){
+						self.do_warn(_t("Some selected items are missing results " +
+	               		"Please add results first before proceeding."));
+		   				return false;
+					}
+		   		}
+		   		return true
 			});
-			
+		   validator_promise.then(function(isValid) {
+			    if (isValid){
+			    	model_obj.call('bulk_verify',[selected_ids],{context:self.dataset.context})
+					.then(function(result){
+						location.reload();
+					});
+			    }
+			});
 	   },
 	   get_selected_ids_one2many: function ()
 	   {
@@ -118,67 +141,5 @@ var One2ManySelectable = FieldOne2Many.extend({
 	   },
 	});
 	core.form_widget_registry.add('one2many_selectable', One2ManySelectable);
-	return One2ManySelectable;
-});
-odoo.define('web_one2many_selectable.form_widget1', function (require) {
-"use strict";
-var core = require('web.core');
-var Model = require('web.Model');
-var _t = core._t;
-var QWeb = core.qweb;
-var FieldOne2Many = core.form_widget_registry.get('one2many');
-
-var One2ManySelectable = FieldOne2Many.extend({
-		multi_selection: true,
-		init: function() {
-	        this._super.apply(this, arguments);
-	    },
-	    start: function() 
-	    {
-	    	this._super.apply(this, arguments);
-	    	var self=this;
-	    	this.$el.prepend(QWeb.render("One2ManySelectable", {widget: this}));
-	        this.$el.find(".ep_button_confirm").click(function(){
-	        	self.action_selected_lines();
-	        });
-	   },
-
-	   action_selected_lines: function()
-	   {
-		   var self = this;
-		   var selected_ids = self.get_selected_ids_one2many();
-		   if (selected_ids.length === 0)
-		   {
-		   		this.do_warn(_t("You must choose at least one record."));
-		   		return false;
-		   }
-		   for(var i=0; i<selected_ids.length; i++)
-		   {
-			   if(isNaN(selected_ids[i]))
-			   {
-			   		this.do_warn(_t("Some selected items have not been saved! " +
-	               		"Please save the record first before proceeding."));
-		   			return false;
-			   }
-		   }
-/*		   Uncomment the following lines and put your model name and function name to call your python function */
-			var model_obj=new Model("olims.manage_analyses");
-			model_obj.call('bulk_verify',[selected_ids],{context:self.dataset.context})
-			.then(function(result){
-				location.reload();
-			});
-			
-	   },
-	   get_selected_ids_one2many: function ()
-	   {
-	       var ids =[];
-	       this.$el.find('th.oe_list_record_selector input:checked')
-	               .closest('tr').each(function () {
-	               	ids.push(parseInt($(this).context.dataset.id));
-	       });
-	       return ids;
-	   },
-	});
-	core.form_widget_registry.add('one2many_selectable_request', One2ManySelectable);
 	return One2ManySelectable;
 });
