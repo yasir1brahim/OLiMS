@@ -69,7 +69,7 @@ schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId'),
     ),
     fields.Many2many(string='AnalysisRequest',
         comodel_name="olims.add_analysis",
-        domain="[('state', '=', 'unassigned'),('add_analysis_id.Sample_id.state','!=','disposed')]"),
+        domain="[('state', '=', 'unassigned'),('add_analysis_id.Sample_id.state','!=','disposed'),('add_analysis_id.state','=','sample_received')]"),
     fields.Selection(string='State',
                      selection=WORKSHEET_STATES,
                      default='open',
@@ -930,7 +930,7 @@ class AddAnalysis(models.Model):
     received_date = fields.Datetime('Date Received', readonly="True")
     add_analysis_id = fields.Many2one("olims.analysis_request",
         ondelete='set null', string="Request ID",
-        domain="[('state', '=', 'sample_received']")
+        domain="[('state', '=', 'sample_received')]")
     sample_type = fields.Many2one(string="Sample Type",
         comodel_name="olims.sample_type",ondelete='set null')
     state = fields.Selection(string='State',

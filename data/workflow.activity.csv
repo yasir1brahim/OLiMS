@@ -12,6 +12,7 @@ olims_to_be_preserved,olims.olims_analysis_request_workflow,to_be_preserved,Func
 olims_to_be_sampled,olims.olims_analysis_request_workflow,to_be_sampled,Function,True,False,,,Xor,actionToBeSampled(),,Xor
 olims_to_be_verified,olims.olims_analysis_request_workflow,to_be_verified,Function,False,False,,,Xor,workflow_script_to_be_verified(),,Xor
 olims_verified,olims.olims_analysis_request_workflow,verified,Function,False,False,,,Xor,workflow_script_verify(),,Xor
+olims_cancelled,olims.olims_analysis_request_workflow,cancelled,Function,False,False,,,Xor,workflow_script_cancel(),,Xor
 olims_invalid,olims.olims_analysis_request_workflow,invalid,Function,False,False,,,Xor,isInvalid(),,Xor
 olims_open,olims.olims_worksheet_workflow,open,Dummy,True,False,,,Xor,,,Xor
 olims_worksheet_attachment_due,olims.olims_worksheet_workflow,attachment_due,Dummy,False,False,,,Xor,,,Xor
