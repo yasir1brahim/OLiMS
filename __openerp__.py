@@ -65,7 +65,8 @@
         'views/labpal_mail_template.xml',
         'views/views.xml',
         'views/report_ws_manage_results.xml',
-        'views/print_sample_labels.xml'
+        'views/print_sample_labels.xml',
+        'views/mail_template_data.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

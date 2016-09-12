@@ -307,16 +307,16 @@ schema = (fields.Char(string='RequestID',
 
     ),
     StringField(
-        'ClientOrderNumber',
+        'LotID',
     ),
     StringField(
-        'ClientOrderNumber1',
+        'LotID1',
     ),
     StringField(
-        'ClientOrderNumber2',
+        'LotID2',
     ),
     StringField(
-        'ClientOrderNumber3',
+        'LotID3',
     ),
     # Sample field
     StringField(
@@ -693,7 +693,7 @@ schema = (fields.Char(string='RequestID',
         select=True,
     ),
     fields.Selection(
-        string='CopyClientOrderNumber',
+        string='CopyLotID',
         selection=COPY_OPTIONS,
         default='0',
         select=True,
@@ -863,6 +863,7 @@ manage_result_schema = (
 class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     _name = 'olims.analysis_request'
     _rec_name = "RequestID"
+    _inherit = ['mail.thread', 'ir.needaction_mixin']
 
     def compute_analysisRequestId(self):
         for record in self:
@@ -1012,7 +1013,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Template': values.get('Template', None),
             'AnalysisProfile': values.get('AnalysisProfile', None),
             'ClientSampleID': values.get('ClientSampleID', None),
-            'ClientOrderNumber': values.get('ClientOrderNumber', None),
+            'LotID': values.get('LotID', None),
             'SubGroup': values.get('SubGroup', None),
             'SampleType': values.get('SampleType', None),
             'Batch': values.get('Batch', None),
@@ -1049,7 +1050,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Template': values.get('Template1', None),
             'AnalysisProfile': values.get('AnalysisProfile1', None),
             'ClientSampleID': values.get('ClientSampleID1', None),
-            'ClientOrderNumber': values.get('ClientOrderNumber1', None),
+            'LotID': values.get('LotID1', None),
             'SubGroup': values.get('SubGroup1', None),
             'SampleType': values.get('SampleType1', None),
             'Batch': values.get('Batch1', None),
@@ -1086,7 +1087,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Template': values.get('Template2', None),
             'AnalysisProfile': values.get('AnalysisProfile2', None),
             'ClientSampleID': values.get('ClientSampleID2', None),
-            'ClientOrderNumber': values.get('ClientOrderNumber2', None),
+            'LotID': values.get('LotID2', None),
             'SubGroup': values.get('SubGroup2', None),
             'SampleType': values.get('SampleType2', None),
             'Batch': values.get('Batch2', None),
@@ -1123,7 +1124,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Template': values.get('Template3', None),
             'AnalysisProfile': values.get('AnalysisProfile3', None),
             'ClientSampleID': values.get('ClientSampleID2', None),
-            'ClientOrderNumber': values.get('ClientOrderNumber3', None),
+            'LotID': values.get('LotID3', None),
             'SubGroup': values.get('SubGroup3', None),
             'SampleType': values.get('SampleType3', None),
             'Batch': values.get('Batch2', None),
@@ -1394,7 +1395,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 analysis_dict.update({
                     'category':items.Category.id,
                     'client': ar_object.Client.id,
-                    'order':ar_object.ClientOrderNumber,
+                    'order':ar_object.LotID,
                     'priority':ar_object.Priority.id,
                     'due_date':ar_object.DateDue,
                     'received_date':datetime.datetime.now(),
@@ -1682,16 +1683,16 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         else:
             pass
 
-    @api.onchange('CopyClientOrderNumber')
+    @api.onchange('CopyLotID')
     def copy_client_order_num(self):
-        if self.CopyClientOrderNumber == '1':
-            self.ClientOrderNumber1 = self.ClientOrderNumber
-            self.ClientOrderNumber2 = self.ClientOrderNumber3 = None
-        elif self.CopyClientOrderNumber == '2':
-            self.ClientOrderNumber1 = self.ClientOrderNumber2 = self.ClientOrderNumber
-            self.ClientOrderNumber3 = None
-        elif self.CopyClientOrderNumber == '3':
-            self.ClientOrderNumber1 = self.ClientOrderNumber2 = self.ClientOrderNumber3 = self.ClientOrderNumber
+        if self.CopyLotID == '1':
+            self.LotID1 = self.LotID
+            self.LotID2 = self.LotID3 = None
+        elif self.CopyLotID == '2':
+            self.LotID1 = self.LotID2 = self.LotID
+            self.LotID3 = None
+        elif self.CopyLotID == '3':
+            self.LotID1 = self.LotID2 = self.LotID3 = self.LotID
         else:
             pass
 
@@ -1827,6 +1828,41 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             self.Priority1 = self.Priority2 = self.Priority3 = self.Priority
         else:
             pass
+
+    @api.multi
+    def action_report_send(self):
+        '''
+        This function opens a window to compose an email, with the edi sale template message loaded by default
+        '''
+        self.ensure_one()
+        ir_model_data = self.env['ir.model.data']
+        try:
+            template_id = ir_model_data.get_object_reference('olims', 'email_template_edi_ar')[1]
+        except ValueError:
+            template_id = False
+        try:
+            compose_form_id = ir_model_data.get_object_reference('mail', 'email_compose_message_wizard_form')[1]
+        except ValueError:
+            compose_form_id = False
+        ctx = dict()
+        ctx.update({
+            'default_model': 'olims.analysis_request',
+            'default_res_id': self.ids[0],
+            'default_use_template': bool(template_id),
+            'default_template_id': template_id,
+            'default_composition_mode': 'comment',
+            'mark_so_as_sent': True
+        })
+        return {
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'mail.compose.message',
+            'views': [(compose_form_id, 'form')],
+            'view_id': compose_form_id,
+            'target': 'new',
+            'context': ctx,
+        }
 
 class FieldAnalysisService(models.Model, BaseOLiMSModel):
     _name = 'olims.field_analysis_service'
