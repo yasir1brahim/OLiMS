@@ -84,7 +84,9 @@ var One2ManySelectable = FieldOne2Many.extend({
 	   action_selected_lines: function()
 	   {
 		   var self = this;
-		   var selected_ids = self.get_selected_ids_one2many();
+		   var data = self.get_selected_ids_one2many();
+		   var selected_ids = data[0];
+		   var selected_results = data[1];
 		   if (selected_ids.length === 0)
 		   {
 		   		this.do_warn(_t("You must choose at least one record."));
@@ -93,6 +95,11 @@ var One2ManySelectable = FieldOne2Many.extend({
 		   var model_obj=new Model(this.dataset.model);
 		   for(var i=0; i<selected_ids.length; i++)
 		   {
+		   	    if (selected_results[i] == ""){
+					self.do_warn(_t("Some selected items are missing results " +
+               		"Please add results first before proceeding."));
+	   				return false;
+	   			}
 			   if(isNaN(selected_ids[i]))
 			   {
 			   		this.do_warn(_t("Some selected items have not been saved! " +
@@ -113,9 +120,9 @@ var One2ManySelectable = FieldOne2Many.extend({
 		   			else if(results[i].hasOwnProperty('Result')){
 		   				res = results[i].Result;
 		   			}
-		   			if (res == false){
-						self.do_warn(_t("Some selected items are missing results " +
-	               		"Please add results first before proceeding."));
+		   			if (res !== selected_results[i]){
+		   				self.do_warn(_t("Some selected items are not saved " +
+	               		"Please save the record first before proceeding."));
 		   				return false;
 					}
 		   		}
@@ -133,11 +140,15 @@ var One2ManySelectable = FieldOne2Many.extend({
 	   get_selected_ids_one2many: function ()
 	   {
 	       var ids =[];
+	       var results = [];
 	       this.$el.find('th.oe_list_record_selector input:checked')
 	               .closest('tr').each(function () {
 	               	ids.push(parseInt($(this).context.dataset.id));
+	               	results.push($(this).find('[data-field]').filter(function() {
+					    return $(this).data('field').toLowerCase() == 'result';
+					}).text());
 	       });
-	       return ids;
+	       return [ids,results];
 	   },
 	});
 	core.form_widget_registry.add('one2many_selectable', One2ManySelectable);
