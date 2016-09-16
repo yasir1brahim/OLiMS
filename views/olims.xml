@@ -75,7 +75,7 @@
                     <field name="create_uid"></field>
                     <field name="SamplingDate"></field>
                     <field name="SampleType"></field>
-                    <field name="ClientOrderNumber"></field>
+                    <field name="LotID" string="Lot ID"></field>
                     <field name="ClientReference"></field>
                     <field name="ClientSampleID"></field>
                     <field name="Priority"></field>
@@ -1849,7 +1849,7 @@
                             <button string="Verify" name="verify" type="workflow" states="to_be_verified"/>
                             <button string="Publish" name="publish" type="workflow" states="verified"/>
                             <button string="Print" name="publish_analysis_request" type="object" states="published"/>
-
+                            <button name="action_report_send" string="Send by Email" type="object" states="published" class="btn-primary"/>
                             <field name="state" widget="statusbar" statusbar_visible="to_be_sampled,sample_received,sample_due, to_be_verified, verified" statusbar_colors='{"to_be_sampled":"blue","sample_received":"red","invalid":"red"}'/>
                     </header>
                 <!-- </sheet> -->
@@ -1859,6 +1859,26 @@
                                 <label for="Client" string="Client" invisible="1"/>
                                 <field name="Client" options="{'no_create': True}" invisible="1"></field>
                                 <field name="id" invisible="1"/>
+                            <group>
+                                <label for="ClientSampleID" string="Client Sample ID"/>
+                                <div>
+                                    <field name="CopyClientSampleID" class="fa fa-forward" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
+                                    <field name="ClientSampleID" nolabel="1"></field>
+                                    <field name="ClientSampleID1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="ClientSampleID2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="ClientSampleID3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                </div>
+                            </group>
+                            <group>
+                                <label for="LotID" string="Lot ID"/>
+                                <div>
+                                    <field name="CopyLotID" style="width:20%%" class="fa fa-forward" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
+                                    <field name="LotID" nolabel="1"></field>
+                                    <field name="LotID1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="LotID2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="LotID3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                </div>
+                            </group>
                             <group>
                                 <label for="Contact" string="Contact"/>
                                 <div>
@@ -2000,16 +2020,6 @@
                             </div>
                         </group>
                         <group>
-                            <label for="ClientOrderNumber" string="Client Order Number"/>
-                            <div>
-                                <field name="CopyClientOrderNumber" style="width:20%%" class="fa fa-forward" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
-                                <field name="ClientOrderNumber" nolabel="1"></field>
-                                <field name="ClientOrderNumber1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                <field name="ClientOrderNumber2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                <field name="ClientOrderNumber3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                            </div>
-                        </group>
-                        <group>
                             <label for="ClientReference" string="Client Reference"/>
                             <div>
                                 <field name="CopyClientReference" class="fa fa-forward" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
@@ -2017,16 +2027,6 @@
                                 <field name="ClientReference1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="ClientReference2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="ClientReference3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                            </div>
-                        </group>
-                        <group>
-                            <label for="ClientSampleID" string="Client Sample ID"/>
-                            <div>
-                                <field name="CopyClientSampleID" class="fa fa-forward" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"/>
-                                <field name="ClientSampleID" nolabel="1"></field>
-                                <field name="ClientSampleID1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                <field name="ClientSampleID2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                <field name="ClientSampleID3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             </div>
                         </group>
                         <group>
@@ -2364,7 +2364,7 @@
                     <!-- <field name="Specification"></field>
                     <field name="SamplePoint"></field>
                     <field name="StorageLocation"></field> -->
-                    <field name="ClientOrderNumber"></field>
+                    <field name="LotID" string="Lot ID"></field>
                     <field name="ClientReference"></field>
                     <field name="ClientSampleID"></field>
                     <!-- <field name="SamplingDeviation"></field>
@@ -2528,7 +2528,7 @@
                                 <label for="ManageResult" string="Manage Result"/>
                                 <field name="ManageResult" options="{'no_create': True}" widget="one2many_selectable">
                                     <tree string="Manage Results" create="false"  delete="false" editable="top" default_order="request_analysis_id">
-                                        <field name="position" string="Position"/>
+                                        <field name="position" string="Position" readonly="1"/>
                                         <field name="client" string="Client" readonly="1"/>
                                         <field name="request_analysis_id" string="Request ID" readonly="1"/>
                                         <field name="sample_type" string="Sample Type" readonly="1"/>
