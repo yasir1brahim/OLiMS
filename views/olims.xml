@@ -2489,7 +2489,7 @@
                 <form string="Worksheet Form">
                     <sheet>
                         <header>
-                            <!-- <field name="State" widget="statusbar" statusbar_visible="open,attachment_due,to_be_verified,verified,rejected" statusbar_colors='{"open":"blue","to_be_verified":"blue","rejected":"red"}'/> -->
+                            <field name="State" widget="statusbar" statusbar_visible="open,to_be_verified,verified,rejected" statusbar_colors='{"open":"blue","to_be_verified":"blue","rejected":"red"}'/>
                             </header>
                         <group col='8'>
                             <field name="id" invisible="1"/>

@@ -599,23 +599,9 @@ class Worksheet(models.Model, BaseOLiMSModel):
         """
         self.Instrument = self.Template.Instrument.id
 
-    def workflow_script_submit(self):
-        # Don't cascade. Shouldn't be submitting WSs directly for now,
-        # except edge cases where all analyses are already submitted,
-        # but self was held back until an analyst was assigned.
-        workflow = getToolByName(self, 'portal_workflow')
-        self.reindexObject(idxs=["review_state", ])
-        can_attach = True
-        for a in self.getAnalyses():
-            if workflow.getInfoFor(a, 'review_state') in \
-               ('to_be_sampled', 'to_be_preserved', 'sample_due',
-                'sample_received', 'attachment_due', 'assigned',):
-                # Note: referenceanalyses and duplicateanalyses can still
-                # have review_state = "assigned".
-                can_attach = False
-                break
-        if can_attach:
-            doActionFor(self, 'attach')
+    def workflow_script_submit(self,cr,uid,ids,context=None):
+        self.write(cr, uid, ids,{'State': 'to_be_verified'},context)
+        return True
 
     def workflow_script_attach(self):
         if skip(self, "attach"):
@@ -1011,10 +997,16 @@ class WorkSheetManageResults(models.Model):
                     all_submitted = False
                     break
             if all_submitted:
-                ar_ids.append(record.request_analysis_id.id)
-        # self.pool.get("olims.analysis_request").workflow_script_to_be_verified(self._cr,self._uid,ar_ids,None)
-        # self.env["olims.analysis_request"].browse(ar_ids).workflow_script_to_be_verified()
+                ar_ids.append(record.request_analysis_id.id)                    
         self.env["olims.analysis_request"].browse(ar_ids).signal_workflow("submit")
+        worksheet = self.env['olims.worksheet'].search([("ManageResult","=",self[0].id)])
+        ws_all_submitted = True
+        for ws_result in worksheet.ManageResult:
+            if ws_result.state != "to_be_verified":
+                ws_all_submitted = False
+                break
+        if ws_all_submitted:
+            self.env["olims.worksheet"].browse(worksheet.id).signal_workflow("submit")
         return True
 
 class WorkSheetAddRefreceAnalysis(models.Model):

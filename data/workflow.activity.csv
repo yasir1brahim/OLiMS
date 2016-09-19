@@ -16,7 +16,7 @@ olims_cancelled,olims.olims_analysis_request_workflow,cancelled,Function,False,F
 olims_invalid,olims.olims_analysis_request_workflow,invalid,Function,False,False,,,Xor,isInvalid(),,Xor
 olims_open,olims.olims_worksheet_workflow,open,Dummy,True,False,,,Xor,,,Xor
 olims_worksheet_attachment_due,olims.olims_worksheet_workflow,attachment_due,Dummy,False,False,,,Xor,,,Xor
-olims_worksheet_to_be_verified,olims.olims_worksheet_workflow,to_be_verified,Dummy,False,False,,,Xor,,,Xor
+olims_worksheet_to_be_verified,olims.olims_worksheet_workflow,to_be_verified,Function,False,False,,,Xor,workflow_script_submit(),,Xor
 olims_worksheet_verified,olims.olims_worksheet_workflow,verified,Dummy,False,False,,,Xor,,,Xor
 olims_worksheet_rejected,olims.olims_worksheet_workflow,rejected,Dummy,False,False,,,Xor,,,Xor
 olims_current,olims.olims_reference_sample_workflow,current,Function,True,False,,,Xor,workflow_script_current(),,Xor

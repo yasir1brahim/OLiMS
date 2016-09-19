@@ -38,7 +38,7 @@ olims.t36,olims.olims_analysis_request_workflow,cancel,olims_to_be_verified,olim
 olims.t37,olims.olims_analysis_request_workflow,cancel,olims_sample_received,olims_cancelled,True,olims.group_lab_managers,,
 olims.t38,olims.olims_analysis_request_workflow,cancel,olims_published,olims_cancelled,True,olims.group_lab_managers,,
 olims.t39,olims.olims_analysis_request_workflow,cancel,olims_sample_due,olims_cancelled,True,olims.group_lab_managers,,
-olims.t40,olims.olims_worksheet_workflow,submit,olims_open,olims_worksheet_attachment_due,True,olims.group_lab_managers,,
+olims.t40,olims.olims_worksheet_workflow,submit,olims_open,olims_worksheet_to_be_verified,True,olims.group_lab_managers,,
 olims.t41,olims.olims_worksheet_workflow,attach,olims_worksheet_attachment_due,olims_worksheet_to_be_verified,True,olims.group_lab_managers,,
 olims.t42,olims.olims_worksheet_workflow,retract,olims_worksheet_attachment_due,olims_open,True,olims.group_lab_managers,,
 olims.t43,olims.olims_worksheet_workflow,reject,olims_worksheet_attachment_due,olims_worksheet_rejected,True,olims.group_lab_managers,,
