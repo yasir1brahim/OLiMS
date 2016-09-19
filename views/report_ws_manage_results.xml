@@ -103,20 +103,47 @@
             </table>
             <h2>Analyses</h2>
                 <table class="table table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Sample Type</th>
+                            <th>Sample</th>
+                            <th>Results</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <t t-foreach="doc.ManageResult" t-as="m_result">
-                            <tr>
-                                <td>
-                                    <t t-esc="m_result.analysis.Service"/>
-                                </td>
-                                <td>
+                        <tr t-foreach="doc.ManageResult" t-as="m_result">
+                            <t t-set="ar_service" t-value="m_result.analysis.Service"/>
+                            <td>
+                                <t t-if="m_result.request_analysis_id.Field_Manage_Result">
                                     
-                                </td>
-                                <td>
-                                    
-                                </td>
-                            </tr>
-                        </t>
+                                    <span t-foreach="m_result.request_analysis_id.Field_Manage_Result" t-as="manageresult">
+                                        <t t-if="manageresult.Service.Service == ar_service">
+                                            <span t-esc="manageresult.Service.Service"/>
+                                            
+                                        </t>
+                                    </span>
+                                    <br/>
+                                </t>
+                                <t t-if="m_result.request_analysis_id.Lab_Manage_Result">
+                                    <span t-foreach="m_result.request_analysis_id.Lab_Manage_Result" t-as="manageresult">
+                                        <t t-if="manageresult.LabService.Service == ar_service">
+                                            <span t-esc="manageresult.LabService.Service"/>
+                                        </t>
+                                    </span>
+                                    <br/>
+                                </t>
+                            </td>
+                            <td>
+                                <span t-esc="m_result.sample_type.SampleType"/>
+                            </td>
+                            <td>
+                                <span t-esc="m_result.sample.name"/>
+                            </td>
+                            <td>
+                                <span t-esc="m_result.result"/>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             <br/>
