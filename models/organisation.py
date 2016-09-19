@@ -38,7 +38,7 @@ schema = (
     ),
           
     # # ~~~~~~~~~~ PhysicalAddress behavior in Odoo is as selection field ~~~~~~~~~~~
-    fields.Many2one(comodel_name='olims.country',string='physical_country'),
+    fields.Many2one(comodel_name='olims.country',string='physical_country',default=lambda self: self.env['olims.country'].search([('name','=','United States')]).id),
     fields.Many2one(comodel_name='olims.state',string='physical_state', domain="[('Country', '=', physical_country)]"),
     fields.Many2one(comodel_name='olims.district',string='physical_district', domain="[('State', '=', physical_state)]"),
     fields.Char(string='physical_city'),
@@ -46,7 +46,7 @@ schema = (
     fields.Char(string='physical_address'),       
           
     # # ~~~~~~~~~~ PostalAddress behavior in Odoo is as selection field ~~~~~~~~~~~
-    fields.Many2one(comodel_name='olims.country',string='postal_country'),
+    fields.Many2one(comodel_name='olims.country',string='postal_country',default=lambda self: self.env['olims.country'].search([('name','=','United States')]).id),
     fields.Many2one(comodel_name='olims.state',string='postal_state', domain="[('Country', '=', postal_country)]"),
     fields.Many2one(comodel_name='olims.district',string='postal_district', domain="[('State', '=', postal_state)]"),
     fields.Char(string='postal_city'),
@@ -54,7 +54,7 @@ schema = (
     fields.Char(string='postal_address'),      
           
     # # ~~~~~~~~~~ BillingAddress behavior in Odoo is as selection field ~~~~~~~~~~~
-    fields.Many2one(comodel_name='olims.country',string='billing_country'),
+    fields.Many2one(comodel_name='olims.country',string='billing_country',default=lambda self: self.env['olims.country'].search([('name','=','United States')]).id),
     fields.Many2one(comodel_name='olims.state',string='billing_state', domain="[('Country', '=', billing_country)]"),
     fields.Many2one(comodel_name='olims.district',string='billing_district', domain="[('State', '=', billing_state)]"),
     fields.Char(string='billing_city'),
