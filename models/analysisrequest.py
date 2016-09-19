@@ -1884,6 +1884,7 @@ class ManageAnalyses(models.Model, BaseOLiMSModel):
     @api.multi
     def bulk_verify(self):
         ar_ids = []
+        analysis_ids = []
         for record in self:
             if not record.Result:
                 continue
@@ -1899,6 +1900,8 @@ class ManageAnalyses(models.Model, BaseOLiMSModel):
                 ("request_analysis_id","=",request_id)
                 ])
             for analysis in analyses:
+                if analysis.id not in analysis_ids:
+                    analysis_ids.append(analysis.id)
                 analysis.write({"state":"to_be_verified","result":record.Result})
             arecs = self.env["olims.manage_analyses"].search([
                 "|",("manage_analysis_id","=",request_id),
@@ -1912,6 +1915,16 @@ class ManageAnalyses(models.Model, BaseOLiMSModel):
             if all_submitted:
                 ar_ids.append(request_id)
         self.env["olims.analysis_request"].browse(ar_ids).signal_workflow("submit")
+        # Updating state of worksheet if all submitted
+        worksheets = self.env['olims.worksheet'].search([("ManageResult","in",analysis_ids)])
+        for worksheet in worksheets:
+            ws_all_submitted = True
+            for ws_result in worksheet.ManageResult:
+                if ws_result.state != "to_be_verified":
+                    ws_all_submitted = False
+                    break
+            if ws_all_submitted:
+                self.env["olims.worksheet"].browse(worksheet.id).signal_workflow("submit")
         return True
 
 
