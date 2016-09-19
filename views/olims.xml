@@ -1850,7 +1850,7 @@
                             <button string="Publish" name="publish" type="workflow" states="verified"/>
                             <button string="Print" name="publish_analysis_request" type="object" states="published"/>
                             <button name="action_report_send" string="Send by Email" type="object" states="published" class="btn-primary"/>
-                            <field name="state" widget="statusbar" statusbar_visible="to_be_sampled,sample_received,sample_due, to_be_verified, verified" statusbar_colors='{"to_be_sampled":"blue","sample_received":"red","invalid":"red"}'/>
+                            <field name="state" widget="statusbar" statusbar_visible="sample_due,sample_received, to_be_verified, verified" statusbar_colors='{"to_be_sampled":"blue","sample_received":"red","invalid":"red"}'/>
                     </header>
                 <!-- </sheet> -->
                     
@@ -2325,7 +2325,7 @@
             <field name="model">olims.analysis_request</field>
             <field name="key2">client_action_multi</field>
         </record>
-        <!-- <record id="ar_change_state_cancel_id" model="ir.actions.server">
+        <record id="ar_change_state_cancel_id" model="ir.actions.server">
             <field name="name">Cancel</field>
             <field name="type">ir.actions.server</field>
             <field name="model_id" ref="model_olims_analysis_request"/>
@@ -2340,7 +2340,7 @@
             <field name="model_id" ref="model_olims_analysis_request"/>
             <field name="model">olims.analysis_request</field>
             <field name="key2">client_action_multi</field>
-        </record> -->
+        </record>
         <!-- <Analysis Request Tree view without Create button> -->
         <record model="ir.ui.view" id="olims_analysis_request_tree_view">
             <field name="name">analysis_request.tree</field>
@@ -2740,7 +2740,7 @@
                     <header>
                         <button string="Preserve Sample" name="to_be_preserved" states="to_be_preserved" type="workflow" class="oe_highlight"/>
 
-                        <field name="state" widget="statusbar" statusbar_visible="to_be_sampled,sample_due,sample_received,expired,disposed"/>
+                        <field name="state" widget="statusbar" statusbar_visible="sample_due,sample_received,expired,disposed"/>
                     </header>
                     <!--<label for="name" string="Sample ID"/>
                     <field name="name"></field>-->
@@ -4470,8 +4470,8 @@
 	                                <field name="physical_country" nolabel='1'></field>
 	                                <label for='physical_state' string='State'/>
 	                                <field name="physical_state" nolabel='1'></field>
-	                                <label for='physical_district' string='District'/>
-	                                <field name="physical_district" nolabel='1'></field>
+	                                <label for='physical_district' string='District' invisible="1"/>
+	                                <field name="physical_district" nolabel='1' invisible="1"></field>
 	                                <label for='physical_city' string='city'/>
 	                                <field name="physical_city" nolabel='1'></field>
 	                                <label for='physical_postalcode' string='code'/>
@@ -4490,8 +4490,8 @@
                                 <field name="postal_country" nolabel='1'></field>
                                 <label for='postal_state' string='State'/>
                                 <field name="postal_state" nolabel='1'></field>
-                                <label for='postal_district' string='District'/>
-                                <field name="postal_district" nolabel='1'></field>
+                                <label for='postal_district' string='District' invisible="1"/>
+                                <field name="postal_district" nolabel='1' invisible="1"></field>
                                 <label for='postal_city' string='city'/>
                                 <field name="postal_city" nolabel='1'></field>
                                 <label for='postal_postalcode' string='code'/>
@@ -4510,8 +4510,8 @@
                                 <field name="billing_country" nolabel='1'></field>
                                 <label for='billing_state' string='State'/>
                                 <field name="billing_state" nolabel='1'></field>
-                                <label for='billing_district' string='District'/>
-                                <field name="billing_district" nolabel='1'></field>
+                                <label for='billing_district' string='District' invisible="1"/>
+                                <field name="billing_district" nolabel='1' invisible="1"></field>
                                 <label for='billing_city' string='city'/>
                                 <field name="billing_city" nolabel='1'></field>
                                 <label for='billing_postalcode' string='code'/>

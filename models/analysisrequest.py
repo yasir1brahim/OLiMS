@@ -25,7 +25,7 @@ AR_STATES = (
     ('verified','Verified'),
     ('published','Published'),
     ('invalid','Invalid'),
-    ('cancelled', 'Cancel')
+    ('cancelled', 'Canceled')
     )
 COPY_OPTIONS=(
     ('0','Select-to-copy'),

@@ -39,8 +39,8 @@ schema = (
     ),
           
     # # ~~~~~~~~~~ PhysicalAddress behavior in Odoo is as selection field ~~~~~~~~~~~
-    fields.Many2one(comodel_name='olims.country',string='physical_country'),
-    fields.Many2one(comodel_name='olims.state',string='physical_state', domain="[('Country', '=', physical_country)]"),
+    fields.Many2one(comodel_name='olims.country',string='physical_country',default=lambda self: self.env['olims.country'].search([('name','=','United States')]).id),
+    fields.Many2one(comodel_name='olims.state',string='physical_state', domain="[('Country', '=', physical_country)]",default=lambda self: self.env['olims.state'].search([('name','=','Washington')]).id),
     fields.Many2one(comodel_name='olims.district',string='physical_district', domain="[('State', '=', physical_state)]"),
     fields.Char(string='physical_city'),
     fields.Char(string='physical_postalcode'),
@@ -48,8 +48,8 @@ schema = (
     fields.Selection([('postal', 'Postal Address'),('billing','Billing Address')],string='physical_copy_from'),
           
     # # ~~~~~~~~~~ PostalAddress behavior in Odoo is as selection field ~~~~~~~~~~~
-    fields.Many2one(comodel_name='olims.country',string='postal_country'),
-    fields.Many2one(comodel_name='olims.state',string='postal_state', domain="[('Country', '=', postal_country)]"),
+    fields.Many2one(comodel_name='olims.country',string='postal_country',default=lambda self: self.env['olims.country'].search([('name','=','United States')]).id),
+    fields.Many2one(comodel_name='olims.state',string='postal_state', domain="[('Country', '=', postal_country)]",default=lambda self: self.env['olims.state'].search([('name','=','Washington')]).id),
     fields.Many2one(comodel_name='olims.district',string='postal_district', domain="[('State', '=', postal_state)]"),
     fields.Char(string='postal_city'),
     fields.Char(string='postal_postalcode'),
@@ -57,8 +57,8 @@ schema = (
     fields.Selection([('physical', 'Physical Address'),('billing','Billing Address')],string='postal_copy_from'),
           
     # # ~~~~~~~~~~ BillingAddress behavior in Odoo is as selection field ~~~~~~~~~~~
-    fields.Many2one(comodel_name='olims.country',string='billing_country'),
-    fields.Many2one(comodel_name='olims.state',string='billing_state', domain="[('Country', '=', billing_country)]"),
+    fields.Many2one(comodel_name='olims.country',string='billing_country',default=lambda self: self.env['olims.country'].search([('name','=','United States')]).id),
+    fields.Many2one(comodel_name='olims.state',string='billing_state', domain="[('Country', '=', billing_country)]",default=lambda self: self.env['olims.state'].search([('name','=','Washington')]).id),
     fields.Many2one(comodel_name='olims.district',string='billing_district', domain="[('State', '=', billing_state)]"),
     fields.Char(string='billing_city'),
     fields.Char(string='billing_postalcode'),
