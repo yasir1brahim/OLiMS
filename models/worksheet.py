@@ -625,19 +625,9 @@ class Worksheet(models.Model, BaseOLiMSModel):
                     continue
                 doActionFor(analysis, 'retract')
 
-    def workflow_script_verify(self):
-        if skip(self, "verify"):
-            return
-        workflow = getToolByName(self, 'portal_workflow')
-        self.reindexObject(idxs=["review_state", ])
-        if not "verify all analyses" in self.REQUEST['workflow_skiplist']:
-            # verify all analyses in this self.
-            analyses = self.getAnalyses()
-            for analysis in analyses:
-                state = workflow.getInfoFor(analysis, 'review_state', '')
-                if state != 'to_be_verified':
-                    continue
-                doActionFor(analysis, "verify")
+    def workflow_script_verify(self,cr,uid,ids,context=None):
+        self.write(cr, uid, ids,{'State': 'verified'},context)
+        return True
 
     def workflow_script_reject(self):
         """Copy real analyses to RejectAnalysis, with link to real
@@ -899,6 +889,43 @@ class Worksheet(models.Model, BaseOLiMSModel):
         else:
             pass
 
+    def bulk_change_states(self,state,cr,uid,ids,context=None):
+        previous_state = ""
+        if state == "verified":
+            previous_state = "to_be_verified"
+        worksheets = self.browse(cr,uid,ids)
+        ar_ids = []
+        for worksheet in worksheets:
+            if worksheet.State != previous_state:
+                ids.remove(worksheet.id)
+            else:
+                records = worksheet.ManageResult
+                for record in records:
+                    record.write({"state":"verified"})
+                    analyses = self.pool.get("olims.manage_analyses").search_read(cr,uid,[
+                        "|",("Service","=",record.analysis.id)
+                            ,("LabService","=",record.analysis.id),
+                        "|",("manage_analysis_id","=",record.request_analysis_id.id),
+                            ("lab_manage_analysis_id","=",record.request_analysis_id.id)
+                        ])
+                    for analysis in analyses:
+                        self.pool.get("olims.manage_analyses").write(cr,uid,analysis['id'],{"state":"verified"})
+                    if record.request_analysis_id not in ar_ids:
+                        ar_ids.append(record.request_analysis_id.id)
+        self.browse(cr,uid,ids).signal_workflow('verify')
+        # Signaling workflow to verified for ar if all are verified
+        for ar_id in ar_ids:
+            arecs = self.pool.get("olims.manage_analyses").search_read(cr,uid,[
+                "|",("manage_analysis_id","=",ar_id),
+                    ("lab_manage_analysis_id","=",ar_id)
+                ])
+            for arec in arecs:
+                if arec['state'] != "verified":
+                    ar_ids.remove(ar_id)
+                    break
+        self.pool.get("olims.analysis_request").browse(cr,uid,ar_ids).signal_workflow('verify')
+        return True
+
 
 class AddAnalysis(models.Model):
     _name = "olims.add_analysis"
@@ -993,7 +1020,7 @@ class WorkSheetManageResults(models.Model):
                 ])
             all_submitted = True
             for arec in arecs:
-                if arec.state != "to_be_verified":
+                if arec.state != "to_be_verified" and arec.state != "verified":
                     all_submitted = False
                     break
             if all_submitted:
