@@ -1502,18 +1502,44 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def bulk_verify_request(self,cr,uid,ids,context=None):
         requests = self.pool.get('olims.analysis_request').browse(cr,uid,ids,context)
         for request in requests:
-            analyses = self.pool.get("olims.manage_analyses").search_read(cr,uid,[
+            ar_manage_results = self.pool.get("olims.manage_analyses")
+            analyses = ar_manage_results.search_read(cr, uid, [
                 "|",("manage_analysis_id","=",request.id),
                     ("lab_manage_analysis_id","=",request.id)
                 ])
             all_verified = True
             for analysis in analyses:
                 if analysis['state'] == 'to_be_verified':
-                    self.pool.get("olims.manage_analyses").write(cr,uid,analysis['id'],{"state":"verified"})
+                    ar_manage_results.write(cr, uid, analysis['id'], {"state": "verified"})
                 elif analysis['state'] != 'verified':
                     all_verified = False
             if all_verified:
                 request.signal_workflow('verify')
+            worksheet_manage_results = self.pool.get('olims.ws_manage_results')
+            ws_man_results = worksheet_manage_results.search_read(cr, uid, [
+                ('request_analysis_id', '=', request.id)])
+            
+            ws_manage_res_ids_list = []
+            worksheets_boject = self.pool.get('olims.worksheet')
+            for ws_manage_res in ws_man_results:
+                if ws_manage_res['state'] == 'to_be_verified':
+                    worksheet_manage_results.write(
+                        cr, uid, ws_manage_res['id'],{'state':'verified'})
+                worksheets = worksheets_boject.search_read(cr, uid, [
+                    ('ManageResult', '=', ws_manage_res['id'])])
+                for worksheet in worksheets:
+                    if worksheet['id'] not in ws_manage_res_ids_list:
+                        ws_manage_res_ids_list.append(worksheet['id'])
+            ws_manage_results_all_verified = True
+            if ws_manage_res_ids_list:
+                worksheet_objs = worksheets_boject.browse(cr, uid, ws_manage_res_ids_list, context)
+                for worksheet_obj in worksheet_objs:
+                    for ws_manage_result_boj in worksheet_obj.ManageResult:
+                        if ws_manage_result_boj.state != 'verified':
+                            ws_manage_results_all_verified = False
+                            continue
+                        if ws_manage_results_all_verified:
+                            worksheet_obj.signal_workflow('verify')
 
     @api.onchange('CopyContact')
     def copy_contact(self):

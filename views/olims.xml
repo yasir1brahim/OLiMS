@@ -2204,7 +2204,7 @@
                             <field name="Preservation" options="{'no_create': True}"/>
                             <field name="Preserver"/>
                             <field name="Date Preserved"/>
-                            <field name="State" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <!-- <field name="State" attrs="{'readonly': [('id', '!=', False)]}"/> -->
                         </tree>
                     </field>
                     <label string="QC Analyses" attrs="{'invisible': [('id', '=', False)]}"/><br/><br/>
@@ -2218,7 +2218,7 @@
                     <field name="id" invisible="1"/>
                     <label for="Partition" string="Sample Partitions"/>
                     <field name="Partition" widget="one2many_list">
-                        <tree editable="bottom" create="false">
+                        <tree editable="bottom" create="false" delete="false">
                             <field name="id" invisible="1"/>
                             <field name="Partition" attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="Container" options="{'no_create': True}"/>
@@ -2227,7 +2227,7 @@
                         </tree>
                     </field>
                     <label for="Analyses" string="Analyses"/>
-                    <field name="Analyses" widget="one2many_list">
+                    <field name="Analyses" widget="one2many_list" attrs="{'readonly': [('state', '=', 'verified')]}">
                         <tree editable="bottom">
                             <field name="id" invisible="1"/>
                             <field name="Category" options="{'no_create': True}" attrs="{'readonly': [('id', '!=', False)]}"/>
@@ -2244,7 +2244,7 @@
                     <label for="Remarks" string="Remarks"/>
                     <field name="Remarks"/>
                 </page>
-                <page string="Manage Results" attrs="{'invisible': [('state', '!=', 'sample_received'),('state', '!=', 'published'),('state', '!=', 'verified'),('state', '!=', 'to_be_verified')]}">
+                <page string="Manage Results" attrs="{'invisible': [('state', '!=', 'sample_received'),('state', '!=', 'published'),('state', '!=', 'to_be_verified')]}">
                     <label for="Field_Manage_Result" string="Field Analysis" attrs="{'invisible': [('Field_Manage_Result', '=', [])]}"/>
                     <field name="Field_Manage_Result" attrs="{'invisible': [('Field_Manage_Result', '=', [])]}" widget="one2many_selectable">
                         <tree editable="bottom" create='false' delete='false'>
