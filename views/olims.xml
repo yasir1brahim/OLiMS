@@ -1846,7 +1846,6 @@
                         <header>
                             <button string="Preserve Sample" name="preserve" states="to_be_preserved" type="workflow" class="oe_highlight"/>
                             <button name="cancel" string="Cancel" type="workflow" states="to_be_sampled,sample_due,sample_received,verified,to_be_verified,published" confirm="Are you sure you want to cancel this?"/>
-                            <button string="Verify" name="verify" type="workflow" states="to_be_verified"/>
                             <button string="Publish" name="publish" type="workflow" states="verified"/>
                             <button string="Print" name="publish_analysis_request" type="object" states="published"/>
                             <button name="action_report_send" string="Send by Email" type="object" states="published" class="btn-primary"/>
@@ -2293,7 +2292,7 @@
             </field>
         </record>
         <!--For action menu in analysis request-->
-        <record id="ar_change_state_bulk_sample_id" model="ir.actions.server">
+        <!-- <record id="ar_change_state_bulk_sample_id" model="ir.actions.server">
             <field name="name">Sample</field>
             <field name="type">ir.actions.server</field>
             <field name="model_id" ref="model_olims_analysis_request"/>
@@ -2308,7 +2307,7 @@
             <field name="model_id" ref="model_olims_analysis_request"/>
             <field name="model">olims.analysis_request</field>
             <field name="key2">client_action_multi</field>
-        </record>
+        </record> -->
         <record id="ar_change_state_bulk_receive_id" model="ir.actions.server">
             <field name="name">Receive Sample</field>
             <field name="type">ir.actions.server</field>
@@ -2320,6 +2319,22 @@
             <field name="name">Receive Sample</field>
             <field name="action_id" ref="ar_change_state_bulk_receive_id"/>
             <field name="value" eval="'ir.actions.server,' + str(ref('ar_change_state_bulk_receive_id'))"/>
+            <field name="key">action</field>
+            <field name="model_id" ref="model_olims_analysis_request"/>
+            <field name="model">olims.analysis_request</field>
+            <field name="key2">client_action_multi</field>
+        </record>
+        <record id="ar_change_state_bulk_verify" model="ir.actions.server">
+            <field name="name">Verify</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_olims_analysis_request"/>
+            <field name="state">code</field>
+            <field name="code">self.bulk_verify_request(cr,uid,context.get('active_ids'),context=context)</field>
+        </record>
+        <record id="ar_change_state_bulk_verify_id" model="ir.values">
+            <field name="name">Verify</field>
+            <field name="action_id" ref="ar_change_state_bulk_verify"/>
+            <field name="value" eval="'ir.actions.server,' + str(ref('ar_change_state_bulk_verify'))"/>
             <field name="key">action</field>
             <field name="model_id" ref="model_olims_analysis_request"/>
             <field name="model">olims.analysis_request</field>

@@ -1499,6 +1499,22 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         self.pool.get("olims.sample").browse(cr,uid,sample_ids).signal_workflow(state)
         return True
 
+    def bulk_verify_request(self,cr,uid,ids,context=None):
+        requests = self.pool.get('olims.analysis_request').browse(cr,uid,ids,context)
+        for request in requests:
+            analyses = self.pool.get("olims.manage_analyses").search_read(cr,uid,[
+                "|",("manage_analysis_id","=",request.id),
+                    ("lab_manage_analysis_id","=",request.id)
+                ])
+            all_verified = True
+            for analysis in analyses:
+                if analysis['state'] == 'to_be_verified':
+                    self.pool.get("olims.manage_analyses").write(cr,uid,analysis['id'],{"state":"verified"})
+                elif analysis['state'] != 'verified':
+                    all_verified = False
+            if all_verified:
+                request.signal_workflow('verify')
+
     @api.onchange('CopyContact')
     def copy_contact(self):
         if self.CopyContact == '1':
