@@ -138,6 +138,7 @@ schema = (
     fields.Many2one(string='Client_Contact',
                     comodel_name='olims.client',
                     required=True,
+                    ondelete='set null'
 
     ),
     fields.Many2one(comodel_name='res.users',

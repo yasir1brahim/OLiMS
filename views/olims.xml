@@ -4488,7 +4488,7 @@
             <field name="name">client.form</field>
             <field name="model">olims.client</field>
             <field name="arch" type="xml">
-                <form string="Client Form" create="false" delete="false">
+                <form string="Client Form">
                     <sheet>
                     <notebook>
                         <page string="Default" name="Default Page" class="oe_edit_only">
@@ -4756,7 +4756,7 @@
             <field name="name">client.tree</field>
             <field name="model">olims.client</field>
             <field name="arch" type="xml">
-                <tree string="CLient" delete="false">
+                <tree string="Client">
                     <field name="Name"></field>
                     <!--<field name="TaxNumber"></field>-->
                     <field name="Email Address"></field>
