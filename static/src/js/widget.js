@@ -79,8 +79,36 @@ var One2ManySelectable = FieldOne2Many.extend({
 	        this.$el.find(".ep_button_confirm").click(function(){
 	        	self.action_selected_lines();
 	        });
+	        this.$el.find(".ep_button_verify").click(function(){
+	        	self.action_verify_selected_lines();
+	        });
 	   },
 
+	   action_verify_selected_lines:function()
+	   {
+		   	var self = this;
+		   	var data = self.get_selected_ids_one2many();
+			var selected_ids = data[0];
+			var selected_state = data[2];
+			if (selected_ids.length === 0)
+			{
+					this.do_warn(_t("You must choose at least one record."));
+					return false;
+			}
+			var model_obj=new Model(this.dataset.model);
+			for(var i=0; i<selected_ids.length; i++)
+			   {
+					if (selected_state[i] != "To be verified")
+					{
+							this.do_warn(_t("Some selected items are not in valid state to verify."));
+							return false;
+					}
+				}
+			model_obj.call('verify_analyses_and_ws',[selected_ids],{context:self.dataset.context})
+				.then(function(result){
+				location.reload();
+				});
+	   },
 	   action_selected_lines: function()
 	   {
 		   var self = this;
@@ -141,14 +169,18 @@ var One2ManySelectable = FieldOne2Many.extend({
 	   {
 	       var ids =[];
 	       var results = [];
+	       var states = [];
 	       this.$el.find('th.oe_list_record_selector input:checked')
 	               .closest('tr').each(function () {
 	               	ids.push(parseInt($(this).context.dataset.id));
 	               	results.push($(this).find('[data-field]').filter(function() {
 					    return $(this).data('field').toLowerCase() == 'result';
 					}).text());
+					states.push($(this).find('[data-field]').filter(function() {
+					    return $(this).data('field').toLowerCase() == 'state';
+					}).text());
 	       });
-	       return [ids,results];
+	       return [ids,results,states];
 	   },
 	});
 	core.form_widget_registry.add('one2many_selectable', One2ManySelectable);

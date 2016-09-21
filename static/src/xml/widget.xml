@@ -22,6 +22,11 @@
                         href="javascript:void(0)">
                     Submit for Verification
                 </button>
+                <button icon="gtk-yes"
+                        class="ep_button_verify oe_button oe_highlight"
+                        href="javascript:void(0)">
+                        Verify
+                </button>
             </div>
         </div>
     </t>
