@@ -2227,7 +2227,7 @@
                         </tree>
                     </field>
                     <label for="Analyses" string="Analyses"/>
-                    <field name="Analyses" widget="one2many_list" attrs="{'readonly': [('state', '=', 'verified')]}">
+                    <field name="Analyses" widget="one2many_list" attrs="{'readonly': [('state', 'in', ['verified', 'published']),]}">
                         <tree editable="bottom">
                             <field name="id" invisible="1"/>
                             <field name="Category" options="{'no_create': True}" attrs="{'readonly': [('id', '!=', False)]}"/>
@@ -2244,7 +2244,7 @@
                     <label for="Remarks" string="Remarks"/>
                     <field name="Remarks"/>
                 </page>
-                <page string="Manage Results" attrs="{'invisible': [('state', '!=', 'sample_received'),('state', '!=', 'published'),('state', '!=', 'to_be_verified')]}">
+                <page string="Manage Results" attrs="{'invisible': [('state', 'in', ['sample_due','verified', 'published'])]}">
                     <label for="Field_Manage_Result" string="Field Analysis" attrs="{'invisible': [('Field_Manage_Result', '=', [])]}"/>
                     <field name="Field_Manage_Result" attrs="{'invisible': [('Field_Manage_Result', '=', [])]}" widget="one2many_selectable">
                         <tree editable="bottom" create='false' delete='false'>
