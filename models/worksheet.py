@@ -1003,7 +1003,7 @@ class WorkSheetManageResults(models.Model):
     def bulk_verify(self):
         ar_ids = []
         for record in self:
-            if not record.result:
+            if not record.result or record.state == "verified":
                 continue
             record.write({"state":"to_be_verified"})
             analyses = self.env["olims.manage_analyses"].search([
@@ -1029,11 +1029,48 @@ class WorkSheetManageResults(models.Model):
         worksheet = self.env['olims.worksheet'].search([("ManageResult","=",self[0].id)])
         ws_all_submitted = True
         for ws_result in worksheet.ManageResult:
-            if ws_result.state != "to_be_verified":
+            if ws_result.state != "to_be_verified" and ws_result.state != "verified":
                 ws_all_submitted = False
                 break
         if ws_all_submitted:
             self.env["olims.worksheet"].browse(worksheet.id).signal_workflow("submit")
+        return True
+
+    @api.multi
+    def verify_analyses_and_ws(self):
+        ar_ids = []
+        for record in self:
+            if not record.state != "verified":
+                continue
+            record.write({"state":"verified"})
+            analyses = self.env["olims.manage_analyses"].search([
+                "|",("Service","=",record.analysis.id)
+                    ,("LabService","=",record.analysis.id),
+                "|",("manage_analysis_id","=",record.request_analysis_id.id),
+                    ("lab_manage_analysis_id","=",record.request_analysis_id.id)
+                ])
+            for analysis in analyses:
+                analysis.write({"state":"verified"})
+            arecs = self.env["olims.manage_analyses"].search([
+                "|",("manage_analysis_id","=",record.request_analysis_id.id),
+                    ("lab_manage_analysis_id","=",record.request_analysis_id.id)
+                ])
+            all_verified = True
+            for arec in arecs:
+                if arec.state != "verified":
+                    all_verified = False
+                    break
+            if all_verified:
+                ar_ids.append(record.request_analysis_id.id)
+        self.env["olims.analysis_request"].browse(ar_ids).signal_workflow("verify")
+        worksheet = self.env['olims.worksheet'].search([("ManageResult","=",self[0].id)])
+        ws_all_verified = True
+        for ws_result in worksheet.ManageResult:
+            if ws_result.state != "verified":
+                ws_all_verified = False
+                break
+        if ws_all_verified:
+            self.env["olims.worksheet"].browse(worksheet.id).signal_workflow("verify")
         return True
 
 class WorkSheetAddRefreceAnalysis(models.Model):
