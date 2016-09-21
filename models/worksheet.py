@@ -24,10 +24,11 @@ AR_STATES = (
     )
 WORKSHEET_STATES = (
     ('open','open'),
+    ('closed','closed'),
     ('attachment_due','Attachment Outstanding'),
     ('to_be_verified','To be verified'),
-    ('verified','Verified'),
-    ('rejected','Rejected'),
+    ('verified','verified'),
+    ('rejected','rejected'),
     )
 schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId'),
     fields.Many2one(string='Template',
@@ -926,6 +927,9 @@ class Worksheet(models.Model, BaseOLiMSModel):
         self.pool.get("olims.analysis_request").browse(cr,uid,ar_ids).signal_workflow('verify')
         return True
 
+    def workflow_script_closed(self,cr,uid,ids,context=None):
+        self.write(cr, uid, ids,{'State': 'closed'},context)
+        return True
 
 class AddAnalysis(models.Model):
     _name = "olims.add_analysis"

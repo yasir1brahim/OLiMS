@@ -1845,7 +1845,7 @@
                     <sheet>
                         <header>
                             <button string="Preserve Sample" name="preserve" states="to_be_preserved" type="workflow" class="oe_highlight"/>
-                            <button name="cancel" string="Cancel" type="workflow" states="to_be_sampled,sample_due,sample_received,verified,to_be_verified,published" confirm="Are you sure you want to cancel this?"/>
+                            <button name="cancel" string="Cancel" type="workflow" states="to_be_sampled,sample_due,sample_received,verified,to_be_verified,published" confirm="Are you sure you want to cancel this?" style="background-color:#d9534f"/>
                             <button string="Publish" name="publish" type="workflow" states="verified"/>
                             <button string="Print" name="publish_analysis_request" type="object" states="published"/>
                             <button name="action_report_send" string="Send by Email" type="object" states="published" class="btn-primary"/>
@@ -2504,7 +2504,7 @@
                 <form string="Worksheet Form">
                     <sheet>
                         <header>
-                            <field name="State" widget="statusbar" statusbar_visible="open,to_be_verified,verified,rejected" statusbar_colors='{"open":"blue","to_be_verified":"blue","rejected":"red"}'/>
+                            <field name="State" widget="statusbar" statusbar_visible="open,closed,verified" statusbar_colors='{"open":"blue","to_be_verified":"blue","rejected":"red"}'/>
                             </header>
                         <group col='8'>
                             <field name="id" invisible="1"/>
@@ -2518,9 +2518,9 @@
                         <notebook>
                             <page string="Add Analyses" attrs="{'invisible': ['|',('id', '=', False),('State', '=', 'verified')]}">
                                 <label for="AnalysisRequest" string="Analysis Request"/>
-                                <field name="AnalysisRequest" options="{'no_create': True}"></field>
+                                <field name="AnalysisRequest" options="{'no_create': True}" attrs="{'readonly': [('State', '=', 'closed')]}"></field>
                             </page>
-                            <page string="Manage Result" attrs="{'invisible': [('id', '=', False)]}">
+                            <page string="Manage Result" attrs="{'invisible': ['|',('id', '=', False),('State', '=', 'closed')]}">
                                 <group string="Attachments">
                                     <label for="AttachmentFile" string="Attachment File"/>
                                     <field name="AttachmentFile" nolabel='1'></field>
@@ -2566,7 +2566,7 @@
                                     </form> -->
                                 </field>
                             </page>
-                            <page string="Add Blank Reference" attrs="{'invisible': ['|',('id', '=', False),('State', '=', 'verified')]}">
+                            <page string="Add Blank Reference" attrs="{'invisible': ['|',('id', '=', False),('State', 'in', ['verified', 'closed'])]}">
                                 <field name="Add-Blank-Refrence">
                                     <tree string="Add Blank Refrence" editable="bottom">
                                         <field name="category" options="{'no_create': True}"/>
@@ -2574,7 +2574,7 @@
                                     </tree>
                                 </field> 
                             </page>
-                            <page string="Add Control Reference" attrs="{'invisible': ['|',('id', '=', False),('State', '=', 'verified')]}">
+                            <page string="Add Control Reference" attrs="{'invisible': ['|',('id', '=', False),('State', 'in', ['verified', 'closed'])]}">
                                 <field name="Add-Control-Refrence">
                                     <tree string="Add Control Refrence" editable="bottom">
                                         <field name="category" options="{'no_create': True}"/>
@@ -2613,6 +2613,22 @@
             <field name="name">Verify</field>
             <field name="action_id" ref="change_state_bulk_worksheet"/>
             <field name="value" eval="'ir.actions.server,' + str(ref('change_state_bulk_worksheet'))"/>
+            <field name="key">action</field>
+            <field name="model_id" ref="model_olims_worksheet"/>
+            <field name="model">olims.worksheet</field>
+            <field name="key2">client_action_multi</field>
+        </record>
+        <record id="change_state_closed_worksheet" model="ir.actions.server">
+            <field name="name">Close</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_olims_worksheet"/>
+            <field name="state">code</field>
+            <field name="code">self.workflow_script_closed(cr, uid, context.get('active_ids'), context=context)</field>
+        </record>
+        <record id="change_state_worksheet_closed" model="ir.values">
+            <field name="name">Close</field>
+            <field name="action_id" ref="change_state_closed_worksheet"/>
+            <field name="value" eval="'ir.actions.server,' + str(ref('change_state_closed_worksheet'))"/>
             <field name="key">action</field>
             <field name="model_id" ref="model_olims_worksheet"/>
             <field name="model">olims.worksheet</field>
