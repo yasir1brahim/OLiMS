@@ -12,3 +12,4 @@ import olims_analyses_per_department
 import olims_analysesperformedpertotal
 import olims_dataentrydaybook
 import export_experiment
+import message_dialog_box

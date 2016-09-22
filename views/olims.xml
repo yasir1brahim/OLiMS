@@ -1810,7 +1810,6 @@
                     <sheet>
                         <header>
                             <button string="Preserve Sample" name="preserve" states="to_be_preserved" type="workflow" class="oe_highlight"/>
-                            <button name="cancel" string="Cancel" type="workflow" states="to_be_sampled,sample_due,sample_received,verified,to_be_verified,published" confirm="Are you sure you want to cancel this?" style="background-color:#d9534f"/>
                             <button string="Publish" name="publish" type="workflow" states="verified"/>
                             <button string="Print" name="publish_analysis_request" type="object" states="published"/>
                             <button name="action_report_send" string="Send by Email" type="object" states="published" class="btn-primary"/>
@@ -2192,7 +2191,7 @@
                         </tree>
                     </field>
                     <label for="Analyses" string="Analyses"/>
-                    <field name="Analyses" widget="one2many_list" attrs="{'readonly': [('state', 'in', ['verified', 'published']),]}">
+                    <field name="Analyses" widget="one2many_list" attrs="{'readonly': [('state', 'in', ['verified', 'published', 'cancelled']),]}">
                         <tree editable="bottom">
                             <field name="id" invisible="1"/>
                             <field name="Category" options="{'no_create': True}" attrs="{'readonly': [('id', '!=', False)]}"/>
@@ -2280,7 +2279,7 @@
             <field name="state">code</field>
             <field name="code">self.bulk_change_states("sample_received",cr, uid, context.get('active_ids'), context=context)</field>
         </record>
-        <record id="ar_change_state_bulk_receive_id" model="ir.values">
+        <record id="ar_change_state_bulk_receive_ir_value" model="ir.values">
             <field name="name">Receive Sample</field>
             <field name="action_id" ref="ar_change_state_bulk_receive_id"/>
             <field name="value" eval="'ir.actions.server,' + str(ref('ar_change_state_bulk_receive_id'))"/>
@@ -2300,22 +2299,6 @@
             <field name="name">Verify</field>
             <field name="action_id" ref="ar_change_state_bulk_verify"/>
             <field name="value" eval="'ir.actions.server,' + str(ref('ar_change_state_bulk_verify'))"/>
-            <field name="key">action</field>
-            <field name="model_id" ref="model_olims_analysis_request"/>
-            <field name="model">olims.analysis_request</field>
-            <field name="key2">client_action_multi</field>
-        </record>
-        <record id="ar_change_state_cancel_id" model="ir.actions.server">
-            <field name="name">Cancel</field>
-            <field name="type">ir.actions.server</field>
-            <field name="model_id" ref="model_olims_analysis_request"/>
-            <field name="state">code</field>
-            <field name="code">self.workflow_script_cancel(cr, uid, context.get('active_ids'), context=context)</field>
-        </record>
-        <record id="ar_change_state_cancel_id" model="ir.values">
-            <field name="name">Cancel</field>
-            <field name="action_id" ref="ar_change_state_cancel_id"/>
-            <field name="value" eval="'ir.actions.server,' + str(ref('ar_change_state_cancel_id'))"/>
             <field name="key">action</field>
             <field name="model_id" ref="model_olims_analysis_request"/>
             <field name="model">olims.analysis_request</field>
