@@ -327,41 +327,6 @@
         <menuitem id="olims_subgroup_menu" name="Sub Groups" parent="olims_settings_menu" sequence="40"
                   action="subgroup_action"/>
         
-        <!-- olims.inherit_form_batch form view -->
-        <record model="ir.ui.view" id="olims_inherit_form_batch_form_view">
-            <field name="name">inherit_from_batch.form</field>
-            <field name="model">olims.inherit_from_batch</field>
-            <field name="arch" type="xml">
-                <form string="Inherit From Form">
-                    <label for="Title" string="Title"/>
-                    <field name="Title"></field>
-                    <label for="ObjectId" string="Object ID"/>
-                    <field name="ObjectId"></field>
-                    <label for="Description" string="Description"/>
-                    <field name="Description"></field>                        
-                </form>
-            </field>
-        </record>
-
-        <record model="ir.ui.view" id="olims_inherit_from_batch_tree_view">
-            <field name="name">inherit_from_batch.tree</field>
-            <field name="model">olims.inherit_from_batch</field>
-            <field name="arch" type="xml">
-                <tree string="Inherit From">
-                    <field name="Title"></field>
-                    <field name="ObjectId"></field>
-                    <field name="Description"></field>
-                </tree>
-            </field>
-        </record>
-
-		<record model="ir.actions.act_window" id="inherit_from_batch_action">
-            <field name="name">Inherit from</field>
-            <field name="res_model">olims.inherit_from_batch</field>
-            <field name="view_type">form</field>
-			<field name="view_mode">tree,form</field>
-       </record>
-        
         <!-- olims.attachment_type form view -->
         <record model="ir.ui.view" id="olims_attachment_type_form_view">
             <field name="name">attachment_type.form</field>
@@ -1758,7 +1723,7 @@
                     <field name="InheritedObjects" widget="one2many_list">
                         <tree editable="bottom">
                             <field name="Title"></field>
-                            <field name="ObjectId"></field>
+                            <field name="ObjectId" string="Object ID"></field>
                             <field name="Description"></field>
                         </tree>
                     </field>
