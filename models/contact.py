@@ -145,6 +145,10 @@ schema = (
                     string='user',
                     domain="[('id', '=', '-1')]"
     ),
+    fields.One2many('olims.analysis_request',
+                                 'Contact',
+                                 string='Analysis_Request',
+    ),
  )
 
 class Contact(models.Model, BaseOLiMSModel): #(Person)
@@ -202,5 +206,10 @@ class Contact(models.Model, BaseOLiMSModel): #(Person)
             setattr(self, 'postal_postalcode', getattr(self,self.postal_copy_from+'_postalcode'))
             setattr(self, 'postal_address', getattr(self,self.postal_copy_from+'_address'))
 
+    @api.multi
+    def unlink(self):
+        for ar_record in self.Analysis_Request:
+            ar_record.unlink()
+        return super(Contact, self).unlink()
 
 Contact.initialze(schema)

@@ -266,4 +266,10 @@ class Client(models.Model, BaseOLiMSModel):
             setattr(self, 'billing_postalcode', getattr(self,self.billing_copy_from+'_postalcode'))
             setattr(self, 'billing_address', getattr(self,self.billing_copy_from+'_address'))
 
+    @api.multi
+    def unlink(self):
+        for contact_record in self.Contact:
+            contact_record.unlink()
+        return super(Client, self).unlink()
+
 Client.initialze(schema)
