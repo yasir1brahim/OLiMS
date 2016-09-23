@@ -1965,7 +1965,7 @@ class ManageAnalyses(models.Model, BaseOLiMSModel):
                 if ws_result.state != "to_be_verified":
                     ws_all_submitted = False
                     break
-            if ws_all_submitted:
+            if ws_all_submitted and worksheet.State != "closed":
                 self.env["olims.worksheet"].browse(worksheet.id).signal_workflow("submit")
         return True
 
@@ -2011,7 +2011,7 @@ class ManageAnalyses(models.Model, BaseOLiMSModel):
                 if ws_result.state != "verified":
                     ws_all_verified = False
                     break
-            if ws_all_verified:
+            if ws_all_verified and worksheet.State != "closed":
                 self.env["olims.worksheet"].browse(worksheet.id).signal_workflow("verify")
         return True
 

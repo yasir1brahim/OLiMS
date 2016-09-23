@@ -2468,7 +2468,7 @@
                                 <label for="AnalysisRequest" string="Analysis Request"/>
                                 <field name="AnalysisRequest" options="{'no_create': True}" attrs="{'readonly': [('State', '=', 'closed')]}"></field>
                             </page>
-                            <page string="Manage Result" attrs="{'invisible': ['|',('id', '=', False),('State', '=', 'closed')]}">
+                            <page string="Manage Result" attrs="{'invisible': [('id', '=', False)]}">
                                 <group string="Attachments">
                                     <label for="AttachmentFile" string="Attachment File"/>
                                     <field name="AttachmentFile" nolabel='1'></field>
@@ -2502,16 +2502,6 @@
                                         <field name="due_date" string="Due Date" readonly="1"/>
                                         <field name="state" string="State" readonly="1"/>
                                     </tree>
-                                    <!-- <form string="Manage Results" create="false">
-                                        <field name="client" string="Client" readonly="1"/>
-                                        <field name="request_analysis_id" string="Request ID" readonly="1"/>
-                                        <field name="sample_type" string="Sample Type" readonly="1"/>
-                                        <field name="analysis" string="Analysis"/>
-                                        <field name="priority" string="Priority" readonly="1"/>
-                                        <field name="result" string="Result"/>
-                                        <field name="captured" string="+-"/>
-                                        <field name="due_date" string="Due Date" readonly="1"/>
-                                    </form> -->
                                 </field>
                             </page>
                             <page string="Add Blank Reference" attrs="{'invisible': ['|',('id', '=', False),('State', 'in', ['verified', 'closed'])]}">
