@@ -915,9 +915,9 @@
             <field name="arch" type="xml">
                 <form string="State Form">
                     <label for="name" string="State"/>
-                    <field name="name"></field>    
+                    <field name="name"></field>
                     <label for="Country" string="Country"/>
-                    <field name="Country"></field>
+                    <field name="Country" options="{'no_create': True}"></field>
                 </form>
             </field>
         </record>
@@ -3364,9 +3364,9 @@
                 	<field name="EmailAddress"></field>
                 	<group col='2' string='Physical Address'>
                     <label for='physical_country' string='Country'/>
-                    <field name="physical_country" nolabel='1'></field>
+                    <field name="physical_country" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
                     <label for='physical_state' string='State'/>
-                    <field name="physical_state" nolabel='1'></field>
+                    <field name="physical_state" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
                     <label for='physical_district' string='District'/>
                     <field name="physical_district" nolabel='1'></field>
                     <label for='physical_city' string='city'/>
@@ -3378,9 +3378,9 @@
                     </group>
                     <group col='2' string='Postal Address'>
                     <label for='postal_country' string='Country'/>
-                    <field name="postal_country" nolabel='1'></field>
+                    <field name="postal_country" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
                     <label for='postal_state' string='State'/>
-                    <field name="postal_state" nolabel='1'></field>
+                    <field name="postal_state" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
                     <label for='postal_district' string='District'/>
                     <field name="postal_district" nolabel='1'></field>
                     <label for='postal_city' string='city'/>
@@ -3392,9 +3392,9 @@
                     </group>
                     <group col='2' string='Billing Address'>
                     <label for='billing_country' string='Country'/>
-                    <field name="billing_country" nolabel='1'></field>
+                    <field name="billing_country" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
                     <label for='billing_state' string='State'/>
-                    <field name="billing_state" nolabel='1'></field>
+                    <field name="billing_state" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
                     <label for='billing_district' string='District'/>
                     <field name="billing_district" nolabel='1'></field>
                     <label for='billing_city' string='city'/>
@@ -3481,9 +3481,9 @@
                     <field name="Fullname"></field>
                     <group col='2' string='Physical Address'>
                     <label for='physical_country' string='Country'/>
-                    <field name="physical_country" nolabel='1'></field>
+                    <field name="physical_country" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
                     <label for='physical_state' string='State'/>
-                    <field name="physical_state" nolabel='1'></field>
+                    <field name="physical_state" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
                     <label for='physical_district' string='District'/>
                     <field name="physical_district" nolabel='1'></field>
                     <label for='physical_city' string='city'/>
@@ -3495,9 +3495,9 @@
                     </group>
                     <group col='2' string='Postal Address'>
                     <label for='postal_country' string='Country'/>
-                    <field name="postal_country" nolabel='1'></field>
+                    <field name="postal_country" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
                     <label for='postal_state' string='State'/>
-                    <field name="postal_state" nolabel='1'></field>
+                    <field name="postal_state" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
                     <label for='postal_district' string='District'/>
                     <field name="postal_district" nolabel='1'></field>
                     <label for='postal_city' string='city'/>
@@ -3588,9 +3588,9 @@
                             <group col='4' string='Physical Address'>
                                 <group col='2'>
                                     <label for='physical_country' string='Country'/>
-                                    <field name="physical_country" nolabel='1'></field>
+                                    <field name="physical_country" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
                                     <label for='physical_state' string='State'/>
-                                    <field name="physical_state" nolabel='1'></field>
+                                    <field name="physical_state" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
                                     <label for='physical_district' string='District'/>
                                     <field name="physical_district" nolabel='1'></field>
                                     <label for='physical_city' string='city'/>
@@ -3608,9 +3608,9 @@
                             <group col='4' string='Postal Address'>
                                 <group col='2'>
                                     <label for='postal_country' string='Country'/>
-                                    <field name="postal_country" nolabel='1'></field>
+                                    <field name="postal_country" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
                                     <label for='postal_state' string='State'/>
-                                    <field name="postal_state" nolabel='1'></field>
+                                    <field name="postal_state" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
                                     <label for='postal_district' string='District'/>
                                     <field name="postal_district" nolabel='1'></field>
                                     <label for='postal_city' string='city'/>
@@ -3774,9 +3774,9 @@
 		                    <group col='4' string='Physical Address'>
 		                        <group col='2'>
 				                    <label for='physical_country' string='Country'/>
-				                    <field name="physical_country" nolabel='1'></field>
+				                    <field name="physical_country" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
 				                    <label for='physical_state' string='State'/>
-				                    <field name="physical_state" nolabel='1'></field>
+				                    <field name="physical_state" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
 				                    <label for='physical_district' string='District'/>
 				                    <field name="physical_district" nolabel='1'></field>
 				                    <label for='physical_city' string='City'/>
@@ -3794,9 +3794,9 @@
 		                    <group col='4' string='Postal Address'>
 		                        <group col='2'>
 				                    <label for='postal_country' string='Country'/>
-				                    <field name="postal_country" nolabel='1'></field>
+				                    <field name="postal_country" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
 				                    <label for='postal_state' string='State'/>
-				                    <field name="postal_state" nolabel='1'></field>
+				                    <field name="postal_state" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
 				                    <label for='postal_district' string='District'/>
 				                    <field name="postal_district" nolabel='1'></field>
 				                    <label for='postal_city' string='City'/>
@@ -3814,9 +3814,9 @@
 		                    <group col='4' string='Billing Address'>
 		                        <group col='2'>
 				                    <label for='billing_country' string='Country'/>
-				                    <field name="billing_country" nolabel='1'></field>
+				                    <field name="billing_country" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
 				                    <label for='billing_state' string='State'/>
-				                    <field name="billing_state" nolabel='1'></field>
+				                    <field name="billing_state" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
 				                    <label for='billing_district' string='District'/>
 				                    <field name="billing_district" nolabel='1'></field>
 				                    <label for='billing_city' string='City'/>
@@ -4019,9 +4019,9 @@
                 	<group col='4' string='Physical Address'>
 	                	<group col='2'>    
 		                    <label for='physical_country' string='Country'/>
-		                    <field name="physical_country" nolabel='1'></field>
+		                    <field name="physical_country" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
 		                    <label for='physical_state' string='State'/>
-		                    <field name="physical_state" nolabel='1'></field>
+		                    <field name="physical_state" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
 		                    <label for='physical_district' string='District'/>
 		                    <field name="physical_district" nolabel='1'></field>
 		                    <label for='physical_city' string='City'/>
@@ -4039,9 +4039,9 @@
                     <group col='4' string='Postal Address'>
                         <group col='2'>  
 		                    <label for='postal_country' string='Country'/>
-		                    <field name="postal_country" nolabel='1'></field>
+		                    <field name="postal_country" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
 		                    <label for='postal_state' string='State'/>
-		                    <field name="postal_state" nolabel='1'></field>
+		                    <field name="postal_state" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
 		                    <label for='postal_district' string='District'/>
 		                    <field name="postal_district" nolabel='1'></field>
 		                    <label for='postal_city' string='City'/>
@@ -4059,9 +4059,9 @@
                     <group col='4' string='Billing Address'>
                         <group col='2'>
 		                    <label for='billing_country' string='Country'/>
-		                    <field name="billing_country" nolabel='1'></field>
+		                    <field name="billing_country" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
 		                    <label for='billing_state' string='State'/>
-		                    <field name="billing_state" nolabel='1'></field>
+		                    <field name="billing_state" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
 		                    <label for='billing_district' string='District'/>
 		                    <field name="billing_district" nolabel='1'></field>
 		                    <label for='billing_city' string='City'/>
@@ -4208,9 +4208,9 @@
 		                    <group col='4' string='Physical Address'>
 			                    <group col='2'>
 				                    <label for='physical_country' string='Country'/>
-				                    <field name="physical_country" nolabel='1'></field>
+				                    <field name="physical_country" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
 				                    <label for='physical_state' string='State'/>
-				                    <field name="physical_state" nolabel='1'></field>
+				                    <field name="physical_state" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
 				                    <label for='physical_district' string='District'/>
 				                    <field name="physical_district" nolabel='1'></field>
 				                    <label for='physical_city' string='City'/>
@@ -4228,9 +4228,9 @@
 		                    <group col='4' string='Postal Address'>
 			                    <group col='2'>
 				                    <label for='postal_country' string='Country'/>
-				                    <field name="postal_country" nolabel='1'></field>
+				                    <field name="postal_country" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
 				                    <label for='postal_state' string='State'/>
-				                    <field name="postal_state" nolabel='1'></field>
+				                    <field name="postal_state" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
 				                    <label for='postal_district' string='District'/>
 				                    <field name="postal_district" nolabel='1'></field>
 				                    <label for='postal_city' string='City'/>
@@ -4328,9 +4328,9 @@
                             <group col='4' string='Physical Address'>
                                 <group col='2'>
                                     <label for='physical_country' string='Country'/>
-                                    <field name="physical_country" nolabel='1'></field>
+                                    <field name="physical_country" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
                                     <label for='physical_state' string='State'/>
-                                    <field name="physical_state" nolabel='1'></field>
+                                    <field name="physical_state" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
                                     <label for='physical_district' string='District'/>
                                     <field name="physical_district" nolabel='1'></field>
                                     <label for='physical_city' string='city'/>
@@ -4348,9 +4348,9 @@
                             <group col='4' string='Postal Address'>
                                 <group col='2'>
                                     <label for='postal_country' string='Country'/>
-                                    <field name="postal_country" nolabel='1'></field>
+                                    <field name="postal_country" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
                                     <label for='postal_state' string='State'/>
-                                    <field name="postal_state" nolabel='1'></field>
+                                    <field name="postal_state" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
                                     <label for='postal_district' string='District'/>
                                     <field name="postal_district" nolabel='1'></field>
                                     <label for='postal_city' string='city'/>
@@ -4453,9 +4453,9 @@
                               <group col='4' string='Physical Address'>
                               	<group col='2'>
 	                                <label for='physical_country' string='Country'/>
-	                                <field name="physical_country" nolabel='1'></field>
+	                                <field name="physical_country" nolabel='1' options="{'no_create': True,'no_open': True}"></field>
 	                                <label for='physical_state' string='State'/>
-	                                <field name="physical_state" nolabel='1'></field>
+	                                <field name="physical_state" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
 	                                <label for='physical_district' string='District' invisible="1"/>
 	                                <field name="physical_district" nolabel='1' invisible="1"></field>
 	                                <label for='physical_city' string='city'/>
@@ -4473,9 +4473,9 @@
                             <group col='4' string='Postal Address'>
                                 <group col='2'>
                                 <label for='postal_country' string='Country'/>
-                                <field name="postal_country" nolabel='1'></field>
+                                <field name="postal_country" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
                                 <label for='postal_state' string='State'/>
-                                <field name="postal_state" nolabel='1'></field>
+                                <field name="postal_state" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
                                 <label for='postal_district' string='District' invisible="1"/>
                                 <field name="postal_district" nolabel='1' invisible="1"></field>
                                 <label for='postal_city' string='city'/>
@@ -4493,9 +4493,9 @@
                             <group col='4' string='Billing Address'>
                                 <group col='2'>
                                 <label for='billing_country' string='Country'/>
-                                <field name="billing_country" nolabel='1'></field>
+                                <field name="billing_country" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
                                 <label for='billing_state' string='State'/>
-                                <field name="billing_state" nolabel='1'></field>
+                                <field name="billing_state" nolabel='1' options="{'no_create': True, 'no_open': True}"></field>
                                 <label for='billing_district' string='District' invisible="1"/>
                                 <field name="billing_district" nolabel='1' invisible="1"></field>
                                 <label for='billing_city' string='city'/>
