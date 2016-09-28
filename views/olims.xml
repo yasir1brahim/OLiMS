@@ -79,7 +79,7 @@
                     <field name="ClientReference"></field>
                     <field name="ClientSampleID"></field>
                     <field name="Priority"></field>
-                    <field name="Sampler"></field>
+                    <field name="Sampler" string="Transporter"></field>
                 </tree>
             </field>
         </record>
@@ -1928,7 +1928,7 @@
                             </div>
                         </group>
                         <group>
-                            <label for="Sampler" string="Sampler"/>
+                            <label for="Sampler" string="Transporter"/>
                             <div>
                                 <field name="Sampler" options="{'no_create': True}" nolabel="1"></field>
                                 <field name="Sampler1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
@@ -2315,7 +2315,7 @@
                     <field name="ReportDryMatter"></field>
                     <field name="InvoiceExclude"></field> -->
                     <field name="Priority"></field>
-                    <field name="Sampler"></field>
+                    <field name="Sampler" string="Transporter"></field>
                     <field name="state"></field>
                     <!-- <field name="Discount"></field>
                     <field name="Subtotal"></field>
