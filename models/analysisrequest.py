@@ -796,6 +796,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'StorageLocation': ar_values.get('StorageLocation'),
             'SamplingDeviation': ar_values.get('SamplingDeviation'),
             'SampleCondition': ar_values.get('SampleCondition'),
+            "LotID": ar_values.get('LotID'),
         }
         sample_object = self.env["olims.sample"]
         new_sample = sample_object.create(smaple_vals_dict)

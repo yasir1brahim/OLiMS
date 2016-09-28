@@ -2711,8 +2711,8 @@
                     <field name="ClientReference"></field>
                     <label for="ClientSampleID" string="Client Sample ID"/>
                 	<field name="ClientSampleID"></field>
-                    <!--<label for="LinkedSample" string="Linked Sample"/>
-                    <field name="LinkedSample"></field>-->
+                    <label for="LotID" string="Lot ID"/>
+                    <field name="LotID"></field>
                     <label for="SampleType" string="Sample Type"/>
                 	<field name="SampleType"></field>
                     <label for="SamplingDate" string="Sampling Date"/>
@@ -2821,7 +2821,7 @@
                     <field name="create_uid"></field>
                     <field name="ClientReference"></field>
                 	<field name="ClientSampleID"></field>
-                    <!--<field name="LinkedSample"></field>-->
+                    <field name="LotID" string="Lot ID"></field>
                 	<field name="SampleType"></field>
                     <!--<field name="SamplePoint"></field>
                     <field name="StorageLocation"></field>

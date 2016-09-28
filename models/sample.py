@@ -108,6 +108,9 @@ schema = (StringField('name',
     fields.Many2one(string='Analysis_Request',
            comodel_name = 'olims.analysis_request',
     ),
+    StringField(
+        'LotID',
+    ),
 )
 
 
