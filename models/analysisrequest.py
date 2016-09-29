@@ -82,17 +82,21 @@ schema = (fields.Char(string='RequestID',
                     relation='ar__cc_contact',
                     required=False
     ),
-    StringField(
-        'CCEmails',
+    fields.Many2many(
+        string='CCEmails',
+        comodel_name="olims.email"
     ),
-    StringField(
-        'CCEmails1',
+    fields.Many2many(
+        string='CCEmails1',
+        comodel_name="olims.email"
     ),
-    StringField(
-        'CCEmails2',
+    fields.Many2many(
+        string='CCEmails2',
+        comodel_name="olims.email"
     ),
-    StringField(
-        'CCEmails3',
+    fields.Many2many(
+        string='CCEmails3',
+        comodel_name="olims.email"
     ),
     fields.Char(string='Sample',
                         compute='Compute_AnalysisSample',

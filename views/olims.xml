@@ -1829,21 +1829,12 @@
                                 </div>
                             </group>
                             <group>
-                                <label for="ClientSampleID" string="Client Sample ID"/>
+                                <label for="SamplingDate" string="Sampling Date"/>
                                 <div>
-                                    <field name="ClientSampleID" nolabel="1"></field>
-                                    <field name="ClientSampleID1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                    <field name="ClientSampleID2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                    <field name="ClientSampleID3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                </div>
-                            </group>
-                            <group>
-                                <label for="LotID" string="Lot ID"/>
-                                <div>
-                                    <field name="LotID" nolabel="1"></field>
-                                    <field name="LotID1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                    <field name="LotID2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                    <field name="LotID3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="SamplingDate" nolabel="1"></field>
+                                    <field name="SamplingDate1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="SamplingDate2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="SamplingDate3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 </div>
                             </group>
                             <group>
@@ -1867,12 +1858,39 @@
                         <group>
                             <label for="CCEmails" string="CCEmails"/>
                             <div>
-                                <field name="CCEmails" nolabel="1"></field>
-                                <field name="CCEmails1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                <field name="CCEmails2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                <field name="CCEmails3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="CCEmails" nolabel="1" widget="many2many_tags" options="{'no_create': True}" domain="['|',('client_id','=',context.get('client_context')),('client_id','=',Client)]"></field>
+                                <field name="CCEmails1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" widget="many2many_tags" options="{'no_create': True}" domain="['|',('client_id','=',context.get('client_context')),('client_id','=',Client)]"></field>
+                                <field name="CCEmails2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" widget="many2many_tags" options="{'no_create': True}" domain="['|',('client_id','=',context.get('client_context')),('client_id','=',Client)]"></field>
+                                <field name="CCEmails3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" widget="many2many_tags" options="{'no_create': True}" domain="['|',('client_id','=',context.get('client_context')),('client_id','=',Client)]"></field>
                             </div>
                         </group>
+                        <group>
+                                <label for="ClientSampleID" string="Client Sample ID"/>
+                                <div>
+                                    <field name="ClientSampleID" nolabel="1"></field>
+                                    <field name="ClientSampleID1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="ClientSampleID2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="ClientSampleID3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                </div>
+                            </group>
+                            <group>
+                                <label for="LotID" string="Lot ID"/>
+                                <div>
+                                    <field name="LotID" nolabel="1"></field>
+                                    <field name="LotID1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="LotID2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="LotID3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                </div>
+                            </group>
+                            <group>
+                                <label for="SampleType" string="Sample Type"/>
+                                <div>
+                                    <field name="SampleType" options="{'no_create': True}" nolabel="1"></field>
+                                    <field name="SampleType1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="SampleType2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="SampleType3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                </div>
+                            </group>
                         <group>
                             <label for="Sample_id" string="Sample"/>
                             <div>
@@ -1880,6 +1898,24 @@
                                 <field name="Sample_id1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="Sample_id2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="Sample_id3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="AnalysisProfile" string="Analysis Profile" attrs="{'invisible': [('id', '!=', False)]}"/>
+                            <div>
+                                <field name="AnalysisProfile" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="AnalysisProfile1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="AnalysisProfile2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="AnalysisProfile3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="Sampler" string="Transporter"/>
+                            <div>
+                                <field name="Sampler" options="{'no_create': True}" nolabel="1"></field>
+                                <field name="Sampler1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Sampler2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Sampler3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             </div>
                         </group>
                         <group>
@@ -1907,42 +1943,6 @@
                                 <field name="Template1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="Template2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="Template3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                            </div>
-                        </group>
-                        <group>
-                            <label for="AnalysisProfile" string="Analysis Profile" attrs="{'invisible': [('id', '!=', False)]}"/>
-                            <div>
-                                <field name="AnalysisProfile" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                <field name="AnalysisProfile1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                <field name="AnalysisProfile2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                <field name="AnalysisProfile3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                            </div>
-                        </group>
-                        <group>
-                            <label for="SamplingDate" string="Sampling Date"/>
-                            <div>
-                                <field name="SamplingDate" nolabel="1"></field>
-                                <field name="SamplingDate1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                <field name="SamplingDate2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                <field name="SamplingDate3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                            </div>
-                        </group>
-                        <group>
-                            <label for="Sampler" string="Transporter"/>
-                            <div>
-                                <field name="Sampler" options="{'no_create': True}" nolabel="1"></field>
-                                <field name="Sampler1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                <field name="Sampler2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                <field name="Sampler3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                            </div>
-                        </group>
-                        <group>
-                            <label for="SampleType" string="Sample Type"/>
-                            <div>
-                                <field name="SampleType" options="{'no_create': True}" nolabel="1"></field>
-                                <field name="SampleType1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                <field name="SampleType2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                <field name="SampleType3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             </div>
                         </group>
                         <group>
@@ -4407,6 +4407,7 @@
                     <sheet>
                     <notebook>
                         <page string="Default" name="Default Page" class="oe_edit_only">
+                            <field name="id" invisible="1"/>
                             <label for="Name" string="Name" name="Name"/>
                             <field name="Name"></field>
                             <label for="ClientID" string="Client ID" name="Client ID"/>
@@ -4417,6 +4418,8 @@
                             <field name="Phone"></field>
                             <label for="Fax" string="Fax" name="Fax"/>
                             <field name="Fax"></field>
+                            <!-- <label for="email" string="Email Address"/>
+                            <field name="email" widget="many2many_tags" options="{'no_create_edit': True}"></field> -->
                             <label for="BulkDiscount" string="Bulk Discount" name="Bulk Discount"/>
                             <field name="BulkDiscount"></field>
                             <br/>
