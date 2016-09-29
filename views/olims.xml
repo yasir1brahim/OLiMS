@@ -67,19 +67,20 @@
             <field name="priority" eval="1"/>
             <field name="arch" type="xml">
                 <tree string="Analysis Request" create="false" delete="false">
-                    <field name="RequestID"></field>
+                    <field name="RequestID" string="Request ID"></field>
                     <field name="Sample"></field>
                     <field name="Batch"></field>
                     <field name="SubGroup"></field>
                     <field name="Client"></field>
                     <field name="create_uid"></field>
-                    <field name="SamplingDate"></field>
-                    <field name="SampleType"></field>
+                    <field name="SamplingDate" string="Sampling Date"></field>
+                    <field name="SampleType" string="Sample Type"></field>
                     <field name="LotID" string="Lot ID"></field>
-                    <field name="ClientReference"></field>
-                    <field name="ClientSampleID"></field>
+                    <field name="ClientReference" string="Client Reference"></field>
+                    <field name="ClientSampleID" string="Client Sample ID"></field>
                     <field name="Priority"></field>
                     <field name="Sampler" string="Transporter"></field>
+                    <field name="state" string="State"/>
                 </tree>
             </field>
         </record>
@@ -2288,7 +2289,7 @@
             <field name="priority" eval="2"/>
             <field name="arch" type="xml">
                 <tree string="Analysis Request" create="false" delete="false">
-                    <field name="RequestID"></field>
+                    <field name="RequestID" string="Request ID"></field>
                     <!-- <field name="Contact"></field>
                 	<field name="CCContact"></field>
                     <field name="CCEmails"></field>-->
@@ -2299,14 +2300,14 @@
                     <field name="create_uid"></field>
                     <!-- <field name="Template"></field>
                     <field name="AnalysisProfile"></field> -->
-                    <field name="SamplingDate"></field>
-                    <field name="SampleType"></field>
+                    <field name="SamplingDate" string="Sampling Date"></field>
+                    <field name="SampleType" string="Sample Type"></field>
                     <!-- <field name="Specification"></field>
                     <field name="SamplePoint"></field>
                     <field name="StorageLocation"></field> -->
                     <field name="LotID" string="Lot ID"></field>
-                    <field name="ClientReference"></field>
-                    <field name="ClientSampleID"></field>
+                    <field name="ClientReference" string="Client Reference"></field>
+                    <field name="ClientSampleID" string="Client Sample ID"></field>
                     <!-- <field name="SamplingDeviation"></field>
                     <field name="SampleCondition"></field>
                     <field name="DefaultContainerType"></field>
@@ -2316,7 +2317,7 @@
                     <field name="InvoiceExclude"></field> -->
                     <field name="Priority"></field>
                     <field name="Sampler" string="Transporter"></field>
-                    <field name="state"></field>
+                    <field name="state" string="State"></field>
                     <!-- <field name="Discount"></field>
                     <field name="Subtotal"></field>
                     <field name="VAT"></field>
