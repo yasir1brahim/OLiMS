@@ -1,118 +1,27 @@
 <openerp>
 <data>
 <template id="report_ws_manage_results_document">
-    <t t-call="report.external_layout">
-        <div class="page">
-            <div class="row mt32">
-                <div align="right">
-                     <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=%s' % 
+        <div class="header">
+            <h1 align="left"><strong><t t-esc="doc.Worksheet"/></strong></h1>
+                     <img align="right" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=%s' % 
                 ('Standard39', doc.Worksheet, 250, 50, 1)"/>
-                </div>
-            </div>
-            <div class="row mt32">
-                <div class="col-xs-12">
-                     <h1><strong><p t-field="doc.Worksheet"/></strong></h1>
-                </div>
-            </div>
-            <div class="row mt32">
-                <div class="col-xs-12">
-                    Created on
-                     <span t-esc="doc.create_date"/> by <span t-esc="doc.create_uid.name"/>
-                     <br/>
-                     Printed on <span t-esc="time.strftime('%Y-%m-%d %H:%M:%S')"/> by <span t-esc="user.partner_id.name"/>
-                     <br/>
-                     Analysed by: <span t-esc="doc.Analyst.name"/>
-                </div>
-            </div>
-            <section>
-            </section>
- 
-            <table class="table table-condensed">
-                <tbody>
-                    <tr>
-                        <t t-set="ar_id" t-value="False"/>
-                        <td></td>
-                        <td t-foreach="doc.ManageResult" t-as="result">
-                            <t t-if="ar_id != result.request_analysis_id.RequestID" >
-                                <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=%s' %('Standard39', result.request_analysis_id.RequestID, 250, 50, 1)"/>
-                            </t>
-                            <t t-set="ar_id" t-value="result.request_analysis_id.RequestID"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Request ID</td>
-                        <t t-set="ar_id" t-value="False"/>
-                        <td t-foreach="doc.ManageResult" t-as="result">
-                            <t t-if="ar_id != result.request_analysis_id.RequestID" >
-                                <span t-esc="result.request_analysis_id.RequestID"/>
-                            </t>
-                            <t t-set="ar_id" t-value="result.request_analysis_id.RequestID"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Client</td>
-                        <t t-set="ar_id" t-value="False"/>
-                        <td t-foreach="doc.ManageResult" t-as="result">
-                            <t t-if="ar_id != result.request_analysis_id.RequestID" >
-                                <span t-esc="result.client.Name"/>
-                            </t>
-                            <t t-set="ar_id" t-value="result.request_analysis_id.RequestID"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Sample Type</td>
-                        <t t-set="ar_id" t-value="False"/>
-                        <td t-foreach="doc.ManageResult" t-as="result">
-                            <t t-if="ar_id != result.request_analysis_id.RequestID" >
-                                <span t-esc="result.sample_type.SampleType"/>
-                            </t>
-                            <t t-set="ar_id" t-value="result.request_analysis_id.RequestID"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td >Sample</td>
-                        <t t-set="sample_id" t-value="False"/>
-                        <td t-foreach="doc.ManageResult" t-as="result">
-                            <t t-if="sample_id != result.sample.id">
-                                <span t-esc="result.sample.name"/>
-                            </t>
-                            <t t-set="sample_id" t-value="result.sample.id"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td >Sampling Date</td>
-                        <t t-set="sampling_date" t-value="False"/>
-                        <td t-foreach="doc.ManageResult" t-as="result">
-                            <t t-if="sampling_date != result.sampling_date">
-                                <span t-esc="result.sampling_date"/>
-                            </t>
-                            <t t-set="sampling_date" t-value="result.sampling_date"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td >Date Received</td>
-                        <t t-set="receive_date" t-value="False"/>
-                        <td t-foreach="doc.ManageResult" t-as="result">
-                            <t t-if="receive_date != result.received_date">
-                                <span t-esc="result.received_date"/>
-                            </t>
-                            <t t-set="receive_date" t-value="result.received_date"/>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        </div>
+        <div class="page">
             <h2>Analyses</h2>
                 <table class="table table-condensed">
                     <thead>
                         <tr>
-                            <th>Name</th>
+                            <th>AR ID</th>
+                            <th>Analysis</th>
                             <th>Sample Type</th>
-                            <th>Sample</th>
-                            <th>Results</th>
+                            <th>Client</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr t-foreach="doc.ManageResult" t-as="m_result">
+                            <td>
+                                <span t-esc="m_result.request_analysis_id.RequestID"/>
+                            </td>
                             <t t-set="ar_service" t-value="m_result.analysis.Service"/>
                             <td>
                                 <t t-if="m_result.request_analysis_id.Field_Manage_Result">
@@ -138,10 +47,7 @@
                                 <span t-esc="m_result.sample_type.SampleType"/>
                             </td>
                             <td>
-                                <span t-esc="m_result.sample.name"/>
-                            </td>
-                            <td>
-                                <span t-esc="m_result.result"/>
+                                <span t-esc="m_result.client.Name"/>
                             </td>
                         </tr>
                     </tbody>
@@ -150,7 +56,6 @@
             <br/>
             <br/>
         </div>
-    </t>
 </template>
  
 <template id="report_ws_manage_results">
