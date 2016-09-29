@@ -68,6 +68,7 @@
         'views/print_sample_labels.xml',
         'views/mail_template_data.xml',
         'wizard/message_dialog_box.xml',
+        'views/analysis_request_labels.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

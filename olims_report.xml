@@ -122,6 +122,14 @@
             name="olims.print_sample_labels"
             file="olims.print_sample_labels"
             />
+            <report
+            id="action_print_sample_labels"
+            model="olims.analysis_request"
+            string="Analysis Request Labels"
+            report_type="qweb-pdf"
+            name="olims.analysis_request_labels"
+            file="olims.analysis_request_labels"
+            />
             
     </data>
 </openerp>
