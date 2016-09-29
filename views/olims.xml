@@ -4417,8 +4417,6 @@
                             <field name="Phone"></field>
                             <label for="Fax" string="Fax" name="Fax"/>
                             <field name="Fax"></field>
-                            <label for="Email Address" string="Email Address" name="Email Address"/>
-                            <field name="Email Address"></field>
                             <label for="BulkDiscount" string="Bulk Discount" name="Bulk Discount"/>
                             <field name="BulkDiscount"></field>
                             <br/>
@@ -4517,8 +4515,16 @@
                             <field name="DecimalMark"></field>
                             <field name="id" invisible="1" />
                         </page>
-                        <page string="Batches" attrs="{'invisible': [('id', '=', False)]}">
+                        <page string="Email Addresses" attrs="{'invisible': [('id', '=', False)]}">
+                            <label for="email" string="Email Address"/>
+                            <field name="email">
+                                <tree editable="top" delete="false">
+                                    <field name="name" string="Email"/>
+                                </tree>
+                            </field>
                         </page>
+                        <!-- <page string="Batches" attrs="{'invisible': [('id', '=', False)]}">
+                        </page> -->
                          <page string="Analysis Requests" attrs="{'invisible': [('id', '=', False)]}">
                             <header>
                                 <button name="%(analysis_request_form_action)d" string="Add Analysis Request" type="action" class="oe_highlight"/>
@@ -4594,7 +4600,7 @@
                         <field name="Fax" position="attributes">
                             <attribute name='invisible'>{'invisible': [('id', '!=', False)]}</attribute>
                         </field>
-                        <field name="Email Address" position="attributes">
+                        <field name="email" position="attributes">
                             <attribute name='invisible'>{'invisible': [('id', '!=', False)]}</attribute>
                         </field>
                         <field name="BulkDiscount" position="attributes">
@@ -4618,7 +4624,7 @@
                         <label for="Fax" name="Fax" position="attributes">
                             <attribute name='invisible'>{'invisible': [('id', '!=', False)]}</attribute>
                         </label>
-                        <label for="Email Address" name="Email Address" position="attributes">
+                        <label for="email" name="Email Address" position="attributes">
                             <attribute name='invisible'>{'invisible': [('id', '!=', False)]}</attribute>
                         </label>
                         <label for="BulkDiscount" name="Bulk Discount" position="attributes">
@@ -4674,7 +4680,7 @@
                 <tree string="Client">
                     <field name="Name"></field>
                     <!--<field name="TaxNumber"></field>-->
-                    <field name="Email Address"></field>
+                    <!-- <field name="email" string="Email Address"></field> -->
                     <field name="Phone"></field>
                     <field name="Fax"></field>
                     <!--<field name="AccountType"></field>
@@ -5845,6 +5851,32 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="search_view_id" ref="view_add_analysis_filter"/>   
-        </record>                                         
+        </record>
+        <record model="ir.ui.view" id="olims_email_tree_view">
+            <field name="name">email.tree</field>
+            <field name="model">olims.email</field>
+            <field name="arch" type="xml">
+                <tree string="Email" edit='false' delete='false'>
+                    <field name="name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="olims_email_form_view" model="ir.ui.view">
+            <field name="name">email.form</field>
+            <field name="model">olims.email</field>
+            <field name="arch" type="xml">
+                <form string="Email">
+                    <field name="name"/>
+               </form>
+            </field>
+        </record>
+        <record id="action_add_analysis" model="ir.actions.act_window">
+            <field name="name">Email</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">olims.email</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
     </data>
 </openerp>
