@@ -29,9 +29,9 @@ AR_STATES = (
     )
 COPY_OPTIONS=(
     ('0','Select-to-copy'),
-    ('1', '1'),
-    ('2', '2'),
-    ('3', '3')
+    ('1', '2'),
+    ('2', '3'),
+    ('3', '4')
     )
 
 schema = (fields.Char(string='RequestID',
