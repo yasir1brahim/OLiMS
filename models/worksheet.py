@@ -125,33 +125,40 @@ class Worksheet(models.Model, BaseOLiMSModel):
         data_list = []
         count = 0
         if values.get("AnalysisRequest", None):
-            for items in sorted(values["AnalysisRequest"][0][2]):
-                count += 1
-                values_dict_manage_results = {}
-                add_analysis_obj = self.env["olims.add_analysis"].browse(items)
-                add_analysis_obj.write({'state':'assigned'})
-                cont = False
-                for record in self.ManageResult:
-                    if record.request_analysis_id.id == add_analysis_obj.add_analysis_id.id and record.analysis.id == add_analysis_obj.analysis.id:
-                        cont = True
-                if cont:
-                    continue
+            if values["AnalysisRequest"][0][0] == 6:
+                for items in sorted(values["AnalysisRequest"][0][2]):
+                    count += 1
+                    values_dict_manage_results = {}
+                    add_analysis_obj = self.env["olims.add_analysis"].browse(items)
+                    add_analysis_obj.write({'state':'assigned'})
+                    cont = False
+                    for record in self.ManageResult:
+                        if record.request_analysis_id.id == add_analysis_obj.add_analysis_id.id and record.analysis.id == add_analysis_obj.analysis.id:
+                            cont = True
+                    if cont:
+                        continue
 
-                values_dict_manage_results.update({"request_analysis_id":add_analysis_obj.add_analysis_id.id,
-                    "analysis": add_analysis_obj.analysis.id,
-                    "client":add_analysis_obj.client.id,
-                    "due_date": add_analysis_obj.due_date,
-                    "received_date": add_analysis_obj.received_date,
-                    "sampling_date": add_analysis_obj.add_analysis_id.SamplingDate,
-                    "sample_type": add_analysis_obj.add_analysis_id.SampleType.id,
-                    "sample": add_analysis_obj.add_analysis_id.Sample_id.id,
-                    "analyst": self.Analyst.id,
-                    "instrument": self.Instrument.id,
-                    "priority": add_analysis_obj.priority.id,
-                    "position": count})
-                rec_id = self.env["olims.ws_manage_results"].create(values_dict_manage_results)
-                data_list.append([4,rec_id.id])
-            values.update({"ManageResult": data_list})
+                    values_dict_manage_results.update({"request_analysis_id":add_analysis_obj.add_analysis_id.id,
+                        "analysis": add_analysis_obj.analysis.id,
+                        "client":add_analysis_obj.client.id,
+                        "due_date": add_analysis_obj.due_date,
+                        "received_date": add_analysis_obj.received_date,
+                        "sampling_date": add_analysis_obj.add_analysis_id.SamplingDate,
+                        "sample_type": add_analysis_obj.add_analysis_id.SampleType.id,
+                        "sample": add_analysis_obj.add_analysis_id.Sample_id.id,
+                        "analyst": self.Analyst.id,
+                        "instrument": self.Instrument.id,
+                        "priority": add_analysis_obj.priority.id,
+                        "position": count})
+                    rec_id = self.env["olims.ws_manage_results"].create(values_dict_manage_results)
+                    data_list.append([4,rec_id.id])
+                values.update({"ManageResult": data_list})
+            elif values["AnalysisRequest"][0][0] == 3:
+                add_analysis_obj = self.env["olims.add_analysis"].browse(values["AnalysisRequest"][0][1])
+                for record in self.ManageResult:
+                        if record.request_analysis_id.id == add_analysis_obj.add_analysis_id.id and record.analysis.id == add_analysis_obj.analysis.id:
+                            values.update({"ManageResult": [(3, record.id)]})
+
         return super(Worksheet, self).write(values)
 
 
@@ -964,6 +971,21 @@ class AddAnalysis(models.Model):
     def create(self, values):
         res = super(AddAnalysis, self).create(values)
         return res
+
+    @api.multi
+    def unlink(self):
+        self.write({"state": 'unassigned'})
+        ws_add_analysis_obj = self.env["olims.worksheet"].search([("AnalysisRequest", '=', self.id)])
+        ws_add_analysis_obj.write({"AnalysisRequest": [(3, self.id)]})
+        if ws_add_analysis_obj.id:
+            return {
+                'type': 'ir.actions.act_window',
+                'res_model': 'olims.worksheet',
+                'res_id': ws_add_analysis_obj.id,
+                'view_type': 'form',
+                'view_mode': 'form',
+                'target' : 'current',
+            }
 
 class WorkSheetManageResults(models.Model):
     _name = "olims.ws_manage_results"
