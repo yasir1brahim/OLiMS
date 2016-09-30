@@ -5861,7 +5861,7 @@
             <field name="name">email.tree</field>
             <field name="model">olims.email</field>
             <field name="arch" type="xml">
-                <tree string="Email" edit='false' delete='false'>
+                <tree string="Email" edit='false'>
                     <field name="name"/>
                 </tree>
             </field>
@@ -5876,12 +5876,13 @@
                </form>
             </field>
         </record>
-        <record id="action_add_analysis" model="ir.actions.act_window">
+        <record id="action_add_email" model="ir.actions.act_window">
             <field name="name">Email</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">olims.email</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
+        <menuitem id="demo_email_menu" name="Load Email Data" parent="olims_settings_menu" action="action_add_email" sequence="48"/>
     </data>
 </openerp>
