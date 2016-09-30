@@ -1829,7 +1829,7 @@ class ManageAnalyses(models.Model, BaseOLiMSModel):
                 if ws_result.state != "to_be_verified":
                     ws_all_submitted = False
                     break
-            if ws_all_submitted and worksheet.State != "closed":
+            if ws_all_submitted:
                 self.env["olims.worksheet"].browse(worksheet.id).signal_workflow("submit")
         return True
 

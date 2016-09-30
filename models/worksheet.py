@@ -107,6 +107,8 @@ schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId'),
     fields.One2many('olims.ws_refrence_contorled_analysis',
         inverse_name='ws_blank_reference_id',
         string="Add-Control-Refrence",ondelete='set null'),
+    fields.Boolean(string="marked_closed",
+        default=False)
 )
 
 
@@ -935,7 +937,7 @@ class Worksheet(models.Model, BaseOLiMSModel):
         return True
 
     def workflow_script_closed(self,cr,uid,ids,context=None):
-        self.write(cr, uid, ids,{'State': 'closed'},context)
+        self.write(cr, uid, ids,{'State': 'closed', "marked_closed": True},context)
         return True
 
 class AddAnalysis(models.Model):
@@ -1058,7 +1060,7 @@ class WorkSheetManageResults(models.Model):
             if ws_result.state != "to_be_verified" and ws_result.state != "verified":
                 ws_all_submitted = False
                 break
-        if ws_all_submitted and worksheet.State != "closed":
+        if ws_all_submitted:
             self.env["olims.worksheet"].browse(worksheet.id).signal_workflow("submit")
         return True
 
