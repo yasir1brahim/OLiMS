@@ -12,43 +12,25 @@
                     <thead>
                         <tr>
                             <th>AR ID</th>
-                            <th>Analysis</th>
                             <th>Sample Type</th>
                             <th>Client</th>
                         </tr>
                     </thead>
                     <tbody>
+                        <t t-set="ar_id" t-value="False"/>
                         <tr t-foreach="doc.ManageResult" t-as="m_result">
-                            <td>
-                                <span t-esc="m_result.request_analysis_id.RequestID"/>
-                            </td>
-                            <t t-set="ar_service" t-value="m_result.analysis.Service"/>
-                            <td>
-                                <t t-if="m_result.request_analysis_id.Field_Manage_Result">
-                                    
-                                    <span t-foreach="m_result.request_analysis_id.Field_Manage_Result" t-as="manageresult">
-                                        <t t-if="manageresult.Service.Service == ar_service">
-                                            <span t-esc="manageresult.Service.Service"/>
-                                            
-                                        </t>
-                                    </span>
-                                    <br/>
-                                </t>
-                                <t t-if="m_result.request_analysis_id.Lab_Manage_Result">
-                                    <span t-foreach="m_result.request_analysis_id.Lab_Manage_Result" t-as="manageresult">
-                                        <t t-if="manageresult.LabService.Service == ar_service">
-                                            <span t-esc="manageresult.LabService.Service"/>
-                                        </t>
-                                    </span>
-                                    <br/>
-                                </t>
-                            </td>
-                            <td>
-                                <span t-esc="m_result.sample_type.SampleType"/>
-                            </td>
-                            <td>
-                                <span t-esc="m_result.client.Name"/>
-                            </td>
+                            <t t-if="ar_id != m_result.request_analysis_id.RequestID" >
+                                <td>
+                                    <span t-esc="m_result.request_analysis_id.RequestID"/>
+                                </td>
+                                <td>
+                                    <span t-esc="m_result.sample_type.SampleType"/>
+                                </td>
+                                <td>
+                                    <span t-esc="m_result.client.Name"/>
+                                </td>
+                            </t>
+                            <t t-set="ar_id" t-value="m_result.request_analysis_id.RequestID"/>
                         </tr>
                     </tbody>
                 </table>
