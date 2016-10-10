@@ -5857,7 +5857,7 @@
                     <field name="sample_type"/>
                     <field name="received_date"/>
                     <field name="due_date"/>
-                    <button type="object" class="oe_readonly" icon="fa-trash-o" name="unlink"></button>
+                    <button type="object" class="oe_readonly" icon="fa-trash-o" name="show_warring_message_form"></button>
                 </tree>
             </field>  
         </record>

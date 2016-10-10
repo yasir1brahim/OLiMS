@@ -969,25 +969,21 @@ class AddAnalysis(models.Model):
                      copy=False, track_visibility='always'
     )
 
-    @api.model
-    def create(self, values):
-        res = super(AddAnalysis, self).create(values)
-        return res
-
     @api.multi
-    def unlink(self):
-        self.write({"state": 'unassigned'})
-        ws_add_analysis_obj = self.env["olims.worksheet"].search([("AnalysisRequest", '=', self.id)])
-        ws_add_analysis_obj.write({"AnalysisRequest": [(3, self.id)]})
-        if ws_add_analysis_obj.id:
-            return {
-                'type': 'ir.actions.act_window',
-                'res_model': 'olims.worksheet',
-                'res_id': ws_add_analysis_obj.id,
-                'view_type': 'form',
-                'view_mode': 'form',
-                'target' : 'current',
-            }
+    def show_warring_message_form(self):
+        self.ensure_one()
+        ir_model_data = self.env['ir.model.data']
+        form_id = ir_model_data.get_object_reference('olims', 'view_remove_message_dialog_box')[1]
+        return {
+            'name': _('Confirm'),
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'olims.message_dialog_box',
+            'views': [(form_id, 'form')],
+            'view_id': form_id,
+            'target': 'new',
+        }
 
 class WorkSheetManageResults(models.Model):
     _name = "olims.ws_manage_results"
