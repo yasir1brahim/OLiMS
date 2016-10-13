@@ -5877,11 +5877,16 @@
             <field name="model">olims.add_analysis</field>
             <field name="arch" type="xml">
                 <search string="Search Analyses">
-                    <!-- <field name="name" string="Sales Order" filter_domain="['|',('name','ilike',self),('client_order_ref','ilike',self)]"/> -->
                     <field name="category"/>
                     <field name="client"/>
                     <field name="analysis"/>
                     <field name="sample_type"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Category" name="group_cat_id"
+                            context="{'group_by': 'category'}"/>
+                            <filter string="Analysis Request" name="group_ar_id"
+                            context="{'group_by': 'add_analysis_id'}"/>
+                    </group>
                </search>
             </field>
         </record>
@@ -5891,7 +5896,7 @@
             <field name="res_model">olims.add_analysis</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
-            <field name="search_view_id" ref="view_add_analysis_filter"/>   
+            <field name="search_view_id" ref="view_add_analysis_filter"/>
         </record>
         <record model="ir.ui.view" id="olims_email_tree_view">
             <field name="name">email.tree</field>
@@ -5912,7 +5917,7 @@
                </form>
             </field>
         </record>
-        <record id="action_add_analysis" model="ir.actions.act_window">
+        <record id="action_add_email" model="ir.actions.act_window">
             <field name="name">Email</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">olims.email</field>
