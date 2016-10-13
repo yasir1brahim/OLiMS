@@ -2323,8 +2323,8 @@
                     <field name="SubGroup"></field>
                     <field name="Client"></field>
                     <field name="create_uid"></field>
-                    <!-- <field name="Template"></field>
-                    <field name="AnalysisProfile"></field> -->
+                    <!-- <field name="Template"></field> -->
+                    <field name="AnalysisProfile" string="Analysis Profile"></field>
                     <field name="SamplingDate" string="Sampling Date"></field>
                     <field name="SampleType" string="Sample Type"></field>
                     <!-- <field name="Specification"></field>
@@ -2350,6 +2350,15 @@
                 </tree>
             </field>
         </record>
+        <record id="view_analysis_request_filter" model="ir.ui.view">
+            <field name="name">olims.analysis_request.list.select</field>
+            <field name="model">olims.analysis_request</field>
+            <field name="arch" type="xml">
+                <search string="Search Prof">
+                    <field name="AnalysisProfile"/>
+               </search>
+            </field>
+        </record>
 
 		<record model="ir.actions.act_window" id="analysis_request_list_action">
             <field name="name">Analysis Request</field>
@@ -2357,6 +2366,7 @@
             <field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
             <field name="view_id" ref="olims_analysis_request_tree_view"/>
+            <field name="search_view_id" ref="view_analysis_request_filter"/>
        </record>
        <record model="ir.actions.act_window" id="analysis_request_form_action">
             <field name="name">Analysis Request</field>
