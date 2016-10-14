@@ -2195,7 +2195,7 @@
                     </field>
                     <label for="Analyses" string="Analyses"/>
                     <field name="Analyses" widget="one2many_list" attrs="{'readonly': [('state', 'in', ['verified', 'published', 'cancelled']),]}">
-                        <tree editable="bottom">
+                        <tree editable="bottom" delete="false">
                             <field name="id" invisible="1"/>
                             <field name="Category" options="{'no_create': True}" attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="Services" options="{'no_create': True}" attrs="{'readonly': [('id', '!=', False)]}"/>
@@ -2206,6 +2206,7 @@
                             <field name="Min"/>
                             <field name="Max"/>
                             <field name="Error"/>
+                            <button type="object" class="oe_readonly" icon="fa-trash-o" name="show_delete_warring_message_form"></button>
                         </tree>
                     </field>
                     <label for="Remarks" string="Remarks"/>
