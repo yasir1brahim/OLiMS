@@ -1534,33 +1534,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                         if ws_manage_results_all_verified:
                             worksheet_obj.signal_workflow('verify')
 
-    # @api.onchange('CopyContact')
-    # def copy_to_other_fields(self):
-    #     self.copy_contact(self.CopyContact)
-        # self.copy_cccontact(self.CopytoOtherFields)
-        # self.copy_email(self.CopytoOtherFields)
-        # self.copy_sample(self.CopytoOtherFields)
-        # self.copy_batch(self.CopytoOtherFields)
-        # self.copy_subgroup(self.CopytoOtherFields)
-        # self.copy_template(self.CopytoOtherFields)
-        # self.copy_profile(self.CopytoOtherFields)
-        # self.copy_sampledate(self.CopytoOtherFields)
-        # self.copy_sampler(self.CopytoOtherFields)
-        # self.copy_sample_type(self.CopytoOtherFields)
-        # self.copy_specification(self.CopytoOtherFields)
-        # self.copy_sample_point(self.CopytoOtherFields)
-        # self.copy_storage_location(self.CopytoOtherFields)
-        # self.copy_client_order_num(self.CopytoOtherFields)
-        # self.copy_client_reference(self.CopytoOtherFields)
-        # self.copy_client_sample_id(self.CopytoOtherFields)
-        # self.copy_sampling_deviation(self.CopytoOtherFields)
-        # self.copy_sample_condition(self.CopytoOtherFields)
-        # self.copy_container_type(self.CopytoOtherFields)
-        # self.copy_adhoc(self.CopytoOtherFields)
-        # self.copy_composite(self.CopytoOtherFields)
-        # self.copy_report_dry_matter(self.CopytoOtherFields)
-        # self.copy_invoice_exclude(self.CopytoOtherFields)
-        # self.copy_priority(self.CopytoOtherFields)
     @api.onchange('CopyContact')
     def copy_contact(self):
         if self.Copy == '1':
