@@ -139,27 +139,33 @@ class Worksheet(models.Model, BaseOLiMSModel):
                             cont = True
                     if cont:
                         continue
+                    for cate_analysis in add_analysis_obj.add_analysis_id.Analyses:
+                        if cate_analysis.Category.id == add_analysis_obj.category.id:
 
-                    values_dict_manage_results.update({"request_analysis_id":add_analysis_obj.add_analysis_id.id,
-                        "analysis": add_analysis_obj.analysis.id,
-                        "client":add_analysis_obj.client.id,
-                        "due_date": add_analysis_obj.due_date,
-                        "received_date": add_analysis_obj.received_date,
-                        "sampling_date": add_analysis_obj.add_analysis_id.SamplingDate,
-                        "sample_type": add_analysis_obj.add_analysis_id.SampleType.id,
-                        "sample": add_analysis_obj.add_analysis_id.Sample_id.id,
-                        "analyst": self.Analyst.id,
-                        "instrument": self.Instrument.id,
-                        "priority": add_analysis_obj.priority.id,
-                        "position": count})
-                    rec_id = self.env["olims.ws_manage_results"].create(values_dict_manage_results)
-                    data_list.append([4,rec_id.id])
+                            values_dict_manage_results.update({"request_analysis_id":add_analysis_obj.add_analysis_id.id,
+                                # "analysis": add_analysis_obj.analysis.id,
+                                "analysis": cate_analysis.Services.id,
+                                "client":add_analysis_obj.client.id,
+                                "due_date": add_analysis_obj.due_date,
+                                "received_date": add_analysis_obj.received_date,
+                                "sampling_date": add_analysis_obj.add_analysis_id.SamplingDate,
+                                "sample_type": add_analysis_obj.add_analysis_id.SampleType.id,
+                                "sample": add_analysis_obj.add_analysis_id.Sample_id.id,
+                                "analyst": self.Analyst.id,
+                                "instrument": self.Instrument.id,
+                                "priority": add_analysis_obj.priority.id,
+                                "position": count,
+                                "category": cate_analysis.Category.id})
+                            rec_id = self.env["olims.ws_manage_results"].create(values_dict_manage_results)
+                            data_list.append([4,rec_id.id])
                 values.update({"ManageResult": data_list})
             elif values["AnalysisRequest"][0][0] == 3:
                 add_analysis_obj = self.env["olims.add_analysis"].browse(values["AnalysisRequest"][0][1])
                 for record in self.ManageResult:
-                        if record.request_analysis_id.id == add_analysis_obj.add_analysis_id.id and record.analysis.id == add_analysis_obj.analysis.id:
-                            values.update({"ManageResult": [(3, record.id)]})
+                    if record.request_analysis_id.id == add_analysis_obj.add_analysis_id.id and record.analysis.id == add_analysis_obj.analysis.id:
+                        self.write({"ManageResult": [(2, record.id)]})
+                    elif record.request_analysis_id.id == add_analysis_obj.add_analysis_id.id and record.category.id == add_analysis_obj.category.id:
+                        self.write({"ManageResult": [(2, record.id)]})
 
         return super(Worksheet, self).write(values)
 
@@ -1022,6 +1028,8 @@ class WorkSheetManageResults(models.Model):
                      readonly=True,
                      copy=False, track_visibility='always'
     )
+    category = fields.Many2one('olims.analysis_category',string='Category',
+        ondelete='set null')
 
     @api.multi
     def bulk_verify(self):

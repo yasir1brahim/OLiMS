@@ -817,10 +817,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     _rec_name = "RequestID"
     _inherit = ['mail.thread', 'ir.needaction_mixin']
 
-    @api.one
-    def button_clicked(self):
-        print "callded button click"
-
     def compute_analysisRequestId(self):
         for record in self:
             record.RequestID = 'R-0' + str(record.id)
@@ -1325,16 +1321,20 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         analysis_request_obj = self.pool.get('olims.analysis_request').browse(cr,uid,ids,context)
         for ar_object in analysis_request_obj:
             data_list = []
+            ar_cate_ids_list = []
             for items in ar_object.Analyses:
+                if items.Category.id not in ar_cate_ids_list:
+                    ar_cate_ids_list.append(items.Category.id)
+            for cate_id in ar_cate_ids_list:
                 analysis_dict = {}
                 analysis_dict.update({
-                    'category':items.Category.id,
+                    'category':cate_id,
                     'client': ar_object.Client.id,
                     'order':ar_object.LotID,
                     'priority':ar_object.Priority.id,
                     'due_date':ar_object.DateDue,
                     'received_date':datetime.datetime.now(),
-                    'analysis':items.Services.id,
+                    # 'analysis':items.Services.id,
                     'sample_type': ar_object.SampleType.id
                     })
                 data_list.append([0,0, analysis_dict])
