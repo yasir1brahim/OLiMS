@@ -71,6 +71,8 @@
         'views/analysis_request_labels.xml',
         'views/ws_print_ar_label.xml',
         'views/ws_manage_results_analysis.xml',
+        'views/ws_ar_labels_column_wise.xml',
+        'views/analysis_request_labels_column_wise.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

@@ -146,6 +146,21 @@
             name="olims.report_ws_manage_analysis"
             file="olims.report_ws_manage_analysis"
             />
-            
+            <report
+            id="action_report_ar_label_from_worksheet"
+            model="olims.worksheet"
+            string="Analysis Request Labels Column-Wise"
+            report_type="qweb-pdf"
+            name="olims.report_ws_ar_label_colunm_document"
+            file="olims.report_ws_ar_label_colunm_document"
+            />
+            <report
+            id="action_analysis_request_labels_column_wise"
+            model="olims.analysis_request"
+            string="Analysis Request Labels Column-Wise"
+            report_type="qweb-pdf"
+            name="olims.analysis_request_labels_column_wise"
+            file="olims.analysis_request_labels_column_wise"
+            />
     </data>
 </openerp>

@@ -1,0 +1,18 @@
+<openerp>
+    <data>
+        <template id="analysis_request_labels_column_wise">
+            <t t-call="report.html_container">
+                <div class="page">
+                    <div class="row mb32">
+                        <t t-foreach="docs" t-as="doc">
+                            <div class="col-xs-3">
+                                 <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=%s' % 
+                            ('Standard39', doc.RequestID, 250, 50, 1)"/>
+                            </div>
+                        </t>
+                    </div>
+                </div>
+            </t>
+        </template>
+    </data>
+</openerp>

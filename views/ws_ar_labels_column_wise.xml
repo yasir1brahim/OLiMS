@@ -1,6 +1,6 @@
 <openerp>
  	<data>
- 		<template id="report_ws_ar_label_document">
+ 		<template id="report_ws_ar_label_colunm_document">
  			<t t-call="report.html_container">
 	            <div class="page">
 	                <t t-foreach="docs" t-as="doc">
@@ -8,7 +8,7 @@
                     		<t t-set="ar_id" t-value="False"/>
                     		<t t-foreach="doc.ManageResult" t-as="result">
                 				<t t-if="ar_id != result.request_analysis_id.RequestID" >
-                					<div>
+                					<div class="col-xs-3">
                 						<img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=%s' %('Standard39', result.request_analysis_id.RequestID, 250, 50, 1)"/>
                 					</div>
                 				</t>
