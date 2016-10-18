@@ -15,7 +15,7 @@ from openerp.tools.translate import _
 AR_STATES = (
     ('sample_registered','Sample Registered'),
     ('not_requested','Not Requested'),
-    ('to_be_sampled','To Be Sampled'),
+    ('to_be_sampled','To Be Labeled'),
     ('sampled','Sampled'),
     ('to_be_preserved','To Be Preserved'),
     ('sample_due','Sample Due'),

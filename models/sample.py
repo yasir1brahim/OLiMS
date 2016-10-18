@@ -14,7 +14,7 @@ from base_olims_model import BaseOLiMSModel
 import datetime
 SAMPLE_STATES = (
                 ('sample_registered', 'Registered'),
-                ('to_be_sampled', 'To Be Sampled'),
+                ('to_be_sampled', 'To Be Labeled'),
                 ('sample_due', 'Sample Due'),
                 ('sample_received', 'Sample Received'),
                 ('sampled', 'Sampled'),

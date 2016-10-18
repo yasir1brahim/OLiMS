@@ -1814,7 +1814,7 @@
                             <button string="Publish" name="publish" type="workflow" states="verified"/>
                             <button string="Print" name="publish_analysis_request" type="object" states="published"/>
                             <button name="action_report_send" string="Send by Email" type="object" states="published" class="btn-primary"/>
-                            <field name="state" widget="statusbar" statusbar_visible="sample_due,sample_received, to_be_verified, verified" statusbar_colors='{"to_be_sampled":"blue","sample_received":"red","invalid":"red"}'/>
+                            <field name="state" widget="statusbar" statusbar_visible="to_be_sampled,sample_due,sample_received, to_be_verified, verified" statusbar_colors='{"to_be_sampled":"blue","sample_received":"red","invalid":"red"}'/>
                     </header>
                 <!-- </sheet> -->
                     
@@ -2260,7 +2260,7 @@
             </field>
         </record>
         <!--For action menu in analysis request-->
-        <!-- <record id="ar_change_state_bulk_sample_id" model="ir.actions.server">
+        <record id="ar_change_state_bulk_sample_id" model="ir.actions.server">
             <field name="name">Sample</field>
             <field name="type">ir.actions.server</field>
             <field name="model_id" ref="model_olims_analysis_request"/>
@@ -2275,7 +2275,7 @@
             <field name="model_id" ref="model_olims_analysis_request"/>
             <field name="model">olims.analysis_request</field>
             <field name="key2">client_action_multi</field>
-        </record> -->
+        </record>
         <record id="ar_change_state_bulk_receive_id" model="ir.actions.server">
             <field name="name">Receive Sample</field>
             <field name="type">ir.actions.server</field>
@@ -2741,7 +2741,7 @@
                     <header>
                         <button string="Preserve Sample" name="to_be_preserved" states="to_be_preserved" type="workflow" class="oe_highlight"/>
 
-                        <field name="state" widget="statusbar" statusbar_visible="sample_due,sample_received,expired,disposed"/>
+                        <field name="state" widget="statusbar" statusbar_visible="to_be_sampled,sample_due,sample_received,expired,disposed"/>
                     </header>
                     <!--<label for="name" string="Sample ID"/>
                     <field name="name"></field>-->

@@ -5,11 +5,11 @@ olims_not_requested,olims.olims_analysis_request_workflow,not_requested,Dummy,Fa
 olims_attachment_due,olims.olims_analysis_request_workflow,attachment_due,Dummy,False,False,,,Xor,,,Xor
 olims_published,olims.olims_analysis_request_workflow,published,Function,False,False,,,Xor,workflow_script_publish(),,Xor
 olims_sampled,olims.olims_analysis_request_workflow,sampled,Function,False,False,,,Xor,workflow_script_sample(),,Xor
-olims_sample_due,olims.olims_analysis_request_workflow,sample_due,Function,True,False,,,Xor,workflow_script_sample_due(),,Xor
+olims_sample_due,olims.olims_analysis_request_workflow,sample_due,Function,False,False,,,Xor,workflow_script_sample_due(),,Xor
 olims_sample_received,olims.olims_analysis_request_workflow,sample_received,Function,False,False,,,Xor,workflow_script_receive(),,Xor
 olims_sample_registered,olims.olims_analysis_request_workflow,sample_registered,Dummy,False,False,,,Xor,,,Xor
 olims_to_be_preserved,olims.olims_analysis_request_workflow,to_be_preserved,Function,False,False,,,Xor,workflow_script_to_be_preserved(),,Xor
-olims_to_be_sampled,olims.olims_analysis_request_workflow,to_be_sampled,Function,False,False,,,Xor,actionToBeSampled(),,Xor
+olims_to_be_sampled,olims.olims_analysis_request_workflow,to_be_sampled,Function,True,False,,,Xor,actionToBeSampled(),,Xor
 olims_to_be_verified,olims.olims_analysis_request_workflow,to_be_verified,Function,False,False,,,Xor,workflow_script_to_be_verified(),,Xor
 olims_verified,olims.olims_analysis_request_workflow,verified,Function,False,False,,,Xor,workflow_script_verify(),,Xor
 olims_cancelled,olims.olims_analysis_request_workflow,cancelled,Function,False,False,,,Xor,workflow_script_cancel(),,Xor
