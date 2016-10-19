@@ -11,6 +11,15 @@
                 					<div class="col-xs-3">
                 						<img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=%s' %('Standard39', result.request_analysis_id.RequestID, 250, 50, 1)"/>
                 					</div>
+                                    <div class="col-xs-3">
+                                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=%s' %('Standard39', result.request_analysis_id.RequestID, 250, 50, 1)"/>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=%s' %('Standard39', result.request_analysis_id.RequestID, 250, 50, 1)"/>
+                                    </div>
+                                    <div class="col-xs-3">
+                                        <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=%s' %('Standard39', result.request_analysis_id.RequestID, 250, 50, 1)"/>
+                                    </div>
                 				</t>
                 				<t t-set="ar_id" t-value="result.request_analysis_id.RequestID"/>
                     		</t>

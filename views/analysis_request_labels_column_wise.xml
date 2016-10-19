@@ -6,8 +6,16 @@
                     <div class="row mb32">
                         <t t-foreach="docs" t-as="doc">
                             <div class="col-xs-3">
-                                 <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=%s' % 
-                            ('Standard39', doc.RequestID, 250, 50, 1)"/>
+                                 <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=%s' %('Standard39', doc.RequestID, 250, 50, 1)"/>
+                            </div>
+                            <div class="col-xs-3">
+                                 <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=%s' %('Standard39', doc.RequestID, 250, 50, 1)"/>
+                            </div>
+                            <div class="col-xs-3">
+                                 <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=%s' %('Standard39', doc.RequestID, 250, 50, 1)"/>
+                            </div>
+                            <div class="col-xs-3">
+                                 <img t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=%s' %('Standard39', doc.RequestID, 250, 50, 1)"/>
                             </div>
                         </t>
                     </div>
