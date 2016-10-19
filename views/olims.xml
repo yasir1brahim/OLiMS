@@ -2261,14 +2261,14 @@
         </record>
         <!--For action menu in analysis request-->
         <record id="ar_change_state_bulk_sample_id" model="ir.actions.server">
-            <field name="name">Sample</field>
+            <field name="name">Labels are Printed</field>
             <field name="type">ir.actions.server</field>
             <field name="model_id" ref="model_olims_analysis_request"/>
             <field name="state">code</field>
             <field name="code">self.bulk_change_states("sample_due",cr, uid, context.get('active_ids'), context=context)</field>
         </record>
         <record id="ar_id_of_the_action_value" model="ir.values">
-            <field name="name">Sample</field>
+            <field name="name">Labels are Printed</field>
             <field name="action_id" ref="ar_change_state_bulk_sample_id"/>
             <field name="value" eval="'ir.actions.server,' + str(ref('ar_change_state_bulk_sample_id'))"/>
             <field name="key">action</field>
