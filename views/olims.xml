@@ -2222,7 +2222,6 @@
                             <field name="Partition" attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="Result"/>
                             <field name="Specifications" attrs="{'readonly': [('id', '!=', False)]}"/>
-                            <field name="Method" options="{'no_create': True}" attrs="{'readonly': [('Result', '!=', '')]}"/>
                             <field name="Instrument" options="{'no_create': True}" attrs="{'readonly': [('Method', '!=', False)]}"/>
                             <field name="Analyst" options="{'no_create': True}"/>
                             <field name="+-"/>
@@ -2240,7 +2239,6 @@
                             <field name="Partition" attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="Result"/>
                             <field name="Specifications" attrs="{'readonly': [('id', '!=', False)]}"/>
-                            <field name="Method" options="{'no_create': True}" attrs="{'readonly': [('Result', '!=', '')]}"/>
                             <field name="Instrument" options="{'no_create': True}" attrs="{'readonly': [('Method', '!=', False)]}"/>
                             <field name="Analyst" options="{'no_create': True}"/>
                             <field name="+-"/>
