@@ -4463,6 +4463,14 @@
                             <field name="MemberDiscountApplies"></field>
                             <br/>
                         </page>
+                        <page string="Email Addresses" name="Email Addresses" class="oe_edit_only">
+                            <label for="email" string="Email Address"/>
+                            <field name="email">
+                                <tree editable="top" delete="false">
+                                    <field name="name" string="Email"/>
+                                </tree>
+                            </field>
+                        </page>
                         <page string="Address" name="Address Page" class="oe_edit_only">
                               <group col='4' string='Physical Address'>
                               	<group col='2'>
@@ -4553,14 +4561,6 @@
                             <label for="DecimalMark" string="Decimal Mark"/>
                             <field name="DecimalMark"></field>
                             <field name="id" invisible="1" />
-                        </page>
-                        <page string="Email Addresses" attrs="{'invisible': [('id', '=', False)]}">
-                            <label for="email" string="Email Address"/>
-                            <field name="email">
-                                <tree editable="top" delete="false">
-                                    <field name="name" string="Email"/>
-                                </tree>
-                            </field>
                         </page>
                         <!-- <page string="Batches" attrs="{'invisible': [('id', '=', False)]}">
                         </page> -->
@@ -4672,6 +4672,9 @@
                         <label for="MemberDiscountApplies" name="Member Discount Applies" position="attributes">
                             <attribute name='invisible'>{'invisible': [('id', '!=', False)]}</attribute>
                         </label>
+                        <page name="Email Addresses" position="attributes">
+                            <attribute name="attrs">{'invisible': [('id', '!=', False)]}</attribute>
+                        </page>
                         <page name="Address Page" position="attributes">
                             <attribute name="attrs">{'invisible': [('id', '!=', False)]}</attribute>
                         </page>
@@ -4693,6 +4696,9 @@
             <field name="arch" type="xml">
                 <page name="Default Page" position="attributes">
                     <attribute name='invisible'>{'invisible': [('id', '!=', False)]}</attribute>
+                </page>
+                <page name="Email Addresses" position="attributes">
+                    <attribute name="attrs">{'invisible': [('id', '!=', False)]}</attribute>
                 </page>
                 <page name="Address Page" position="attributes">
                     <attribute name="attrs">{'invisible': [('id', '!=', False)]}</attribute>
