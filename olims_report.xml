@@ -162,5 +162,13 @@
             name="olims.analysis_request_labels_column_wise"
             file="olims.analysis_request_labels_column_wise"
             />
+            <report 
+                id="action_certificate_of_analysis"
+                model="olims.analysis_request"
+                string="Certificate of Analysis (COA)"
+                report_type="qweb-pdf"
+                name="olims.report_certificate_of_analysis"
+                file="olims.report_certificate_of_analysis"
+            />
     </data>
 </openerp>

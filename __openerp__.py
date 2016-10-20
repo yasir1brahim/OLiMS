@@ -73,6 +73,7 @@
         'views/ws_manage_results_analysis.xml',
         'views/ws_ar_labels_column_wise.xml',
         'views/analysis_request_labels_column_wise.xml',
+        'views/cerificate_of_analysis_request.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
