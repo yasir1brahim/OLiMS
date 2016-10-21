@@ -838,14 +838,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         list_of_dicts = []
         analysis_request_0_dict, analysis_request_1_dict, analysis_request_2_dict, analysis_request_3_dict = self.get_fields_value_dicts(
             values)
-
-        analysis_object = super(AnalysisRequest, self).search([])
-        if len(analysis_object) > 0:
-            for ar_item in analysis_object[len(analysis_object)-1]:
-                Partition = 'P-0'+ str(ar_item.id+1)+'-R-0'+str(ar_item.id+1)
-        else:
-            Partition = "P-01-R-01"
-        data, field_result_list, lab_result_list = self.create_field_and_lab_analyses(Partition, values)
+        data, field_result_list, lab_result_list = self.create_field_and_lab_analyses(values)
 
         analysis_request_0_dict.update({"Field_Manage_Result": field_result_list,
             "Lab_Manage_Result": lab_result_list})
@@ -873,10 +866,10 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 ar_analysis_object = self.env['olims.ar_analysis']
                 ar_service_lab_id = None
                 for rec in data:
-                    self.create_sample_partition(ar_analysis_object, ar_p, ar_values, rec, res)
+                    self.create_analyses(ar_analysis_object, ar_p, ar_values, rec, res)
         return res
 
-    def create_sample_partition(self, ar_analysis_object, ar_p, ar_values, rec, res):
+    def create_analyses(self, ar_analysis_object, ar_p, ar_values, rec, res):
         if "LabService" in rec[2]:
             serv_temp = rec[2]['LabService']
         elif "Service" in rec[2]:
@@ -891,6 +884,10 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Max': rec[2]['Max'],
             'Error': rec[2]['Error']
         }
+        manage_ar_obj = self.env["olims.manage_analyses"].search(["|",("manage_analysis_id","=",res.id),
+                    ("lab_manage_analysis_id","=",res.id),"|",("Service","=",serv_temp)
+                    ,("LabService","=",serv_temp)])
+        manage_ar_obj.write({"Partition":ar_p.Partition})
         ar_analysis_object.create(analyses_values)
 
     def create_ar_partitions(self, res):
@@ -922,7 +919,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         new_sample = sample_object.create(smaple_vals_dict)
         return new_sample
 
-    def create_field_and_lab_analyses(self, Partition, values):
+    def create_field_and_lab_analyses(self, values):
         data = []
         lab_result_list = []
         field_result_list = []
@@ -935,8 +932,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             elif service_instance.InstrumentEntryOfResults:
                 LabService[2].update({'Method': None, 'Instrument': service_instance.Instrument})
             LabService[2].update({'Specifications': Specification,
-                                  "Due Date": datetime.datetime.now(),
-                                  'Partition': Partition})
+                                  "Due Date": datetime.datetime.now()})
             lab_result_list.append([0, 0, LabService[2]])
             data.append(LabService)
         for FieldService in values.get('FieldService'):
@@ -948,8 +944,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             elif service_instance.InstrumentEntryOfResults:
                 FieldService[2].update({'Method': None, 'Instrument': service_instance.Instrument})
             FieldService[2].update({'Specifications': Specification,
-                                    "Due Date": datetime.datetime.now(),
-                                    'Partition': Partition})
+                                    "Due Date": datetime.datetime.now()})
 
             field_result_list.append([0, 0, FieldService[2]])
             data.append(FieldService)
@@ -1113,6 +1108,9 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     @api.multi
     def write(self, values):
         result_val_dict = {}
+        upadte_values_dict = {}
+        upadte_values_list = []
+        manage_res_val_lis = []
         if values.get("Analyses", None):
             for items in values.get("Analyses"):
                 if items[0] == 0:
@@ -1136,16 +1134,37 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                             result_val_dict.update({
                                 'Service': items[2].get("Services"),
                                 })
-                            values.update({"Field_Manage_Result": [[0, False, result_val_dict]]})
+                            manage_res_val_lis.append([0, False, result_val_dict])
+                            upadte_values_dict.update({"Field_Manage_Result": manage_res_val_lis})
                         else:
                             result_val_dict.update({
                                 'LabService': items[2].get("Services"),
                                 })
-                            values.update({"Lab_Manage_Result": [[0, False, result_val_dict]]})
+                            upadte_values_list.append([0, False, result_val_dict])
+                            upadte_values_dict.update({"Lab_Manage_Result": upadte_values_list})
                 if items[0] == 2:
                     pass
                 if items[0] == 1:
-                   pass
+                    manage_res_val_dict = {}
+                    ar_obj = self.env["olims.ar_analysis"].search([('id', '=', items[1])])
+                    ar_manage_res_obj = self.env["olims.manage_analyses"].search(["|",("manage_analysis_id","=",self.id),
+                    ("lab_manage_analysis_id","=",self.id),"|",("Service","=",ar_obj.Services.id)
+                    ,("LabService","=",ar_obj.Services.id)])
+                    min = items[2].get("Min") if items[2].get("Min", None) else ar_obj.Min
+                    max = items[2].get("Max") if items[2].get("Max", None) else ar_obj.Max
+                    error = items[2].get("Error") if items[2].get("Error", None) else ar_obj.Error
+                    manage_res_val_dict.update({"Min": min,
+                                           "Max": max,
+                                           "Error": error,
+                                            "Specifications": ">" + str(min) + ", <" + str(max) + ", %" + str(error)})
+                    if ar_obj.Services.PointOfCapture == "field":
+                        manage_res_val_lis.append([1,ar_manage_res_obj.id,manage_res_val_dict])
+                        upadte_values_dict.update({"Field_Manage_Result": manage_res_val_lis})
+                    else:
+                        upadte_values_list.append([1,ar_manage_res_obj.id,manage_res_val_dict])
+                        upadte_values_dict.update({"Lab_Manage_Result": upadte_values_list})
+
+        values.update(upadte_values_dict)
         res = super(AnalysisRequest, self).write(values)
         return res  
 
