@@ -2215,7 +2215,7 @@
                 <page string="Manage Results" attrs="{'invisible': [('state', 'in', ['sample_due','verified', 'published'])]}">
                     <label for="Field_Manage_Result" string="Field Analysis" attrs="{'invisible': [('Field_Manage_Result', '=', [])]}"/>
                     <field name="Field_Manage_Result" attrs="{'invisible': [('Field_Manage_Result', '=', [])]}" widget="one2many_selectable">
-                        <tree editable="bottom" create='false' delete='false'>
+                        <tree editable="bottom" create='false' delete='false' decoration-info="state in ('sample_received','to_be_verified')" decoration-danger="Result&lt;Min or Result&gt;Max">
                             <field name="id" invisible="1"/>
                             <field name='Category' attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="Service" attrs="{'readonly': [('id', '!=', False)]}"/>
@@ -2228,11 +2228,13 @@
                             <field name="Capture" attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="Due Date" attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="state" string="State" readonly="1"/>
+                            <field name="Min" string="Min" invisible="1"/>
+                            <field name="Max" string="Max" invisible="1"/>
                         </tree>
                     </field>
                     <label for="Lab_Manage_Result" string="Lab Analysis" attrs="{'invisible': [('Lab_Manage_Result', '=', [])]}"/>
                     <field name="Lab_Manage_Result" attrs="{'invisible': [('Lab_Manage_Result', '=', [])]}" widget="one2many_selectable">
-                        <tree editable="bottom" create='false' delete='false'>
+                        <tree editable="bottom" create='false' delete='false' decoration-info="state in ('sample_received','to_be_verified')" decoration-danger="Result &lt;Min or Result&gt;Max">
                             <field name="id" invisible="1"/>
                             <field name='Category' attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="LabService" attrs="{'readonly': [('id', '!=', False)]}"/>
@@ -2245,6 +2247,8 @@
                             <field name="Capture" attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="Due Date" attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="state" string="State" readonly="1"/>
+                            <field name="Min" string="Min" invisible="1"/>
+                            <field name="Max" string="Max" invisible="1"/>
                         </tree>
                     </field>
                 </page>
