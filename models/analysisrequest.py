@@ -809,7 +809,8 @@ manage_result_schema = (
                      select=True,
                      readonly=True,
                      copy=False, track_visibility='always'
-    )
+    ),
+    fields.Char(string="flag")
     )
 
 class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
@@ -1117,7 +1118,10 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                     result_val_dict.update({
                             "Specifications":">"+str(items[2].get("Min", None))+", <"+str(items[2].get("Max", None))+", %"+str(items[2].get("Error", None)),
                             "Category": items[2].get("Category"),
-                            'Due Date':datetime.datetime.now()
+                            'Due Date':datetime.datetime.now(),
+                            'Min': items[2].get("Min", None),
+                            'Max': items[2].get("Max", None),
+                            'Error': items[2].get("Error", None)
                             })
                     if items[2].get("Partition", None):
                         partition = self.env["olims.ar_partition"].search([("id", '=', items[2].get("Partition"))])
@@ -1158,11 +1162,13 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                                            "Error": error,
                                             "Specifications": ">" + str(min) + ", <" + str(max) + ", %" + str(error)})
                     if ar_obj.Services.PointOfCapture == "field":
-                        manage_res_val_lis.append([1,ar_manage_res_obj.id,manage_res_val_dict])
-                        upadte_values_dict.update({"Field_Manage_Result": manage_res_val_lis})
+                        for ar_man_res_obj in ar_manage_res_obj:
+                            manage_res_val_lis.append([1,ar_man_res_obj.id,manage_res_val_dict])
+                            upadte_values_dict.update({"Field_Manage_Result": manage_res_val_lis})
                     else:
-                        upadte_values_list.append([1,ar_manage_res_obj.id,manage_res_val_dict])
-                        upadte_values_dict.update({"Lab_Manage_Result": upadte_values_list})
+                        for ar_man_res_obj in ar_manage_res_obj:
+                            upadte_values_list.append([1,ar_man_res_obj.id,manage_res_val_dict])
+                            upadte_values_dict.update({"Lab_Manage_Result": upadte_values_list})
 
         values.update(upadte_values_dict)
         res = super(AnalysisRequest, self).write(values)
@@ -2026,6 +2032,14 @@ class ManageAnalyses(models.Model, BaseOLiMSModel):
             if ws_all_verified and worksheet.State != "closed":
                 self.env["olims.worksheet"].browse(worksheet.id).signal_workflow("verify")
         return True
+
+    @api.onchange('Result')
+    def show_or_hide_flag(self):
+        if self.Result < self.Min or self.Result > self.Max:
+            self.flag = "flag"
+        else:
+            self.flag = False
+
 
 
 AnalysisRequest.initialze(schema)

@@ -2215,7 +2215,7 @@
                 <page string="Manage Results" attrs="{'invisible': [('state', 'in', ['sample_due','verified', 'published'])]}">
                     <label for="Field_Manage_Result" string="Field Analysis" attrs="{'invisible': [('Field_Manage_Result', '=', [])]}"/>
                     <field name="Field_Manage_Result" attrs="{'invisible': [('Field_Manage_Result', '=', [])]}" widget="one2many_selectable">
-                        <tree editable="bottom" create='false' delete='false' decoration-info="state in ('sample_received','to_be_verified')" decoration-danger="Result&lt;Min or Result&gt;Max">
+                        <tree editable="bottom" create='false' delete='false' decoration-info="state in ('sample_received','to_be_verified')" decoration-danger="Result and Result&lt;Min or Result&gt;Max">
                             <field name="id" invisible="1"/>
                             <field name='Category' attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="Service" attrs="{'readonly': [('id', '!=', False)]}"/>
@@ -2230,14 +2230,15 @@
                             <field name="state" string="State" readonly="1"/>
                             <field name="Min" string="Min" invisible="1"/>
                             <field name="Max" string="Max" invisible="1"/>
+                            <field name="flag" readonly="1" attrs="{'invisible': [('Result', '=', False)]}"/>
                         </tree>
                     </field>
                     <label for="Lab_Manage_Result" string="Lab Analysis" attrs="{'invisible': [('Lab_Manage_Result', '=', [])]}"/>
                     <field name="Lab_Manage_Result" attrs="{'invisible': [('Lab_Manage_Result', '=', [])]}" widget="one2many_selectable">
-                        <tree editable="bottom" create='false' delete='false' decoration-info="state in ('sample_received','to_be_verified')" decoration-danger="Result &lt;Min or Result&gt;Max">
+                        <tree editable="bottom" create='false' delete='false' decoration-info="state in ('sample_received','to_be_verified')" decoration-danger="Result and Result &lt;Min or Result&gt;Max">
                             <field name="id" invisible="1"/>
                             <field name='Category' attrs="{'readonly': [('id', '!=', False)]}"/>
-                            <field name="LabService" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="LabService" string="Service" attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="Partition" attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="Result"/>
                             <field name="Specifications" attrs="{'readonly': [('id', '!=', False)]}"/>
@@ -2249,6 +2250,7 @@
                             <field name="state" string="State" readonly="1"/>
                             <field name="Min" string="Min" invisible="1"/>
                             <field name="Max" string="Max" invisible="1"/>
+                            <field name="flag" string="Flag" attrs="{'invisible': [('Result', '=', False)]}"/>
                         </tree>
                     </field>
                 </page>
@@ -5837,7 +5839,7 @@
                 <tree string="Manage Results">
                     <field name="Category"/>
                     <field name="Service"/>
-                    <field name="LabService"/>
+                    <field name="LabService" string="Service"/>
                     <field name="Result"/>
                     <field name="Due Date"/>
                 </tree>
