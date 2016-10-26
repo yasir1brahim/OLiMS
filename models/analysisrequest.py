@@ -1308,135 +1308,190 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         It computes and returns the analysis service's discount amount without VAT, SubToatl and Total
         """
         for record in self:
+            service_discount = 0.0
+            service_subtotal = 0.0
+            service_vat = 0.0
+            service_total = 0.0
+
+            service_discount1 = 0.0
+            service_subtotal1 = 0.0
+            service_vat1 = 0.0
+            service_total1 = 0.0
+
+            service_discount2 = 0.0
+            service_subtotal2 = 0.0
+            service_vat2 = 0.0
+            service_total2 = 0.0
+
+            service_discount3 = 0.0
+            service_subtotal3 = 0.0
+            service_vat3 = 0.0
+            service_total3 = 0.0
+
             service_ids_list_p1 = []
             service_ids_list_p2 = []
             service_ids_list_p3 = []
             service_ids_list_p4 = []
             if record.AnalysisProfile:
-                service_discount = 0.0
-                service_subtotal = 0.0
-                service_vat = 0.0
-                service_total = 0.0
-                self.compute_fileds_value_for_profile(record, service_discount, service_ids_list_p1, service_subtotal,
-                                                      service_total, service_vat)
+                for service in record.AnalysisProfile.Service:
+                    service_ids_list_p1.append(service.Services.id)
             if record.AnalysisProfile1:
-                service_discount = 0.0
-                service_subtotal = 0.0
-                service_vat = 0.0
-                service_total = 0.0
                 for service in record.AnalysisProfile1.Service:
                     service_ids_list_p2.append(service.Services.id)
-                for service in record.FieldService:
-                    if service.Service.id in service_ids_list_p2:
-                        service_discount, service_subtotal, service_total, service_vat = self.calculate_fields_values(
-                            service, service_discount, service_subtotal, service_vat)
-                        record.Discount1 = service_discount
-                        record.Subtotal1 = service_subtotal
-                        record.VAT1 = service_vat
-                        record.Total1 = service_total
-                for service in record.LabService:
-                    if service.LabService.id in service_ids_list_p2:
-                        service_discount, service_subtotal, service_total, service_vat = self.calculate_lab_service_fields_value(
-                            service, service_discount, service_subtotal, service_total, service_vat)
-                        record.Discount1 = service_discount
-                        record.Subtotal1 = service_subtotal
-                        record.VAT1 = service_vat
-                        record.Total1 = service_total
             if record.AnalysisProfile2:
-                service_discount = 0.0
-                service_subtotal = 0.0
-                service_vat = 0.0
-                service_total = 0.0
                 for service in record.AnalysisProfile2.Service:
                     service_ids_list_p3.append(service.Services.id)
-
-                for service in record.FieldService:
-                    if service.Service.id in service_ids_list_p3:
-                        service_discount, service_subtotal, service_total, service_vat = self.calculate_fields_values(
-                            service, service_discount, service_subtotal, service_vat)
-                        record.Discount2 = service_discount
-                        record.Subtotal2 = service_subtotal
-                        record.VAT2 = service_vat
-                        record.Total2 = service_total
-                for service in record.LabService:
-                    if service.LabService.id in service_ids_list_p3:
-                        service_discount, service_subtotal, service_total, service_vat = self.calculate_lab_service_fields_value(
-                            service, service_discount, service_subtotal, service_total, service_vat)
-                        record.Discount2 = service_discount
-                        record.Subtotal2 = service_subtotal
-                        record.VAT2 = service_vat
-                        record.Total2 = service_total
             if record.AnalysisProfile3:
-                service_discount = 0.0
-                service_subtotal = 0.0
-                service_vat = 0.0
-                service_total = 0.0
                 for service in record.AnalysisProfile3.Service:
                     service_ids_list_p4.append(service.Services.id)
+            for service in record.FieldService:
+                if service.Service.id in service_ids_list_p1:
+                    service_price = service.Service.Price
+                    service_discount += service_price * 33.33 / 100
+                    # compute subtotal
+                    discount = service_price * 33.33 / 100
+                    service_subtotal += float(service_price) - float(discount)
+                    # compute VAT
+                    service_vat += service.Service.VATAmount
+                    service_total = service_subtotal + service_vat
+                if service.Service.id in service_ids_list_p2:
+                    service_price = service.Service.Price
+                    service_discount1 += service_price * 33.33 / 100
+                    # compute subtotal
+                    discount = service_price * 33.33 / 100
+                    service_subtotal1 += float(service_price) - float(discount)
+                    # compute VAT
+                    service_vat1 += service.Service.VATAmount
+                    service_total1 = service_subtotal1 + service_vat1
+                if service.Service.id in service_ids_list_p3:
+                    service_price = service.Service.Price
+                    service_discount2 += service_price * 33.33 / 100
+                    # compute subtotal
+                    discount = service_price * 33.33 / 100
+                    service_subtotal2 += float(service_price) - float(discount)
+                    # compute VAT
+                    service_vat2 += service.Service.VATAmount
+                    service_total2 = service_subtotal2 + service_vat2
+                if service.Service.id in service_ids_list_p4:
+                    service_price = service.Service.Price
+                    service_discount3 += service_price * 33.33 / 100
+                    # compute subtotal
+                    discount = service_price * 33.33 / 100
+                    service_subtotal3 += float(service_price) - float(discount)
+                    # compute VAT
+                    service_vat3 += service.Service.VATAmount
+                    service_total3 = service_subtotal3 + service_vat3
+                if service.Service.id not in service_ids_list_p1 and \
+                                service.Service.id not in service_ids_list_p2 and \
+                                service.Service.id not in service_ids_list_p3 and \
+                                service.Service.id not in service_ids_list_p4:
+                    service_price = service.Service.Price
+                    discount = service_price * 33.33 / 100
 
-                for service in record.FieldService:
+                    service_discount += service_price * 33.33 / 100
+                    service_subtotal += float(service_price) - float(discount)
+                    service_vat += service.Service.VATAmount
+                    service_total = service_subtotal + service_vat
 
-                    if service.Service.id in service_ids_list_p4:
-                        service_discount, service_subtotal, service_total, service_vat = self.calculate_fields_values(
-                            service, service_discount, service_subtotal, service_vat)
-                        record.Discount3 = service_discount
-                        record.Subtotal3 = service_subtotal
-                        record.VAT3 = service_vat
-                        record.Total3 = service_total
-                for service in record.LabService:
-                    if service.LabService.id in service_ids_list_p4:
-                        service_discount, service_subtotal, service_total, service_vat = self.calculate_lab_service_fields_value(
-                            service, service_discount, service_subtotal, service_total, service_vat)
-                        record.Discount3 = service_discount
-                        record.Subtotal3 = service_subtotal
-                        record.VAT3 = service_vat
-                        record.Total3 = service_total
+                    service_discount1 += service_price * 33.33 / 100
+                    service_subtotal1 += float(service_price) - float(discount)
+                    service_vat1 += service.Service.VATAmount
+                    service_total1 = service_subtotal1 + service_vat1
 
+                    service_discount2 += service_price * 33.33 / 100
+                    service_subtotal2 += float(service_price) - float(discount)
+                    service_vat2 += service.Service.VATAmount
+                    service_total2 = service_subtotal2 + service_vat2
 
-    def compute_fileds_value_for_profile(self, record, service_discount, service_ids_list_p1, service_subtotal,
-                                         service_total, service_vat):
-        for service in record.AnalysisProfile.Service:
-            service_ids_list_p1.append(service.Services.id)
+                    service_discount3 += service_price * 33.33 / 100
+                    service_subtotal3 += float(service_price) - float(discount)
+                    service_vat3 += service.Service.VATAmount
+                    service_total3 = service_subtotal3 + service_vat3
 
-        for service in record.FieldService:
-            if service.Service.id in service_ids_list_p1:
-                service_discount, service_subtotal, service_total, service_vat = self.calculate_fields_values(
-                    service, service_discount, service_subtotal, service_vat)
-                record.Discount = service_discount
-                record.Subtotal = service_subtotal
-                record.VAT = service_vat
-                record.Total = service_total
-        for service in record.LabService:
-            if service.LabService.id in service_ids_list_p1:
-                service_discount, service_subtotal, service_total, service_vat = self.calculate_lab_service_fields_value(
-                    service, service_discount, service_subtotal, service_total, service_vat)
-                record.Discount = service_discount
-                record.Subtotal = service_subtotal
-                record.VAT = service_vat
-                record.Total = service_total
+            for service in record.LabService:
+                if service.LabService.id in service_ids_list_p1:
+                    service_price = service.LabService.Price
+                    service_discount += service_price * 33.33 / 100
+                    # compute subtotal
+                    discount = service_price * 33.33 / 100
+                    service_subtotal += float(service_price) - float(discount)
+                    # compute VAT
+                    service_vat += service.LabService.VATAmount
+                    service_total = service_subtotal + service_vat
+                if service.LabService.id in service_ids_list_p2:
+                    service_price = service.LabService.Price
+                    service_discount1 += service_price * 33.33 / 100
+                    # compute subtotal
+                    discount = service_price * 33.33 / 100
+                    service_subtotal1 += float(service_price) - float(discount)
+                    # compute VAT
+                    service_vat1 += service.LabService.VATAmount
+                    service_total1 = service_subtotal1 + service_vat1
+                if service.LabService.id in service_ids_list_p3:
+                    service_price = service.LabService.Price
+                    service_discount2 += service_price * 33.33 / 100
+                    # compute subtotal
+                    discount = service_price * 33.33 / 100
+                    service_subtotal2 += float(service_price) - float(discount)
+                    # compute VAT
+                    service_vat2 += service.LabService.VATAmount
+                    service_total2 = service_subtotal2 + service_vat2
+                if service.LabService.id in service_ids_list_p4:
+                    service_price = service.LabService.Price
+                    service_discount3 += service_price * 33.33 / 100
+                    # compute subtotal
+                    discount = service_price * 33.33 / 100
+                    service_subtotal3 += float(service_price) - float(discount)
+                    # compute VAT
+                    service_vat3 += service.LabService.VATAmount
+                    service_total3 = service_subtotal3 + service_vat3
+                if service.LabService.id not in service_ids_list_p1 and \
+                                service.LabService.id not in service_ids_list_p2 and \
+                                service.LabService.id not in service_ids_list_p3 and \
+                                service.LabService.id not in service_ids_list_p4:
+                    service_price = service.LabService.Price
+                    discount = service_price * 33.33 / 100
+                    service_discount += service_price * 33.33 / 100
 
-    def calculate_lab_service_fields_value(self, service, service_discount, service_subtotal, service_total,
-                                           service_vat):
-        service_price = service.LabService.Price
-        service_discount += service_price * 33.33 / 100
-        # compute subtotal
-        discount = service_price * 33.33 / 100
-        service_subtotal += float(service_price) - float(discount)
-        # compute VAT
-        service_vat += service.LabService.VATAmount
-        service_total = service_subtotal + service_vat
-        return service_discount, service_subtotal, service_total, service_vat
+                    service_subtotal += float(service_price) - float(discount)
+                    service_vat += service.LabService.VATAmount
+                    service_total = service_subtotal + service_vat
 
-    def calculate_fields_values(self, service, service_discount, service_subtotal, service_vat):
-        service_price = service.Service.Price
-        service_discount += service_price * 33.33 / 100
-        # compute subtotal
-        discount = service_price * 33.33 / 100
-        service_subtotal += float(service_price) - float(discount)
-        # compute VAT
-        service_vat += service.Service.VATAmount
-        service_total = service_subtotal + service_vat
-        return service_discount, service_subtotal, service_total, service_vat
+                    service_discount1 += service_price * 33.33 / 100
+                    service_subtotal1 += float(service_price) - float(discount)
+                    service_vat1 += service.LabService.VATAmount
+                    service_total1 = service_subtotal1 + service_vat1
+
+                    service_discount2 += service_price * 33.33 / 100
+                    service_subtotal2 += float(service_price) - float(discount)
+                    service_vat2 += service.LabService.VATAmount
+                    service_total2 = service_subtotal2 + service_vat2
+
+                    service_discount3 += service_price * 33.33 / 100
+                    service_subtotal3 += float(service_price) - float(discount)
+                    service_vat3 += service.LabService.VATAmount
+                    service_total3 = service_subtotal3 + service_vat3
+
+            record.Discount = service_discount
+            record.Subtotal = service_subtotal
+            record.VAT = service_vat
+            record.Total = service_total
+
+            record.Discount1 = service_discount1
+            record.Subtotal1 = service_subtotal1
+            record.VAT1 = service_vat1
+            record.Total1 = service_total1
+
+            record.Discount2 = service_discount2
+            record.Subtotal2 = service_subtotal2
+            record.VAT2 = service_vat2
+            record.Total2 = service_total2
+
+            record.Discount3 = service_discount3
+            record.Subtotal3 = service_subtotal3
+            record.VAT3 = service_vat3
+            record.Total3 = service_total3
+
 
     def getTotalPrice(self):
         """
