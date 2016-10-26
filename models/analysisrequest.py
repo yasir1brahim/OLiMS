@@ -833,22 +833,27 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 
     @api.model
     def create(self, values):
-        """Overwrite the create method of Odoo and create sample model data
-           with fields SamplingDate and SampleType
+        """Overwrite the create method of Odoo and create other models data
+           with their fields
         """
         list_of_dicts = []
+        count = 0
         analysis_request_0_dict, analysis_request_1_dict, analysis_request_2_dict, analysis_request_3_dict = self.get_fields_value_dicts(
             values)
-        data, field_result_list, lab_result_list = self.create_field_and_lab_analyses(values)
+        data, data1, data2, data3,\
+        field_result_list, lab_result_list,\
+        field_result_list_profile1, lab_result_list_profile1,\
+        field_result_list_profile2, lab_result_list_profile2,\
+        field_result_list_profile3, lab_result_list_profile3 = self.create_field_and_lab_analyses(values)
 
         analysis_request_0_dict.update({"Field_Manage_Result": field_result_list,
             "Lab_Manage_Result": lab_result_list})
-        analysis_request_1_dict.update({"Field_Manage_Result": field_result_list,
-            "Lab_Manage_Result": lab_result_list})
-        analysis_request_2_dict.update({"Field_Manage_Result": field_result_list,
-            "Lab_Manage_Result": lab_result_list})
-        analysis_request_3_dict.update({"Field_Manage_Result": field_result_list,
-                                        "Lab_Manage_Result": lab_result_list})
+        analysis_request_1_dict.update({"Field_Manage_Result": field_result_list_profile1,
+            "Lab_Manage_Result": lab_result_list_profile1})
+        analysis_request_2_dict.update({"Field_Manage_Result": field_result_list_profile2,
+            "Lab_Manage_Result": lab_result_list_profile2})
+        analysis_request_3_dict.update({"Field_Manage_Result": field_result_list_profile3,
+                                        "Lab_Manage_Result": lab_result_list_profile3})
 
         list_of_dicts.append(analysis_request_0_dict)
         list_of_dicts.append(analysis_request_1_dict)
@@ -856,6 +861,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         list_of_dicts.append(analysis_request_3_dict)
 
         for ar_values in list_of_dicts:
+
             if ar_values.get("Contact") and ar_values.get('SamplingDate') and ar_values.get('SampleType'):
                 res = super(AnalysisRequest, self).create(ar_values)
                 new_sample = self.create_sample(ar_values, res)
@@ -865,9 +871,19 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 
                 ar_p = self.create_ar_partitions(res)
                 ar_analysis_object = self.env['olims.ar_analysis']
-                ar_service_lab_id = None
-                for rec in data:
-                    self.create_analyses(ar_analysis_object, ar_p, ar_values, rec, res)
+                if count == 0:
+                    for rec in data:
+                        self.create_analyses(ar_analysis_object, ar_p, ar_values, rec, res)
+                elif count == 1:
+                    for rec in data1:
+                        self.create_analyses(ar_analysis_object, ar_p, ar_values, rec, res)
+                elif count == 2:
+                    for rec in data2:
+                        self.create_analyses(ar_analysis_object, ar_p, ar_values, rec, res)
+                elif count == 3:
+                    for rec in data3:
+                        self.create_analyses(ar_analysis_object, ar_p, ar_values, rec, res)
+                count += 1
         return res
 
     def create_analyses(self, ar_analysis_object, ar_p, ar_values, rec, res):
@@ -922,35 +938,132 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 
     def create_field_and_lab_analyses(self, values):
         data = []
+        data1 = []
+        data2 = []
+        data3 = []
         lab_result_list = []
         field_result_list = []
+        lab_result_list_p1 = []
+        field_result_list_p1 = []
+        lab_result_list_p2 = []
+        field_result_list_p2 = []
+        lab_result_list_p3 = []
+        field_result_list_p3 = []
+        profile_analysis_id_list = []
+        profile1_analysis_id_list = []
+        profile2_analysis_id_list = []
+        profile3_analysis_id_list = []
+        if values.get('AnalysisProfile', None):
+            analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', values.get('AnalysisProfile'))])
+            for analysis in analysis_profile_obj.Service:
+                profile_analysis_id_list.append(analysis.Services.id)
+
+        if values.get('AnalysisProfile1', None):
+            analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', values.get('AnalysisProfile1'))])
+            for analysis in analysis_profile_obj.Service:
+                profile1_analysis_id_list.append(analysis.Services.id)
+
+        if values.get('AnalysisProfile2', None):
+            analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', values.get('AnalysisProfile2'))])
+            for analysis in analysis_profile_obj.Service:
+                profile2_analysis_id_list.append(analysis.Services.id)
+
+        if values.get('AnalysisProfile3', None):
+            analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', values.get('AnalysisProfile3'))])
+            for analysis in analysis_profile_obj.Service:
+                profile3_analysis_id_list.append(analysis.Services.id)
         for LabService in values.get('LabService'):
-            Specification = ">" + str(LabService[2]['Min']) + ", <" + str(LabService[2]['Max']) + ", %" + str(
-                LabService[2]['Error'])
-            service_instance = self.env['olims.analysis_service'].search([('id', '=', LabService[2]['LabService'])])
-            if service_instance._Method and service_instance.InstrumentEntryOfResults == False:
-                LabService[2].update({'Method': service_instance._Method.id})
-            elif service_instance.InstrumentEntryOfResults:
-                LabService[2].update({'Method': None, 'Instrument': service_instance.Instrument})
-            LabService[2].update({'Specifications': Specification,
-                                  "Due Date": datetime.datetime.now()})
-            lab_result_list.append([0, 0, LabService[2]])
-            data.append(LabService)
+            if LabService[2]['LabService'] in profile_analysis_id_list:
+                self.update_lab_service_obj(LabService, data, lab_result_list)
+            if LabService[2]['LabService'] in profile1_analysis_id_list:
+                self.update_lab_service_obj(LabService, data1, lab_result_list_p1)
+            if LabService[2]['LabService'] in profile2_analysis_id_list:
+                self.update_lab_service_obj(LabService, data2, lab_result_list_p2)
+            if LabService[2]['LabService'] in profile3_analysis_id_list:
+                self.update_lab_service_obj(LabService, data3, lab_result_list_p3)
+            if LabService[2]['LabService'] not in profile_analysis_id_list and \
+                            LabService[2]['LabService'] not in profile1_analysis_id_list and \
+                            LabService[2]['LabService'] not in profile2_analysis_id_list and \
+                            LabService[2]['LabService'] not in profile3_analysis_id_list:
+                Specification = ">" + str(LabService[2]['Min']) + ", <" + str(LabService[2]['Max']) + ", %" +\
+                                str(LabService[2]['Error'])
+                service_instance = self.env['olims.analysis_service'].search([('id', '=', LabService[2]['LabService'])])
+                if service_instance._Method and service_instance.InstrumentEntryOfResults == False:
+                    LabService[2].update({'Method': service_instance._Method.id})
+                elif service_instance.InstrumentEntryOfResults:
+                    LabService[2].update({'Method': None, 'Instrument': service_instance.Instrument})
+                LabService[2].update({'Specifications': Specification,
+                              "Due Date": datetime.datetime.now()})
+                lab_result_list.append([0, 0, LabService[2]])
+                lab_result_list_p1.append([0, 0, LabService[2]])
+                lab_result_list_p2.append([0, 0, LabService[2]])
+                lab_result_list_p3.append([0, 0, LabService[2]])
+                data.append(LabService)
+                data1.append(LabService)
+                data2.append(LabService)
+                data3.append(LabService)
         for FieldService in values.get('FieldService'):
-            Specification = ">" + str(FieldService[2]['Min']) + ", <" + str(FieldService[2]['Max']) + ", %" + str(
-                FieldService[2]['Error'])
-            service_instance = self.env['olims.analysis_service'].search([('id', '=', FieldService[2]['Service'])])
-            if service_instance._Method and service_instance.InstrumentEntryOfResults == False:
-                FieldService[2].update({'Method': service_instance._Method.id})
-            elif service_instance.InstrumentEntryOfResults:
-                FieldService[2].update({'Method': None, 'Instrument': service_instance.Instrument})
-            FieldService[2].update({'Specifications': Specification,
-                                    "Due Date": datetime.datetime.now()})
+            if FieldService[2]['Service'] in profile_analysis_id_list:
+                self.update_field_service_obj(FieldService, data, field_result_list)
+            if FieldService[2]['Service'] in profile1_analysis_id_list:
+                self.update_field_service_obj(FieldService, data1, field_result_list_p1)
+            if FieldService[2]['Service'] in profile2_analysis_id_list:
+                self.update_field_service_obj(FieldService, data2, field_result_list_p2)
+            if FieldService[2]['Service'] in profile3_analysis_id_list:
+                self.update_field_service_obj(FieldService, data3, field_result_list_p3)
+            if FieldService[2]['Service'] not in profile_analysis_id_list and \
+                            FieldService[2]['Service'] not in profile1_analysis_id_list and \
+                            FieldService[2]['Service'] not in profile2_analysis_id_list and \
+                            FieldService[2]['Service'] not in profile3_analysis_id_list:
+                Specification = ">" + str(FieldService[2]['Min']) + ", <" + str(FieldService[2]['Max']) + ", %" +\
+                                str(FieldService[2]['Error'])
+                service_instance = self.env['olims.analysis_service'].search([('id', '=', FieldService[2]['Service'])])
+                if service_instance._Method and service_instance.InstrumentEntryOfResults == False:
+                    FieldService[2].update({'Method': service_instance._Method.id})
+                elif service_instance.InstrumentEntryOfResults:
+                    FieldService[2].update({'Method': None, 'Instrument': service_instance.Instrument})
+                FieldService[2].update({'Specifications': Specification,
+                                "Due Date": datetime.datetime.now()})
+                field_result_list.append([0, 0, FieldService[2]])
+                data.append(FieldService)
+                field_result_list_p1.append([0, 0, FieldService[2]])
+                data1.append(FieldService)
+                field_result_list_p2.append([0, 0, FieldService[2]])
+                data2.append(FieldService)
+                field_result_list_p3.append([0, 0, FieldService[2]])
+                data3.append(FieldService)
 
-            field_result_list.append([0, 0, FieldService[2]])
-            data.append(FieldService)
+        return data, data1, data2, data3,\
+               field_result_list, lab_result_list,\
+               field_result_list_p1, lab_result_list_p1,\
+               field_result_list_p2, lab_result_list_p2,\
+               field_result_list_p3, lab_result_list_p3
 
-        return data, field_result_list, lab_result_list
+    def update_field_service_obj(self, FieldService, data1, field_result_list_p1):
+        Specification = ">" + str(FieldService[2]['Min']) + ", <" + str(FieldService[2]['Max']) + ", %" + str(
+            FieldService[2]['Error'])
+        service_instance = self.env['olims.analysis_service'].search([('id', '=', FieldService[2]['Service'])])
+        if service_instance._Method and service_instance.InstrumentEntryOfResults == False:
+            FieldService[2].update({'Method': service_instance._Method.id})
+        elif service_instance.InstrumentEntryOfResults:
+            FieldService[2].update({'Method': None, 'Instrument': service_instance.Instrument})
+        FieldService[2].update({'Specifications': Specification,
+                                "Due Date": datetime.datetime.now()})
+        field_result_list_p1.append([0, 0, FieldService[2]])
+        data1.append(FieldService)
+
+    def update_lab_service_obj(self, LabService, data, lab_result_list):
+        Specification = ">" + str(LabService[2]['Min']) + ", <" + str(LabService[2]['Max']) + ", %" + str(
+            LabService[2]['Error'])
+        service_instance = self.env['olims.analysis_service'].search([('id', '=', LabService[2]['LabService'])])
+        if service_instance._Method and service_instance.InstrumentEntryOfResults == False:
+            LabService[2].update({'Method': service_instance._Method.id})
+        elif service_instance.InstrumentEntryOfResults:
+            LabService[2].update({'Method': None, 'Instrument': service_instance.Instrument})
+        LabService[2].update({'Specifications': Specification,
+                              "Due Date": datetime.datetime.now()})
+        lab_result_list.append([0, 0, LabService[2]])
+        data.append(LabService)
 
     def get_fields_value_dicts(self, values):
         client = values.get('Client', None)
