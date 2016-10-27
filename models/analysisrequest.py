@@ -2064,6 +2064,9 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         This function opens a window to compose an email, with the edi sale template message loaded by default
         '''
         self.ensure_one()
+        emails_send = []
+        for email in self.CCEmails:
+            emails_send.append(email.name)
         ir_model_data = self.env['ir.model.data']
         try:
             template_id = ir_model_data.get_object_reference('olims', 'email_template_edi_ar')[1]
@@ -2073,14 +2076,15 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             compose_form_id = ir_model_data.get_object_reference('mail', 'email_compose_message_wizard_form')[1]
         except ValueError:
             compose_form_id = False
-        ctx = dict()
+        ctx = dict(self._context)
         ctx.update({
             'default_model': 'olims.analysis_request',
             'default_res_id': self.ids[0],
             'default_use_template': bool(template_id),
             'default_template_id': template_id,
             'default_composition_mode': 'comment',
-            'mark_so_as_sent': True
+            'mark_so_as_sent': True,
+            'send_email': ",".join(emails_send)
         })
         return {
             'type': 'ir.actions.act_window',

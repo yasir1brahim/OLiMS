@@ -4,10 +4,10 @@
 <record id="email_template_edi_ar" model="mail.template">
             <field name="name">OLiMS Email Template</field>
             <field name="email_from" eval='"urehman.knysys@gmail.com"'></field>
-            <!-- <field name="email_to" eval='"urehman.knysys@gmail.com"'></field> -->
-            <field name="subject">OLiMS Analysis Report</field>
+            <field name="email_to">${ctx.send_email}</field>
+            <field name="subject">Sample: ${object.ClientSampleID} Test Results</field>
             <field name="model_id" ref="olims.model_olims_analysis_request"/>
-            <field name="report_template" ref="action_report_analysis_request"/>
+            <field name="report_template" ref="action_certificate_of_analysis"/>
             <field name="report_name" eval='"Analysis Report"'/>
             <field name="auto_delete" eval="True"/>
             <field name="body_html">
@@ -15,7 +15,7 @@
     <div style="font-family: 'Lucida Grande', Ubuntu, Arial, Verdana, sans-serif; font-size: 12px; color: rgb(34, 34, 34); background-color: #FFF; ">
     
     <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
-       &nbsp;&nbsp;Title: <strong>${object.RequestID}</strong><br />
+       &nbsp;&nbsp;Title: <strong>${object.ClientSampleID}</strong><br />
        &nbsp;&nbsp;Date: <strong>${object.create_date}</strong><br />
     </p>
     </div?
