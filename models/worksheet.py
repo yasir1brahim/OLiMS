@@ -126,46 +126,47 @@ class Worksheet(models.Model, BaseOLiMSModel):
     def write(self, values):
         data_list = []
         count = 0
-        if values.get("AnalysisRequest", None):
-            if values["AnalysisRequest"][0][0] == 6:
-                for items in sorted(values["AnalysisRequest"][0][2]):
-                    count += 1
-                    values_dict_manage_results = {}
-                    add_analysis_obj = self.env["olims.add_analysis"].browse(items)
-                    add_analysis_obj.write({'state':'assigned'})
-                    cont = False
-                    for record in self.ManageResult:
-                        if record.request_analysis_id.id == add_analysis_obj.add_analysis_id.id and record.analysis.id == add_analysis_obj.analysis.id:
-                            cont = True
-                    if cont:
-                        continue
-                    for cate_analysis in add_analysis_obj.add_analysis_id.Analyses:
-                        if cate_analysis.Category.id == add_analysis_obj.category.id:
+        for record in self:
+            if values.get("AnalysisRequest", None):
+                if values["AnalysisRequest"][0][0] == 6:
+                    for items in sorted(values["AnalysisRequest"][0][2]):
+                        count += 1
+                        values_dict_manage_results = {}
+                        add_analysis_obj = self.env["olims.add_analysis"].browse(items)
+                        add_analysis_obj.write({'state':'assigned'})
+                        cont = False
+                        for rec in record.ManageResult:
+                            if rec.request_analysis_id.id == add_analysis_obj.add_analysis_id.id and rec.analysis.id == add_analysis_obj.analysis.id:
+                                cont = True
+                        if cont:
+                            continue
+                        for cate_analysis in add_analysis_obj.add_analysis_id.Analyses:
+                            if cate_analysis.Category.id == add_analysis_obj.category.id:
 
-                            values_dict_manage_results.update({"request_analysis_id":add_analysis_obj.add_analysis_id.id,
-                                # "analysis": add_analysis_obj.analysis.id,
-                                "analysis": cate_analysis.Services.id,
-                                "client":add_analysis_obj.client.id,
-                                "due_date": add_analysis_obj.due_date,
-                                "received_date": add_analysis_obj.received_date,
-                                "sampling_date": add_analysis_obj.add_analysis_id.SamplingDate,
-                                "sample_type": add_analysis_obj.add_analysis_id.SampleType.id,
-                                "sample": add_analysis_obj.add_analysis_id.Sample_id.id,
-                                "analyst": self.Analyst.id,
-                                "instrument": self.Instrument.id,
-                                "priority": add_analysis_obj.priority.id,
-                                "position": count,
-                                "category": cate_analysis.Category.id})
-                            rec_id = self.env["olims.ws_manage_results"].create(values_dict_manage_results)
-                            data_list.append([4,rec_id.id])
-                values.update({"ManageResult": data_list})
-            elif values["AnalysisRequest"][0][0] == 3:
-                add_analysis_obj = self.env["olims.add_analysis"].browse(values["AnalysisRequest"][0][1])
-                for record in self.ManageResult:
-                    if record.request_analysis_id.id == add_analysis_obj.add_analysis_id.id and record.analysis.id == add_analysis_obj.analysis.id:
-                        self.write({"ManageResult": [(2, record.id)]})
-                    elif record.request_analysis_id.id == add_analysis_obj.add_analysis_id.id and record.category.id == add_analysis_obj.category.id:
-                        self.write({"ManageResult": [(2, record.id)]})
+                                values_dict_manage_results.update({"request_analysis_id":add_analysis_obj.add_analysis_id.id,
+                                    # "analysis": add_analysis_obj.analysis.id,
+                                    "analysis": cate_analysis.Services.id,
+                                    "client":add_analysis_obj.client.id,
+                                    "due_date": add_analysis_obj.due_date,
+                                    "received_date": add_analysis_obj.received_date,
+                                    "sampling_date": add_analysis_obj.add_analysis_id.SamplingDate,
+                                    "sample_type": add_analysis_obj.add_analysis_id.SampleType.id,
+                                    "sample": add_analysis_obj.add_analysis_id.Sample_id.id,
+                                    "analyst": self.Analyst.id,
+                                    "instrument": self.Instrument.id,
+                                    "priority": add_analysis_obj.priority.id,
+                                    "position": count,
+                                    "category": cate_analysis.Category.id})
+                                rec_id = self.env["olims.ws_manage_results"].create(values_dict_manage_results)
+                                data_list.append([4,rec_id.id])
+                    values.update({"ManageResult": data_list})
+                elif values["AnalysisRequest"][0][0] == 3:
+                    add_analysis_obj = self.env["olims.add_analysis"].browse(values["AnalysisRequest"][0][1])
+                    for rec in record.ManageResult:
+                        if rec.request_analysis_id.id == add_analysis_obj.add_analysis_id.id and rec.analysis.id == add_analysis_obj.analysis.id:
+                            record.write({"ManageResult": [(2, rec.id)]})
+                        elif rec.request_analysis_id.id == add_analysis_obj.add_analysis_id.id and rec.category.id == add_analysis_obj.category.id:
+                            record.write({"ManageResult": [(2, rec.id)]})
 
         return super(Worksheet, self).write(values)
 
