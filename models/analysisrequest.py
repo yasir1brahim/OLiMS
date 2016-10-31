@@ -1291,7 +1291,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     @api.multi
     def publish_analysis_request(self):
         # self.filtered(lambda s: s.state == 'draft').write({'state': 'sent'})
-        return self.env['report'].get_action(self, 'olims.report_analysis_request')
+        return self.env['report'].get_action(self, 'olims.report_certificate_of_analysis')
 
     def actionToBeSampled(self,cr,uid,ids,context=None):
         self.write(cr, uid, ids, {

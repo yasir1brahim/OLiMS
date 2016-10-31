@@ -6,7 +6,7 @@
 				<div class="header">
 			        <div class="row">
 			            <div class="col-xs-10">
-			                <img t-if="res_company.logo" t-att-src="'data:image/png;base64,%s' % res_company.logo" style="max-height: 45px;"/>
+			                <img class="img img-responsive" src="/olims/static/src/img/testing-tech-logofb.jpg" style="max-height: 70px;"/>
 			            </div>
 			            <div class="col-xs-2 right" name="company_address">
 			                <div t-field="res_company.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}"/>
