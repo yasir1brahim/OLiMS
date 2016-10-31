@@ -5380,6 +5380,10 @@
                             <field name="ChangeNote"></field>
                         </page>
                         <page string="Analysis">
+                            <label for="Min" string="Min"/>
+                            <field name="Min"/>
+                            <label for="Max" string="Max"/>
+                            <field name="Max"/>
                             <label for="Precision" string="Precision as number of decimals"/>
                             <p>Define the number of decimals to be used for this result.</p>
                             <field name="Precision"></field>

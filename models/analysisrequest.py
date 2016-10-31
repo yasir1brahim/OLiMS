@@ -2106,9 +2106,13 @@ class FieldAnalysisService(models.Model, BaseOLiMSModel):
             if item.Service:
                 item.CommercialID = item.Service.CommercialID
                 item.ProtocolID  = item.Service.ProtocolID
+                item.Min = item.Service.Min
+                item.Max = item.Service.Max
             if item.LabService:
                 item.CommercialID = item.LabService.CommercialID
                 item.ProtocolID  = item.LabService.ProtocolID
+                item.Min = item.LabService.Min
+                item.Max = item.LabService.Max
 
 class ManageAnalyses(models.Model, BaseOLiMSModel):
     _inherit = 'olims.field_analysis_service'

@@ -56,6 +56,12 @@ class ARAnalysis(models.Model, BaseOLiMSModel):
             'view_id': form_id,
             'target': 'new',
         }
+
+    @api.onchange('Services')
+    def set_min_max_values(self):
+      for item in self:
+        item.Min = item.Services.Min
+        item.Max = item.Services.Max
     
 RecodrdsFieldARTemplate.initialze(schema)
 ARAnalysis.initialze(analysis_schema)

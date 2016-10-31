@@ -546,6 +546,8 @@ schema = (StringField('Service',
             description=_("Enter a comment that describes the changes you made")
         ),
     ),
+    StringField(string="Min"),
+    StringField(string="Max"),
 )
 
 
