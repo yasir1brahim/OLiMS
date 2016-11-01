@@ -76,7 +76,7 @@
                     <field name="SamplingDate" string="Sampling Date"></field>
                     <field name="SampleType" string="Sample Type"></field>
                     <field name="LotID" string="Lot ID"></field>
-                    <field name="ClientReference" string="Client Reference"></field>
+                    <field name="ClientReference" string="Product Name"></field>
                     <field name="ClientSampleID" string="Client Sample ID"></field>
                     <field name="Priority"></field>
                     <field name="Sampler" string="Transporter"></field>
@@ -1890,6 +1890,16 @@
                                 </div>
                             </group>
                             <group>
+                                <label for="ClientReference" string="Product Name"/>
+                                <div>
+                                    <field name="CopyClientReference" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
+                                    <field name="ClientReference" nolabel="1"></field>
+                                    <field name="ClientReference1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="ClientReference2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="ClientReference3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                </div>
+                            </group>
+                            <group>
                                 <label for="SampleType" string="Sample Type"/>
                                 <div>
                                     <field name="Copysampletype" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
@@ -1987,16 +1997,6 @@
                                 <field name="StorageLocation1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="StorageLocation2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="StorageLocation3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                            </div>
-                        </group>
-                        <group>
-                            <label for="ClientReference" string="Client Reference"/>
-                            <div>
-                                <field name="CopyClientReference" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
-                                <field name="ClientReference" nolabel="1"></field>
-                                <field name="ClientReference1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                <field name="ClientReference2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                <field name="ClientReference3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             </div>
                         </group>
                         <group>
@@ -2339,7 +2339,7 @@
                     <field name="SamplePoint"></field>
                     <field name="StorageLocation"></field> -->
                     <field name="LotID" string="Lot ID"></field>
-                    <field name="ClientReference" string="Client Reference"></field>
+                    <field name="ClientReference" string="Product Name"></field>
                     <field name="ClientSampleID" string="Client Sample ID"></field>
                     <!-- <field name="SamplingDeviation"></field>
                     <field name="SampleCondition"></field>
@@ -2752,7 +2752,7 @@
                     </header>
                     <!--<label for="name" string="Sample ID"/>
                     <field name="name"></field>-->
-                	<label for="ClientReference" string="Client Reference"/>
+                	<label for="ClientReference" string="Product Name"/>
                     <field name="ClientReference"></field>
                     <label for="ClientSampleID" string="Client Sample ID"/>
                 	<field name="ClientSampleID"></field>
