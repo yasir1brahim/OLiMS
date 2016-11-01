@@ -669,15 +669,7 @@ schema = (fields.Char(string='RequestID',
         default=False,
     ),
     fields.Boolean(
-        string='CopyLotID',
-        default=False,
-    ),
-    fields.Boolean(
         string='CopyClientReference',
-        default=False,
-    ),
-    fields.Boolean(
-        string='CopyClientSampleID',
         default=False,
     ),
     fields.Boolean(
@@ -1908,19 +1900,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         else:
             pass
 
-    @api.onchange('CopyLotID')
-    def copy_client_order_num(self):
-        if self.Copy == '1':
-            self.LotID1 = self.LotID
-            self.LotID2 = self.LotID3 = None
-        elif self.Copy == '2':
-            self.LotID1 = self.LotID2 = self.LotID
-            self.LotID3 = None
-        elif self.Copy == '3':
-            self.LotID1 = self.LotID2 = self.LotID3 = self.LotID
-        else:
-            pass
-
 
     @api.onchange('CopyClientReference')
     def copy_client_reference(self):
@@ -1932,20 +1911,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             self.ClientReference3 = None
         elif self.Copy == '3':
             self.ClientReference1 = self.ClientReference2 = self.ClientReference3 = self.ClientReference
-        else:
-            pass
-
-
-    @api.onchange('CopyClientSampleID')
-    def copy_client_sample_id(self):
-        if self.Copy == '1':
-            self.ClientSampleID1 = self.ClientSampleID
-            self.ClientSampleID2 = self.ClientSampleID3 = None
-        elif self.Copy == '2':
-            self.ClientSampleID1 = self.ClientSampleID2 = self.ClientSampleID
-            self.ClientSampleID3 = None
-        elif self.Copy == '3':
-            self.ClientSampleID1 = self.ClientSampleID2 = self.ClientSampleID3 = self.ClientSampleID
         else:
             pass
 

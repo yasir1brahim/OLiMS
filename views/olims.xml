@@ -1873,7 +1873,6 @@
                             <group>
                                     <label for="ClientSampleID" string="Client Sample ID"/>
                                     <div>
-                                        <field name="CopyClientSampleID" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
                                         <field name="ClientSampleID" nolabel="1"></field>
                                         <field name="ClientSampleID1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                         <field name="ClientSampleID2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
@@ -1883,7 +1882,6 @@
                                 <group>
                                     <label for="LotID" string="Lot ID"/>
                                     <div>
-                                        <field name="CopyLotID" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
                                         <field name="LotID" nolabel="1"></field>
                                         <field name="LotID1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                         <field name="LotID2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
