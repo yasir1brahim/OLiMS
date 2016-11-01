@@ -1009,7 +1009,7 @@ class WorkSheetManageResults(models.Model):
         comodel_name="olims.sample")
     sampling_date = fields.Datetime("Sampling Date")
     received_date = fields.Datetime("Received Date")
-    result = fields.Char("Results")
+    result = fields.Float("Results")
     position = fields.Integer(string="Position")
     analyst = fields.Many2one(string='Analyst',
         comodel_name='res.users',

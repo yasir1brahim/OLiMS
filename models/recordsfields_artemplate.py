@@ -17,9 +17,9 @@ analysis_schema = (fields.Many2one(string='Priority',
                                    comodel_name='olims.ar_priority'),
                    fields.Many2one(string='Partition',
                                    comodel_name='olims.ar_partition'),
-                   fields.Char(string="Error"),
-                   fields.Char(string="Min"),
-                   fields.Char(string="Max"),
+                   fields.Float(string="Error"),
+                   fields.Float(string="Min"),
+                   fields.Float(string="Max"),
                    fields.Many2one(string='analysis_request_id', comodel_name ='olims.analysis_request'),
                    )
 

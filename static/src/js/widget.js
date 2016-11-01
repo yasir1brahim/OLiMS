@@ -123,7 +123,7 @@ var One2ManySelectable = FieldOne2Many.extend({
 		   var model_obj=new Model(this.dataset.model);
 		   for(var i=0; i<selected_ids.length; i++)
 		   {
-		   	    if (selected_results[i] == ""){
+		   	    if (selected_results[i] == "" || selected_results[i] == 0.00){
 					self.do_warn(_t("Some selected items are missing results " +
                		"Please add results first before proceeding."));
 	   				return false;
@@ -148,6 +148,7 @@ var One2ManySelectable = FieldOne2Many.extend({
 		   			else if(results[i].hasOwnProperty('Result')){
 		   				res = results[i].Result;
 		   			}
+		   			res = res.toFixed(2)
 		   			if (res !== selected_results[i]){
 		   				self.do_warn(_t("Some selected items are not saved " +
 	               		"Please save the record first before proceeding."));
