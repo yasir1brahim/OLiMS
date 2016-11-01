@@ -985,8 +985,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                             LabService[2]['LabService'] not in profile1_analysis_id_list and \
                             LabService[2]['LabService'] not in profile2_analysis_id_list and \
                             LabService[2]['LabService'] not in profile3_analysis_id_list:
-                Specification = ">" + str(LabService[2]['Min']) + ", <" + str(LabService[2]['Max']) + ", %" +\
-                                str(LabService[2]['Error'])
+                Specification = ">" + str(LabService[2]['Min']) + ", <" + str(LabService[2]['Max'])
                 service_instance = self.env['olims.analysis_service'].search([('id', '=', LabService[2]['LabService'])])
                 if service_instance._Method and service_instance.InstrumentEntryOfResults == False:
                     LabService[2].update({'Method': service_instance._Method.id})
@@ -1015,8 +1014,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                             FieldService[2]['Service'] not in profile1_analysis_id_list and \
                             FieldService[2]['Service'] not in profile2_analysis_id_list and \
                             FieldService[2]['Service'] not in profile3_analysis_id_list:
-                Specification = ">" + str(FieldService[2]['Min']) + ", <" + str(FieldService[2]['Max']) + ", %" +\
-                                str(FieldService[2]['Error'])
+                Specification = ">" + str(FieldService[2]['Min']) + ", <" + str(FieldService[2]['Max'])
                 service_instance = self.env['olims.analysis_service'].search([('id', '=', FieldService[2]['Service'])])
                 if service_instance._Method and service_instance.InstrumentEntryOfResults == False:
                     FieldService[2].update({'Method': service_instance._Method.id})
@@ -1040,8 +1038,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                field_result_list_p3, lab_result_list_p3
 
     def update_field_service_obj(self, FieldService, data1, field_result_list_p1):
-        Specification = ">" + str(FieldService[2]['Min']) + ", <" + str(FieldService[2]['Max']) + ", %" + str(
-            FieldService[2]['Error'])
+        Specification = ">" + str(FieldService[2]['Min']) + ", <" + str(FieldService[2]['Max'])
         service_instance = self.env['olims.analysis_service'].search([('id', '=', FieldService[2]['Service'])])
         if service_instance._Method and service_instance.InstrumentEntryOfResults == False:
             FieldService[2].update({'Method': service_instance._Method.id})
@@ -1053,8 +1050,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         data1.append(FieldService)
 
     def update_lab_service_obj(self, LabService, data, lab_result_list):
-        Specification = ">" + str(LabService[2]['Min']) + ", <" + str(LabService[2]['Max']) + ", %" + str(
-            LabService[2]['Error'])
+        Specification = ">" + str(LabService[2]['Min']) + ", <" + str(LabService[2]['Max'])
         service_instance = self.env['olims.analysis_service'].search([('id', '=', LabService[2]['LabService'])])
         if service_instance._Method and service_instance.InstrumentEntryOfResults == False:
             LabService[2].update({'Method': service_instance._Method.id})
@@ -1230,7 +1226,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 for items in values.get("Analyses"):
                     if items[0] == 0:
                         result_val_dict.update({
-                                "Specifications":">"+str(items[2].get("Min", None))+", <"+str(items[2].get("Max", None))+", %"+str(items[2].get("Error", None)),
+                                "Specifications":">"+str(items[2].get("Min", None))+", <"+str(items[2].get("Max", None)),
                                 "Category": items[2].get("Category"),
                                 'Due Date':datetime.datetime.now(),
                                 'Min': items[2].get("Min", None),
@@ -1274,7 +1270,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                         manage_res_val_dict.update({"Min": min,
                                                "Max": max,
                                                "Error": error,
-                                                "Specifications": ">" + str(min) + ", <" + str(max) + ", %" + str(error)})
+                                                "Specifications": ">" + str(min) + ", <" + str(max)})
                         if ar_obj.Services.PointOfCapture == "field":
                             for ar_man_res_obj in ar_manage_res_obj:
                                 manage_res_val_lis.append([1,ar_man_res_obj.id,manage_res_val_dict])
