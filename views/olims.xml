@@ -2215,7 +2215,7 @@
                 <page string="Manage Results" attrs="{'invisible': [('state', 'in', ['to_be_sampled', 'sample_due','verified', 'published'])]}">
                     <label for="Field_Manage_Result" string="Field Analysis" attrs="{'invisible': [('Field_Manage_Result', '=', [])]}"/>
                     <field name="Field_Manage_Result" attrs="{'invisible': [('Field_Manage_Result', '=', [])]}" widget="one2many_selectable">
-                        <tree editable="bottom" create='false' delete='false' decoration-info="state in ('sample_received','to_be_verified')" decoration-danger="Result and Result&lt;Min or Result&gt;Max">
+                        <tree editable="bottom" create='false' delete='false' decoration-info="state in ('sample_received','to_be_verified')" decoration-danger="Result&lt;Min or Result&gt;Max">
                             <field name="id" invisible="1"/>
                             <field name='Category' attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="Service" attrs="{'readonly': [('id', '!=', False)]}"/>
@@ -2235,7 +2235,7 @@
                     </field>
                     <label for="Lab_Manage_Result" string="Lab Analysis" attrs="{'invisible': [('Lab_Manage_Result', '=', [])]}"/>
                     <field name="Lab_Manage_Result" attrs="{'invisible': [('Lab_Manage_Result', '=', [])]}" widget="one2many_selectable">
-                        <tree editable="bottom" create='false' delete='false' decoration-info="state in ('sample_received','to_be_verified')" decoration-danger="Result and Result &lt;Min or Result&gt;Max">
+                        <tree editable="bottom" create='false' delete='false' decoration-info="state in ('sample_received','to_be_verified')" decoration-danger="Result &lt;Min or Result&gt;Max">
                             <field name="id" invisible="1"/>
                             <field name='Category' attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="LabService" string="Service" attrs="{'readonly': [('id', '!=', False)]}"/>

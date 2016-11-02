@@ -2173,7 +2173,7 @@ class ManageAnalyses(models.Model, BaseOLiMSModel):
 
     @api.onchange('Result')
     def show_or_hide_flag(self):
-        if self.Result and self.Result < self.Min or self.Result > self.Max:
+        if self.Result < self.Min or self.Result > self.Max:
             self.flag = "flag"
         else:
             self.flag = False
