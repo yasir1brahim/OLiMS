@@ -173,5 +173,13 @@
                 name="olims.report_certificate_of_analysis"
                 file="olims.report_certificate_of_analysis"
             />
+            <report
+                id="action_analysis_request_detail"
+                model="olims.analysis_request"
+                string="Analyses Request"
+                report_type="qweb-pdf"
+                name="olims.report_analysis_request_detail"
+                file="olims.report_analysis_request_detail"
+            />
     </data>
 </openerp>
