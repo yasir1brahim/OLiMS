@@ -123,11 +123,6 @@ var One2ManySelectable = FieldOne2Many.extend({
 		   var model_obj=new Model(this.dataset.model);
 		   for(var i=0; i<selected_ids.length; i++)
 		   {
-		   	    if (selected_results[i] == "" || selected_results[i] == 0.00){
-					self.do_warn(_t("Some selected items are missing results " +
-               		"Please add results first before proceeding."));
-	   				return false;
-	   			}
 			   if(isNaN(selected_ids[i]))
 			   {
 			   		this.do_warn(_t("Some selected items have not been saved! " +

@@ -2084,7 +2084,7 @@ class ManageAnalyses(models.Model, BaseOLiMSModel):
         ar_ids = []
         analysis_ids = []
         for record in self:
-            if not record.Result or record.state == "verified":
+            if record.state == "verified":
                 continue
             record.write({"state":"to_be_verified"})
             if len(record.Service) != 0:

@@ -1036,7 +1036,7 @@ class WorkSheetManageResults(models.Model):
     def bulk_verify(self):
         ar_ids = []
         for record in self:
-            if not record.result or record.state == "verified":
+            if record.state == "verified":
                 continue
             record.write({"state":"to_be_verified"})
             analyses = self.env["olims.manage_analyses"].search([
