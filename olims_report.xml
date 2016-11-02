@@ -81,6 +81,7 @@
             report_type="qweb-pdf"
             name="olims.report_analysis_request"
             file="olims.report_analysis_request"
+            menu="False"
             />
         <report
             id="action_report_invoice_detail"
@@ -129,6 +130,7 @@
             report_type="qweb-pdf"
             name="olims.analysis_request_labels"
             file="olims.analysis_request_labels"
+            menu="False"
             />
             <report
             id="action_print_ar_labels_from_worksheet"
@@ -161,6 +163,7 @@
             report_type="qweb-pdf"
             name="olims.analysis_request_labels_column_wise"
             file="olims.analysis_request_labels_column_wise"
+            menu="False"
             />
             <report 
                 id="action_certificate_of_analysis"
