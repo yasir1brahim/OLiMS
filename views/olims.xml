@@ -2219,7 +2219,7 @@
                             <field name="id" invisible="1"/>
                             <field name='Category' attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="Service" attrs="{'readonly': [('id', '!=', False)]}"/>
-                            <field name="Partition" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="flag" string="Flag" attrs="{'invisible': [('Result', '=', False)]}"/>
                             <field name="Result"/>
                             <field name="Specifications" attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="Instrument" options="{'no_create': True}"/>
@@ -2230,7 +2230,7 @@
                             <field name="state" string="State" readonly="1"/>
                             <field name="Min" string="Min" invisible="1"/>
                             <field name="Max" string="Max" invisible="1"/>
-                            <field name="flag" readonly="1" attrs="{'invisible': [('Result', '=', False)]}"/>
+                            <field name="Partition" attrs="{'readonly': [('id', '!=', False)]}"/>
                         </tree>
                     </field>
                     <label for="Lab_Manage_Result" string="Lab Analysis" attrs="{'invisible': [('Lab_Manage_Result', '=', [])]}"/>
@@ -2239,7 +2239,7 @@
                             <field name="id" invisible="1"/>
                             <field name='Category' attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="LabService" string="Service" attrs="{'readonly': [('id', '!=', False)]}"/>
-                            <field name="Partition" attrs="{'readonly': [('id', '!=', False)]}"/>
+                            <field name="flag" string="Flag" attrs="{'invisible': [('Result', '=', False)]}"/>
                             <field name="Result"/>
                             <field name="Specifications" attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="Instrument" options="{'no_create': True}"/>
@@ -2250,7 +2250,7 @@
                             <field name="state" string="State" readonly="1"/>
                             <field name="Min" string="Min" invisible="1"/>
                             <field name="Max" string="Max" invisible="1"/>
-                            <field name="flag" string="Flag" attrs="{'invisible': [('Result', '=', False)]}"/>
+                            <field name="Partition" attrs="{'readonly': [('id', '!=', False)]}"/>
                         </tree>
                     </field>
                 </page>

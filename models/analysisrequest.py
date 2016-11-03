@@ -802,7 +802,7 @@ manage_result_schema = (
                      readonly=True,
                      copy=False, track_visibility='always'
     ),
-    fields.Char(string="flag")
+    fields.Char(string="flag", compute="insert_flag")
     )
 
 class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
@@ -2175,14 +2175,13 @@ class ManageAnalyses(models.Model, BaseOLiMSModel):
                 self.env["olims.worksheet"].browse(worksheet.id).signal_workflow("verify")
         return True
 
-    @api.onchange('Result')
-    def show_or_hide_flag(self):
-        if self.Result < self.Min or self.Result > self.Max:
-            self.flag = "flag"
-        else:
-            self.flag = False
-
-
+    @api.depends('Result', 'Min', 'Max')
+    def insert_flag(self):
+        for record in self:
+            if record.Result < record.Min or record.Result > record.Max:
+                record.flag = "flag"
+            else:
+                record.flag = False
 
 AnalysisRequest.initialze(schema)
 FieldAnalysisService.initialze(schema_analysis)
