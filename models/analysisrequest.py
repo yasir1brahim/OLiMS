@@ -1093,6 +1093,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'SampleCondition': values.get('SampleCondition', None),
             'Remarks': values.get('Remarks', None),
             'DefaultContainerType': values.get('DefaultContainerType', None),
+            'ClientReference': values.get('ClientReference',None)
         }
         analysis_request_1_dict = {
             'StorageLocation': values.get('StorageLocation1', None),
@@ -1130,6 +1131,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'SampleCondition': values.get('SampleCondition1', None),
             'Remarks': values.get('Remarks', None),
             'DefaultContainerType': values.get('DefaultContainerType1', None),
+            'ClientReference': values.get('ClientReference',None),
         }
         analysis_request_2_dict = {
             'StorageLocation': values.get('StorageLocation2', None),
@@ -1167,6 +1169,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'SampleCondition': values.get('SampleCondition2', None),
             'Remarks': values.get('Remarks', None),
             'DefaultContainerType': values.get('DefaultContainerType2', None),
+            'ClientReference': values.get('ClientReference',None),
         }
         analysis_request_3_dict = {
             'StorageLocation': values.get('StorageLocation3', None),
@@ -1204,6 +1207,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'SampleCondition': values.get('SampleCondition3', None),
             'Remarks': values.get('Remarks', None),
             'DefaultContainerType': values.get('DefaultContainerType3', None),
+            'ClientReference': values.get('ClientReference',None),
         }
         return analysis_request_0_dict, analysis_request_1_dict, analysis_request_2_dict, analysis_request_3_dict
 
