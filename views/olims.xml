@@ -5381,9 +5381,17 @@
                         </page>
                         <page string="Analysis">
                             <label for="Min" string="Min"/>
-                            <field name="Min"/>
+                            <field name="Min" nolabel="1"/>
                             <label for="Max" string="Max"/>
-                            <field name="Max"/>
+                            <field name="Max" nolabel="1"/>
+                            <field name="display_text" nolabel="1"/>
+                            <label for="display_text" string="Display Text"/>
+                            <p>When checked display the text as limit in Certificate Of Analysis (COA) otherwise display the Min Max range values on COA.</p>
+                            <label for="specification_text" string="Specification"/>
+                            <field name="specification_text" nolabel="1"/>
+                            <field name="status_on_off" nolabel="1"/>
+                            <label for="status_on_off" string="Hide Status"/>
+                            <p>When checked no text displayed in "Status" column of Certificate Of Analysis (COA).</p>
                             <label for="Precision" string="Precision as number of decimals"/>
                             <p>Define the number of decimals to be used for this result.</p>
                             <field name="Precision"></field>

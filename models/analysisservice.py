@@ -548,6 +548,9 @@ schema = (StringField('Service',
     ),
     FixedPointField(string="Min"),
     FixedPointField(string="Max"),
+    BooleanField(string="display_text"),
+    StringField(string="specification_text"),
+    BooleanField(string="status_on_off"),
 )
 
 

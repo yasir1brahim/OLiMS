@@ -58,13 +58,19 @@
 							                            <span t-field="l_result.LabService.Unit"/>
 							                        </td>
 							                        <td class="text-center">
-							                            <t t-if="l_result.Min or l_result.Max"><span t-field="l_result.Min"/>&#x20;-&#x20;<span t-field="l_result.Max"/></t>
-							                            <t t-if="l_result.Min == 0 and l_result.Max == 0">=0</t>
+							                        	<t t-if="not l_result.LabService.display_text">
+								                            <t t-if="l_result.Min or l_result.Max"><span t-field="l_result.Min"/>&#x20;-&#x20;<span t-field="l_result.Max"/></t>
+								                            <t t-if="l_result.Min == 0 and l_result.Max == 0">=0</t>
+								                        </t>
+								                        <t t-if="l_result.LabService.display_text">
+								                            <span t-field="l_result.LabService.specification_text"/>
+								                        </t>
 							                        </td>
 							                        <td class="text-center">
-							                            <t t-if="l_result.Result &lt; l_result.Min or  l_result.Result &gt; l_result.Max"><span>fail</span></t>
-							                            <t t-if="l_result.Result &gt;= l_result.Min and l_result.Result &lt;= l_result.Max"><span>pass</span></t>
-
+							                        	<t t-if="not l_result.LabService.status_on_off">
+								                            <t t-if="l_result.Result &lt; l_result.Min or  l_result.Result &gt; l_result.Max"><span>fail</span></t>
+								                            <t t-if="l_result.Result &gt;= l_result.Min and l_result.Result &lt;= l_result.Max"><span>pass</span></t>
+								                        </t>
 							                        </td>
 							                    </tr>
 							                </t>
@@ -78,12 +84,19 @@
 							                            <span t-field="f_result.Service.Unit"/>
 							                        </td>
 							                        <td class="text-center">
-							                            <t t-if="f_result.Min or f_result.Max"><span t-field="f_result.Min"/>&#x20;-&#x20;<span t-field="f_result.Max"/></t>
-							                            <t t-if="f_result.Min == 0 and f_result.Max == 0">=0</t>
+							                        	<t t-if="not f_result.Service.display_text">
+								                            <t t-if="f_result.Min or f_result.Max"><span t-field="f_result.Min"/>&#x20;-&#x20;<span t-field="f_result.Max"/></t>
+								                            <t t-if="f_result.Min == 0 and f_result.Max == 0">=0</t>
+							                        	</t>
+							                        	<t t-if="f_result.Service.display_text">
+								                        	<span t-field="f_result.Service.specification_text"/>
+								                        </t>
 							                        </td>
 							                        <td class="text-center">
-							                            <t t-if="f_result.Result &lt; f_result.Min or  f_result.Result &gt; f_result.Max"><span>fail</span></t>
-							                            <t t-if="f_result.Result &gt;= f_result.Min and f_result.Result &lt;= f_result.Max"><span>pass</span></t>
+							                        	<t t-if="not f_result.Service.status_on_off">
+								                            <t t-if="f_result.Result &lt; f_result.Min or  f_result.Result &gt; f_result.Max"><span>fail</span></t>
+								                            <t t-if="f_result.Result &gt;= f_result.Min and f_result.Result &lt;= f_result.Max"><span>pass</span></t>
+								                        </t>
 							                        </td>
 							                    </tr>
 							                </t>
