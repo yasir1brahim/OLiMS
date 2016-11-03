@@ -28,7 +28,6 @@
 						                        <th class="text-center"></th>
 						                        <th class="text-center">Test</th>
 						                        <th class="text-center">Results</th>
-						                        <th class="text-center">Unit</th>
 						                        <th class="text-center">I-502 Limits</th>
 						                        <th class="text-center">Status</th>
 						                    </tr>
@@ -46,7 +45,7 @@
 						                			<t t-if="doc.ClientSampleID"><strong>Sample ID:</strong><p t-field="doc.ClientSampleID"/></t>
 						                			<t t-if="doc.ClientReference"><strong>Product Name:</strong><p t-field="doc.ClientReference"/></t>
 						                		</td>
-						                		<td colspan="5">
+						                		<td colspan="4">
 						                		</td>
 						                	</tr>
 						                	<t t-if="doc.Lab_Manage_Result">
@@ -56,15 +55,11 @@
 							                        </td>
 							                        <td class="text-center">
 							                            <span t-field="l_result.Result"/>
-							                        </td>
-							                        <td class="text-center">
 							                            <span t-field="l_result.LabService.Unit"/>
 							                        </td>
 							                        <td class="text-center">
-							                            <t t-if="l_result.Min and l_result.Max"><span t-field="l_result.Min"/>&#x20;-&#x20;<span t-field="l_result.Max"/></t>
-							                            <t t-if="l_result.Min == 0 and l_result.Max == 0">N/A</t>
-							                            <t t-if="l_result.Min == 0  and l_result.Max"><span t-field="l_result.Min"/>&#x20;-&#x20;<span t-field="l_result.Max"/></t>
-							                            <t t-if="l_result.Min and l_result.Max == 0"><span t-field="l_result.Min"/>&#x20;-&#x20;<span t-field="l_result.Max"/></t>
+							                            <t t-if="l_result.Min or l_result.Max"><span t-field="l_result.Min"/>&#x20;-&#x20;<span t-field="l_result.Max"/></t>
+							                            <t t-if="l_result.Min == 0 and l_result.Max == 0">=0</t>
 							                        </td>
 							                        <td class="text-center">
 							                            <t t-if="l_result.Result &lt; l_result.Min or  l_result.Result &gt; l_result.Max"><span>fail</span></t>
@@ -80,19 +75,14 @@
 							                        </td>
 							                        <td class="text-center">
 							                            <span t-field="f_result.Result"/>
-							                        </td>
-							                        <td class="text-center">
 							                            <span t-field="f_result.Service.Unit"/>
 							                        </td>
 							                        <td class="text-center">
-							                            <t t-if="f_result.Min and f_result.Max"><span t-field="f_result.Min"/>&#x20;-&#x20;<span t-field="f_result.Max"/></t>
-							                            <t t-if="f_result.Min == 0 and f_result.Max == 0">N/A</t>
-							                            <t t-if="f_result.Min == 0  and f_result.Max"><span t-field="f_result.Min"/>&#x20;-&#x20;<span t-field="f_result.Max"/></t>
-							                            <t t-if="f_result.Min and f_result.Max == 0"><span t-field="f_result.Min"/>&#x20;-&#x20;<span t-field="f_result.Max"/></t>
+							                            <t t-if="f_result.Min or f_result.Max"><span t-field="f_result.Min"/>&#x20;-&#x20;<span t-field="f_result.Max"/></t>
+							                            <t t-if="f_result.Min == 0 and f_result.Max == 0">=0</t>
 							                        </td>
 							                        <td class="text-center">
 							                            <t t-if="f_result.Result &lt; f_result.Min or  f_result.Result &gt; f_result.Max"><span>fail</span></t>
-
 							                            <t t-if="f_result.Result &gt;= f_result.Min and f_result.Result &lt;= f_result.Max"><span>pass</span></t>
 							                        </td>
 							                    </tr>
