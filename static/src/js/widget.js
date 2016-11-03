@@ -144,7 +144,8 @@ var One2ManySelectable = FieldOne2Many.extend({
 		   				res = results[i].Result;
 		   			}
 		   			res = res.toFixed(2)
-		   			if (res !== selected_results[i]){
+		   			var results_val = selected_results[i].replace(/,/g , "");
+		   			if (res !== results_val){
 		   				self.do_warn(_t("Some selected items are not saved " +
 	               		"Please save the record first before proceeding."));
 		   				return false;
