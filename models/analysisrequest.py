@@ -1213,14 +1213,11 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 
     @api.multi
     def write(self, values):
-        result_val_dict = {}
-        upadte_values_dict = {}
-        upadte_values_list = []
-        manage_res_val_lis = []
         for record in self:
             if values.get("Analyses", None):
                 for items in values.get("Analyses"):
                     if items[0] == 0:
+                        result_val_dict = {}
                         result_val_dict.update({
                                 "Specifications":">"+str(items[2].get("Min", None))+", <"+str(items[2].get("Max", None)),
                                 "Category": items[2].get("Category"),
@@ -1244,14 +1241,12 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                                 result_val_dict.update({
                                     'Service': items[2].get("Services"),
                                     })
-                                manage_res_val_lis.append([0, 0, result_val_dict])
-                                upadte_values_dict.update({"Field_Manage_Result": manage_res_val_lis})
+                                record.write({"Field_Manage_Result": [[0, 0, result_val_dict]]})
                             else:
                                 result_val_dict.update({
                                     'LabService': items[2].get("Services"),
                                     })
-                                upadte_values_list.append([0, 0, result_val_dict])
-                                upadte_values_dict.update({"Lab_Manage_Result": upadte_values_list})
+                                record.write({"Lab_Manage_Result": [[0, 0, result_val_dict]]})
                     if items[0] == 2:
                         pass
                     if items[0] == 1:
@@ -1269,14 +1264,11 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                                                 "Specifications": ">" + str(min) + ", <" + str(max)})
                         if ar_obj.Services.PointOfCapture == "field":
                             for ar_man_res_obj in ar_manage_res_obj:
-                                manage_res_val_lis.append([1,ar_man_res_obj.id,manage_res_val_dict])
-                                upadte_values_dict.update({"Field_Manage_Result": manage_res_val_lis})
+                                record.write({"Field_Manage_Result",[1,ar_man_res_obj.id,manage_res_val_dict]})
                         else:
                             for ar_man_res_obj in ar_manage_res_obj:
-                                upadte_values_list.append([1,ar_man_res_obj.id,manage_res_val_dict])
-                                upadte_values_dict.update({"Lab_Manage_Result": upadte_values_list})
+                                record.write({"Lab_Manage_Result",[1,ar_man_res_obj.id,manage_res_val_dict]})
 
-        values.update(upadte_values_dict)
         res = super(AnalysisRequest, self).write(values)
         return res  
 
