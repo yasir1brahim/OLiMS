@@ -16,7 +16,11 @@ EMAIL_SUBJECT_OPTIONS = (
     ('cr', _('Client Reference')),
     ('cs', _('Client SID')),
 )
-
+PAYMENT_TERM_OPTIONS = (
+    ('cash', _('Cash')),
+    ('net30', _('Net 30')),
+    ('net60', _('Net 60')),
+)
 schema = (
 
     StringField('Name',
@@ -222,6 +226,8 @@ schema = (
                                  'Client',
                                  string='Sample'
     ),
+    fields.Selection(string="payment_term",
+        selection=PAYMENT_TERM_OPTIONS, default="cash")
 
 )
 

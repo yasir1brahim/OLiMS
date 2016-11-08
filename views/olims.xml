@@ -4466,8 +4466,8 @@
                             <field name="Phone"></field>
                             <label for="Fax" string="Fax" name="Fax"/>
                             <field name="Fax"></field>
-                            <!-- <label for="email" string="Email Address"/>
-                            <field name="email" widget="many2many_tags" options="{'no_create_edit': True}"></field> -->
+                            <label for="payment_term" string="Payment Term"/>
+                            <field name="payment_term"></field>
                             <label for="BulkDiscount" string="Bulk Discount" name="Bulk Discount"/>
                             <field name="BulkDiscount"></field>
                             <br/>
