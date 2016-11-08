@@ -80,6 +80,7 @@
                     <field name="ClientSampleID" string="Client Sample ID"></field>
                     <field name="Priority"></field>
                     <field name="Sampler" string="Transporter"></field>
+                    <field name="ar_invoice_id" string="Invoice ID"/>
                     <field name="state" string="State"/>
                 </tree>
             </field>
@@ -243,10 +244,11 @@
 			<field name="context">{'group_by': 'title'}</field>
        </record>
 
-        <menuitem id="invoice_menu" name="Invoices" parent="olims_settings_menu" sequence="2"
+        <menuitem id="invoice_menu" name="Invoices" parent="olims_settings_menu" sequence="2"/>
+        <menuitem id="olims_invoice_menu" name="Invoices" parent="olims_menu" sequence="2" groups="olims.group_lab_managers,base.group_system"/>
+        <menuitem id="supply_order_invoice_menu_setting" name="Supply Order Invoices" parent="invoice_menu" sequence="2"
                   action="invoice_action"/>
-        <menuitem id="olims_invoice_menu" name="Invoices" parent="olims_menu" sequence="2"
-                  action="invoice_action" groups="olims.group_lab_managers,base.group_system"/>
+        <menuitem id="supply_order_invoice_menu" name="Supply Order Invoices" parent="olims_invoice_menu" sequence="2" action="invoice_action"/>
 
         <!-- olims.specification form view -->
         <record model="ir.ui.view" id="olims_specification_form_view">
@@ -2350,6 +2352,7 @@
                     <field name="InvoiceExclude"></field> -->
                     <field name="Priority"></field>
                     <field name="Sampler" string="Transporter"></field>
+                    <field name="ar_invoice_id" string="Invoice ID"/>
                     <field name="state" string="State"></field>
                     <!-- <field name="Discount"></field>
                     <field name="Subtotal"></field>
@@ -5950,5 +5953,48 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
+        <!-- AR Invoice Form view -->
+        <record model="ir.ui.view" id="olims_ar_invoice_form_view">
+            <field name="name">ar_invoice.form</field>
+            <field name="model">olims.ar_invoice</field>
+            <field name="arch" type="xml">
+                <form string="AR Invoice" create="false" edit="false">
+                    <field name="id" invisible="True"/>
+                    <label for="name " string="Invoice ID"/>
+                    <field name="name"/>
+                    <label for="client_id " string="Client"/>
+                    <field name="client_id" required="1"/>
+                    <label for="receipt_number " string="Receipt Number"/>
+                    <field name="receipt_number" required="1"/>
+                    <label for="analysis_request_id " string="Analysis Request"/>
+                    <field name="analysis_request_id"/>
+                    <label for="total " string="Ammount"/>
+                    <field name="total"/>
+                </form>
+            </field>
+        </record>
+        <!-- AR Invoice tree view -->
+        <record model="ir.ui.view" id="olims_ar_invoice_tree_view">
+            <field name="name">ar_invoice.tree</field>
+            <field name="model">olims.ar_invoice</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <tree string="AR Invoice" create="false" edit="false" delete="false">
+                    <field name="name"/>
+                    <field name="receipt_number"/>
+                    <field name="client_id"/>
+                    <field name="analysis_request_id"/>
+                    <field name="total"/>
+                </tree>
+            </field>
+        </record>
+        <record model="ir.actions.act_window" id="ar_invoice_action">
+            <field name="name">AR Invoice</field>
+            <field name="res_model">olims.ar_invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+       </record>
+       <menuitem id="analysis_request_invoice_menu_setting" name="Analysis Request Invoices" parent="invoice_menu" sequence="1" action="ar_invoice_action"/>
+       <menuitem id="analysis_request_invoice_main_menu" name="Analysis Request Invoices" parent="olims_invoice_menu" sequence="1" action="ar_invoice_action"/>
     </data>
 </openerp>

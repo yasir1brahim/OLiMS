@@ -112,4 +112,42 @@ class Invoice(models.Model, BaseOLiMSModel):
         for record in self:
             record.Total = record.Order_id.Total
 
+class ARInvoice(models.Model):
+    _name = "olims.ar_invoice"
+
+    name = fields.Char(string="Invoice Id", compute="_compute_invoice_id",
+        store=True)
+    receipt_number = fields.Char(string="Receipt Number", compute="_compute_receipt_number",
+        store=True)
+    client_id = fields.Many2one(string="Client",comodel_name="olims.client")
+    analysis_request_id = fields.Many2one(string="Analysis Request ID",
+        comodel_name="olims.analysis_request")
+    star_date = fields.Datetime(string="Start Date")
+    end_date = fields.Datetime(string="Start Date")
+    sub_total = fields.Float(string="Sub Total", compute='_get_subtotal', store=True)
+    total = fields.Float(string="Total Amount", compute='_get_total', store=True)
+
+    @api.depends("client_id","analysis_request_id")
+    def _compute_invoice_id(self):
+        for record in self:
+            if record.id < 10:
+                record.name = "INV-0"+str(record.id)
+            else:
+                record.name = "INV-"+str(record.id)
+
+    @api.depends("client_id","analysis_request_id")
+    def _compute_receipt_number(self):
+        for record in self:
+            record.receipt_number = "1000"+str(record.id)
+
+    @api.depends("client_id","analysis_request_id")
+    def _get_subtotal(self):
+        for record in self:
+            record.sub_total = record.analysis_request_id.Subtotal
+
+    @api.depends("client_id","analysis_request_id")
+    def _get_total(self):
+        for record in self:
+            record.total = record.analysis_request_id.Total
+
 Invoice.initialze(schema)
