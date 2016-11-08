@@ -726,6 +726,8 @@ schema = (fields.Char(string='RequestID',
         default='0',
         select=True,
     ),
+    fields.Many2one(string="ar_invoice_id",
+        comodel_name="olims.ar_invoice")
 )
 schema_analysis = (fields.Many2one(string='Service',
                     comodel_name='olims.analysis_service',
@@ -1516,7 +1518,17 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                     'sample_type': ar_object.SampleType.id
                     })
                 data_list.append([0, 0, analysis_dict])
-            ar_object.write({'AddAnalysis': data_list})
+            ar_invoice = self.pool.get('olims.ar_invoice')
+            ar_invoice_values = {
+            "client_id":ar_object.Client.id,
+            "analysis_request_id": ar_object.id,
+            "sub_total": ar_object.Subtotal,
+            "total": ar_object.Total
+            }
+            res = ar_invoice.create(cr,uid,ar_invoice_values,context)
+            print "res",res
+            ar_object.write({'AddAnalysis': data_list,
+                'ar_invoice_id': res})
 
         datereceived = datetime.datetime.now()
         self.write(cr, uid, ids, {
