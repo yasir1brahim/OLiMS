@@ -1884,52 +1884,42 @@
                         </group>
                         <group>
                             <group>
-                                    <label for="ClientSampleID" string="Client Sample ID"/>
-                                    <div>
-                                        <field name="ClientSampleID" nolabel="1"></field>
-                                        <field name="ClientSampleID1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="ClientSampleID2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="ClientSampleID3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                    </div>
-                                </group>
-                                <group>
-                                    <label for="LotID" string="Lot ID"/>
-                                    <div>
-                                        <field name="LotID" nolabel="1"></field>
-                                        <field name="LotID1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="LotID2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="LotID3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                    </div>
-                                </group>
-                            </group>
-                            <group>
-                                <label for="ClientReference" string="Product Name"/>
+                                <label for="ClientSampleID" string="Client Sample ID"/>
                                 <div>
-                                    <field name="CopyClientReference" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
-                                    <field name="ClientReference" nolabel="1"></field>
-                                    <field name="ClientReference1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                    <field name="ClientReference2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                    <field name="ClientReference3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="ClientSampleID" nolabel="1"></field>
+                                    <field name="ClientSampleID1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="ClientSampleID2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="ClientSampleID3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 </div>
                             </group>
                             <group>
-                                <label for="SampleType" string="Sample Type"/>
+                                <label for="LotID" string="Lot ID"/>
                                 <div>
-                                    <field name="Copysampletype" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
-                                    <field name="SampleType" options="{'no_create': True}" nolabel="1"></field>
-                                    <field name="SampleType1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                    <field name="SampleType2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                    <field name="SampleType3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="LotID" nolabel="1"></field>
+                                    <field name="LotID1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="LotID2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="LotID3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 </div>
                             </group>
+                        </group>
                         <group>
-                            <label for="Sample_id" string="Sample"/>
+                            <label for="ClientReference" string="Product Name"/>
                             <div>
-                                <field name="Copysample" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
-                                <field name="Sample_id" options="{'no_create': True}" nolabel="1"></field>
-                                <field name="Sample_id1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                <field name="Sample_id2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                <field name="Sample_id3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="CopyClientReference" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
+                                <field name="ClientReference" nolabel="1"></field>
+                                <field name="ClientReference1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="ClientReference2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="ClientReference3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="SampleType" string="Sample Type"/>
+                            <div>
+                                <field name="Copysampletype" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
+                                <field name="SampleType" options="{'no_create': True}" nolabel="1"></field>
+                                <field name="SampleType1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SampleType2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SampleType3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             </div>
                         </group>
                         <group>
@@ -1950,6 +1940,16 @@
                                 <field name="Sampler1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="Sampler2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="Sampler3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="Sample_id" string="Sample"/>
+                            <div>
+                                <field name="Copysample" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
+                                <field name="Sample_id" options="{'no_create': True}" nolabel="1"></field>
+                                <field name="Sample_id1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Sample_id2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Sample_id3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             </div>
                         </group>
                         <group>
