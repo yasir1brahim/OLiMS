@@ -1825,6 +1825,7 @@
                                 <label for="Client" string="Client" invisible="1"/>
                                 <field name="Client" options="{'no_create': True}" invisible="1"></field>
                                 <field name="id" invisible="1"/>
+                                <field name="DateSampled" invisible="1"/>
                             <group>
                                 <label for="Copy" string="Copy" invisible="1"/>
                                 <div style="display: block;text-align: center">
@@ -4466,8 +4467,11 @@
                             <field name="Phone"></field>
                             <label for="Fax" string="Fax" name="Fax"/>
                             <field name="Fax"></field>
-                            <label for="payment_term" string="Payment Term"/>
-                            <field name="payment_term"></field>
+                            <label for="payment_term_id" string="Payment Term"/>
+                            <field name="payment_term_id" widget="selection"></field>
+                            <label for="payment_not_current" string="Payment not Current"/>
+                            <field name="payment_not_current"/>
+                            <br/>
                             <label for="BulkDiscount" string="Bulk Discount" name="Bulk Discount"/>
                             <field name="BulkDiscount"></field>
                             <br/>
@@ -4476,7 +4480,7 @@
                             <br/>
                         </page>
                         <page string="Email Addresses" name="Email Addresses" class="oe_edit_only">
-                            <label for="email" string="Email Address"/>
+                            <label for="email" string="Email Address" name="Email Address"/>
                             <field name="email">
                                 <tree editable="top" delete="false">
                                     <field name="name" string="Email"/>
@@ -5996,5 +6000,13 @@
        </record>
        <menuitem id="analysis_request_invoice_menu_setting" name="Analysis Request Invoices" parent="invoice_menu" sequence="1" action="ar_invoice_action"/>
        <menuitem id="analysis_request_invoice_main_menu" name="Analysis Request Invoices" parent="olims_invoice_menu" sequence="1" action="ar_invoice_action"/>
+       <!-- For Payment Terms -->
+       <record model="ir.actions.act_window" id="show_tree_of_payment_term">
+            <field name="name">Payment Terms</field>
+            <field name="res_model">olims.payment_term</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+       </record>
+       <menuitem id="payment_term_menu" name="Payment Terms" parent="olims_settings_menu" action="show_tree_of_payment_term" sequence="42"/>
     </data>
 </openerp>

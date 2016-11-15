@@ -16,11 +16,6 @@ EMAIL_SUBJECT_OPTIONS = (
     ('cr', _('Client Reference')),
     ('cs', _('Client SID')),
 )
-PAYMENT_TERM_OPTIONS = (
-    ('cash', _('Cash')),
-    ('net30', _('Net 30')),
-    ('net60', _('Net 60')),
-)
 schema = (
 
     StringField('Name',
@@ -226,8 +221,8 @@ schema = (
                                  'Client',
                                  string='Sample'
     ),
-    fields.Selection(string="payment_term",
-        selection=PAYMENT_TERM_OPTIONS, default="cash")
+    BooleanField(string="payment_not_current",
+        default=False)
 
 )
 
@@ -274,5 +269,16 @@ class Client(models.Model, BaseOLiMSModel):
         for contact_record in self.Contact:
             contact_record.unlink()
         return super(Client, self).unlink()
+
+    @api.model
+    def _get_value_cash_as_default(self):
+        payment_term_obj= self.env["olims.payment_term"]
+        cash_value = payment_term_obj.search([("name", "=ilike", "Cash")], limit=1)
+        if cash_value:
+            return cash_value[0].id
+        return False
+
+    payment_term_id = fields.Many2one(string="Payment Terms",
+        comodel_name="olims.payment_term", default=_get_value_cash_as_default)
 
 Client.initialze(schema)

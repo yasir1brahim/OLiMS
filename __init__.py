@@ -80,3 +80,4 @@ import wizard
 import report
 from controllers import controllers
 from models import models
+from models import payment_term
