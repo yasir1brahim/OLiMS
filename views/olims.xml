@@ -4634,7 +4634,10 @@
                 ref('group_clients'),
                 ref('group_lab_clerks'),
                 ref('group_samplers'),
-                ref('group_analyst')])]"/>
+                ref('group_analyst'),
+                ref('group_lab_technicians'),
+                ref('group_verifiers'),
+                ref('group_preservers')])]"/>
             <field name="arch" type="xml">
                 <!-- <form string="Client Form" create="false" delete="false"> -->
                         <page name="Default Page" position="attributes">

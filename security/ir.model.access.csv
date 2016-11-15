@@ -1,4 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_olims_clients_labmanager,olims.client,model_olims_client,group_lab_managers,1,1,1,1
 access_olims_clients_sampler,olims.client,model_olims_client,group_samplers,1,1,0,0
 access_olims_analysis_request_sampler,olims.analysis_request,model_olims_analysis_request,group_samplers,1,1,0,0
 access_olims_smaple_sampler,olims.sample,model_olims_sample,group_samplers,1,1,0,0
@@ -29,7 +30,7 @@ access_olims_analysisspec_labmanager,olims.analysis_spec,model_olims_analysis_sp
 access_olims_artemplate_labmanager,olims.ar_template,model_olims_ar_template,group_lab_managers,1,1,1,1
 access_olims_attachment_labmanager,olims.attachment,model_olims_attachment,group_lab_managers,1,1,1,1
 access_olims_batch_labmanager,olims.batch,model_olims_batch,group_lab_managers,1,1,1,1
-access_olims_clients_labmanager,olims.client,model_olims_client,group_lab_managers,1,1,1,1
+,,,,,,,
 access_olims_invoice_labmanager,olims.invoice,model_olims_invoice,group_lab_managers,1,1,1,1
 access_olims_methods_labmanager,olims.method,model_olims_method,group_lab_managers,1,1,1,1
 access_olims_mutifile_labmanager,olims.multifile,model_olims_multifile,group_lab_managers,1,1,1,1
@@ -229,6 +230,9 @@ access_olims_report_labmanager,olims.report,model_olims_report,group_lab_manager
 access_olims_email_subject_labmanager,olims.email_subject,model_olims_email_subject,group_lab_managers,1,1,1,1
 access_olims_loaddata_labmanager,olims.loaddata,model_olims_loaddata,group_lab_managers,1,1,1,1
 access_olims_users_login_detail_labmanager,olims.users_login_detail,model_olims_users_login_detail,group_lab_managers,1,1,1,1
+access_olims_client_lt,olims.client,model_olims_client,group_lab_technicians,1,0,0,0
+access_olims_client_verifier,olims.client,model_olims_client,group_verifiers,1,0,0,0
+access_olims_client_preserver,olims.client,model_olims_client,group_preservers,1,0,0,0
 access_labpal_experiment,labpal.experiment,model_labpal_experiment,,1,1,1,1
 access_labpal_status,labpal.status,model_labpal_status,,1,1,1,1
 access_labpal_database,labpal.database,model_labpal_database,,1,1,1,1
@@ -238,3 +242,5 @@ access_labpal_todolist,labpal.todolist,model_labpal_todolist,,1,1,1,1
 access_labpal_filter_database,labpal.filter_database,model_labpal_filter_database,,1,1,1,1
 access_labpal_serach_model,labpal.serach_model,model_labpal_serach_model,,1,1,1,1
 access_labpal_template,labpal.template,model_labpal_template,,1,1,1,1
+access_olims_email_all_groups,olims.email,model_olims_email,,1,1,1,1
+access_olims_payment_term_all_groups,olims.payment_term,model_olims_payment_term,,1,1,1,1
