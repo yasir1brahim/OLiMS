@@ -2066,6 +2066,21 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'context': ctx,
         }
 
+    @api.onchange("DateSampled")
+    def show_warning_for_payment_not_current_on_create(self):
+        warning = {}
+        if self._context.get('client_context', None):
+            client = self.env["olims.client"].search([("id", "=", self._context.get('client_context'))])
+            if client.payment_not_current:
+                title = _("Warning for %s") % client.Name
+                message = _("Payment not Current for %s") % client.Name
+                warning.update({
+                    'title': title,
+                    'message': message
+                    })
+                return {'warning': warning}
+
+
 class FieldAnalysisService(models.Model, BaseOLiMSModel):
     _name = 'olims.field_analysis_service'
 
