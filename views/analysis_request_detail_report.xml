@@ -19,6 +19,7 @@
 			                        <th class="text-center">Lot ID</th>
 			                        <th class="text-center">Product ID</th>
 			                        <th class="text-center">Sample Type</th>
+			                        <th class="text-center">AR Profile</th>
 			                        <th class="text-center">Customer</th>
 			                    </tr>
 			                </thead>
@@ -39,7 +40,10 @@
 			                        <td class="text-center">
 			                            <span t-field="doc.SampleType.SampleType"/>
 			                        </td>
-			                        <td>
+			                        <td class="text-center">
+			                            <span t-field="doc.AnalysisProfile.Profile"/>
+			                        </td>
+			                        <td class="text-center">
 			                        	<span t-field="doc.Client.Name"/>
 			                        </td>
 				                </tr>
