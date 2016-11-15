@@ -1133,7 +1133,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'SampleCondition': values.get('SampleCondition1', None),
             'Remarks': values.get('Remarks', None),
             'DefaultContainerType': values.get('DefaultContainerType1', None),
-            'ClientReference': values.get('ClientReference',None),
+            'ClientReference': values.get('ClientReference1',None),
         }
         analysis_request_2_dict = {
             'StorageLocation': values.get('StorageLocation2', None),
@@ -1171,18 +1171,18 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'SampleCondition': values.get('SampleCondition2', None),
             'Remarks': values.get('Remarks', None),
             'DefaultContainerType': values.get('DefaultContainerType2', None),
-            'ClientReference': values.get('ClientReference',None),
+            'ClientReference': values.get('ClientReference2',None),
         }
         analysis_request_3_dict = {
             'StorageLocation': values.get('StorageLocation3', None),
             'AdHoc': values.get('AdHoc3', None),
             'Template': values.get('Template3', None),
             'AnalysisProfile': values.get('AnalysisProfile3', None),
-            'ClientSampleID': values.get('ClientSampleID2', None),
+            'ClientSampleID': values.get('ClientSampleID3', None),
             'LotID': values.get('LotID3', None),
             'SubGroup': values.get('SubGroup3', None),
             'SampleType': values.get('SampleType3', None),
-            'Batch': values.get('Batch2', None),
+            'Batch': values.get('Batch3', None),
             'SamplingDeviation': values.get('SamplingDeviation3', None),
             'ResultsInterpretation': values.get('ResultsInterpretation', None),
             'Sample Partition': values.get('Sample Partition', None),
@@ -1209,7 +1209,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'SampleCondition': values.get('SampleCondition3', None),
             'Remarks': values.get('Remarks', None),
             'DefaultContainerType': values.get('DefaultContainerType3', None),
-            'ClientReference': values.get('ClientReference',None),
+            'ClientReference': values.get('ClientReference3',None),
         }
         return analysis_request_0_dict, analysis_request_1_dict, analysis_request_2_dict, analysis_request_3_dict
 
