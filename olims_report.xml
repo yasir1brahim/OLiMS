@@ -181,5 +181,8 @@
                 name="olims.report_analysis_request_detail"
                 file="olims.report_analysis_request_detail"
             />
+            <record id="action_analysis_request_detail" model="ir.actions.report.xml">
+            <field name="paperformat_id" ref="olims.paperformat_intake_analysis"/>
+        </record>
     </data>
 </openerp>

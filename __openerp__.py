@@ -36,6 +36,7 @@
         'data/workflow.transition.csv',
         'data/olims.country.csv',
         'data/olims.state.csv',
+        'data/report_paperformat.xml',
         'olims_report.xml',
         'views/report_sample.xml',
         'views/report_analysisper_service.xml',
