@@ -1266,10 +1266,10 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                                                 "Specifications": ">" + str(min) + ", <" + str(max)})
                         if ar_obj.Services.PointOfCapture == "field":
                             for ar_man_res_obj in ar_manage_res_obj:
-                                record.write({"Field_Manage_Result",[1,ar_man_res_obj.id,manage_res_val_dict]})
+                                record.write({"Field_Manage_Result":[[1,ar_man_res_obj.id,manage_res_val_dict]]})
                         else:
                             for ar_man_res_obj in ar_manage_res_obj:
-                                record.write({"Lab_Manage_Result",[1,ar_man_res_obj.id,manage_res_val_dict]})
+                                record.write({"Lab_Manage_Result":[[1,ar_man_res_obj.id,manage_res_val_dict]]})
 
         res = super(AnalysisRequest, self).write(values)
         return res  
