@@ -1923,10 +1923,10 @@
                             </div>
                         </group>
                         <group>
-                            <label for="AnalysisProfile" string="Analysis Profile" attrs="{'invisible': [('id', '!=', False)]}"/>
+                            <label for="AnalysisProfile" string="Analysis Profile"/>
                             <div>
                                 <field name="Copyprofile" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
-                                <field name="AnalysisProfile" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="AnalysisProfile" options="{'no_create': True}" nolabel="1"></field>
                                 <field name="AnalysisProfile1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="AnalysisProfile2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="AnalysisProfile3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
