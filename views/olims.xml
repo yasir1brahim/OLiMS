@@ -2089,37 +2089,37 @@
                     <group>
                         <label for="Discount" string="Discount (33.33 %)"/>
                         <div>
-                            <field name="Discount" nolabel="1"></field>
-                            <field name="Discount1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                            <field name="Discount2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                            <field name="Discount3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Discount" readonly="1" nolabel="1"></field>
+                            <field name="Discount1" readonly="1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Discount2" readonly="1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Discount3" readonly="1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                         </div>
                     </group>
                     <group>
                         <label for="Subtotal" string="Subtotal"/>
                         <div>
-                            <field name="Subtotal" nolabel="1"></field>
-                            <field name="Subtotal1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                            <field name="Subtotal2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                            <field name="Subtotal3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Subtotal" readonly="1" nolabel="1"></field>
+                            <field name="Subtotal1" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Subtotal2" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Subtotal3" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                         </div>
                     </group>
                     <group>
                         <label for="VAT" string="VAT"/>
                         <div>
-                            <field name="VAT" nolabel="1"></field>
-                            <field name="VAT1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                            <field name="VAT2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                            <field name="VAT3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="VAT" readonly="1" nolabel="1"></field>
+                            <field name="VAT1" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="VAT2" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="VAT3" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                         </div>
                     </group>
                     <group>
                         <label for="Total" string="Total"/>
                         <div>
-                            <field name="Total" nolabel="1"></field>
-                            <field name="Total1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                            <field name="Total2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
-                            <field name="Total3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Total" readonly="1" nolabel="1"></field>
+                            <field name="Total1" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Total2" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Total3" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                         </div>
                     </group>
                     <label for="FieldService" string="Field Analysis" attrs="{'invisible': [('id', '!=', False)]}"/>
@@ -2379,6 +2379,7 @@
 			<field name="view_mode">tree,form</field>
             <field name="view_id" ref="olims_analysis_request_tree_view"/>
             <field name="search_view_id" ref="view_analysis_request_filter"/>
+            <field name="context">{"readonly_by_pass": ['Subtotal', 'VAT','Total', 'Discount', 'Subtotal1', 'VAT1','Total1', 'Discount1', 'Subtotal2', 'VAT2','Total2', 'Discount2', 'Subtotal3', 'VAT3','Total3', 'Discount3']}</field>
        </record>
        <record model="ir.actions.act_window" id="analysis_request_form_action">
             <field name="name">Analysis Request</field>
@@ -2386,7 +2387,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
             <field name="target">current</field>
-            <field name="context">{"client_context":active_id}</field>
+            <field name="context">{"client_context":active_id, "readonly_by_pass": ['Subtotal', 'VAT','Total', 'Discount', 'Subtotal1', 'VAT1','Total1', 'Discount1', 'Subtotal2', 'VAT2','Total2', 'Discount2', 'Subtotal3', 'VAT3','Total3', 'Discount3']}</field>
        </record>
 
         <menuitem id="olims_analysis_request_menu" name="Analysis Request" parent="olims_menu" sequence="4"

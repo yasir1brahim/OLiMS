@@ -7,6 +7,7 @@
                 <script type="text/javascript" src="/olims/static/lib/jscolor/jscolor.js"></script>
                 <script type="text/javascript" src="/olims/static/src/js/widget.js"></script>
                 <script type="text/javascript" src="/olims/static/src/js/web_keyboard_navigation.js"></script>
+                <script type="text/javascript" src="/olims/static/src/js/readonly_bypass.js"></script>
             </xpath>
         </template>
 
