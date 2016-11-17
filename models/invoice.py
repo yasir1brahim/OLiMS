@@ -120,9 +120,9 @@ class ARInvoice(models.Model):
     receipt_number = fields.Char(string="Receipt Number", compute="_compute_receipt_number",
         store=True)
     client_id = fields.Many2one(string="Client",comodel_name="olims.client")
-    analysis_request_id = fields.Many2one(string="Analysis Request ID",
+    analysis_request_id = fields.Many2many(string="Analysis Request ID",
         comodel_name="olims.analysis_request")
-    star_date = fields.Datetime(string="Start Date")
+    start_date = fields.Datetime(string="Start Date")
     end_date = fields.Datetime(string="Start Date")
     sub_total = fields.Float(string="Sub Total", compute='_get_subtotal', store=True)
     total = fields.Float(string="Total Amount", compute='_get_total', store=True)
@@ -143,11 +143,22 @@ class ARInvoice(models.Model):
     @api.depends("client_id","analysis_request_id")
     def _get_subtotal(self):
         for record in self:
-            record.sub_total = record.analysis_request_id.Subtotal
+            for ar_record in record.analysis_request_id:
+                record.sub_total += ar_record.Subtotal
 
     @api.depends("client_id","analysis_request_id")
     def _get_total(self):
         for record in self:
-            record.total = record.analysis_request_id.Total
+            for ar_record in record.analysis_request_id:
+                record.total += ar_record.Total
+
+    @api.model
+    def create(self, values):
+        res = super(ARInvoice,self).create(values)
+        if values.get('analysis_request_id',None):
+            analysis_request = values.get('analysis_request_id')[0]
+            ar_object = self.env["olims.analysis_request"].search([('id', 'in', analysis_request[2])])
+            ar_object.write({'ar_invoice_id': res.id})
+        return res
 
 Invoice.initialze(schema)

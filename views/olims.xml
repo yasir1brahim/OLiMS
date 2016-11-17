@@ -245,10 +245,7 @@
        </record>
 
         <menuitem id="invoice_menu" name="Invoices" parent="olims_settings_menu" sequence="2"/>
-        <menuitem id="olims_invoice_menu" name="Invoices" parent="olims_menu" sequence="2" groups="olims.group_lab_managers,base.group_system"/>
-        <menuitem id="supply_order_invoice_menu_setting" name="Supply Order Invoices" parent="invoice_menu" sequence="2"
-                  action="invoice_action"/>
-        <menuitem id="supply_order_invoice_menu" name="Supply Order Invoices" parent="olims_invoice_menu" sequence="2" action="invoice_action"/>
+        <menuitem id="olims_invoice_menu" name="Invoices" parent="olims_menu" sequence="2"/>
 
         <!-- olims.specification form view -->
         <record model="ir.ui.view" id="olims_specification_form_view">
@@ -5855,18 +5852,32 @@
             <field name="name">ar_invoice.form</field>
             <field name="model">olims.ar_invoice</field>
             <field name="arch" type="xml">
-                <form string="AR Invoice" create="false" edit="false">
-                    <field name="id" invisible="True"/>
-                    <label for="name " string="Invoice ID"/>
-                    <field name="name"/>
-                    <label for="client_id " string="Client"/>
-                    <field name="client_id" required="1"/>
-                    <label for="receipt_number " string="Receipt Number"/>
-                    <field name="receipt_number" required="1"/>
-                    <label for="analysis_request_id " string="Analysis Request"/>
-                    <field name="analysis_request_id"/>
-                    <label for="total " string="Ammount"/>
-                    <field name="total"/>
+                <form string="AR Invoice">
+                    <sheet>
+                        <field name="id" invisible="1"/>
+                        <label for="client_id " string="Client"/>
+                        <field name="client_id" required="1"/>
+                        <label for="start_date " string="From"/>
+                        <field name="start_date" required="1"/>
+                        <label for="end_date " string="To"/>
+                        <field name="end_date" required="1"/>
+                        <notebook>
+                            <page string="Analysis Request" attrs="{'invisible': [('client_id', '=', False),('start_date', '=', False), ('end_date', '=', False)]}">
+                                <field name="analysis_request_id" domain="[('Client', '=', client_id),('state', '=', 'sample_received'), ('SamplingDate', '&gt;=', start_date), ('SamplingDate', '&lt;=', end_date), ('ar_invoice_id', '=', False)]">
+                                    <tree delete="false">
+                                        <field name="RequestID" string="Request ID"></field>
+                                        <field name="SampleType" string="Sample Type"></field>
+                                        <field name="AnalysisProfile" string="Analysis Profile"></field>
+                                        <field name="LotID" string="Lot ID"></field>
+                                        <field name="ClientReference" string="Product Name"></field>
+                                        <field name="ClientSampleID" string="Client Sample ID"></field>
+                                    </tree>
+                                </field>
+                            </page>
+                            <label for="total " string="Ammount"/>
+                            <field name="total"/>
+                        </notebook>
+                    </sheet>
                 </form>
             </field>
         </record>
@@ -5876,7 +5887,7 @@
             <field name="model">olims.ar_invoice</field>
             <field name="priority" eval="1"/>
             <field name="arch" type="xml">
-                <tree string="AR Invoice" create="false" edit="false" delete="false">
+                <tree string="AR Invoice" delete="false">
                     <field name="name"/>
                     <field name="receipt_number"/>
                     <field name="client_id"/>
@@ -5893,6 +5904,9 @@
        </record>
        <menuitem id="analysis_request_invoice_menu_setting" name="Analysis Request Invoices" parent="invoice_menu" sequence="1" action="ar_invoice_action"/>
        <menuitem id="analysis_request_invoice_main_menu" name="Analysis Request Invoices" parent="olims_invoice_menu" sequence="1" action="ar_invoice_action"/>
+       <menuitem id="supply_order_invoice_menu_setting" name="Supply Order Invoices" parent="invoice_menu" sequence="2"
+                  action="invoice_action"/>
+        <menuitem id="supply_order_invoice_menu" name="Supply Order Invoices" parent="olims_invoice_menu" sequence="2" action="invoice_action"/>
        <!-- For Payment Terms -->
        <record model="ir.actions.act_window" id="show_tree_of_payment_term">
             <field name="name">Payment Terms</field>
