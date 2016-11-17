@@ -170,6 +170,11 @@ class Worksheet(models.Model, BaseOLiMSModel):
 
         return super(Worksheet, self).write(values)
 
+    @api.multi
+    def unlink(self):
+        for record in self.AnalysisRequest:
+            record.write({'state': "unassigned"})
+        return super(Worksheet, self).unlink()
 
 
     _at_rename_after_creation = True
