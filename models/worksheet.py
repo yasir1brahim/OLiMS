@@ -172,8 +172,9 @@ class Worksheet(models.Model, BaseOLiMSModel):
 
     @api.multi
     def unlink(self):
-        for record in self.AnalysisRequest:
-            record.write({'state': "unassigned"})
+        for record in self:
+            for analysis_record in record.AnalysisRequest:
+                analysis_record.write({'state': "unassigned"})
         return super(Worksheet, self).unlink()
 
 
