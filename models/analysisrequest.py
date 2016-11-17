@@ -1595,8 +1595,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     @api.onchange("AnalysisProfile","AnalysisProfile1","AnalysisProfile2","AnalysisProfile3")
     def _add_values_in_analyses(self):
         service_ids_list = []
-        self.LabService = None
-        self.FieldService = None
         for record in self:
             if record.Analyses:
                 record.Field_Manage_Result = None
@@ -1612,6 +1610,8 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                         'warning': {'title': 'Warning!', 'message': "All Analysis will be changed." +
                         "To proceed click on Save button or Discard the changes."},
                         }
+            self.LabService = None
+            self.FieldService = None
             for service in record.AnalysisProfile.Service:
                 if service.Services.PointOfCapture == 'lab':
                     l_service = {'LabService':service.Services.id,
