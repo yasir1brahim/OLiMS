@@ -1597,20 +1597,21 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         service_ids_list = []
         self.LabService = None
         self.FieldService = None
-        if self.Analyses:
-            self.Field_Manage_Result = []
-            self.Lab_Manage_Result = []
-            self.Analyses = []
-            for services in self.AnalysisProfile.Service:
-                self.Analyses += self.Analyses.new({'Category':services.Services.category.id,
-                            'Services':services.Services.id,
-                            'Min':services.Services.Min,
-                            'Max':services.Services.Max})
-            return {
-                    'warning': {'title': 'Warning!', 'message': "All Analysis will be changed." +
-                    "To proceed click on Save button or Discard the changes."},
-                    }
         for record in self:
+            if record.Analyses:
+                record.Field_Manage_Result = None
+                record.Lab_Manage_Result = None
+                record.Analyses = None
+                for services in record.AnalysisProfile.Service:
+                    record.Analyses += record.Analyses.new({'Category':services.Services.category.id,
+                                'Services':services.Services.id,
+                                'Min':services.Services.Min,
+                                'Max':services.Services.Max,
+                                'Partition': record.Partition.id})
+                return {
+                        'warning': {'title': 'Warning!', 'message': "All Analysis will be changed." +
+                        "To proceed click on Save button or Discard the changes."},
+                        }
             for service in record.AnalysisProfile.Service:
                 if service.Services.PointOfCapture == 'lab':
                     l_service = {'LabService':service.Services.id,
