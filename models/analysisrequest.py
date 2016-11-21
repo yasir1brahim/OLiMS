@@ -711,7 +711,10 @@ schema = (fields.Char(string='RequestID',
         select=True,
     ),
     fields.Many2one(string="ar_invoice_id",
-        comodel_name="olims.ar_invoice")
+        comodel_name="olims.ar_invoice", ondelete='set null'),
+    fields.Boolean(string='is_billed',
+        default=False),
+    fields.Char(string="billing_status",compute='set_billing_status', store=True),
 )
 schema_analysis = (fields.Many2one(string='Service',
                     comodel_name='olims.analysis_service',
@@ -2207,6 +2210,11 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                     'message': message
                     })
                 return {'warning': warning}
+    @api.depends("is_billed")
+    def set_billing_status(self):
+        for record in self:
+            if record.is_billed == True:
+                record.billing_status = "Billed"
 
 
 class FieldAnalysisService(models.Model, BaseOLiMSModel):

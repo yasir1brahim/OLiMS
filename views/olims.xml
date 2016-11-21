@@ -69,8 +69,9 @@
                 <tree string="Analysis Request" create="false" delete="false">
                     <field name="RequestID" string="Request ID"></field>
                     <field name="Sample"></field>
-                    <field name="Batch"></field>
-                    <field name="SubGroup"></field>
+                    <field name="billing_status" string="Billed"/>
+                    <!-- <field name="Batch"></field>
+                    <field name="SubGroup"></field> -->
                     <field name="Client"></field>
                     <field name="create_uid"></field>
                     <field name="SamplingDate" string="Sampling Date"></field>
@@ -2074,6 +2075,13 @@
                     </group>
                     <br/>
                     <group>
+                        <label for="is_billed" string="Billed" attrs="{'invisible': [('id', '=', False)]}"/>
+                        <div>
+                            <field name="is_billed" nolabel="1" attrs="{'invisible': [('id', '=', False)]}"></field>
+                        </div>
+                    </group>
+                    <br/>
+                    <group>
                         <label for="Priority" string="Priority"/>
                         <div>
                             <field name="CopyPriority" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
@@ -2327,8 +2335,9 @@
                 	<field name="CCContact"></field>
                     <field name="CCEmails"></field>-->
                     <field name="Sample"></field>
-                    <field name="Batch"></field>
-                    <field name="SubGroup"></field>
+                    <!-- <field name="Batch"></field>
+                    <field name="SubGroup"></field> -->
+                    <field name="billing_status" string="Billed"/>
                     <field name="Client"></field>
                     <field name="create_uid"></field>
                     <!-- <field name="Template"></field> -->
