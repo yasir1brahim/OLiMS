@@ -144,7 +144,7 @@ var One2ManySelectable = FieldOne2Many.extend({
 		   				res = results[i].Result;
 		   			}
 		   			res = res.toFixed(2)
-		   			var results_val = selected_results[i].replace(/,/g , "");
+		   			var results_val = (selected_results[i].result).replace(/,/g , "");
 		   			if (res !== results_val){
 		   				self.do_warn(_t("Some selected items are not saved " +
 	               		"Please save the record first before proceeding."));
@@ -170,13 +170,17 @@ var One2ManySelectable = FieldOne2Many.extend({
 	       this.$el.find('th.oe_list_record_selector input:checked')
 	               .closest('tr').each(function () {
 	               	ids.push(parseInt($(this).context.dataset.id));
-	               	results.push($(this).find('[data-field]').filter(function() {
-					    return $(this).data('field').toLowerCase() == 'result';
-					}).text());
 					states.push($(this).find('[data-field]').filter(function() {
 					    return $(this).data('field').toLowerCase() == 'state';
 					}).text());
+					results.push({id:parseInt($(this).context.dataset.id), result:$(this).find('[data-field]').filter(function() {
+					    return $(this).data('field').toLowerCase() == 'result';
+					}).text()});
+
 	       });
+	       results.sort(function(a, b) {
+    			return a.id - b.id;
+				});
 	       return [ids,results,states];
 	   },
 	});
