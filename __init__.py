@@ -22,6 +22,7 @@ from models import samplematrix
 from models import sampletype
 from models import invoice
 from models import invoicebatch
+from models import payment_term
 from models import client
 from models import contact
 from models import labcontact
@@ -80,4 +81,3 @@ import wizard
 import report
 from controllers import controllers
 from models import models
-from models import payment_term
