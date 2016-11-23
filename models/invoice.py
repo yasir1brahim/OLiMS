@@ -127,7 +127,7 @@ class ARInvoice(models.Model):
     sub_total = fields.Float(string="Sub Total", compute='_get_subtotal', store=True)
     total = fields.Float(string="Total Amount", compute='_get_total', store=True)
 
-    @api.depends("client_id","analysis_request_id")
+    @api.depends("client_id")
     def _compute_invoice_id(self):
         for record in self:
             if record.id < 10:
@@ -135,7 +135,7 @@ class ARInvoice(models.Model):
             else:
                 record.name = "INV-"+str(record.id)
 
-    @api.depends("client_id","analysis_request_id")
+    @api.depends("client_id")
     def _compute_receipt_number(self):
         for record in self:
             record.receipt_number = "1000"+str(record.id)
@@ -146,7 +146,7 @@ class ARInvoice(models.Model):
             for ar_record in record.analysis_request_id:
                 record.sub_total += ar_record.Subtotal
 
-    @api.depends("client_id","analysis_request_id")
+    @api.depends("analysis_request_id")
     def _get_total(self):
         for record in self:
             for ar_record in record.analysis_request_id:
