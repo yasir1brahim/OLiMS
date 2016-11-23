@@ -140,12 +140,6 @@ class ARInvoice(models.Model):
         for record in self:
             record.receipt_number = "1000"+str(record.id)
 
-    @api.depends("client_id","analysis_request_id")
-    def _get_subtotal(self):
-        for record in self:
-            for ar_record in record.analysis_request_id:
-                record.sub_total += ar_record.Subtotal
-
     @api.depends("analysis_request_id")
     def _get_total(self):
         for record in self:
@@ -154,11 +148,66 @@ class ARInvoice(models.Model):
 
     @api.model
     def create(self, values):
-        res = super(ARInvoice,self).create(values)
         if values.get('analysis_request_id',None):
             analysis_request = values.get('analysis_request_id')[0]
             ar_object = self.env["olims.analysis_request"].search([('id', 'in', analysis_request[2])])
+            for ar_record in ar_object:
+                profile_service_ids_list = []
+                amount_subtotal = 0.00
+                amount_vat = 0.00
+                amount_total = 0.00
+                s_amount_subtotal = 0.00
+                s_amount_vat = 0.00
+                s_amount_total = 0.00
+                for profile_record in ar_record.AnalysisProfile.Service:
+                    profile_service_ids_list.append(profile_record.Services.id)
+                for ar_service in ar_record.Analyses:
+                    if ar_service.Services.id in profile_service_ids_list and ar_record.AnalysisProfile.UseAnalysisProfilePrice:
+                        amount_subtotal = ar_record.AnalysisProfile.AnalysisProfilePrice - (ar_record.AnalysisProfile.AnalysisProfilePrice * 33.33 /100)
+                        amount_vat = amount_subtotal * ar_record.AnalysisProfile.AnalysisProfileVAT / 100
+                        amount_total = amount_subtotal + amount_vat
+                    else:
+                        s_amount_subtotal = ar_service.Services.Price - (ar_service.Services.Price * 33.33 /100)
+                        s_amount_vat = s_amount_subtotal * ar_service.Services.VAT / 100
+                        s_amount_total += s_amount_subtotal + s_amount_vat
+                ar_record.write({"Total": (amount_total + s_amount_total)})
+            res = super(ARInvoice,self).create(values)
             ar_object.write({'ar_invoice_id': res.id})
-        return res
+            return res
+        else:
+            res = super(ARInvoice,self).create(values)
+            return res
+
+    @api.multi
+    def write(self, values):
+        if values.get('analysis_request_id',None):
+            analysis_request = values.get('analysis_request_id')[0]
+            ar_object = self.env["olims.analysis_request"].search([('id', 'in', analysis_request[2])])
+            for ar_record in ar_object:
+                profile_service_ids_list = []
+                amount_subtotal = 0.00
+                amount_vat = 0.00
+                amount_total = 0.00
+                s_amount_subtotal = 0.00
+                s_amount_vat = 0.00
+                s_amount_total = 0.00
+                for profile_record in ar_record.AnalysisProfile.Service:
+                    profile_service_ids_list.append(profile_record.Services.id)
+                for ar_service in ar_record.Analyses:
+                    if ar_service.Services.id in profile_service_ids_list and ar_record.AnalysisProfile.UseAnalysisProfilePrice:
+                        amount_subtotal = ar_record.AnalysisProfile.AnalysisProfilePrice - (ar_record.AnalysisProfile.AnalysisProfilePrice * 33.33 /100)
+                        amount_vat = amount_subtotal * ar_record.AnalysisProfile.AnalysisProfileVAT / 100
+                        amount_total = amount_subtotal + amount_vat
+                    else:
+                        s_amount_subtotal = ar_service.Services.Price - (ar_service.Services.Price * 33.33 /100)
+                        s_amount_vat = s_amount_subtotal * ar_service.Services.VAT / 100
+                        s_amount_total += s_amount_subtotal + s_amount_vat
+                ar_record.write({"Total": (amount_total + s_amount_total)})
+            res = super(ARInvoice,self).write(values)
+            ar_object.write({'ar_invoice_id': self.id})
+            return res
+        else:
+            res = super(ARInvoice,self).write(values)
+            return res
 
 Invoice.initialze(schema)
