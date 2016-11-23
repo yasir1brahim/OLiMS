@@ -1383,7 +1383,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                         discount = service_price * 33.33 / 100
                         service_subtotal1 += float(service_price) - float(discount)
                         # compute VAT
-                        service_vat1 += service_subtotal1 * service.LabService.VAT / 100
+                        service_vat1 += (service_price - discount) * service.LabService.VAT / 100
                         service_total1 = service_subtotal1 + service_vat1
                 if service.LabService.id in service_ids_list_p3:
                     if record.AnalysisProfile2.UseAnalysisProfilePrice:
@@ -1402,7 +1402,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                         discount = service_price * 33.33 / 100
                         service_subtotal2 += float(service_price) - float(discount)
                         # compute VAT
-                        service_vat2 += service_subtotal2 * service.LabService.VAT / 100
+                        service_vat2 += (service_price - discount) * service.LabService.VAT / 100
                         service_total2 = service_subtotal2 + service_vat2
                 if service.LabService.id in service_ids_list_p4:
                     if record.AnalysisProfile3.UseAnalysisProfilePrice:
@@ -1421,7 +1421,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                         discount = service_price * 33.33 / 100
                         service_subtotal3 += float(service_price) - float(discount)
                         # compute VAT
-                        service_vat3 += service_subtotal3 * float(service.LabService.VAT / 100)
+                        service_vat3 += (service_price - (service_price * 33.33 / 100)) * service.LabService.VAT / 100
                         service_total3 = service_subtotal3 + service_vat3
                 if service.LabService.id not in service_ids_list_p1 and \
                                 service.LabService.id not in service_ids_list_p2 and \
@@ -1643,7 +1643,8 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                     'due_date':ar_object.DateDue,
                     'received_date':datetime.datetime.now(),
                     # 'analysis':items.Services.id,
-                    'sample_type': ar_object.SampleType.id
+                    'sample_type': ar_object.SampleType.id,
+                    'add_analysis_id':ar_object.id
                     })
                 data_list.append([0, 0, analysis_dict])
             ar_object.write({'AddAnalysis': data_list})
