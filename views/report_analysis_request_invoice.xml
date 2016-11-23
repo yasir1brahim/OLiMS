@@ -79,7 +79,7 @@
                                 <span class="text-center">Sample ID#</span>
                             </div>
                             <div class="col-xs-3">
-                                <span class="text-center">Ammount</span>
+                                <span class="text-center">Amount</span>
                             </div>
                         </div>
                         <t t-foreach="doc.analysis_request_id" t-as="analysis">
