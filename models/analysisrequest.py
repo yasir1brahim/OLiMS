@@ -2216,6 +2216,26 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             if record.is_billed == True:
                 record.billing_status = "Billed"
 
+    @api.onchange("Analyses")
+    def update_ar_prices(self):
+        lsit_of_service_ids = []
+        self.Discount = 0.00
+        self.Subtotal = 0.00
+        self.VAT = 0.00
+        self.Total = 0.00
+        for service in self.AnalysisProfile.Service:
+            lsit_of_service_ids.append(service.Services.id)
+        for service_record in self.Analyses:
+            if service_record.Services.id in lsit_of_service_ids and self.AnalysisProfile and self.AnalysisProfile.UseAnalysisProfilePrice:
+                self.Discount = self.AnalysisProfile.AnalysisProfilePrice * 33.33 / 100
+                self.Subtotal = self.AnalysisProfile.AnalysisProfilePrice - self.Discount
+                self.VAT = self.AnalysisProfile.AnalysisProfileVAT / 100 * self.Subtotal
+                self.Total = self.Subtotal + self.VAT
+            else:
+                self.Discount += service_record.Services.Price * 33.33 / 100
+                self.Subtotal += service_record.Services.Price - (service_record.Services.Price * 33.33 / 100)
+                self.VAT += service_record.Services.VAT * (service_record.Services.Price - (service_record.Services.Price * 33.33 / 100)) /100
+                self.Total = self.Subtotal + self.VAT
 
 class FieldAnalysisService(models.Model, BaseOLiMSModel):
     _name = 'olims.field_analysis_service'
