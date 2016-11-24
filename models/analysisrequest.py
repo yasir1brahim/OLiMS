@@ -1296,6 +1296,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         """
         It computes and returns the analysis service's discount amount without VAT, SubToatl and Total
         """
+        client_obj = self.env["olims.client"].search([('id', '=',self._context.get('client_context', None))])
         for record in self:
             service_discount = 0.0
             service_subtotal = 0.0
@@ -1351,17 +1352,17 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 if service.LabService.id in service_ids_list_p1:
                     if record.AnalysisProfile.UseAnalysisProfilePrice:
                         service_price = float(record.AnalysisProfile.AnalysisProfilePrice)
-                        service_discount = service_price * 33.33 / 100
-                        discount = service_price * 33.33 / 100
+                        service_discount = service_price * client_obj.M_Discount / 100
+                        discount = service_price * client_obj.M_Discount / 100
                         service_subtotal = float(service_price) - float(discount)
                         # compute VAT
                         service_vat = (float(service_price) - float(discount)) * record.AnalysisProfile.AnalysisProfileVAT / 100
                         service_total = service_subtotal + service_vat
                     else:
                         service_price = service.LabService.Price
-                        service_discount += service_price * 33.33 / 100
+                        service_discount += service_price * client_obj.M_Discount / 100
                         # compute subtotal
-                        discount = service_price * 33.33 / 100
+                        discount = service_price * client_obj.M_Discount / 100
                         service_subtotal += float(service_price) - float(discount)
                         # compute VAT
                         service_vat += (float(service_price) - float(discount)) * service.LabService.VAT / 100
@@ -1369,18 +1370,18 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 if service.LabService.id in service_ids_list_p2:
                     if record.AnalysisProfile1.UseAnalysisProfilePrice:
                         service_price = record.AnalysisProfile1.AnalysisProfilePrice
-                        service_discount1 = service_price * 33.33 / 100
+                        service_discount1 = service_price * client_obj.M_Discount / 100
                         # compute subtotal
-                        discount = service_price * 33.33 / 100
+                        discount = service_price * client_obj.M_Discount / 100
                         service_subtotal1 = float(service_price) - float(discount)
                         # compute VAT
                         service_vat1 = service_subtotal1 * record.AnalysisProfile1.AnalysisProfileVAT / 100
                         service_total1 = service_subtotal1 + service_vat1
                     else:
                         service_price = service.LabService.Price
-                        service_discount1 += service_price * 33.33 / 100
+                        service_discount1 += service_price * client_obj.M_Discount / 100
                         # compute subtotal
-                        discount = service_price * 33.33 / 100
+                        discount = service_price * client_obj.M_Discount / 100
                         service_subtotal1 += float(service_price) - float(discount)
                         # compute VAT
                         service_vat1 += (service_price - discount) * service.LabService.VAT / 100
@@ -1388,18 +1389,18 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 if service.LabService.id in service_ids_list_p3:
                     if record.AnalysisProfile2.UseAnalysisProfilePrice:
                         service_price = record.AnalysisProfile2.AnalysisProfilePrice
-                        service_discount2 = service_price * 33.33 / 100
+                        service_discount2 = service_price * client_obj.M_Discount / 100
                         # compute subtotal
-                        discount = service_price * 33.33 / 100
+                        discount = service_price * client_obj.M_Discount / 100
                         service_subtotal2 = float(service_price) - float(discount)
                         # compute VAT
                         service_vat2 = service_subtotal2 * record.AnalysisProfile2.AnalysisProfileVAT / 100
                         service_total2 = service_subtotal2 + service_vat2
                     else:
                         service_price = service.LabService.Price
-                        service_discount2 += service_price * 33.33 / 100
+                        service_discount2 += service_price * client_obj.M_Discount / 100
                         # compute subtotal
-                        discount = service_price * 33.33 / 100
+                        discount = service_price * client_obj.M_Discount / 100
                         service_subtotal2 += float(service_price) - float(discount)
                         # compute VAT
                         service_vat2 += (service_price - discount) * service.LabService.VAT / 100
@@ -1407,28 +1408,28 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 if service.LabService.id in service_ids_list_p4:
                     if record.AnalysisProfile3.UseAnalysisProfilePrice:
                         service_price = record.AnalysisProfile3.AnalysisProfilePrice
-                        service_discount3 += service_price * 33.33 / 100
+                        service_discount3 += service_price * client_obj.M_Discount / 100
                         # compute subtotal
-                        discount = service_price * 33.33 / 100
+                        discount = service_price * client_obj.M_Discount / 100
                         service_subtotal3 = float(service_price) - float(discount)
                         # compute VAT
                         service_vat3 = service_subtotal3 * record.AnalysisProfile3.AnalysisProfileVAT / 100
                         service_total3 = service_subtotal3 + service_vat3
                     else:
                         service_price = service.LabService.Price
-                        service_discount3 += service_price * 33.33 / 100
+                        service_discount3 += service_price * client_obj.M_Discount / 100
                         # compute subtotal
-                        discount = service_price * 33.33 / 100
+                        discount = service_price * client_obj.M_Discount / 100
                         service_subtotal3 += float(service_price) - float(discount)
                         # compute VAT
-                        service_vat3 += (service_price - (service_price * 33.33 / 100)) * service.LabService.VAT / 100
+                        service_vat3 += (service_price - (service_price * client_obj.M_Discount / 100)) * service.LabService.VAT / 100
                         service_total3 = service_subtotal3 + service_vat3
                 if service.LabService.id not in service_ids_list_p1 and \
                                 service.LabService.id not in service_ids_list_p2 and \
                                 service.LabService.id not in service_ids_list_p3 and \
                                 service.LabService.id not in service_ids_list_p4:
                     service_price = float(service.LabService.Price)
-                    discount = service_price * 33.33 / 100
+                    discount = service_price * client_obj.M_Discount / 100
                     service_discount, service_subtotal, service_total, service_vat = self.calculate_lab_service_amount_for_ar(
                         discount, service, service_discount, service_price, service_subtotal, service_total,
                         service_vat)
@@ -1460,17 +1461,17 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 if FService.Service.id in f_service_ids_list_p1:
                     if record.AnalysisProfile.UseAnalysisProfilePrice:
                         service_price = float(record.AnalysisProfile.AnalysisProfilePrice)
-                        service_discount = service_price * 33.33 / 100
-                        discount = service_price * 33.33 / 100
+                        service_discount = service_price * client_obj.M_Discount / 100
+                        discount = service_price * client_obj.M_Discount / 100
                         service_subtotal = float(service_price) - float(discount)
                         # compute VAT
                         service_vat = (float(service_price) - float(discount)) * record.AnalysisProfile.AnalysisProfileVAT / 100
                         service_total = service_subtotal + service_vat
                     else:
                         service_price = FService.Service.Price
-                        service_discount += service_price * 33.33 / 100
+                        service_discount += service_price * client_obj.M_Discount / 100
                         # compute subtotal
-                        discount = service_price * 33.33 / 100
+                        discount = service_price * client_obj.M_Discount / 100
                         service_subtotal += float(service_price) - float(discount)
                         # compute VAT
                         service_vat += (float(service_price) - float(discount)) * FService.Service.VAT / 100
@@ -1478,18 +1479,18 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 if FService.Service.id in f_service_ids_list_p2:
                     if record.AnalysisProfile1.UseAnalysisProfilePrice:
                         service_price = record.AnalysisProfile1.AnalysisProfilePrice
-                        service_discount1 = service_price * 33.33 / 100
+                        service_discount1 = service_price * client_obj.M_Discount / 100
                         # compute subtotal
-                        discount = service_price * 33.33 / 100
+                        discount = service_price * client_obj.M_Discount / 100
                         service_subtotal1 = float(service_price) - float(discount)
                         # compute VAT
                         service_vat1 = (float(service_price) - float(discount)) * record.AnalysisProfile1.AnalysisProfileVAT / 100
                         service_total1 = service_subtotal1 + service_vat1
                     else:
                         service_price = FService.Service.Price
-                        service_discount1 += service_price * 33.33 / 100
+                        service_discount1 += service_price * client_obj.M_Discount / 100
                         # compute subtotal
-                        discount = service_price * 33.33 / 100
+                        discount = service_price * client_obj.M_Discount / 100
                         service_subtotal1 += float(service_price) - float(discount)
                         # compute VAT
                         service_vat1 += (float(service_price) - float(discount)) * FService.Service.VAT / 100
@@ -1497,18 +1498,18 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 if FService.Service.id in f_service_ids_list_p3:
                     if record.AnalysisProfile2.UseAnalysisProfilePrice:
                         service_price = record.AnalysisProfile2.AnalysisProfilePrice
-                        service_discount2 = service_price * 33.33 / 100
+                        service_discount2 = service_price * client_obj.M_Discount / 100
                         # compute subtotal
-                        discount = service_price * 33.33 / 100
+                        discount = service_price * client_obj.M_Discount / 100
                         service_subtotal2 = float(service_price) - float(discount)
                         # compute VAT
                         service_vat2 = (float(service_price) - float(discount)) * record.AnalysisProfile2.AnalysisProfileVAT / 100
                         service_total2 = service_subtotal2 + service_vat2
                     else:
                         service_price = FService.Service.Price
-                        service_discount2 += service_price * 33.33 / 100
+                        service_discount2 += service_price * client_obj.M_Discount / 100
                         # compute sf_ubtotal
-                        discount = service_price * 33.33 / 100
+                        discount = service_price * client_obj.M_Discount / 100
                         service_subtotal2 += float(service_price) - float(discount)
                         # compute VAT
                         service_vat2 += (float(service_price) - float(discount)) * FService.Service.VAT / 100
@@ -1516,18 +1517,18 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 if FService.Service.id in f_service_ids_list_p4:
                     if record.AnalysisProfile3.UseAnalysisProfilePrice:
                         service_price = record.AnalysisProfile3.AnalysisProfilePrice
-                        service_discount3 = service_price * 33.33 / 100
+                        service_discount3 = service_price * client_obj.M_Discount / 100
                         # compute subtotal
-                        discount = service_price * 33.33 / 100
+                        discount = service_price * client_obj.M_Discount / 100
                         service_subtotal3 = float(service_price) - float(discount)
                         # compute VAT
                         service_vat3 = (float(service_price) - float(discount)) * record.AnalysisProfile3.AnalysisProfileVAT /100
                         service_total3 = service_subtotal3 + service_vat3
                     else:
                         service_price = FService.Service.Price
-                        service_discount3 = service_price * 33.33 / 100
+                        service_discount3 = service_price * client_obj.M_Discount / 100
                         # compute subtotal
-                        discount = service_price * 33.33 / 100
+                        discount = service_price * client_obj.M_Discount / 100
                         service_subtotal3 += float(service_price) - float(discount)
                         # compute VAT
                         service_vat3 += service_subtotal3 * FService.Service.VAT / 100
@@ -1538,44 +1539,44 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                                 FService.Service.id not in f_service_ids_list_p4:
                     
                     service_price = float(FService.Service.Price)
-                    service_discount += service_price * 33.33 / 100
+                    service_discount += service_price * client_obj.M_Discount / 100
                     # compute subtotal
-                    discount = service_price * 33.33 / 100
+                    discount = service_price * client_obj.M_Discount / 100
                     service_subtotal += float(service_price) - float(discount)
                     # compute VAT
                     service_vat += service_subtotal * FService.Service.VAT / 100
                     service_total = service_subtotal + service_vat
 
                     if record.Copy == '1' or record.AnalysisProfile1 and not record.AnalysisProfile2 and not record.AnalysisProfile3:
-                        service_discount1 += service_price * 33.33 / 100
+                        service_discount1 += service_price * client_obj.M_Discount / 100
                         # compute subtotal
-                        # discount = service_price * 33.33 / 100
+                        # discount = service_price * client_obj.M_Discount / 100
                         service_subtotal1 += float(service_price) - float(discount)
                         # compute VAT
                         service_vat1 += service_subtotal1 * FService.Service.VAT / 100
                         service_total1 = service_subtotal1 + service_vat1
                     elif record.Copy == '2' or record.AnalysisProfile1 and record.AnalysisProfile2 and not record.AnalysisProfile3:
-                        service_discount1 += service_price * 33.33 / 100
+                        service_discount1 += service_price * client_obj.M_Discount / 100
                         service_subtotal1 += float(service_price) - float(discount)
                         service_vat1 += service_subtotal1 * FService.Service.VAT / 100
                         service_total1 = service_subtotal1 + service_vat1
 
-                        service_discount2 += service_price * 33.33 / 100
+                        service_discount2 += service_price * client_obj.M_Discount / 100
                         service_subtotal2 += float(service_price) - float(discount)
                         service_vat2 += service_subtotal2 * FService.Service.VAT / 100
                         service_total2 = service_subtotal2 + service_vat2
                     elif record.Copy == '3' or record.AnalysisProfile1 and record.AnalysisProfile2 and record.AnalysisProfile3:
-                        service_discount1 += service_price * 33.33 / 100
+                        service_discount1 += service_price * client_obj.M_Discount / 100
                         service_subtotal1 += float(service_price) - float(discount)
                         service_vat1 += service_subtotal1 * FService.Service.VAT / 100
                         service_total1 = service_subtotal1 + service_vat1
 
-                        service_discount2 += service_price * 33.33 / 100
+                        service_discount2 += service_price * client_obj.M_Discount / 100
                         service_subtotal2 += float(service_price) - float(discount)
                         service_vat2 += service_subtotal2 * FService.Service.VAT / 100
                         service_total2 = service_subtotal2 + service_vat2
 
-                        service_discount3 += service_price * 33.33 / 100
+                        service_discount3 += service_price * client_obj.M_Discount / 100
                         service_subtotal3 += float(service_price) - float(discount)
                         service_vat3 += service_subtotal3 * FService.Service.VAT / 100
                         service_total3 = service_subtotal3 + service_vat3    
@@ -1602,7 +1603,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 
     def calculate_lab_service_amount_for_ar(self, discount, service, service_discount, service_price, service_subtotal,
                                             service_total, service_vat):
-        service_discount += service_price * 33.33 / 100
+        service_discount += service_price * client_obj.M_Discount / 100
         service_subtotal += float(service_price) - float(discount)
         service_vat += (float(service_price) - float(discount)) * service.LabService.VAT / 100
         service_total = service_subtotal + service_vat
@@ -2228,14 +2229,14 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             lsit_of_service_ids.append(service.Services.id)
         for service_record in self.Analyses:
             if service_record.Services.id in lsit_of_service_ids and self.AnalysisProfile and self.AnalysisProfile.UseAnalysisProfilePrice:
-                self.Discount = self.AnalysisProfile.AnalysisProfilePrice * 33.33 / 100
+                self.Discount = self.AnalysisProfile.AnalysisProfilePrice * self.Client.M_Discount / 100
                 self.Subtotal = self.AnalysisProfile.AnalysisProfilePrice - self.Discount
                 self.VAT = self.AnalysisProfile.AnalysisProfileVAT / 100 * self.Subtotal
                 self.Total = self.Subtotal + self.VAT
             else:
-                self.Discount += service_record.Services.Price * 33.33 / 100
-                self.Subtotal += service_record.Services.Price - (service_record.Services.Price * 33.33 / 100)
-                self.VAT += service_record.Services.VAT * (service_record.Services.Price - (service_record.Services.Price * 33.33 / 100)) /100
+                self.Discount += service_record.Services.Price * self.Client.M_Discount / 100
+                self.Subtotal += service_record.Services.Price - (service_record.Services.Price *self.Client.M_Discount / 100)
+                self.VAT += service_record.Services.VAT * (service_record.Services.Price - (service_record.Services.Price * self.Client.M_Discount / 100)) /100
                 self.Total = self.Subtotal + self.VAT
 
 class FieldAnalysisService(models.Model, BaseOLiMSModel):

@@ -163,11 +163,11 @@ class ARInvoice(models.Model):
                     profile_service_ids_list.append(profile_record.Services.id)
                 for ar_service in ar_record.Analyses:
                     if ar_service.Services.id in profile_service_ids_list and ar_record.AnalysisProfile.UseAnalysisProfilePrice:
-                        amount_subtotal = ar_record.AnalysisProfile.AnalysisProfilePrice - (ar_record.AnalysisProfile.AnalysisProfilePrice * 33.33 /100)
+                        amount_subtotal = ar_record.AnalysisProfile.AnalysisProfilePrice - (ar_record.AnalysisProfile.AnalysisProfilePrice * ar_record.Client.M_Discount /100)
                         amount_vat = amount_subtotal * ar_record.AnalysisProfile.AnalysisProfileVAT / 100
                         amount_total = amount_subtotal + amount_vat
                     else:
-                        s_amount_subtotal = ar_service.Services.Price - (ar_service.Services.Price * 33.33 /100)
+                        s_amount_subtotal = ar_service.Services.Price - (ar_service.Services.Price * ar_record.Client.M_Discount /100)
                         s_amount_vat = s_amount_subtotal * ar_service.Services.VAT / 100
                         s_amount_total += s_amount_subtotal + s_amount_vat
                 ar_record.write({"Total": (amount_total + s_amount_total)})
@@ -195,11 +195,11 @@ class ARInvoice(models.Model):
                     profile_service_ids_list.append(profile_record.Services.id)
                 for ar_service in ar_record.Analyses:
                     if ar_service.Services.id in profile_service_ids_list and ar_record.AnalysisProfile.UseAnalysisProfilePrice:
-                        amount_subtotal = ar_record.AnalysisProfile.AnalysisProfilePrice - (ar_record.AnalysisProfile.AnalysisProfilePrice * 33.33 /100)
+                        amount_subtotal = ar_record.AnalysisProfile.AnalysisProfilePrice - (ar_record.AnalysisProfile.AnalysisProfilePrice * ar_record.Client.M_Discount /100)
                         amount_vat = amount_subtotal * ar_record.AnalysisProfile.AnalysisProfileVAT / 100
                         amount_total = amount_subtotal + amount_vat
                     else:
-                        s_amount_subtotal = ar_service.Services.Price - (ar_service.Services.Price * 33.33 /100)
+                        s_amount_subtotal = ar_service.Services.Price - (ar_service.Services.Price * ar_record.Client.M_Discount /100)
                         s_amount_vat = s_amount_subtotal * ar_service.Services.VAT / 100
                         s_amount_total += s_amount_subtotal + s_amount_vat
                 ar_record.write({"Total": (amount_total + s_amount_total)})
