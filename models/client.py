@@ -222,7 +222,10 @@ schema = (
                                  string='Sample'
     ),
     BooleanField(string="payment_not_current",
-        default=False)
+        default=False),
+    fields.Float(string='M_Discount',
+        default=0.00
+    ),
 
 )
 

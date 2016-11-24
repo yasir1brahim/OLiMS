@@ -2093,7 +2093,7 @@
                         </div>
                     </group>
                     <group>
-                        <label for="Discount" string="Discount (33.33 %)"/>
+                        <label for="Discount" string="Discount"/>
                         <div>
                             <field name="Discount" readonly="1" nolabel="1"></field>
                             <field name="Discount1" readonly="1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
@@ -4475,16 +4475,20 @@
                             <field name="Phone"></field>
                             <label for="Fax" string="Fax" name="Fax"/>
                             <field name="Fax"></field>
+                        </page>
+                        <page string="Finance" name="Finance Page" class="oe_edit_only">
                             <label for="payment_term_id" string="Payment Term"/>
                             <field name="payment_term_id" widget="selection"></field>
                             <label for="payment_not_current" string="Payment not Current"/>
                             <field name="payment_not_current"/>
                             <br/>
-                            <label for="BulkDiscount" string="Bulk Discount" name="Bulk Discount"/>
-                            <field name="BulkDiscount"></field>
-                            <br/>
                             <label for="MemberDiscountApplies" string="Member Discount Applies" name="Member Discount Applies"/>
                             <field name="MemberDiscountApplies"></field>
+                            <br/>
+                            <label for="M_Discount" string="Member Discount %" name="Member Discount"/>
+                            <field name="M_Discount"/>
+                            <label for="BulkDiscount" string="Bulk Discount" name="Bulk Discount"/>
+                            <field name="BulkDiscount"></field>
                             <br/>
                         </page>
                         <page string="Email Addresses" name="Email Addresses" class="oe_edit_only">
@@ -5881,6 +5885,7 @@
                                         <field name="LotID" string="Lot ID"></field>
                                         <field name="ClientReference" string="Product Name"></field>
                                         <field name="ClientSampleID" string="Client Sample ID"></field>
+                                        <field name="Total" string="Total"></field>
                                     </tree>
                                 </field>
                             </page>
