@@ -248,3 +248,4 @@ access_olims_manage_analyses_all_groups,olims.manage_analyses,model_olims_manage
 access_olims_ws_control_refrence,olims.ws_refrence_contorled_analysis,model_olims_ws_refrence_contorled_analysis,,1,1,1,1
 access_olims_add_analysis_ws,olims.add_analysis,model_olims_add_analysis,,1,1,1,1
 access_olims_ws_manage_results,olims.ws_manage_results,model_olims_ws_manage_results,,1,1,1,1
+access_olims_ar_invoice,olims.ar_invoice,model_olims_ar_invoice,,1,1,1,0

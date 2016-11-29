@@ -933,7 +933,7 @@ class Worksheet(models.Model, BaseOLiMSModel):
                         ])
                     for analysis in analyses:
                         self.pool.get("olims.manage_analyses").write(cr,uid,analysis['id'],{"state":"verified"})
-                    if record.request_analysis_id not in ar_ids:
+                    if record.request_analysis_id.id not in ar_ids:
                         ar_ids.append(record.request_analysis_id.id)
         self.browse(cr,uid,ids).signal_workflow('verify')
         # Signaling workflow to verified for ar if all are verified
@@ -1108,7 +1108,7 @@ class WorkSheetManageResults(models.Model):
             if ws_result.state != "verified":
                 ws_all_verified = False
                 break
-        if ws_all_verified and worksheet.State != "closed":
+        if ws_all_verified:
             self.env["olims.worksheet"].browse(worksheet.id).signal_workflow("verify")
         return True
 
