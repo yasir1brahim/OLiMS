@@ -245,3 +245,4 @@ access_labpal_template,labpal.template,model_labpal_template,,1,1,1,1
 access_olims_email_all_groups,olims.email,model_olims_email,,1,1,1,1
 access_olims_payment_term_all_groups,olims.payment_term,model_olims_payment_term,,1,1,1,1
 access_olims_manage_analyses_all_groups,olims.manage_analyses,model_olims_manage_analyses,,1,1,1,1
+access_olims_ws_control_refrence,olims.ws_refrence_contorled_analysis,model_olims_ws_refrence_contorled_analysis,,1,1,1,1
