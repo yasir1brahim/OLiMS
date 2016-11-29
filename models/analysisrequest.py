@@ -1432,31 +1432,31 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                     discount = service_price * client_obj.M_Discount / 100
                     service_discount, service_subtotal, service_total, service_vat = self.calculate_lab_service_amount_for_ar(
                         discount, service, service_discount, service_price, service_subtotal, service_total,
-                        service_vat)
+                        service_vat,client_obj)
                     if record.Copy == '1' or record.AnalysisProfile1 and not record.AnalysisProfile2 and not record.AnalysisProfile3:
                         service_discount1, service_subtotal1, service_total1, service_vat1 = self.calculate_lab_service_amount_for_ar(
                             discount, service, service_discount1, service_price, service_subtotal1, service_total1,
-                            service_vat1)
+                            service_vat1,client_obj)
                     elif record.Copy == '2' or record.AnalysisProfile1 and record.AnalysisProfile2 and not record.AnalysisProfile3:
                         service_discount1, service_subtotal1, service_total1, service_vat1 = self.calculate_lab_service_amount_for_ar(
                             discount, service, service_discount1, service_price, service_subtotal1, service_total1,
-                            service_vat1)
+                            service_vat1,client_obj)
 
                         service_discount2, service_subtotal2, service_total2, service_vat2 = self.calculate_lab_service_amount_for_ar(
                             discount, service, service_discount2, service_price, service_subtotal2, service_total2,
-                            service_vat2)
+                            service_vat2,client_obj)
                     elif record.Copy == '3' or record.AnalysisProfile1 and record.AnalysisProfile2 and record.AnalysisProfile3:
                         service_discount1, service_subtotal1, service_total1, service_vat1 = self.calculate_lab_service_amount_for_ar(
                             discount, service, service_discount1, service_price, service_subtotal1, service_total1,
-                            service_vat1)
+                            service_vat1,client_obj)
 
                         service_discount2, service_subtotal2, service_total2, service_vat2 = self.calculate_lab_service_amount_for_ar(
                             discount, service, service_discount2, service_price, service_subtotal2, service_total2,
-                            service_vat2)
+                            service_vat2,client_obj)
 
                         service_discount3, service_subtotal3, service_total3, service_vat3 = self.calculate_lab_service_amount_for_ar(
                             discount, service, service_discount3, service_price, service_subtotal3, service_total3,
-                            service_vat3)
+                            service_vat3,client_obj)
             for FService in record.FieldService:
                 if FService.Service.id in f_service_ids_list_p1:
                     if record.AnalysisProfile.UseAnalysisProfilePrice:
@@ -1602,7 +1602,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             record.Total3 = service_total3
 
     def calculate_lab_service_amount_for_ar(self, discount, service, service_discount, service_price, service_subtotal,
-                                            service_total, service_vat):
+                                            service_total, service_vat, client_obj):
         service_discount += service_price * client_obj.M_Discount / 100
         service_subtotal += float(service_price) - float(discount)
         service_vat += (float(service_price) - float(discount)) * service.LabService.VAT / 100
