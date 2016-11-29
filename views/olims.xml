@@ -1821,8 +1821,6 @@
                     
                         <notebook>
                         <page string='View'>
-                                <label for="Client" string="Client" invisible="1"/>
-                                <field name="Client" options="{'no_create': True}" invisible="1"></field>
                                 <field name="id" invisible="1"/>
                                 <field name="DateSampled" invisible="1"/>
                             <group>
@@ -1850,6 +1848,10 @@
                                     <field name="Template2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                     <field name="Template3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 </div>
+                            </group>
+                            <group>
+                                <label for="Client" string="Client" attrs="{'invisible': [('id', '=', False)]}"/>
+                                <field name="Client" options="{'no_create': True}" attrs="{'invisible': [('id', '=', False)], 'readonly':[('id', '!=', False)]}" nolabel="1"></field>
                             </group>
                             <group>
                                 <label for="Contact" string="Contact"/>
