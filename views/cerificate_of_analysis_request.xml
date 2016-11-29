@@ -39,6 +39,7 @@
 						                			<strong>Client:</strong><p t-field="doc.Client.Name"/>
 						                			<strong>Sample Type:</strong><p t-field="doc.SampleType.SampleType"/>
 						                			<strong>Sample Name:</strong><p t-field="doc.Sample_id.SampleID"/>
+						                			<strong>AR-Number:</strong><p t-field="doc.RequestID"/>
 						                			<strong>Client ID:</strong><p t-field="doc.Client.ClientID"/>
 						                			<p style="color: #3a5f29"><strong>WSLCB</strong></p>
 						                			<t t-if="doc.LotID"><strong>Lot Id:</strong><p t-field="doc.LotID"/></t>
