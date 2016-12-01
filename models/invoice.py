@@ -126,6 +126,12 @@ class ARInvoice(models.Model):
     end_date = fields.Datetime(string="Start Date")
     sub_total = fields.Float(string="Sub Total", compute='_get_subtotal', store=True)
     total = fields.Float(string="Total Amount", compute='_get_total', store=True)
+    state = fields.Selection(selection=(
+        ('open', 'Open'),
+        ('closed','Closed'),
+        ('published', 'Published')),
+    string="State",
+    default="open")
 
     @api.depends("client_id")
     def _compute_invoice_id(self):
@@ -210,4 +216,15 @@ class ARInvoice(models.Model):
             res = super(ARInvoice,self).write(values)
             return res
 
+    def workflow_script_closed(self,cr,uid,ids,context=None):
+        self.write(cr, uid, ids,{
+            'state': 'closed'
+        },context)
+        return True
+
+    def workflow_script_publish(self,cr,uid,ids,context=None):
+        self.write(cr, uid, ids,{
+            'state': 'published'
+        },context)
+        return True
 Invoice.initialze(schema)

@@ -5870,16 +5870,21 @@
             <field name="arch" type="xml">
                 <form string="AR Invoice">
                     <sheet>
+                        <header>
+                            <button string="Close" name="close" states="open" type="workflow" class="oe_highlight"/>
+                            <button string="Publish" name="publish" type="workflow" states="closed"/>
+                            <field name="state" widget="statusbar" statusbar_visible="open, closed, published"/>
+                        </header>
                         <field name="id" invisible="1"/>
                         <label for="client_id " string="Client"/>
-                        <field name="client_id" required="1"/>
+                        <field name="client_id" required="1" attrs="{'readonly': [('state', 'in', ['closed', 'published'])]}"/>
                         <label for="start_date " string="From"/>
                         <field name="start_date" required="1"/>
                         <label for="end_date " string="To"/>
                         <field name="end_date" required="1"/>
                         <notebook>
                             <page string="Analysis Request" attrs="{'invisible': [('client_id', '=', False),('start_date', '=', False), ('end_date', '=', False)]}">
-                                <field name="analysis_request_id" domain="[('Client', '=', client_id),('state', '=', 'sample_received'), ('SamplingDate', '&gt;=', start_date), ('SamplingDate', '&lt;=', end_date), ('ar_invoice_id', '=', False)]">
+                                <field name="analysis_request_id" domain="[('Client', '=', client_id),('state', '=', 'sample_received'), ('SamplingDate', '&gt;=', start_date), ('SamplingDate', '&lt;=', end_date), ('ar_invoice_id', '=', False)]" attrs="{'readonly': [('state', 'in', ['closed', 'published'])]}">
                                     <tree delete="false">
                                         <field name="RequestID" string="Request ID"></field>
                                         <field name="SampleType" string="Sample Type"></field>

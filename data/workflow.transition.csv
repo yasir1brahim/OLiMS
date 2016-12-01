@@ -104,3 +104,5 @@ olims.t102,olims.olims_analysis_workflow,sample_due,olims_analysis_to_be_sampled
 olims.t103,olims.olims_analysis_workflow,receive,olims_analysis_sample_due,olims_analysis_sample_received,True,olims.group_lab_managers,,
 olims.t104,olims.olims_analysis_workflow,retract_ar,olims_analysis_to_be_verified,olims_analysis_invalid,True,olims.group_lab_managers,,
 olims.t105,olims.olims_worksheet_workflow,verify,olims_worksheet_closed,olims_worksheet_verified,True,olims.group_lab_managers,,
+olims.t106,olims.olims_ar_invoice_workflow,close,olims_ar_inv_open,olims_ar_inv_close,True,olims.group_lab_managers,,
+olims.t107,olims.olims_worksheet_workflow,publish,olims_ar_inv_close,olims_ar_inv_publish,True,olims.group_lab_managers,,

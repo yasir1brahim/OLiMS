@@ -7,3 +7,4 @@ olims.olims_ar_import_workflow,OLiMS AR Import,True,olims.ar_import
 olims.olims_duplicate_analysis_workflow,OLiMS Duplicate Analysis,True,olims.duplicate_analysis
 olims.olims_supply_order,OLiMS Supply Order,True,olims.supply_order
 olims.olims_analysis_workflow,OLiMS Analysis Workflow,True,olims.analysis
+olims.olims_ar_invoice_workflow,OLiMS AR Invoice,True,olims.ar_invoice
