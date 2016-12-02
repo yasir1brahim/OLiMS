@@ -5873,6 +5873,7 @@
                         <header>
                             <button string="Close" name="close" states="open" type="workflow" class="oe_highlight"/>
                             <button string="Publish" name="publish" type="workflow" states="closed"/>
+                            <button name="action_email_ar_invoice" string="Send by Email" type="object" states="published" class="btn-primary"/>
                             <field name="state" widget="statusbar" statusbar_visible="open, closed, published"/>
                         </header>
                         <field name="id" invisible="1"/>
