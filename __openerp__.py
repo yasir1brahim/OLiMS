@@ -76,6 +76,7 @@
         'views/cerificate_of_analysis_request.xml',
         'views/analysis_request_detail_report.xml',
         'views/report_analysis_request_invoice.xml',
+        'views/analysis_request_to_be_invoiced_report.xml'
     ],
     # only loaded in demonstration mode
     'demo': [

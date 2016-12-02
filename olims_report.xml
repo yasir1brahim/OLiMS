@@ -192,5 +192,13 @@
                 name="olims.report_analysis_request_invoice"
                 file="olims.report_analysis_request_invoice"
             />
+            <report
+                id="action_analysis_request_to_be_invoiced"
+                model="olims.analysis_request"
+                string="Analysis to be Invoiced"
+                report_type="qweb-pdf"
+                name="olims.report_analysis_request_to_be_invoiced"
+                file="olims.report_analysis_request_to_be_invoiced"
+            />
     </data>
 </openerp>
