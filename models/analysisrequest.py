@@ -42,42 +42,42 @@ schema = (fields.Char(string='RequestID',
                     required=False,
 
     ),
-    fields.Many2one(string='Contact',
+    fields.Many2many(string='Contact',
                     comodel_name='olims.contact',
                     relation='ar_contact',
                     required=True
     ),
-    fields.Many2one(string='Contact1',
+    fields.Many2many(string='Contact1',
                     comodel_name='olims.contact',
                     relation='ar_contact',
                     required=False
     ),
-    fields.Many2one(string='Contact2',
+    fields.Many2many(string='Contact2',
                     comodel_name='olims.contact',
                     relation='ar_contact',
                     required=False
     ),
-    fields.Many2one(string='Contact3',
+    fields.Many2many(string='Contact3',
                     comodel_name='olims.contact',
                     relation='ar_contact',
                     required=False
     ),
-    fields.Many2one(string='CCContact',
+    fields.Many2many(string='CCContact',
                     comodel_name='olims.contact',
                     relation='ar__cc_contact',
                     required=False
     ),
-    fields.Many2one(string='CCContact1',
+    fields.Many2many(string='CCContact1',
                     comodel_name='olims.contact',
                     relation='ar__cc_contact',
                     required=False
     ),
-    fields.Many2one(string='CCContact2',
+    fields.Many2many(string='CCContact2',
                     comodel_name='olims.contact',
                     relation='ar__cc_contact',
                     required=False
     ),
-    fields.Many2one(string='CCContact3',
+    fields.Many2many(string='CCContact3',
                     comodel_name='olims.contact',
                     relation='ar__cc_contact',
                     required=False
@@ -715,6 +715,14 @@ schema = (fields.Char(string='RequestID',
     fields.Boolean(string='is_billed',
         default=False),
     fields.Char(string="billing_status",compute='set_billing_status', store=True),
+    fields.Many2one(string='client_contact_email_template',
+        comodel_name="olims.template"),
+    fields.Many2one(string='client_contact_email_template1',
+        comodel_name="olims.template"),
+    fields.Many2one(string='client_contact_email_template2',
+        comodel_name="olims.template"),
+    fields.Many2one(string='client_contact_email_template3',
+        comodel_name="olims.template"),
 )
 schema_analysis = (fields.Many2one(string='Service',
                     comodel_name='olims.analysis_service',
@@ -1939,13 +1947,13 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     @api.onchange('Copytemplate')
     def copy_template(self):
         if self.Copy == '1':
-            self.Template1 = self.Template
-            self.Template2 = self.Template3 = None
+            self.client_contact_email_template1 = self.client_contact_email_template
+            self.client_contact_email_template2 = self.client_contact_email_template3 = None
         elif self.Copy == '2':
-            self.Template1 = self.Template2 = self.Template
-            self.Template3 = None
+            self.client_contact_email_template1 = self.client_contact_email_template2 = self.client_contact_email_template
+            self.client_contact_email_template3 = None
         elif self.Copy == '3':
-            self.Template1 = self.Template2 = self.Template3 = self.Template
+            self.client_contact_email_template1 = self.client_contact_email_template2 = self.client_contact_email_template3 = self.client_contact_email_template
         else:
             pass
 
@@ -2238,6 +2246,20 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 self.Subtotal += service_record.Services.Price - (service_record.Services.Price *self.Client.M_Discount / 100)
                 self.VAT += service_record.Services.VAT * (service_record.Services.Price - (service_record.Services.Price * self.Client.M_Discount / 100)) /100
                 self.Total = self.Subtotal + self.VAT
+
+    @api.onchange("client_contact_email_template","client_contact_email_template1","client_contact_email_template2","client_contact_email_template3")
+    def add_contact_and_email_of_template(self):
+        self.Contact = self.client_contact_email_template.contact_id
+        self.CCEmails = self.client_contact_email_template.email_id
+        if self.client_contact_email_template1:
+            self.Contact1 = self.client_contact_email_template1.contact_id
+            self.CCEmails1 = self.client_contact_email_template1.email_id
+        if self.client_contact_email_template2:
+            self.Contact2 = self.client_contact_email_template2.contact_id
+            self.CCEmails2 = self.client_contact_email_template2.email_id
+        if self.client_contact_email_template3:
+            self.Contact3 = self.client_contact_email_template3.contact_id
+            self.CCEmails3 = self.client_contact_email_template3.email_id
 
 class FieldAnalysisService(models.Model, BaseOLiMSModel):
     _name = 'olims.field_analysis_service'
