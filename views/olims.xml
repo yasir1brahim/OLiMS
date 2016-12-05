@@ -4454,8 +4454,15 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <!-- <menuitem id="contact_menu" name="Contacts" parent="olims_settings_menu" sequence="48"
-                  action="contact_list_action"/> -->
+        <!-- Action window for Client Template -->
+        <record model="ir.actions.act_window" id="action_client_contact_and_email_template">
+            <field name="name">Template</field>
+            <field name="res_model">olims.template</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">current</field>
+            <field name="context">{"client_context":active_id}</field>
+       </record>
 
        <!--Client form view -->
         <record model="ir.ui.view" id="olims_client_form_view">
@@ -4499,6 +4506,14 @@
                                 <tree editable="top" delete="false">
                                     <field name="name" string="Email"/>
                                 </tree>
+                            </field>
+                        </page>
+                        <page string="Template" name="Template" class="oe_edit_only">
+                            <header>
+                                <button name="%(action_client_contact_and_email_template)d" string="Add Template" type="action" class="oe_highlight"/>
+                            </header>
+                            <label for="template" string="Template"/>
+                            <field name="template">
                             </field>
                         </page>
                         <page string="Address" name="Address Page" class="oe_edit_only">
@@ -5190,53 +5205,6 @@
 
         <menuitem id="department" name="Lab Departments" parent="olims_settings_menu" sequence="26"
                   action="olims_department_list_action"/>
-                  
-        <!-- My Modelform view   
-          <record model="ir.ui.view" id="mymodel_my_model_form_view">
-            <field name="name">my_model.form</field>
-            <field name="model">mymodel.my_model</field>
-            <field name="arch" type="xml">
-                <form string="My Model Form">
-                    <label for="AnalysisPrice" string="AnalysisPrice"/>
-                    <field name="AnalysisPrice"></field>
-                    <label for="MyTestField" string="MyTestField"/>
-                    <field name="MyTestField"></field>
-                    <label for="NewField" string="NewField"/>
-                	<field name="NewField"></field>
-                	<label for="test_string" string="test_string"/>
-                	<field name="test_string"></field>
-                	<label for="AnalysisProfilePrice" string="AnalysisProfilePrice"/>
-                    <field name="AnalysisProfilePrice"></field>
-                </form>
-            </field>
-        </record>
-    
-        <record model="ir.ui.view" id="mymodel_my_model_tree_view">
-            <field name="name">my_model.tree</field>
-            <field name="model">mymodel.my_model</field>
-            <field name="arch" type="xml">
-                <tree string="My Model">
-                    <field name="AnalysisPrice"></field>
-                	<field name="CommercialID"></field>
-                	<field name="MyTestField"></field>
-                	<field name="NewField"></field>
-                	<field name="AnalysisProfilePrice"></field>
-                	<field name="test_string"></field>
-                	
-                </tree>
-            </field>
-        </record>
-                    
-	   <record model="ir.actions.act_window" id="mymodel_my_model_list_action">
-            <field name="name">My Model</field>
-            <field name="res_model">mymodel.my_model</field>
-            <field name="view_type">form</field>
-			<field name="view_mode">tree,form</field>
-       </record>
-
-        <menuitem id="my_model" name="My Model" parent="olims_menu"
-                  action="mymodel_my_model_list_action"/> -->  
-                  
          <!-- Analysis Service form view -->
         <record model="ir.ui.view" id="olims_analysis_service_form_view">
             <field name="name">analysis_service.form</field>
@@ -5938,5 +5906,41 @@
             <field name="view_mode">tree,form</field>
        </record>
        <menuitem id="payment_term_menu" name="Payment Terms" parent="olims_settings_menu" action="show_tree_of_payment_term" sequence="42"/>
+       <!-- Client Contact and Email Template form view -->
+          <record model="ir.ui.view" id="client_contact_and_email_template_form_view">
+            <field name="name">template.form</field>
+            <field name="model">olims.template</field>
+            <field name="arch" type="xml">
+                <form string="Template Form">
+                    <label for="name" string="Title"/>
+                    <field name="name"></field>
+                    <!-- <label for="client_id" string="Client"/> -->
+                    <field name="client_id" invisible="1"></field>
+                    <label for="contact_id" string="Contact"/>
+                    <field name="contact_id" domain="['|',('Client_Contact','=',context.get('client_context')),('Client_Contact','=',client_id)]" widget="many2many_checkboxes"></field>
+                    <label for="email_id" string="Email"/>
+                    <field name="email_id" domain="['|',('client_id','=',context.get('client_context')),('client_id','=',client_id)]" widget="many2many_checkboxes"></field>
+                </form>
+            </field>
+        </record>
+    
+        <record model="ir.ui.view" id="client_contact_and_email_template_tree_view">
+            <field name="name">template.tree</field>
+            <field name="model">olims.template</field>
+            <field name="arch" type="xml">
+                <tree string="Template" create="false">
+                    <field name="name" string="Title"></field>
+                    <field name="contact_id" string="Contacts"></field>
+                    <field name="email_id" string="Email Addresses"></field>
+                </tree>
+            </field>
+        </record>
+                    
+       <record model="ir.actions.act_window" id="client_contact_and_email_template_action">
+            <field name="name">Template</field>
+            <field name="res_model">olims.template</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+       </record>
     </data>
 </openerp>
