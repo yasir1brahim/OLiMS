@@ -73,7 +73,6 @@
                     <!-- <field name="Batch"></field>
                     <field name="SubGroup"></field> -->
                     <field name="Client"></field>
-                    <field name="create_uid"></field>
                     <field name="AnalysisProfile" string="Analysis Profile"></field>
                     <field name="SamplingDate" string="Sampling Date"></field>
                     <field name="SampleType" string="Sample Type"></field>
@@ -2342,7 +2341,6 @@
                     <field name="SubGroup"></field> -->
                     <field name="billing_status" string="Billed"/>
                     <field name="Client"></field>
-                    <field name="create_uid"></field>
                     <!-- <field name="Template"></field> -->
                     <field name="AnalysisProfile" string="Analysis Profile"></field>
                     <field name="SamplingDate" string="Sampling Date"></field>
