@@ -5259,58 +5259,76 @@
                             <field name="ChangeNote"></field>
                         </page>
                         <page string="Analysis">
-                            <label for="Min" string="Min"/>
-                            <field name="Min" nolabel="1"/>
-                            <label for="Max" string="Max"/>
-                            <field name="Max" nolabel="1"/>
-                            <field name="display_text" nolabel="1"/>
-                            <label for="display_text" string="Display Text"/>
-                            <p>When checked display the text as limit in Certificate Of Analysis (COA) otherwise display the Min Max range values on COA.</p>
-                            <label for="specification_text" string="Specification"/>
-                            <field name="specification_text" nolabel="1"/>
-                            <field name="status_on_off" nolabel="1"/>
-                            <label for="status_on_off" string="Hide Status"/>
-                            <p>When checked no text displayed in "Status" column of Certificate Of Analysis (COA).</p>
-                            <label for="Precision" string="Precision as number of decimals"/>
-                            <p>Define the number of decimals to be used for this result.</p>
-                            <field name="Precision"></field>
-                            <label for="ExponentialFormatPrecision" string="Exponential format precision"/>
-                            <p>Define the precision when converting values to exponent notation. The default is 7.</p>
-                            <field name="ExponentialFormatPrecision"></field>
-                            <label for="LowerDetectionLimit" string="Lower Detection Limit (LDL)"/>
-                            <p>The Lower Detection Limit is the lowest value to which the measured parameter can be measured using the specified testing methodology. Results entered which are less than this value will be reported as &lt; LDL</p>
-                            <field name="LowerDetectionLimit"></field>
-                            <label for="UpperDetectionLimit" string="Upper Detection Limit (UDL"/>
-                            <p>The Upper Detection Limit is the highest value to which the measured parameter can be measured using the specified testing methodology. Results entered which are greater than this value will be reported as  &gt; UDL</p>
-                            <field name="UpperDetectionLimit"></field>
-                            <field name="DetectionLimitSelector"></field>
-                            <label for="DetectionLimitSelector" string="Display a Detection Limit selector"/>
-                            <p>If checked, a selection list will be displayed next to the analysis' result field in results entry views. By using this selector, the analyst will be able to set the value as a Detection Limit (LDL or UDL) instead of a regular result</p>
-                            <field name="AllowManualDetectionLimit" attrs="{'invisible':[('DetectionLimitSelector','=', False)]}"></field>
-                            <label for="AllowManualDetectionLimit" string="Allow Manual Detection Limit input" attrs="{'invisible':[('DetectionLimitSelector','=', False)]}"/>
-                            <br/>
-                            <field name="ReportDryMatter"></field>
-                            <label for="ReportDryMatter" string="Report as Dry Matter"/>
-                            <p>These results can be reported as dry matter</p>
-                            <label for="AttachmentOption" string="Attachment Option"/>
-                            <field name="AttachmentOption"></field>
-                            <p>Indicates whether file attachments, e.g. microscope images, are required for this analysis and whether file upload function will be available for it on data capturing screens</p>
-                            <group col='2' string='Maximum turn-around time '>
-                                <p >Maximum time allowed for completion of the analysis.A late analysis alert is raised when this period elapses</p>
-                                <p></p>
-                                <label for="Days" string="Days"/>
-                                <field name="Days" nolabel='1'></field>
-                                <label for="Hours" string="Hours"/>
-                                <field name="Hours" nolabel='1'></field>
-                                <label for="Minutes" string="Minutes"/>
-                                <field name="Minutes" nolabel='1'></field>
-                            </group>
-                            <field name="Hidden"></field>
-                            <label for="Hidden" string="Hidden"/>
-                            <p>If enabled, this analysis and its results will not be displayed by default in reports. This setting can be overrided in Analysis Profile and/or Analysis Request</p>
-                            <label for="ChangeNote" string="Change Note"/>
-                            <p>Enter a comment that describes the changes you made.</p>
-                            <field name="ChangeNote"></field>
+                            <notebook>
+                                <page string="Analysis">
+                                    <label for="Min" string="Min"/>
+                                    <field name="Min" nolabel="1"/>
+                                    <label for="Max" string="Max"/>
+                                    <field name="Max" nolabel="1"/>
+                                    <label for="Precision" string="Precision as number of decimals"/>
+                                    <p>Define the number of decimals to be used for this result.</p>
+                                    <field name="Precision"></field>
+                                    <label for="ExponentialFormatPrecision" string="Exponential format precision"/>
+                                    <p>Define the precision when converting values to exponent notation. The default is 7.</p>
+                                    <field name="ExponentialFormatPrecision"></field>
+                                    <label for="LowerDetectionLimit" string="Lower Detection Limit (LDL)"/>
+                                    <p>The Lower Detection Limit is the lowest value to which the measured parameter can be measured using the specified testing methodology. Results entered which are less than this value will be reported as &lt; LDL</p>
+                                    <field name="LowerDetectionLimit"></field>
+                                    <label for="UpperDetectionLimit" string="Upper Detection Limit (UDL"/>
+                                    <p>The Upper Detection Limit is the highest value to which the measured parameter can be measured using the specified testing methodology. Results entered which are greater than this value will be reported as  &gt; UDL</p>
+                                    <field name="UpperDetectionLimit"></field>
+                                    <field name="DetectionLimitSelector"></field>
+                                    <label for="DetectionLimitSelector" string="Display a Detection Limit selector"/>
+                                    <p>If checked, a selection list will be displayed next to the analysis' result field in results entry views. By using this selector, the analyst will be able to set the value as a Detection Limit (LDL or UDL) instead of a regular result</p>
+                                    <field name="AllowManualDetectionLimit" attrs="{'invisible':[('DetectionLimitSelector','=', False)]}"></field>
+                                    <label for="AllowManualDetectionLimit" string="Allow Manual Detection Limit input" attrs="{'invisible':[('DetectionLimitSelector','=', False)]}"/>
+                                    <br/>
+                                    <field name="ReportDryMatter"></field>
+                                    <label for="ReportDryMatter" string="Report as Dry Matter"/>
+                                    <p>These results can be reported as dry matter</p>
+                                    <label for="AttachmentOption" string="Attachment Option"/>
+                                    <field name="AttachmentOption"></field>
+                                    <p>Indicates whether file attachments, e.g. microscope images, are required for this analysis and whether file upload function will be available for it on data capturing screens</p>
+                                    <group col='2' string='Maximum turn-around time '>
+                                        <p >Maximum time allowed for completion of the analysis.A late analysis alert is raised when this period elapses</p>
+                                        <p></p>
+                                        <label for="Days" string="Days"/>
+                                        <field name="Days" nolabel='1'></field>
+                                        <label for="Hours" string="Hours"/>
+                                        <field name="Hours" nolabel='1'></field>
+                                        <label for="Minutes" string="Minutes"/>
+                                        <field name="Minutes" nolabel='1'></field>
+                                    </group>
+                                    <field name="Hidden"></field>
+                                    <label for="Hidden" string="Hidden"/>
+                                    <p>If enabled, this analysis and its results will not be displayed by default in reports. This setting can be overrided in Analysis Profile and/or Analysis Request</p>
+                                    <label for="ChangeNote" string="Change Note"/>
+                                    <p>Enter a comment that describes the changes you made.</p>
+                                    <field name="ChangeNote"></field>
+                                </page>
+                                <page string="COA Controls">
+                                    <field name="display_text" nolabel="1"/>
+                                    <label for="display_text" string="Display Text"/>
+                                    <p>When checked display the text as limit in Certificate Of Analysis (COA) otherwise display the Min Max range values on COA.</p>
+                                    <label for="specification_text" string="Specification"/>
+                                    <field name="specification_text" nolabel="1"/>
+                                    <field name="status_on_off" nolabel="1"/>
+                                    <label for="status_on_off" string="Hide Status"/>
+                                    <p>When checked no text displayed in "Status" column of Certificate Of Analysis (COA).</p>
+                                    <group>
+                                        <label for="total_cannabinoids" string="Total Cannabinoids"/>
+                                        <field name="total_cannabinoids" nolabel="1"/>
+                                    </group>
+                                    <group>
+                                        <label for="total_THC" string="Total THC"/>
+                                        <field name="total_THC" nolabel="1"/>
+                                    </group>
+                                    <group>
+                                        <label for="microbial_pass_fail_flag" string="Microbial(pass/fail)"/>
+                                        <field name="microbial_pass_fail_flag" nolabel="1"/>
+                                    </group>
+                                </page>
+                            </notebook>
                         </page>
                         <page string="Method">
                             <field name="ManualEntryOfResults"></field>

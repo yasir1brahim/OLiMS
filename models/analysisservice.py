@@ -551,6 +551,9 @@ schema = (StringField('Service',
     BooleanField(string="display_text"),
     StringField(string="specification_text"),
     BooleanField(string="status_on_off"),
+    BooleanField(string="total_cannabinoids"),
+    BooleanField(string="total_THC"),
+    BooleanField(string="microbial_pass_fail_flag"),
 )
 
 
