@@ -9,6 +9,7 @@ from fields.reference_field import ReferenceField
 from fields.boolean_field import BooleanField
 from fields.widget.widget import StringWidget, BooleanWidget
 from openerp.tools.translate import _
+from openerp.exceptions import Warning
 
 
 schema = (
@@ -145,10 +146,6 @@ schema = (
                     string='user',
                     domain="[('id', '=', '-1')]"
     ),
-    fields.One2many('olims.analysis_request',
-                                 'Contact',
-                                 string='Analysis_Request',
-    ),
  )
 
 class Contact(models.Model, BaseOLiMSModel): #(Person)
@@ -205,5 +202,13 @@ class Contact(models.Model, BaseOLiMSModel): #(Person)
             setattr(self, 'postal_city', getattr(self,self.postal_copy_from+'_city'))
             setattr(self, 'postal_postalcode', getattr(self,self.postal_copy_from+'_postalcode'))
             setattr(self, 'postal_address', getattr(self,self.postal_copy_from+'_address'))
+
+    @api.multi
+    def unlink(self):
+        analysis_request_obj = self.env["olims.analysis_request"]
+        contacts = analysis_request_obj.search([('Contact', 'in', self.id)])
+        if contacts:
+            raise Warning(_("You are trying to delete a record that is still referenced!"))
+        return super(Contact, self).unlink()
 
 Contact.initialze(schema)
