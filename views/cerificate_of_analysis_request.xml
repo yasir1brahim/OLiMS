@@ -35,7 +35,7 @@
 						                <tbody>
 						                	<tr>
 						                		<td  style="background: #c1d598; width: 100px;" t-att-rowspan="int(len(doc.Lab_Manage_Result)+len(doc.Field_Manage_Result)+1)">
-						                			<strong>Date Received:</strong><p t-field="doc.DateReceived" t-field-options='{"format": "dd/MM/yyyy"}'/>
+						                			<strong>Date Received:</strong><p t-field="doc.DateReceived" t-field-options='{"widget": "date"}'/>
 						                			<strong>Client:</strong><p t-field="doc.Client.Name"/>
 						                			<strong>Sample Type:</strong><p t-field="doc.SampleType.SampleType"/>
 						                			<strong>Sample Name:</strong><p t-field="doc.Sample_id.SampleID"/>
@@ -108,7 +108,7 @@
 						    <div class="row">
 						 		<div class="col-xs-6">
 						 			<p>Laboratory ID: 3568-02</p>
-						 			<p>Date Reported: <span t-esc="time.strftime('%d/%m/%Y')"/></p>
+						 			<p>Date Reported: <span t-esc="time.strftime('%m/%d/%Y')"/></p>
 						 		</div>
 						 	</div>
 						 	<div style="page-break-before:always;"> </div>
