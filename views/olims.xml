@@ -4426,16 +4426,16 @@
             <field name="model">olims.contact</field>
             <field name="arch" type="xml">
                 <tree string="Contact">
-                    <field name="Name"></field>
+                    <field name="name" string="Name"></field>
                     <!--<field name="Salutation"></field>
                     <field name="Firstname"></field>
                     <field name="Middleinitial"></field>
                     <field name="Middlename"></field>
                     <field name="Surname"></field>-->
-                    <field name="EmailAddress"></field>
-                    <field name="BusinessPhone"></field>
-                    <field name="HomePhone"></field>
-                    <field name="MobilePhone"></field>
+                    <field name="EmailAddress" string="Email Address"></field>
+                    <field name="BusinessPhone" string="Business Phone"></field>
+                    <field name="HomePhone" string="Home Phone"></field>
+                    <field name="MobilePhone" string="Mobile Phone"></field>
                     <!--<field name="BusinessFax"></field>
                     <field name="JobTitle"></field>
                     <field name="Department"></field>

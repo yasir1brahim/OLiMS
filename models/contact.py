@@ -45,7 +45,7 @@ schema = (
         ),
     ),
     
-    fields.Char(compute='computeFulname', string='Name'),
+    fields.Char(compute='computeFulname', string='name'),
     StringField('EmailAddress',
         schemata = 'Email Telephone Fax',
         searchable = 1,
@@ -150,7 +150,7 @@ schema = (
 
 class Contact(models.Model, BaseOLiMSModel): #(Person)
     _name = 'olims.contact'
-    _rec_name = "Name"
+    _rec_name = "name"
     
     def computeFulname(self):
         """ return Person's Fullname """
@@ -179,7 +179,7 @@ class Contact(models.Model, BaseOLiMSModel): #(Person)
                                             record.getSurname())
                 else:
                     fullname = '%s %s' % (record.getFirstname(), record.getSurname())
-            record.Name = fullname.strip()
+            record.name = fullname.strip()
 
     @api.onchange('physical_copy_from')
     def _onchange_physical(self):
