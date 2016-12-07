@@ -45,6 +45,10 @@ schema = (
         comodel_name="olims.email",
         inverse_name="client_id",
         ),
+    fields.One2many(string="invoice_email",
+        comodel_name="olims.email",
+        inverse_name="invoice_client_id",
+        ),
           # # ~~~~~~~~~~ PhysicalAddress behavior in Odoo is as selection field ~~~~~~~~~~~
     fields.Many2one(comodel_name='olims.country',string='physical_country',default=lambda self: self.env['olims.country'].search([('name','=','United States')]).id),
     fields.Many2one(comodel_name='olims.state',string='physical_state', domain="[('Country', '=', physical_country)]",default=lambda self: self.env['olims.state'].search([('name','=','Washington')]).id),
