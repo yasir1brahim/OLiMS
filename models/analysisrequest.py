@@ -1918,19 +1918,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         else:
             pass
 
-    @api.onchange('Copybatch')
-    def copy_batch(self):
-        if self.Copy == '1':
-            self.Batch1 = self.Batch
-            self.Batch2 = self.Batch3 = None
-        elif self.Copy == '2':
-            self.Batch1 = self.Batch2 = self.Batch
-            self.Batch3 = None
-        elif self.Copy == '3':
-            self.Batch1 = self.Batch2 = self.Batch3 = self.Batch
-        else:
-            pass
-            
 
     @api.onchange('Copysubgroup')
     def copy_subgroup(self):
@@ -2023,33 +2010,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         else:
             pass
 
-    @api.onchange('Copysamplepoint')
-    def copy_sample_point(self):
-        if self.Copy == '1':
-            self.SamplePoint1 = self.SamplePoint
-            self.SamplePoint2 = self.SamplePoint3 = None
-        elif self.Copy == '2':
-            self.SamplePoint1 = self.SamplePoint2 = self.SamplePoint
-            self.SamplePoint3 = None
-        elif self.Copy == '3':
-            self.SamplePoint1 = self.SamplePoint2 = self.SamplePoint3 = self.SamplePoint
-        else:
-            pass
-
-
-    @api.onchange('Copystorage')
-    def copy_storage_location(self):
-        if self.Copy == '1':
-            self.StorageLocation1 = self.StorageLocation
-            self.StorageLocation2 = self.StorageLocation3 = None
-        elif self.Copy == '2':
-            self.StorageLocation1 = self.StorageLocation2 = self.StorageLocation
-            self.StorageLocation3 = None
-        elif self.Copy == '3':
-            self.StorageLocation1 = self.StorageLocation2 = self.StorageLocation3 = self.StorageLocation
-        else:
-            pass
-
 
     @api.onchange('CopyClientReference')
     def copy_client_reference(self):
@@ -2061,19 +2021,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             self.ClientReference3 = None
         elif self.Copy == '3':
             self.ClientReference1 = self.ClientReference2 = self.ClientReference3 = self.ClientReference
-        else:
-            pass
-
-    @api.onchange('CopySamplingDeviation')
-    def copy_sampling_deviation(self):
-        if self.Copy == '1':
-            self.SamplingDeviation1 = self.SamplingDeviation
-            self.SamplingDeviation2 = self.SamplingDeviation3 = None
-        elif self.Copy == '2':
-            self.SamplingDeviation1 = self.SamplingDeviation2 = self.SamplingDeviation
-            self.SamplingDeviation3 = None
-        elif self.Copy == '3':
-            self.SamplingDeviation1 = self.SamplingDeviation2 = self.SamplingDeviation3 = self.SamplingDeviation
         else:
             pass
 
@@ -2089,20 +2036,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             self.SampleCondition1 = self.SampleCondition2 = self.SampleCondition3 = self.SampleCondition
         else:
             pass
-
-    @api.onchange('CopyDefaultContainerType')
-    def copy_container_type(self):
-        if self.Copy == '1':
-            self.DefaultContainerType1 = self.DefaultContainerType
-            self.DefaultContainerType2 = self.DefaultContainerType3 = None
-        elif self.Copy == '2':
-            self.DefaultContainerType1 = self.DefaultContainerType2 = self.DefaultContainerType
-            self.DefaultContainerType3 = None
-        elif self.Copy == '3':
-            self.DefaultContainerType1 = self.DefaultContainerType2 = self.DefaultContainerType3 = self.DefaultContainerType
-        else:
-            pass
-
 
     @api.onchange('CopyAdHoc')
     def copy_adhoc(self):
