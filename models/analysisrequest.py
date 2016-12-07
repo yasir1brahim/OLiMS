@@ -1725,7 +1725,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def _add_values_in_analyses(self):
         service_ids_list = []
         for record in self:
-            if record.Analyses:
+            if record.state != "sample_registered":
                 record.Field_Manage_Result = None
                 record.Lab_Manage_Result = None
                 record.Analyses = None

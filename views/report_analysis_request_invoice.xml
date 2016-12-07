@@ -58,7 +58,7 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-4">
-                            <span t-esc="time.strftime('%Y-%m-%d %H:%M:%S')"/>
+                            <span t-esc="time.strftime('%m/%d/%Y')"/>
                         </div>
                         <div class="col-xs-4">
                             <span t-esc="doc.name"/>
