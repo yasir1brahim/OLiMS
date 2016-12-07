@@ -4769,7 +4769,7 @@
             <field name="name">analysis_profile.form</field>
             <field name="model">olims.analysis_profile</field>
             <field name="arch" type="xml">
-                <form string="Analysis Profile Form">
+                <form string="Analysis Profile Form" duplicate="0">
                     <sheet>
                     <notebook>
                         <page string="Default">
