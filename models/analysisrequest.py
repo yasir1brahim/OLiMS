@@ -766,6 +766,7 @@ schema_analysis = (fields.Many2one(string='Service',
 manage_result_schema = (
     StringField(string="Partition"),
     FixedPointField(string="Result"),
+    FixedPointField(string="temp_result"),
     BooleanField('+-', default=False),
     DateTimeField('Capture'),
     DateTimeField('Due Date'),
@@ -2281,6 +2282,27 @@ class FieldAnalysisService(models.Model, BaseOLiMSModel):
 class ManageAnalyses(models.Model, BaseOLiMSModel):
     _inherit = 'olims.field_analysis_service'
     _name = 'olims.manage_analyses'
+
+
+    @api.multi
+    def write(self,values):
+        if not values.get('state',None) =='to_be_verified':
+            if values.get('Result',None):
+                for item in self:
+                   values.update({'Result':item.temp_result})
+        res = super(ManageAnalyses, self).write(values)
+        return res
+
+    @api.onchange("Result")
+    def save_results(self):
+        for item in self:
+            data_res = item.Result
+        record_obj = self.pool.get('olims.manage_analyses')
+        record = record_obj.browse(self.env.cr, self.env.uid, self._origin.id)
+        record.write({
+                'temp_result': data_res
+            })
+        self.env.cr.commit()
 
     @api.multi
     def bulk_verify(self):
