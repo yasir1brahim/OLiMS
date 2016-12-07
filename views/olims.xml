@@ -5852,7 +5852,7 @@
             <field name="name">ar_invoice.form</field>
             <field name="model">olims.ar_invoice</field>
             <field name="arch" type="xml">
-                <form string="AR Invoice">
+                <form string="AR Invoice" duplicate="0">
                     <sheet>
                         <header>
                             <button string="Close" name="close" states="open" type="workflow" class="oe_highlight"/>
@@ -5869,7 +5869,7 @@
                         <field name="end_date" required="1"/>
                         <notebook>
                             <page string="Analysis Request" attrs="{'invisible': [('client_id', '=', False),('start_date', '=', False), ('end_date', '=', False)]}">
-                                <field name="analysis_request_id" domain="[('Client', '=', client_id),('state', '=', 'sample_received'), ('SamplingDate', '&gt;=', start_date), ('SamplingDate', '&lt;=', end_date), ('ar_invoice_id', '=', False)]" attrs="{'readonly': [('state', 'in', ['closed', 'published'])]}">
+                                <field name="analysis_request_id" domain="[('Client', '=', client_id),('state', 'in', ['sample_received','to_be_verified','verified','published']), ('SamplingDate', '&gt;=', start_date), ('SamplingDate', '&lt;=', end_date), ('ar_invoice_id', '=', False)]" attrs="{'readonly': [('state', 'in', ['closed', 'published'])]}">
                                     <tree delete="false">
                                         <field name="RequestID" string="Request ID"></field>
                                         <field name="SampleType" string="Sample Type"></field>
@@ -5894,7 +5894,7 @@
             <field name="model">olims.ar_invoice</field>
             <field name="priority" eval="1"/>
             <field name="arch" type="xml">
-                <tree string="AR Invoice" delete="false">
+                <tree string="AR Invoice">
                     <field name="name"/>
                     <field name="receipt_number"/>
                     <field name="client_id"/>
