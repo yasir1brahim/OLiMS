@@ -4501,8 +4501,15 @@
                         <page string="Email Addresses" name="Email Addresses" class="oe_edit_only">
                             <label for="email" string="Email Address" name="Email Address"/>
                             <field name="email">
-                                <tree editable="top" delete="false">
+                                <tree editable="top">
                                     <field name="name" string="Email"/>
+                                </tree>
+                            </field>
+                            <br/>
+                            <label for="invoice_email" string="Invoice Email Address" name="Invoice Email Address"/>
+                            <field name="invoice_email">
+                                <tree editable="top">
+                                    <field name="name" string="Invoice email"/>
                                 </tree>
                             </field>
                         </page>

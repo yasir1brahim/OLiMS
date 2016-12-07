@@ -237,6 +237,9 @@ class ARInvoice(models.Model):
         email_receivers = []
         for email in self.client_id.email:
             email_receivers.append(email.name)
+
+        for invoice_email in self.client_id.invoice_email:
+            email_receivers.append(invoice_email.name)
         ir_model_data = self.env['ir.model.data']
         try:
             template_id = ir_model_data.get_object_reference('olims', 'ar_invoice_email_template')[1]
