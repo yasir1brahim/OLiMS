@@ -1016,6 +1016,7 @@ class WorkSheetManageResults(models.Model):
     sampling_date = fields.Datetime("Sampling Date")
     received_date = fields.Datetime("Received Date")
     result = fields.Float("Results")
+    temp_result = fields.Float("temp_result")
     position = fields.Integer(string="Position")
     analyst = fields.Many2one(string='Analyst',
         comodel_name='res.users',
@@ -1037,6 +1038,26 @@ class WorkSheetManageResults(models.Model):
     )
     category = fields.Many2one('olims.analysis_category',string='Category',
         ondelete='set null')
+
+    @api.multi
+    def write(self,values):
+        if not values.get('state',None) =='to_be_verified':
+            if values.get('result',None):
+                for item in self:
+                   values.update({'result':item.temp_result})
+        res = super(WorkSheetManageResults, self).write(values)
+        return res
+
+    @api.onchange("result")
+    def save_results(self):
+        for item in self:
+            data_res = item.result
+        record_obj = self.pool.get('olims.ws_manage_results')
+        record = record_obj.browse(self.env.cr, self.env.uid, self._origin.id)
+        record.write({
+                'temp_result': data_res
+            })
+        self.env.cr.commit()
 
     @api.multi
     def bulk_verify(self):
