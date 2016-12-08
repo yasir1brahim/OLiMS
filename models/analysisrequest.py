@@ -1268,13 +1268,13 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                         ar_manage_res_obj = self.env["olims.manage_analyses"].search(["|",("manage_analysis_id","=",record.id),
                         ("lab_manage_analysis_id","=",record.id),"|",("Service","=",ar_obj.Services.id)
                         ,("LabService","=",ar_obj.Services.id)])
-                        min = items[2].get("Min") if items[2].get("Min", None) else ar_obj.Min
-                        max = items[2].get("Max") if items[2].get("Max", None) else ar_obj.Max
+                        Min = items[2].get("Min") if items[2].get("Min", None) else ar_obj.Min
+                        Max = items[2].get("Max") if items[2].get("Max", None) else ar_obj.Max
                         error = items[2].get("Error") if items[2].get("Error", None) else ar_obj.Error
-                        manage_res_val_dict.update({"Min": min,
-                                               "Max": max,
+                        manage_res_val_dict.update({"Min": Min,
+                                               "Max": Max,
                                                "Error": error,
-                                                "Specifications": ">" + str(min) + ", <" + str(max)})
+                                                "Specifications": ">" + str(Min) + ", <" + str(Max)})
                         if ar_obj.Services.PointOfCapture == "field":
                             for ar_man_res_obj in ar_manage_res_obj:
                                 record.write({"Field_Manage_Result":[[1,ar_man_res_obj.id,manage_res_val_dict]]})
