@@ -230,10 +230,6 @@ schema = (
     fields.Float(string='M_Discount',
         default=0.00
     ),
-    fields.One2many(string="template",
-        comodel_name="olims.template",
-        inverse_name="client_id",
-        ),
 
 )
 
@@ -291,22 +287,5 @@ class Client(models.Model, BaseOLiMSModel):
 
     payment_term_id = fields.Many2one(string="Payment Terms",
         comodel_name="olims.payment_term", default=_get_value_cash_as_default)
-
-class Template(models.Model):
-    _name = "olims.template"
-
-    name = fields.Char('Name')
-    contact_id = fields.Many2many('olims.contact')
-    email_id = fields.Many2many('olims.email')
-    client_id = fields.Many2one('olims.client')
-
-    @api.model
-    def create(self, values):
-        client = values.get('client_id', None)
-        if not client:
-            client = self._context.get('client_context', None)
-        values.update({'client_id':client})
-        res = super(Template, self).create(values)
-        return res
 
 Client.initialze(schema)

@@ -3,7 +3,7 @@
     ARTemplate includes all AR fields, including preset AnalysisProfile
 """
 from openerp.tools.translate import _
-from openerp import fields, models
+from openerp import fields, models, api
 from base_olims_model import BaseOLiMSModel
 from fields.widget.widget import BooleanWidget, TextAreaWidget
 from fields.boolean_field import BooleanField
@@ -68,12 +68,28 @@ schema = (StringField('Template',
     ),
     fields.Many2one(string='ClientARTemplate',
                     comodel_name='olims.client',
-                    )
+                    ),
+    fields.Many2many('olims.contact',string="contact_id"),
+    fields.Many2many('olims.email', string="email_id"),
+    fields.Many2one(string='priority',
+                   comodel_name='olims.ar_priority',
+                   required=False,
+
+    ),
 )
 
 class ARTemplate(models.Model, BaseOLiMSModel):
     _name = 'olims.ar_template'
     _rec_name = 'Template'
+
+    @api.model
+    def create(self, values):
+        client = values.get('ClientARTemplate', None)
+        if not client:
+            client = self._context.get('client_context', None)
+        values.update({'ClientARTemplate':client})
+        res = super(ARTemplate, self).create(values)
+        return res
 
 
 ARTemplate.initialze(schema)

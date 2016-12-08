@@ -1935,13 +1935,13 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     @api.onchange('Copytemplate')
     def copy_template(self):
         if self.Copy == '1':
-            self.client_contact_email_template1 = self.client_contact_email_template
-            self.client_contact_email_template2 = self.client_contact_email_template3 = None
+            self.Template1 = self.Template
+            self.Template2 = self.Template3 = None
         elif self.Copy == '2':
-            self.client_contact_email_template1 = self.client_contact_email_template2 = self.client_contact_email_template
-            self.client_contact_email_template3 = None
+            self.Template1 = self.Template2 = self.Template
+            self.Template3 = None
         elif self.Copy == '3':
-            self.client_contact_email_template1 = self.client_contact_email_template2 = self.client_contact_email_template3 = self.client_contact_email_template
+            self.Template1 = self.Template2 = self.Template3 = self.Template
         else:
             pass
 
@@ -2181,19 +2181,31 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 self.VAT += service_record.Services.VAT * (service_record.Services.Price - (service_record.Services.Price * self.Client.M_Discount / 100)) /100
                 self.Total = self.Subtotal + self.VAT
 
-    @api.onchange("client_contact_email_template","client_contact_email_template1","client_contact_email_template2","client_contact_email_template3")
+    @api.onchange("Template","Template1","Template2","Template3")
     def add_contact_and_email_of_template(self):
-        self.Contact = self.client_contact_email_template.contact_id
-        self.CCEmails = self.client_contact_email_template.email_id
-        if self.client_contact_email_template1:
-            self.Contact1 = self.client_contact_email_template1.contact_id
-            self.CCEmails1 = self.client_contact_email_template1.email_id
-        if self.client_contact_email_template2:
-            self.Contact2 = self.client_contact_email_template2.contact_id
-            self.CCEmails2 = self.client_contact_email_template2.email_id
-        if self.client_contact_email_template3:
-            self.Contact3 = self.client_contact_email_template3.contact_id
-            self.CCEmails3 = self.client_contact_email_template3.email_id
+        self.Contact = self.Template.contact_id
+        self.CCEmails = self.Template.email_id
+        self.AnalysisProfile = self.Template.AnalysisProfile
+        self.SampleType = self.Template.SampleType
+        self.Priority = self.Template.priority
+        if self.Template1:
+            self.Contact1 = self.Template1.contact_id
+            self.CCEmails1 = self.Template1.email_id
+            self.AnalysisProfile1 = self.Template1.AnalysisProfile
+            self.SampleType1 = self.Template1.SampleType
+            self.Priority1 = self.Template1.priority
+        if self.Template2:
+            self.Contact2 = self.Template2.contact_id
+            self.CCEmails2 = self.Template2.email_id
+            self.AnalysisProfile2 = self.Template2.AnalysisProfile
+            self.SampleType2 = self.Template2.SampleType
+            self.Priority2 = self.Template2.priority
+        if self.Template3:
+            self.Contact3 = self.Template3.contact_id
+            self.CCEmails3 = self.Template3.email_id
+            self.AnalysisProfile3 = self.Template3.AnalysisProfile
+            self.SampleType3 = self.Template3.SampleType
+            self.Priority3 = self.Template3.priority
 
 class FieldAnalysisService(models.Model, BaseOLiMSModel):
     _name = 'olims.field_analysis_service'
