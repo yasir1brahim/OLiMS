@@ -2,9 +2,20 @@
 <data>
 <template id="report_ws_manage_results_document">
         <div class="header">
-            <h1 align="left"><strong><t t-esc="doc.Worksheet"/></strong></h1>
-                     <img align="right" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=%s' % 
-                ('Standard39', doc.Worksheet, 250, 50, 1)"/>
+            <div class="row">
+                <div class="col-xs-4">
+                    <h1 align="left"><strong><t t-esc="doc.Worksheet"/></strong></h1>
+                </div>
+                <div class="col-xs-4">
+                    <t t-set="category" t-value="doc.get_category_name_for_report()"/>
+                    <t t-foreach="category['category']" t-as="cate_name">
+                        <p t-esc="cate_name"/>
+                    </t>
+                </div>
+                <div class="col-xs-4">
+                    <img align="right" t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s&amp;humanreadable=%s' % ('Standard39', doc.Worksheet, 250, 50, 1)"/>
+                </div>
+            </div>
         </div>
         <div class="page">
             <h2>Analyses</h2>

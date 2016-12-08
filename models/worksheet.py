@@ -121,6 +121,13 @@ class Worksheet(models.Model, BaseOLiMSModel):
         for items in self:
             worksheetid = 'WS-0' + str(items.id)
             items.Worksheet = worksheetid
+    @api.multi
+    def get_category_name_for_report(self):
+        cate_name_list = []
+        for record in self.ManageResult:
+            if record.category.Category not in cate_name_list:
+                cate_name_list.append(record.category.Category)
+        return {"category":cate_name_list}
 
     @api.multi
     def write(self, values):
