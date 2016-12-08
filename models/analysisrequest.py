@@ -12,6 +12,7 @@ from fields.widget.widget import StringWidget, TextAreaWidget, \
                                 DecimalWidget, RichWidget
 from openerp import fields, models, api
 from openerp.tools.translate import _
+
 AR_STATES = (
     ('sample_registered','Sample Registered'),
     ('not_requested','Not Requested'),
@@ -766,7 +767,6 @@ schema_analysis = (fields.Many2one(string='Service',
 manage_result_schema = (
     StringField(string="Partition"),
     FixedPointField(string="Result"),
-    FixedPointField(string="temp_result"),
     BooleanField('+-', default=False),
     DateTimeField('Capture'),
     DateTimeField('Due Date'),
@@ -2217,15 +2217,6 @@ class ManageAnalyses(models.Model, BaseOLiMSModel):
     _name = 'olims.manage_analyses'
 
 
-    @api.multi
-    def write(self,values):
-        if not values.get('state',None) =='to_be_verified':
-            if values.get('Result',None):
-                for item in self:
-                   values.update({'Result':item.temp_result})
-        res = super(ManageAnalyses, self).write(values)
-        return res
-
     @api.onchange("Result")
     def save_results(self):
         for item in self:
@@ -2233,7 +2224,7 @@ class ManageAnalyses(models.Model, BaseOLiMSModel):
         record_obj = self.pool.get('olims.manage_analyses')
         record = record_obj.browse(self.env.cr, self.env.uid, self._origin.id)
         record.write({
-                'temp_result': data_res
+                'Result': data_res
             })
         self.env.cr.commit()
 
