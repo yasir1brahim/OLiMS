@@ -69,43 +69,51 @@
                     </div>
                     <div class="row">
                         <div class="row mt32" style="background-color: #948b54">
-                            <div class="col-xs-3">
+                            <div class="col-xs-2">
                                 <span class="text-center">Sample #</span>
                             </div>
                             <div class="col-xs-3">
-                                <span class="text-center">Sample Name</span>
+                                <span class="text-center">Sample Type</span>
                             </div>
                             <div class="col-xs-3">
+                                <span class="text-center">Analysis Profile</span>
+                            </div> 
+                            <div class="col-xs-2">
                                 <span class="text-center">Sample ID#</span>
                             </div>
-                            <div class="col-xs-3">
+                            <div class="col-xs-2">
                                 <span class="text-center">Amount</span>
                             </div>
+          
                         </div>
                         <t t-foreach="doc.analysis_request_id" t-as="analysis">
-                            <div class="col-xs-3">
+                            <div class="col-xs-2">
                                 <span class="text-center" t-esc="analysis.RequestID"/>
                             </div>
                             <div class="col-xs-3">
                                 <span class="text-center" t-esc="analysis.SampleType.SampleType"/>
                             </div>
-                            <div class="col-xs-3">
+                             <div class="col-xs-3">
+                                <span class="text-center" t-esc="analysis.AnalysisProfile.Profile"/>
+                            </div>
+                            <div class="col-xs-2">
                                 <span class="text-center" t-esc="analysis.ClientSampleID"/>
                             </div>
-                            <div class="col-xs-3">
+                            <div class="col-xs-2">
                                 <span class="text-center" t-esc="res_company.currency_id.symbol"/><span t-esc="'%.2f'%analysis.Total"/>
                             </div>
+
                         </t>
                     </div>
                     <div class="row mt32" style="background-color: #948b54">
-                        <div class="col-xs-3">
+                        <div class="col-xs-4">
                         </div>
-                        <div class="col-xs-3">
+                        <div class="col-xs-4">
                         </div>
-                        <div class="col-xs-3">
+                        <div class="col-xs-2">
                             Total
                         </div>
-                        <div class="col-xs-3">
+                        <div class="col-xs-2">
                             <span class="text-center" t-esc="res_company.currency_id.symbol"/><span t-esc="'%.2f'%doc.total"/>
                         </div>
                     </div>
