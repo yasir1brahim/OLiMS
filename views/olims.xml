@@ -5831,20 +5831,23 @@
                         <notebook>
                             <page string="Analysis Request" attrs="{'invisible': [('client_id', '=', False),('start_date', '=', False), ('end_date', '=', False)]}">
                                 <field name="analysis_request_id" domain="[('Client', '=', client_id),('state', 'in', ['sample_received','to_be_verified','verified','published']), ('SamplingDate', '&gt;=', start_date), ('SamplingDate', '&lt;=', end_date), ('ar_invoice_id', '=', False)]" attrs="{'readonly': [('state', 'in', ['closed', 'published'])]}">
-                                    <tree delete="false">
+                                    <tree>
                                         <field name="RequestID" string="Request ID"></field>
                                         <field name="SampleType" string="Sample Type"></field>
                                         <field name="AnalysisProfile" string="Analysis Profile"></field>
                                         <field name="LotID" string="Lot ID"></field>
                                         <field name="ClientReference" string="Product Name"></field>
                                         <field name="ClientSampleID" string="Client Sample ID"></field>
-                                        <field name="Total" string="Total"></field>
+                                        <field name="Total" string="Sub-Total"></field>
                                     </tree>
                                 </field>
                             </page>
-                            <label for="total " string="Ammount"/>
-                            <field name="total"/>
+
                         </notebook>
+                        <div style="text-align:right">
+                        <label for="total " string="Total Amount"/>
+                        <field name="total"/>
+                        </div>
                     </sheet>
                 </form>
             </field>

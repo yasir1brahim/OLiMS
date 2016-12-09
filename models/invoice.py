@@ -10,6 +10,7 @@ from fields.file_field import FileField
 from fields.reference_field import ReferenceField
 from fields.widget.widget import StringWidget, TextAreaWidget, BooleanWidget, FileWidget, DateTimeWidget
 import datetime
+from openerp.exceptions import Warning
 
 schema = (StringField(string='title',required=1),
     StringField(string='InvoiceNumber',
@@ -133,6 +134,17 @@ class ARInvoice(models.Model):
     string="State",
     default="open")
 
+    @api.multi
+    def unlink(self):
+        for record in self:
+            print record.state
+            if record.state!='open':
+                raise Warning(_("Invoice cannot be deleted in %s state") % str(record.state).capitalize())
+            else:
+                pass
+        return super(ARInvoice, self).unlink()
+
+
     @api.depends("client_id")
     def _compute_invoice_id(self):
         for record in self:
@@ -188,6 +200,8 @@ class ARInvoice(models.Model):
     def write(self, values):
         if values.get('analysis_request_id',None):
             analysis_request = values.get('analysis_request_id')[0]
+            ar_invoice_delete = self.env["olims.analysis_request"].search([('ar_invoice_id', '=', self.id), ('id', 'not in', analysis_request[2] ) ])
+            ar_invoice_delete.write({'ar_invoice_id':False})
             ar_object = self.env["olims.analysis_request"].search([('id', 'in', analysis_request[2])])
             for ar_record in ar_object:
                 profile_service_ids_list = []
