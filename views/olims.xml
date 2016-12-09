@@ -5886,5 +5886,37 @@
             <field name="view_mode">tree,form</field>
        </record>
        <menuitem id="payment_term_menu" name="Payment Terms" parent="olims_settings_menu" action="show_tree_of_payment_term" sequence="42"/>
+       <!-- WS Manage Results Form view -->
+        <record model="ir.ui.view" id="olims_ar_invoice_form_view">
+            <field name="name">ws_manage_results.form</field>
+            <field name="model">olims.ws_manage_results</field>
+            <field name="arch" type="xml">
+                <form string="Manage Results" duplicate="0" delete="false">
+                    <field name="result"/>
+                </form>
+            </field>
+        </record>
+       <!-- WS Manage Results tree view -->
+        <record model="ir.ui.view" id="olims_ws_manage_results_tree_view">
+            <field name="name">ws_manage_results.tree</field>
+            <field name="model">olims.ws_manage_results</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <tree string="Manage Results" delete="false">
+                    <field name="request_analysis_id"/>
+                    <field name="category"/>
+                    <field name="analysis"/>
+                    <field name="result"/>
+                </tree>
+            </field>
+        </record>
+       <!-- For Worksheet Manage Results -->
+       <record model="ir.actions.act_window" id="action_ws_manage_results">
+            <field name="name">WS Manage Results</field>
+            <field name="res_model">olims.ws_manage_results</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+       </record>
+       <menuitem id="ws_manage_results_menu" name="Manage Results for WS" parent="olims_settings_menu" action="action_ws_manage_results" sequence="43"/>
     </data>
 </openerp>
