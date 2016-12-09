@@ -37,6 +37,7 @@ SELECT_OPTIONS=(
 
 schema = (fields.Char(string='RequestID',
                       compute='compute_analysisRequestId',
+                      store=True
         ),
     fields.Many2one(string='Client',
                     comodel_name='olims.client',
@@ -808,6 +809,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     _rec_name = "RequestID"
     _inherit = ['mail.thread', 'ir.needaction_mixin']
 
+    @api.depends("Contact")
     def compute_analysisRequestId(self):
         for record in self:
             record.RequestID = 'R-0' + str(record.id)
