@@ -133,6 +133,9 @@ class ARInvoice(models.Model):
         ('published', 'Published')),
     string="State",
     default="open")
+    adjust_percent = fields.Float(string='Adjustment(Percentage)')
+    adjust_amount = fields.Float(string='Adjustment(Amount)')
+    adjusted_total = fields.Float(string="Adjusted Total", compute="update_total_adjusted", store=True)
 
     @api.multi
     def unlink(self):
@@ -283,4 +286,11 @@ class ARInvoice(models.Model):
             'target': 'new',
             'context': ctx,
         }
+    @api.depends("adjust_percent","adjust_amount")
+    def update_total_adjusted(self):
+        if self.adjust_percent or self.adjust_amount:
+            if self.adjust_percent:
+                self.adjusted_total = self.total - (self.total * self.adjust_percent / 100)
+            elif self.adjust_amount:
+                self.adjusted_total = self.total - self.adjust_amount
 Invoice.initialze(schema)
