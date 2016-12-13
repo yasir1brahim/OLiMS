@@ -288,9 +288,10 @@ class ARInvoice(models.Model):
         }
     @api.depends("adjust_percent","adjust_amount")
     def update_total_adjusted(self):
-        if self.adjust_percent or self.adjust_amount:
-            if self.adjust_percent:
-                self.adjusted_total = self.total - (self.total * self.adjust_percent / 100)
-            elif self.adjust_amount:
-                self.adjusted_total = self.total - self.adjust_amount
+        for record in self:
+            if record.adjust_percent or record.adjust_amount:
+                if record.adjust_percent:
+                    record.adjusted_total = record.total - (record.total * record.adjust_percent / 100)
+                elif record.adjust_amount:
+                    record.adjusted_total = record.total - record.adjust_amount
 Invoice.initialze(schema)
