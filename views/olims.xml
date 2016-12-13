@@ -5845,8 +5845,8 @@
 
                         </notebook>
                         <div style="text-align:right">
-                        <label for="total " string="Total Amount"/>
-                        <field name="total"/>
+                            <label for="total " string="Total Amount"/>
+                            <field name="total"/>
                         </div>
                     </sheet>
                 </form>
@@ -5887,7 +5887,7 @@
        </record>
        <menuitem id="payment_term_menu" name="Payment Terms" parent="olims_settings_menu" action="show_tree_of_payment_term" sequence="42"/>
        <!-- WS Manage Results Form view -->
-        <record model="ir.ui.view" id="olims_ar_invoice_form_view">
+        <record model="ir.ui.view" id="olims_ws_manage_results_form_view">
             <field name="name">ws_manage_results.form</field>
             <field name="model">olims.ws_manage_results</field>
             <field name="arch" type="xml">
