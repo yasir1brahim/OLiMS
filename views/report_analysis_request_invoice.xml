@@ -24,7 +24,7 @@
                         </div>
                         <div class="col-xs-4">
                             <div class="row" style="background-color: #948b54">
-                                <p class="text-center">Bill To:</p>
+                                <p class="text-center" style="font-weight: bold;">Bill To:</p>
                             </div>
                             <div class="row">
                                 <span t-esc="doc.client_id.Name"/>
@@ -45,65 +45,61 @@
                         <div class="col-xs-4">
                         </div>
                     </div>
-                    <div class="row mt32" style="background-color: #948b54;">
-                        <div class="col-xs-4">
-                            Date
-                        </div>
-                        <div class="col-xs-4">
-                            Invoice Number
-                        </div>
-                        <div class="col-xs-4">
-                            Terms
-                        </div>
+                    <div class="row">
+                        <table class="table table-striped" style="table-layout: fixed;">
+                            <thead style="background-color: #948b54;">
+                                <tr>
+                                    <th class="text-center">Date</th>
+                                    <th class="text-center">Invoice Number</th>
+                                    <th class="text-center">Terms</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="text-center">
+                                        <span t-esc="time.strftime('%m/%d/%Y')"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-esc="doc.name"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-esc="doc.client_id.payment_term_id.name"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                     <div class="row">
-                        <div class="col-xs-4">
-                            <span t-esc="time.strftime('%m/%d/%Y')"/>
-                        </div>
-                        <div class="col-xs-4">
-                            <span t-esc="doc.name"/>
-                        </div>
-                        <div class="col-xs-4">
-                            <span t-esc="doc.client_id.payment_term_id.name"/>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="row mt32" style="background-color: #948b54">
-                            <div class="col-xs-2">
-                                <span class="text-center">Sample #</span>
-                            </div>
-                            <div class="col-xs-3">
-                                <span class="text-center">Sample Type</span>
-                            </div>
-                            <div class="col-xs-3">
-                                <span class="text-center">Analysis Profile</span>
-                            </div> 
-                            <div class="col-xs-2">
-                                <span class="text-center">Sample ID#</span>
-                            </div>
-                            <div class="col-xs-2">
-                                <span class="text-center">Amount</span>
-                            </div>
-          
-                        </div>
-                        <t t-foreach="doc.analysis_request_id" t-as="analysis">
-                            <div class="col-xs-2">
-                                <span class="text-center" t-esc="analysis.RequestID"/>
-                            </div>
-                            <div class="col-xs-3">
-                                <span class="text-center" t-esc="analysis.SampleType.SampleType"/>
-                            </div>
-                             <div class="col-xs-3">
-                                <span class="text-center" t-esc="analysis.AnalysisProfile.Profile"/>
-                            </div>
-                            <div class="col-xs-2">
-                                <span class="text-center" t-esc="analysis.ClientSampleID"/>
-                            </div>
-                            <div class="col-xs-2">
-                                <span class="text-center" t-esc="res_company.currency_id.symbol"/><span t-esc="'%.2f'%analysis.Total"/>
-                            </div>
-
-                        </t>
+                        <table class="table table-striped" style="table-layout: fixed;">
+                            <thead style="background-color: #948b54;">
+                                <tr>
+                                    <th class="text-center">Sample #</th>
+                                    <th class="text-center">Sample Type</th>
+                                    <th class="text-center">Analysis Profile</th>
+                                    <th class="text-center">Sample ID#</th>
+                                    <th class="text-center">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="doc.analysis_request_id" t-as="analysis">
+                                    <td class="text-center">
+                                        <span t-esc="analysis.RequestID"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-esc="analysis.SampleType.SampleType"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-esc="analysis.AnalysisProfile.Profile"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-esc="analysis.ClientSampleID"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-esc="res_company.currency_id.symbol"/><span t-esc="'%.2f'%analysis.Total"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                     <div class="row mt32" style="background-color: #948b54">
                         <div class="col-xs-4">
@@ -111,7 +107,7 @@
                         <div class="col-xs-4">
                         </div>
                         <div class="col-xs-2">
-                            Total
+                            <span style="font-weight: bold;">Total</span>
                         </div>
                         <div class="col-xs-2">
                             <span class="text-center" t-esc="res_company.currency_id.symbol"/><span t-esc="'%.2f'%doc.total"/>
