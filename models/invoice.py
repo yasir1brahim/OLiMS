@@ -134,6 +134,8 @@ class ARInvoice(models.Model):
     string="State",
     default="open")
     adjust_percent = fields.Float(string='Adjustment(Percentage)')
+    adjust_percent_text = fields.Char(string='Adjustment', default="Adjustment percentage")
+    adjust_amount_text = fields.Char(string='Adjustment Amount', default="Adjustment, dollars")
     adjust_amount = fields.Float(string='Adjustment(Amount)')
     adjusted_total = fields.Float(string="Adjusted Total", compute="update_total_adjusted", store=True)
 

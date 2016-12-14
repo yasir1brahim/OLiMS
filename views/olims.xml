@@ -5844,9 +5844,12 @@
                             </page>
 
                         </notebook>
-                        <group string="Invoice Adjustment" attrs="{'invisible': [('id', '=', False)]}">
+                        <group col="4" string="Invoice Adjustment" attrs="{'invisible': [('id', '=', False)]}">
                             <field name="adjust_percent" placeholder="%"/>
+                            <field name="adjust_percent_text" nolabel="1" />
+                            <br/>
                             <field name="adjust_amount"/>
+                            <field name="adjust_amount_text" nolabel="1" />
                         </group>
                         <div style="text-align:right">
                             <label for="total " string="Total Amount"/>
