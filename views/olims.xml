@@ -5850,7 +5850,7 @@
                         </group>
                         <div style="text-align:right">
                             <label for="total " string="Total Amount"/>
-                            <field name="total"/>
+                            <field name="adjusted_total"/>
                         </div>
                     </sheet>
                 </form>
@@ -5867,7 +5867,7 @@
                     <field name="receipt_number"/>
                     <field name="client_id"/>
                     <field name="analysis_request_id"/>
-                    <field name="total"/>
+                    <field name="adjusted_total"/>
                 </tree>
             </field>
         </record>
