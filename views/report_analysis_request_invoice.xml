@@ -118,9 +118,7 @@
                         <div class="row mt32">
                             <div class="col-xs-4">
                             </div>
-                            <div class="col-xs-4">
-                            </div>
-                            <div class="col-xs-2">
+                            <div class="col-xs-6" style="text-align:right">
                                 <span  style="font-weight: bold;" t-esc="doc.adjust_percent_text"/>
                             </div>
                             <div class="col-xs-2">
@@ -134,9 +132,8 @@
                         <div class="row mt32">
                             <div class="col-xs-4">
                             </div>
-                            <div class="col-xs-4">
-                            </div>
-                            <div class="col-xs-2">
+                            
+                            <div class="col-xs-6" style="text-align:right">
                                 <span style="font-weight: bold;" t-esc="doc.adjust_amount_text" ></span>
                             </div>
                             <div class="col-xs-2">
