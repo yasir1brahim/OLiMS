@@ -115,6 +115,7 @@ class Invoice(models.Model, BaseOLiMSModel):
 
 class ARInvoice(models.Model):
     _name = "olims.ar_invoice"
+    _inherit = ['mail.thread', 'ir.needaction_mixin']
 
     name = fields.Char(string="Invoice Id", compute="_compute_invoice_id",
         store=True)
