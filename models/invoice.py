@@ -255,8 +255,8 @@ class ARInvoice(models.Model):
         '''
         self.ensure_one()
         email_receivers = []
-        for email in self.client_id.email:
-            email_receivers.append(email.name)
+        # for email in self.client_id.email:
+        #     email_receivers.append(email.name)
 
         for invoice_email in self.client_id.invoice_email:
             email_receivers.append(invoice_email.name)
