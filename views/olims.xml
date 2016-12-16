@@ -1885,10 +1885,10 @@
                             <label for="CCEmails" string="CCEmails"/>
                             <div>
                                 <field name="CopyEmail" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
-                                <field name="CCEmails" nolabel="1" widget="many2many_tags" options="{'no_create': True}" domain="['|',('client_id','=',context.get('client_context')),('client_id','=',Client)]"></field>
-                                <field name="CCEmails1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" widget="many2many_tags" options="{'no_create': True}" domain="['|',('client_id','=',context.get('client_context')),('client_id','=',Client)]"></field>
-                                <field name="CCEmails2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" widget="many2many_tags" options="{'no_create': True}" domain="['|',('client_id','=',context.get('client_context')),('client_id','=',Client)]"></field>
-                                <field name="CCEmails3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" widget="many2many_tags" options="{'no_create': True}" domain="['|',('client_id','=',context.get('client_context')),('client_id','=',Client)]"></field>
+                                <field name="CCEmails" nolabel="1" widget="many2many_tags" options="{'no_create': True}" domain="[('client_id','!=',False),'|',('client_id','=',context.get('client_context')),('client_id','=',Client)]"></field>
+                                <field name="CCEmails1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" widget="many2many_tags" options="{'no_create': True}" domain="[('client_id','!=',False),'|',('client_id','=',context.get('client_context')),('client_id','=',Client)]"></field>
+                                <field name="CCEmails2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" widget="many2many_tags" options="{'no_create': True}" domain="[('client_id','!=',False),'|',('client_id','=',context.get('client_context')),('client_id','=',Client)]"></field>
+                                <field name="CCEmails3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" widget="many2many_tags" options="{'no_create': True}" domain="[('client_id','!=',False),'|',('client_id','=',context.get('client_context')),('client_id','=',Client)]"></field>
                             </div>
                         </group>
                         <group>
