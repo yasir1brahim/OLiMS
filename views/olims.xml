@@ -2052,6 +2052,20 @@
                         </div>
                     </group>
                     <br/>
+                    <group attrs="{'invisible': [('id', '=', False)]}" >
+                        <label for="adjustment_option" string="Adjustment Type" attrs="{'invisible': [('id', '=', False)]}" />
+                        <field name="adjustment_option" nolabel="1" widget="radio"  attrs="{'invisible': [('id', '=', False)]}" />
+                    </group>
+                    <group attrs="{'invisible': [('id', '=', False)]}">
+                        <label for="Adjustment" string="Adjustment" attrs="{'invisible': [('id', '=', False)]}"/>
+                        <div>
+                            <field name="Adjustment" nolabel="1" attrs="{'invisible': [('id', '=', False)]}"></field>
+                        </div>
+                        <label for="Adjustment_Remarks" string="Adjustment Remarks" attrs="{'invisible': [('id', '=', False)]}"/>
+                            <div>
+                            <field name="Adjustment_Remarks" nolabel="1" attrs="{'invisible': [('id', '=', False)]}" ></field>
+                        </div>
+                    </group>
                     <group>
                         <label for="Discount" string="Discount"/>
                         <div>

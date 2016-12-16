@@ -528,6 +528,16 @@ schema = (fields.Char(string='RequestID',
                      comodel_name='olims.field_analysis_service',
                     inverse_name='analysis_request_id',
     ),
+    fields.Selection(string='adjustment_option',
+                     selection=(('percentage','Percentage'),
+                                ('amount','Amount')
+                                ),
+                     default='percentage',
+    ),
+    fields.Char(string="Adjustment_Remarks"),
+    fields.Float(string='Adjustment',
+                 default=0.00,
+    ),
     fields.Float(string='Discount',
                  default=0.00,
     ),
@@ -1301,6 +1311,15 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def getSubtotalTotalPrice(self):
         """ Compute the price with VAT but no member discount"""
         return self.getSubtotal() + self.getSubtotalVATAmount()
+
+    @api.onchange('adjustment_option','Adjustment')
+    def Computetotalamount(self):
+        for record in self:
+            if record.adjustment_option =='amount':
+                total = self._origin.Total - record.Adjustment
+            else:
+                total = self._origin.Total - (self._origin.Total*record.Adjustment/100)
+            record.Total = total
 
     @api.onchange('LabService','FieldService')
     def ComputeServiceCalculation(self):
