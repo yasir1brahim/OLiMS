@@ -4453,6 +4453,8 @@
                             <br/>
                             <label for="M_Discount" string="Member Discount %" name="Member Discount"/>
                             <field name="M_Discount"/>
+                            <label for="Invoice_Discount" string="Member Discount for Invoice %"/>
+                            <field name="Invoice_Discount"/>
                             <label for="BulkDiscount" string="Bulk Discount" name="Bulk Discount"/>
                             <field name="BulkDiscount"></field>
                             <br/>
