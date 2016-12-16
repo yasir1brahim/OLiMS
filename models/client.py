@@ -230,6 +230,9 @@ schema = (
     fields.Float(string='M_Discount',
         default=0.00
     ),
+    fields.Float(string='Invoice_Discount',
+        default=0.00
+    ),
 
 )
 
