@@ -5859,11 +5859,11 @@
 
                         </notebook>
                         <group col="4" string="Invoice Adjustment" attrs="{'invisible': [('id', '=', False)]}">
-                            <field name="adjust_percent" placeholder="%"/>
-                            <field name="adjust_percent_text" nolabel="1" />
+                            <field name="adjust_percent" placeholder="%" attrs="{'readonly': [('state', 'in', ['published'])]}"/>
+                            <field name="adjust_percent_text" nolabel="1" attrs="{'readonly': [('state', 'in', ['published'])]}"/>
                             <br/>
-                            <field name="adjust_amount"/>
-                            <field name="adjust_amount_text" nolabel="1" />
+                            <field name="adjust_amount" attrs="{'readonly': [('state', 'in', ['published'])]}"/>
+                            <field name="adjust_amount_text" nolabel="1" attrs="{'readonly': [('state', 'in', ['published'])]}" />
                         </group>
                         <div style="text-align:right">
                             <label for="total " string="Total Amount"/>
@@ -5881,7 +5881,8 @@
             <field name="arch" type="xml">
                 <tree string="AR Invoice">
                     <field name="name"/>
-                    <field name="receipt_number"/>
+                    <field name="state"/>
+                    <field name="create_date" string="Date Created"/>
                     <field name="client_id"/>
                     <field name="analysis_request_id"/>
                     <field name="adjusted_total"/>
