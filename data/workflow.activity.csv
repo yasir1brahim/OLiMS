@@ -49,4 +49,5 @@ olims_analysis_verified,olims.olims_analysis_workflow,verified,Dummy,False,False
 olims_analysis_invalid,olims.olims_analysis_workflow,invalid,Dummy,False,False,,,Xor,,,Xor
 olims_ar_inv_open,olims.olims_ar_invoice_workflow,open,Dummy,True,False,,,Xor,,,Xor
 olims_ar_inv_close,olims.olims_ar_invoice_workflow,closed,Function,False,False,,,Xor,workflow_script_closed(),,Xor
-olims_ar_inv_publish,olims.olims_ar_invoice_workflow,published,Function,False,True,,,Xor,workflow_script_publish(),,Xor
+olims_ar_inv_publish,olims.olims_ar_invoice_workflow,published,Function,False,False,,,Xor,workflow_script_publish(),,Xor
+olims_ar_inv_cancelled,olims.olims_ar_invoice_workflow,cancelled,Function,False,True,,,Xor,workflow_script_cancelled(),,Xor

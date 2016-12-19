@@ -5834,19 +5834,20 @@
                         <header>
                             <button string="Close" name="close" states="open" type="workflow" class="oe_highlight"/>
                             <button string="Publish" name="publish" type="workflow" states="closed"/>
+                            <button string="Cancel" name="cancel" type="workflow" states="closed,published"/>
                             <button name="action_email_ar_invoice" string="Send by Email" type="object" states="published" class="btn-primary"/>
-                            <field name="state" widget="statusbar" statusbar_visible="open, closed, published"/>
+                            <field name="state" widget="statusbar" statusbar_visible="open, closed, published,cancelled"/>
                         </header>
                         <field name="id" invisible="1"/>
                         <label for="client_id " string="Client"/>
-                        <field name="client_id" required="1" attrs="{'readonly': [('state', 'in', ['closed', 'published'])]}"/>
+                        <field name="client_id" required="1" attrs="{'readonly': [('state', 'in', ['closed', 'published', 'cancelled'])]}"/>
                         <label for="start_date " string="From"/>
                         <field name="start_date" required="1"/>
                         <label for="end_date " string="To"/>
                         <field name="end_date" required="1"/>
                         <notebook>
                             <page string="Analysis Request" attrs="{'invisible': [('client_id', '=', False),('start_date', '=', False), ('end_date', '=', False)]}">
-                                <field name="analysis_request_id" domain="[('Client', '=', client_id),('state', 'in', ['sample_received','to_be_verified','verified','published']), ('SamplingDate', '&gt;=', start_date), ('SamplingDate', '&lt;=', end_date), ('ar_invoice_id', '=', False)]" attrs="{'readonly': [('state', 'in', ['closed', 'published'])]}">
+                                <field name="analysis_request_id" domain="[('Client', '=', client_id),('state', 'in', ['sample_received','to_be_verified','verified','published']), ('SamplingDate', '&gt;=', start_date), ('SamplingDate', '&lt;=', end_date), ('ar_invoice_id', '=', False)]" attrs="{'readonly': [('state', 'in', ['closed', 'published', 'cancelled'])]}">
                                     <tree>
                                         <field name="RequestID" string="Request ID"></field>
                                         <field name="SampleType" string="Sample Type"></field>
@@ -5861,14 +5862,16 @@
 
                         </notebook>
                         <group col="4" string="Invoice Adjustment" attrs="{'invisible': [('id', '=', False)]}">
-                            <field name="adjust_percent" placeholder="%" attrs="{'readonly': [('state', 'in', ['published'])]}"/>
-                            <field name="adjust_percent_text" nolabel="1" attrs="{'readonly': [('state', 'in', ['published'])]}"/>
+                            <field name="adjust_percent" placeholder="%" attrs="{'readonly': [('state', 'in', ['published', 'cancelled'])]}"/>
+                            <field name="adjust_percent_text" nolabel="1" attrs="{'readonly': [('state', 'in', ['published', 'cancelled'])]}"/>
                             <br/>
-                            <field name="adjust_amount" attrs="{'readonly': [('state', 'in', ['published'])]}"/>
-                            <field name="adjust_amount_text" nolabel="1" attrs="{'readonly': [('state', 'in', ['published'])]}" />
+                            <field name="adjust_amount" attrs="{'readonly': [('state', 'in', ['published','cancelled'])]}"/>
+                            <field name="adjust_amount_text" nolabel="1" attrs="{'readonly': [('state', 'in', ['published', 'cancelled'])]}" />
                         </group>
                         <div style="text-align:right">
                             <label for="total " string="Total Amount"/>
+                            <field name="total"/>
+                            <label for="adjusted_total" string="Adjusted Total"/>
                             <field name="adjusted_total"/>
                         </div>
                     </sheet>
@@ -5887,6 +5890,7 @@
                     <field name="create_date" string="Date Created"/>
                     <field name="client_id"/>
                     <field name="analysis_request_id"/>
+                    <field name="total"/>
                     <field name="adjusted_total"/>
                 </tree>
             </field>

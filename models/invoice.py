@@ -131,7 +131,8 @@ class ARInvoice(models.Model):
     state = fields.Selection(selection=(
         ('open', 'Open'),
         ('closed','Closed'),
-        ('published', 'Published')),
+        ('published', 'Published'),
+        ('cancelled', 'Cancelled')),
     string="State",
     default="open")
     adjust_percent = fields.Float(string='Adjustment(Percentage)')
@@ -295,10 +296,19 @@ class ARInvoice(models.Model):
     @api.depends("adjust_percent","adjust_amount")
     def update_total_adjusted(self):
         for record in self:
-            record.adjusted_total = record.total
             if record.adjust_percent or record.adjust_amount:
                 if record.adjust_percent:
-                    record.adjusted_total = record.adjusted_total - (record.adjusted_total * record.adjust_percent / 100)
+                    record.adjusted_total = record.total - (record.total * record.adjust_percent / 100)
                 if record.adjust_amount:
-                    record.adjusted_total = record.adjusted_total - record.adjust_amount
+                    record.adjusted_total = record.total - record.adjust_amount
+
+    def workflow_script_cancelled(self,cr,uid,ids,context=None):
+        for record in self.browse(cr,uid,ids,context):
+            for ar_obj in record.analysis_request_id:
+                ar_obj.write({'ar_invoice_id': False})
+        self.write(cr, uid, ids,{
+            'state': 'cancelled'
+        },context)
+        return True
+
 Invoice.initialze(schema)
