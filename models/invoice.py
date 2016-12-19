@@ -296,11 +296,15 @@ class ARInvoice(models.Model):
     @api.depends("adjust_percent","adjust_amount")
     def update_total_adjusted(self):
         for record in self:
-            if record.adjust_percent or record.adjust_amount:
-                if record.adjust_percent:
-                    record.adjusted_total = record.total - (record.total * record.adjust_percent / 100)
-                if record.adjust_amount:
-                    record.adjusted_total = record.total - record.adjust_amount
+            if record.adjust_percent and record.adjust_amount:
+                record.adjusted_total = record.total - (record.total * record.adjust_percent / 100)
+                record.adjusted_total = record.adjusted_total - record.adjust_amount
+            elif record.adjust_percent and not record.adjust_amount:
+                record.adjusted_total = record.total - (record.total * record.adjust_percent / 100)
+            elif not record.adjust_percent and record.adjust_amount:
+                record.adjusted_total = record.total - record.adjust_amount
+            else:
+                pass
 
     def workflow_script_cancelled(self,cr,uid,ids,context=None):
         for record in self.browse(cr,uid,ids,context):
