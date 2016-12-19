@@ -169,6 +169,9 @@ class ARInvoice(models.Model):
         for record in self:
             for ar_record in record.analysis_request_id:
                 record.total += ar_record.Total
+            if record.client_id.Invoice_Discount:
+                discount = record.total - (record.total * record.client_id.Invoice_Discount / 100)
+                record.total = discount
 
     @api.model
     def create(self, values):
