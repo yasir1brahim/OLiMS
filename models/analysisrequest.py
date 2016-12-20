@@ -1842,7 +1842,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             else:
                 sample_ids.append(request.Sample_id.id)
         self.browse(cr,uid,ids).signal_workflow(state)
-        self.pool.get("olims.sample").browse(cr,uid,sample_ids).signal_workflow(state)
+        self.pool.get("olims.sample").browse(cr,uid,sample_ids).write({"state":state})
         return True
 
     def bulk_verify_request(self,cr,uid,ids,context=None):
