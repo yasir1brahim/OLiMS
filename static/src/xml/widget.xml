@@ -30,4 +30,16 @@
             </div>
         </div>
     </t>
+
+    <t t-name="Many2ManySelectable">
+        <div class="ep_button_array">
+            <div>
+                <button icon="gtk-yes"
+                        class="ep_button_delete oe_button oe_highlight"
+                        href="javascript:void(0)">
+                        Delete
+                </button>
+            </div>
+        </div>
+    </t>
 </templates>

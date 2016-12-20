@@ -990,6 +990,13 @@ class AddAnalysis(models.Model):
     )
 
     @api.multi
+    def delete_analyses_and_ws(self):
+        ar_ids = []
+        for record in self:
+            record.unlink()
+        return True
+
+    @api.multi
     def show_warring_message_form(self):
         self.ensure_one()
         ir_model_data = self.env['ir.model.data']

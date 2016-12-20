@@ -1816,7 +1816,11 @@
             <field name="model">olims.analysis_request</field>
             <field name="priority" eval="1"/>
             <field name="arch" type="xml">
-                <form string="Analysis Request Form" create="false" delete="false">
+                <form string="Analysis Request Form" delete="false">
+                    <style>
+                        .oe_form_button_create 
+                        { display:none }
+                    </style>
                     <sheet>
                         <header>
                             <button string="Preserve Sample" name="preserve" states="to_be_preserved" type="workflow" class="oe_highlight"/>
@@ -2476,7 +2480,7 @@
                             <page string="Add Analyses" attrs="{'invisible': ['|',('id', '=', False),('State', '=', 'verified')]}">
                                 <field name="marked_closed" invisible="1"/>
                                 <label for="AnalysisRequest" string="Analysis Request"/>
-                                <field name="AnalysisRequest" options="{'no_create': True}" attrs="{'readonly': [('marked_closed', '=', True)]}"></field>
+                                <field name="AnalysisRequest" options="{'no_create': True}" attrs="{'readonly': [('marked_closed', '=', True)]}" widget="many2many_selectable"></field>
                             </page>
                             <page string="Manage Result" attrs="{'invisible': [('id', '=', False)]}">
                                 <group string="Attachments">

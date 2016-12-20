@@ -248,3 +248,74 @@ odoo.define('web.FreezeTableHeader',function (require) {
     });
 
 });
+
+odoo.define('web_many2many_selectable.form_widgets', function (require) {
+	"use strict";
+	var core = require('web.core');
+	var Model = require('web.Model');
+	var _t = core._t;
+	var QWeb = core.qweb;
+	var FieldMany2Many = core.form_widget_registry.get('many2many');
+
+	var Many2ManySelectable = FieldMany2Many.extend({
+		multi_selection: true,
+		init: function() {
+	        this._super.apply(this, arguments);
+	    },
+	    start: function() 
+	    {
+	    	this._super.apply(this, arguments);
+	    	var self=this;
+	    	this.$el.prepend(QWeb.render("Many2ManySelectable", {widget: this}));
+	        this.$el.find(".ep_button_delete").click(function(){
+	        	
+	        	var result = confirm("Do you really want to delete this record?");
+				if (result) {
+	        	self.action_delete_selected_lines();
+				}
+
+	        });
+	   },
+
+	   action_delete_selected_lines:function()
+	   {
+		   	var self = this;
+		   	var data = self.get_selected_ids_one2many();
+			var selected_ids = data[0];
+			var selected_state = data[2];
+			if (selected_ids.length === 0)
+			{
+					this.do_warn(_t("You must choose at least one record."));
+					return false;
+			}
+			var model_obj=new Model(this.dataset.model);
+			model_obj.call('delete_analyses_and_ws',[selected_ids],{context:self.dataset.context})
+				.then(function(result){
+				location.reload();
+				});
+	   },
+	   get_selected_ids_one2many: function ()
+	   {
+	       var ids =[];
+	       var results = [];
+	       var states = [];
+	       this.$el.find('th.oe_list_record_selector input:checked')
+	               .closest('tr').each(function () {
+					ids.push(parseInt($(this).context.dataset.id));
+					states.push($(this).find('[data-field]').filter(function() {
+					    return $(this).data('field').toLowerCase() == 'state';
+					}).text());
+					results.push({id:parseInt($(this).context.dataset.id), result:$(this).find('[data-field]').filter(function() {
+					    return $(this).data('field').toLowerCase() == 'result';
+					}).text()});
+
+	       });
+	       results.sort(function(a, b) {
+			return a.id - b.id;
+				});
+	       return [ids,results,states];
+	   },
+	});
+	core.form_widget_registry.add('many2many_selectable', Many2ManySelectable);
+	return Many2ManySelectable;
+});
