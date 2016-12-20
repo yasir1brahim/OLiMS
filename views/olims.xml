@@ -2348,6 +2348,9 @@
             <field name="arch" type="xml">
                 <search string="Search Prof">
                     <field name="AnalysisProfile"/>
+                    <field name="LotID"/>
+                    <field name="ClientSampleID"/>
+                    <field name="Client"/>
                </search>
             </field>
         </record>
@@ -2778,7 +2781,7 @@
         </record>
         <!--For action menu in sample--> 
         <record id="change_state_bulk_sample_id" model="ir.actions.server">
-            <field name="name">Sample</field>
+            <field name="name">Labels are Printed</field>
             <field name="type">ir.actions.server</field>
             <field name="model_id" ref="model_olims_sample"/>
             <field name="state">code</field>
