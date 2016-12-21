@@ -461,7 +461,7 @@ class Sample(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
                 ids.remove(sample.id)
             else:
                 request_ids.append(sample.Analysis_Request.id)
-        self.browse(cr,uid,ids).signal_workflow(state)
+        self.browse(cr,uid,ids).write({"state":state})
         self.pool.get("olims.analysis_request").browse(cr,uid,request_ids).signal_workflow(state)
         return True
 

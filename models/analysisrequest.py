@@ -1859,7 +1859,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             else:
                 sample_ids.append(request.Sample_id.id)
         self.browse(cr,uid,ids).signal_workflow(state)
-        self.pool.get("olims.sample").browse(cr,uid,sample_ids).signal_workflow(state)
+        self.pool.get("olims.sample").browse(cr,uid,sample_ids).write({"state":state})
         return True
 
     def bulk_verify_request(self,cr,uid,ids,context=None):
@@ -2244,6 +2244,42 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             self.AnalysisProfile3 = self.Template3.AnalysisProfile
             self.SampleType3 = self.Template3.SampleType
             self.Priority3 = self.Template3.priority
+
+    @api.onchange("SampleType")
+    def return_profile_domain(self):
+        res = {}
+        if self.SampleType:
+            res['domain'] = {'AnalysisProfile':[('id', '=', self.SampleType.profile.id)]}
+        else:
+            res['domain'] = {'AnalysisProfile': []}
+        return res
+
+    @api.onchange("SampleType1")
+    def return_profile1_domain(self):
+        res = {}
+        if self.SampleType1:
+            res['domain'] = {'AnalysisProfile1':[('id', '=', self.SampleType1.profile.id)]}
+        else:
+            res['domain'] = {'AnalysisProfile1': []}
+        return res
+
+    @api.onchange("SampleType2")
+    def return_profile2_domain(self):
+        res = {}
+        if self.SampleType2:
+            res['domain'] = {'AnalysisProfile2':[('id', '=', self.SampleType2.profile.id)]}
+        else:
+            res['domain'] = {'AnalysisProfile2': []}
+        return res
+
+    @api.onchange("SampleType3")
+    def return_profile3_domain(self):
+        res = {}
+        if self.SampleType3:
+            res['domain'] = {'AnalysisProfile3':[('id', '=', self.SampleType3.profile.id)]}
+        else:
+            res['domain'] = {'AnalysisProfile3': []}
+        return res
 
 class FieldAnalysisService(models.Model, BaseOLiMSModel):
     _name = 'olims.field_analysis_service'
