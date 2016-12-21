@@ -8,6 +8,7 @@ from fields.widget.widget import StringWidget
 from fields.file_field import FileField
 from fields.widget.widget import FileWidget
 from openerp.tools.translate import _
+import datetime
 AR_STATES = (
     ('sample_registered','Sample Registered'),
     ('not_requested','Not Requested'),
@@ -119,7 +120,13 @@ class Worksheet(models.Model, BaseOLiMSModel):
 
     def _ComputeWorksheetId(self):
         for items in self:
-            worksheetid = 'WS-0' + str(items.id)
+            c_date = datetime.datetime.strptime(items.create_date, \
+            "%Y-%m-%d %H:%M:%S").strftime("%Y,%m,%d")
+            year, month, day = c_date.split(',')
+            if items.Template:
+                worksheetid = items.Template.Title + " " + month + day + year + "-" + str(items.id)
+            elif not items.Template:
+                worksheetid = month + day + year + "-" + str(items.id)
             items.Worksheet = worksheetid
     @api.multi
     def get_category_name_for_report(self):
