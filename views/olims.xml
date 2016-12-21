@@ -2530,9 +2530,13 @@
                             </page>
                             <page string="Add Control Reference" attrs="{'invisible': ['|',('id', '=', False),('State', 'in', ['verified', 'closed'])]}">
                                 <field name="Add-Control-Refrence">
-                                    <tree string="Add Control Refrence" editable="bottom">
-                                        <field name="Category" options="{'no_create': True}"/>
-                                        <!-- <field name="analysis" options="{'no_create': True}"/> -->
+                                    <tree string="Add Control Refrence" editable="bottom" create="false" delete="false">
+                                        <field name="name" string="Control ID"/>
+                                        <field name="Service" options="{'no_create': True}" string="Analysis" readonly="1"/>
+                                        <field name="Result"/>
+                                        <field name="Lower_Value" string="Lower Value"/>
+                                        <field name="Target"/>
+                                        <field name="Upper_Value" string="Upper Value"/>
                                     </tree>
                                 </field>
                             </page>
