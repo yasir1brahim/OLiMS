@@ -121,10 +121,11 @@ class Worksheet(models.Model, BaseOLiMSModel):
     def _ComputeWorksheetId(self):
         for items in self:
             c_date = datetime.datetime.strptime(items.create_date, \
-            "%Y-%m-%d %H:%M:%S").strftime("%Y,%m,%d")
+            "%Y-%m-%d %H:%M:%S").strftime("%y,%m,%d")
             year, month, day = c_date.split(',')
             if items.Template:
-                worksheetid = items.Template.Title + " " + month + day + year + "-" + str(items.id)
+                temp_name = items.Template.name if items.Template.name else ''
+                worksheetid =  items.Template.Title + " " + month + day + year + "-" + str(items.id) + " " + str(temp_name)
             elif not items.Template:
                 worksheetid = month + day + year + "-" + str(items.id)
             items.Worksheet = worksheetid
