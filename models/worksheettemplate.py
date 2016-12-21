@@ -16,7 +16,7 @@ schema = (StringField('Title',
             description=_('Used in item listings and search results.'),
         ),
     ),
-    fields.One2many(string='Analysis Service',
+    fields.One2many(string='Analysis_Service',
                     comodel_name='olims.worksheet_analysis_service',
                     inverse_name='worksheet_analysis_id',
                     required=True,
@@ -57,6 +57,7 @@ schema_worksheet_analysis_servive = (fields.Many2one(string="worksheet_analysis_
         ),
         fields.Many2one(string='Category',
                     comodel_name='olims.analysis_category'),
+        fields.Many2one('olims.worksheet',ondelete='set null', string="ws_temp_service_reference_id"),
 )
 
 class WorksheetTemplate(models.Model, BaseOLiMSModel): #BaseContent

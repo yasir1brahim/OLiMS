@@ -2416,10 +2416,10 @@
                         </page>
                         <page string="Controls">
                             <label for="name" string="Name"/><field name="name" />
-                            <label for="Analysis Service" string="Analysis Service"/>
+                            <label for="Analysis_Service" string="Analysis Service"/>
                             <p>Select which Analyses should be included on the Worksheet</p>
 
-                            <field name="Analysis Service" options="{'no_create': True}">
+                            <field name="Analysis_Service" options="{'no_create': True}">
                                 <tree editable="bottom">
                                     <field name="Category" options="{'no_create': True}"/>
                                     <field name="Service" options="{'no_create': True}"/>
@@ -2531,8 +2531,8 @@
                             <page string="Add Control Reference" attrs="{'invisible': ['|',('id', '=', False),('State', 'in', ['verified', 'closed'])]}">
                                 <field name="Add-Control-Refrence">
                                     <tree string="Add Control Refrence" editable="bottom">
-                                        <field name="category" options="{'no_create': True}"/>
-                                        <field name="analysis" options="{'no_create': True}"/>
+                                        <field name="Category" options="{'no_create': True}"/>
+                                        <!-- <field name="analysis" options="{'no_create': True}"/> -->
                                     </tree>
                                 </field>
                             </page>

@@ -104,8 +104,8 @@ schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId'),
     fields.One2many('olims.ws_refrence_contorled_analysis',
         inverse_name='ws_control_reference_id',
         string="Add-Blank-Refrence",ondelete='set null'),
-    fields.One2many('olims.ws_refrence_contorled_analysis',
-        inverse_name='ws_blank_reference_id',
+    fields.One2many('olims.worksheet_analysis_service',
+        inverse_name='ws_temp_service_reference_id',
         string="Add-Control-Refrence",ondelete='set null'),
     fields.Boolean(string="marked_closed",
         default=False)
@@ -128,6 +128,17 @@ class Worksheet(models.Model, BaseOLiMSModel):
             if record.category.Category not in cate_name_list:
                 cate_name_list.append(record.category.Category)
         return {"category":cate_name_list}
+
+    @api.model
+    def create(self, values):
+        temp_id = values.get('Template',None)
+        worksheet_template = self.env['olims.worksheet_template'].search([("id","=",temp_id)])
+        list_of_ids = []
+        for service in worksheet_template.Analysis_Service:
+            list_of_ids.append(service.id)
+        values.update({"Add-Control-Refrence": [(6,0,list_of_ids)]})
+        res = super(Worksheet, self).create(values)
+        return res
 
     @api.multi
     def write(self, values):
