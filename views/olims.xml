@@ -2411,16 +2411,18 @@
                                 </tree>
                             </field>
                         </page>
-                        <page string="Analyses">
+                        <page string="Controls">
+                            <label for="name" string="Name"/><field name="name" />
                             <label for="Analysis Service" string="Analysis Service"/>
                             <p>Select which Analyses should be included on the Worksheet</p>
+
                             <field name="Analysis Service" options="{'no_create': True}">
                                 <tree editable="bottom">
                                     <field name="Category" options="{'no_create': True}"/>
                                     <field name="Service" options="{'no_create': True}"/>
-                                    <field name="Keyword"/>
-                                    <field name="Method"/>
-                                    <field name="Calculation"/>
+                                    <field name="Target" />
+                                    <field name="Lower_Value" string="Lower Value"/>
+                                    <field name="Upper_Value" string="Upper Value"/>
                                 </tree>
                             </field>
                         </page>
