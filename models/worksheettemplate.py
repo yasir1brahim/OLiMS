@@ -2,6 +2,7 @@ from openerp import fields, models, api
 from openerp.tools.translate import _
 from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
+from fields.fixed_point_field import FixedPointField
 from fields.text_field import TextField
 from fields.integer_field import IntegerField
 from fields.widget.widget import TextAreaWidget,StringWidget
@@ -30,6 +31,7 @@ schema = (StringField('Title',
                     comodel_name='olims.ws_template_layout',
                     inverse_name='worksheet_layout_id',
     ),
+    StringField(string="name"),
     IntegerField('number_of_pos'),
 )
 schema_worksheet_analysis_servive = (fields.Many2one(string="worksheet_analysis_id",
@@ -45,6 +47,11 @@ schema_worksheet_analysis_servive = (fields.Many2one(string="worksheet_analysis_
         StringField(string="Method",
             compute="_ComputeAnalysisServiceFields"
         ),
+        StringField(string="name",
+            compute="_ComputeControlName", store=True),
+        FixedPointField(string="Target"),
+        FixedPointField(string="Lower_Value"),
+        FixedPointField(string="Upper_Value"),
         StringField(string="Calculation",
             compute="_ComputeAnalysisServiceFields"
         ),
@@ -114,6 +121,10 @@ class WorksheetAnalysisService(models.Model, BaseOLiMSModel):
             items.Keyword = items.Service.Keyword
             items.Method = items.Service._Method.getMethod()
             items.Calculation = items.Service._Calculation.getCalculation()
+    @api.depends("worksheet_analysis_id")
+    def _ComputeControlName(self):
+        for items in self:
+            items.name = items.worksheet_analysis_id.name
 
 class WorkSheetTemplateLayout(models.Model):
     _name = "olims.ws_template_layout"
