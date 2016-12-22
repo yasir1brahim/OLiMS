@@ -113,21 +113,30 @@ schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId'),
 )
 
 
-
+name_counter  = {}
 class Worksheet(models.Model, BaseOLiMSModel):
     _name ='olims.worksheet'
     _rec_name = "Worksheet"
 
     def _ComputeWorksheetId(self):
+        counter = 0
         for items in self:
             c_date = datetime.datetime.strptime(items.create_date, \
             "%Y-%m-%d %H:%M:%S").strftime("%y,%m,%d")
             year, month, day = c_date.split(',')
+            if items.Template.Title and items.Template.Title in name_counter.keys() \
+                and name_counter[items.Template.Title][1] == c_date:
+                counter = name_counter.get(items.Template.Title)[0]
+                counter = counter + 1
+                name_counter[items.Template.Title][0] = counter
+            else:
+                name_counter[items.Template.Title] = [1, c_date]
+                counter = 1
             if items.Template:
                 temp_name = items.Template.name if items.Template.name else ''
-                worksheetid =  items.Template.Title + " " + month + day + year + "-" + str(items.id) + " " + str(temp_name)
+                worksheetid =  items.Template.Title + " " + month + day + year + "-" + str(counter) + " " + str(temp_name)
             elif not items.Template:
-                worksheetid = month + day + year + "-" + str(items.id)
+                worksheetid = month + day + year + "-" + str(counter)
             items.Worksheet = worksheetid
     @api.multi
     def get_category_name_for_report(self):
