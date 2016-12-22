@@ -58,6 +58,7 @@ schema_worksheet_analysis_servive = (fields.Many2one(string="worksheet_analysis_
         fields.Many2one(string='Category',
                     comodel_name='olims.analysis_category'),
         fields.Many2one('olims.worksheet',ondelete='set null', string="ws_temp_service_reference_id"),
+        FixedPointField(string="Result"),
 )
 
 class WorksheetTemplate(models.Model, BaseOLiMSModel): #BaseContent
