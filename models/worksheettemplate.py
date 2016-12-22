@@ -157,6 +157,11 @@ class WorkSheetTemplateLayout(models.Model):
         elif self.analysis_type == "control":
             return {'domain':{'ref_definition':[('Blank', '=', False)]}}
 
+class Controls(models.Model):
+    """Analysis Control model used in worksheet"""
+    _name = 'olims.controls'
+    name = fields.Char(string='Name')
+    reference_values_id = fields.Many2many(comodel_name='olims.reference_values', string='Control Analysis', ondelete='set null')
 
 WorksheetTemplate.initialze(schema)
 WorksheetAnalysisService.initialze(schema_worksheet_analysis_servive)
