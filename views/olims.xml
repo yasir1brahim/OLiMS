@@ -1309,8 +1309,8 @@
                                 <tree string="Reference Results" editable="bottom">
                                     <field name='Category' options="{'no_create': True}"/>
                                     <field name="Service" options="{'no_create': True}"/>
-                                    <field name="Expected Result"/>
-                                    <field name="Permitted Error"/>
+                                    <field name="Expected_Result"/>
+                                    <field name="Permitted_Error"/>
                                     <field name="Min"/>
                                     <field name="Max"/>
                                 </tree>
@@ -1406,8 +1406,8 @@
                                 <tree string="Reference Results" editable="bottom">
                                     <field name="Category" options="{'no_create': True}"/>
                                     <field name="Service" options="{'no_create': True}"/>
-                                    <field name="Expected Result"/>
-                                    <field name="Permitted Error"/>
+                                    <field name="Expected_Result"/>
+                                    <field name="Permitted_Error"/>
                                     <field name="Min"/>
                                     <field name="Max"/>
                                 </tree>
@@ -2415,10 +2415,9 @@
                             </field>
                         </page>
                         <page string="Controls">
-                            <label for="name" string="Name"/><field name="name" />
-                            <label for="Analysis_Service" string="Analysis Service"/>
+                            <label for="ControlAnalysis" string="Controls"/>
                             <p>Select which Analyses should be included on the Worksheet</p>
-
+                            <field name="ControlAnalysis" options="{'no_create': True}"/>
                             <field name="Analysis_Service" options="{'no_create': True}">
                                 <tree editable="bottom">
                                     <field name="Category" options="{'no_create': True}"/>
@@ -5972,8 +5971,8 @@
                         <tree editable="bottom">
                             <field name="Category" options="{'no_create': True}"/>
                             <field name="Service" string="Analysis" options="{'no_create': True}"/>
-                            <field name="Expected Result" string="Results" />
-                            <field name="Permitted Error" string="Traget"/>
+                            <field name="Expected_Result" string="Results" />
+                            <field name="Permitted_Error" string="Traget"/>
                             <field name="Min" string="Lower Value"/>
                             <field name="Max" string="Upper Value"/>
                         </tree>

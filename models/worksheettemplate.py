@@ -21,6 +21,7 @@ schema = (StringField('Title',
                     inverse_name='worksheet_analysis_id',
                     required=True,
                     help='Select which Analyses should be included on the Worksheet',
+                    compute="_get_control_analysis"
     ),
     fields.Many2one(string='Instrument',
                     comodel_name='olims.instrument',
@@ -33,6 +34,7 @@ schema = (StringField('Title',
     ),
     StringField(string="name"),
     IntegerField('number_of_pos'),
+    fields.Many2one(comodel_name="olims.controls", string="ControlAnalysis"),
 )
 schema_worksheet_analysis_servive = (fields.Many2one(string="worksheet_analysis_id",
         comodel_name="olims.worksheet_template"
@@ -47,8 +49,7 @@ schema_worksheet_analysis_servive = (fields.Many2one(string="worksheet_analysis_
         StringField(string="Method",
             compute="_ComputeAnalysisServiceFields"
         ),
-        StringField(string="name",
-            compute="_ComputeControlName", store=True),
+        StringField(string="name"),
         FixedPointField(string="Target"),
         FixedPointField(string="Lower_Value"),
         FixedPointField(string="Upper_Value"),
@@ -94,6 +95,22 @@ class WorksheetTemplate(models.Model, BaseOLiMSModel): #BaseContent
 
         return res
 
+    @api.depends("ControlAnalysis")
+    def _get_control_analysis(self):
+        if self.ControlAnalysis:
+            for item in self.ControlAnalysis.reference_values_id:
+                values = {
+                    "worksheet_analysis_id": self.id,
+                    "name": self.ControlAnalysis.name,
+                    "Category": item.Category.id,
+                    "Service": item.Service.id,
+                    "Lower_Value": item.Min,
+                    "Upper_Value": item.Max,
+                    "Target": item.Permitted_Error,
+                    "Result": item.Expected_Result
+                    }
+                self.Analysis_Service |= self.env['olims.worksheet_analysis_service'].create(values)
+
     _at_rename_after_creation = True
     def _renameAfterCreation(self, check_auto_id=False):
         from lims.idserver import renameAfterCreation
@@ -123,10 +140,10 @@ class WorksheetAnalysisService(models.Model, BaseOLiMSModel):
             items.Keyword = items.Service.Keyword
             items.Method = items.Service._Method.getMethod()
             items.Calculation = items.Service._Calculation.getCalculation()
-    @api.depends("worksheet_analysis_id")
-    def _ComputeControlName(self):
-        for items in self:
-            items.name = items.worksheet_analysis_id.name
+    # @api.depends("worksheet_analysis_id")
+    # def _ComputeControlName(self):
+    #     for items in self:
+    #         items.name = items.worksheet_analysis_id.name
 
 class WorkSheetTemplateLayout(models.Model):
     _name = "olims.ws_template_layout"
