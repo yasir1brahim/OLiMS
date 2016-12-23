@@ -30,7 +30,6 @@ access_olims_analysisspec_labmanager,olims.analysis_spec,model_olims_analysis_sp
 access_olims_artemplate_labmanager,olims.ar_template,model_olims_ar_template,group_lab_managers,1,1,1,1
 access_olims_attachment_labmanager,olims.attachment,model_olims_attachment,group_lab_managers,1,1,1,1
 access_olims_batch_labmanager,olims.batch,model_olims_batch,group_lab_managers,1,1,1,1
-,,,,,,,
 access_olims_invoice_labmanager,olims.invoice,model_olims_invoice,group_lab_managers,1,1,1,1
 access_olims_methods_labmanager,olims.method,model_olims_method,group_lab_managers,1,1,1,1
 access_olims_mutifile_labmanager,olims.multifile,model_olims_multifile,group_lab_managers,1,1,1,1
@@ -249,4 +248,3 @@ access_olims_ws_control_refrence,olims.ws_refrence_contorled_analysis,model_olim
 access_olims_add_analysis_ws,olims.add_analysis,model_olims_add_analysis,,1,1,1,1
 access_olims_ws_manage_results,olims.ws_manage_results,model_olims_ws_manage_results,,1,1,1,1
 access_olims_ar_invoice,olims.ar_invoice,model_olims_ar_invoice,,1,1,1,1
-access_olims_client_template,olims.template,model_olims_template,,1,1,1,1
