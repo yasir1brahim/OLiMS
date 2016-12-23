@@ -133,8 +133,7 @@ class Worksheet(models.Model, BaseOLiMSModel):
                 name_counter[items.Template.Title] = [1, c_date]
                 counter = 1
             if items.Template:
-                temp_name = items.Template.name if items.Template.name else ''
-                worksheetid =  items.Template.Title + " " + month + day + year + "-" + str(counter) + " " + str(temp_name)
+                worksheetid =  items.Template.Title + " " + month + day + year + "-" + str(counter)
             elif not items.Template:
                 worksheetid = month + day + year + "-" + str(counter)
             items.Worksheet = worksheetid
