@@ -107,7 +107,9 @@ schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId'),
         string="Add-Blank-Refrence",ondelete='set null'),
     fields.One2many('olims.worksheet_analysis_service',
         inverse_name='ws_temp_service_reference_id',
-        string="Add-Control-Refrence",ondelete='set null'),
+        string="Add_Control_Refrence",ondelete='set null'),
+    fields.Many2many('olims.controls',
+        string="Controls",ondelete='set null'),
     fields.Boolean(string="marked_closed",
         default=False)
 )
@@ -153,7 +155,8 @@ class Worksheet(models.Model, BaseOLiMSModel):
         list_of_ids = []
         for service in worksheet_template.Analysis_Service:
             list_of_ids.append(service.id)
-        values.update({"Add-Control-Refrence": [(6,0,list_of_ids)]})
+        values.update({"Add_Control_Refrence": [(6,0,list_of_ids)],
+            'Controls':[(6,0,[worksheet_template.ControlAnalysis.id])]})
         res = super(Worksheet, self).create(values)
         return res
 
@@ -987,6 +990,22 @@ class Worksheet(models.Model, BaseOLiMSModel):
     def workflow_script_closed(self,cr,uid,ids,context=None):
         self.write(cr, uid, ids,{'State': 'closed', "marked_closed": True},context)
         return True
+
+    @api.onchange('Controls')
+    def onchange_control_set_list_value(self):
+        self.Add_Control_Refrence = None
+        for records in self:
+            for items in records.Controls:
+                for item in items.reference_values_id:
+                    values = {
+                        "ws_temp_service_reference_id": self.id,
+                        "name": items.name,
+                        "Category": item.Category.id,
+                        "Service": item.Service.id,
+                        "Lower_Value": item.Min,
+                        "Upper_Value": item.Max
+                        }
+                    self.Add_Control_Refrence += self.Add_Control_Refrence.new(values)
 
 class AddAnalysis(models.Model):
     _name = "olims.add_analysis"
