@@ -2528,8 +2528,10 @@
                                 </field> 
                             </page>
                             <page string="Add Control Reference" attrs="{'invisible': ['|',('id', '=', False),('State', 'in', ['verified', 'closed'])]}">
-                                <field name="Add-Control-Refrence">
-                                    <tree string="Add Control Refrence" editable="bottom" create="false" delete="false">
+                                <label for="Controls" />
+                                <field name="Controls" options="{'no_create': True}" widget="many2many_tags" />
+                                <field name="Add_Control_Refrence">
+                                    <tree string="Add Control Refrence" editable="bottom" create="false" delete="true">
                                         <field name="name" string="Control ID"/>
                                         <field name="Service" options="{'no_create': True}" string="Analysis" readonly="1"/>
                                         <field name="Result"/>
