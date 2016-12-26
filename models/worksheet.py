@@ -9,6 +9,7 @@ from fields.file_field import FileField
 from fields.widget.widget import FileWidget
 from openerp.tools.translate import _
 import datetime
+from openerp.exceptions import Warning
 AR_STATES = (
     ('sample_registered','Sample Registered'),
     ('not_requested','Not Requested'),
@@ -955,7 +956,11 @@ class Worksheet(models.Model, BaseOLiMSModel):
             previous_state = "to_be_verified"
         worksheets = self.browse(cr,uid,ids)
         ar_ids = []
+        res_user = self.pool.get("res.users").browse(cr, uid, [uid], context)
         for worksheet in worksheets:
+            if worksheet.State == "to_be_verified" and worksheet.write_uid.id == uid and res_user.two_step_verification:
+                message = _("You are not allowed to verify")
+                raise Warning(message)
             if worksheet.State != previous_state:
                 ids.remove(worksheet.id)
             else:
@@ -1148,8 +1153,12 @@ class WorkSheetManageResults(models.Model):
 
     @api.multi
     def verify_analyses_and_ws(self):
+        res_user = self.env["res.users"].search([('id', '=', self.env.uid)])
         ar_ids = []
         for record in self:
+            if record.state == "to_be_verified" and record.write_uid.id == self.env.uid and res_user.two_step_verification:
+                message = _("You are not allowed to verify")
+                raise Warning(message)
             if not record.state != "verified":
                 continue
             record.write({"state":"verified"})

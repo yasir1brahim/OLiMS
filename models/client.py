@@ -291,4 +291,9 @@ class Client(models.Model, BaseOLiMSModel):
     payment_term_id = fields.Many2one(string="Payment Terms",
         comodel_name="olims.payment_term", default=_get_value_cash_as_default)
 
+class res_users(models.Model):
+    _inherit = "res.users"
+
+    two_step_verification = fields.Boolean(string="Two Step Verification",
+        default=False)
 Client.initialze(schema)

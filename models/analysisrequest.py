@@ -12,7 +12,7 @@ from fields.widget.widget import StringWidget, TextAreaWidget, \
                                 DecimalWidget, RichWidget
 from openerp import fields, models, api
 from openerp.tools.translate import _
-
+from openerp.exceptions import Warning
 AR_STATES = (
     ('sample_registered','Sample Registered'),
     ('not_requested','Not Requested'),
@@ -1856,7 +1856,11 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 
     def bulk_verify_request(self,cr,uid,ids,context=None):
         requests = self.pool.get('olims.analysis_request').browse(cr,uid,ids,context)
+        res_user = self.pool.get("res.users").browse(cr, uid, [uid], context)
         for request in requests:
+            if request.state == "to_be_verified" and request.write_uid.id == uid and res_user.two_step_verification:
+                message = _("You are not allowed to verify")
+                raise Warning(message)
             ar_manage_results = self.pool.get("olims.manage_analyses")
             analyses = ar_manage_results.search_read(cr, uid, [
                 "|",("manage_analysis_id","=",request.id),
@@ -2354,9 +2358,13 @@ class ManageAnalyses(models.Model, BaseOLiMSModel):
 
     @api.multi
     def verify_analyses_and_ws(self):
+        res_user = self.env["res.users"].search([('id', '=', self.env.uid)])
         ar_ids = []
         analysis_ids = []
         for record in self:
+            if record.state == "to_be_verified" and record.write_uid.id == self.env.uid and res_user.two_step_verification:
+                message = _("You are not allowed to verify")
+                raise Warning(message)
             if not record.state != "verified":
                 continue
             record.write({"state":"verified"})
