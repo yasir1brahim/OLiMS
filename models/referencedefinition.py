@@ -9,11 +9,11 @@ from fields.widget.widget import BooleanWidget, TextAreaWidget
 from fields.string_field import StringField
 from fields.text_field import TextField
 
-schema = (fields.Many2many(string='Reference Results',
+schema = (fields.Many2many(string='Reference_Results',
         comodel_name = 'olims.reference_values',
         required = True,
     ),
-    StringField('Title',
+    StringField('name',
               required=1,        
     ),
     TextField('Description',
@@ -42,7 +42,7 @@ schema = (fields.Many2many(string='Reference Results',
 
 class ReferenceDefinition(models.Model, BaseOLiMSModel):
     _name ='olims.reference_definition'
-    _rec_name = "Title"
+    _rec_name = "name"
 
 
     _at_rename_after_creation = True

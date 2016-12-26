@@ -249,4 +249,3 @@ access_olims_add_analysis_ws,olims.add_analysis,model_olims_add_analysis,,1,1,1,
 access_olims_ws_manage_results,olims.ws_manage_results,model_olims_ws_manage_results,,1,1,1,1
 access_olims_ar_invoice,olims.ar_invoice,model_olims_ar_invoice,,1,1,1,1
 access_olims_layout_template,olims.ws_template_layout,model_olims_ws_template_layout,,1,1,1,1
-access_olims_ws_template_control,olims.controls,model_olims_controls,,1,1,1,1
