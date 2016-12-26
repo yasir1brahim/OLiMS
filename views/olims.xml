@@ -5962,33 +5962,6 @@
             <field name="view_mode">tree,form</field>
        </record>
        <menuitem id="ws_manage_results_menu" name="Manage Results for WS" parent="olims_settings_menu" action="action_ws_manage_results" sequence="43"/>
-       <!-- For control Analysis -->
-       <record model="ir.ui.view" id="olims_ws_manage_results_form_view">
-            <field name="name">controls.form</field>
-            <field name="model">olims.controls</field>
-            <field name="arch" type="xml">
-                <form string="Control Analysis">
-                    <label for="name"/><field name="name" required="1"/>
-                    <label for='reference_values_id'/><field name="reference_values_id" widget="one2many_list">
-                        <tree editable="bottom">
-                            <field name="Category" options="{'no_create': True}"/>
-                            <field name="Service" string="Analysis" options="{'no_create': True}"/>
-                            <field name="Expected_Result" string="Results" />
-                            <field name="Permitted_Error" string="Traget"/>
-                            <field name="Min" string="Lower Value"/>
-                            <field name="Max" string="Upper Value"/>
-                        </tree>
-                    </field>
-                </form>
-            </field>
-        </record>
-        <record model="ir.actions.act_window" id="action_ws_template_controls">
-            <field name="name">Controls</field>
-            <field name="res_model">olims.controls</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-        </record>
-       <menuitem id="ws_template_control_menu" name="Controls" parent="olims_settings_menu" action="action_ws_template_controls" sequence="44"/>
        <record id="inherit_view_user_form" model="ir.ui.view">
             <field name="name">res.users.form.olims</field>
             <field name="model">res.users</field>
