@@ -1387,8 +1387,8 @@
                     <sheet>
                     <notebook>
                         <page string="Description">
-                            <label for="Title" string="Title"/>
-                            <field name="Title"></field>
+                            <label for="name" string="Title"/>
+                            <field name="name"></field>
                             <label for="Description" string="Description"/>
                             <p>Used in item listings and search results.</p>
                             <field name="Description"></field>
@@ -1400,16 +1400,16 @@
                             <p>Samples of this type should be treated as hazardous</p>
                         </page>
                         <page string="Reference Values">
-                            <label for="Reference Results" string="Reference Results"/>
+                            <label for="Reference_Results" string="Reference Results"/>
                             <p>Click on Analysis Categories (against shaded backgroundto see Analysis Services in each category. Enter minimum and maximum values to indicate a valid results range. Any result outside this range will raise an alert. The &#37; Error field allows for an &#37; uncertainty to be considered when evaluating results against minimum and maximum values.</p>
-                            <field name="Reference Results" widget="one2many_list">
+                            <field name="Reference_Results" widget="one2many_list">
                                 <tree string="Reference Results" editable="bottom">
                                     <field name="Category" options="{'no_create': True}"/>
                                     <field name="Service" options="{'no_create': True}"/>
-                                    <field name="Expected_Result"/>
-                                    <field name="Permitted_Error"/>
-                                    <field name="Min"/>
-                                    <field name="Max"/>
+                                    <field name="Expected_Result" string="Results"/>
+                                    <field name="Permitted_Error" string="Target"/>
+                                    <field name="Min" string="Lower Value"/>
+                                    <field name="Max" string="Upper Value"/>
                                 </tree>
                             </field>
                         </page>
@@ -1424,7 +1424,7 @@
             <field name="model">olims.reference_definition</field>
             <field name="arch" type="xml">
                 <tree string="Reference Definition Template">
-                    <field name="Title"></field>
+                    <field name="name" string="Title"></field>
                     <field name="Description"></field>
                 </tree>
             </field>
@@ -5962,32 +5962,5 @@
             <field name="view_mode">tree,form</field>
        </record>
        <menuitem id="ws_manage_results_menu" name="Manage Results for WS" parent="olims_settings_menu" action="action_ws_manage_results" sequence="43"/>
-       <!-- For control Analysis -->
-       <record model="ir.ui.view" id="olims_ws_manage_results_form_view">
-            <field name="name">controls.form</field>
-            <field name="model">olims.controls</field>
-            <field name="arch" type="xml">
-                <form string="Control Analysis">
-                    <label for="name"/><field name="name" required="1"/>
-                    <label for='reference_values_id'/><field name="reference_values_id" widget="one2many_list">
-                        <tree editable="bottom">
-                            <field name="Category" options="{'no_create': True}"/>
-                            <field name="Service" string="Analysis" options="{'no_create': True}"/>
-                            <field name="Expected_Result" string="Results" />
-                            <field name="Permitted_Error" string="Traget"/>
-                            <field name="Min" string="Lower Value"/>
-                            <field name="Max" string="Upper Value"/>
-                        </tree>
-                    </field>
-                </form>
-            </field>
-        </record>
-        <record model="ir.actions.act_window" id="action_ws_template_controls">
-            <field name="name">Controls</field>
-            <field name="res_model">olims.controls</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-        </record>
-       <menuitem id="ws_template_control_menu" name="Controls" parent="olims_settings_menu" action="action_ws_template_controls" sequence="44"/>
     </data>
 </openerp>

@@ -108,7 +108,7 @@ schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId'),
     fields.One2many('olims.worksheet_analysis_service',
         inverse_name='ws_temp_service_reference_id',
         string="Add_Control_Refrence",ondelete='set null'),
-    fields.Many2many('olims.controls',
+    fields.Many2many('olims.reference_definition',
         string="Controls",ondelete='set null'),
     fields.Boolean(string="marked_closed",
         default=False)
@@ -995,7 +995,7 @@ class Worksheet(models.Model, BaseOLiMSModel):
         self.Add_Control_Refrence = None
         for records in self:
             for items in records.Controls:
-                for item in items.reference_values_id:
+                for item in items.Reference_Results:
                     values = {
                         "ws_temp_service_reference_id": self.id,
                         "name": items.name,
