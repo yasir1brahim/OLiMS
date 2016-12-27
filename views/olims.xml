@@ -2355,6 +2355,13 @@
                     <field name="LotID"/>
                     <field name="ClientSampleID"/>
                     <field name="Client"/>
+                    <filter name="to_be_sampled" string="To Be Labeled" domain="[('state', '=', 'to_be_sampled')]"/>
+                    <filter name="sample_due" string="Sample Due" domain="[('state', '=', 'sample_due')]"/>
+                    <filter name="receive" string="Received" domain="[('state', '=', 'sample_received')]"/>
+                    <filter name="to_be_verified" string="To Be Verified" domain="[('state', '=', 'to_be_verified')]"/>
+                    <filter name="verified" string="Verified" domain="[('state', '=', 'verified')]"/>
+                    <filter name="published" string="Published" domain="[('state', '=', 'published')]"/>
+                    <filter name="cancelled" string="Canceled" domain="[('state', '=', 'cancelled')]"/>
                </search>
             </field>
         </record>
@@ -2366,7 +2373,7 @@
 			<field name="view_mode">tree,form</field>
             <field name="view_id" ref="olims_analysis_request_tree_view"/>
             <field name="search_view_id" ref="view_analysis_request_filter"/>
-            <field name="context">{"readonly_by_pass": ['Subtotal', 'VAT','Total', 'Discount', 'Subtotal1', 'VAT1','Total1', 'Discount1', 'Subtotal2', 'VAT2','Total2', 'Discount2', 'Subtotal3', 'VAT3','Total3', 'Discount3']}</field>
+            <field name="context">{"readonly_by_pass": ['Subtotal', 'VAT','Total', 'Discount', 'Subtotal1', 'VAT1','Total1', 'Discount1', 'Subtotal2', 'VAT2','Total2', 'Discount2', 'Subtotal3', 'VAT3','Total3', 'Discount3'],"search_default_receive":1}</field>
        </record>
        <record model="ir.actions.act_window" id="analysis_request_form_action">
             <field name="name">Analysis Request</field>
@@ -2560,6 +2567,21 @@
                 </tree>
             </field>
         </record>
+        <!--For search and filters in worksheet-->
+        <record id="view_worksheet_filter" model="ir.ui.view">
+            <field name="name">olims.worksheet.list.select</field>
+            <field name="model">olims.worksheet</field>
+            <field name="arch" type="xml">
+                <search string="Worksheet Search">
+                    <field name="Analyst"/>
+                    <field name="Template"/>
+                    <filter name="open" string="Opened" domain="[('State', '=', 'open')]"/>
+                    <filter name="closed" string="Closed" domain="[('State', '=', 'closed')]"/>
+                    <filter name="to_be_verified" string="To Be Verified" domain="[('State', '=', 'to_be_verified')]"/>
+                    <filter name="verified" string="Verified" domain="[('State', '=', 'verified')]"/>
+               </search>
+            </field>
+        </record>
         <!--For action menu in worksheet-->
         <record id="change_state_bulk_worksheet" model="ir.actions.server">
             <field name="name">Verify</field>
@@ -2599,6 +2621,7 @@
             <field name="res_model">olims.worksheet</field>
             <field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
+            <field name="context">{"search_default_verified":1}</field>
        </record>
 
         <menuitem id="olims_worksheet_menu" name="Worksheet" parent="olims_menu" sequence="6"
@@ -2867,21 +2890,26 @@
                 	<field name="ClientSampleID"></field>
                     <field name="LotID" string="Lot ID"></field>
                 	<field name="SampleType"></field>
-                    <!--<field name="SamplePoint"></field>
-                    <field name="StorageLocation"></field>
-                	<field name="SamplingDeviation"></field>
-                	<field name="SamplingWorkflowEnabled"></field>
-                    <field name="DateSampled"></field>-->
                 	<field name="SamplingDate"></field>
-                    <!--<field name="SampleCondition"></field>
-                	<field name="DateReceived"></field>
-                	<field name="Composite"></field>
-                	<field name="DateExpired"></field>
-                	<field name="DateDisposed"></field>
-                    <field name="AdHoc"></field>-->
                     <field name="state"></field>
-
                 </tree>
+            </field>
+        </record>
+        <!--For search and filters in Samples-->
+        <record id="view_sample_filter" model="ir.ui.view">
+            <field name="name">olims.sample.list.select</field>
+            <field name="model">olims.sample</field>
+            <field name="arch" type="xml">
+                <search string="Sample Search">
+                    <field name="LotID"/>
+                    <field name="ClientSampleID"/>
+                    <field name="Client"/>
+                    <filter name="to_be_sampled" string="To Be Labeled" domain="[('state', '=', 'to_be_sampled')]"/>
+                    <filter name="sample_due" string="Sample Due" domain="[('state', '=', 'sample_due')]"/>
+                    <filter name="sample_received" string="Received" domain="[('state', '=', 'sample_received')]"/>
+                    <filter name="expired" string="Expired" domain="[('state', '=', 'expired')]"/>
+                    <filter name="disposed" string="Disposed" domain="[('state', '=', 'disposed')]"/>
+               </search>
             </field>
         </record>
 
@@ -2890,6 +2918,7 @@
             <field name="res_model">olims.sample</field>
             <field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
+            <field name="context">{"search_default_sample_received":1}</field>
        </record>
 
         <menuitem id="olims_sample_menu" name="Samples" parent="olims_menu" sequence="3"
