@@ -857,7 +857,10 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         for ar_values in list_of_dicts:
             if ar_values.get("Contact") and ar_values.get('SamplingDate') and ar_values.get('SampleType'):
                 res = super(AnalysisRequest, self).create(ar_values)
-                new_sample = self.create_sample(ar_values, res)
+                if ar_values.get("Sample_id",None):
+                    new_sample = self.env["olims.sample"].search([('id', '=', ar_values.get("Sample_id"))])
+                else:
+                    new_sample = self.create_sample(ar_values, res)
                 res._add_values_in_analyses_duplicate()
 
                 analysis_object = super(AnalysisRequest, self).search([('id', '=',res.id)])
@@ -2276,6 +2279,14 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         else:
             res['domain'] = {'AnalysisProfile3': []}
         return res
+
+    @api.one
+    def copy(self, default=None):
+        default = dict(default or {})
+        default.update({
+            'Sample_id': self.Sample_id.id,
+            })
+        return super(AnalysisRequest, self).copy(default)
 
 class FieldAnalysisService(models.Model, BaseOLiMSModel):
     _name = 'olims.field_analysis_service'
