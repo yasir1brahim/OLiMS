@@ -83,6 +83,7 @@
                     <field name="Sampler" string="Transporter"></field>
                     <field name="ar_invoice_id" string="Invoice ID"/>
                     <field name="state" string="State"/>
+                    <button type="object" class="oe_readonly" icon="fa-print" name="publish_analysis_request"></button>
                 </tree>
             </field>
         </record>
