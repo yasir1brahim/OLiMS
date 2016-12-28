@@ -840,13 +840,17 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         field_result_list_profile2, lab_result_list_profile2,\
         field_result_list_profile3, lab_result_list_profile3 = self.create_field_and_lab_analyses(values)
 
-        analysis_request_0_dict.update({"Field_Manage_Result": field_result_list,
-            "Lab_Manage_Result": lab_result_list})
-        analysis_request_1_dict.update({"Field_Manage_Result": field_result_list_profile1,
-            "Lab_Manage_Result": lab_result_list_profile1})
-        analysis_request_2_dict.update({"Field_Manage_Result": field_result_list_profile2,
-            "Lab_Manage_Result": lab_result_list_profile2})
-        analysis_request_3_dict.update({"Field_Manage_Result": field_result_list_profile3,
+        if not analysis_request_0_dict.get("Field_Manage_Result",None) and not analysis_request_0_dict.get("Lab_Manage_Result",None):
+            analysis_request_0_dict.update({"Field_Manage_Result": field_result_list,
+                "Lab_Manage_Result": lab_result_list})
+        if not analysis_request_1_dict.get("Field_Manage_Result",None) and not analysis_request_1_dict.get("Lab_Manage_Result",None):
+            analysis_request_1_dict.update({"Field_Manage_Result": field_result_list_profile1,
+                "Lab_Manage_Result": lab_result_list_profile1})
+        if not analysis_request_2_dict.get("Field_Manage_Result",None) and not analysis_request_2_dict.get("Lab_Manage_Result",None):
+            analysis_request_2_dict.update({"Field_Manage_Result": field_result_list_profile2,
+                "Lab_Manage_Result": lab_result_list_profile2})
+        if not analysis_request_3_dict.get("Field_Manage_Result",None) and not analysis_request_3_dict.get("Lab_Manage_Result",None):
+            analysis_request_3_dict.update({"Field_Manage_Result": field_result_list_profile3,
                                         "Lab_Manage_Result": lab_result_list_profile3})
 
         list_of_dicts.append(analysis_request_0_dict)
@@ -857,30 +861,27 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         for ar_values in list_of_dicts:
             if ar_values.get("Contact") and ar_values.get('SamplingDate') and ar_values.get('SampleType'):
                 res = super(AnalysisRequest, self).create(ar_values)
-                if ar_values.get("Sample_id",None):
-                    new_sample = self.env["olims.sample"].search([('id', '=', ar_values.get("Sample_id"))])
-                else:
+                if not ar_values.get("Sample_id",None):
                     new_sample = self.create_sample(ar_values, res)
-                res._add_values_in_analyses_duplicate()
-
-                analysis_object = super(AnalysisRequest, self).search([('id', '=',res.id)])
-                analysis_object.write({"Sample_id":new_sample.id})
+                    analysis_object = super(AnalysisRequest, self).search([('id', '=',res.id)])
+                    analysis_object.write({"Sample_id":new_sample.id})
 
                 ar_p = self.create_ar_partitions(res)
-                ar_analysis_object = self.env['olims.ar_analysis']
-                if count == 0:
-                    for rec in data:
-                        self.create_analyses(ar_analysis_object, ar_p, ar_values, rec, res)
-                elif count == 1:
-                    for rec in data1:
-                        self.create_analyses(ar_analysis_object, ar_p, ar_values, rec, res)
-                elif count == 2:
-                    for rec in data2:
-                        self.create_analyses(ar_analysis_object, ar_p, ar_values, rec, res)
-                elif count == 3:
-                    for rec in data3:
-                        self.create_analyses(ar_analysis_object, ar_p, ar_values, rec, res)
-                count += 1
+                if not ar_values.get("Analyses", None):
+                    ar_analysis_object = self.env['olims.ar_analysis']
+                    if count == 0:
+                        for rec in data:
+                            self.create_analyses(ar_analysis_object, ar_p, ar_values, rec, res)
+                    elif count == 1:
+                        for rec in data1:
+                            self.create_analyses(ar_analysis_object, ar_p, ar_values, rec, res)
+                    elif count == 2:
+                        for rec in data2:
+                            self.create_analyses(ar_analysis_object, ar_p, ar_values, rec, res)
+                    elif count == 3:
+                        for rec in data3:
+                            self.create_analyses(ar_analysis_object, ar_p, ar_values, rec, res)
+                    count += 1
         return res
 
     def create_analyses(self, ar_analysis_object, ar_p, ar_values, rec, res):
@@ -1739,20 +1740,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         },context)
         return True
 
-    def _add_values_in_analyses_duplicate(self):
-        service_ids_list = []
-        for record in self:
-            if record.state != "sample_registered":
-                record.Field_Manage_Result = None
-                record.Lab_Manage_Result = None
-                record.Analyses = None
-                for services in record.AnalysisProfile.Service:
-                    record.Analyses += record.Analyses.new({'Category':services.Services.category.id,
-                                'Services':services.Services.id,
-                                'Min':services.Services.Min,
-                                'Max':services.Services.Max,
-                                'Partition': record.Partition.id})
-
     @api.multi
     @api.onchange("AnalysisProfile","AnalysisProfile1","AnalysisProfile2","AnalysisProfile3")
     def _add_values_in_analyses(self):
@@ -2283,8 +2270,42 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     @api.one
     def copy(self, default=None):
         default = dict(default or {})
+        ids_list_lab_manage_results = []
+        ids_list_field_manage_results = []
+        ids_list_manage_analyses = []
+        for obj in self.Lab_Manage_Result:
+            lab_res_val_dict = {'Category': obj.Category.id,
+            'LabService': obj.LabService.id,
+             'Due Date': datetime.datetime.now(),
+             'Min': obj.Min,
+             'Specifications': ">" + str(obj.Min) + ", <" + str(obj.Max),
+             'Max': obj.Max,
+             'Error': obj.Error}
+            ids_list_lab_manage_results.append([0, 0, lab_res_val_dict])
+        for obj in self.Field_Manage_Result:
+            field_res_val_dict = {'Category': obj.Category.id,
+            'Service': obj.LabService.id,
+             'Due Date': datetime.datetime.now(),
+             'Min': obj.Min,
+             'Specifications': ">" + str(obj.Min) + ", <" + str(obj.Max),
+             'Max': obj.Max,
+             'Error': obj.Error}
+            ids_list_field_manage_results.append([0, 0, field_res_val_dict])
+        for obj in self.Analyses:
+            analyses_val_dict = {
+            'Priority': self.Priority.id,
+            'Partition': self.Partition.id,
+            'Category': obj.Category.id,
+            'Services': obj.Services.id,
+            'Min': obj.Min,
+            'Max': obj.Max,
+            }
+            ids_list_manage_analyses.append([0, 0, analyses_val_dict])
         default.update({
             'Sample_id': self.Sample_id.id,
+            'Lab_Manage_Result': ids_list_lab_manage_results,
+            'Field_Manage_Result': ids_list_field_manage_results,
+            'Analyses': ids_list_manage_analyses
             })
         return super(AnalysisRequest, self).copy(default)
 
