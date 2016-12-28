@@ -2482,8 +2482,8 @@
                             <field name="id" invisible="1"/>
                             <label for="Analyst" string="Select Analyst" attrs="{'invisible': [('id', '!=', False)]}"/>
                             <field name="Analyst" options="{'no_create': True}" nolabel='1' attrs="{'invisible': [('id', '!=', False)]}"></field>
-                            <label for="Template" string="Select Worksheet Template" attrs="{'invisible': [('id', '!=', False)]}"/>
-                            <field name="Template" options="{'no_create': True}" nolabel='1' attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <label for="Template" string="Select Worksheet Template"/>
+                            <field name="Template" options="{'no_create': True}" nolabel='1'></field>
                             <label for="Instrument" string="Select Instrument" attrs="{'invisible': [('id', '!=', False)]}"/>
                             <field name="Instrument" options="{'no_create': True}" nolabel='1' attrs="{'invisible': [('id', '!=', False)]}"></field>
                         </group>

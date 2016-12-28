@@ -698,11 +698,12 @@ class Worksheet(models.Model, BaseOLiMSModel):
         return DateTime()
 
     @api.onchange('Template')
-    def onchange_worksheettemplatevalue(self):
+    def onchange_worksheettemplate_set_value(self):
         """Sets the specified instrument to the Analysis from the
             Worksheet Template.
         """
         self.Instrument = self.Template.Instrument.id
+        self.Controls = self.Template.ControlAnalysis
 
     def workflow_script_submit(self,cr,uid,ids,context=None):
         self.write(cr, uid, ids,{'State': 'to_be_verified'},context)
