@@ -773,6 +773,7 @@ manage_result_schema = (
     BooleanField('+-', default=False),
     DateTimeField('Capture'),
     DateTimeField('Due Date'),
+    fields.Char(string="Result_string"),
     # fields.Many2one(string="Result",
     #     comodel_name="olims.result_option"),
     fields.Many2one(string="Instrument",
@@ -2310,6 +2311,28 @@ class ManageAnalyses(models.Model, BaseOLiMSModel):
             })
         self.env.cr.commit()
 
+
+    @api.onchange("Result_string")
+    def set_result_value(self):
+        data_res = self.Result_string
+        if data_res:
+            if data_res.find('>')!=-1:
+                data_res.index('>')
+                data = float(data_res[data_res.index('>')+1:]) +1
+            elif data_res.find('<')!=-1:
+                data_res.index('<')
+                data = float(data_res[data_res.index('<')+1:])-1
+            else:
+                data = float(data_res)
+        else:
+            data = 0
+        record_obj = self.pool.get('olims.manage_analyses')
+        record = record_obj.browse(self.env.cr, self.env.uid, self._origin.id)
+        record.write({
+            'Result': data
+            })
+        self.env.cr.commit()
+
     @api.multi
     def bulk_verify(self):
         ar_ids = []
@@ -2331,7 +2354,7 @@ class ManageAnalyses(models.Model, BaseOLiMSModel):
             for analysis in analyses:
                 if analysis.id not in analysis_ids:
                     analysis_ids.append(analysis.id)
-                analysis.write({"state":"to_be_verified","result":record.Result})
+                analysis.write({"state":"to_be_verified","result":record.Result,"result_string":record.Result_string})
             arecs = self.env["olims.manage_analyses"].search([
                 "|",("manage_analysis_id","=",request_id),
                     ("lab_manage_analysis_id","=",request_id)
