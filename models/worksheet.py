@@ -152,11 +152,12 @@ class Worksheet(models.Model, BaseOLiMSModel):
     def create(self, values):
         temp_id = values.get('Template',None)
         worksheet_template = self.env['olims.worksheet_template'].search([("id","=",temp_id)])
-        list_of_ids = []
-        for service in worksheet_template.Analysis_Service:
-            list_of_ids.append(service.id)
-        values.update({"Add_Control_Refrence": [(6,0,list_of_ids)],
-            'Controls':[(6,0,[worksheet_template.ControlAnalysis.id])]})
+        if worksheet_template:
+            list_of_ids = []
+            for service in worksheet_template.Analysis_Service:
+                list_of_ids.append(service.id)
+            values.update({"Add_Control_Refrence": [(6,0,list_of_ids)],
+                'Controls':[(6,0,[worksheet_template.ControlAnalysis.id])]})
         res = super(Worksheet, self).create(values)
         return res
 
