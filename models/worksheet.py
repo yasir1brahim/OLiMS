@@ -1140,7 +1140,9 @@ class WorkSheetManageResults(models.Model):
         comodel_name="olims.sample")
     sampling_date = fields.Datetime("Sampling Date")
     received_date = fields.Datetime("Received Date")
-    result = fields.Float("Results")
+    result = fields.Float("Results int")
+    result_string = fields.Char("Results")
+
     position = fields.Integer(string="Position")
     analyst = fields.Many2one(string='Analyst',
         comodel_name='res.users',
@@ -1174,6 +1176,27 @@ class WorkSheetManageResults(models.Model):
             })
         self.env.cr.commit()
 
+    @api.onchange("result_string")
+    def set_result_value(self):
+        data_res = self.result_string
+        if data_res:
+            if data_res.find('>')!=-1:
+                data_res.index('>')
+                data = float(data_res[data_res.index('>')+1:]) +1
+            elif data_res.find('<')!=-1:
+                data_res.index('<')
+                data = float(data_res[data_res.index('<')+1:])-1
+            else:
+                data = float(data_res)
+        else:
+            data = 0
+        record_obj = self.pool.get('olims.ws_manage_results')
+        record = record_obj.browse(self.env.cr, self.env.uid, self._origin.id)
+        record.write({
+            'result': data
+            })
+        self.env.cr.commit()
+
     @api.multi
     def bulk_verify(self):
         ar_ids = []
@@ -1188,7 +1211,7 @@ class WorkSheetManageResults(models.Model):
                     ("lab_manage_analysis_id","=",record.request_analysis_id.id)
                 ])
             for analysis in analyses:
-                analysis.write({"state":"to_be_verified","Result":record.result})
+                analysis.write({"state":"to_be_verified","Result":record.result, "Result_string":record.result_string})
             arecs = self.env["olims.manage_analyses"].search([
                 "|",("manage_analysis_id","=",record.request_analysis_id.id),
                     ("lab_manage_analysis_id","=",record.request_analysis_id.id)
