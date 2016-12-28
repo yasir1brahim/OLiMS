@@ -56,3 +56,19 @@ class MessageDialogBox(models.TransientModel):
             'view_mode': 'form',
             'target' : 'current',
         }
+
+    @api.multi
+    def unlink_ws_analysis(self):
+        analysis_id = self._context.get('active_ids', [])[0]
+        self.env["olims.add_analysis"].browse(analysis_id).write({"state": 'unassigned'})
+        ws_add_analysis_obj = self.env["olims.worksheet"].search([("AddAnalysisRequest", '=', analysis_id)])
+        ws_add_analysis_obj.write({"AddAnalysisRequest": [(3, analysis_id)]})
+        if ws_add_analysis_obj.id:
+            return {
+                'type': 'ir.actions.act_window',
+                'res_model': 'olims.worksheet',
+                'res_id': ws_add_analysis_obj.id,
+                'view_type': 'form',
+                'view_mode': 'form',
+                'target' : 'current',
+            }

@@ -73,6 +73,9 @@ schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId'),
     fields.Many2many(string='AnalysisRequest',
         comodel_name="olims.add_analysis",
         domain="[('state', '=', 'unassigned'),('add_analysis_id.Sample_id.state','!=','disposed'),('add_analysis_id.state','=','sample_received')]"),
+    fields.Many2many(string='AddAnalysisRequest',
+        comodel_name="olims.add_analysis",
+        domain="[('state', '=', 'unassigned'),('add_analysis_id.Sample_id.state','!=','disposed'),('add_analysis_id.state','=','sample_received')]"),
     fields.Selection(string='State',
                      selection=WORKSHEET_STATES,
                      default='open',
@@ -206,7 +209,44 @@ class Worksheet(models.Model, BaseOLiMSModel):
                             record.write({"ManageResult": [(2, rec.id)]})
                         elif rec.request_analysis_id.id == add_analysis_obj.add_analysis_id.id and rec.category.id == add_analysis_obj.category.id:
                             record.write({"ManageResult": [(2, rec.id)]})
-
+            if values.get("AddAnalysisRequest", None):
+                if values["AddAnalysisRequest"][0][0] == 6:
+                    for items in sorted(values["AddAnalysisRequest"][0][2]):
+                        count += 1
+                        values_dict_manage_results = {}
+                        add_analysis_obj = self.env["olims.add_analysis"].browse(items)
+                        add_analysis_obj.write({'state':'assigned'})
+                        cont = False
+                        for rec in record.ManageResult:
+                            if rec.request_analysis_id.id == add_analysis_obj.add_analysis_id.id and rec.analysis.id == add_analysis_obj.analysis.id:
+                                cont = True
+                        if cont:
+                            continue
+                        for cate_analysis in add_analysis_obj.add_analysis_id.Analyses:
+                            if cate_analysis.Category.id == add_analysis_obj.category.id and cate_analysis.Services.id == add_analysis_obj.analysis.id:
+                                values_dict_manage_results.update({"request_analysis_id":add_analysis_obj.add_analysis_id.id,
+                                    "analysis": add_analysis_obj.analysis.id,
+                                    "client":add_analysis_obj.client.id,
+                                    "due_date": add_analysis_obj.due_date,
+                                    "received_date": add_analysis_obj.received_date,
+                                    "sampling_date": add_analysis_obj.add_analysis_id.SamplingDate,
+                                    "sample_type": add_analysis_obj.add_analysis_id.SampleType.id,
+                                    "sample": add_analysis_obj.add_analysis_id.Sample_id.id,
+                                    "analyst": self.Analyst.id,
+                                    "instrument": self.Instrument.id,
+                                    "priority": add_analysis_obj.priority.id,
+                                    "position": count,
+                                    "category": cate_analysis.Category.id})
+                                rec_id = self.env["olims.ws_manage_results"].create(values_dict_manage_results)
+                                data_list.append([4,rec_id.id])
+                    values.update({"ManageResult": data_list})
+                elif values["AddAnalysisRequest"][0][0] == 3:
+                    add_analysis_obj = self.env["olims.add_analysis"].browse(values["AddAnalysisRequest"][0][1])
+                    for rec in record.ManageResult:
+                        if rec.request_analysis_id.id == add_analysis_obj.add_analysis_id.id and rec.analysis.id == add_analysis_obj.analysis.id:
+                            record.write({"ManageResult": [(2, rec.id)]})
+                        # elif rec.request_analysis_id.id == add_analysis_obj.add_analysis_id.id and rec.category.id == add_analysis_obj.category.id:
+                        #     record.write({"ManageResult": [(2, rec.id)]})
         return super(Worksheet, self).write(values)
 
     @api.multi
@@ -1053,6 +1093,22 @@ class AddAnalysis(models.Model):
         self.ensure_one()
         ir_model_data = self.env['ir.model.data']
         form_id = ir_model_data.get_object_reference('olims', 'view_remove_message_dialog_box')[1]
+        return {
+            'name': _('Confirm'),
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'olims.message_dialog_box',
+            'views': [(form_id, 'form')],
+            'view_id': form_id,
+            'target': 'new',
+        }
+
+    @api.multi
+    def show_warring_message_form_for_add_analyes(self):
+        self.ensure_one()
+        ir_model_data = self.env['ir.model.data']
+        form_id = ir_model_data.get_object_reference('olims', 'view_message_dialog_box_remove_ar_from_ws')[1]
         return {
             'name': _('Confirm'),
             'type': 'ir.actions.act_window',
