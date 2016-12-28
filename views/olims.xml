@@ -2425,7 +2425,7 @@
                         <page string="Controls">
                             <label for="ControlAnalysis" string="Controls"/>
                             <p>Select which Analyses should be included on the Worksheet</p>
-                            <field name="ControlAnalysis" options="{'no_create': True}"/>
+                            <field name="ControlAnalysis" options="{'no_create': True}" widget="many2many_tags"/>
                             <field name="Analysis_Service" options="{'no_create': True}">
                                 <tree editable="bottom">
                                     <field name="Category" options="{'no_create': True}"/>

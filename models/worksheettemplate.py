@@ -34,7 +34,7 @@ schema = (StringField('Title',
     ),
     StringField(string="name"),
     IntegerField('number_of_pos'),
-    fields.Many2one(comodel_name="olims.reference_definition", string="ControlAnalysis"),
+    fields.Many2many(comodel_name="olims.reference_definition", string="ControlAnalysis"),
 )
 schema_worksheet_analysis_servive = (fields.Many2one(string="worksheet_analysis_id",
         comodel_name="olims.worksheet_template"
@@ -97,11 +97,11 @@ class WorksheetTemplate(models.Model, BaseOLiMSModel): #BaseContent
 
     @api.depends("ControlAnalysis")
     def _get_control_analysis(self):
-        if self.ControlAnalysis:
-            for item in self.ControlAnalysis.Reference_Results:
+        for rec in  self.ControlAnalysis:
+            for item in rec.Reference_Results:
                 values = {
                     "worksheet_analysis_id": self.id,
-                    "name": self.ControlAnalysis.name,
+                    "name": rec.name,
                     "Category": item.Category.id,
                     "Service": item.Service.id,
                     "Lower_Value": item.Min,
@@ -140,10 +140,6 @@ class WorksheetAnalysisService(models.Model, BaseOLiMSModel):
             items.Keyword = items.Service.Keyword
             items.Method = items.Service._Method.getMethod()
             items.Calculation = items.Service._Calculation.getCalculation()
-    # @api.depends("worksheet_analysis_id")
-    # def _ComputeControlName(self):
-    #     for items in self:
-    #         items.name = items.worksheet_analysis_id.name
 
 class WorkSheetTemplateLayout(models.Model):
     _name = "olims.ws_template_layout"
