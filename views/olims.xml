@@ -7,6 +7,7 @@
         <!-- A first level in the left side menu is needed
              before using action= attribute -->
         <menuitem id="olims_menu" name="OLiMS" parent="main_olims_menu"/>
+        <menuitem id="olims_other" name="Others" parent="main_olims_menu"/>
         <!-- the following menuitem should appear *after*
              its parent olims_menu and *after* its
              action course_list_action -->
@@ -1765,7 +1766,7 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="olims_batch_menu" name="Batches" parent="olims_menu" sequence="5"
+        <menuitem id="olims_batch_menu" name="Batches" parent="olims_other" sequence="5"
                   action="batch_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_analyst"/>
         <menuitem id="batch_menu" name="Batches" parent="olims_settings_menu" sequence="5"
                   action="batch_list_action"/>
@@ -3826,7 +3827,7 @@
             <field name="view_id" ref="olims_supply_order_tree_without_create_view"/>
        </record>
 
-        <menuitem id="olims_supply_order_menu" name="Supply Orders" parent="olims_menu" sequence="10"
+        <menuitem id="olims_supply_order_menu" name="Supply Orders" parent="olims_other" sequence="10"
                   action="supply_order_list_action" groups="olims.group_lab_managers,base.group_system"/>
         <menuitem id="supply_order_menu" name="Supply Orders" parent="olims_settings_menu" sequence="10"
                   action="supply_order_list_action"/>
@@ -5009,7 +5010,7 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="olims_method_menu" name="Methods" parent="olims_menu" sequence="8"
+        <menuitem id="olims_method_menu" name="Methods" parent="olims_other" sequence="8"
                   action="method_list_action"/>
         <menuitem id="method_menu" name="Methods" parent="olims_settings_menu" sequence="8"
                   action="method_list_action"/>
