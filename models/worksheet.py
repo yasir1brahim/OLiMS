@@ -1075,7 +1075,8 @@ class WorkSheetManageResults(models.Model):
         record_obj = self.pool.get('olims.ws_manage_results')
         record = record_obj.browse(self.env.cr, self.env.uid, self._origin.id)
         record.write({
-            'result': data
+            'result': data,
+            'result_string':data_res
             })
         self.env.cr.commit()
 

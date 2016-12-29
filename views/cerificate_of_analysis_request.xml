@@ -55,7 +55,7 @@
 							                        	<span t-field="l_result.LabService.Service"/>
 							                        </td>
 							                        <td class="text-center">
-							                            <span t-field="l_result.Result"/>
+							                            <span t-field="l_result.Result_string"/>
 							                            <span t-field="l_result.LabService.Unit"/>
 							                        </td>
 							                        <td class="text-center">
