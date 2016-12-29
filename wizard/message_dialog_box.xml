@@ -72,5 +72,23 @@
                 </form>
             </field>
         </record>
+        <!-- Show Message Dialog Box For Delete Analyses From WS Add Analyis Tab -->
+        <record id="view_message_dialog_box_remove_ar_from_ws" model="ir.ui.view">
+            <field name="name">Delete</field>
+            <field name="model">olims.message_dialog_box</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <form string="Remove Analyses">
+                    <p class="o_dialog_warning">
+                        Do you really want to remove these records?
+                    </p>
+                    <field name="title" invisible="1"/>
+                    <footer>
+                        <button name="unlink_ws_analysis" string="Ok" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
     </data>
 </openerp>

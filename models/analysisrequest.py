@@ -1662,18 +1662,15 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             data_list = []
             ar_cate_ids_list = []
             for items in ar_object.Analyses:
-                if items.Category.id not in ar_cate_ids_list:
-                    ar_cate_ids_list.append(items.Category.id)
-            for cate_id in ar_cate_ids_list:
                 analysis_dict = {}
                 analysis_dict.update({
-                    'category':cate_id,
+                    'category':items.Category.id,
                     'client': ar_object.Client.id,
                     'order':ar_object.LotID,
                     'priority':ar_object.Priority.id,
                     'due_date':ar_object.DateDue,
                     'received_date':datetime.datetime.now(),
-                    # 'analysis':items.Services.id,
+                    'analysis':items.Services.id,
                     'sample_type': ar_object.SampleType.id,
                     'add_analysis_id':ar_object.id
                     })

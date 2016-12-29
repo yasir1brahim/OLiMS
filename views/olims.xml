@@ -2427,7 +2427,7 @@
                         <page string="Controls">
                             <label for="ControlAnalysis" string="Controls"/>
                             <p>Select which Analyses should be included on the Worksheet</p>
-                            <field name="ControlAnalysis" options="{'no_create': True}"/>
+                            <field name="ControlAnalysis" options="{'no_create': True}" widget="many2many_tags"/>
                             <field name="Analysis_Service" options="{'no_create': True}">
                                 <tree editable="bottom">
                                     <field name="Category" options="{'no_create': True}"/>
@@ -2482,16 +2482,45 @@
                             <field name="id" invisible="1"/>
                             <label for="Analyst" string="Select Analyst" attrs="{'invisible': [('id', '!=', False)]}"/>
                             <field name="Analyst" options="{'no_create': True}" nolabel='1' attrs="{'invisible': [('id', '!=', False)]}"></field>
-                            <label for="Template" string="Select Worksheet Template" attrs="{'invisible': [('id', '!=', False)]}"/>
-                            <field name="Template" options="{'no_create': True}" nolabel='1' attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <label for="Template" string="Select Worksheet Template"/>
+                            <field name="Template" options="{'no_create': True}" nolabel='1'></field>
                             <label for="Instrument" string="Select Instrument" attrs="{'invisible': [('id', '!=', False)]}"/>
                             <field name="Instrument" options="{'no_create': True}" nolabel='1' attrs="{'invisible': [('id', '!=', False)]}"></field>
                         </group>
                         <notebook>
-                            <page string="Add Analyses" attrs="{'invisible': ['|',('id', '=', False),('State', '=', 'verified')]}">
+                            <page string="Add Analyses by Category" attrs="{'invisible': ['|',('id', '=', False),('State', '=', 'verified')]}">
                                 <field name="marked_closed" invisible="1"/>
                                 <label for="AnalysisRequest" string="Analysis Request"/>
-                                <field name="AnalysisRequest" options="{'no_create': True}" attrs="{'readonly': [('marked_closed', '=', True)]}" widget="many2many_selectable"></field>
+                                <field name="AnalysisRequest" options="{'no_create': True}" attrs="{'readonly': [('marked_closed', '=', True)]}" widget="many2many_selectable" context="{'search_view_ref' : 'olims.view_add_analysis_filter'}">
+                                    <tree string="Manage Results" edit='false' delete='false'>
+                                        <field name="client"/>
+                                        <field name="order"/>
+                                        <field name="add_analysis_id"/>
+                                        <field name="priority"/>
+                                        <field name="category"/>
+                                        <field name="sample_type"/>
+                                        <field name="received_date"/>
+                                        <field name="due_date"/>
+                                        <button type="object" class="oe_readonly" icon="fa-trash-o" name="show_warring_message_form"></button>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page string="Add Analyses" attrs="{'invisible': ['|',('id', '=', False),('State', '=', 'verified')]}">
+                                <field name="marked_closed" invisible="1"/>
+                                <label for="AddAnalysisRequest" string="Analysis Request"/>
+                                <field name="AddAnalysisRequest" options="{'no_create': True}" attrs="{'readonly': [('marked_closed', '=', True)]}" widget="many2many" context="{'tree_view_ref' : 'olims.olims_add_analysis_tree_view_1'}">
+                                    <tree string="Manage Results" edit='false' delete='false'>
+                                        <field name="client"/>
+                                        <field name="order"/>
+                                        <field name="add_analysis_id"/>
+                                        <field name="priority"/>
+                                        <field name="analysis"/>
+                                        <field name="sample_type"/>
+                                        <field name="received_date"/>
+                                        <field name="due_date"/>
+                                        <button type="object" class="oe_readonly" icon="fa-trash-o" name="show_warring_message_form_for_add_analyes"></button>
+                                    </tree>
+                                </field>
                             </page>
                             <page string="Manage Result" attrs="{'invisible': [('id', '=', False)]}">
                                 <group string="Attachments">
@@ -5805,6 +5834,7 @@
         <record model="ir.ui.view" id="olims_add_analysis_tree_view">
             <field name="name">add_analysis.tree</field>
             <field name="model">olims.add_analysis</field>
+            <field name="priority" eval="1"/>
             <field name="arch" type="xml">
                 <tree string="Manage Results" edit='false' delete='false'>
                     <field name="client"/>
@@ -5812,13 +5842,30 @@
                     <field name="add_analysis_id"/>
                     <field name="priority"/>
                     <field name="category"/>
-                    <field name="analysis"/>
                     <field name="sample_type"/>
                     <field name="received_date"/>
                     <field name="due_date"/>
                     <button type="object" class="oe_readonly" icon="fa-trash-o" name="show_warring_message_form"></button>
                 </tree>
-            </field>  
+            </field>
+        </record>
+        <record model="ir.ui.view" id="olims_add_analysis_tree_view_1">
+            <field name="name">add_analysis.tree</field>
+            <field name="model">olims.add_analysis</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <tree string="Manage Results" edit='false' delete='false'>
+                    <field name="client"/>
+                    <field name="order"/>
+                    <field name="add_analysis_id"/>
+                    <field name="priority"/>
+                    <field name="analysis"/>
+                    <field name="sample_type"/>
+                    <field name="received_date"/>
+                    <field name="due_date"/>
+                    <button type="object" class="oe_readonly" icon="fa-trash-o" name="show_warring_message_form_for_add_analyes"></button>
+                </tree>
+            </field>
         </record>
 
         <record id="view_add_analysis_filter" model="ir.ui.view">
@@ -5846,6 +5893,8 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="search_view_id" ref="view_add_analysis_filter"/>
+            <field name="view_id" ref="olims_add_analysis_tree_view"/>
+            <field name="context">{"search_default_group_cat_id": 1}</field>
         </record>
         <record model="ir.ui.view" id="olims_email_tree_view">
             <field name="name">email.tree</field>
