@@ -2358,7 +2358,8 @@ class ManageAnalyses(models.Model, BaseOLiMSModel):
         record_obj = self.pool.get('olims.manage_analyses')
         record = record_obj.browse(self.env.cr, self.env.uid, self._origin.id)
         record.write({
-            'Result': data
+            'Result': data,
+            'Result_string': data_res
             })
         self.env.cr.commit()
 
