@@ -121,29 +121,25 @@ schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId'),
 )
 
 
-name_counter  = {}
+
 class Worksheet(models.Model, BaseOLiMSModel):
     _name ='olims.worksheet'
     _rec_name = "Worksheet"
 
     def _ComputeWorksheetId(self):
-        counter = 0
+        name_counter  = {}
         for items in self:
-            c_date = datetime.datetime.strptime(items.create_date, \
-            "%Y-%m-%d %H:%M:%S").strftime("%y,%m,%d")
+            counter = 1
+            c_date = datetime.datetime.strptime(items.create_date, "%Y-%m-%d %H:%M:%S").strftime("%y,%m,%d")
             year, month, day = c_date.split(',')
-            if items.Template.Title and items.Template.Title in name_counter.keys() \
-                and name_counter[items.Template.Title][1] == c_date:
-                counter = name_counter.get(items.Template.Title)[0]
-                counter = counter + 1
-                name_counter[items.Template.Title][0] = counter
-            else:
-                name_counter[items.Template.Title] = [1, c_date]
-                counter = 1
             if items.Template:
-                worksheetid =  items.Template.Title + " " + month + day + year + "-" + str(counter)
-            elif not items.Template:
-                worksheetid = month + day + year + "-" + str(counter)
+                temp_name =  items.Template.Title + " " + items.category_name
+            else:
+                temp_name = items.category_name
+            if temp_name in name_counter.keys() and name_counter[temp_name][1] == c_date:
+                counter = name_counter.get(temp_name)[0] + 1
+            worksheetid = temp_name + " " + month + day + year + "-" +str(counter)
+            name_counter[temp_name] = [counter, c_date]
             items.Worksheet = worksheetid
 
     @api.depends("ManageResult")
