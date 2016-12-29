@@ -38,13 +38,4 @@
         parent="olims.menu_report"
         action="action_olims_ar_and_analysis_per_client_menu"/>
 
-    <record id="action_olims_ar_and_analysis_per_client_values1" model="ir.values">
-        <field name="model_id" ref="olims.model_olims_analysis_request" />
-        <field name="name">Analysis Requests and Analyses per Client</field>
-        <field name="key2">client_print_multi</field>
-        <field name="value" eval="'ir.actions.act_window,' +str(ref('action_olims_ar_and_analysis_per_client_menu'))" />
-        <field name="key">action</field>
-        <field name="model">olims.analysis_request</field>
-    </record>
-
 </odoo>
