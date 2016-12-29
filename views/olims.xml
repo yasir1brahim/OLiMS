@@ -2530,7 +2530,7 @@
                                     <field name="AttachmentType" options="{'no_create': True}" nolabel='1'></field>
                                     <label for="AttachmentKeys" string="keywords"/>
                                     <field name="AttachmentKeys" nolabel='1'></field>
-                                    <label for="Analysis" string="Attach to Analysis" attrs="{'invisible': ['|', ('ManageResult', '=', []),('id', '=', False)]}"/>
+                                    <!-- <label for="Analysis" string="Attach to Analysis" attrs="{'invisible': ['|', ('ManageResult', '=', []),('id', '=', False)]}"/> -->
                                     <field name="Analysis" nolabel='1' options="{'no_create': True}" domain="[('id', 'in', ManageResult[0][2])]" attrs="{'invisible': ['|', ('ManageResult', '=', []),('id', '=', False)]}"></field>
                                 </group>
                                 <group col='8'>
@@ -2596,6 +2596,7 @@
                     <field name="Analyst"></field>
                     <field name="Template"></field>
                     <field name="create_date"></field>
+                    <field name="category_name" string="Category"></field>
                     <field name="State"></field>
                 </tree>
             </field>

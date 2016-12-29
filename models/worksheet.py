@@ -38,6 +38,7 @@ schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId'),
                    required=False,
 
             ),
+
     fields.Many2one(string='Analyst',
         comodel_name='res.users',
         domain="[('groups_id', 'in', (14,22))]",
@@ -86,6 +87,7 @@ schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId'),
     fields.Many2many(string="ManageResult",
         comodel_name="olims.ws_manage_results",
                      ondelete='set null'),
+    StringField(string='category_name',compute='_Computecategory_name', store=True),
     FileField('AttachmentFile',
         widget = FileWidget(
             label=_("Attachment"),
@@ -143,6 +145,19 @@ class Worksheet(models.Model, BaseOLiMSModel):
             elif not items.Template:
                 worksheetid = month + day + year + "-" + str(counter)
             items.Worksheet = worksheetid
+
+    @api.depends("ManageResult")
+    def _Computecategory_name(self):
+        for items in self:
+            temp_cate = []
+            temp_string = ''
+            for category in items.ManageResult:
+                if category.category.Category not in temp_cate:
+                    temp_cate.append(category.category.Category)
+                    if str(category.category.Category) !='False':
+                        temp_string = temp_string+', '+ str(category.category.Category)
+            items.category_name = temp_string.lstrip(',')
+
     @api.multi
     def get_category_name_for_report(self):
         cate_name_list = []
@@ -1126,7 +1141,7 @@ class AddAnalysis(models.Model):
 
 class WorkSheetManageResults(models.Model):
     _name = "olims.ws_manage_results"
-    _rec_name = "analysis"
+    _rec_name = "category"
 
     analysis = fields.Many2one(string='Analysis',
         comodel_name="olims.analysis_service", ondelete='set null')
