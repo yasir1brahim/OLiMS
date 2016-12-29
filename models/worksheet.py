@@ -1208,6 +1208,18 @@ class WorkSheetManageResults(models.Model):
             'result': data,
             'result_string':data_res
             })
+        # Updating Result in Analysis Request
+        ar_record_obj = self.pool.get('olims.manage_analyses')
+        ar_field_record_id = ar_record_obj.search(self.env.cr, self.env.uid, [('manage_analysis_id', '=', record.request_analysis_id.id),('Category','=',record.category.id),('Service','=',record.analysis.id)])
+        ar_lab_record_id = ar_record_obj.search(self.env.cr, self.env.uid, [('lab_manage_analysis_id', '=', record.request_analysis_id.id),('Category','=',record.category.id),('LabService','=',record.analysis.id)])
+        if ar_field_record_id:
+            ar_record = ar_record_obj.browse(self.env.cr, self.env.uid, ar_field_record_id[0])
+        elif ar_lab_record_id:
+            ar_record = ar_record_obj.browse(self.env.cr, self.env.uid, ar_lab_record_id[0])
+        ar_record.write({
+            'Result': data,
+            'Result_string': data_res
+            })
         self.env.cr.commit()
 
     @api.multi
