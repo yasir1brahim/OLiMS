@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','web','mail','report','report_webkit'],
+    'depends': ['base','web','mail','report','report_webkit','board'],
 
     # always loaded
     'data': [
@@ -49,6 +49,7 @@
         'views/report_analysis_request.xml',
         'views/report_invoice_detail.xml',
         'views/report_order_detail.xml',
+        'views/dashboard.xml',
         'wizard/olims_report_commom_view.xml',
         'wizard/olims_report_sample_view.xml',
         'wizard/olims_report_analysisper_service.xml',
