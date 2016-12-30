@@ -2206,6 +2206,7 @@
                     <field name="Field_Manage_Result" attrs="{'invisible': [('Field_Manage_Result', '=', [])],'readonly':[('state','=','published')]}" widget="one2many_selectable" >
                         <tree editable="bottom" create='false' delete='false' decoration-info="state in ('sample_received','to_be_verified')" decoration-danger="Result&lt;Min or Result&gt;Max">
                             <field name="id" invisible="1"/>
+                            <field name="Position" string="Position" readonly="1"/>
                             <field name='Category' attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="Service" attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="flag" string="Flag" attrs="{'invisible': [('Result', '=', False)]}"/>
@@ -2227,6 +2228,7 @@
                     <field name="Lab_Manage_Result" attrs="{'invisible': [('Lab_Manage_Result', '=', [])],'readonly':[('state','=','published')]}" widget="one2many_selectable">
                         <tree editable="bottom" create='false' delete='false' decoration-info="state in ('sample_received','to_be_verified')" decoration-danger="Result &lt;Min or Result&gt;Max">
                             <field name="id" invisible="1"/>
+                            <field name="Position" string="Position" readonly="1"/>
                             <field name='Category' attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="LabService" string="Service" attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="flag" string="Flag" attrs="{'invisible': [('Result', '=', False)]}"/>
@@ -2548,15 +2550,15 @@
                                     <tree string="Manage Results" create="false"  delete="false" editable="top" default_order="request_analysis_id">
                                         <field name="position" string="Position" readonly="1"/>
                                         <field name="client" string="Client" readonly="1"/>
-                                        <field name="request_analysis_id" string="Request ID" readonly="1"/>
                                         <field name="sample_type" string="Sample Type" readonly="1"/>
+                                        <field name="request_analysis_id" string="Request ID" readonly="1"/>
                                         <field name="analysis" string="Analysis" readonly="1"/>
-                                        <field name="priority" string="Priority" readonly="1"/>
                                         <field name="result_string" string="Result"/>
-                                        <field name="result" invisible="1"/>
                                         <field name="captured" string="+-"/>
+                                        <field name="priority" string="Priority" readonly="1"/>
                                         <field name="due_date" string="Due Date" readonly="1"/>
                                         <field name="state" string="State" readonly="1"/>
+                                        <field name="result" invisible="1"/>
                                     </tree>
                                 </field>
                             </page>

@@ -7,6 +7,7 @@ from fields.text_field import TextField
 from fields.boolean_field import BooleanField
 from fields.date_time_field import DateTimeField
 from fields.fixed_point_field import FixedPointField
+from fields.integer_field import IntegerField
 from fields.widget.widget import StringWidget, TextAreaWidget, \
                                 BooleanWidget, DateTimeWidget, \
                                 DecimalWidget, RichWidget
@@ -782,6 +783,7 @@ manage_result_schema = (
         comodel_name="res.users",
         domain="[('groups_id', 'in', [14,22])]"),
     StringField('Specifications'),
+    IntegerField('Position'),
     fields.Many2one(string='manage_analysis_id',
         comodel_name='olims.analysis_request',
         # domain="[('state', '=', 'sample_received')]",
@@ -971,8 +973,10 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', values.get('AnalysisProfile3'))])
             for analysis in analysis_profile_obj.Service:
                 profile3_analysis_id_list.append(analysis.Services.id)
+        Position = 0
         if values.get('LabService',None):
             for LabService in values.get('LabService'):
+                Position = Position+1
                 if LabService[2]['LabService'] in profile_analysis_id_list:
                     self.update_lab_service_obj(LabService, data, lab_result_list)
                 if LabService[2]['LabService'] in profile1_analysis_id_list:
@@ -992,7 +996,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                     elif service_instance.InstrumentEntryOfResults:
                         LabService[2].update({'Method': None, 'Instrument': service_instance.Instrument})
                     LabService[2].update({'Specifications': Specification,
-                                  "Due Date": datetime.datetime.now()})
+                                  "Due Date": datetime.datetime.now(),'Position':Position})
                     lab_result_list.append([0, 0, LabService[2]])
                     lab_result_list_p1.append([0, 0, LabService[2]])
                     lab_result_list_p2.append([0, 0, LabService[2]])
@@ -1001,8 +1005,10 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                     data1.append(LabService)
                     data2.append(LabService)
                     data3.append(LabService)
+        Position = 0
         if values.get('FieldService',None):
             for FieldService in values.get('FieldService'):
+                Position = Position+1
                 if FieldService[2]['Service'] in profile_analysis_id_list:
                     self.update_field_service_obj(FieldService, data, field_result_list)
                 if FieldService[2]['Service'] in profile1_analysis_id_list:
@@ -1022,7 +1028,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                     elif service_instance.InstrumentEntryOfResults:
                         FieldService[2].update({'Method': None, 'Instrument': service_instance.Instrument})
                     FieldService[2].update({'Specifications': Specification,
-                                    "Due Date": datetime.datetime.now()})
+                                    "Due Date": datetime.datetime.now(),'Position':Position})
                     field_result_list.append([0, 0, FieldService[2]])
                     data.append(FieldService)
                     field_result_list_p1.append([0, 0, FieldService[2]])
