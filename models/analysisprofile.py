@@ -102,6 +102,9 @@ schema = (StringField('Profile',
    fields.Float(compute='computeTotalPrice',string='TotalPrice'),
    fields.Many2one(string='ClientProfile',
                    comodel_name='olims.client'),
+   fields.Many2many(string="sample",
+        comodel_name="olims.sample_type",
+        ondelete="set null")
 )
 
      

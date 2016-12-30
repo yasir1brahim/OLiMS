@@ -5768,7 +5768,7 @@
                     <p>The list of sample points from which this sample type can be collected. If no sample points are selected, then all sample points are available.</p>
                     <field name="Sample Points" options="{'no_create': True}" widget="many2many_tags"></field>
                     <label for="profile" string="Analysis Profile"/>
-                    <field name="profile" options="{'no_create': True}"/>
+                    <field name="profile" options="{'no_create': True}" widget="many2many_checkboxes"/>
                 </sheet>
                 </form>
             </field>

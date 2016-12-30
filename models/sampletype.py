@@ -63,7 +63,7 @@ schema = (StringField('SampleType',
                             "type can be collected.  If no sample points are " + \
                             "selected, then all sample points are available."
     ),
-    fields.Many2one(string="profile",
+    fields.Many2many(string="profile",
         comodel_name="olims.analysis_profile",
         ondelete="set null")
 

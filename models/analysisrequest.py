@@ -2233,7 +2233,10 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def return_profile_domain(self):
         res = {}
         if self.SampleType:
-            res['domain'] = {'AnalysisProfile':[('id', '=', self.SampleType.profile.id)]}
+            profile_ids = []
+            for profile in self.SampleType.profile:
+                profile_ids.append(profile.id)
+            res['domain'] = {'AnalysisProfile':[('id', 'in', profile_ids)]}
         else:
             res['domain'] = {'AnalysisProfile': []}
         return res
@@ -2242,7 +2245,10 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def return_profile1_domain(self):
         res = {}
         if self.SampleType1:
-            res['domain'] = {'AnalysisProfile1':[('id', '=', self.SampleType1.profile.id)]}
+            profile_ids = []
+            for profile in self.SampleType1.profile:
+                profile_ids.append(profile.id)
+            res['domain'] = {'AnalysisProfile1':[('id', 'in', profile_ids)]}
         else:
             res['domain'] = {'AnalysisProfile1': []}
         return res
@@ -2251,7 +2257,10 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def return_profile2_domain(self):
         res = {}
         if self.SampleType2:
-            res['domain'] = {'AnalysisProfile2':[('id', '=', self.SampleType2.profile.id)]}
+            profile_ids = []
+            for profile in self.SampleType2.profile:
+                profile_ids.append(profile.id)
+            res['domain'] = {'AnalysisProfile2':[('id', 'in', profile_ids)]}
         else:
             res['domain'] = {'AnalysisProfile2': []}
         return res
@@ -2260,7 +2269,10 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def return_profile3_domain(self):
         res = {}
         if self.SampleType3:
-            res['domain'] = {'AnalysisProfile3':[('id', '=', self.SampleType3.profile.id)]}
+            profile_ids = []
+            for profile in self.SampleType3.profile:
+                profile_ids.append(profile.id)
+            res['domain'] = {'AnalysisProfile3':[('id', 'in', profile_ids)]}
         else:
             res['domain'] = {'AnalysisProfile3': []}
         return res
