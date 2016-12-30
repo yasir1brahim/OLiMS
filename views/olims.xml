@@ -118,7 +118,7 @@
             <field name="context">{'group_by': 'message'}</field>
        </record>
 
-        <menuitem id="home_menu" name="Warnings" parent="olims_menu" sequence="12"
+        <menuitem id="home_menu" name="Warnings" parent="olims_menu" sequence="13"
                   action="message_alert_action"/>
 
 		<!-- olims.sampling_deviation form view -->
@@ -248,7 +248,7 @@
        </record>
 
         <menuitem id="invoice_menu" name="Invoices" parent="olims_settings_menu" sequence="2"/>
-        <menuitem id="olims_invoice_menu" name="Invoices" parent="olims_menu" sequence="2"/>
+        <menuitem id="olims_invoice_menu" name="Invoices" parent="olims_menu" sequence="3"/>
 
         <!-- olims.specification form view -->
         <record model="ir.ui.view" id="olims_specification_form_view">
@@ -4744,7 +4744,7 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="olims_client_menu" name="Client" parent="olims_menu" sequence="1"
+        <menuitem id="olims_client_menu" name="Client" parent="olims_menu" sequence="2"
                   action="client_list_action"/>
         <menuitem id="client_menu" name="Client" parent="olims_settings_menu" sequence="1"
                   action="client_list_action"/>
