@@ -6,7 +6,7 @@
             <field name="model">olims.analysis_request</field>
             <field name="arch" type="xml">
                 <graph string="Analysis Request by State">
-                    <!-- <field name="state"/> -->
+                    <field name="state"/>
                     <field name="state" type="col"/>
                 </graph>
             </field>
@@ -23,7 +23,7 @@
             <field name="model">olims.worksheet</field>
             <field name="arch" type="xml">
                 <graph string="Worksheets by State">
-                    <!-- <field name="State"/> -->
+                    <field name="State"/>
                     <field name="State" type="row"/>
                 </graph>
             </field>
