@@ -177,6 +177,16 @@ class Worksheet(models.Model, BaseOLiMSModel):
             values.update({"Add_Control_Refrence": [(6, 0, list_of_services_ids)],
                 'Controls':[(6, 0, list_of_control_ids)]})
         res = super(Worksheet, self).create(values)
+        ws_object = super(Worksheet, self).search([('id', '=',res.id)])
+        for record in ws_object.Add_Control_Refrence:
+            values_dict = {
+                    'name': res.Worksheet + " " + str(record.name),
+                    'analysis': record.Service.Service,
+                    'result': record.Result,
+                    'target': record.Target,
+                    'worksheet_id': res.id,
+                        }
+            self.env["olims.qccontrol"].create(values_dict)
         return res
 
     @api.multi
@@ -1312,5 +1322,14 @@ class WorkSheetAddRefreceAnalysis(models.Model):
     ws_control_reference_id = fields.Many2one('olims.worksheet',ondelete='set null')
     ws_blank_reference_id = fields.Many2one('olims.worksheet',ondelete='set null')
 
+class QCControl(models.Model):
+    _name = "olims.qccontrol"
+
+    name = fields.Char('QCControl')
+    analysis = fields.Char('Analysis')
+    result = fields.Float('Results')
+    target = fields.Float('Target')
+    worksheet_id = fields.Many2one(string="Worksheet",
+        comodel_name="olims.worksheet")
 Worksheet.initialze(schema)
 

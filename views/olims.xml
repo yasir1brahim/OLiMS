@@ -6058,5 +6058,44 @@
               </field>
           </field>
       </record>
+    <!-- For QC Control -->
+    <record model="ir.ui.view" id="olims_qc_control_form_view">
+        <field name="name">qc_control.form</field>
+        <field name="model">olims.qccontrol</field>
+        <field name="arch" type="xml">
+            <form string="QC Control">
+                <sheet>
+                    <label for="name" string="Name"/>
+                    <field name="name"/>
+                    <label for="analysis" string="Analysis"/>
+                    <field name="analysis"/>
+                    <label for="result" string="Result"/>
+                    <field name="result"/>
+                    <label for="target" string="Target"/>
+                    <field name="target"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="olims_qc_control_tree_view">
+        <field name="name">qc_control.tree</field>
+        <field name="model">olims.qccontrol</field>
+        <field name="priority" eval="1"/>
+        <field name="arch" type="xml">
+            <tree string="QC Control">
+                <field name="name"/>
+                <field name="analysis"/>
+                <field name="result"/>
+                <field name="target"/>
+            </tree>
+        </field>
+    </record>
+       <record model="ir.actions.act_window" id="action_qc_control">
+            <field name="name">Qc Control</field>
+            <field name="res_model">olims.qccontrol</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+       </record>
+       <menuitem id="qc_control_menu" name="QC Controls" parent="olims_settings_menu" action="action_qc_control" sequence="45"/>
     </data>
 </openerp>
