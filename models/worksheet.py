@@ -272,7 +272,21 @@ class Worksheet(models.Model, BaseOLiMSModel):
                             record.write({"ManageResult": [(2, rec.id)]})
                         # elif rec.request_analysis_id.id == add_analysis_obj.add_analysis_id.id and rec.category.id == add_analysis_obj.category.id:
                         #     record.write({"ManageResult": [(2, rec.id)]})
-        return super(Worksheet, self).write(values)
+        res = super(Worksheet, self).write(values)
+        qccontrols = self.env["olims.qccontrol"].search([('worksheet_id', '=',self.id)])
+        for qcitem in qccontrols:
+            qcitem.unlink()
+        for record in self.Add_Control_Refrence:
+            values_dict = {
+                    'name': self.Worksheet + " " + str(record.name),
+                    'analysis': record.Service.Service,
+                    'result': record.Result,
+                    'target': record.Target,
+                    'worksheet_id': self.id,
+                        }
+            self.env["olims.qccontrol"].create(values_dict)
+        return res
+
 
     @api.multi
     def unlink(self):
