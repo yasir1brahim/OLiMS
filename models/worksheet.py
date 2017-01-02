@@ -121,14 +121,13 @@ schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId',store="Tr
 )
 
 
-
+name_counter  = {}
 class Worksheet(models.Model, BaseOLiMSModel):
     _name ='olims.worksheet'
     _rec_name = "Worksheet"
 
     @api.depends("Analyst")
     def _ComputeWorksheetId(self):
-        name_counter  = {}
         for items in self:
             counter = 1
             c_date = datetime.datetime.strptime(items.create_date, "%Y-%m-%d %H:%M:%S").strftime("%y,%m,%d")
@@ -143,12 +142,12 @@ class Worksheet(models.Model, BaseOLiMSModel):
             name_counter[temp_name] = [counter, c_date]
             items.Worksheet = worksheetid
 
-    @api.depends("ManageResult")
+    @api.depends("Template")
     def _Computecategory_name(self):
         for items in self:
             temp_cate = []
             temp_string = ''
-            for category in items.ManageResult:
+            for category in items.Template:
                 if category.category.Category not in temp_cate:
                     temp_cate.append(category.category.Category)
                     if str(category.category.Category) !='False':
