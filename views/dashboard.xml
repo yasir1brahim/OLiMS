@@ -5,9 +5,9 @@
             <field name="name">olims.analysis_request.graph</field>
             <field name="model">olims.analysis_request</field>
             <field name="arch" type="xml">
-                <graph string="Analysis Request by State" type="Pie" >
+                <graph string="Analysis Request by State">
                     <field name="state"/>
-                    <field name="RequestID" type="row"/>
+                    <field name="state" type="col"/>
                 </graph>
             </field>
         </record>
@@ -22,9 +22,9 @@
             <field name="name">olims.worksheet.graph</field>
             <field name="model">olims.worksheet</field>
             <field name="arch" type="xml">
-                <graph string="Worksheets by State" type="Pie" >
+                <graph string="Worksheets by State">
                     <field name="State"/>
-                    <field name="Worksheet" type="row"/>
+                    <field name="State" type="row"/>
                 </graph>
             </field>
         </record>
