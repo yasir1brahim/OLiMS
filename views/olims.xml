@@ -2409,6 +2409,8 @@
                             <label for="Description" string="Description"/>
                             <p>Used in item listings and search results.</p>
                             <field name="Description"></field>
+                            <label for="category" string="Analysis Category"/>
+                            <field name="category" options="{'no_create_edit': True}"></field>
                             <label for="Instrument" string="Instrument"/>
                             <p>Select the preferred instrument</p>
                             <field name="Instrument" options="{'no_create': True}"></field>
