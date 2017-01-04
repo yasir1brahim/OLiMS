@@ -2602,6 +2602,7 @@
                     <field name="Template"></field>
                     <field name="create_date"></field>
                     <field name="category_name" string="Category"></field>
+                    <field name="ar_count" string="Number of AR(s)"/>
                     <field name="State"></field>
                 </tree>
             </field>

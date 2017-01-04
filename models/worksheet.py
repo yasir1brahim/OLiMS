@@ -105,6 +105,7 @@ schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId',store="Tr
             label=_("Attachment Keys"),
         ),
     ),
+    fields.Integer(string="ar_count", compute='_ComputeARcount', store=True),
     fields.Many2one(string="Analysis",
         comodel_name="olims.ws_manage_results",
         ondelete='set null'),
@@ -153,6 +154,10 @@ class Worksheet(models.Model, BaseOLiMSModel):
                     if str(category.category.Category) !='False':
                         temp_string = temp_string+', '+ str(category.category.Category)
             items.category_name = temp_string.lstrip(',')
+
+    @api.depends("ManageResult")
+    def _ComputeARcount(self):
+        self.ar_count = len(self.ManageResult)
 
     @api.multi
     def get_category_name_for_report(self):
