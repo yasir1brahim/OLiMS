@@ -157,7 +157,8 @@ class Worksheet(models.Model, BaseOLiMSModel):
 
     @api.depends("ManageResult")
     def _ComputeARcount(self):
-        self.ar_count = len(self.ManageResult)
+        for record in self:
+            self.ar_count = len(record.ManageResult)
 
     @api.multi
     def get_category_name_for_report(self):
