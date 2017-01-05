@@ -52,4 +52,9 @@ schema = (
 class Attachment(models.Model, BaseOLiMSModel):
     _name='olims.attachment'
 
+class res_company(models.Model):
+    _inherit = "res.company"
+    report_logo = fields.Binary("Report Logo", attachment=True,
+            help="This field holds the image used as avatar for reports logo, limited to 1024x1024px",
+            )
 Attachment.initialze(schema)
