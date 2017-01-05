@@ -22,6 +22,7 @@
                 <table class="table table-condensed">
                     <thead>
                         <tr>
+                            <th>Serial No.</th>
                             <th>AR ID</th>
                             <th>Sample Type</th>
                             <th>Client</th>
@@ -29,8 +30,13 @@
                     </thead>
                     <tbody>
                         <t t-set="ar_id" t-value="False"/>
+                        <t t-set="ar_counter" t-value="1"/>
                         <tr t-foreach="doc.ManageResult" t-as="m_result">
                             <t t-if="ar_id != m_result.request_analysis_id.RequestID" >
+                                <td>
+                                    <span t-esc="ar_counter"/>
+                                    <t t-set="ar_counter" t-value="ar_counter+1"/>
+                                </td>
                                 <td>
                                     <span t-esc="m_result.request_analysis_id.RequestID"/>
                                 </td>
