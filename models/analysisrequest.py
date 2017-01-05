@@ -1745,6 +1745,91 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         return True
 
     @api.multi
+    @api.onchange("Specification","Specification1","Specification2","Specification3")
+    def _add_values_in_analyses_specification(self):
+        service_ids_list = []
+        for record in self:
+            if record.state != "sample_registered":
+                record.Field_Manage_Result = None
+                record.Lab_Manage_Result = None
+                record.Analyses = None
+                for services in record.Specification.Specifications:
+                    record.Analyses += record.Analyses.new({'Category':services.Service.category.id,
+                                'Services':services.Service.id,
+                                'Min':services.Service.Min,
+                                'Max':services.Service.Max,
+                                'Partition': record.Partition.id})
+                return {
+                        'warning': {'title': 'Warning!', 'message': "All Analysis will be changed." +
+                        "To proceed click on Save button or Discard the changes."},
+                        }
+            self.LabService = None
+            self.FieldService = None
+            for service in record.Specification.Specifications:
+                if service.Service.PointOfCapture == 'lab':
+                    l_service = {'LabService':service.Service.id,
+                        'Category':service.Service.category.id}
+                    record.LabService += record.LabService.new(l_service)
+                if service.Service.PointOfCapture == 'field':
+                    f_service = {'Service':service.Service.id,
+                        'Category':service.Service.category.id}
+                    record.FieldService += record.FieldService.new(f_service)
+                service_ids_list.append(service.Service.id)
+            for service in record.Specification1.Specifications:
+                if service.Service.PointOfCapture == 'lab':
+                    if service.Service.id in service_ids_list:
+                        continue
+                    else:
+                        l_service = {'LabService':service.Service.id,
+                            'Category':service.Service.category.id}
+                        record.LabService += record.LabService.new(l_service)
+                        service_ids_list.append(service.Service.id)
+                elif service.Service.PointOfCapture == 'field':
+                    if service.Service.id in service_ids_list:
+                        continue
+                    else:
+                        f_service = {'Service':service.Service.id,
+                        'Category':service.Service.category.id}
+                        record.FieldService += record.FieldService.new(f_service)
+                        service_ids_list.append(service.Service.id)
+
+            for service in record.Specification2.Specifications:
+                if service.Service.PointOfCapture == 'lab':
+                    if service.Service.id in service_ids_list:
+                        continue
+                    else:
+                        l_service = {'LabService':service.Service.id,
+                            'Category':service.Service.category.id}
+                        record.LabService += record.LabService.new(l_service)
+                        service_ids_list.append(service.Service.id)
+                elif service.Service.PointOfCapture == 'field':
+                    if service.Service.id in service_ids_list:
+                        continue
+                    else:
+                        f_service = {'Service':service.Service.id,
+                        'Category':service.Service.category.id}
+                        record.FieldService += record.FieldService.new(f_service)
+                        service_ids_list.append(service.Service.id)
+
+            for service in record.Specification3.Specifications:
+                if service.Service.PointOfCapture == 'lab':
+                    if service.Service.id in service_ids_list:
+                        continue
+                    else:
+                        l_service = {'LabService':service.Service.id,
+                            'Category':service.Service.category.id}
+                        record.LabService += record.LabService.new(l_service)
+                        service_ids_list.append(service.Service.id)
+                elif service.Service.PointOfCapture == 'field':
+                    if service.Service.id in service_ids_list:
+                        continue
+                    else:
+                        f_service = {'Service':service.Service.id,
+                        'Category':service.Service.category.id}
+                        record.FieldService += record.FieldService.new(f_service)
+                        service_ids_list.append(service.Service.id)
+
+    @api.multi
     @api.onchange("AnalysisProfile","AnalysisProfile1","AnalysisProfile2","AnalysisProfile3")
     def _add_values_in_analyses(self):
         service_ids_list = []
