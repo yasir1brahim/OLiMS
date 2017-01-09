@@ -1854,6 +1854,12 @@
                                 </div>
                             </group>
                             <group>
+                                <label for="DatePublished" string="Published Date" attrs="{'invisible': [('state', '!=', 'published')]}"/>
+                                <div>
+                                    <field name="DatePublished" nolabel="1" attrs="{'invisible': [('state', '!=', 'published')]}"></field>
+                                </div>
+                            </group>
+                            <group>
                                 <label for="Template" string="Template"/>
                                 <div>
                                     <field name="Copytemplate" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
