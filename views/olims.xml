@@ -2331,8 +2331,8 @@
                     <field name="DefaultContainerType"></field>
                     <field name="AdHoc"></field>
                     <field name="Composite"></field>
-                    <field name="ReportDryMatter"></field>
-                    <field name="InvoiceExclude"></field> -->
+                    <field name="ReportDryMatter"></field>-->
+                    <field name="DatePublished" string="Published Date"></field>
                     <field name="Priority"></field>
                     <field name="Sampler" string="Transporter"></field>
                     <field name="ar_invoice_id" string="Invoice ID"/>
