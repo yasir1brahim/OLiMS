@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>    
+    <record model="ir.ui.view" id="view_search_ar_form">
+            <field name="name">olims_search_wroksheet.form</field>
+            <field name="model">olims.search_wroksheet</field>
+            <field name="arch" type="xml">
+                <form string="Search" create="false" edit="false" write="false">
+                    <sheet>
+                    <group col='8'>
+                        <group col="2">
+                            <field name="selection_type"  nolabel='0'/>
+                        </group>
+                        <group col="2">
+                            <field name="analysis_field"  nolabel='0'/>
+                        </group>
+                        
+                        <group col="2">
+                            <field name="Result_field" nolabel='0'  placeholder=""/>
+                        </group>
+                    </group>
+                    <footer>
+                        <group col="8">
+                            <button name="search_ar_data" string="LAUNCH SEARCH" type="object" class="oe_highlight"/>
+                        </group>
+                    </footer>
+                </sheet>
+                </form>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="search_ar_action">
+            <field name="name">Search Analysis with Result</field>
+            <field name="res_model">olims.search_wroksheet</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+    </record>
+    <menuitem id="search_ar_menu" name="Advanced Search" parent="olims_menu" sequence="13"
+                  action="search_ar_action"/>
+</data></openerp>

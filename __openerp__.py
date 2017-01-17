@@ -77,7 +77,8 @@
         'views/analysis_request_detail_report.xml',
         'views/report_analysis_request_invoice.xml',
         'views/analysis_request_to_be_invoiced_report.xml',
-        'views/ar_invoice_mail_template.xml'
+        'views/ar_invoice_mail_template.xml',
+        'views/search_ar.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
