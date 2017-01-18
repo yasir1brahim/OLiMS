@@ -12,7 +12,7 @@
                             <field name="selection_type"  nolabel='0'/>
                         </group>
                         <group col="2">
-                            <field name="analysis_field"  nolabel='0'/>
+                            <field name="analysis_service_ids"  nolabel='0' widget="many2many_tags" options="{'no_create': True}"/>
                         </group>
                         
                         <group col="2">
