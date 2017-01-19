@@ -2203,7 +2203,8 @@
                             <field name='Category' attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="Service" attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="flag" string="Flag" attrs="{'invisible': [('Result', '=', False)]}"/>
-                            <field name="Result"/>
+                            <field name="Result" invisible="1" />
+                            <field name="Result_string" string="Result" />
                             <field name="Specifications" attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="Instrument" options="{'no_create': True}"/>
                             <field name="Analyst" options="{'no_create': True}"/>
@@ -2223,7 +2224,8 @@
                             <field name='Category' attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="LabService" string="Service" attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="flag" string="Flag" attrs="{'invisible': [('Result', '=', False)]}"/>
-                            <field name="Result"/>
+                            <field name="Result" invisible="1"/>
+                            <field name="Result_string" string="Result" />
                             <field name="Specifications" attrs="{'readonly': [('id', '!=', False)]}"/>
                             <field name="Instrument" options="{'no_create': True}"/>
                             <field name="Analyst" options="{'no_create': True}"/>
@@ -2507,7 +2509,8 @@
                                         <field name="sample_type" string="Sample Type" readonly="1"/>
                                         <field name="analysis" string="Analysis" readonly="1"/>
                                         <field name="priority" string="Priority" readonly="1"/>
-                                        <field name="result" string="Result"/>
+                                        <field name="result_string" string="Result"/>
+                                        <field name="result" invisible="1"/>
                                         <field name="captured" string="+-"/>
                                         <field name="due_date" string="Due Date" readonly="1"/>
                                         <field name="state" string="State" readonly="1"/>

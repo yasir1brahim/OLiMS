@@ -130,20 +130,20 @@ var One2ManySelectable = FieldOne2Many.extend({
 		   			return false;
 			   }
 		   }
-		   var validator_promise = model_obj.query(['id','result','Result'])
+		   var validator_promise = model_obj.query(['id','result_string','Result_string'])
 		   	.filter([['id','in',selected_ids]])
 		   	.all()
 		   	.then(function(results){
 		   		for(var i=0; i<results.length; i++)
 		   		{
 		   			var res;
-		   			if(results[i].hasOwnProperty('result')){
-		   				res = results[i].result;
+					if(results[i].hasOwnProperty('result_string')){
+					res = results[i].result_string;
 		   			}
-		   			else if(results[i].hasOwnProperty('Result')){
-		   				res = results[i].Result;
+					else if(results[i].hasOwnProperty('Result_string')){
+					res = results[i].Result_string;
 		   			}
-		   			res = res.toFixed(2)
+					//res = res.toFixed(2)
 		   			var results_val = (selected_results[i].result).replace(/,/g , "");
 		   			if (res !== results_val){
 		   				self.do_warn(_t("Some selected items are not saved " +
@@ -174,7 +174,7 @@ var One2ManySelectable = FieldOne2Many.extend({
 					    return $(this).data('field').toLowerCase() == 'state';
 					}).text());
 					results.push({id:parseInt($(this).context.dataset.id), result:$(this).find('[data-field]').filter(function() {
-					    return $(this).data('field').toLowerCase() == 'result';
+					    return $(this).data('field').toLowerCase() == 'result_string';
 					}).text()});
 
 	       });
