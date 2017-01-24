@@ -7,16 +7,122 @@
             <field name="arch" type="xml">
                 <form string="Search" create="false" edit="false" write="false">
                     <sheet>
-                    <group col='8'>
+                     <group col='8'>
                         <group col="2">
                             <field name="selection_type"  nolabel='0'/>
                         </group>
                         <group col="2">
-                            <field name="analysis_service_ids"  nolabel='0' widget="many2many_tags" options="{'no_create': True}"/>
+                            <field name="logical_cond" nolabel='0'  placeholder=""/>
                         </group>
-                        
+                    </group>
+                    <group col='8'>
                         <group col="2">
-                            <field name="Result_field" nolabel='0'  placeholder=""/>
+                            <field name="analysis_service_ids10" required="1" nolabel='0' />
+                        </group>
+                        <group col="2">
+                            <field name="condition_type10" nolabel='0'  placeholder=""/>
+                        </group>
+                        <group col="2">
+                            <field name="Result_field10" nolabel='0'  placeholder=""/>
+                        </group>
+                    </group>
+                    <group col='8'>
+                        <group col="2">
+                            <field name="analysis_service_ids1"  nolabel='0' />
+                        </group>
+                        <group col="2">
+                            <field name="condition_type1" nolabel='0'  placeholder=""/>
+                        </group>
+                        <group col="2">
+                            <field name="Result_field1" nolabel='0'  placeholder=""/>
+                        </group>
+                    </group>
+                    <group col='8'>
+                        <group col="2">
+                            <field name="analysis_service_ids2"  nolabel='0' />
+                        </group>
+                        <group col="2">
+                            <field name="condition_type2" nolabel='0'  placeholder=""/>
+                        </group>
+                        <group col="2">
+                            <field name="Result_field2" nolabel='0'  placeholder=""/>
+                        </group>
+                    </group>
+                    <group col='8'>
+                        <group col="2">
+                            <field name="analysis_service_ids3"  nolabel='0' />
+                        </group>
+                        <group col="2">
+                            <field name="condition_type3" nolabel='0'  placeholder=""/>
+                        </group>
+                        <group col="2">
+                            <field name="Result_field3" nolabel='0'  placeholder=""/>
+                        </group>
+                    </group>
+                    <group col='8'>
+                        <group col="2">
+                            <field name="analysis_service_ids4"  nolabel='0' />
+                        </group>
+                        <group col="2">
+                            <field name="condition_type4" nolabel='0'  placeholder=""/>
+                        </group>
+                        <group col="2">
+                            <field name="Result_field4" nolabel='0'  placeholder=""/>
+                        </group>
+                    </group>
+                    <group col='8'>
+                        <group col="2">
+                            <field name="analysis_service_ids5"  nolabel='0' />
+                        </group>
+                        <group col="2">
+                            <field name="condition_type5" nolabel='0'  placeholder=""/>
+                        </group>
+                        <group col="2">
+                            <field name="Result_field5" nolabel='0'  placeholder=""/>
+                        </group>
+                    </group>
+                    <group col='8'>
+                        <group col="2">
+                            <field name="analysis_service_ids6"  nolabel='0' />
+                        </group>
+                        <group col="2">
+                            <field name="condition_type6" nolabel='0'  placeholder=""/>
+                        </group>
+                        <group col="2">
+                            <field name="Result_field6" nolabel='0'  placeholder=""/>
+                        </group>
+                    </group>
+                    <group col='8'>
+                        <group col="2">
+                            <field name="analysis_service_ids7"  nolabel='0' />
+                        </group>
+                        <group col="2">
+                            <field name="condition_type7" nolabel='0'  placeholder=""/>
+                        </group>
+                        <group col="2">
+                            <field name="Result_field7" nolabel='0'  placeholder=""/>
+                        </group>
+                    </group>
+                    <group col='8'>
+                        <group col="2">
+                            <field name="analysis_service_ids8"  nolabel='0' />
+                        </group>
+                        <group col="2">
+                            <field name="condition_type8" nolabel='0'  placeholder=""/>
+                        </group>
+                        <group col="2">
+                            <field name="Result_field8" nolabel='0'  placeholder=""/>
+                        </group>
+                    </group>
+                    <group col='8'>
+                        <group col="2">
+                            <field name="analysis_service_ids9"  nolabel='0' />
+                        </group>
+                        <group col="2">
+                            <field name="condition_type9" nolabel='0'  placeholder=""/>
+                        </group>
+                        <group col="2">
+                            <field name="Result_field9" nolabel='0'  placeholder=""/>
                         </group>
                     </group>
                     <footer>
@@ -37,4 +143,5 @@
     </record>
     <menuitem id="search_ar_menu" name="Advanced Search" parent="olims_menu" sequence="13"
                   action="search_ar_action"/>
-</data></openerp>
+</data>
+</openerp>
