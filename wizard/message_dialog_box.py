@@ -72,3 +72,14 @@ class MessageDialogBox(models.TransientModel):
                 'view_mode': 'form',
                 'target' : 'current',
             }
+
+    @api.multi
+    def clear_analysis_results(self):
+        analysis_request_id = self._context.get('active_ids', [])[0]
+        manage_analyses_obj = self.env["olims.manage_analyses"].search(["|",("manage_analysis_id","=",analysis_request_id),
+                    ("lab_manage_analysis_id","=",analysis_request_id)])
+        for record in manage_analyses_obj:
+            if record.state in ["sample_received", "to_be_verified"]:
+                record.Result = False
+                record.Result_string = False
+        return True

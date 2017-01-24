@@ -90,5 +90,23 @@
                 </form>
             </field>
         </record>
+        <!-- Show Message Dialog Box For Clear Analyses Results from AR Manage Results -->
+        <record id="view_message_dialog_box_clear_results" model="ir.ui.view">
+            <field name="name">Clear Results</field>
+            <field name="model">olims.message_dialog_box</field>
+            <field name="priority" eval="4"/>
+            <field name="arch" type="xml">
+                <form string="Clear Analyses Result">
+                    <p class="o_dialog_warning">
+                        Do you really want to clear results of these records?
+                    </p>
+                    <field name="title" invisible="1"/>
+                    <footer>
+                        <button name="clear_analysis_results" string="Ok" type="object" class="btn-primary"/>
+                        <button string="Cancel" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
     </data>
 </openerp>

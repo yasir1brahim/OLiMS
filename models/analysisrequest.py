@@ -2425,6 +2425,22 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             })
         return super(AnalysisRequest, self).copy(default)
 
+    @api.multi
+    def show_warning_clear_analysis_results(self):
+        self.ensure_one()
+        ir_model_data = self.env['ir.model.data']
+        form_id = ir_model_data.get_object_reference('olims', 'view_message_dialog_box_clear_results')[1]
+        return {
+            'name': _('Confirm'),
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'olims.message_dialog_box',
+            'views': [(form_id, 'form')],
+            'view_id': form_id,
+            'target': 'new',
+        }
+
 class FieldAnalysisService(models.Model, BaseOLiMSModel):
     _name = 'olims.field_analysis_service'
 
