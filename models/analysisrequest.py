@@ -1833,21 +1833,36 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     @api.onchange("AnalysisProfile","AnalysisProfile1","AnalysisProfile2","AnalysisProfile3")
     def _add_values_in_analyses(self):
         service_ids_list = []
+        warning_flag = False
         for record in self:
             if record.state != "sample_registered":
-                record.Field_Manage_Result = None
-                record.Lab_Manage_Result = None
-                record.Analyses = None
-                for services in record.AnalysisProfile.Service:
-                    record.Analyses += record.Analyses.new({'Category':services.Services.category.id,
-                                'Services':services.Services.id,
-                                'Min':services.Services.Min,
-                                'Max':services.Services.Max,
-                                'Partition': record.Partition.id})
-                return {
-                        'warning': {'title': 'Warning!', 'message': "All Analysis will be changed." +
-                        "To proceed click on Save button or Discard the changes."},
-                        }
+                for ser_analyses in record.Field_Manage_Result:
+                    if ser_analyses.state != "sample_received":
+                        warning_flag = True
+                for lab_analyses in record.Lab_Manage_Result:
+                    if lab_analyses.state != "sample_received":
+                        warning_flag = True
+                if warning_flag:
+                    record.AnalysisProfile = self._origin.AnalysisProfile.id
+                    return {
+                            'warning': {'title': 'Warning!', 'message': "You are not allowed to change Profile, some Analysis may be not in Received state."}
+                            }
+                    
+                else:
+                    record.Field_Manage_Result = None
+                    record.Lab_Manage_Result = None
+                    record.Analyses = None
+                    for services in record.AnalysisProfile.Service:
+                        record.Analyses += record.Analyses.new({'Category':services.Services.category.id,
+                                    'Services':services.Services.id,
+                                    'Min':services.Services.Min,
+                                    'Max':services.Services.Max,
+                                    'Partition': record.Partition.id})
+                    return {
+                            'warning': {'title': 'Warning!', 'message': "All Analysis will be changed." +
+                            "To proceed click on Save button or Discard the changes."},
+                            }
+
             self.LabService = None
             self.FieldService = None
             for service in record.AnalysisProfile.Service:
@@ -2467,9 +2482,9 @@ class ManageAnalyses(models.Model, BaseOLiMSModel):
         #Updating Result in Worksheet
         ws_record_obj = self.pool.get('olims.ws_manage_results')
         if record.manage_analysis_id:
-            ws_record_id = ws_record_obj.search(self.env.cr, self.env.uid, [('request_analysis_id', '=', record.manage_analysis_id.id),('category','=',record.Category.id),('analysis','=',record.Service.id)])[0]
+            ws_record_id = ws_record_obj.search(self.env.cr, self.env.uid, [('request_analysis_id', '=', record.manage_analysis_id.id),('category','=',record.Category.id),('analysis','=',record.Service.id)])
         if record.lab_manage_analysis_id:
-            ws_record_id = ws_record_obj.search(self.env.cr, self.env.uid, [('request_analysis_id', '=', record.lab_manage_analysis_id.id),('category','=',record.Category.id),('analysis','=',record.LabService.id)])[0]
+            ws_record_id = ws_record_obj.search(self.env.cr, self.env.uid, [('request_analysis_id', '=', record.lab_manage_analysis_id.id),('category','=',record.Category.id),('analysis','=',record.LabService.id)])
         ws_record = ws_record_obj.browse(self.env.cr, self.env.uid, ws_record_id)
         ws_record.write({
             'result': data,
