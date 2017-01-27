@@ -168,6 +168,15 @@ class Worksheet(models.Model, BaseOLiMSModel):
                 cate_name_list.append(record.category.Category)
         return {"category":cate_name_list}
 
+    def check_duplication(self, records):
+        list_order = []
+        data = []
+        for record in records :
+            if record.request_analysis_id.RequestID not in list_order:
+                data.append(record)
+                list_order.append(record.request_analysis_id.RequestID)
+        return data
+
     @api.model
     def create(self, values):
         temp_id = values.get('Template',None)

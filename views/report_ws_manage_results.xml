@@ -29,10 +29,8 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <t t-set="ar_id" t-value="False"/>
                         <t t-set="ar_counter" t-value="1"/>
-                        <tr t-foreach="doc.ManageResult" t-as="m_result">
-                            <t t-if="ar_id != m_result.request_analysis_id.RequestID" >
+                        <tr t-foreach="doc.check_duplication(doc.ManageResult)" t-as="m_result">
                                 <td>
                                     <span t-esc="ar_counter"/>
                                     <t t-set="ar_counter" t-value="ar_counter+1"/>
@@ -46,8 +44,6 @@
                                 <td>
                                     <span t-esc="m_result.client.Name"/>
                                 </td>
-                            </t>
-                            <t t-set="ar_id" t-value="m_result.request_analysis_id.RequestID"/>
                         </tr>
                     </tbody>
                 </table>
