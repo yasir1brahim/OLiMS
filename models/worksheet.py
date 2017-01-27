@@ -1008,6 +1008,7 @@ class AddAnalysis(models.Model):
 class WorkSheetManageResults(models.Model):
     _name = "olims.ws_manage_results"
     _rec_name = "analysis"
+    _order = "request_analysis_id"
 
     analysis = fields.Many2one(string='Analysis',
         comodel_name="olims.analysis_service", ondelete='set null')
