@@ -175,6 +175,7 @@ class Worksheet(models.Model, BaseOLiMSModel):
             if record.request_analysis_id.RequestID not in list_order:
                 data.append(record)
                 list_order.append(record.request_analysis_id.RequestID)
+        data.sort(key=lambda x: x.request_analysis_id.id, reverse=False)
         return data
 
     @api.model
@@ -1177,7 +1178,6 @@ class AddAnalysis(models.Model):
 class WorkSheetManageResults(models.Model):
     _name = "olims.ws_manage_results"
     _rec_name = "category"
-    _order = "request_analysis_id"
 
     analysis = fields.Many2one(string='Analysis',
         comodel_name="olims.analysis_service", ondelete='set null')
