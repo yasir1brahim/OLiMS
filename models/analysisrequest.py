@@ -1305,8 +1305,23 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 
     @api.multi
     def publish_analysis_request(self):
-        # self.filtered(lambda s: s.state == 'draft').write({'state': 'sent'})
-        return self.env['report'].get_action(self, 'olims.report_certificate_of_analysis')
+        if self.env.context is None:
+            context = {}
+        data = self.read()[0]
+        self_browse = self.browse()
+
+        datas = {
+        'ids': [data.get('id')],
+        'model': 'olims.analysis_request',
+        'form': data
+        }
+        name = self.LotID + '-' + self.Sample_id.name
+        return {
+        'type': 'ir.actions.report.xml',
+        'report_name': 'olims.report_certificate_of_analysis',
+        'datas': datas,
+        'name': name
+        }
 
     def actionToBeSampled(self,cr,uid,ids,context=None):
         self.write(cr, uid, ids, {
@@ -2611,6 +2626,31 @@ class ManageAnalyses(models.Model, BaseOLiMSModel):
                 record.flag = "flag"
             else:
                 record.flag = False
+
+class ParticularReport(models.AbstractModel):
+    _name = 'report.olims.report_certificate_of_analysis'
+    @api.multi
+    def render_html(self, data=None):
+        report_obj = self.env['report']
+        report = report_obj._get_report_from_name('olims.report_certificate_of_analysis')
+        self_browse = self.browse()
+        data = self.env['olims.analysis_request'].search([("id","in",self._ids)])
+        lot_id =''
+        sample_name = ''
+        for item in data:
+            # lotid = item.LotID if item.LotID else ''
+            lot_id = lot_id+'- '+ str(item.LotID) if item.LotID else ''
+            sample_name = sample_name+'- '+ item.Sample_id.name
+
+        report.name = lot_id[1:] +"-"+ sample_name[1:]
+
+        docargs = {
+            'doc_ids': self._ids,
+            'doc_model': report.model,
+            'docs': data,
+        }
+
+        return report_obj.render('olims.report_certificate_of_analysis', docargs)
 
 AnalysisRequest.initialze(schema)
 FieldAnalysisService.initialze(schema_analysis)
