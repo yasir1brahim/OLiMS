@@ -2255,7 +2255,16 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         for email in self.CCEmails:
             emails_send.append(email.name)
         ir_model_data = self.env['ir.model.data']
+        data = self.env['olims.analysis_request'].search([("id","in",self._ids)])
+        lot_id =''
+        sample_name = ''
+        for item in data:
+            lot_id = lot_id+'- '+ str(item.LotID) if item.LotID else ''
+            sample_name = sample_name+'- '+ item.Sample_id.name
+        report_name = lot_id[1:] +"-"+ sample_name[1:]
         try:
+            template_data = self.env["mail.template"].search([('name', '=', 'OLiMS Email Template')])
+            template_data.report_name = report_name
             template_id = ir_model_data.get_object_reference('olims', 'email_template_edi_ar')[1]
         except ValueError:
             template_id = False
@@ -2635,14 +2644,6 @@ class ParticularReport(models.AbstractModel):
         report = report_obj._get_report_from_name('olims.report_certificate_of_analysis')
         self_browse = self.browse()
         data = self.env['olims.analysis_request'].search([("id","in",self._ids)])
-        lot_id =''
-        sample_name = ''
-        for item in data:
-            # lotid = item.LotID if item.LotID else ''
-            lot_id = lot_id+'- '+ str(item.LotID) if item.LotID else ''
-            sample_name = sample_name+'- '+ item.Sample_id.name
-
-        report.name = lot_id[1:] +"-"+ sample_name[1:]
 
         docargs = {
             'doc_ids': self._ids,
