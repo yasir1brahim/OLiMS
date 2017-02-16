@@ -1300,8 +1300,23 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 
     @api.multi
     def publish_analysis_request(self):
-        # self.filtered(lambda s: s.state == 'draft').write({'state': 'sent'})
-        return self.env['report'].get_action(self, 'olims.report_certificate_of_analysis')
+        if self.env.context is None:
+            context = {}
+        data = self.read()[0]
+        self_browse = self.browse()
+
+        datas = {
+        'ids': [data.get('id')],
+        'model': 'olims.analysis_request',
+        'form': data
+        }
+        name = self.LotID + '-' + self.ClientReference
+        return {
+        'type': 'ir.actions.report.xml',
+        'report_name': 'olims.report_certificate_of_analysis',
+        'datas': datas,
+        'name': name
+        }
 
     def actionToBeSampled(self,cr,uid,ids,context=None):
         self.write(cr, uid, ids, {
@@ -2139,7 +2154,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         sample_name = ''
         for item in data:
             lot_id = lot_id+'- '+ str(item.LotID) if item.LotID else ''
-            sample_name = sample_name+'- '+ item.Sample_id.name
+            sample_name = sample_name+'- '+ item.ClientReference
         report_name = lot_id[1:] +"-"+ sample_name[1:]
         try:
             template_data = self.env["mail.template"].search([('name', '=', 'OLiMS Email Template')])
