@@ -1310,7 +1310,16 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         'model': 'olims.analysis_request',
         'form': data
         }
-        name = self.LotID + '-' + self.ClientReference
+        if self.LotID and self.ClientReference:
+            name = self.LotID + '-' + self.ClientReference
+        elif self.LotID:
+            name = self.LotID
+        elif self.ClientReference:
+            name = self.ClientReference
+        else:
+            name = 'COA'
+
+
         return {
         'type': 'ir.actions.report.xml',
         'report_name': 'olims.report_certificate_of_analysis',
@@ -2150,15 +2159,17 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             emails_send.append(email.name)
         ir_model_data = self.env['ir.model.data']
         data = self.env['olims.analysis_request'].search([("id","in",self._ids)])
-        lot_id =''
-        sample_name = ''
-        for item in data:
-            lot_id = lot_id+'- '+ str(item.LotID) if item.LotID else ''
-            sample_name = sample_name+'- '+ item.ClientReference
-        report_name = lot_id[1:] +"-"+ sample_name[1:]
+        if self.LotID and self.ClientReference:
+            name = self.LotID + '-' + self.ClientReference
+        elif self.LotID:
+            name = self.LotID
+        elif self.ClientReference:
+            name = self.ClientReference
+        else:
+            name = 'COA'
         try:
             template_data = self.env["mail.template"].search([('name', '=', 'OLiMS Email Template')])
-            template_data.report_name = report_name
+            template_data.report_name = name
             template_id = ir_model_data.get_object_reference('olims', 'email_template_edi_ar')[1]
         except ValueError:
             template_id = False
