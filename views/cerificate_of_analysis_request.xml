@@ -11,6 +11,7 @@
 			            </div>
 			            <div class="col-xs-2 right" name="company_address">
 			                <div t-field="res_company.partner_id" t-field-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: true}"/>
+			                <div t-field="res_company.partner_id.phone" />
 			            </div>
 			        </div>
 			        <div class="row">
