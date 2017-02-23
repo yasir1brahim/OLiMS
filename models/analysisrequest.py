@@ -2534,8 +2534,12 @@ class ManageAnalyses(models.Model, BaseOLiMSModel):
         ws_record_obj = self.pool.get('olims.ws_manage_results')
         if record.manage_analysis_id:
             ws_record_id = ws_record_obj.search(self.env.cr, self.env.uid, [('request_analysis_id', '=', record.manage_analysis_id.id),('category','=',record.Category.id),('analysis','=',record.Service.id)])
+            if ws_record_id:
+                ws_record_id = ws_record_id[0]
         if record.lab_manage_analysis_id:
             ws_record_id = ws_record_obj.search(self.env.cr, self.env.uid, [('request_analysis_id', '=', record.lab_manage_analysis_id.id),('category','=',record.Category.id),('analysis','=',record.LabService.id)])
+            if ws_record_id:
+                ws_record_id = ws_record_id[0]
         ws_record = ws_record_obj.browse(self.env.cr, self.env.uid, ws_record_id)
         ws_record.write({
             'result': data,
