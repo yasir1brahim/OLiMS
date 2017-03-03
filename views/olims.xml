@@ -2562,6 +2562,7 @@
                                         <field name="sample_type" string="Sample Type" readonly="1"/>
                                         <field name="request_analysis_id" string="Request ID" readonly="1"/>
                                         <field name="analysis" string="Analysis" readonly="1"/>
+                                        <field name="category" string="Category" readonly="1"/>
                                         <field name="result_string" string="Result"/>
                                         <field name="captured" string="+-"/>
                                         <field name="priority" string="Priority" readonly="1"/>
