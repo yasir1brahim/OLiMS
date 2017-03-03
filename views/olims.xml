@@ -2515,6 +2515,7 @@
                                         <field name="sample_type" string="Sample Type" readonly="1"/>
                                         <field name="analysis" string="Analysis" readonly="1"/>
                                         <field name="priority" string="Priority" readonly="1"/>
+                                        <field name="category" string="Category" readonly="1"/>
                                         <field name="result_string" string="Result"/>
                                         <field name="result" invisible="1"/>
                                         <field name="captured" string="+-"/>
