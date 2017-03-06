@@ -149,7 +149,10 @@ class Worksheet(models.Model, BaseOLiMSModel):
                     for items in sorted(values["AnalysisRequest"][0][2]):
                         count += 1
                         values_dict_manage_results = {}
-                        add_analysis_obj = self.env["olims.add_analysis"].browse(items)
+                        add_analysis_obj = self.env["olims.add_analysis"].search([('state', '!=','assigned'),('id', '=',items)])
+                        if not add_analysis_obj:
+                            continue
+                        add_analysis_obj = add_analysis_obj[0]
                         add_analysis_obj.write({'state':'assigned'})
                         cont = False
                         for rec in record.ManageResult:
