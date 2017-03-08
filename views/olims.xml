@@ -2058,6 +2058,21 @@
                         </div>
                     </group>
                     <br/>
+                    <group col="4">
+                        <group>
+                            <label for="is_flagged" string="Flagged" attrs="{'invisible': [('id', '=', False)]}"/>
+                            <div>
+                                <field name="is_flagged" nolabel="1" attrs="{'invisible': [('id', '=', False)]}"></field>
+                            </div>
+                        </group>
+                        <group>
+                            <label for="flagged_comments" string="Comments" attrs="{'invisible': [('id', '=', False)]}"/>
+                            <div>
+                                <field name="flagged_comments" nolabel="1" attrs="{'invisible': [('id', '=', False)]}"></field>
+                            </div>
+                        </group>
+                    </group>
+                        <br/>
                     <group>
                         <label for="is_billed" string="Billed" attrs="{'invisible': [('id', '=', False)]}"/>
                         <div>
@@ -2329,7 +2344,8 @@
                     <field name="Sample"></field>
                     <!-- <field name="Batch"></field>
                     <field name="SubGroup"></field> -->
-                    <field name="billing_status" string="Billed"/>
+                    <!-- <field name="billing_status" string="Billed"/> -->
+                    <field name="flagged_status" string="Flagged"></field>
                     <field name="Client"></field>
                     <!-- <field name="Template"></field> -->
                     <field name="AnalysisProfile" string="Analysis Profile"></field>

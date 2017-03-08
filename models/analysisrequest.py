@@ -728,6 +728,13 @@ schema = (fields.Char(string='RequestID',
     fields.Boolean(string='is_billed',
         default=False),
     fields.Char(string="billing_status",compute='set_billing_status', store=True),
+    fields.Boolean(string='is_flagged',
+        default=False),
+    fields.Char(string="flagged_status",compute='set_flagged_status', store=True),
+    TextField(
+        string='flagged_comments',
+        searchable=True,
+    ),
 )
 schema_analysis = (fields.Many2one(string='Service',
                     comodel_name='olims.analysis_service',
@@ -2322,6 +2329,12 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         for record in self:
             if record.is_billed == True:
                 record.billing_status = "Billed"
+
+    @api.depends("is_flagged")
+    def set_flagged_status(self):
+        for record in self:
+            if record.is_flagged == True:
+                record.flagged_status = "Flagged"
 
     @api.onchange("Analyses")
     def update_ar_prices(self):
