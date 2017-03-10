@@ -37,7 +37,7 @@
 						                </thead>
 						                <tbody>
 						                	<tr>
-						                		<td  style="background: #c1d598; width: 100px;" t-att-rowspan="int(len(doc.Lab_Manage_Result)+len(doc.Field_Manage_Result)+1)">
+						                		<td  style="background: #c1d598; width: 100px; padding:5px;" t-att-rowspan="int(len(doc.Lab_Manage_Result)+len(doc.Field_Manage_Result)+1)">
 						                			<strong>Date Received:</strong><p t-field="doc.DateReceived" t-field-options='{"widget": "date"}'/>
 						                			<strong>Client:</strong><p t-field="doc.Client.Name"/>
 						                			<strong>Sample Type:</strong><p t-field="doc.SampleType.SampleType"/>
@@ -49,19 +49,19 @@
 						                			<t t-if="doc.ClientSampleID"><strong>Sample ID:</strong><p t-field="doc.ClientSampleID"/></t>
 						                			<t t-if="doc.ClientReference"><strong>Product Name:</strong><p t-field="doc.ClientReference"/></t>
 						                		</td>
-						                		<td colspan="4">
+						                		<td colspan="4" style="padding: 5px">
 						                		</td>
 						                	</tr>
-						                	<t t-if="doc.Lab_Manage_Result">
-							                	<tr t-foreach="doc.Lab_Manage_Result" t-as="l_result">
-							                        <td class="text-center">
+						                	<t t-if="doc.Lab_Manage_Result" >
+							                	<tr t-foreach="doc.Lab_Manage_Result" t-as="l_result" style="font-size:10px;">
+							                        <td class="text-center" style="padding: 5px">
 							                        	<span t-field="l_result.LabService.Service"/>
 							                        </td>
-							                        <td class="text-center">
+							                        <td class="text-center" style="padding: 5px">
 							                            <span t-field="l_result.Result_string"/>
 							                            <span t-field="l_result.LabService.Unit"/>
 							                        </td>
-							                        <td class="text-center">
+							                        <td class="text-center" style="padding: 5px">
 							                        	<t t-if="not l_result.LabService.display_text">
 								                            <t t-if="l_result.Min or l_result.Max"><span t-field="l_result.Min"/>&#x20;-&#x20;<span t-field="l_result.Max"/></t>
 								                            <t t-if="l_result.Min == 0 and l_result.Max == 0">=0</t>
@@ -70,7 +70,7 @@
 								                            <span t-field="l_result.LabService.specification_text"/>
 								                        </t>
 							                        </td>
-							                        <td class="text-center">
+							                        <td class="text-center" style="padding: 5px">
 							                        	<t t-if="not l_result.LabService.status_on_off">
 								                            <t t-if="l_result.Result &lt; l_result.Min or  l_result.Result &gt; l_result.Max"><span>fail</span></t>
 								                            <t t-if="l_result.Result &gt;= l_result.Min and l_result.Result &lt;= l_result.Max"><span>pass</span></t>
@@ -80,14 +80,14 @@
 							                </t>
 						                    <t t-if="doc.Field_Manage_Result">
 							                	<tr t-foreach="doc.Field_Manage_Result" t-as="f_result">
-							                        <td class="text-center">
+							                        <td class="text-center" style="padding: 5px">
 							                        	<span t-field="f_result.Service.Service"/>
 							                        </td>
-							                        <td class="text-center">
+							                        <td class="text-center" style="padding: 5px">
 							                            <span t-field="f_result.Result"/>
 							                            <span t-field="f_result.Service.Unit"/>
 							                        </td>
-							                        <td class="text-center">
+							                        <td class="text-center" style="padding: 5px">
 							                        	<t t-if="not f_result.Service.display_text">
 								                            <t t-if="f_result.Min or f_result.Max"><span t-field="f_result.Min"/>&#x20;-&#x20;<span t-field="f_result.Max"/></t>
 								                            <t t-if="f_result.Min == 0 and f_result.Max == 0">=0</t>
@@ -96,7 +96,7 @@
 								                        	<span t-field="f_result.Service.specification_text"/>
 								                        </t>
 							                        </td>
-							                        <td class="text-center">
+							                        <td class="text-center" style="padding: 5px">
 							                        	<t t-if="not f_result.Service.status_on_off">
 								                            <t t-if="f_result.Result &lt; f_result.Min or  f_result.Result &gt; f_result.Max"><span>fail</span></t>
 								                            <t t-if="f_result.Result &gt;= f_result.Min and f_result.Result &lt;= f_result.Max"><span>pass</span></t>
