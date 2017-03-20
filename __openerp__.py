@@ -30,6 +30,7 @@
         'views/partner.xml',
         'views/session_workflow.xml',
         'security/ir.model.access.csv',
+        'security/olims_security.xml',
         'workflows/sample_workflow.xml',
         'data/workflow.csv',
         'data/workflow.activity.csv',
