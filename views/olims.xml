@@ -4692,8 +4692,8 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="olims_client_menu" name="Client" parent="olims_menu" sequence="1"
-                  action="client_list_action"/>
+        <menuitem id="olims_client_menu" name="Client" parent="olims_menu" sequence="2"
+                  action="client_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst"/>
         <menuitem id="client_menu" name="Client" parent="olims_settings_menu" sequence="1"
                   action="client_list_action"/>
 
@@ -4960,8 +4960,8 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="olims_method_menu" name="Methods" parent="olims_menu" sequence="8"
-                  action="method_list_action"/>
+        <menuitem id="olims_method_menu" name="Methods" parent="olims_other" sequence="8"
+                  action="method_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst"/>
         <menuitem id="method_menu" name="Methods" parent="olims_settings_menu" sequence="8"
                   action="method_list_action"/>
                   
