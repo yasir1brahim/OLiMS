@@ -154,7 +154,7 @@
 
 
     
-    <menuitem name="LabPal" id="olims.menu_root" parent="olims.olims_menu" sequence="13"/>
+    <menuitem name="LabPal" id="olims.menu_root" parent="olims.olims_menu" sequence="13" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst"/>
     
     <!-- menu categories -->
     <menuitem id="experiment_menu" name="Experiments" parent="olims.menu_root" sequence="1"

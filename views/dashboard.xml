@@ -69,6 +69,7 @@
             name="Dashboard" parent="olims_menu"
             action="open_board_session"
             sequence="1"
-            id="olims_dashboard_menu" icon="terp-graph"/>
+            id="olims_dashboard_menu" icon="terp-graph"
+            groups="base.group_system,olims.group_lab_managers"/>
     </data>
 </openerp>

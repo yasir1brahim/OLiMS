@@ -7,7 +7,7 @@
         <!-- A first level in the left side menu is needed
              before using action= attribute -->
         <menuitem id="olims_menu" name="OLiMS" parent="main_olims_menu"/>
-        <menuitem id="olims_other" name="Others" parent="main_olims_menu"/>
+        <menuitem id="olims_other" name="Others" parent="main_olims_menu" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst"/>
         <!-- the following menuitem should appear *after*
              its parent olims_menu and *after* its
              action course_list_action -->
@@ -4772,7 +4772,7 @@
        </record>
 
         <menuitem id="olims_client_menu" name="Client" parent="olims_menu" sequence="2"
-                  action="client_list_action"/>
+                  action="client_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst"/>
         <menuitem id="client_menu" name="Client" parent="olims_settings_menu" sequence="1"
                   action="client_list_action"/>
 
@@ -5040,7 +5040,7 @@
        </record>
 
         <menuitem id="olims_method_menu" name="Methods" parent="olims_other" sequence="8"
-                  action="method_list_action"/>
+                  action="method_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst"/>
         <menuitem id="method_menu" name="Methods" parent="olims_settings_menu" sequence="8"
                   action="method_list_action"/>
                   
