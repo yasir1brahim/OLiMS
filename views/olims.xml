@@ -245,8 +245,8 @@
 			<field name="context">{'group_by': 'title'}</field>
        </record>
 
-        <menuitem id="invoice_menu" name="Invoices" parent="olims_settings_menu" sequence="2"/>
-        <menuitem id="olims_invoice_menu" name="Invoices" parent="olims_menu" sequence="2"/>
+        <menuitem id="invoice_menu" name="Invoices" parent="olims_settings_menu" sequence="4"/>
+        <menuitem id="olims_invoice_menu" name="Invoices" parent="olims_menu" sequence="4"/>
 
         <!-- olims.specification form view -->
         <record model="ir.ui.view" id="olims_specification_form_view">
@@ -2397,9 +2397,9 @@
             <field name="context">{"client_context":active_id, "readonly_by_pass": ['Subtotal', 'VAT','Total', 'Discount', 'Subtotal1', 'VAT1','Total1', 'Discount1', 'Subtotal2', 'VAT2','Total2', 'Discount2', 'Subtotal3', 'VAT3','Total3', 'Discount3']}</field>
        </record>
 
-        <menuitem id="olims_analysis_request_menu" name="Analysis Request" parent="olims_menu" sequence="4"
-                  action="analysis_request_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst"/>
-        <menuitem id="analysis_request_menu" name="Analysis Request" parent="olims_settings_menu" sequence="4"
+        <menuitem id="olims_analysis_request_menu" name="Analysis Request" parent="olims_menu" sequence="2"
+                  action="analysis_request_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst,olims.group_clients"/>
+        <menuitem id="analysis_request_menu" name="Analysis Request" parent="olims_settings_menu" sequence="2"
                   action="analysis_request_list_action"/>
 
         <!--worksheet_template form view -->
