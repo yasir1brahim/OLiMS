@@ -4960,7 +4960,7 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="olims_method_menu" name="Methods" parent="olims_other" sequence="8"
+        <menuitem id="olims_method_menu" name="Methods" parent="olims_menu" sequence="8"
                   action="method_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst"/>
         <menuitem id="method_menu" name="Methods" parent="olims_settings_menu" sequence="8"
                   action="method_list_action"/>
