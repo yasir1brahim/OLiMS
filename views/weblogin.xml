@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+    <data>
+    	 <template id="olims.login" inherit_id="web.login">
+    	 	<xpath expr="//div[@class='form-group field-login']/label" position="replace">
+    	 		<label for="login" class="control-label">Username</label>
+    	 	</xpath>
+    	 </template>
+    </data>
+</openerp>

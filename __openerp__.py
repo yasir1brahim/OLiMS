@@ -80,6 +80,7 @@
         'views/analysis_request_to_be_invoiced_report.xml',
         'views/ar_invoice_mail_template.xml',
         'views/search_ar.xml',
+        'views/weblogin.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
