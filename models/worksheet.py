@@ -179,6 +179,8 @@ class Worksheet(models.Model, BaseOLiMSModel):
                                     "category": cate_analysis.Category.id})
                                 rec_id = self.env["olims.ws_manage_results"].create(values_dict_manage_results)
                                 data_list.append([4,rec_id.id])
+                                ar_object = self.env["olims.analysis_request"].search([('id', '=', add_analysis_obj.add_analysis_id.id)])
+                                ar_object.write({'worksheet': self.id})
                     values.update({"ManageResult": data_list})
                 elif values["AnalysisRequest"][0][0] == 3:
                     add_analysis_obj = self.env["olims.add_analysis"].browse(values["AnalysisRequest"][0][1])

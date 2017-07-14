@@ -2073,6 +2073,13 @@
                         </div>
                     </group>
                     <br/>
+                    <group>
+                        <label for="Worksheet" string="Worksheet" attrs="{'invisible': [('id', '=', False)]}"/>
+                        <div>
+                            <field name="worksheet" nolabel="1" attrs="{'invisible': [('id', '=', False)]}"></field>
+                        </div>
+                    </group>
+                    <br/>
                     <group attrs="{'invisible': [('id', '=', False)]}" >
                         <label for="adjustment_option" string="Adjustment Type" attrs="{'invisible': [('id', '=', False)]}" />
                         <field name="adjustment_option" nolabel="1" widget="radio"  attrs="{'invisible': [('id', '=', False)]}" />
