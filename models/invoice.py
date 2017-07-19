@@ -127,7 +127,7 @@ class ARInvoice(models.Model):
     start_date = fields.Datetime(string="Start Date")
     end_date = fields.Datetime(string="Start Date")
     sub_total = fields.Float(string="Sub Total", compute='_get_subtotal', store=True)
-    total = fields.Float(string="Total Amount", compute='_get_total', store=True)
+    total = fields.Float(string="Total Amount", compute='_get_total', store=False)
     state = fields.Selection(selection=(
         ('open', 'Open'),
         ('closed','Closed'),
@@ -139,7 +139,7 @@ class ARInvoice(models.Model):
     adjust_percent_text = fields.Char(string='Adjustment', default="Adjustment percentage")
     adjust_amount_text = fields.Char(string='Adjustment Amount', default="Adjustment, dollars")
     adjust_amount = fields.Float(string='Adjustment(Amount)')
-    adjusted_total = fields.Float(string="Adjusted Total", compute="update_total_adjusted", store=True)
+    adjusted_total = fields.Float(string="Adjusted Total", compute="update_total_adjusted", store=False)
 
     @api.multi
     def unlink(self):
@@ -165,7 +165,7 @@ class ARInvoice(models.Model):
         for record in self:
             record.receipt_number = "1000"+str(record.id)
 
-    @api.depends("analysis_request_id")
+    @api.depends("analysis_request_id.Total")
     def _get_total(self):
         for record in self:
             for ar_record in record.analysis_request_id:
@@ -293,7 +293,7 @@ class ARInvoice(models.Model):
             'target': 'new',
             'context': ctx,
         }
-    @api.depends("adjust_percent","adjust_amount")
+    @api.depends("adjust_percent","adjust_amount","total")
     def update_total_adjusted(self):
         for record in self:
             if record.adjust_percent and record.adjust_amount:

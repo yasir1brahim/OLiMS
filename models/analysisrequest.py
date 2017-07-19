@@ -746,6 +746,9 @@ schema = (fields.Char(string='RequestID',
     fields.Boolean(
         string='pre_enter',
         default=False,
+        ),
+    fields.Many2one(string='worksheet',
+        comodel_name='olims.worksheet'
     ),
 )
 schema_analysis = (fields.Many2one(string='Service',
@@ -824,7 +827,7 @@ manage_result_schema = (
                      readonly=True,
                      copy=False, track_visibility='always'
     ),
-    fields.Char(string="flag", compute="insert_flag")
+    fields.Char(string="flag", compute="insert_flag"),
     )
 
 class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
