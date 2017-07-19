@@ -30,6 +30,7 @@
         'views/partner.xml',
         'views/session_workflow.xml',
         'security/ir.model.access.csv',
+        'security/olims_security.xml',
         'workflows/sample_workflow.xml',
         'data/workflow.csv',
         'data/workflow.activity.csv',
@@ -80,6 +81,7 @@
         'views/ar_invoice_mail_template.xml',
         'views/search_ar.xml',
         'views/analysis_request_pre.xml',
+        'views/weblogin.xml'
     ],
     # only loaded in demonstration mode
     'demo': [
