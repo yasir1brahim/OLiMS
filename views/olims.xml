@@ -65,6 +65,8 @@
             <field name="name">analysis_request.tree</field>
             <field name="model">olims.analysis_request</field>
             <field name="priority" eval="1"/>
+            <field name="domain">[('state','=','Pre-enter')]</field>
+            <field name="context">{}</field>            
             <field name="arch" type="xml">
                 <tree string="Analysis Request" create="false" delete="false">
                     <field name="RequestID" string="Request ID"></field>
@@ -1838,6 +1840,13 @@
                                 </div>
                             </group>
                             <group>
+                                <label for="pre_enter" string="Pre-enter AR" attrs="{'invisible': [('id', '!=', False)]}" />
+                                <div>
+                                    <field name="pre_enter" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
+                                </div>
+                            </group>
+
+                            <group>
                                 <label for="SamplingDate" string="Sampling Date"/>
                                 <div>
                                     <field name="Copysmaplingdate" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
@@ -2387,6 +2396,7 @@
             <field name="view_id" ref="olims_analysis_request_tree_view"/>
             <field name="search_view_id" ref="view_analysis_request_filter"/>
             <field name="context">{"readonly_by_pass": ['Subtotal', 'VAT','Total', 'Discount', 'Subtotal1', 'VAT1','Total1', 'Discount1', 'Subtotal2', 'VAT2','Total2', 'Discount2', 'Subtotal3', 'VAT3','Total3', 'Discount3']}</field>
+            <field name="domain">[('state','!=','pre_enter')]</field>
        </record>
        <record model="ir.actions.act_window" id="analysis_request_form_action">
             <field name="name">Analysis Request</field>

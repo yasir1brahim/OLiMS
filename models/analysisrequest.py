@@ -16,6 +16,7 @@ from openerp.tools.translate import _
 AR_STATES = (
     ('sample_registered','Sample Registered'),
     ('not_requested','Not Requested'),
+    ('pre_enter','Pre-enter'),
     ('to_be_sampled','To Be Labeled'),
     ('sampled','Sampled'),
     ('to_be_preserved','To Be Preserved'),
@@ -742,6 +743,10 @@ schema = (fields.Char(string='RequestID',
         string='flagged_comments',
         searchable=True,
     ),
+    fields.Boolean(
+        string='pre_enter',
+        default=False,
+    ),
 )
 schema_analysis = (fields.Many2one(string='Service',
                     comodel_name='olims.analysis_service',
@@ -873,6 +878,8 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         for ar_values in list_of_dicts:
             if ar_values.get("Contact") and ar_values.get('SamplingDate') and ar_values.get('SampleType'):
                 res = super(AnalysisRequest, self).create(ar_values)
+                if values.get('pre_enter',None):
+                    res.write({'state':'pre_enter'})
                 new_sample = self.create_sample(ar_values, res)
 
                 analysis_object = super(AnalysisRequest, self).search([('id', '=',res.id)])
@@ -1242,6 +1249,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'VAT': values.get('VAT3',None),
             'Total': values.get('Total3',None),
         }
+
         return analysis_request_0_dict, analysis_request_1_dict, analysis_request_2_dict, analysis_request_3_dict
 
     @api.multi
@@ -1737,6 +1745,12 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         }, context=context)
         return True
 
+    def workflow_script_to_be_sampled(self,cr,uid,ids,context=None):
+        self.write(cr, uid, ids, {
+            'state': 'to_be_sampled', 'DateDue':datetime.datetime.now()
+        }, context=context)
+        return True
+
     def workflow_script_sample_due(self,cr,uid,ids,context=None):
         self.write(cr, uid, ids, {
             'state': 'sample_due', 'DateDue':datetime.datetime.now()
@@ -1860,12 +1874,14 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 
                         
 
-    def bulk_change_states(self,state,cr,uid,ids,context=None):
+    def bulk_change_states_pre(self, state, cr, uid, ids, context=None):
         previous_state = ""
         if state == "sample_due":
             previous_state = "to_be_sampled"
         elif state == "sample_received":
             previous_state = "sample_due"
+        elif state == "to_be_sampled":
+            previous_state = "pre_enter"
         requests = self.browse(cr,uid,ids)
         sample_ids = []
         for request in requests:
@@ -1873,8 +1889,30 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 ids.remove(request.id)
             else:
                 sample_ids.append(request.Sample_id.id)
+                
         self.browse(cr,uid,ids).signal_workflow(state)
-        self.pool.get("olims.sample").browse(cr,uid,sample_ids).write({"state":state})
+        res = self.pool.get("olims.sample").browse(cr,uid,sample_ids).write({"state":state})
+        res = self.browse(cr,uid,request.id).write({"state":state})
+        return True
+
+    def bulk_change_states(self, state, cr, uid, ids, context=None):
+        previous_state = ""
+        if state == "sample_due":
+            previous_state = "to_be_sampled"
+        elif state == "sample_received":
+            previous_state = "sample_due"
+        elif state == "to_be_sampled":
+            previous_state = "pre_enter"
+        requests = self.browse(cr,uid,ids)
+        sample_ids = []
+        for request in requests:
+            if request.state != previous_state:
+                ids.remove(request.id)
+            else:
+                sample_ids.append(request.Sample_id.id)
+                
+        self.browse(cr,uid,ids).signal_workflow(state)
+        res = self.pool.get("olims.sample").browse(cr,uid,sample_ids).write({"state":state})
         return True
 
     def bulk_verify_request(self,cr,uid,ids,context=None):

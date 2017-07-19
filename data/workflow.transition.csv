@@ -108,3 +108,5 @@ olims.t106,olims.olims_ar_invoice_workflow,close,olims_ar_inv_open,olims_ar_inv_
 olims.t107,olims.olims_ar_invoice_workflow,publish,olims_ar_inv_close,olims_ar_inv_publish,True,olims.group_lab_managers,,
 olims.t108,olims.olims_ar_invoice_workflow,cancel,olims_ar_inv_close,olims_ar_inv_cancelled,True,olims.group_lab_managers,,
 olims.t109,olims.olims_ar_invoice_workflow,cancel,olims_ar_inv_publish,olims_ar_inv_cancelled,True,olims.group_lab_managers,,
+olims.t110,olims.olims_analysis_request_workflow,sampling workflow,olims_pre_enter,olims_to_be_sampled,True,olims.group_lab_managers,,
+olims.t111,olims.olims_analysis_request_workflow,sampling workflow,olims_pre_enter,olims_to_be_sampled,True,olims.group_lab_clerks,,

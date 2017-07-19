@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>        
+        <record model="ir.ui.view" id="olims_analysis_request_tree_view_pre">
+            <field name="name">analysis_request.tree</field>
+            <field name="model">olims.analysis_request</field>
+            <field name="priority" eval="2"/>
+            <field name="arch" type="xml">
+                <tree string="Analysis Request" create="false" delete="false">
+                    <!-- <field name="RequestID" string="Request ID"></field> -->
+                    <field name="Sample"></field>
+                    <field name="flagged_status" string="Flagged"></field>
+                    <field name="Client"></field>
+                    <field name="AnalysisProfile" string="Analysis Profile"></field>
+                    <field name="SamplingDate" string="Sampling Date"></field>
+                    <field name="SampleType" string="Sample Type"></field>
+                    <field name="LotID" string="Lot ID"></field>
+                    <field name="ClientReference" string="Product Name"></field>
+                    <field name="ClientSampleID" string="Client Sample ID"></field>
+                    <field name="DatePublished" string="Published Date"></field>
+                    <field name="Priority"></field>
+                    <field name="Sampler" string="Transporter"></field>
+                    <field name="ar_invoice_id" string="Invoice ID"/>
+                    <field name="state" string="State" ></field>
+                </tree>
+            </field>
+        </record>
+
+        <record model="ir.actions.act_window" id="analysis_request_list_action_pre">
+            <field name="name">Analysis Request</field>
+            <field name="res_model">olims.analysis_request</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="olims_analysis_request_tree_view_pre"/>
+            <field name="search_view_id" ref="view_analysis_request_filter"/>
+            <field name="context">{"readonly_by_pass": ['Subtotal', 'VAT','Total', 'Discount', 'Subtotal1', 'VAT1','Total1', 'Discount1', 'Subtotal2', 'VAT2','Total2', 'Discount2', 'Subtotal3', 'VAT3','Total3', 'Discount3']}</field>
+            <field name="domain">[('state','=','pre_enter')]</field>
+
+       </record>
+
+
+        <record id="ar_change_state_bulk_assign_id" model="ir.actions.server">
+            <field name="name">Assign AR Number</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_olims_analysis_request"/>
+            <field name="state">code</field>
+            <field name="code">self.bulk_change_states_pre("to_be_sampled",cr, uid, context.get('active_ids'), context=context)</field>
+            <field name="sequence" eval="5"/>
+        </record>
+        <record id="ar_id_of_the_action_value_assing_ar" model="ir.values">
+            <field name="name">Assign AR Number</field>
+            <field name="action_id" ref="ar_change_state_bulk_assign_id"/>
+            <field name="value" eval="'ir.actions.server,' + str(ref('ar_change_state_bulk_assign_id'))"/>
+            <field name="key">action</field>
+            <field name="model_id" ref="model_olims_analysis_request"/>
+            <field name="model">olims.analysis_request</field>
+            <field name="key2">client_action_multi</field>
+        </record>
+
+        <menuitem id="olims_analysis_request_menu_pre" name="Pre Analysis Request" parent="olims_menu" sequence="4"
+                  action="analysis_request_list_action_pre" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst"/>
+        
+        <menuitem id="analysis_request_menu_pre" name="Pre Analysis Request" parent="olims_settings_menu" sequence="4"
+                  action="analysis_request_list_action_pre"/>
+    </data>
+</openerp>

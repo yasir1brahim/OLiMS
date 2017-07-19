@@ -10,14 +10,23 @@
     <!--
         workflow activity
     -->
-    <record model="workflow.activity" id="act_sample_registered"> <!-- Registered -->
+    <record model="workflow.activity" id="act_pre_enter"> <!-- pre enter -->
         <field name="wkf_id" ref="wkf_sample" />
-        <field name="name">sample_registered</field>
+        <field name="name">Pre Enter</field>
         <field name="flow_start" eval="True"/>
         <field name="kind">function</field>
         <field name="action">write({'state':'to_be_sampled'})</field>
         <field name="split_mode">OR</field>
     </record>
+    <record model="workflow.activity" id="act_sample_registered"> <!-- Registered -->
+        <field name="wkf_id" ref="wkf_sample" />
+        <field name="name">sample_registered</field>
+        <field name="flow_start" eval="True"/>
+        <field name="kind">function</field>
+        <field name="action">workflow_script_to_be_sampled()</field>
+        <field name="split_mode">OR</field>
+    </record>
+
     <record model="workflow.activity" id="act_to_be_sampled">
         <field name="wkf_id" ref="wkf_sample" />
         <field name="name">to_be_sampled</field>
@@ -39,6 +48,13 @@
         <field name="kind">function</field>
         <field name="action">workflow_script_sample()</field>
     </record>
+    <record model="workflow.activity" id="act_sampled">
+        <field name="wkf_id" ref="wkf_sample" />
+        <field name="name">sampled</field>
+        <field name="kind">function</field>
+        <field name="action">workflow_script_sample()</field>
+    </record>
+
     <record model="workflow.activity" id="act_to_be_preserved">
         <field name="wkf_id" ref="wkf_sample" />
         <field name="name">to_be_preserved</field>
@@ -76,6 +92,14 @@
         <field name="signal">to_be_sampled</field>
         <field name="condition">True</field>
     </record>
+
+    <record model="workflow.transition" id="trns_pre_enter2to_besampled">
+        <field name="act_from" ref="act_pre_enter" />
+        <field name="act_to" ref="act_to_be_sampled" />
+        <field name="signal">to_be_sampled</field>
+        <field name="condition">True</field>
+    </record>
+
     <!-- To Be Implemeted -->
     <!-- <record model="workflow.transition" id="trns_samplerd_2to_be_preserved">
         <field name="act_from" ref="act_sampled" />

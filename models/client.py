@@ -191,7 +191,8 @@ schema = (
      ),
     fields.One2many('olims.analysis_request',
                                  'Client',
-                                 string='Analysis_Request'
+                                 string='Analysis_Request',
+                                 domain=[('state','!=','pre_enter')]
     ),
     fields.One2many('olims.contact',
                                  'Client_Contact',

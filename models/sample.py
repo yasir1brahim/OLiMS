@@ -15,6 +15,7 @@ import datetime
 SAMPLE_STATES = (
                 ('sample_registered', 'Registered'),
                 ('to_be_sampled', 'To Be Labeled'),
+                ('pre_enter', 'Pre Enter'),
                 ('sample_due', 'Sample Due'),
                 ('sample_received', 'Sample Received'),
                 ('sampled', 'Sampled'),
@@ -382,6 +383,15 @@ class Sample(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
         # for ar in self.getAnalysisRequests():
         #     doActionFor(ar, "to_be_preserved")
         #     ar.reindexObject()
+
+
+    def workflow_script_to_be_sampled(self,cr,uid,ids,context=None):
+        for items in self.browse(cr,uid,ids,context):
+            analysis = self.pool.get('olims.analysis_request').browse(cr,uid,items.Analysis_Request.id,context)
+        self.write(cr, uid, ids, {
+            'state': analysis.state, 'DateDue':datetime.datetime.now()
+        }, context=context)
+        return True
 
     def workflow_script_sample_due(self,cr,uid,ids,context=None):
         self.write(cr, uid, ids, {

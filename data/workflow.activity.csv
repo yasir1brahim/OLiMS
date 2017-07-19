@@ -51,3 +51,4 @@ olims_ar_inv_open,olims.olims_ar_invoice_workflow,open,Dummy,True,False,,,Xor,,,
 olims_ar_inv_close,olims.olims_ar_invoice_workflow,closed,Function,False,False,,,Xor,workflow_script_closed(),,Xor
 olims_ar_inv_publish,olims.olims_ar_invoice_workflow,published,Function,False,False,,,Xor,workflow_script_publish(),,Xor
 olims_ar_inv_cancelled,olims.olims_ar_invoice_workflow,cancelled,Function,False,True,,,Xor,workflow_script_cancelled(),,Xor
+olims_pre_enter,olims.olims_analysis_request_workflow,pre_enter,Function,True,False,,,Xor,workflow_script_to_be_sampled(),,Xor

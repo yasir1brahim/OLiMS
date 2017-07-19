@@ -137,6 +137,15 @@ class SamplePartition(models.Model, BaseOLiMSModel):
                 for ar in sample.getAnalysisRequests():
                     doActionFor(ar, "sample")
 
+    def workflow_script_to_be_sampled(self,cr,uid,ids,context=None):
+            for items in self.browse(cr,uid,ids,context):
+                analysis = self.pool.get('olims.analysis_request').browse(cr,uid,items.Analysis_Request.id,context)
+            self.write(cr, uid, ids, {
+                'state': analysis.state, 'DateDue':datetime.datetime.now()
+            }, context=context)
+            return True
+
+
     def workflow_script_to_be_preserved(self):
         if skip(self, "to_be_preserved"):
             return
