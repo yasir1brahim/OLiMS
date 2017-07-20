@@ -1840,7 +1840,7 @@
                                 </div>
                             </group>
                             <group>
-                                <label for="pre_enter" string="Pre-enter AR" attrs="{'invisible': [('id', '!=', False)]}" />
+                                <label for="pre_enter" string="Directly Enter AR" attrs="{'invisible': [('id', '!=', False)]}" />
                                 <div>
                                     <field name="pre_enter" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
                                 </div>
@@ -4684,7 +4684,8 @@
                     <!--<field name="TaxNumber"></field>-->
                     <!-- <field name="email" string="Email Address"></field> -->
                     <field name="Phone"></field>
-                    <field name="Fax"></field>
+                    <field name="ClientID" string="Client ID"></field>
+                    <!-- <field name="Fax"></field> -->
                     <!--<field name="AccountType"></field>
                     <field name="AccountName"></field>
                     <field name="AccountNumber"></field>

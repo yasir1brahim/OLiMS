@@ -881,7 +881,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         for ar_values in list_of_dicts:
             if ar_values.get("Contact") and ar_values.get('SamplingDate') and ar_values.get('SampleType'):
                 res = super(AnalysisRequest, self).create(ar_values)
-                if values.get('pre_enter',None):
+                if not values.get('pre_enter',None):
                     res.write({'state':'pre_enter'})
                 new_sample = self.create_sample(ar_values, res)
 
