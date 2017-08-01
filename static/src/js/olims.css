@@ -1,0 +1,8 @@
+.table > tbody > tr > td{
+ padding: 0px !important;
+}
+
+
+.text-center > span {
+	font-size : 12 !important;
+}

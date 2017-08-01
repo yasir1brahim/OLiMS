@@ -126,6 +126,7 @@ class ARInvoice(models.Model):
         comodel_name="olims.analysis_request")
     start_date = fields.Datetime(string="Start Date")
     end_date = fields.Datetime(string="Start Date")
+    published_date = fields.Datetime(string="Published Date")
     sub_total = fields.Float(string="Sub Total", compute='_get_subtotal', store=True)
     total = fields.Float(string="Total Amount", compute='_get_total', store=False)
     state = fields.Selection(selection=(
@@ -248,7 +249,8 @@ class ARInvoice(models.Model):
 
     def workflow_script_publish(self,cr,uid,ids,context=None):
         self.write(cr, uid, ids,{
-            'state': 'published'
+            'state': 'published',
+            'published_date': datetime.datetime.now()
         },context)
         return True
 

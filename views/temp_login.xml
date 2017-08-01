@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<openerp>
+  <data>    
+    <record model="ir.ui.view" id="view_templogin_form">
+            <field name="name">olims.templogin.form</field>
+            <field name="model">olims.templogin</field>
+            <field name="arch" type="xml">
+                <form string="Search" create="false" edit="false" write="false">
+                        
+                            <lable for="username" string="Username" />
+                            <field name="username" nolabel='0' placeholder="Username"/>
+                            <br/>
+                            <lable for="email" string="Email" />
+                            <field name="email" nolabel='0' placeholder="Email"/>
+                        <br/>
+                            <lable for="password" string="Password" />
+                            <field name="password" nolabel='0' password="True" placeholder="Password"/>
+                        
+                    <footer>
+                        <group col="8">
+                            <button name="create_res_user" string="Create User" type="object" class="oe_highlight" context="{'contact_id':context.get('contact_id')}" />
+                        </group>
+                    </footer>
+                </form>
+        </field>
+    </record>
+
+</data>
+</openerp>

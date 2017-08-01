@@ -7,7 +7,9 @@ from fields.widget.widget import TextAreaWidget
 from fields.widget.widget import StringWidget
 from fields.file_field import FileField
 from fields.widget.widget import FileWidget
+import datetime
 from openerp.tools.translate import _
+
 AR_STATES = (
     ('sample_registered','Sample Registered'),
     ('not_requested','Not Requested'),
@@ -78,6 +80,7 @@ schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId'),
                      required=True, readonly=True,
                      copy=False, track_visibility='always'
     ),
+    StringField(string='category_name',compute='_Computecategory_name', store=True),
     fields.Many2many(string="ManageResult",
         comodel_name="olims.ws_manage_results",
                      ondelete='set null'),
@@ -104,23 +107,54 @@ schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId'),
     fields.One2many('olims.ws_refrence_contorled_analysis',
         inverse_name='ws_control_reference_id',
         string="Add-Blank-Refrence",ondelete='set null'),
-    fields.One2many('olims.ws_refrence_contorled_analysis',
-        inverse_name='ws_blank_reference_id',
-        string="Add-Control-Refrence",ondelete='set null'),
+    fields.One2many('olims.worksheet_analysis_service',
+        inverse_name='ws_temp_service_reference_id',
+        string="Add_Control_Refrence",ondelete='set null'),
+    fields.Many2many('olims.reference_definition',
+        string="Controls",ondelete='set null'),
     fields.Boolean(string="marked_closed",
         default=False)
 )
 
-
-
+name_counter  = {}
 class Worksheet(models.Model, BaseOLiMSModel):
     _name ='olims.worksheet'
     _rec_name = "Worksheet"
 
+    # def _ComputeWorksheetId(self):
+    #     for items in self:
+    #         worksheetid = 'WS-0' + str(items.id)
+    #         items.Worksheet = worksheetid
+
+
+    @api.depends("Analyst")
     def _ComputeWorksheetId(self):
         for items in self:
-            worksheetid = 'WS-0' + str(items.id)
+            counter = 1
+            c_date = datetime.datetime.strptime(items.create_date, "%Y-%m-%d %H:%M:%S").strftime("%y,%m,%d")
+            year, month, day = c_date.split(',')
+            if items.Template:
+                temp_name =  items.Template.Title + " " + items.category_name
+            else:
+                temp_name = items.category_name
+            if temp_name in name_counter.keys() and name_counter[temp_name][1] == c_date:
+                counter = name_counter.get(temp_name)[0] + 1
+            worksheetid = temp_name + " " + month + day + year + "-" +str(counter)
+            name_counter[temp_name] = [counter, c_date]
             items.Worksheet = worksheetid
+
+    @api.depends("Template")
+    def _Computecategory_name(self):
+        for items in self:
+            temp_cate = []
+            temp_string = ''
+            for category in items.Template:
+                if category.category.Category not in temp_cate:
+                    temp_cate.append(category.category.Category)
+                    if str(category.category.Category) !='False':
+                        temp_string = temp_string+', '+ str(category.category.Category)
+            items.category_name = temp_string.lstrip(',')
+
     @api.multi
     def get_category_name_for_report(self):
         cate_name_list = []
@@ -138,6 +172,32 @@ class Worksheet(models.Model, BaseOLiMSModel):
                 list_order.append(record.request_analysis_id.RequestID)
         data.sort(key=lambda x: x.request_analysis_id.id, reverse=False)
         return data
+
+    @api.model
+    def create(self, values):
+        temp_id = values.get('Template',None)
+        worksheet_template = self.env['olims.worksheet_template'].search([("id","=",temp_id)])
+        if worksheet_template:
+            list_of_services_ids = []
+            list_of_control_ids = []
+            for service in worksheet_template.Analysis_Service:
+                list_of_services_ids.append(service.id)
+            for control in worksheet_template.ControlAnalysis:
+                list_of_control_ids.append(control.id)
+            values.update({"Add_Control_Refrence": [(6, 0, list_of_services_ids)],
+                'Controls':[(6, 0, list_of_control_ids)]})
+        res = super(Worksheet, self).create(values)
+        ws_object = super(Worksheet, self).search([('id', '=',res.id)])
+        for record in ws_object.Add_Control_Refrence:
+            values_dict = {
+                    'name': res.Worksheet + " " + str(record.name),
+                    'analysis': record.Service.Service,
+                    'result': record.Result,
+                    'target': record.Target,
+                    'worksheet_id': res.id,
+                        }
+            self.env["olims.qccontrol"].create(values_dict)
+        return res
 
     @api.multi
     def write(self, values):
@@ -190,7 +250,20 @@ class Worksheet(models.Model, BaseOLiMSModel):
                         elif rec.request_analysis_id.id == add_analysis_obj.add_analysis_id.id and rec.category.id == add_analysis_obj.category.id:
                             record.write({"ManageResult": [(2, rec.id)]})
 
-        return super(Worksheet, self).write(values)
+        res = super(Worksheet, self).write(values)
+        qccontrols = self.env["olims.qccontrol"].search([('worksheet_id', '=',self.id)])
+        for qcitem in qccontrols:
+            qcitem.unlink()
+        for record in self.Add_Control_Refrence:
+            values_dict = {
+                    'name': self.Worksheet + " " + str(record.name),
+                    'analysis': record.Service.Service,
+                    'result': record.Result,
+                    'target': record.Target,
+                    'worksheet_id': self.id,
+                        }
+            self.env["olims.qccontrol"].create(values_dict)
+        return res
 
     @api.multi
     def unlink(self):
@@ -643,6 +716,7 @@ class Worksheet(models.Model, BaseOLiMSModel):
             Worksheet Template.
         """
         self.Instrument = self.Template.Instrument.id
+        self.Controls = self.Template.ControlAnalysis
 
     def workflow_script_submit(self,cr,uid,ids,context=None):
         self.write(cr, uid, ids,{'State': 'to_be_verified'},context)
@@ -975,6 +1049,23 @@ class Worksheet(models.Model, BaseOLiMSModel):
         self.write(cr, uid, ids,{'State': 'closed', "marked_closed": True},context)
         return True
 
+    @api.onchange('Controls')
+    def onchange_control_set_list_value(self):
+        self.Add_Control_Refrence = None
+        for records in self:
+            for items in records.Controls:
+                for item in items.Reference_Results:
+                    values = {
+                        "ws_temp_service_reference_id": self.id,
+                        "name": items.name,
+                        "Category": item.Category.id,
+                        "Service": item.Service.id,
+                        "Lower_Value": item.Min,
+                        "Upper_Value": item.Max
+                        }
+                    self.Add_Control_Refrence += self.Add_Control_Refrence.new(values)
+
+
 class AddAnalysis(models.Model):
     _name = "olims.add_analysis"
 
@@ -1191,6 +1282,17 @@ class WorkSheetAddRefreceAnalysis(models.Model):
         ondelete='set null', domain="[('category', '=', category)]")
     ws_control_reference_id = fields.Many2one('olims.worksheet',ondelete='set null')
     ws_blank_reference_id = fields.Many2one('olims.worksheet',ondelete='set null')
+
+
+class QCControl(models.Model):
+    _name = "olims.qccontrol"
+
+    name = fields.Char('QCControl')
+    analysis = fields.Char('Analysis')
+    result = fields.Float('Results')
+    target = fields.Float('Target')
+    worksheet_id = fields.Many2one(string="Worksheet",
+        comodel_name="olims.worksheet")
 
 Worksheet.initialze(schema)
 

@@ -211,4 +211,25 @@ class Contact(models.Model, BaseOLiMSModel): #(Person)
             raise Warning(_("You are trying to delete a record that is still referenced!"))
         return super(Contact, self).unlink()
 
+    @api.multi
+    def open_login_form(self):
+        print self.id
+        self.ensure_one()
+        ir_model_data = self.env['ir.model.data']
+        form_id = ir_model_data.get_object_reference('olims', 'view_templogin_form')[1]
+        context = self._context.copy()
+        context['contact_id'] = self.id
+
+        return {
+            'name': _('Confirm'),
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'olims.templogin',
+            'views': [(form_id, 'form')],
+            'view_id': form_id,
+            'target': 'new',
+            'context':context,
+        }
+
 Contact.initialze(schema)

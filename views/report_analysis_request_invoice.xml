@@ -50,7 +50,7 @@
                         <table class="table table-striped" style="table-layout: fixed;">
                             <thead style="background-color: #EDE3A4;">
                                 <tr>
-                                    <th class="text-center">Date</th>
+                                    <th class="text-center">Published Date</th>
                                     <th class="text-center">Invoice Number</th>
                                     <th class="text-center">Terms</th>
                                 </tr>
@@ -58,7 +58,9 @@
                             <tbody>
                                 <tr>
                                     <td class="text-center">
-                                        <span t-esc="time.strftime('%m/%d/%Y')"/>
+                                        <!-- <span t-esc="time.strftime('%m/%d/%Y')"/> -->
+
+                                        <span t-esc="time.strftime('%m/%d/%Y',time.strptime(doc.published_date,'%Y-%m-%d %H:%M:%S'))"/>
                                     </td>
                                     <td class="text-center">
                                         <span t-esc="doc.name"/>

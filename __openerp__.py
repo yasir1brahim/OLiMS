@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','web','mail','report','report_webkit'],
+    'depends': ['base','web','mail','report','report_webkit','board'],
 
     # always loaded
     'data': [
@@ -81,7 +81,9 @@
         'views/ar_invoice_mail_template.xml',
         'views/search_ar.xml',
         'views/analysis_request_pre.xml',
-        'views/weblogin.xml'
+        'views/weblogin.xml',
+        'views/dashboard.xml',
+        'views/temp_login.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

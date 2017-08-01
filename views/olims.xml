@@ -1966,6 +1966,16 @@
                                 <field name="Sampler3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             </div>
                         </group>
+                        <group attrs="{'invisible': [('id', '=', False)]}">
+                            <label for="create_uid" string="Created By"/>
+                            <div>
+                                <field name="create_uid" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
+                                <field name="create_uid" options="{'no_create': True}" nolabel="1"></field>
+                                <field name="create_uid" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="create_uid" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="create_uid" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            </div>
+                        </group >
                         <group>
                             <label for="Priority" string="Priority"/>
                             <div>
@@ -2565,10 +2575,16 @@
                                 </field> 
                             </page>
                             <page string="Add Control Reference" attrs="{'invisible': ['|',('id', '=', False),('State', 'in', ['verified', 'closed'])]}">
-                                <field name="Add-Control-Refrence">
-                                    <tree string="Add Control Refrence" editable="bottom">
-                                        <field name="category" options="{'no_create': True}"/>
-                                        <field name="analysis" options="{'no_create': True}"/>
+                                <label for="Controls" />
+                                <field name="Controls" options="{'no_create': True}" widget="many2many_tags" />
+                                <field name="Add_Control_Refrence">
+                                    <tree string="Add Control Refrence" editable="bottom" create="false" delete="true">
+                                        <field name="name" string="Control ID"/>
+                                        <field name="Service" options="{'no_create': True}" string="Analysis" readonly="1"/>
+                                        <field name="Result"/>
+                                        <field name="Lower_Value" string="Lower Value"/>
+                                        <field name="Target"/>
+                                        <field name="Upper_Value" string="Upper Value"/>
                                     </tree>
                                 </field>
                             </page>
@@ -4430,8 +4446,10 @@
                         </page>
                         <!-- <page string="Login Details" class="oe_edit_only"> -->
                         <page string="Login Details" attrs="{'invisible': [('id', '=', False)]}">
+                            <button type="object" string="Create User" name="open_login_form"></button>
+                            <br/>
                             <label for="user" string="User"/>
-                            <field name="user" context="{'form_view_ref':'base.view_users_form'}"></field>
+                            <field name="user" readonly="True" context="{'form_view_ref':'base.view_users_form'}"></field>
                         </page>
                     </notebook>
                 </sheet>
@@ -4488,7 +4506,7 @@
                 <form string="Client Form">
                     <sheet>
                     <notebook>
-                        <page string="Default" name="Default Page" class="oe_edit_only">
+                        <page string="Default" name="Default Page">
                             <field name="id" invisible="1"/>
                             <label for="Name" string="Name" name="Name"/>
                             <field name="Name"></field>
@@ -4501,7 +4519,7 @@
                             <label for="Fax" string="Fax" name="Fax"/>
                             <field name="Fax"></field>
                         </page>
-                        <page string="Finance" name="Finance Page" class="oe_edit_only">
+                        <page string="Finance" name="Finance Page" >
                             <label for="payment_term_id" string="Payment Term"/>
                             <field name="payment_term_id" widget="selection"></field>
                             <label for="payment_not_current" string="Payment not Current"/>
@@ -4518,7 +4536,7 @@
                             <field name="BulkDiscount"></field>
                             <br/>
                         </page>
-                        <page string="Email Addresses" name="Email Addresses" class="oe_edit_only">
+                        <page string="Email Addresses" name="Email Addresses" >
                             <label for="email" string="Email Address" name="Email Address"/>
                             <field name="email">
                                 <tree editable="top">
@@ -4533,7 +4551,7 @@
                                 </tree>
                             </field>
                         </page>
-                        <page string="Address" name="Address Page" class="oe_edit_only">
+                        <page string="Address" name="Address Page">
                               <group col='4' string='Physical Address'>
                               	<group col='2'>
 	                                <label for='physical_country' string='Country'/>
@@ -4595,7 +4613,7 @@
 			                    </group>
                             </group>
                         </page>
-                        <page string="Bank Details" name="Bank Detail Page" class="oe_edit_only">
+                        <page string="Bank Details" name="Bank Detail Page">
                             <label for="AccountType" string="Account Type"/>
                             <field name="AccountType"></field>
                             <label for="AccountName" string="Account Name"/>
@@ -4607,7 +4625,7 @@
                             <label for="BankBranch" string="Bank Branch"/>
                             <field name="BankBranch"></field>
                         </page>
-                        <page string="Preferences" name="Preferences Page" class="oe_edit_only">
+                        <page string="Preferences" name="Preferences Page">
                             <label for="EmailSubject" string="Email subject line"/>
                             <p>Items to be included in email subject lines</p>
                             <field name="EmailSubject"></field>
@@ -6003,7 +6021,7 @@
           </field>
       </record> -->
     <!-- For QC Control -->
-    <!-- <record model="ir.ui.view" id="olims_qc_control_form_view">
+    <record model="ir.ui.view" id="olims_qc_control_form_view">
         <field name="name">qc_control.form</field>
         <field name="model">olims.qccontrol</field>
         <field name="arch" type="xml">
@@ -6040,7 +6058,7 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
        </record>
-       <menuitem id="qc_control_menu" name="QC Controls" parent="olims_settings_menu" action="action_qc_control" sequence="45"/> -->
+       <menuitem id="qc_control_menu" name="QC Controls" parent="olims_settings_menu" action="action_qc_control" sequence="45"/> 
         <record id="view_company_form_inherit" model="ir.ui.view">
             <field name="name">res.company.form.inherit</field>
             <field name="model">res.company</field>
