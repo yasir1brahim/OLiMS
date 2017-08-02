@@ -1,4 +1,4 @@
-id,Category/id,Service/id,Min,Max,Permitted Error
+id,Category/id,Service/id,Min,Max,Permitted_Error
 specification_service_1,analysis_category_chemistry,analysis_service_temp,9,11,10
 specification_service_2,analysis_category_chemistry,analysis_service_temp,9,11,10
 specification_service_3,analysis_category_chemistry,analysis_service_temp,9,11,10

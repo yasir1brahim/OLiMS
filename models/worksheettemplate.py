@@ -16,22 +16,30 @@ schema = (StringField('Title',
             description=_('Used in item listings and search results.'),
         ),
     ),
-    fields.One2many(string='Analysis Service',
+        fields.One2many(string='Analysis_Service',
                     comodel_name='olims.worksheet_analysis_service',
                     inverse_name='worksheet_analysis_id',
                     required=True,
                     help='Select which Analyses should be included on the Worksheet',
+                    compute="_get_control_analysis"
     ),
+
     fields.Many2one(string='Instrument',
                     comodel_name='olims.instrument',
         required = False,
         help='Select the preferred instrument'
+    ),
+    fields.Many2one(string='category',
+                   comodel_name='olims.analysis_category',
+                   required=True,
+                   help="The category the analysis service belongs to",
     ),
     fields.One2many(string='Layout',
                     comodel_name='olims.ws_template_layout',
                     inverse_name='worksheet_layout_id',
     ),
     IntegerField('number_of_pos'),
+    fields.Many2many(comodel_name="olims.reference_definition", string="ControlAnalysis"),
 )
 schema_worksheet_analysis_servive = (fields.Many2one(string="worksheet_analysis_id",
         comodel_name="olims.worksheet_template"
@@ -92,6 +100,22 @@ class WorksheetTemplate(models.Model, BaseOLiMSModel): #BaseContent
         }
 
         return res
+
+    @api.depends("ControlAnalysis")
+    def _get_control_analysis(self):
+        for rec in  self.ControlAnalysis:
+            for item in rec.Reference_Results:
+                values = {
+                    "worksheet_analysis_id": self.id,
+                    "name": rec.name,
+                    "Category": item.Category.id,
+                    "Service": item.Service.id,
+                    "Lower_Value": item.Min,
+                    "Upper_Value": item.Max,
+                    "Target": item.Permitted_Error,
+                    "Result": item.Expected_Result
+                    }
+                self.Analysis_Service |= self.env['olims.worksheet_analysis_service'].create(values)
 
     _at_rename_after_creation = True
     def _renameAfterCreation(self, check_auto_id=False):

@@ -262,8 +262,8 @@
                     <field name="Min"></field>
                     <label for="Max" string="Max"/>
                     <field name="Max"></field>
-                    <label for="Permitted Error" string="PermittedError %"/>
-                    <field name="Permitted Error"></field>
+                    <label for="Permitted_Error" string="PermittedError %"/>
+                    <field name="Permitted_Error"></field>
                 </form>
             </field>
         </record>
@@ -276,7 +276,7 @@
                     <field name="Service"></field>
                     <field name="Min"></field>
                     <field name="Max"></field>
-                    <field name="Permitted Error"></field>
+                    <field name="Permitted_Error"></field>
                 </tree>
             </field>
         </record>
@@ -1105,7 +1105,7 @@
                             <field name="Service" options="{'no_create': True}"></field>
                             <field name="Min"></field>
                             <field name="Max"></field>
-                            <field name="Permitted Error"></field>
+                            <field name="Permitted_Error"></field>
                             <field name="&#60; Min"></field>
                             <field name="&#62; Max"></field>
                             <field name="Range Remarks"></field>
@@ -1311,8 +1311,8 @@
                                 <tree string="Reference Results" editable="bottom">
                                     <field name='Category' options="{'no_create': True}"/>
                                     <field name="Service" options="{'no_create': True}"/>
-                                    <field name="Expected Result"/>
-                                    <field name="Permitted Error"/>
+                                    <field name="Expected_Result"/>
+                                    <field name="Permitted_Error"/>
                                     <field name="Min"/>
                                     <field name="Max"/>
                                 </tree>
@@ -1389,8 +1389,8 @@
                     <sheet>
                     <notebook>
                         <page string="Description">
-                            <label for="Title" string="Title"/>
-                            <field name="Title"></field>
+                            <label for="name" string="Title"/>
+                            <field name="name"></field>
                             <label for="Description" string="Description"/>
                             <p>Used in item listings and search results.</p>
                             <field name="Description"></field>
@@ -1402,14 +1402,14 @@
                             <p>Samples of this type should be treated as hazardous</p>
                         </page>
                         <page string="Reference Values">
-                            <label for="Reference Results" string="Reference Results"/>
+                            <label for="Reference_Results" string="Reference Results"/>
                             <p>Click on Analysis Categories (against shaded backgroundto see Analysis Services in each category. Enter minimum and maximum values to indicate a valid results range. Any result outside this range will raise an alert. The &#37; Error field allows for an &#37; uncertainty to be considered when evaluating results against minimum and maximum values.</p>
-                            <field name="Reference Results" widget="one2many_list">
+                            <field name="Reference_Results" widget="one2many_list">
                                 <tree string="Reference Results" editable="bottom">
                                     <field name="Category" options="{'no_create': True}"/>
                                     <field name="Service" options="{'no_create': True}"/>
-                                    <field name="Expected Result"/>
-                                    <field name="Permitted Error"/>
+                                    <field name="Expected_Result" string ='Expected Result'/>
+                                    <field name="Permitted_Error" string="Permitted Error"/>
                                     <field name="Min"/>
                                     <field name="Max"/>
                                 </tree>
@@ -1426,7 +1426,7 @@
             <field name="model">olims.reference_definition</field>
             <field name="arch" type="xml">
                 <tree string="Reference Definition Template">
-                    <field name="Title"></field>
+                    <field name="name" string="Title"></field>
                     <field name="Description"></field>
                 </tree>
             </field>
@@ -2439,6 +2439,8 @@
                             <label for="Description" string="Description"/>
                             <p>Used in item listings and search results.</p>
                             <field name="Description"></field>
+                            <label for="category" string="Category"/>
+                            <field name="category" options="{'no_create_edit': True}"></field>
                             <label for="Instrument" string="Instrument"/>
                             <p>Select the preferred instrument</p>
                             <field name="Instrument" options="{'no_create': True}"></field>
@@ -2457,7 +2459,7 @@
                                 </tree>
                             </field>
                         </page>
-                        <page string="Analyses">
+                        <!-- <page string="Analyses">
                             <label for="Analysis Service" string="Analysis Service"/>
                             <p>Select which Analyses should be included on the Worksheet</p>
                             <field name="Analysis Service" options="{'no_create': True}">
@@ -2467,6 +2469,20 @@
                                     <field name="Keyword"/>
                                     <field name="Method"/>
                                     <field name="Calculation"/>
+                                </tree>
+                            </field>
+                        </page> -->
+                        <page string="Controls">
+                            <label for="ControlAnalysis" string="Controls"/>
+                            <p>Select which Analyses should be included on the Worksheet</p>
+                            <field name="ControlAnalysis" options="{'no_create': True}" widget="many2many_tags"/>
+                            <field name="Analysis_Service" options="{'no_create': True}">
+                                <tree editable="bottom">
+                                    <field name="Category" options="{'no_create': True}"/>
+                                    <field name="Service" options="{'no_create': True}"/>
+                                    <field name="Target" />
+                                    <field name="Lower_Value" string="Lower Value"/>
+                                    <field name="Upper_Value" string="Upper Value"/>
                                 </tree>
                             </field>
                         </page>
