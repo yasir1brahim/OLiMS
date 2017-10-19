@@ -2088,10 +2088,17 @@
                         </div>
                     </group>
                     <br/>
-                    <group>
+<!--                     <group>
                         <label for="Worksheet" string="Worksheet" attrs="{'invisible': [('id', '=', False)]}"/>
                         <div>
                             <field name="worksheet" nolabel="1" attrs="{'invisible': [('id', '=', False)]}"></field>
+                        </div>
+                    </group>
+                    <br/> -->
+                    <group>
+                        <label for="worksheet_many" string="Worksheets" attrs="{'invisible': [('id', '=', False)]}"/>
+                        <div>
+                            <field name="worksheet_many" widget="one2many_list" nolabel="1" attrs="{'invisible': [('id', '=', False)]}"></field>
                         </div>
                     </group>
                     <br/>

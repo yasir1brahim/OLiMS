@@ -747,8 +747,13 @@ schema = (fields.Char(string='RequestID',
         string='pre_enter',
         default=False,
         ),
-    fields.Many2one(string='worksheet',
-        comodel_name='olims.worksheet'
+    # fields.Many2one(string='worksheet',
+    #     comodel_name='olims.worksheet'
+    # ),
+    fields.Many2many(string='worksheet_many',
+                    comodel_name='olims.worksheet',
+                    relation='ar_worksheets',
+                    required=False
     ),
 )
 schema_analysis = (fields.Many2one(string='Service',
