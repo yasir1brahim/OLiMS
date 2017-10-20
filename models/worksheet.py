@@ -244,7 +244,7 @@ class Worksheet(models.Model, BaseOLiMSModel):
                                 data_list.append([4,rec_id.id])
                                 ar_object = self.env["olims.analysis_request"].search([('id', '=', add_analysis_obj.add_analysis_id.id)])
                                 # ar_object.write({'worksheet': self.id})
-                                ar_object.write({"worksheet_many": [(4, self.id)]})
+                                ar_object.write({"ar_worksheets": [(4, self.id)]})
                     values.update({"ManageResult": data_list})
                 elif values["AnalysisRequest"][0][0] == 3:
                     add_analysis_obj = self.env["olims.add_analysis"].browse(values["AnalysisRequest"][0][1])

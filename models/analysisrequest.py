@@ -750,9 +750,9 @@ schema = (fields.Char(string='RequestID',
     # fields.Many2one(string='worksheet',
     #     comodel_name='olims.worksheet'
     # ),
-    fields.Many2many(string='worksheet_many',
+    fields.Many2many(string='ar_worksheets',
                     comodel_name='olims.worksheet',
-                    relation='ar_worksheets',
+                    relation='olims_ar_worksheets',
                     required=False
     ),
 )

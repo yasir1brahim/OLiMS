@@ -2096,9 +2096,9 @@
                     </group>
                     <br/> -->
                     <group>
-                        <label for="worksheet_many" string="Worksheets" attrs="{'invisible': [('id', '=', False)]}"/>
+                        <label for="ar_worksheets" string="Worksheets" attrs="{'invisible': [('id', '=', False)]}"/>
                         <div>
-                            <field name="worksheet_many" widget="one2many_list" nolabel="1" attrs="{'invisible': [('id', '=', False)]}"></field>
+                            <field name="ar_worksheets" widget="one2many_list" nolabel="1" attrs="{'invisible': [('id', '=', False)]}"></field>
                         </div>
                     </group>
                     <br/>
