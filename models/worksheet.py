@@ -143,7 +143,7 @@ class Worksheet(models.Model, BaseOLiMSModel):
                 temp_name = ''
             worksheetid = temp_name + " " + month + day + year + "-" +str(counter)
             name_counter[temp_name] = [counter, c_date]
-            items.Worksheet = worksheetid
+            items.Worksheet = worksheetid + " WS-"+str(items.id)
 
 
     @api.depends("Template")
