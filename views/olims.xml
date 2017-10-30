@@ -4748,7 +4748,7 @@
        </record>
 
         <menuitem id="olims_client_menu" name="Client" parent="olims_menu" sequence="2"
-                  action="client_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst"/>
+                  action="client_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst,group_clients"/>
         <menuitem id="client_menu" name="Client" parent="olims_settings_menu" sequence="1"
                   action="client_list_action"/>
 

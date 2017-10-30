@@ -22,6 +22,9 @@ class Templogin(models.Model, BaseOLiMSModel):
         values['password'] = data['password']
         res_user = self.env["res.users"]
         res = res_user.create(values)
+        res_groups = self.env['res.groups']
+        group = res_groups.search([('name', '=','Clients')])
+        group.write({'users': [(4, res.id)]})
         contact_user = self.env["olims.contact"]
         contact_object = contact_user.search([('id', '=',contact_id)])
         contact_object.write({"user":res.id})

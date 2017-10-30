@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <tree string="Analysis Request" create="false" delete="false">
                     <!-- <field name="RequestID" string="Request ID"></field> -->
-                    <field name="Sample"></field>
+                    <!-- <field name="Sample"></field> -->
                     <field name="flagged_status" string="Flagged"></field>
                     <field name="Client"></field>
                     <field name="AnalysisProfile" string="Analysis Profile"></field>
@@ -58,7 +58,7 @@
         </record>
 
         <menuitem id="olims_analysis_request_menu_pre" name="Pre Analysis Request" parent="olims_menu" sequence="4"
-                  action="analysis_request_list_action_pre" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst"/>
+                  action="analysis_request_list_action_pre" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst,group_clients"/>
         
         <menuitem id="analysis_request_menu_pre" name="Pre Analysis Request" parent="olims_settings_menu" sequence="4"
                   action="analysis_request_list_action_pre"/>

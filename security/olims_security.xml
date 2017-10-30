@@ -24,12 +24,12 @@
     <record model="ir.rule" id="olims_client_analysis_request_rule">
             <field name="name">Login user/contact view their own Analysis Request</field>
             <field name="model_id" ref="model_olims_analysis_request"/>
-            <field name="domain_force">[('Client.Contact.user', 'in', [user.id]), ('state','=','published')]</field>
+            <field name="domain_force">[('Client.Contact.user', 'in', [user.id])]</field>
             <field name="groups" eval="[(4,ref('group_clients'))]"/>
             <field name="perm_read" eval="1"/>
-            <field name="perm_write" eval="0"/>
-            <field name="perm_unlink" eval="0"/>
-            <field name="perm_create" eval="0"/>
+            <field name="perm_write" eval="1"/>
+            <field name="perm_unlink" eval="1"/>
+            <field name="perm_create" eval="1"/>
     </record>
 	</data>
 </openerp>
