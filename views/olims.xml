@@ -1993,6 +1993,12 @@
                             </div>
                         </group>
                         <group>
+                            <label for="ar_invoice_id" string="Invoice ID" attrs="{'invisible': [('id', '=', False)]}"/>
+                            <div>
+                                <field name="ar_invoice_id" nolabel="1" attrs="{'invisible': [('id', '=', False)]}"></field>
+                            </div>
+                        </group>
+                        <group>
                             <label for="Specification" string="Analysis Specification"/>
                             <div>
                                 <field name="Copyspecification" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
