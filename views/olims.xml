@@ -1992,6 +1992,7 @@
                                 <field name="Sample_id3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             </div>
                         </group>
+
                         <group>
                             <label for="ar_invoice_id" string="Invoice ID" attrs="{'invisible': [('id', '=', False)]}"/>
                             <div>
@@ -5852,7 +5853,8 @@
                     <field name="add_analysis_id"/>
                     <field name="priority"/>
                     <field name="category"/>
-                    <field name="analysis"/>
+                    <!-- <field name="analysis"/> -->
+                    <field name="analysis_profile"/>
                     <field name="sample_type"/>
                     <field name="received_date"/>
                     <field name="due_date"/>

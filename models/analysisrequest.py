@@ -1721,6 +1721,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                     'priority':ar_object.Priority.id,
                     'due_date':ar_object.DateDue,
                     'received_date':datetime.datetime.now(),
+                    'analysis_profile':ar_object.AnalysisProfile.id,
                     # 'analysis':items.Services.id,
                     'sample_type': ar_object.SampleType.id,
                     'add_analysis_id':ar_object.id

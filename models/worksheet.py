@@ -1077,6 +1077,8 @@ class AddAnalysis(models.Model):
         ondelete='set null')
     analysis = fields.Many2one(string='Analysis',
         comodel_name="olims.analysis_service", ondelete='set null')
+    analysis_profile = fields.Many2one(string='Analysis Profile',
+        comodel_name="olims.analysis_profile", ondelete='set null')
     client = fields.Many2one('olims.client',
         ondelete='set null', string="Client")
     order = fields.Char('Order', readonly="True")
