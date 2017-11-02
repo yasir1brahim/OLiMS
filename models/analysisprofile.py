@@ -59,6 +59,14 @@ schema = (StringField('Profile',
             description=_("The profile's commercial ID for accounting purposes."),
         ),
     ),
+    BooleanField('Deactivated',
+        default=False,
+        schemata='Accounting',
+        widget=BooleanWidget(
+            label=_("Use Analysis Profile Deactivate"),
+        )
+    ),
+
     # When it's set, the system uses the analysis profile's price to quote and the system's VAT is overridden by the
     # the analysis profile's specific VAT
     BooleanField('UseAnalysisProfilePrice',

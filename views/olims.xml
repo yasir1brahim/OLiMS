@@ -2105,7 +2105,17 @@
                     <group>
                         <label for="ar_worksheets" string="Worksheets" attrs="{'invisible': [('id', '=', False)]}"/>
                         <div>
-                            <field name="ar_worksheets" widget="one2many_list" nolabel="1" attrs="{'invisible': [('id', '=', False)]}"></field>
+                            <field name="ar_worksheets" widget="one2many_list" nolabel="1" attrs="{'invisible': [('id', '=', False)]}">
+                                 <tree string="Worksheet">
+                                    <field name="Worksheet"></field>
+                                    <field name="Analyst"></field>
+                                    <field name="Template"></field>
+                                    <field name="category_name" string="Category"></field>
+                                    <field name="create_date"></field>
+                                    <field name="State"></field>
+                                </tree>
+
+                            </field>
                         </div>
                     </group>
                     <br/>
@@ -4891,6 +4901,9 @@
                             <label for="ProfileKey" string="Profile Keyword"/>
                             <p>The profile's keyword is used to uniquely identify it in import files. It has to be unique, and it may not be the same as any Calculation Interim field ID.</p>
                             <field name="ProfileKey"></field>
+
+                            <label for="Deactivated" string="Deactivated"/>
+                            <field name="Deactivated"></field>
                         </page>
                         <page string="Analyses">
                             <label for="Service" string="Profile Analyses"/>
