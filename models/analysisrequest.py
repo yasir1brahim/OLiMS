@@ -175,7 +175,8 @@ schema = (fields.Char(string='RequestID',
     ),
     fields.Many2one(string='AnalysisProfile',
                         comodel_name='olims.analysis_profile',
-                        relation='ar_to_analysisprofile'
+                        relation='ar_to_analysisprofile',
+                        domain="[('Deactivated', '=',False )]"
 
     ),
     fields.Many2one(string='AnalysisProfile1',
@@ -1815,6 +1816,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                         'warning': {'title': 'Warning!', 'message': "All Analysis will be changed." +
                         "To proceed click on Save button or Discard the changes."},
                         }
+
             self.LabService = None
             self.FieldService = None
             for service in record.AnalysisProfile.Service:

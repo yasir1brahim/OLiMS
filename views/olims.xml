@@ -1874,7 +1874,7 @@
                             </group>
                             <group>
                                 <label for="Client" string="Client" attrs="{'invisible': [('id', '=', False)]}"/>
-                                <field name="Client" options="{'no_create': True}" attrs="{'invisible': [('id', '=', False)], 'readonly':[('id', '!=', False)]}" nolabel="1"></field>
+                                <field name="Client" options="{'no_create': True}" attrs="{'invisible': [('id', '=', False)] }" nolabel="1"></field>
                             </group>
                             <group>
                                 <label for="Contact" string="Contact"/>
