@@ -2072,6 +2072,16 @@
                             <field name="InvoiceExclude3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                         </div>
                     </group>
+                    <group>
+                        <label for="paid_cash" string="Paid Cash"/>
+                        <div>
+                            <field name="copy_paid_cash" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
+                            <field name="paid_cash" nolabel="1"></field>
+                            <field name="paid_cash1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="paid_cash2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="paid_cash3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                        </div>
+                    </group>
                     <br/>
                     <group col="4">
                         <group>
