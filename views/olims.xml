@@ -4556,9 +4556,9 @@
                             <field name="id" invisible="1"/>
                             <label for="Name" string="Name" name="Name"/>
                             <field name="Name"></field>
-                            <label for="ClientID" string="Client ID" name="Client ID"/>
+                            <label for="ClientID" string="License Number" name="Client ID"/>
                             <field name="ClientID"></field>
-                            <label for="TaxNumber" string="VAT number" name="VAT number"/>
+                            <label for="TaxNumber" string="UBI Number" name="VAT number"/>
                             <field name="TaxNumber"></field>
                             <label for="Phone" string="Phone" name="Phone"/>
                             <field name="Phone"></field>
