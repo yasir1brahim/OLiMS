@@ -205,6 +205,7 @@ class Worksheet(models.Model, BaseOLiMSModel):
     @api.multi
     def write(self, values):
         data_list = []
+        entered = []
         count = 0
         for record in self:
             if values.get("AnalysisRequest", None):
@@ -224,7 +225,9 @@ class Worksheet(models.Model, BaseOLiMSModel):
                         if cont:
                             continue
                         for cate_analysis in add_analysis_obj.add_analysis_id.Analyses:
-                            if cate_analysis.Category.id == add_analysis_obj.category.id:
+                            if cate_analysis.Services.id not in entered:
+                                entered.append(cate_analysis.Services.id)
+                            # if cate_analysis.Category.id == add_analysis_obj.category.id:
 
                                 values_dict_manage_results.update({"request_analysis_id":add_analysis_obj.add_analysis_id.id,
                                     # "analysis": add_analysis_obj.analysis.id,
@@ -243,7 +246,6 @@ class Worksheet(models.Model, BaseOLiMSModel):
                                 rec_id = self.env["olims.ws_manage_results"].create(values_dict_manage_results)
                                 data_list.append([4,rec_id.id])
                                 ar_object = self.env["olims.analysis_request"].search([('id', '=', add_analysis_obj.add_analysis_id.id)])
-                                # ar_object.write({'worksheet': self.id})
                                 ar_object.write({"ar_worksheets": [(4, self.id)]})
                     values.update({"ManageResult": data_list})
                 elif values["AnalysisRequest"][0][0] == 3:
