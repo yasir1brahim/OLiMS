@@ -18,6 +18,7 @@
 			                        <th class="text-center">Sample ID</th>
 			                        <th class="text-center">Lot ID</th>
 			                        <th class="text-center">Product ID</th>
+			                        <th class="text-center">Sampling Date</th>
 			                        <th class="text-center">Sample Type</th>
 			                        <th class="text-center">AR Profile</th>
 			                        <th class="text-center">Customer</th>
@@ -36,6 +37,9 @@
 			                        </td>
 			                        <td class="text-center">
 			                            <span t-field="doc.ClientReference"/>
+			                        </td>
+			                        <td class="text-center">
+			                            <span t-field="doc.SamplingDate"/>
 			                        </td>
 			                        <td class="text-center">
 			                            <span t-field="doc.SampleType.SampleType"/>

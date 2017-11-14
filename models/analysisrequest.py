@@ -756,6 +756,15 @@ schema = (fields.Char(string='RequestID',
                     relation='olims_ar_worksheets',
                     required=False
     ),
+    fields.Boolean(string='paid_cash',
+        default=False),
+    fields.Boolean(string='paid_cash1',
+        default=False),
+    fields.Boolean(string='paid_cash2',
+        default=False),
+    fields.Boolean(string='paid_cash3',
+        default=False),
+    fields.Boolean(string="copy_paid_cash", default=False),
 )
 schema_analysis = (fields.Many2one(string='Service',
                     comodel_name='olims.analysis_service',
@@ -1131,6 +1140,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Discount': values.get('Discount',None),
             'VAT': values.get('VAT',None),
             'Total': values.get('Total',None),
+            'paid_cash': values.get('paid_cash', None)
         }
         analysis_request_1_dict = {
             'StorageLocation': values.get('StorageLocation1', None),
@@ -1173,6 +1183,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Discount': values.get('Discount1',None),
             'VAT': values.get('VAT1',None),
             'Total': values.get('Total1',None),
+            'paid_cash': values.get('paid_cash1', None)
         }
         analysis_request_2_dict = {
             'StorageLocation': values.get('StorageLocation2', None),
@@ -1215,6 +1226,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Discount': values.get('Discount2',None),
             'VAT': values.get('VAT2',None),
             'Total': values.get('Total2',None),
+            'paid_cash': values.get('paid_cash2', None)
         }
         analysis_request_3_dict = {
             'StorageLocation': values.get('StorageLocation3', None),
@@ -1257,6 +1269,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Discount': values.get('Discount3',None),
             'VAT': values.get('VAT3',None),
             'Total': values.get('Total3',None),
+            'paid_cash': values.get('paid_cash3', None)
         }
 
         return analysis_request_0_dict, analysis_request_1_dict, analysis_request_2_dict, analysis_request_3_dict
@@ -2325,6 +2338,19 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             self.AnalysisProfile3 = self.Template3.AnalysisProfile
             self.SampleType3 = self.Template3.SampleType
             self.Priority3 = self.Template3.priority
+    @api.onchange("copy_paid_cash")
+    def CopyPaidCash(self):
+        if self.Copy == '1':
+            self.paid_cash1 = self.paid_cash
+            self.paid_cash2 = self.paid_cash3 = False
+        elif self.Copy == '2':
+            self.paid_cash1 = self.paid_cash2 = self.paid_cash
+            self.paid_cash3 = False
+        elif self.Copy == '3':
+            self.paid_cash1 = self.paid_cash2 = self.paid_cash3 = self.paid_cash
+        else:
+            pass
+
 
 class FieldAnalysisService(models.Model, BaseOLiMSModel):
     _name = 'olims.field_analysis_service'
