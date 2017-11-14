@@ -225,9 +225,7 @@ class Worksheet(models.Model, BaseOLiMSModel):
                         if cont:
                             continue
                         for cate_analysis in add_analysis_obj.add_analysis_id.Analyses:
-                            if cate_analysis.Services.id not in entered:
-                                entered.append(cate_analysis.Services.id)
-                            # if cate_analysis.Category.id == add_analysis_obj.category.id:
+                            if cate_analysis.Category.id == add_analysis_obj.category.id:
 
                                 values_dict_manage_results.update({"request_analysis_id":add_analysis_obj.add_analysis_id.id,
                                     # "analysis": add_analysis_obj.analysis.id,
