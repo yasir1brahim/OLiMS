@@ -1983,6 +1983,16 @@
                             </div>
                         </group>
                         <group>
+                            <label for="SampleMassReceived" string="Sample Mass Received"/>
+                            <div>
+                                <field name="CopySampleMassReceived" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
+                                <field name="SampleMassReceived" options="{'no_create': True}" nolabel="1"></field>
+                                <field name="SampleMassReceived1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SampleMassReceived2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SampleMassReceived3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            </div>
+                        </group>
+                        <group>
                             <label for="Sample_id" string="Sample"/>
                             <div>
                                 <field name="Copysample" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
@@ -4911,7 +4921,8 @@
                             <label for="ProfileKey" string="Profile Keyword"/>
                             <p>The profile's keyword is used to uniquely identify it in import files. It has to be unique, and it may not be the same as any Calculation Interim field ID.</p>
                             <field name="ProfileKey"></field>
-
+                            <label for="Client" string="CLient"/>
+                            <field name="Client" options="{'no_create': True}"/>
                             <label for="Deactivated" string="Deactivated"/>
                             <field name="Deactivated"></field>
                         </page>

@@ -765,6 +765,29 @@ schema = (fields.Char(string='RequestID',
     fields.Boolean(string='paid_cash3',
         default=False),
     fields.Boolean(string="copy_paid_cash", default=False),
+
+
+    StringField(
+        'SampleMassReceived',
+        searchable=True,
+    ),
+    StringField(
+        'SampleMassReceived1',
+        searchable=True,
+    ),
+    StringField(
+        'SampleMassReceived2',
+        searchable=True,
+    ),
+    StringField(
+        'SampleMassReceived3',
+        searchable=True,
+    ),
+    fields.Boolean(
+        string='CopySampleMassReceived',
+        default=False,
+    )
+
 )
 schema_analysis = (fields.Many2one(string='Service',
                     comodel_name='olims.analysis_service',
@@ -2214,6 +2237,19 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             self.Priority3 = None
         elif self.Copy == '3':
             self.Priority1 = self.Priority2 = self.Priority3 = self.Priority
+        else:
+            pass
+
+    @api.onchange('CopySampleMassReceived')
+    def copy_priority(self):
+        if self.Copy == '1':
+            self.SampleMassReceived1 = self.SampleMassReceived
+            self.SampleMassReceived2 = self.SampleMassReceived3 = None
+        elif self.Copy == '2':
+            self.SampleMassReceived1 = self.SampleMassReceived2 = self.SampleMassReceived
+            self.SampleMassReceived3 = None
+        elif self.Copy == '3':
+            self.SampleMassReceived1 = self.SampleMassReceived2 = self.SampleMassReceived3 = self.SampleMassReceived
         else:
             pass
 
