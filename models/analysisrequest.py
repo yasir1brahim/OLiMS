@@ -181,17 +181,20 @@ schema = (fields.Char(string='RequestID',
     ),
     fields.Many2one(string='AnalysisProfile1',
                         comodel_name='olims.analysis_profile',
-                        relation='ar_to_analysisprofile'
+                        relation='ar_to_analysisprofile',
+                        domain="[('Deactivated', '=',False )]"
 
     ),
     fields.Many2one(string='AnalysisProfile2',
                         comodel_name='olims.analysis_profile',
-                        relation='ar_to_analysisprofile'
+                        relation='ar_to_analysisprofile',
+                        domain="[('Deactivated', '=',False )]"
 
     ),
     fields.Many2one(string='AnalysisProfile3',
                         comodel_name='olims.analysis_profile',
-                        relation='ar_to_analysisprofile'
+                        relation='ar_to_analysisprofile',
+                        domain="[('Deactivated', '=',False )]"
 
     ),
     fields.One2many(string='Partition',
@@ -872,6 +875,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     _name = 'olims.analysis_request'
     _rec_name = "RequestID"
     _inherit = ['mail.thread', 'ir.needaction_mixin']
+
 
     @api.depends("Contact")
     def compute_analysisRequestId(self):
@@ -1837,6 +1841,19 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     @api.onchange("AnalysisProfile","AnalysisProfile1","AnalysisProfile2","AnalysisProfile3")
     def _add_values_in_analyses(self):
         service_ids_list = []
+        profile_ids = []
+        client = self._context.get('client_context', None)
+        if not self.AnalysisProfile:
+            a_profile = self.env['olims.analysis_profile'].search([("Client","=",client)])   
+            for item in a_profile:
+                profile_ids.append(item.id)
+
+
+            return {'domain':{'AnalysisProfile':[('id','in',profile_ids)],
+                             'AnalysisProfile1':[('id','in',profile_ids)],
+                             'AnalysisProfile2':[('id','in',profile_ids)],
+                             'AnalysisProfile3':[('id','in',profile_ids)]}}
+
         for record in self:
             if record.state != "sample_registered":
                 record.Field_Manage_Result = None
