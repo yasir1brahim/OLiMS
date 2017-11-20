@@ -665,7 +665,7 @@
                             <label for="contact_id" string="Contact"/>
                             <field name="contact_id" domain="['|',('Client_Contact','=',context.get('client_context')),('Client_Contact','=',ClientARTemplate)]" widget="many2many_checkboxes"></field>
                             <label for="email_id" string="Email"/>
-                            <field name="email_id" domain="['|',('client_id','=',context.get('client_context')),('invoice_client_id','=',context.get('client_context'))]" widget="many2many_checkboxes"></field>
+                            <field name="email_id" domain="['|',('client_id','=',context.get('client_context')),('invoice_client_id','=',context.get('client_context')), '|', ('client_id', '=', ClientARTemplate),('invoice_client_id','=',ClientARTemplate)]" widget="many2many_checkboxes"></field>
                         </page>
                     </notebook>
                 </sheet>
