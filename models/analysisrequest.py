@@ -922,6 +922,11 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 
         for ar_values in list_of_dicts:
             if ar_values.get("Contact") and ar_values.get('SamplingDate') and ar_values.get('SampleType'):
+                if ar_values.get("InvoiceExclude", None):
+                    ar_values["Discount"] = 0.0
+                    ar_values["Subtotal"] = 0.0
+                    ar_values["VAT"] = 0.0
+                    ar_values["Total"] = 0.0
                 res = super(AnalysisRequest, self).create(ar_values)
                 if not values.get('pre_enter',None):
                     res.write({'state':'pre_enter'})
@@ -1304,6 +1309,8 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     @api.multi
     def write(self, values):
         for record in self:
+            if values.get("InvoiceExclude", None):
+                record.write({"Discount": 0.0, "Subtotal": 0.0, "VAT": 0.0, "Total":0.0})
             if values.get("Analyses", None):
                 for items in values.get("Analyses"):
                     if items[0] == 0:

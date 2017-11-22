@@ -181,25 +181,28 @@ class ARInvoice(models.Model):
             analysis_request = values.get('analysis_request_id')[0]
             ar_object = self.env["olims.analysis_request"].search([('id', 'in', analysis_request[2])])
             for ar_record in ar_object:
-                profile_service_ids_list = []
-                amount_subtotal = 0.00
-                amount_vat = 0.00
-                amount_total = 0.00
-                s_amount_subtotal = 0.00
-                s_amount_vat = 0.00
-                s_amount_total = 0.00
-                for profile_record in ar_record.AnalysisProfile.Service:
-                    profile_service_ids_list.append(profile_record.Services.id)
-                for ar_service in ar_record.Analyses:
-                    if ar_service.Services.id in profile_service_ids_list and ar_record.AnalysisProfile.UseAnalysisProfilePrice:
-                        amount_subtotal = ar_record.AnalysisProfile.AnalysisProfilePrice - (ar_record.AnalysisProfile.AnalysisProfilePrice * ar_record.Client.M_Discount /100)
-                        amount_vat = amount_subtotal * ar_record.AnalysisProfile.AnalysisProfileVAT / 100
-                        amount_total = amount_subtotal + amount_vat
-                    else:
-                        s_amount_subtotal = ar_service.Services.Price - (ar_service.Services.Price * ar_record.Client.M_Discount /100)
-                        s_amount_vat = s_amount_subtotal * ar_service.Services.VAT / 100
-                        s_amount_total += s_amount_subtotal + s_amount_vat
-                ar_record.write({"Total": (amount_total + s_amount_total)})
+                if not ar_record.InvoiceExclude:
+                    profile_service_ids_list = []
+                    amount_subtotal = 0.00
+                    amount_vat = 0.00
+                    amount_total = 0.00
+                    s_amount_subtotal = 0.00
+                    s_amount_vat = 0.00
+                    s_amount_total = 0.00
+                    for profile_record in ar_record.AnalysisProfile.Service:
+                        profile_service_ids_list.append(profile_record.Services.id)
+                    for ar_service in ar_record.Analyses:
+                        if ar_service.Services.id in profile_service_ids_list and ar_record.AnalysisProfile.UseAnalysisProfilePrice:
+                            amount_subtotal = ar_record.AnalysisProfile.AnalysisProfilePrice - (ar_record.AnalysisProfile.AnalysisProfilePrice * ar_record.Client.M_Discount /100)
+                            amount_vat = amount_subtotal * ar_record.AnalysisProfile.AnalysisProfileVAT / 100
+                            amount_total = amount_subtotal + amount_vat
+                        else:
+                            s_amount_subtotal = ar_service.Services.Price - (ar_service.Services.Price * ar_record.Client.M_Discount /100)
+                            s_amount_vat = s_amount_subtotal * ar_service.Services.VAT / 100
+                            s_amount_total += s_amount_subtotal + s_amount_vat
+                    ar_record.write({"Total": (amount_total + s_amount_total)})
+                else:
+                    ar_record.write({"Discount": 0.0, "Subtotal": 0.0, "VAT": 0.0, "Total":0.0})
             res = super(ARInvoice,self).create(values)
             ar_object.write({'ar_invoice_id': res.id})
             return res
@@ -215,25 +218,28 @@ class ARInvoice(models.Model):
             ar_invoice_delete.write({'ar_invoice_id':False})
             ar_object = self.env["olims.analysis_request"].search([('id', 'in', analysis_request[2])])
             for ar_record in ar_object:
-                profile_service_ids_list = []
-                amount_subtotal = 0.00
-                amount_vat = 0.00
-                amount_total = 0.00
-                s_amount_subtotal = 0.00
-                s_amount_vat = 0.00
-                s_amount_total = 0.00
-                for profile_record in ar_record.AnalysisProfile.Service:
-                    profile_service_ids_list.append(profile_record.Services.id)
-                for ar_service in ar_record.Analyses:
-                    if ar_service.Services.id in profile_service_ids_list and ar_record.AnalysisProfile.UseAnalysisProfilePrice:
-                        amount_subtotal = ar_record.AnalysisProfile.AnalysisProfilePrice - (ar_record.AnalysisProfile.AnalysisProfilePrice * ar_record.Client.M_Discount /100)
-                        amount_vat = amount_subtotal * ar_record.AnalysisProfile.AnalysisProfileVAT / 100
-                        amount_total = amount_subtotal + amount_vat
-                    else:
-                        s_amount_subtotal = ar_service.Services.Price - (ar_service.Services.Price * ar_record.Client.M_Discount /100)
-                        s_amount_vat = s_amount_subtotal * ar_service.Services.VAT / 100
-                        s_amount_total += s_amount_subtotal + s_amount_vat
-                ar_record.write({"Total": (amount_total + s_amount_total)})
+                if not ar_record.InvoiceExclude:
+                    profile_service_ids_list = []
+                    amount_subtotal = 0.00
+                    amount_vat = 0.00
+                    amount_total = 0.00
+                    s_amount_subtotal = 0.00
+                    s_amount_vat = 0.00
+                    s_amount_total = 0.00
+                    for profile_record in ar_record.AnalysisProfile.Service:
+                        profile_service_ids_list.append(profile_record.Services.id)
+                    for ar_service in ar_record.Analyses:
+                        if ar_service.Services.id in profile_service_ids_list and ar_record.AnalysisProfile.UseAnalysisProfilePrice:
+                            amount_subtotal = ar_record.AnalysisProfile.AnalysisProfilePrice - (ar_record.AnalysisProfile.AnalysisProfilePrice * ar_record.Client.M_Discount /100)
+                            amount_vat = amount_subtotal * ar_record.AnalysisProfile.AnalysisProfileVAT / 100
+                            amount_total = amount_subtotal + amount_vat
+                        else:
+                            s_amount_subtotal = ar_service.Services.Price - (ar_service.Services.Price * ar_record.Client.M_Discount /100)
+                            s_amount_vat = s_amount_subtotal * ar_service.Services.VAT / 100
+                            s_amount_total += s_amount_subtotal + s_amount_vat
+                    ar_record.write({"Total": (amount_total + s_amount_total)})
+                else:
+                    ar_record.write({"Discount": 0.0, "Subtotal": 0.0, "VAT": 0.0, "Total":0.0})
             res = super(ARInvoice,self).write(values)
             ar_object.write({'ar_invoice_id': self.id})
             return res
