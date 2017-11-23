@@ -4971,13 +4971,13 @@
                     <field name="Profile"></field>
                 	<field name="Description"></field>
                 	<field name="ProfileKey"></field>
-                    <!-- <field name="Service"></field> 
-                	<field name="Remarks"></field>
+                     <field name="status" string="Status"></field> 
+                	<!-- <field name="Remarks"></field>
                 	<field name="CommercialID"></field>
                 	<field name="UseAnalysisProfilePrice"></field>
                 	<field name="AnalysisProfilePrice"></field>
                 	<field name="AnalysisProfileVAT"></field>
-                    <field name="VATAmount"></field>-->
+                    <field name="VATAmount"></field> -->
                 </tree>
             </field>
         </record>
