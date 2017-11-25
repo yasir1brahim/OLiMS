@@ -6130,5 +6130,23 @@
                 </xpath>
             </field>
         </record>
+        <!-- For Bulk Deactive Analysis Profile -->
+        <record id="analysis_profile_deactivate" model="ir.actions.server">
+            <field name="name">Deactivate</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_olims_analysis_profile"/>
+            <field name="state">code</field>
+            <field name="code">self.deactivate_profile(cr,uid,context.get('active_ids'),context=context)</field>
+            <field name="sequence" eval="2"/>
+        </record>
+        <record id="deactive_multiple_analysis_profile" model="ir.values">
+            <field name="name">Deactivate</field>
+            <field name="action_id" ref="analysis_profile_deactivate"/>
+            <field name="value" eval="'ir.actions.server,' + str(ref('analysis_profile_deactivate'))"/>
+            <field name="key">action</field>
+            <field name="model_id" ref="model_olims_analysis_profile"/>
+            <field name="model">olims.analysis_profile</field>
+            <field name="key2">client_action_multi</field>
+        </record>
     </data>
 </openerp>

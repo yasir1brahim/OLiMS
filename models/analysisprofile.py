@@ -146,5 +146,8 @@ class AnalysisProfile(models.Model, BaseOLiMSModel):
             else:
                 record.status = "Active"
 
+    def deactivate_profile(self,cr,uid,ids,context=None):
+        analysis_profile = self.pool.get('olims.analysis_profile')
+        analysis_profile.write(cr,uid,ids, {'Deactivated': True})
 
 AnalysisProfile.initialze(schema)
