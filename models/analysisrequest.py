@@ -2410,7 +2410,16 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             self.paid_cash1 = self.paid_cash2 = self.paid_cash3 = self.paid_cash
         else:
             pass
+    def workflow_script_unpublish(self,cr,uid,ids,context=None):
+        self.write(cr, uid, ids, {'state': 'sample_received'}, context=context)
+        return True
 
+    @api.multi
+    def unpublish_analysis_request(self):
+        manage_results_obj = self.env["olims.manage_analyses"].search(["|",("manage_analysis_id","=",self.id),
+            ("lab_manage_analysis_id","=",self.id)
+            ]).write({"state": "sample_received"})
+        self.signal_workflow("unpublish")
 
 class FieldAnalysisService(models.Model, BaseOLiMSModel):
     _name = 'olims.field_analysis_service'

@@ -1825,6 +1825,7 @@
                             <button string="Publish" name="publish" type="workflow" states="verified"/>
                             <button string="Print" name="publish_analysis_request" type="object" states="published"/>
                             <button name="action_report_send" string="Send by Email" type="object" states="published" class="btn-primary"/>
+                            <button string="UnPublish" name="unpublish_analysis_request" type="object" states="published" groups="olims.group_lab_admin"/>
                             <field name="state" widget="statusbar" statusbar_visible="to_be_sampled,sample_due,sample_received, to_be_verified, verified" statusbar_colors='{"to_be_sampled":"blue","sample_received":"red","invalid":"red"}'/>
                     </header>
                 <!-- </sheet> -->
