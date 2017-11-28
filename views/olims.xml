@@ -65,7 +65,7 @@
             <field name="name">analysis_request.tree</field>
             <field name="model">olims.analysis_request</field>
             <field name="priority" eval="1"/>
-            <field name="domain">[('state','=','Pre-enter')]</field>
+            <!-- <field name="domain">[('state','=','Pre-enter')]</field> -->
             <field name="context">{}</field>            
             <field name="arch" type="xml">
                 <tree string="Analysis Request" create="false" delete="false">
@@ -2994,6 +2994,7 @@
             <field name="res_model">olims.sample</field>
             <field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
+            <field name="domain">[('state','!=','pre_enter')]</field>
        </record>
 
         <menuitem id="olims_sample_menu" name="Samples" parent="olims_menu" sequence="3"
