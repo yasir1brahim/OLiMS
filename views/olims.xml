@@ -1997,7 +1997,7 @@
                             <label for="Sample_id" string="Sample"/>
                             <div>
                                 <field name="Copysample" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
-                                <field name="Sample_id" options="{'no_create': True}" nolabel="1"></field>
+                                <field name="Sample_id" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('state', '=', 'pre_enter')]}"></field>
                                 <field name="Sample_id1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="Sample_id2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="Sample_id3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
