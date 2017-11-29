@@ -2566,7 +2566,7 @@
             <field name="name">worksheet.form</field>
             <field name="model">olims.worksheet</field>
             <field name="arch" type="xml">
-                <form string="Worksheet Form" duplicate="0">
+                <form string="Worksheet Form" duplicate="0" delete="false">
                     <sheet>
                         <header>
                             <field name="State" widget="statusbar" statusbar_visible="open,closed,verified" statusbar_colors='{"open":"blue","to_be_verified":"blue","rejected":"red"}'/>
@@ -2655,7 +2655,7 @@
             <field name="name">worksheet.tree</field>
             <field name="model">olims.worksheet</field>
             <field name="arch" type="xml">
-                <tree string="Worksheet">
+                <tree string="Worksheet" delete="false">
                     <field name="Worksheet"></field>
                     <field name="Analyst"></field>
                     <field name="Template"></field>
@@ -6148,6 +6148,24 @@
             <field name="key">action</field>
             <field name="model_id" ref="model_olims_analysis_profile"/>
             <field name="model">olims.analysis_profile</field>
+            <field name="key2">client_action_multi</field>
+        </record>
+        <!-- For Bulk Deactive Analysis Profile -->
+        <record id="worksheet_delete_analysis" model="ir.actions.server">
+            <field name="name">Delete</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_olims_worksheet"/>
+            <field name="state">code</field>
+            <field name="code">action = self.delete_analysis_requests_from_ws(cr=cr,uid=uid,ids=context.get('active_ids'),context=context)</field>
+            <field name="sequence" eval="2"/>
+        </record>
+        <record id="delete_analysis_from_worksheet" model="ir.values">
+            <field name="name">Delete</field>
+            <field name="action_id" ref="worksheet_delete_analysis"/>
+            <field name="value" eval="'ir.actions.server,' + str(ref('worksheet_delete_analysis'))"/>
+            <field name="key">action</field>
+            <field name="model_id" ref="model_olims_worksheet"/>
+            <field name="model">olims.worksheet</field>
             <field name="key2">client_action_multi</field>
         </record>
     </data>
