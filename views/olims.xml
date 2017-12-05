@@ -2962,6 +2962,7 @@
         <record model="ir.ui.view" id="olims_sample_tree_view">
             <field name="name">sample.tree</field>
             <field name="model">olims.sample</field>
+            <field name="domain">[('state','!=','pre_enter')]</field>
             <field name="arch" type="xml">
                 <tree string="Sample" create="false" delete="false">
                     <field name="SampleID"></field>
@@ -4711,7 +4712,7 @@
                         </page>
                         <page string="Samples" attrs="{'invisible': [('id', '=', False)]}">
                             <label for="Sample" string="Samples"/>
-                            <field name="Sample"></field>
+                            <field name="Sample" domain="[('state', '!=', 'pre_enter')]" context="{'tree_view_ref':'olims.olims_sample_tree_view'}"></field>
                         </page>
                         <page string="Sample Points" attrs="{'invisible': [('id', '=', False)]}">
                             <label for="Sample Point" string="Sample Points"/>

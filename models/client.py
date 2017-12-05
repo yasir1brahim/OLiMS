@@ -224,7 +224,8 @@ schema = (
     ),
     fields.One2many('olims.sample',
                                  'Client',
-                                 string='Sample'
+                                 string='Sample',
+                                 domain=[('state','!=','pre_enter')]
     ),
     BooleanField(string="payment_not_current",
         default=False),
