@@ -1130,6 +1130,16 @@ class AddAnalysis(models.Model):
             'target': 'new',
         }
 
+    @api.multi
+    def bulk_delele_ar(self):
+        worksheet_id = 0
+        for record in self:
+            record.write({"state": 'unassigned'})
+            ws_add_analysis_obj = self.env["olims.worksheet"].search([("AnalysisRequest", '=', record.id)])
+            ws_add_analysis_obj.write({"AnalysisRequest": [(3, record.id)]})
+            worksheet_id = ws_add_analysis_obj.id
+        return True
+
 class WorkSheetManageResults(models.Model):
     _name = "olims.ws_manage_results"
     _rec_name = "analysis"
