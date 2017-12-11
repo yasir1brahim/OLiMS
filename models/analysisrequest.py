@@ -1851,15 +1851,15 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         profile_ids = []
         client = self._context.get('client_context', None)
         if not self.AnalysisProfile:
-            a_profile = self.env['olims.analysis_profile'].search([("Client","=",client)])   
-            for item in a_profile:
-                profile_ids.append(item.id)
-
-
-            return {'domain':{'AnalysisProfile':[('id','in',profile_ids)],
-                             'AnalysisProfile1':[('id','in',profile_ids)],
-                             'AnalysisProfile2':[('id','in',profile_ids)],
-                             'AnalysisProfile3':[('id','in',profile_ids)]}}
+            client_obj = self.env['olims.client'].search([("id","=",client)])
+            if client_obj and client_obj.Analysis_Profile:
+                for item in client_obj.Analysis_Profile:
+                    profile_ids.append(item.id)
+            if profile_ids:
+                return {'domain':{'AnalysisProfile':[('id','in',profile_ids),('Deactivated', '=',False )],
+                'AnalysisProfile1':[('id','in',profile_ids),('Deactivated', '=',False )],
+                'AnalysisProfile2':[('id','in',profile_ids),('Deactivated', '=',False )],
+                'AnalysisProfile3':[('id','in',profile_ids),('Deactivated', '=',False )]}}
 
         for record in self:
             if record.state != "sample_registered":

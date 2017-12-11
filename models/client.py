@@ -202,9 +202,10 @@ schema = (
                                  'ClientUID',
                                  string='Analysis Specification'
     ),
-    fields.One2many('olims.analysis_profile',
-                                 'ClientProfile',
-                                 string='Analysis Profile'
+    fields.Many2many('olims.analysis_profile',
+                                 # 'ClientProfile',
+                                 string='Analysis_Profile',
+                                 domain="[('Deactivated', '=', False)]"
     ),
     fields.One2many('olims.sample_point',
                                  'ClientSamplePoint',

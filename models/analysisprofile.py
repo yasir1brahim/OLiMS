@@ -38,10 +38,6 @@ schema = (StringField('Profile',
                      relation='records_field_service_relation',\
                      help='The analyses included in this profile, grouped per category',
         ),
-    fields.Many2many(string='Client', comodel_name='olims.client',\
-                     relation='olims_rel_analysis_profile_client',\
-                     help='Specify the clint for this Analysis Profile',
-        ),
     TextField('Remarks',
         searchable = True,
         default_content_type = 'text/plain',
@@ -112,8 +108,6 @@ schema = (StringField('Profile',
     fields.Float(compute='computeVATAmount',string='VATAmount'),
    
    fields.Float(compute='computeTotalPrice',string='TotalPrice'),
-   fields.Many2one(string='ClientProfile',
-                   comodel_name='olims.client'),
    StringField(string="status", compute="compute_status")
 )
 
