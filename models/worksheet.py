@@ -9,6 +9,7 @@ from fields.file_field import FileField
 from fields.widget.widget import FileWidget
 import datetime
 from openerp.tools.translate import _
+from openerp.exceptions import Warning
 
 AR_STATES = (
     ('sample_registered','Sample Registered'),
@@ -1069,6 +1070,18 @@ class Worksheet(models.Model, BaseOLiMSModel):
                         }
                     self.Add_Control_Refrence += self.Add_Control_Refrence.new(values)
 
+    def delete_analysis_requests_from_ws(self,cr,uid,ids,context=None):
+        worksheet = self.pool.get("olims.worksheet")
+        worksheet_obj = worksheet.browse(cr, uid, ids, context)
+        add_analysis_obj = self.pool.get("olims.add_analysis")
+        if any(record.State != "open" for record in worksheet_obj):
+            raise Warning("Only Worksheet with 'Open' state allow to delete Analysis")
+        else:
+            for record in worksheet_obj:
+                for item in record.AnalysisRequest:
+                    add_analysis_obj.write(cr, uid, item.id, {"state": 'unassigned'}, context)
+                    worksheet.write(cr, uid, record.id, {"AnalysisRequest": [(3, item.id)]})
+
 
 class AddAnalysis(models.Model):
     _name = "olims.add_analysis"
@@ -1116,6 +1129,16 @@ class AddAnalysis(models.Model):
             'view_id': form_id,
             'target': 'new',
         }
+
+    @api.multi
+    def bulk_delele_ar(self):
+        worksheet_id = 0
+        for record in self:
+            record.write({"state": 'unassigned'})
+            ws_add_analysis_obj = self.env["olims.worksheet"].search([("AnalysisRequest", '=', record.id)])
+            ws_add_analysis_obj.write({"AnalysisRequest": [(3, record.id)]})
+            worksheet_id = ws_add_analysis_obj.id
+        return True
 
 class WorkSheetManageResults(models.Model):
     _name = "olims.ws_manage_results"

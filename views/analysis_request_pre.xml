@@ -4,13 +4,13 @@
         <record model="ir.ui.view" id="olims_analysis_request_tree_view_pre">
             <field name="name">analysis_request.tree</field>
             <field name="model">olims.analysis_request</field>
-            <field name="priority" eval="2"/>
+            <field name="priority" eval="3"/>
             <field name="arch" type="xml">
                 <tree string="Analysis Request" create="false" delete="false">
                     <!-- <field name="RequestID" string="Request ID"></field> -->
                     <!-- <field name="Sample"></field> -->
-                    <field name="flagged_status" string="Flagged"></field>
                     <field name="Client"></field>
+                    <field name="flagged_status" string="Flagged"></field>
                     <field name="AnalysisProfile" string="Analysis Profile"></field>
                     <field name="SamplingDate" string="Sampling Date"></field>
                     <field name="SampleType" string="Sample Type"></field>
