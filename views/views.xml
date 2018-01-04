@@ -8,6 +8,7 @@
                 <script type="text/javascript" src="/olims/static/src/js/widget.js"></script>
                 <!-- <script type="text/javascript" src="/olims/static/src/js/web_keyboard_navigation.js"></script> -->
                 <script type="text/javascript" src="/olims/static/src/js/readonly_bypass.js"></script>
+                <script type="text/javascript" src="/olims/static/src/js/disable_client_action_group.js"></script>
                 <script type="text/javascript" src="/olims/static/lib/sticky_table_header/sticky_table_headers.js"/>
             </xpath>
         </template>
