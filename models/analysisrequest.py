@@ -40,10 +40,10 @@ schema = (fields.Char(string='RequestID',
                       compute='compute_analysisRequestId',
                       store=True
         ),
+    fields.Integer(string='ar_counter'),
     fields.Many2one(string='Client',
                     comodel_name='olims.client',
                     required=False,
-
     ),
     fields.Many2many(string='Contact',
                     comodel_name='olims.contact',
@@ -880,7 +880,14 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     @api.depends("Contact")
     def compute_analysisRequestId(self):
         for record in self:
-            record.RequestID = 'R-0' + str(record.id)
+            record.RequestID = 'Not Assigned'
+
+    def compute_analysisRequestId(self, cr, uid, ids, context=None):
+        
+        cr.execute('select ar_counter from olims_analysis_request order by ar_counter desc limit 1')
+        id_returned = cr.fetchone()
+        return id_returned[0] # return id only 
+
     @api.multi
     def Compute_AnalysisSample(self):
         for record in self:
@@ -1947,12 +1954,17 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 
     def bulk_change_states_pre(self, state, cr, uid, ids, context=None):
         previous_state = ""
+        data = {}
         if state == "sample_due":
             previous_state = "to_be_sampled"
         elif state == "sample_received":
             previous_state = "sample_due"
         elif state == "to_be_sampled":
             previous_state = "pre_enter"
+            last_id = self.compute_analysisRequestId(cr, uid, ids, context=None)
+            new_id = int(last_id)+1
+            RequestID = 'R-0' + str(new_id)
+            data = {"RequestID":RequestID,'ar_counter':new_id}
         requests = self.browse(cr,uid,ids)
         sample_ids = []
         for request in requests:
@@ -1963,7 +1975,8 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 
         self.browse(cr,uid,ids).signal_workflow(state)
         res = self.pool.get("olims.sample").browse(cr,uid,sample_ids).write({"state":state})
-        res = self.browse(cr,uid,request.id).write({"state":state})
+        data["state"] = state
+        res = self.browse(cr,uid,request.id).write(data)
         return True
 
     def bulk_change_states(self, state, cr, uid, ids, context=None):
