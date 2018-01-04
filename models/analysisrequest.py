@@ -929,6 +929,11 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 
         for ar_values in list_of_dicts:
             if ar_values.get("Contact") and ar_values.get('SamplingDate') and ar_values.get('SampleType'):
+                if ar_values.get("InvoiceExclude", None):
+                    ar_values["Discount"] = 0.0
+                    ar_values["Subtotal"] = 0.0
+                    ar_values["VAT"] = 0.0
+                    ar_values["Total"] = 0.0
                 res = super(AnalysisRequest, self).create(ar_values)
                 if not values.get('pre_enter',None):
                     res.write({'state':'pre_enter'})
@@ -1311,6 +1316,8 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     @api.multi
     def write(self, values):
         for record in self:
+            if values.get("InvoiceExclude", None):
+                record.write({"Discount": 0.0, "Subtotal": 0.0, "VAT": 0.0, "Total":0.0})
             if values.get("Analyses", None):
                 for items in values.get("Analyses"):
                     if items[0] == 0:
@@ -1851,15 +1858,15 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         profile_ids = []
         client = self._context.get('client_context', None)
         if not self.AnalysisProfile:
-            a_profile = self.env['olims.analysis_profile'].search([("Client","=",client)])   
-            for item in a_profile:
-                profile_ids.append(item.id)
-
-
-            return {'domain':{'AnalysisProfile':[('id','in',profile_ids)],
-                             'AnalysisProfile1':[('id','in',profile_ids)],
-                             'AnalysisProfile2':[('id','in',profile_ids)],
-                             'AnalysisProfile3':[('id','in',profile_ids)]}}
+            client_obj = self.env['olims.client'].search([("id","=",client)])
+            if client_obj and client_obj.Analysis_Profile:
+                for item in client_obj.Analysis_Profile:
+                    profile_ids.append(item.id)
+            if profile_ids:
+                return {'domain':{'AnalysisProfile':[('id','in',profile_ids),('Deactivated', '=',False )],
+                'AnalysisProfile1':[('id','in',profile_ids),('Deactivated', '=',False )],
+                'AnalysisProfile2':[('id','in',profile_ids),('Deactivated', '=',False )],
+                'AnalysisProfile3':[('id','in',profile_ids),('Deactivated', '=',False )]}}
 
         for record in self:
             if record.state != "sample_registered":
@@ -2416,7 +2423,16 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             self.paid_cash1 = self.paid_cash2 = self.paid_cash3 = self.paid_cash
         else:
             pass
+    def workflow_script_unpublish(self,cr,uid,ids,context=None):
+        self.write(cr, uid, ids, {'state': 'sample_received'}, context=context)
+        return True
 
+    @api.multi
+    def unpublish_analysis_request(self):
+        manage_results_obj = self.env["olims.manage_analyses"].search(["|",("manage_analysis_id","=",self.id),
+            ("lab_manage_analysis_id","=",self.id)
+            ]).write({"state": "sample_received"})
+        self.signal_workflow("unpublish")
 
 class FieldAnalysisService(models.Model, BaseOLiMSModel):
     _name = 'olims.field_analysis_service'

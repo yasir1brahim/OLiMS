@@ -2,7 +2,7 @@
     AnalysisRequests often use the same configurations.
     AnalysisProfile is used to save these common configurations (templates).
 """
-from openerp import fields, models
+from openerp import fields, models, api
 from openerp.tools.translate import _
 from base_olims_model import BaseOLiMSModel
 from fields.string_field import StringField
@@ -37,10 +37,6 @@ schema = (StringField('Profile',
     fields.Many2many(string='Service', comodel_name='olims.records_field_artemplates', required=True,\
                      relation='records_field_service_relation',\
                      help='The analyses included in this profile, grouped per category',
-        ),
-    fields.Many2many(string='Client', comodel_name='olims.client',\
-                     relation='olims_rel_analysis_profile_client',\
-                     help='Specify the clint for this Analysis Profile',
         ),
     TextField('Remarks',
         searchable = True,
@@ -112,8 +108,7 @@ schema = (StringField('Profile',
     fields.Float(compute='computeVATAmount',string='VATAmount'),
    
    fields.Float(compute='computeTotalPrice',string='TotalPrice'),
-   fields.Many2one(string='ClientProfile',
-                   comodel_name='olims.client'),
+   StringField(string="status", compute="compute_status")
 )
 
      
@@ -137,5 +132,16 @@ class AnalysisProfile(models.Model, BaseOLiMSModel):
             price, vat = reccord.getAnalysisProfilePrice(), reccord.getVATAmount()
             reccord.TotalPrice =  float(price)+float(vat)
 
+    @api.depends("Deactivated")
+    def compute_status(self):
+        for record in self:
+            if record.Deactivated:
+                record.status = "Deactive"
+            else:
+                record.status = "Active"
+
+    def deactivate_profile(self,cr,uid,ids,context=None):
+        analysis_profile = self.pool.get('olims.analysis_profile')
+        analysis_profile.write(cr,uid,ids, {'Deactivated': True})
 
 AnalysisProfile.initialze(schema)

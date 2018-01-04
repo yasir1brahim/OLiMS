@@ -65,7 +65,7 @@
             <field name="name">analysis_request.tree</field>
             <field name="model">olims.analysis_request</field>
             <field name="priority" eval="1"/>
-            <field name="domain">[('state','=','Pre-enter')]</field>
+            <!-- <field name="domain">[('state','=','Pre-enter')]</field> -->
             <field name="context">{}</field>            
             <field name="arch" type="xml">
                 <tree string="Analysis Request" create="false" delete="false">
@@ -665,7 +665,7 @@
                             <label for="contact_id" string="Contact"/>
                             <field name="contact_id" domain="['|',('Client_Contact','=',context.get('client_context')),('Client_Contact','=',ClientARTemplate)]" widget="many2many_checkboxes"></field>
                             <label for="email_id" string="Email"/>
-                            <field name="email_id" domain="['|',('client_id','=',context.get('client_context')),('invoice_client_id','=',context.get('client_context'))]" widget="many2many_checkboxes"></field>
+                            <field name="email_id" domain="['|',('client_id','=',context.get('client_context')),('invoice_client_id','=',context.get('client_context')), '|', ('client_id', '=', ClientARTemplate),('invoice_client_id','=',ClientARTemplate)]" widget="many2many_checkboxes"></field>
                         </page>
                     </notebook>
                 </sheet>
@@ -1825,6 +1825,7 @@
                             <button string="Publish" name="publish" type="workflow" states="verified"/>
                             <button string="Print" name="publish_analysis_request" type="object" states="published"/>
                             <button name="action_report_send" string="Send by Email" type="object" states="published" class="btn-primary"/>
+                            <button string="UnPublish" name="unpublish_analysis_request" type="object" states="published" groups="olims.group_lab_admin"/>
                             <field name="state" widget="statusbar" statusbar_visible="to_be_sampled,sample_due,sample_received, to_be_verified, verified" statusbar_colors='{"to_be_sampled":"blue","sample_received":"red","invalid":"red"}'/>
                     </header>
                 <!-- </sheet> -->
@@ -1996,7 +1997,7 @@
                             <label for="Sample_id" string="Sample"/>
                             <div>
                                 <field name="Copysample" style="width:20%%" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
-                                <field name="Sample_id" options="{'no_create': True}" nolabel="1"></field>
+                                <field name="Sample_id" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('state', '=', 'pre_enter')]}"></field>
                                 <field name="Sample_id1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="Sample_id2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="Sample_id3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
@@ -2565,7 +2566,7 @@
             <field name="name">worksheet.form</field>
             <field name="model">olims.worksheet</field>
             <field name="arch" type="xml">
-                <form string="Worksheet Form" duplicate="0">
+                <form string="Worksheet Form" duplicate="0" delete="false">
                     <sheet>
                         <header>
                             <field name="State" widget="statusbar" statusbar_visible="open,closed,verified" statusbar_colors='{"open":"blue","to_be_verified":"blue","rejected":"red"}'/>
@@ -2583,7 +2584,7 @@
                             <page string="Add Analyses" attrs="{'invisible': ['|',('id', '=', False),('State', '=', 'verified')]}">
                                 <field name="marked_closed" invisible="1"/>
                                 <label for="AnalysisRequest" string="Analysis Request"/>
-                                <field name="AnalysisRequest" options="{'no_create': True}" attrs="{'readonly': [('marked_closed', '=', True)]}"></field>
+                                <field name="AnalysisRequest" options="{'no_create': True}" attrs="{'readonly': [('marked_closed', '=', True)]}" widget="x2many_selectable"></field>
                             </page>
                             <page string="Manage Result" attrs="{'invisible': [('id', '=', False)]}">
                                 <group string="Attachments">
@@ -2654,7 +2655,7 @@
             <field name="name">worksheet.tree</field>
             <field name="model">olims.worksheet</field>
             <field name="arch" type="xml">
-                <tree string="Worksheet">
+                <tree string="Worksheet" delete="false">
                     <field name="Worksheet"></field>
                     <field name="Analyst"></field>
                     <field name="Template"></field>
@@ -2961,6 +2962,7 @@
         <record model="ir.ui.view" id="olims_sample_tree_view">
             <field name="name">sample.tree</field>
             <field name="model">olims.sample</field>
+            <field name="domain">[('state','!=','pre_enter')]</field>
             <field name="arch" type="xml">
                 <tree string="Sample" create="false" delete="false">
                     <field name="SampleID"></field>
@@ -2993,6 +2995,7 @@
             <field name="res_model">olims.sample</field>
             <field name="view_type">form</field>
 			<field name="view_mode">tree,form</field>
+            <field name="domain">[('state','!=','pre_enter')]</field>
        </record>
 
         <menuitem id="olims_sample_menu" name="Samples" parent="olims_menu" sequence="3"
@@ -4709,15 +4712,15 @@
                         </page>
                         <page string="Samples" attrs="{'invisible': [('id', '=', False)]}">
                             <label for="Sample" string="Samples"/>
-                            <field name="Sample"></field>
+                            <field name="Sample" domain="[('state', '!=', 'pre_enter')]" context="{'tree_view_ref':'olims.olims_sample_tree_view'}"></field>
                         </page>
                         <page string="Sample Points" attrs="{'invisible': [('id', '=', False)]}">
                             <label for="Sample Point" string="Sample Points"/>
                             <field name="Sample Point"></field>
                         </page>
                         <page string="Analysis Profiles" attrs="{'invisible': [('id', '=', False)]}">
-                            <label for="Analysis Profile" string="Analysis Profiles"/>
-                            <field name="Analysis Profile"></field>
+                            <label for="Analysis_Profile" string="Analysis Profiles"/>
+                            <field name="Analysis_Profile"></field>
                         </page>
                         <page string="AR Templates" attrs="{'invisible': [('id', '=', False)]}">
                             <header>
@@ -4921,8 +4924,6 @@
                             <label for="ProfileKey" string="Profile Keyword"/>
                             <p>The profile's keyword is used to uniquely identify it in import files. It has to be unique, and it may not be the same as any Calculation Interim field ID.</p>
                             <field name="ProfileKey"></field>
-                            <label for="Client" string="CLient"/>
-                            <field name="Client" options="{'no_create': True}"/>
                             <label for="Deactivated" string="Deactivated"/>
                             <field name="Deactivated"></field>
                         </page>
@@ -4971,13 +4972,13 @@
                     <field name="Profile"></field>
                 	<field name="Description"></field>
                 	<field name="ProfileKey"></field>
-                    <!-- <field name="Service"></field> 
-                	<field name="Remarks"></field>
+                     <field name="status" string="Status"></field> 
+                	<!-- <field name="Remarks"></field>
                 	<field name="CommercialID"></field>
                 	<field name="UseAnalysisProfilePrice"></field>
                 	<field name="AnalysisProfilePrice"></field>
                 	<field name="AnalysisProfileVAT"></field>
-                    <field name="VATAmount"></field>-->
+                    <field name="VATAmount"></field> -->
                 </tree>
             </field>
         </record>
@@ -6129,6 +6130,42 @@
                         <field name="report_logo" widget="image"  class="oe_avatar"/>
                 </xpath>
             </field>
+        </record>
+        <!-- For Bulk Deactive Analysis Profile -->
+        <record id="analysis_profile_deactivate" model="ir.actions.server">
+            <field name="name">Deactivate</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_olims_analysis_profile"/>
+            <field name="state">code</field>
+            <field name="code">self.deactivate_profile(cr,uid,context.get('active_ids'),context=context)</field>
+            <field name="sequence" eval="2"/>
+        </record>
+        <record id="deactive_multiple_analysis_profile" model="ir.values">
+            <field name="name">Deactivate</field>
+            <field name="action_id" ref="analysis_profile_deactivate"/>
+            <field name="value" eval="'ir.actions.server,' + str(ref('analysis_profile_deactivate'))"/>
+            <field name="key">action</field>
+            <field name="model_id" ref="model_olims_analysis_profile"/>
+            <field name="model">olims.analysis_profile</field>
+            <field name="key2">client_action_multi</field>
+        </record>
+        <!-- For Bulk Deactive Analysis Profile -->
+        <record id="worksheet_delete_analysis" model="ir.actions.server">
+            <field name="name">Delete</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_olims_worksheet"/>
+            <field name="state">code</field>
+            <field name="code">action = self.delete_analysis_requests_from_ws(cr=cr,uid=uid,ids=context.get('active_ids'),context=context)</field>
+            <field name="sequence" eval="2"/>
+        </record>
+        <record id="delete_analysis_from_worksheet" model="ir.values">
+            <field name="name">Delete</field>
+            <field name="action_id" ref="worksheet_delete_analysis"/>
+            <field name="value" eval="'ir.actions.server,' + str(ref('worksheet_delete_analysis'))"/>
+            <field name="key">action</field>
+            <field name="model_id" ref="model_olims_worksheet"/>
+            <field name="model">olims.worksheet</field>
+            <field name="key2">client_action_multi</field>
         </record>
     </data>
 </openerp>

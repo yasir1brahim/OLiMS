@@ -110,3 +110,4 @@ olims.t108,olims.olims_ar_invoice_workflow,cancel,olims_ar_inv_close,olims_ar_in
 olims.t109,olims.olims_ar_invoice_workflow,cancel,olims_ar_inv_publish,olims_ar_inv_cancelled,True,olims.group_lab_managers,,
 olims.t110,olims.olims_analysis_request_workflow,sampling workflow,olims_pre_enter,olims_to_be_sampled,True,olims.group_lab_managers,,
 olims.t111,olims.olims_analysis_request_workflow,sampling workflow,olims_pre_enter,olims_to_be_sampled,True,olims.group_lab_clerks,,
+olims.t112,olims.olims_analysis_request_workflow,unpublish,olims_published,olims_sample_received,True,olims.group_lab_admin,,
