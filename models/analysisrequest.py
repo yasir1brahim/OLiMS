@@ -1419,9 +1419,9 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def Computetotalamount(self):
         for record in self:
             if record.adjustment_option =='amount':
-                total = self._origin.Total - record.Adjustment
+                total = self._origin.Total + record.Adjustment
             else:
-                total = self._origin.Total - (self._origin.Total*record.Adjustment/100)
+                total = self._origin.Total + (self._origin.Total*record.Adjustment/100)
             record.Total = total
 
     @api.onchange('LabService','FieldService')
