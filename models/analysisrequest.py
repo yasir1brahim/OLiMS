@@ -1415,14 +1415,17 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         """ Compute the price with VAT but no member discount"""
         return self.getSubtotal() + self.getSubtotalVATAmount()
 
-    @api.onchange('adjustment_option','Adjustment')
+    @api.onchange('adjustment_option','Adjustment','InvoiceExclude')
     def Computetotalamount(self):
         for record in self:
-            if record.adjustment_option =='amount':
-                total = self._origin.Total + record.Adjustment
-            else:
-                total = self._origin.Total + (self._origin.Total*record.Adjustment/100)
-            record.Total = total
+            if record.InvoiceExclude == True:
+                record.total = 0
+            else :
+                if record.adjustment_option =='amount':
+                    total = self._origin.Total + record.Adjustment
+                else:
+                    total = self._origin.Total + (self._origin.Total*record.Adjustment/100)
+                record.Total = total
 
     @api.onchange('LabService','FieldService')
     def ComputeServiceCalculation(self):
