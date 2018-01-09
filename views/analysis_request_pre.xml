@@ -9,7 +9,7 @@
                 <tree string="Analysis Request" create="false" delete="false">
                     <!-- <field name="RequestID" string="Request ID"></field> -->
                     <!-- <field name="Sample"></field> -->
-                    <field name="Client"></field>
+                    <field name="Client" on_change="onClientChange()"></field>
                     <field name="flagged_status" string="Flagged"></field>
                     <field name="AnalysisProfile" string="Analysis Profile"></field>
                     <field name="SamplingDate" string="Sampling Date"></field>
