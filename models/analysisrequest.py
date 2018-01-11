@@ -33,7 +33,13 @@ SELECT_OPTIONS=(
     ('0','Select-to-copy'),
     ('1', '2'),
     ('2', '3'),
-    ('3', '4')
+    ('3', '4'),
+    ('4', '5'),
+    ('5', '6'),
+    ('6', '7'),
+    ('7', '8'),
+    ('8', '9'),
+    ('9', '10'),
     )
 
 schema = (fields.Char(string='RequestID',
@@ -65,6 +71,36 @@ schema = (fields.Char(string='RequestID',
                     relation='ar_contact',
                     required=False
     ),
+    fields.Many2many(string='Contact4',
+                    comodel_name='olims.contact',
+                    relation='ar_contact',
+                    required=False
+    ),
+    fields.Many2many(string='Contact5',
+                    comodel_name='olims.contact',
+                    relation='ar_contact',
+                    required=False
+    ),
+    fields.Many2many(string='Contact6',
+                    comodel_name='olims.contact',
+                    relation='ar_contact',
+                    required=False
+    ),
+    fields.Many2many(string='Contact7',
+                    comodel_name='olims.contact',
+                    relation='ar_contact',
+                    required=False
+    ),
+    fields.Many2many(string='Contact8',
+                    comodel_name='olims.contact',
+                    relation='ar_contact',
+                    required=False
+    ),
+    fields.Many2many(string='Contact9',
+                    comodel_name='olims.contact',
+                    relation='ar_contact',
+                    required=False
+    ),
     fields.Many2many(string='CCContact',
                     comodel_name='olims.contact',
                     relation='ar__cc_contact',
@@ -85,6 +121,36 @@ schema = (fields.Char(string='RequestID',
                     relation='ar__cc_contact',
                     required=False
     ),
+    fields.Many2many(string='CCContact4',
+                    comodel_name='olims.contact',
+                    relation='ar__cc_contact',
+                    required=False
+    ),
+    fields.Many2many(string='CCContact5',
+                    comodel_name='olims.contact',
+                    relation='ar__cc_contact',
+                    required=False
+    ),
+    fields.Many2many(string='CCContact6',
+                    comodel_name='olims.contact',
+                    relation='ar__cc_contact',
+                    required=False
+    ),
+    fields.Many2many(string='CCContact7',
+                    comodel_name='olims.contact',
+                    relation='ar__cc_contact',
+                    required=False
+    ),
+    fields.Many2many(string='CCContact8',
+                    comodel_name='olims.contact',
+                    relation='ar__cc_contact',
+                    required=False
+    ),
+    fields.Many2many(string='CCContact9',
+                    comodel_name='olims.contact',
+                    relation='ar__cc_contact',
+                    required=False
+    ),
     fields.Many2many(
         string='CCEmails',
         comodel_name="olims.email"
@@ -99,6 +165,30 @@ schema = (fields.Char(string='RequestID',
     ),
     fields.Many2many(
         string='CCEmails3',
+        comodel_name="olims.email"
+    ),
+    fields.Many2many(
+        string='CCEmails4',
+        comodel_name="olims.email"
+    ),
+    fields.Many2many(
+        string='CCEmails5',
+        comodel_name="olims.email"
+    ),
+    fields.Many2many(
+        string='CCEmails6',
+        comodel_name="olims.email"
+    ),
+    fields.Many2many(
+        string='CCEmails7',
+        comodel_name="olims.email"
+    ),
+    fields.Many2many(
+        string='CCEmails8',
+        comodel_name="olims.email"
+    ),
+    fields.Many2many(
+        string='CCEmails9',
         comodel_name="olims.email"
     ),
     fields.Char(string='Sample',
@@ -121,6 +211,30 @@ schema = (fields.Char(string='RequestID',
                         comodel_name='olims.sample',
 
     ),
+    fields.Many2one(string='Sample_id4',
+                        comodel_name='olims.sample',
+
+    ),
+    fields.Many2one(string='Sample_id5',
+                        comodel_name='olims.sample',
+
+    ),
+    fields.Many2one(string='Sample_id6',
+                        comodel_name='olims.sample',
+
+    ),
+    fields.Many2one(string='Sample_id7',
+                        comodel_name='olims.sample',
+
+    ),
+    fields.Many2one(string='Sample_id8',
+                        comodel_name='olims.sample',
+
+    ),
+    fields.Many2one(string='Sample_id9',
+                        comodel_name='olims.sample',
+
+    ),
     fields.Many2one(string='Batch',
                         comodel_name='olims.batch',
 
@@ -134,6 +248,30 @@ schema = (fields.Char(string='RequestID',
 
     ),
     fields.Many2one(string='Batch3',
+                        comodel_name='olims.batch',
+
+    ),
+    fields.Many2one(string='Batch4',
+                        comodel_name='olims.batch',
+
+    ),
+    fields.Many2one(string='Batch5',
+                        comodel_name='olims.batch',
+
+    ),
+    fields.Many2one(string='Batch6',
+                        comodel_name='olims.batch',
+
+    ),
+    fields.Many2one(string='Batch7',
+                        comodel_name='olims.batch',
+
+    ),
+    fields.Many2one(string='Batch8',
+                        comodel_name='olims.batch',
+
+    ),
+    fields.Many2one(string='Batch9',
                         comodel_name='olims.batch',
 
     ),
@@ -157,6 +295,36 @@ schema = (fields.Char(string='RequestID',
                         relation='ar_subgroup'
 
     ),
+    fields.Many2one(string='SubGroup4',
+                        comodel_name='olims.subgroup',
+                        relation='ar_subgroup'
+
+    ),
+    fields.Many2one(string='SubGroup5',
+                        comodel_name='olims.subgroup',
+                        relation='ar_subgroup'
+
+    ),
+    fields.Many2one(string='SubGroup6',
+                        comodel_name='olims.subgroup',
+                        relation='ar_subgroup'
+
+    ),
+    fields.Many2one(string='SubGroup7',
+                        comodel_name='olims.subgroup',
+                        relation='ar_subgroup'
+
+    ),
+    fields.Many2one(string='SubGroup8',
+                        comodel_name='olims.subgroup',
+                        relation='ar_subgroup'
+
+    ),
+    fields.Many2one(string='SubGroup9',
+                        comodel_name='olims.subgroup',
+                        relation='ar_subgroup'
+
+    ),
     fields.Many2one(string='Template',
                         comodel_name='olims.ar_template',
 
@@ -170,6 +338,30 @@ schema = (fields.Char(string='RequestID',
 
     ),
     fields.Many2one(string='Template3',
+                        comodel_name='olims.ar_template',
+
+    ),
+    fields.Many2one(string='Template4',
+                        comodel_name='olims.ar_template',
+
+    ),
+    fields.Many2one(string='Template5',
+                        comodel_name='olims.ar_template',
+
+    ),
+    fields.Many2one(string='Template6',
+                        comodel_name='olims.ar_template',
+
+    ),
+    fields.Many2one(string='Template7',
+                        comodel_name='olims.ar_template',
+
+    ),
+    fields.Many2one(string='Template8',
+                        comodel_name='olims.ar_template',
+
+    ),
+    fields.Many2one(string='Template9',
                         comodel_name='olims.ar_template',
 
     ),
@@ -192,6 +384,42 @@ schema = (fields.Char(string='RequestID',
 
     ),
     fields.Many2one(string='AnalysisProfile3',
+                        comodel_name='olims.analysis_profile',
+                        relation='ar_to_analysisprofile',
+                        domain="[('Deactivated', '=',False )]"
+
+    ),
+    fields.Many2one(string='AnalysisProfile4',
+                        comodel_name='olims.analysis_profile',
+                        relation='ar_to_analysisprofile',
+                        domain="[('Deactivated', '=',False )]"
+
+    ),
+    fields.Many2one(string='AnalysisProfile5',
+                        comodel_name='olims.analysis_profile',
+                        relation='ar_to_analysisprofile',
+                        domain="[('Deactivated', '=',False )]"
+
+    ),
+    fields.Many2one(string='AnalysisProfile6',
+                        comodel_name='olims.analysis_profile',
+                        relation='ar_to_analysisprofile',
+                        domain="[('Deactivated', '=',False )]"
+
+    ),
+    fields.Many2one(string='AnalysisProfile7',
+                        comodel_name='olims.analysis_profile',
+                        relation='ar_to_analysisprofile',
+                        domain="[('Deactivated', '=',False )]"
+
+    ),
+    fields.Many2one(string='AnalysisProfile8',
+                        comodel_name='olims.analysis_profile',
+                        relation='ar_to_analysisprofile',
+                        domain="[('Deactivated', '=',False )]"
+
+    ),
+    fields.Many2one(string='AnalysisProfile9',
                         comodel_name='olims.analysis_profile',
                         relation='ar_to_analysisprofile',
                         domain="[('Deactivated', '=',False )]"
@@ -229,6 +457,30 @@ schema = (fields.Char(string='RequestID',
         comodel_name="res.users",
         domain="[('groups_id', 'in', [14,18])]",
     ),
+    fields.Many2one(string='Sampler4',
+        comodel_name="res.users",
+        domain="[('groups_id', 'in', [14,18])]",
+    ),
+    fields.Many2one(string='Sampler5',
+        comodel_name="res.users",
+        domain="[('groups_id', 'in', [14,18])]",
+    ),
+    fields.Many2one(string='Sampler6',
+        comodel_name="res.users",
+        domain="[('groups_id', 'in', [14,18])]",
+    ),
+    fields.Many2one(string='Sampler7',
+        comodel_name="res.users",
+        domain="[('groups_id', 'in', [14,18])]",
+    ),
+    fields.Many2one(string='Sampler8',
+        comodel_name="res.users",
+        domain="[('groups_id', 'in', [14,18])]",
+    ),
+    fields.Many2one(string='Sampler9',
+        comodel_name="res.users",
+        domain="[('groups_id', 'in', [14,18])]",
+    ),
     DateTimeField(
         'SamplingDate',
         required=1,
@@ -243,6 +495,30 @@ schema = (fields.Char(string='RequestID',
     ),
     DateTimeField(
         'SamplingDate3',
+        required=0,
+    ),
+    DateTimeField(
+        'SamplingDate4',
+        required=0,
+    ),
+    DateTimeField(
+        'SamplingDate5',
+        required=0,
+    ),
+    DateTimeField(
+        'SamplingDate6',
+        required=0,
+    ),
+    DateTimeField(
+        'SamplingDate7',
+        required=0,
+    ),
+    DateTimeField(
+        'SamplingDate8',
+        required=0,
+    ),
+    DateTimeField(
+        'SamplingDate9',
         required=0,
     ),
     fields.Many2one(string='SampleType',
@@ -261,6 +537,36 @@ schema = (fields.Char(string='RequestID',
 
     ),
     fields.Many2one(string='SampleType3',
+                        comodel_name='olims.sample_type',
+                        required=False
+
+    ),
+    fields.Many2one(string='SampleType4',
+                        comodel_name='olims.sample_type',
+                        required=False
+
+    ),
+    fields.Many2one(string='SampleType5',
+                        comodel_name='olims.sample_type',
+                        required=False
+
+    ),
+    fields.Many2one(string='SampleType6',
+                        comodel_name='olims.sample_type',
+                        required=False
+
+    ),
+    fields.Many2one(string='SampleType7',
+                        comodel_name='olims.sample_type',
+                        required=False
+
+    ),
+    fields.Many2one(string='SampleType8',
+                        comodel_name='olims.sample_type',
+                        required=False
+
+    ),
+    fields.Many2one(string='SampleType9',
                         comodel_name='olims.sample_type',
                         required=False
 
@@ -285,6 +591,36 @@ schema = (fields.Char(string='RequestID',
                         relation='ar_analysis_spec',
                         required=False,
     ),
+    fields.Many2one(string='Specification4',
+                        comodel_name='olims.analysis_spec',
+                        relation='ar_analysis_spec',
+                        required=False,
+    ),
+    fields.Many2one(string='Specification5',
+                        comodel_name='olims.analysis_spec',
+                        relation='ar_analysis_spec',
+                        required=False,
+    ),
+    fields.Many2one(string='Specification6',
+                        comodel_name='olims.analysis_spec',
+                        relation='ar_analysis_spec',
+                        required=False,
+    ),
+    fields.Many2one(string='Specification7',
+                        comodel_name='olims.analysis_spec',
+                        relation='ar_analysis_spec',
+                        required=False,
+    ),
+    fields.Many2one(string='Specification8',
+                        comodel_name='olims.analysis_spec',
+                        relation='ar_analysis_spec',
+                        required=False,
+    ),
+    fields.Many2one(string='Specification9',
+                        comodel_name='olims.analysis_spec',
+                        relation='ar_analysis_spec',
+                        required=False,
+    ),
     fields.Many2one(string='SamplePoint',
                         comodel_name='olims.sample_point',
 
@@ -298,6 +634,30 @@ schema = (fields.Char(string='RequestID',
 
     ),
     fields.Many2one(string='SamplePoint3',
+                        comodel_name='olims.sample_point',
+
+    ),
+    fields.Many2one(string='SamplePoint4',
+                        comodel_name='olims.sample_point',
+
+    ),
+    fields.Many2one(string='SamplePoint5',
+                        comodel_name='olims.sample_point',
+
+    ),
+    fields.Many2one(string='SamplePoint6',
+                        comodel_name='olims.sample_point',
+
+    ),
+    fields.Many2one(string='SamplePoint7',
+                        comodel_name='olims.sample_point',
+
+    ),
+    fields.Many2one(string='SamplePoint8',
+                        comodel_name='olims.sample_point',
+
+    ),
+    fields.Many2one(string='SamplePoint9',
                         comodel_name='olims.sample_point',
 
     ),
@@ -317,6 +677,30 @@ schema = (fields.Char(string='RequestID',
                         comodel_name='olims.storage_location',
 
     ),
+    fields.Many2one(string='StorageLocation4',
+                        comodel_name='olims.storage_location',
+
+    ),
+    fields.Many2one(string='StorageLocation5',
+                        comodel_name='olims.storage_location',
+
+    ),
+    fields.Many2one(string='StorageLocation6',
+                        comodel_name='olims.storage_location',
+
+    ),
+    fields.Many2one(string='StorageLocation7',
+                        comodel_name='olims.storage_location',
+
+    ),
+    fields.Many2one(string='StorageLocation8',
+                        comodel_name='olims.storage_location',
+
+    ),
+    fields.Many2one(string='StorageLocation9',
+                        comodel_name='olims.storage_location',
+
+    ),
     StringField(
         'LotID',
     ),
@@ -328,6 +712,24 @@ schema = (fields.Char(string='RequestID',
     ),
     StringField(
         'LotID3',
+    ),
+    StringField(
+        'LotID4',
+    ),
+    StringField(
+        'LotID5',
+    ),
+    StringField(
+        'LotID6',
+    ),
+    StringField(
+        'LotID7',
+    ),
+    StringField(
+        'LotID8',
+    ),
+    StringField(
+        'LotID9',
     ),
     # Sample field
     StringField(
@@ -344,6 +746,30 @@ schema = (fields.Char(string='RequestID',
     ),
     StringField(
         'ClientReference3',
+        searchable=True,
+    ),
+    StringField(
+        'ClientReference4',
+        searchable=True,
+    ),
+    StringField(
+        'ClientReference5',
+        searchable=True,
+    ),
+    StringField(
+        'ClientReference6',
+        searchable=True,
+    ),
+    StringField(
+        'ClientReference7',
+        searchable=True,
+    ),
+    StringField(
+        'ClientReference8',
+        searchable=True,
+    ),
+    StringField(
+        'ClientReference9',
         searchable=True,
     ),
     # Sample field
@@ -363,6 +789,30 @@ schema = (fields.Char(string='RequestID',
         'ClientSampleID3',
         searchable=True,
     ),
+    StringField(
+        'ClientSampleID4',
+        searchable=True,
+    ),
+    StringField(
+        'ClientSampleID5',
+        searchable=True,
+    ),
+    StringField(
+        'ClientSampleID6',
+        searchable=True,
+    ),
+    StringField(
+        'ClientSampleID7',
+        searchable=True,
+    ),
+    StringField(
+        'ClientSampleID8',
+        searchable=True,
+    ),
+    StringField(
+        'ClientSampleID9',
+        searchable=True,
+    ),
     fields.Many2one(string='SamplingDeviation',
                         comodel_name='olims.sampling_deviation',
 
@@ -379,7 +829,31 @@ schema = (fields.Char(string='RequestID',
                         comodel_name='olims.sampling_deviation',
 
     ),
-#     # Sample field
+    fields.Many2one(string='SamplingDeviation4',
+                        comodel_name='olims.sampling_deviation',
+
+    ),
+    fields.Many2one(string='SamplingDeviation5',
+                        comodel_name='olims.sampling_deviation',
+
+    ),
+    fields.Many2one(string='SamplingDeviation6',
+                        comodel_name='olims.sampling_deviation',
+
+    ),
+    fields.Many2one(string='SamplingDeviation7',
+                        comodel_name='olims.sampling_deviation',
+
+    ),
+    fields.Many2one(string='SamplingDeviation8',
+                        comodel_name='olims.sampling_deviation',
+
+    ),
+    fields.Many2one(string='SamplingDeviation9',
+                        comodel_name='olims.sampling_deviation',
+
+    ),
+    # Sample field
     fields.Many2one(string='SampleCondition',
                         comodel_name='olims.sample_condition',
 
@@ -396,6 +870,32 @@ schema = (fields.Char(string='RequestID',
                         comodel_name='olims.sample_condition',
 
     ),
+    fields.Many2one(string='SampleCondition4',
+                        comodel_name='olims.sample_condition',
+
+    ),
+    fields.Many2one(string='SampleCondition5',
+                        comodel_name='olims.sample_condition',
+
+    ),
+    fields.Many2one(string='SampleCondition6',
+                        comodel_name='olims.sample_condition',
+
+    ),
+    fields.Many2one(string='SampleCondition7',
+                        comodel_name='olims.sample_condition',
+
+    ),
+    fields.Many2one(string='SampleCondition8',
+                        comodel_name='olims.sample_condition',
+
+    ),
+    fields.Many2one(string='SampleCondition9',
+                        comodel_name='olims.sample_condition',
+
+    ),
+
+    # Sample field
     fields.Many2one(string='DefaultContainerType',
                         comodel_name='olims.container_type',
 
@@ -409,6 +909,30 @@ schema = (fields.Char(string='RequestID',
 
     ),
     fields.Many2one(string='DefaultContainerType3',
+                        comodel_name='olims.container_type',
+
+    ),
+    fields.Many2one(string='DefaultContainerType4',
+                        comodel_name='olims.container_type',
+
+    ),
+    fields.Many2one(string='DefaultContainerType5',
+                        comodel_name='olims.container_type',
+
+    ),
+    fields.Many2one(string='DefaultContainerType6',
+                        comodel_name='olims.container_type',
+
+    ),
+    fields.Many2one(string='DefaultContainerType7',
+                        comodel_name='olims.container_type',
+
+    ),
+    fields.Many2one(string='DefaultContainerType8',
+                        comodel_name='olims.container_type',
+
+    ),
+    fields.Many2one(string='DefaultContainerType9',
                         comodel_name='olims.container_type',
 
     ),
@@ -429,6 +953,30 @@ schema = (fields.Char(string='RequestID',
         'AdHoc3',
         default=False,
     ),
+    BooleanField(
+        'AdHoc4',
+        default=False,
+    ),
+    BooleanField(
+        'AdHoc5',
+        default=False,
+    ),
+    BooleanField(
+        'AdHoc6',
+        default=False,
+    ),
+    BooleanField(
+        'AdHoc7',
+        default=False,
+    ),
+    BooleanField(
+        'AdHoc8',
+        default=False,
+    ),
+    BooleanField(
+        'AdHoc9',
+        default=False,
+    ),
     # Sample field
     BooleanField(
         'Composite',
@@ -444,6 +992,30 @@ schema = (fields.Char(string='RequestID',
     ),
     BooleanField(
         'Composite3',
+        default=False,
+    ),
+    BooleanField(
+        'Composite4',
+        default=False,
+    ),
+    BooleanField(
+        'Composite5',
+        default=False,
+    ),
+    BooleanField(
+        'Composite6',
+        default=False,
+    ),
+    BooleanField(
+        'Composite7',
+        default=False,
+    ),
+    BooleanField(
+        'Composite8',
+        default=False,
+    ),
+    BooleanField(
+        'Composite9',
         default=False,
     ),
     BooleanField(
@@ -463,6 +1035,30 @@ schema = (fields.Char(string='RequestID',
         default=False,
     ),
     BooleanField(
+        'ReportDryMatter4',
+        default=False,
+    ),
+    BooleanField(
+        'ReportDryMatter5',
+        default=False,
+    ),
+    BooleanField(
+        'ReportDryMatter6',
+        default=False,
+    ),
+    BooleanField(
+        'ReportDryMatter7',
+        default=False,
+    ),
+    BooleanField(
+        'ReportDryMatter8',
+        default=False,
+    ),
+    BooleanField(
+        'ReportDryMatter9',
+        default=False,
+    ),
+    BooleanField(
         'InvoiceExclude',
         default=False,
     ),
@@ -476,6 +1072,30 @@ schema = (fields.Char(string='RequestID',
     ),
     BooleanField(
         'InvoiceExclude3',
+        default=False,
+    ),
+    BooleanField(
+        'InvoiceExclude4',
+        default=False,
+    ),
+    BooleanField(
+        'InvoiceExclude5',
+        default=False,
+    ),
+    BooleanField(
+        'InvoiceExclude6',
+        default=False,
+    ),
+    BooleanField(
+        'InvoiceExclude7',
+        default=False,
+    ),
+    BooleanField(
+        'InvoiceExclude8',
+        default=False,
+    ),
+    BooleanField(
+        'InvoiceExclude9',
         default=False,
     ),
     DateTimeField(
@@ -522,6 +1142,36 @@ schema = (fields.Char(string='RequestID',
                    required=False,
 
     ),
+    fields.Many2one(string='Priority4',
+                   comodel_name='olims.ar_priority',
+                   required=False,
+
+    ),
+    fields.Many2one(string='Priority5',
+                   comodel_name='olims.ar_priority',
+                   required=False,
+
+    ),
+    fields.Many2one(string='Priority6',
+                   comodel_name='olims.ar_priority',
+                   required=False,
+
+    ),
+    fields.Many2one(string='Priority7',
+                   comodel_name='olims.ar_priority',
+                   required=False,
+
+    ),
+    fields.Many2one(string='Priority8',
+                   comodel_name='olims.ar_priority',
+                   required=False,
+
+    ),
+    fields.Many2one(string='Priority9',
+                   comodel_name='olims.ar_priority',
+                   required=False,
+
+    ),
     TextField(
         string='ResultsInterpretation',
     ),
@@ -555,6 +1205,24 @@ schema = (fields.Char(string='RequestID',
     fields.Float(string='Discount3',
                  default=0.00,
     ),
+    fields.Float(string='Discount4',
+                 default=0.00,
+    ),
+    fields.Float(string='Discount5',
+                 default=0.00,
+    ),
+    fields.Float(string='Discount6',
+                 default=0.00,
+    ),
+    fields.Float(string='Discount7',
+                 default=0.00,
+    ),
+    fields.Float(string='Discount8',
+                 default=0.00,
+    ),
+    fields.Float(string='Discount9',
+                 default=0.00,
+    ),
     fields.Float(string='Subtotal',
                  default=0.00,
     ),
@@ -565,6 +1233,24 @@ schema = (fields.Char(string='RequestID',
                  default=0.00,
     ),
     fields.Float(string='Subtotal3',
+                 default=0.00,
+    ),
+    fields.Float(string='Subtotal4',
+                 default=0.00,
+    ),
+    fields.Float(string='Subtotal5',
+                 default=0.00,
+    ),
+    fields.Float(string='Subtotal6',
+                 default=0.00,
+    ),
+    fields.Float(string='Subtotal7',
+                 default=0.00,
+    ),
+    fields.Float(string='Subtotal8',
+                 default=0.00,
+    ),
+    fields.Float(string='Subtotal9',
                  default=0.00,
     ),
     fields.Float(string='VAT',
@@ -579,6 +1265,24 @@ schema = (fields.Char(string='RequestID',
     fields.Float(string='VAT3',
                  default=0.00,
     ),
+    fields.Float(string='VAT4',
+                 default=0.00,
+    ),
+    fields.Float(string='VAT5',
+                 default=0.00,
+    ),
+    fields.Float(string='VAT6',
+                 default=0.00,
+    ),
+    fields.Float(string='VAT7',
+                 default=0.00,
+    ),
+    fields.Float(string='VAT8',
+                 default=0.00,
+    ),
+    fields.Float(string='VAT9',
+                 default=0.00,
+    ),
     fields.Float(string='Total',
                  default=0.00,
     ),
@@ -589,6 +1293,24 @@ schema = (fields.Char(string='RequestID',
                  default=0.00,
     ),
     fields.Float(string='Total3',
+                 default=0.00,
+    ),
+    fields.Float(string='Total4',
+                 default=0.00,
+    ),
+    fields.Float(string='Total5',
+                 default=0.00,
+    ),
+    fields.Float(string='Total6',
+                 default=0.00,
+    ),
+    fields.Float(string='Total7',
+                 default=0.00,
+    ),
+    fields.Float(string='Total8',
+                 default=0.00,
+    ),
+    fields.Float(string='Total9',
                  default=0.00,
     ),
     fields.Selection(string='state',
@@ -767,6 +1489,18 @@ schema = (fields.Char(string='RequestID',
         default=False),
     fields.Boolean(string='paid_cash3',
         default=False),
+    fields.Boolean(string='paid_cash4',
+        default=False),
+    fields.Boolean(string='paid_cash5',
+        default=False),
+    fields.Boolean(string='paid_cash6',
+        default=False),
+    fields.Boolean(string='paid_cash7',
+        default=False),
+    fields.Boolean(string='paid_cash8',
+        default=False),
+    fields.Boolean(string='paid_cash9',
+        default=False),
     fields.Boolean(string="copy_paid_cash", default=False),
 
 
@@ -784,6 +1518,30 @@ schema = (fields.Char(string='RequestID',
     ),
     StringField(
         'SampleMassReceived3',
+        searchable=True,
+    ),
+    StringField(
+        'SampleMassReceived4',
+        searchable=True,
+    ),
+    StringField(
+        'SampleMassReceived5',
+        searchable=True,
+    ),
+    StringField(
+        'SampleMassReceived6',
+        searchable=True,
+    ),
+    StringField(
+        'SampleMassReceived7',
+        searchable=True,
+    ),
+    StringField(
+        'SampleMassReceived8',
+        searchable=True,
+    ),
+    StringField(
+        'SampleMassReceived9',
         searchable=True,
     ),
     fields.Boolean(
@@ -905,13 +1663,23 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         """
         list_of_dicts = []
         count = 0
-        analysis_request_0_dict, analysis_request_1_dict, analysis_request_2_dict, analysis_request_3_dict = self.get_fields_value_dicts(
-            values)
+        analysis_request_0_dict, analysis_request_1_dict, analysis_request_2_dict,\
+        analysis_request_3_dict, analysis_request_4_dict, analysis_request_5_dict,\
+        analysis_request_6_dict, analysis_request_7_dict, analysis_request_8_dict,\
+        analysis_request_9_dict = self.get_fields_value_dicts(values)
         data, data1, data2, data3,\
+        data4, data5, data6, data7,\
+        data8, data9,\
         field_result_list, lab_result_list,\
         field_result_list_profile1, lab_result_list_profile1,\
         field_result_list_profile2, lab_result_list_profile2,\
-        field_result_list_profile3, lab_result_list_profile3 = self.create_field_and_lab_analyses(values)
+        field_result_list_profile3, lab_result_list_profile3,\
+        field_result_list_profile4, lab_result_list_profile4,\
+        field_result_list_profile5, lab_result_list_profile5,\
+        field_result_list_profile6, lab_result_list_profile6,\
+        field_result_list_profile7, lab_result_list_profile7,\
+        field_result_list_profile8, lab_result_list_profile8,\
+        field_result_list_profile9, lab_result_list_profile9 = self.create_field_and_lab_analyses(values)
 
         analysis_request_0_dict.update({"Field_Manage_Result": field_result_list,
             "Lab_Manage_Result": lab_result_list})
@@ -921,11 +1689,29 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             "Lab_Manage_Result": lab_result_list_profile2})
         analysis_request_3_dict.update({"Field_Manage_Result": field_result_list_profile3,
                                         "Lab_Manage_Result": lab_result_list_profile3})
+        analysis_request_4_dict.update({"Field_Manage_Result": field_result_list_profile4,
+            "Lab_Manage_Result": lab_result_list_profile4})
+        analysis_request_5_dict.update({"Field_Manage_Result": field_result_list_profile5,
+            "Lab_Manage_Result": lab_result_list_profile5})
+        analysis_request_6_dict.update({"Field_Manage_Result": field_result_list_profile6,
+                                        "Lab_Manage_Result": lab_result_list_profile6})
+        analysis_request_7_dict.update({"Field_Manage_Result": field_result_list_profile7,
+            "Lab_Manage_Result": lab_result_list_profile7})
+        analysis_request_8_dict.update({"Field_Manage_Result": field_result_list_profile8,
+            "Lab_Manage_Result": lab_result_list_profile8})
+        analysis_request_9_dict.update({"Field_Manage_Result": field_result_list_profile9,
+                                        "Lab_Manage_Result": lab_result_list_profile9})
 
         list_of_dicts.append(analysis_request_0_dict)
         list_of_dicts.append(analysis_request_1_dict)
         list_of_dicts.append(analysis_request_2_dict)
         list_of_dicts.append(analysis_request_3_dict)
+        list_of_dicts.append(analysis_request_4_dict)
+        list_of_dicts.append(analysis_request_5_dict)
+        list_of_dicts.append(analysis_request_6_dict)
+        list_of_dicts.append(analysis_request_7_dict)
+        list_of_dicts.append(analysis_request_8_dict)
+        list_of_dicts.append(analysis_request_9_dict)
 
         for ar_values in list_of_dicts:
             if ar_values.get("Contact") and ar_values.get('SamplingDate') and ar_values.get('SampleType'):
@@ -955,6 +1741,24 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                         self.create_analyses(ar_analysis_object, ar_p, ar_values, rec, res)
                 elif count == 3:
                     for rec in data3:
+                        self.create_analyses(ar_analysis_object, ar_p, ar_values, rec, res)
+                elif count == 4:
+                    for rec in data4:
+                        self.create_analyses(ar_analysis_object, ar_p, ar_values, rec, res)
+                elif count == 5:
+                    for rec in data5:
+                        self.create_analyses(ar_analysis_object, ar_p, ar_values, rec, res)
+                elif count == 6:
+                    for rec in data6:
+                        self.create_analyses(ar_analysis_object, ar_p, ar_values, rec, res)
+                elif count == 7:
+                    for rec in data7:
+                        self.create_analyses(ar_analysis_object, ar_p, ar_values, rec, res)
+                elif count == 8:
+                    for rec in data8:
+                        self.create_analyses(ar_analysis_object, ar_p, ar_values, rec, res)
+                elif count == 9:
+                    for rec in data9:
                         self.create_analyses(ar_analysis_object, ar_p, ar_values, rec, res)
                 count += 1
         return res
@@ -1014,6 +1818,12 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         data1 = []
         data2 = []
         data3 = []
+        data4 = []
+        data5 = []
+        data6 = []
+        data7 = []
+        data8 = []
+        data9 = []
         lab_result_list = []
         field_result_list = []
         lab_result_list_p1 = []
@@ -1022,10 +1832,28 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         field_result_list_p2 = []
         lab_result_list_p3 = []
         field_result_list_p3 = []
+        lab_result_list_p4 = []
+        field_result_list_p4 = []
+        lab_result_list_p5 = []
+        field_result_list_p5 = []
+        lab_result_list_p6 = []
+        field_result_list_p6 = []
+        lab_result_list_p7 = []
+        field_result_list_p7 = []
+        lab_result_list_p8 = []
+        field_result_list_p8 = []
+        lab_result_list_p9 = []
+        field_result_list_p9 = []
         profile_analysis_id_list = []
         profile1_analysis_id_list = []
         profile2_analysis_id_list = []
         profile3_analysis_id_list = []
+        profile4_analysis_id_list = []
+        profile5_analysis_id_list = []
+        profile6_analysis_id_list = []
+        profile7_analysis_id_list = []
+        profile8_analysis_id_list = []
+        profile9_analysis_id_list = []
         if values.get('AnalysisProfile', None):
             analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', values.get('AnalysisProfile'))])
             for analysis in analysis_profile_obj.Service:
@@ -1045,6 +1873,37 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', values.get('AnalysisProfile3'))])
             for analysis in analysis_profile_obj.Service:
                 profile3_analysis_id_list.append(analysis.Services.id)
+
+        if values.get('AnalysisProfile4', None):
+            analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', values.get('AnalysisProfile4'))])
+            for analysis in analysis_profile_obj.Service:
+                profile4_analysis_id_list.append(analysis.Services.id)
+
+        if values.get('AnalysisProfile5', None):
+            analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', values.get('AnalysisProfile5'))])
+            for analysis in analysis_profile_obj.Service:
+                profile5_analysis_id_list.append(analysis.Services.id)
+
+        if values.get('AnalysisProfile6', None):
+            analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', values.get('AnalysisProfile6'))])
+            for analysis in analysis_profile_obj.Service:
+                profile6_analysis_id_list.append(analysis.Services.id)
+
+        if values.get('AnalysisProfile7', None):
+            analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', values.get('AnalysisProfile7'))])
+            for analysis in analysis_profile_obj.Service:
+                profile7_analysis_id_list.append(analysis.Services.id)
+
+        if values.get('AnalysisProfile8', None):
+            analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', values.get('AnalysisProfile8'))])
+            for analysis in analysis_profile_obj.Service:
+                profile8_analysis_id_list.append(analysis.Services.id)
+
+        if values.get('AnalysisProfile9', None):
+            analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', values.get('AnalysisProfile9'))])
+            for analysis in analysis_profile_obj.Service:
+                profile9_analysis_id_list.append(analysis.Services.id)
+
         for LabService in values.get('LabService'):
             if LabService[2]['LabService'] in profile_analysis_id_list:
                 self.update_lab_service_obj(LabService, data, lab_result_list)
@@ -1054,10 +1913,29 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 self.update_lab_service_obj(LabService, data2, lab_result_list_p2)
             if LabService[2]['LabService'] in profile3_analysis_id_list:
                 self.update_lab_service_obj(LabService, data3, lab_result_list_p3)
+            if LabService[2]['LabService'] in profile4_analysis_id_list:
+                self.update_lab_service_obj(LabService, data4, lab_result_list_p4)
+            if LabService[2]['LabService'] in profile5_analysis_id_list:
+                self.update_lab_service_obj(LabService, data5, lab_result_list_p5)
+            if LabService[2]['LabService'] in profile6_analysis_id_list:
+                self.update_lab_service_obj(LabService, data6, lab_result_list_p6)
+            if LabService[2]['LabService'] in profile7_analysis_id_list:
+                self.update_lab_service_obj(LabService, data7, lab_result_list_p7)
+            if LabService[2]['LabService'] in profile8_analysis_id_list:
+                self.update_lab_service_obj(LabService, data8, lab_result_list_p8)
+            if LabService[2]['LabService'] in profile9_analysis_id_list:
+                self.update_lab_service_obj(LabService, data9, lab_result_list_p9)
+
             if LabService[2]['LabService'] not in profile_analysis_id_list and \
                             LabService[2]['LabService'] not in profile1_analysis_id_list and \
                             LabService[2]['LabService'] not in profile2_analysis_id_list and \
-                            LabService[2]['LabService'] not in profile3_analysis_id_list:
+                            LabService[2]['LabService'] not in profile3_analysis_id_list and \
+                            LabService[2]['LabService'] not in profile4_analysis_id_list and \
+                            LabService[2]['LabService'] not in profile5_analysis_id_list and \
+                            LabService[2]['LabService'] not in profile6_analysis_id_list and \
+                            LabService[2]['LabService'] not in profile7_analysis_id_list and \
+                            LabService[2]['LabService'] not in profile8_analysis_id_list and \
+                            LabService[2]['LabService'] not in profile9_analysis_id_list:
                 Specification = ">" + str(LabService[2]['Min']) + ", <" + str(LabService[2]['Max'])
                 service_instance = self.env['olims.analysis_service'].search([('id', '=', LabService[2]['LabService'])])
                 if service_instance._Method and service_instance.InstrumentEntryOfResults == False:
@@ -1070,11 +1948,24 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 lab_result_list_p1.append([0, 0, LabService[2]])
                 lab_result_list_p2.append([0, 0, LabService[2]])
                 lab_result_list_p3.append([0, 0, LabService[2]])
+                lab_result_list_p4.append([0, 0, LabService[2]])
+                lab_result_list_p5.append([0, 0, LabService[2]])
+                lab_result_list_p6.append([0, 0, LabService[2]])
+                lab_result_list_p7.append([0, 0, LabService[2]])
+                lab_result_list_p8.append([0, 0, LabService[2]])
+                lab_result_list_p9.append([0, 0, LabService[2]])
                 data.append(LabService)
                 data1.append(LabService)
                 data2.append(LabService)
                 data3.append(LabService)
+                data4.append(LabService)
+                data5.append(LabService)
+                data6.append(LabService)
+                data7.append(LabService)
+                data8.append(LabService)
+                data9.append(LabService)
         for FieldService in values.get('FieldService'):
+
             if FieldService[2]['Service'] in profile_analysis_id_list:
                 self.update_field_service_obj(FieldService, data, field_result_list)
             if FieldService[2]['Service'] in profile1_analysis_id_list:
@@ -1083,10 +1974,29 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 self.update_field_service_obj(FieldService, data2, field_result_list_p2)
             if FieldService[2]['Service'] in profile3_analysis_id_list:
                 self.update_field_service_obj(FieldService, data3, field_result_list_p3)
+            if FieldService[2]['Service'] in profile4_analysis_id_list:
+                self.update_field_service_obj(FieldService, data4, field_result_list_p4)
+            if FieldService[2]['Service'] in profile5_analysis_id_list:
+                self.update_field_service_obj(FieldService, data5, field_result_list_p5)
+            if FieldService[2]['Service'] in profile6_analysis_id_list:
+                self.update_field_service_obj(FieldService, data6, field_result_list_p6)
+            if FieldService[2]['Service'] in profile7_analysis_id_list:
+                self.update_field_service_obj(FieldService, data7, field_result_list_p7)
+            if FieldService[2]['Service'] in profile8_analysis_id_list:
+                self.update_field_service_obj(FieldService, data8, field_result_list_p8)
+            if FieldService[2]['Service'] in profile9_analysis_id_list:
+                self.update_field_service_obj(FieldService, data9, field_result_list_p9)
+
             if FieldService[2]['Service'] not in profile_analysis_id_list and \
                             FieldService[2]['Service'] not in profile1_analysis_id_list and \
                             FieldService[2]['Service'] not in profile2_analysis_id_list and \
-                            FieldService[2]['Service'] not in profile3_analysis_id_list:
+                            FieldService[2]['Service'] not in profile3_analysis_id_list and \
+                            FieldService[2]['Service'] not in profile4_analysis_id_list and \
+                            FieldService[2]['Service'] not in profile5_analysis_id_list and \
+                            FieldService[2]['Service'] not in profile6_analysis_id_list and \
+                            FieldService[2]['Service'] not in profile7_analysis_id_list and \
+                            FieldService[2]['Service'] not in profile8_analysis_id_list and \
+                            FieldService[2]['Service'] not in profile9_analysis_id_list:
                 Specification = ">" + str(FieldService[2]['Min']) + ", <" + str(FieldService[2]['Max'])
                 service_instance = self.env['olims.analysis_service'].search([('id', '=', FieldService[2]['Service'])])
                 if service_instance._Method and service_instance.InstrumentEntryOfResults == False:
@@ -1103,12 +2013,32 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 data2.append(FieldService)
                 field_result_list_p3.append([0, 0, FieldService[2]])
                 data3.append(FieldService)
+                field_result_list_p4.append([0, 0, FieldService[2]])
+                data4.append(FieldService)
+                field_result_list_p5.append([0, 0, FieldService[2]])
+                data5.append(FieldService)
+                field_result_list_p6.append([0, 0, FieldService[2]])
+                data6.append(FieldService)
+                field_result_list_p7.append([0, 0, FieldService[2]])
+                data7.append(FieldService)
+                field_result_list_p8.append([0, 0, FieldService[2]])
+                data8.append(FieldService)
+                field_result_list_p9.append([0, 0, FieldService[2]])
+                data9.append(FieldService)
 
         return data, data1, data2, data3,\
+               data4, data5, data6, data7,\
+               data8, data9,\
                field_result_list, lab_result_list,\
                field_result_list_p1, lab_result_list_p1,\
                field_result_list_p2, lab_result_list_p2,\
-               field_result_list_p3, lab_result_list_p3
+               field_result_list_p3, lab_result_list_p3,\
+               field_result_list_p4, lab_result_list_p4,\
+               field_result_list_p5, lab_result_list_p5,\
+               field_result_list_p6, lab_result_list_p6,\
+               field_result_list_p7, lab_result_list_p7,\
+               field_result_list_p8, lab_result_list_p8,\
+               field_result_list_p9, lab_result_list_p9
 
     def update_field_service_obj(self, FieldService, data1, field_result_list_p1):
         Specification = ">" + str(FieldService[2]['Min']) + ", <" + str(FieldService[2]['Max'])
@@ -1181,6 +2111,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Total': values.get('Total',None),
             'paid_cash': values.get('paid_cash', None)
         }
+
         analysis_request_1_dict = {
             'StorageLocation': values.get('StorageLocation1', None),
             'AdHoc': values.get('AdHoc1', None),
@@ -1310,8 +2241,269 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Total': values.get('Total3',None),
             'paid_cash': values.get('paid_cash3', None)
         }
+        analysis_request_4_dict = {
+            'StorageLocation': values.get('StorageLocation4', None),
+            'AdHoc': values.get('AdHoc4', None),
+            'Template': values.get('Template4', None),
+            'AnalysisProfile': values.get('AnalysisProfile4', None),
+            'ClientSampleID': values.get('ClientSampleID4', None),
+            'LotID': values.get('LotID4', None),
+            'SubGroup': values.get('SubGroup4', None),
+            'SampleType': values.get('SampleType4', None),
+            'Batch': values.get('Batch4', None),
+            'SamplingDeviation': values.get('SamplingDeviation4', None),
+            'ResultsInterpretation': values.get('ResultsInterpretation', None),
+            'Sample Partition': values.get('Sample Partition', None),
+            'SamplePoint': values.get('SamplePoint4', None),
+            'Specification': values.get('Specification4', None),
+            'Priority': values.get('Priority4', None),
+            'Partition': values.get('Partition', None),
+            'SamplingDate': values.get('SamplingDate4', None),
+            'ReportDryMatter': values.get('ReportDryMatter4', None),
+            'Contact': values.get('Contact4', None),
+            'FieldService': values.get('FieldService', None),
+            'CCEmails': values.get('CCEmails4', None),
+            'CCContact': values.get('CCContact4', None),
+            'Sampler': values.get('Sampler4', None),
+            'Composite': values.get('Composite4', None),
+            'Sample_id': values.get('Sample_id4', None),
+            'Analyses': values.get('Analyses', None),
+            'Client': client,
+            'InvoiceExclude': values.get('InvoiceExclude4', None),
+            'LabService': values.get('LabService', None),
+            'Lab_Manage_Result': values.get('Lab_Manage_Result', None),
+            'result_option': values.get('result_option', None),
+            'Field_Manage_Result': values.get('Field_Manage_Result', None),
+            'SampleCondition': values.get('SampleCondition4', None),
+            'Remarks': values.get('Remarks', None),
+            'DefaultContainerType': values.get('DefaultContainerType4', None),
+            'ClientReference': values.get('ClientReference4',None),
+            'Subtotal': values.get('Subtotal4',None),
+            'Discount': values.get('Discount4',None),
+            'VAT': values.get('VAT4',None),
+            'Total': values.get('Total4',None),
+            'paid_cash': values.get('paid_cash4', None)
+        }
+        analysis_request_5_dict = {
+            'StorageLocation': values.get('StorageLocation5', None),
+            'AdHoc': values.get('AdHoc5', None),
+            'Template': values.get('Template5', None),
+            'AnalysisProfile': values.get('AnalysisProfile5', None),
+            'ClientSampleID': values.get('ClientSampleID5', None),
+            'LotID': values.get('LotID5', None),
+            'SubGroup': values.get('SubGroup5', None),
+            'SampleType': values.get('SampleType5', None),
+            'Batch': values.get('Batch5', None),
+            'SamplingDeviation': values.get('SamplingDeviation5', None),
+            'ResultsInterpretation': values.get('ResultsInterpretation', None),
+            'Sample Partition': values.get('Sample Partition', None),
+            'SamplePoint': values.get('SamplePoint5', None),
+            'Specification': values.get('Specification5', None),
+            'Priority': values.get('Priority5', None),
+            'Partition': values.get('Partition', None),
+            'SamplingDate': values.get('SamplingDate5', None),
+            'ReportDryMatter': values.get('ReportDryMatter5', None),
+            'Contact': values.get('Contact5', None),
+            'FieldService': values.get('FieldService', None),
+            'CCEmails': values.get('CCEmails5', None),
+            'CCContact': values.get('CCContact5', None),
+            'Sampler': values.get('Sampler5', None),
+            'Composite': values.get('Composite5', None),
+            'Sample_id': values.get('Sample_id5', None),
+            'Analyses': values.get('Analyses', None),
+            'Client': client,
+            'InvoiceExclude': values.get('InvoiceExclude5', None),
+            'LabService': values.get('LabService', None),
+            'Lab_Manage_Result': values.get('Lab_Manage_Result', None),
+            'result_option': values.get('result_option', None),
+            'Field_Manage_Result': values.get('Field_Manage_Result', None),
+            'SampleCondition': values.get('SampleCondition5', None),
+            'Remarks': values.get('Remarks', None),
+            'DefaultContainerType': values.get('DefaultContainerType5', None),
+            'ClientReference': values.get('ClientReference5',None),
+            'Subtotal': values.get('Subtotal5',None),
+            'Discount': values.get('Discount5',None),
+            'VAT': values.get('VAT5',None),
+            'Total': values.get('Total5',None),
+            'paid_cash': values.get('paid_cash5', None)
+        }
+        analysis_request_6_dict = {
+            'StorageLocation': values.get('StorageLocation6', None),
+            'AdHoc': values.get('AdHoc6', None),
+            'Template': values.get('Template6', None),
+            'AnalysisProfile': values.get('AnalysisProfile6', None),
+            'ClientSampleID': values.get('ClientSampleID6', None),
+            'LotID': values.get('LotID6', None),
+            'SubGroup': values.get('SubGroup6', None),
+            'SampleType': values.get('SampleType6', None),
+            'Batch': values.get('Batch6', None),
+            'SamplingDeviation': values.get('SamplingDeviation6', None),
+            'ResultsInterpretation': values.get('ResultsInterpretation', None),
+            'Sample Partition': values.get('Sample Partition', None),
+            'SamplePoint': values.get('SamplePoint6', None),
+            'Specification': values.get('Specification6', None),
+            'Priority': values.get('Priority6', None),
+            'Partition': values.get('Partition', None),
+            'SamplingDate': values.get('SamplingDate6', None),
+            'ReportDryMatter': values.get('ReportDryMatter6', None),
+            'Contact': values.get('Contact6', None),
+            'FieldService': values.get('FieldService', None),
+            'CCEmails': values.get('CCEmails6', None),
+            'CCContact': values.get('CCContact6', None),
+            'Sampler': values.get('Sampler6', None),
+            'Composite': values.get('Composite6', None),
+            'Sample_id': values.get('Sample_id6', None),
+            'Analyses': values.get('Analyses', None),
+            'Client': client,
+            'InvoiceExclude': values.get('InvoiceExclude6', None),
+            'LabService': values.get('LabService', None),
+            'Lab_Manage_Result': values.get('Lab_Manage_Result', None),
+            'result_option': values.get('result_option', None),
+            'Field_Manage_Result': values.get('Field_Manage_Result', None),
+            'SampleCondition': values.get('SampleCondition6', None),
+            'Remarks': values.get('Remarks', None),
+            'DefaultContainerType': values.get('DefaultContainerType6', None),
+            'ClientReference': values.get('ClientReference6',None),
+            'Subtotal': values.get('Subtotal6',None),
+            'Discount': values.get('Discount6',None),
+            'VAT': values.get('VAT6',None),
+            'Total': values.get('Total6',None),
+            'paid_cash': values.get('paid_cash6', None)
+        }
+        analysis_request_7_dict = {
+            'StorageLocation': values.get('StorageLocation7', None),
+            'AdHoc': values.get('AdHoc7', None),
+            'Template': values.get('Template7', None),
+            'AnalysisProfile': values.get('AnalysisProfile7', None),
+            'ClientSampleID': values.get('ClientSampleID7', None),
+            'LotID': values.get('LotID7', None),
+            'SubGroup': values.get('SubGroup7', None),
+            'SampleType': values.get('SampleType7', None),
+            'Batch': values.get('Batch7', None),
+            'SamplingDeviation': values.get('SamplingDeviation7', None),
+            'ResultsInterpretation': values.get('ResultsInterpretation', None),
+            'Sample Partition': values.get('Sample Partition', None),
+            'SamplePoint': values.get('SamplePoint7', None),
+            'Specification': values.get('Specification7', None),
+            'Priority': values.get('Priority7', None),
+            'Partition': values.get('Partition', None),
+            'SamplingDate': values.get('SamplingDate7', None),
+            'ReportDryMatter': values.get('ReportDryMatter7', None),
+            'Contact': values.get('Contact7', None),
+            'FieldService': values.get('FieldService', None),
+            'CCEmails': values.get('CCEmails7', None),
+            'CCContact': values.get('CCContact7', None),
+            'Sampler': values.get('Sampler7', None),
+            'Composite': values.get('Composite7', None),
+            'Sample_id': values.get('Sample_id7', None),
+            'Analyses': values.get('Analyses', None),
+            'Client': client,
+            'InvoiceExclude': values.get('InvoiceExclude7', None),
+            'LabService': values.get('LabService', None),
+            'Lab_Manage_Result': values.get('Lab_Manage_Result', None),
+            'result_option': values.get('result_option', None),
+            'Field_Manage_Result': values.get('Field_Manage_Result', None),
+            'SampleCondition': values.get('SampleCondition7', None),
+            'Remarks': values.get('Remarks', None),
+            'DefaultContainerType': values.get('DefaultContainerType7', None),
+            'ClientReference': values.get('ClientReference7',None),
+            'Subtotal': values.get('Subtotal7',None),
+            'Discount': values.get('Discount7',None),
+            'VAT': values.get('VAT7',None),
+            'Total': values.get('Total7',None),
+            'paid_cash': values.get('paid_cash7', None)
+        }
+        analysis_request_8_dict = {
+            'StorageLocation': values.get('StorageLocation8', None),
+            'AdHoc': values.get('AdHoc8', None),
+            'Template': values.get('Template8', None),
+            'AnalysisProfile': values.get('AnalysisProfile8', None),
+            'ClientSampleID': values.get('ClientSampleID8', None),
+            'LotID': values.get('LotID8', None),
+            'SubGroup': values.get('SubGroup8', None),
+            'SampleType': values.get('SampleType8', None),
+            'Batch': values.get('Batch8', None),
+            'SamplingDeviation': values.get('SamplingDeviation8', None),
+            'ResultsInterpretation': values.get('ResultsInterpretation', None),
+            'Sample Partition': values.get('Sample Partition', None),
+            'SamplePoint': values.get('SamplePoint8', None),
+            'Specification': values.get('Specification8', None),
+            'Priority': values.get('Priority8', None),
+            'Partition': values.get('Partition', None),
+            'SamplingDate': values.get('SamplingDate8', None),
+            'ReportDryMatter': values.get('ReportDryMatter8', None),
+            'Contact': values.get('Contact8', None),
+            'FieldService': values.get('FieldService', None),
+            'CCEmails': values.get('CCEmails8', None),
+            'CCContact': values.get('CCContact8', None),
+            'Sampler': values.get('Sampler8', None),
+            'Composite': values.get('Composite8', None),
+            'Sample_id': values.get('Sample_id8', None),
+            'Analyses': values.get('Analyses', None),
+            'Client': client,
+            'InvoiceExclude': values.get('InvoiceExclude8', None),
+            'LabService': values.get('LabService', None),
+            'Lab_Manage_Result': values.get('Lab_Manage_Result', None),
+            'result_option': values.get('result_option', None),
+            'Field_Manage_Result': values.get('Field_Manage_Result', None),
+            'SampleCondition': values.get('SampleCondition8', None),
+            'Remarks': values.get('Remarks', None),
+            'DefaultContainerType': values.get('DefaultContainerType8', None),
+            'ClientReference': values.get('ClientReference8',None),
+            'Subtotal': values.get('Subtotal8',None),
+            'Discount': values.get('Discount8',None),
+            'VAT': values.get('VAT8',None),
+            'Total': values.get('Total8',None),
+            'paid_cash': values.get('paid_cash8', None)
+        }
+        analysis_request_9_dict = {
+            'StorageLocation': values.get('StorageLocation9', None),
+            'AdHoc': values.get('AdHoc9', None),
+            'Template': values.get('Template9', None),
+            'AnalysisProfile': values.get('AnalysisProfile9', None),
+            'ClientSampleID': values.get('ClientSampleID9', None),
+            'LotID': values.get('LotID9', None),
+            'SubGroup': values.get('SubGroup9', None),
+            'SampleType': values.get('SampleType9', None),
+            'Batch': values.get('Batch9', None),
+            'SamplingDeviation': values.get('SamplingDeviation9', None),
+            'ResultsInterpretation': values.get('ResultsInterpretation', None),
+            'Sample Partition': values.get('Sample Partition', None),
+            'SamplePoint': values.get('SamplePoint9', None),
+            'Specification': values.get('Specification9', None),
+            'Priority': values.get('Priority9', None),
+            'Partition': values.get('Partition', None),
+            'SamplingDate': values.get('SamplingDate9', None),
+            'ReportDryMatter': values.get('ReportDryMatter9', None),
+            'Contact': values.get('Contact9', None),
+            'FieldService': values.get('FieldService', None),
+            'CCEmails': values.get('CCEmails9', None),
+            'CCContact': values.get('CCContact9', None),
+            'Sampler': values.get('Sampler9', None),
+            'Composite': values.get('Composite9', None),
+            'Sample_id': values.get('Sample_id9', None),
+            'Analyses': values.get('Analyses', None),
+            'Client': client,
+            'InvoiceExclude': values.get('InvoiceExclude9', None),
+            'LabService': values.get('LabService', None),
+            'Lab_Manage_Result': values.get('Lab_Manage_Result', None),
+            'result_option': values.get('result_option', None),
+            'Field_Manage_Result': values.get('Field_Manage_Result', None),
+            'SampleCondition': values.get('SampleCondition9', None),
+            'Remarks': values.get('Remarks', None),
+            'DefaultContainerType': values.get('DefaultContainerType9', None),
+            'ClientReference': values.get('ClientReference9',None),
+            'Subtotal': values.get('Subtotal9',None),
+            'Discount': values.get('Discount9',None),
+            'VAT': values.get('VAT9',None),
+            'Total': values.get('Total9',None),
+            'paid_cash': values.get('paid_cash9', None)
+        }
+        return analysis_request_0_dict, analysis_request_1_dict, analysis_request_2_dict,\
+               analysis_request_3_dict, analysis_request_4_dict, analysis_request_5_dict,\
+               analysis_request_6_dict, analysis_request_7_dict, analysis_request_8_dict,\
+               analysis_request_9_dict
 
-        return analysis_request_0_dict, analysis_request_1_dict, analysis_request_2_dict, analysis_request_3_dict
 
     @api.multi
     def write(self, values):
@@ -2062,12 +3254,30 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def copy_contact(self):
         if self.Copy == '1':
             self.Contact1 = self.Contact
-            self.Contact2 = self.Contact3 = None
+            self.Contact2 = self.Contact3 = self.Contact4 = self.Contact5 = self.Contact6 = self.Contact7 = self.Contact8 = self.Contact9 = None
         elif self.Copy == '2':
             self.Contact1 = self.Contact2 = self.Contact
-            self.Contact3 = None
+            self.Contact3 = self.Contact4 = self.Contact5 = self.Contact6 = self.Contact7 = self.Contact8 = self.Contact9 = None
         elif self.Copy == '3':
             self.Contact1 = self.Contact2 = self.Contact3 = self.Contact
+            self.Contact4 = self.Contact5 = self.Contact6 = self.Contact7 = self.Contact8 = self.Contact9 = None
+        elif self.Copy == '4':
+            self.Contact1 = self.Contact2 = self.Contact3 = self.Contact4 = self.Contact
+            self.Contact5 = self.Contact6 = self.Contact7 = self.Contact8 = self.Contact9 = None
+        elif self.Copy == '5':
+            self.Contact1 = self.Contact2 = self.Contact3 = self.Contact4 = self.Contact5 = self.Contact
+            self.Contact6 = self.Contact7 = self.Contact8 = self.Contact9 = None
+        elif self.Copy == '6':
+            self.Contact1 = self.Contact2 = self.Contact3 = self.Contact4 = self.Contact5 = self.Contact6 = self.Contact
+            self.Contact7 = self.Contact8 = self.Contact9 = None
+        elif self.Copy == '7':
+            self.Contact1 = self.Contact2 = self.Contact3 = self.Contact4 = self.Contact5 = self.Contact6 = self.Contact7 = self.Contact
+            self.Contact8 = self.Contact9 = None
+        elif self.Copy == '8':
+            self.Contact1 = self.Contact2 = self.Contact3 = self.Contact4 = self.Contact5 = self.Contact6 = self.Contact7 = self.Contact8 = self.Contact
+            self.Contact9 = None
+        elif self.Copy == '9':
+            self.Contact1 = self.Contact2 = self.Contact3 = self.Contact4 = self.Contact5 = self.Contact6 = self.Contact7 = self.Contact8 = self.Contact9 = self.Contact
         else:
             pass
 
@@ -2075,25 +3285,60 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def copy_cccontact(self):
         if self.Copy == '1':
             self.CCContact1 = self.CCContact
-            self.CCContact2 = self.CCContact3 = None
+            self.CCContact2 = self.CCContact3 = self.CCContact4 = self.CCContact5 = self.CCContact6 = self.CCContact7 = self.CCContact8 = self.CCContact9 = None
         elif self.Copy == '2':
             self.CCContact1 = self.CCContact2 = self.CCContact
-            self.CCContact3 = None
+            self.CCContact3 = self.CCContact4 = self.CCContact5 = self.CCContact6 = self.CCContact7 = self.CCContact8 = self.CCContact9 = None
         elif self.Copy == '3':
             self.CCContact1 = self.CCContact2 = self.CCContact3 = self.CCContact
+            self.CCContact4 = self.CCContact5 = self.CCContact6 = self.CCContact7 = self.CCContact8 = self.CCContact9 = None
+        elif self.Copy == '4':
+            self.CCContact1 = self.CCContact2 = self.CCContact3 = self.CCContact4 = self.CCContact
+            self.CCContact5 = self.CCContact6 = self.CCContact7 = self.CCContact8 = self.CCContact9 = None
+        elif self.Copy == '5':
+            self.CCContact1 = self.CCContact2 = self.CCContact3 = self.CCContact4 = self.CCContact5 = self.CCContact
+            self.CCContact6 = self.CCContact7 = self.CCContact8 = self.CCContact9 = None
+        elif self.Copy == '6':
+            self.CCContact1 = self.CCContact2 = self.CCContact3 = self.CCContact4 = self.CCContact5 = self.CCContact6 = self.CCContact
+            self.CCContact7 = self.CCContact8 = self.CCContact9 = None
+        elif self.Copy == '7':
+            self.CCContact1 = self.CCContact2 = self.CCContact3 = self.CCContact4 = self.CCContact5 = self.CCContact6 = self.CCContact7 = self.CCContact
+            self.CCContact8 = self.CCContact9 = None
+        elif self.Copy == '8':
+            self.CCContact1 = self.CCContact2 = self.CCContact3 = self.CCContact4 = self.CCContact5 = self.CCContact6 = self.CCContact7 = self.CCContact8 = self.CCContact
+            self.CCContact9 = None
+        elif self.Copy == '9':
+            self.CCContact1 = self.CCContact2 = self.CCContact3 = self.CCContact4 = self.CCContact5 = self.CCContact6 = self.CCContact7 = self.CCContact8 = self.CCContact9 = self.CCContact
         else:
             pass
-
     @api.onchange('CopyEmail')
     def copy_email(self):
         if self.Copy == '1':
             self.CCEmails1 = self.CCEmails
-            self.CCEmails2 = self.CCEmails3 = None
+            self.CCEmails2 = self.CCEmails3 = self.CCEmails4 = self.CCEmails5 = self.CCEmails6 = self.CCEmails7 = self.CCEmails8 = self.CCEmails9 = None
         elif self.Copy == '2':
             self.CCEmails1 = self.CCEmails2 = self.CCEmails
-            self.CCEmails3 = None
+            self.CCEmails3 = self.CCEmails4 = self.CCEmails5 = self.CCEmails6 = self.CCEmails7 = self.CCEmails8 = self.CCEmails9 = None
         elif self.Copy == '3':
             self.CCEmails1 = self.CCEmails2 = self.CCEmails3 = self.CCEmails
+            self.CCEmails4 = self.CCEmails5 = self.CCEmails6 = self.CCEmails7 = self.CCEmails8 = self.CCEmails9 = None
+        elif self.Copy == '4':
+            self.CCEmails1 = self.CCEmails2 = self.CCEmails3 = self.CCEmails4 = self.CCEmails
+            self.CCEmails5 = self.CCEmails6 = self.CCEmails7 = self.CCEmails8 = self.CCEmails9 = None
+        elif self.Copy == '5':
+            self.CCEmails1 = self.CCEmails2 = self.CCEmails3 = self.CCEmails4 = self.CCEmails5 = self.CCEmails
+            self.CCEmails6 = self.CCEmails7 = self.CCEmails8 = self.CCEmails9 = None
+        elif self.Copy == '6':
+            self.CCEmails1 = self.CCEmails2 = self.CCEmails3 = self.CCEmails4 = self.CCEmails5 = self.CCEmails6 = self.CCEmails
+            self.CCEmails7 = self.CCEmails8 = self.CCEmails9 = None
+        elif self.Copy == '7':
+            self.CCEmails1 = self.CCEmails2 = self.CCEmails3 = self.CCEmails4 = self.CCEmails5 = self.CCEmails6 = self.CCEmails7 = self.CCEmails
+            self.CCEmails8 = self.CCEmails9 = None
+        elif self.Copy == '8':
+            self.CCEmails1 = self.CCEmails2 = self.CCEmails3 = self.CCEmails4 = self.CCEmails5 = self.CCEmails6 = self.CCEmails7 = self.CCEmails8 = self.CCEmails
+            self.CCEmails9 = None
+        elif self.Copy == '9':
+            self.CCEmails1 = self.CCEmails2 = self.CCEmails3 = self.CCEmails4 = self.CCEmails5 = self.CCEmails6 = self.CCEmails7 = self.CCEmails8 = self.CCEmails9 = self.CCEmails
         else:
             pass
 
@@ -2101,12 +3346,30 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def copy_sample(self):
         if self.Copy == '1':
             self.Sample_id1 = self.Sample_id
-            self.Sample_id2 = self.Sample_id3 = None
+            self.Sample_id2 = self.Sample_id3 = self.Sample_id4 = self.Sample_id5 = self.Sample_id6 = self.Sample_id7 = self.Sample_id8 = self.Sample_id9 = None
         elif self.Copy == '2':
             self.Sample_id1 = self.Sample_id2 = self.Sample_id
-            self.Sample_id3 = None
+            self.Sample_id3 = self.Sample_id4 = self.Sample_id5 = self.Sample_id6 = self.Sample_id7 = self.Sample_id8 = self.Sample_id9 = None
         elif self.Copy == '3':
             self.Sample_id1 = self.Sample_id2 = self.Sample_id3 = self.Sample_id
+            self.Sample_id4 = self.Sample_id5 = self.Sample_id6 = self.Sample_id7 = self.Sample_id8 = self.Sample_id9 = None
+        elif self.Copy == '4':
+            self.Sample_id1 = self.Sample_id2 = self.Sample_id3 = self.Sample_id4 = self.Sample_id
+            self.Sample_id5 = self.Sample_id6 = self.Sample_id7 = self.Sample_id8 = self.Sample_id9 = None
+        elif self.Copy == '5':
+            self.Sample_id1 = self.Sample_id2 = self.Sample_id3 = self.Sample_id4 = self.Sample_id5 = self.Sample_id
+            self.Sample_id6 = self.Sample_id7 = self.Sample_id8 = self.Sample_id9 = None
+        elif self.Copy == '6':
+            self.Sample_id1 = self.Sample_id2 = self.Sample_id3 = self.Sample_id4 = self.Sample_id5 = self.Sample_id6 = self.Sample_id
+            self.Sample_id7 = self.Sample_id8 = self.Sample_id9 = None
+        elif self.Copy == '7':
+            self.Sample_id1 = self.Sample_id2 = self.Sample_id3 = self.Sample_id4 = self.Sample_id5 = self.Sample_id6 = self.Sample_id7 = self.Sample_id
+            self.Sample_id8 = self.Sample_id9 = None
+        elif self.Copy == '8':
+            self.Sample_id1 = self.Sample_id2 = self.Sample_id3 = self.Sample_id4 = self.Sample_id5 = self.Sample_id6 = self.Sample_id7 = self.Sample_id8 = self.Sample_id
+            self.Sample_id9 = None
+        elif self.Copy == '9':
+            self.Sample_id1 = self.Sample_id2 = self.Sample_id3 = self.Sample_id4 = self.Sample_id5 = self.Sample_id6 = self.Sample_id7 = self.Sample_id8 = self.Sample_id9 = self.Sample_id
         else:
             pass
 
@@ -2115,12 +3378,30 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def copy_subgroup(self):
         if self.Copy == '1':
             self.SubGroup1 = self.SubGroup
-            self.SubGroup2 = self.SubGroup3 = None
+            self.SubGroup2 = self.SubGroup3 = self.SubGroup4 = self.SubGroup5 = self.SubGroup6 = self.SubGroup7 = self.SubGroup8 = self.SubGroup9 = None
         elif self.Copy == '2':
             self.SubGroup1 = self.SubGroup2 = self.SubGroup
-            self.SubGroup3 = None
+            self.SubGroup3 = self.SubGroup4 = self.SubGroup5 = self.SubGroup6 = self.SubGroup7 = self.SubGroup8 = self.SubGroup9 = None
         elif self.Copy == '3':
             self.SubGroup1 = self.SubGroup2 = self.SubGroup3 = self.SubGroup
+            self.SubGroup4 = self.SubGroup5 = self.SubGroup6 = self.SubGroup7 = self.SubGroup8 = self.SubGroup9 = None
+        elif self.Copy == '4':
+            self.SubGroup1 = self.SubGroup2 = self.SubGroup3 = self.SubGroup4 = self.SubGroup
+            self.SubGroup5 = self.SubGroup6 = self.SubGroup7 = self.SubGroup8 = self.SubGroup9 = None
+        elif self.Copy == '5':
+            self.SubGroup1 = self.SubGroup2 = self.SubGroup3 = self.SubGroup4 = self.SubGroup5 = self.SubGroup
+            self.SubGroup6 = self.SubGroup7 = self.SubGroup8 = self.SubGroup9 = None
+        elif self.Copy == '6':
+            self.SubGroup1 = self.SubGroup2 = self.SubGroup3 = self.SubGroup4 = self.SubGroup5 = self.SubGroup6 = self.SubGroup
+            self.SubGroup7 = self.SubGroup8 = self.SubGroup9 = None
+        elif self.Copy == '7':
+            self.SubGroup1 = self.SubGroup2 = self.SubGroup3 = self.SubGroup4 = self.SubGroup5 = self.SubGroup6 = self.SubGroup7 = self.SubGroup
+            self.SubGroup8 = self.SubGroup9 = None
+        elif self.Copy == '8':
+            self.SubGroup1 = self.SubGroup2 = self.SubGroup3 = self.SubGroup4 = self.SubGroup5 = self.SubGroup6 = self.SubGroup7 = self.SubGroup8 = self.SubGroup
+            self.SubGroup9 = None
+        elif self.Copy == '9':
+            self.SubGroup1 = self.SubGroup2 = self.SubGroup3 = self.SubGroup4 = self.SubGroup5 = self.SubGroup6 = self.SubGroup7 = self.SubGroup8 = self.SubGroup9 = self.SubGroup
         else:
             pass
 
@@ -2128,12 +3409,30 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def copy_template(self):
         if self.Copy == '1':
             self.Template1 = self.Template
-            self.Template2 = self.Template3 = None
+            self.Template2 = self.Template3 = self.Template4 = self.Template5 = self.Template6 = self.Template7 = self.Template8 = self.Template9 = None
         elif self.Copy == '2':
             self.Template1 = self.Template2 = self.Template
-            self.Template3 = None
+            self.Template3 = self.Template4 = self.Template5 = self.Template6 = self.Template7 = self.Template8 = self.Template9 = None
         elif self.Copy == '3':
             self.Template1 = self.Template2 = self.Template3 = self.Template
+            self.Template4 = self.Template5 = self.Template6 = self.Template7 = self.Template8 = self.Template9 = None
+        elif self.Copy == '4':
+            self.Template1 = self.Template2 = self.Template3 = self.Template4 = self.Template
+            self.Template5 = self.Template6 = self.Template7 = self.Template8 = self.Template9 = None
+        elif self.Copy == '5':
+            self.Template1 = self.Template2 = self.Template3 = self.Template4 = self.Template5 = self.Template
+            self.Template6 = self.Template7 = self.Template8 = self.Template9 = None
+        elif self.Copy == '6':
+            self.Template1 = self.Template2 = self.Template3 = self.Template4 = self.Template5 = self.Template6 = self.Template
+            self.Template7 = self.Template8 = self.Template9 = None
+        elif self.Copy == '7':
+            self.Template1 = self.Template2 = self.Template3 = self.Template4 = self.Template5 = self.Template6 = self.Template7 = self.Template
+            self.Template8 = self.Template9 = None
+        elif self.Copy == '8':
+            self.Template1 = self.Template2 = self.Template3 = self.Template4 = self.Template5 = self.Template6 = self.Template7 = self.Template8 = self.Template
+            self.Template9 = None
+        elif self.Copy == '9':
+            self.Template1 = self.Template2 = self.Template3 = self.Template4 = self.Template5 = self.Template6 = self.Template7 = self.Template8 = self.Template9 = self.Template
         else:
             pass
 
@@ -2141,12 +3440,30 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def copy_profile(self):
         if self.Copy == '1':
             self.AnalysisProfile1 = self.AnalysisProfile
-            self.AnalysisProfile2 = self.AnalysisProfile3 = None
+            self.AnalysisProfile2 = self.AnalysisProfile3 = self.AnalysisProfile4 = self.AnalysisProfile5 = self.AnalysisProfile6 = self.AnalysisProfile7 = self.AnalysisProfile8 = self.AnalysisProfile9 = None
         elif self.Copy == '2':
             self.AnalysisProfile1 = self.AnalysisProfile2 = self.AnalysisProfile
-            self.AnalysisProfile3 = None
+            self.AnalysisProfile3 = self.AnalysisProfile4 = self.AnalysisProfile5 = self.AnalysisProfile6 = self.AnalysisProfile7 = self.AnalysisProfile8 = self.AnalysisProfile9 = None
         elif self.Copy == '3':
             self.AnalysisProfile1 = self.AnalysisProfile2 = self.AnalysisProfile3 = self.AnalysisProfile
+            self.AnalysisProfile4 = self.AnalysisProfile5 = self.AnalysisProfile6 = self.AnalysisProfile7 = self.AnalysisProfile8 = self.AnalysisProfile9 = None
+        elif self.Copy == '4':
+            self.AnalysisProfile1 = self.AnalysisProfile2 = self.AnalysisProfile3 = self.AnalysisProfile4 = self.AnalysisProfile
+            self.AnalysisProfile5 = self.AnalysisProfile6 = self.AnalysisProfile7 = self.AnalysisProfile8 = self.AnalysisProfile9 = None
+        elif self.Copy == '5':
+            self.AnalysisProfile1 = self.AnalysisProfile2 = self.AnalysisProfile3 = self.AnalysisProfile4 = self.AnalysisProfile5 = self.AnalysisProfile
+            self.AnalysisProfile6 = self.AnalysisProfile7 = self.AnalysisProfile8 = self.AnalysisProfile9 = None
+        elif self.Copy == '6':
+            self.AnalysisProfile1 = self.AnalysisProfile2 = self.AnalysisProfile3 = self.AnalysisProfile4 = self.AnalysisProfile5 = self.AnalysisProfile6 = self.AnalysisProfile
+            self.AnalysisProfile7 = self.AnalysisProfile8 = self.AnalysisProfile9 = None
+        elif self.Copy == '7':
+            self.AnalysisProfile1 = self.AnalysisProfile2 = self.AnalysisProfile3 = self.AnalysisProfile4 = self.AnalysisProfile5 = self.AnalysisProfile6 = self.AnalysisProfile7 = self.AnalysisProfile
+            self.AnalysisProfile8 = self.AnalysisProfile9 = None
+        elif self.Copy == '8':
+            self.AnalysisProfile1 = self.AnalysisProfile2 = self.AnalysisProfile3 = self.AnalysisProfile4 = self.AnalysisProfile5 = self.AnalysisProfile6 = self.AnalysisProfile7 = self.AnalysisProfile8 = self.AnalysisProfile
+            self.AnalysisProfile9 = None
+        elif self.Copy == '9':
+            self.AnalysisProfile1 = self.AnalysisProfile2 = self.AnalysisProfile3 = self.AnalysisProfile4 = self.AnalysisProfile5 = self.AnalysisProfile6 = self.AnalysisProfile7 = self.AnalysisProfile8 = self.AnalysisProfile9 = self.AnalysisProfile
         else:
             pass
 
@@ -2154,12 +3471,30 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def copy_sampledate(self):
         if self.Copy == '1':
             self.SamplingDate1 = self.SamplingDate
-            self.SamplingDate2 = self.SamplingDate3 = None
+            self.SamplingDate2 = self.SamplingDate3 = self.SamplingDate4 = self.SamplingDate5 = self.SamplingDate6 = self.SamplingDate7 = self.SamplingDate8 = self.SamplingDate9 = None
         elif self.Copy == '2':
             self.SamplingDate1 = self.SamplingDate2 = self.SamplingDate
-            self.SamplingDate3 = None
+            self.SamplingDate3 = self.SamplingDate4 = self.SamplingDate5 = self.SamplingDate6 = self.SamplingDate7 = self.SamplingDate8 = self.SamplingDate9 = None
         elif self.Copy == '3':
             self.SamplingDate1 = self.SamplingDate2 = self.SamplingDate3 = self.SamplingDate
+            self.SamplingDate4 = self.SamplingDate5 = self.SamplingDate6 = self.SamplingDate7 = self.SamplingDate8 = self.SamplingDate9 = None
+        elif self.Copy == '4':
+            self.SamplingDate1 = self.SamplingDate2 = self.SamplingDate3 = self.SamplingDate4 = self.SamplingDate
+            self.SamplingDate5 = self.SamplingDate6 = self.SamplingDate7 = self.SamplingDate8 = self.SamplingDate9 = None
+        elif self.Copy == '5':
+            self.SamplingDate1 = self.SamplingDate2 = self.SamplingDate3 = self.SamplingDate4 = self.SamplingDate5 = self.SamplingDate
+            self.SamplingDate6 = self.SamplingDate7 = self.SamplingDate8 = self.SamplingDate9 = None
+        elif self.Copy == '6':
+            self.SamplingDate1 = self.SamplingDate2 = self.SamplingDate3 = self.SamplingDate4 = self.SamplingDate5 = self.SamplingDate6 = self.SamplingDate
+            self.SamplingDate7 = self.SamplingDate8 = self.SamplingDate9 = None
+        elif self.Copy == '7':
+            self.SamplingDate1 = self.SamplingDate2 = self.SamplingDate3 = self.SamplingDate4 = self.SamplingDate5 = self.SamplingDate6 = self.SamplingDate7 = self.SamplingDate
+            self.SamplingDate8 = self.SamplingDate9 = None
+        elif self.Copy == '8':
+            self.SamplingDate1 = self.SamplingDate2 = self.SamplingDate3 = self.SamplingDate4 = self.SamplingDate5 = self.SamplingDate6 = self.SamplingDate7 = self.SamplingDate8 = self.SamplingDate
+            self.SamplingDate9 = None
+        elif self.Copy == '9':
+            self.SamplingDate1 = self.SamplingDate2 = self.SamplingDate3 = self.SamplingDate4 = self.SamplingDate5 = self.SamplingDate6 = self.SamplingDate7 = self.SamplingDate8 = self.SamplingDate9 = self.SamplingDate
         else:
             pass
 
@@ -2167,12 +3502,30 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def copy_sampler(self):
         if self.Copy == '1':
             self.Sampler1 = self.Sampler
-            self.Sampler2 = self.Sampler3 = None
+            self.Sampler2 = self.Sampler3 = self.Sampler4 = self.Sampler5 = self.Sampler6 = self.Sampler7 = self.Sampler8 = self.Sampler9 = None
         elif self.Copy == '2':
             self.Sampler1 = self.Sampler2 = self.Sampler
-            self.Sampler3 = None
+            self.Sampler3 = self.Sampler4 = self.Sampler5 = self.Sampler6 = self.Sampler7 = self.Sampler8 = self.Sampler9 = None
         elif self.Copy == '3':
             self.Sampler1 = self.Sampler2 = self.Sampler3 = self.Sampler
+            self.Sampler4 = self.Sampler5 = self.Sampler6 = self.Sampler7 = self.Sampler8 = self.Sampler9 = None
+        elif self.Copy == '4':
+            self.Sampler1 = self.Sampler2 = self.Sampler3 = self.Sampler4 = self.Sampler
+            self.Sampler5 = self.Sampler6 = self.Sampler7 = self.Sampler8 = self.Sampler9 = None
+        elif self.Copy == '5':
+            self.Sampler1 = self.Sampler2 = self.Sampler3 = self.Sampler4 = self.Sampler5 = self.Sampler
+            self.Sampler6 = self.Sampler7 = self.Sampler8 = self.Sampler9 = None
+        elif self.Copy == '6':
+            self.Sampler1 = self.Sampler2 = self.Sampler3 = self.Sampler4 = self.Sampler5 = self.Sampler6 = self.Sampler
+            self.Sampler7 = self.Sampler8 = self.Sampler9 = None
+        elif self.Copy == '7':
+            self.Sampler1 = self.Sampler2 = self.Sampler3 = self.Sampler4 = self.Sampler5 = self.Sampler6 = self.Sampler7 = self.Sampler
+            self.Sampler8 = self.Sampler9 = None
+        elif self.Copy == '8':
+            self.Sampler1 = self.Sampler2 = self.Sampler3 = self.Sampler4 = self.Sampler5 = self.Sampler6 = self.Sampler7 = self.Sampler8 = self.Sampler
+            self.Sampler9 = None
+        elif self.Copy == '9':
+            self.Sampler1 = self.Sampler2 = self.Sampler3 = self.Sampler4 = self.Sampler5 = self.Sampler6 = self.Sampler7 = self.Sampler8 = self.Sampler9 = self.Sampler
         else:
             pass
 
@@ -2180,12 +3533,30 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def copy_sample_type(self):
         if self.Copy == '1':
             self.SampleType1 = self.SampleType
-            self.SampleType2 = self.SampleType3 = None
+            self.SampleType2 = self.SampleType3 = self.SampleType4 = self.SampleType5 = self.SampleType6 = self.SampleType7 = self.SampleType8 = self.SampleType9 = None
         elif self.Copy == '2':
             self.SampleType1 = self.SampleType2 = self.SampleType
-            self.SampleType3 = None
+            self.SampleType3 = self.SampleType4 = self.SampleType5 = self.SampleType6 = self.SampleType7 = self.SampleType8 = self.SampleType9 = None
         elif self.Copy == '3':
             self.SampleType1 = self.SampleType2 = self.SampleType3 = self.SampleType
+            self.SampleType4 = self.SampleType5 = self.SampleType6 = self.SampleType7 = self.SampleType8 = self.SampleType9 = None
+        elif self.Copy == '4':
+            self.SampleType1 = self.SampleType2 = self.SampleType3 = self.SampleType4 = self.SampleType
+            self.SampleType5 = self.SampleType6 = self.SampleType7 = self.SampleType8 = self.SampleType9 = None
+        elif self.Copy == '5':
+            self.SampleType1 = self.SampleType2 = self.SampleType3 = self.SampleType4 = self.SampleType5 = self.SampleType
+            self.SampleType6 = self.SampleType7 = self.SampleType8 = self.SampleType9 = None
+        elif self.Copy == '6':
+            self.SampleType1 = self.SampleType2 = self.SampleType3 = self.SampleType4 = self.SampleType5 = self.SampleType6 = self.SampleType
+            self.SampleType7 = self.SampleType8 = self.SampleType9 = None
+        elif self.Copy == '7':
+            self.SampleType1 = self.SampleType2 = self.SampleType3 = self.SampleType4 = self.SampleType5 = self.SampleType6 = self.SampleType7 = self.SampleType
+            self.SampleType8 = self.SampleType9 = None
+        elif self.Copy == '8':
+            self.SampleType1 = self.SampleType2 = self.SampleType3 = self.SampleType4 = self.SampleType5 = self.SampleType6 = self.SampleType7 = self.SampleType8 = self.SampleType
+            self.SampleType9 = None
+        elif self.Copy == '9':
+            self.SampleType1 = self.SampleType2 = self.SampleType3 = self.SampleType4 = self.SampleType5 = self.SampleType6 = self.SampleType7 = self.SampleType8 = self.SampleType9 = self.SampleType
         else:
             pass
 
@@ -2193,12 +3564,30 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def copy_specification(self):
         if self.Copy == '1':
             self.Specification1 = self.Specification
-            self.Specification2 = self.Specification3 = None
+            self.Specification2 = self.Specification3 = self.Specification4 = self.Specification5 = self.Specification6 = self.Specification7 = self.Specification8 = self.Specification9 = None
         elif self.Copy == '2':
             self.Specification1 = self.Specification2 = self.Specification
-            self.Specification3 = None
+            self.Specification3 = self.Specification4 = self.Specification5 = self.Specification6 = self.Specification7 = self.Specification8 = self.Specification9 = None
         elif self.Copy == '3':
             self.Specification1 = self.Specification2 = self.Specification3 = self.Specification
+            self.Specification4 = self.Specification5 = self.Specification6 = self.Specification7 = self.Specification8 = self.Specification9 = None
+        elif self.Copy == '4':
+            self.Specification1 = self.Specification2 = self.Specification3 = self.Specification4 = self.Specification
+            self.Specification5 = self.Specification6 = self.Specification7 = self.Specification8 = self.Specification9 = None
+        elif self.Copy == '5':
+            self.Specification1 = self.Specification2 = self.Specification3 = self.Specification4 = self.Specification5 = self.Specification
+            self.Specification6 = self.Specification7 = self.Specification8 = self.Specification9 = None
+        elif self.Copy == '6':
+            self.Specification1 = self.Specification2 = self.Specification3 = self.Specification4 = self.Specification5 = self.Specification6 = self.Specification
+            self.Specification7 = self.Specification8 = self.Specification9 = None
+        elif self.Copy == '7':
+            self.Specification1 = self.Specification2 = self.Specification3 = self.Specification4 = self.Specification5 = self.Specification6 = self.Specification7 = self.Specification
+            self.Specification8 = self.Specification9 = None
+        elif self.Copy == '8':
+            self.Specification1 = self.Specification2 = self.Specification3 = self.Specification4 = self.Specification5 = self.Specification6 = self.Specification7 = self.Specification8 = self.Specification
+            self.Specification9 = None
+        elif self.Copy == '9':
+            self.Specification1 = self.Specification2 = self.Specification3 = self.Specification4 = self.Specification5 = self.Specification6 = self.Specification7 = self.Specification8 = self.Specification9 = self.Specification
         else:
             pass
 
@@ -2207,12 +3596,30 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def copy_client_reference(self):
         if self.Copy == '1':
             self.ClientReference1 = self.ClientReference
-            self.ClientReference2 = self.ClientReference3 = None
+            self.ClientReference2 = self.ClientReference3 = self.ClientReference4 = self.ClientReference5 = self.ClientReference6 = self.ClientReference7 = self.ClientReference8 = self.ClientReference9 = None
         elif self.Copy == '2':
             self.ClientReference1 = self.ClientReference2 = self.ClientReference
-            self.ClientReference3 = None
+            self.ClientReference3 = self.ClientReference4 = self.ClientReference5 = self.ClientReference6 = self.ClientReference7 = self.ClientReference8 = self.ClientReference9 = None
         elif self.Copy == '3':
             self.ClientReference1 = self.ClientReference2 = self.ClientReference3 = self.ClientReference
+            self.ClientReference4 = self.ClientReference5 = self.ClientReference6 = self.ClientReference7 = self.ClientReference8 = self.ClientReference9 = None
+        elif self.Copy == '4':
+            self.ClientReference1 = self.ClientReference2 = self.ClientReference3 = self.ClientReference4 = self.ClientReference
+            self.ClientReference5 = self.ClientReference6 = self.ClientReference7 = self.ClientReference8 = self.ClientReference9 = None
+        elif self.Copy == '5':
+            self.ClientReference1 = self.ClientReference2 = self.ClientReference3 = self.ClientReference4 = self.ClientReference5 = self.ClientReference
+            self.ClientReference6 = self.ClientReference7 = self.ClientReference8 = self.ClientReference9 = None
+        elif self.Copy == '6':
+            self.ClientReference1 = self.ClientReference2 = self.ClientReference3 = self.ClientReference4 = self.ClientReference5 = self.ClientReference6 = self.ClientReference
+            self.ClientReference7 = self.ClientReference8 = self.ClientReference9 = None
+        elif self.Copy == '7':
+            self.ClientReference1 = self.ClientReference2 = self.ClientReference3 = self.ClientReference4 = self.ClientReference5 = self.ClientReference6 = self.ClientReference7 = self.ClientReference
+            self.ClientReference8 = self.ClientReference9 = None
+        elif self.Copy == '8':
+            self.ClientReference1 = self.ClientReference2 = self.ClientReference3 = self.ClientReference4 = self.ClientReference5 = self.ClientReference6 = self.ClientReference7 = self.ClientReference8 = self.ClientReference
+            self.ClientReference9 = None
+        elif self.Copy == '9':
+            self.ClientReference1 = self.ClientReference2 = self.ClientReference3 = self.ClientReference4 = self.ClientReference5 = self.ClientReference6 = self.ClientReference7 = self.ClientReference8 = self.ClientReference9 = self.ClientReference
         else:
             pass
 
@@ -2220,12 +3627,30 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def copy_sample_condition(self):
         if self.Copy == '1':
             self.SampleCondition1 = self.SampleCondition
-            self.SampleCondition2 = self.SampleCondition3 = None
+            self.SampleCondition2 = self.SampleCondition3 = self.SampleCondition4 = self.SampleCondition5 = self.SampleCondition6 = self.SampleCondition7 = self.SampleCondition8 = self.SampleCondition9 = None
         elif self.Copy == '2':
             self.SampleCondition1 = self.SampleCondition2 = self.SampleCondition
-            self.SampleCondition3 = None
+            self.SampleCondition3 = self.SampleCondition4 = self.SampleCondition5 = self.SampleCondition6 = self.SampleCondition7 = self.SampleCondition8 = self.SampleCondition9 = None
         elif self.Copy == '3':
             self.SampleCondition1 = self.SampleCondition2 = self.SampleCondition3 = self.SampleCondition
+            self.SampleCondition4 = self.SampleCondition5 = self.SampleCondition6 = self.SampleCondition7 = self.SampleCondition8 = self.SampleCondition9 = None
+        elif self.Copy == '4':
+            self.SampleCondition1 = self.SampleCondition2 = self.SampleCondition3 = self.SampleCondition4 = self.SampleCondition
+            self.SampleCondition5 = self.SampleCondition6 = self.SampleCondition7 = self.SampleCondition8 = self.SampleCondition9 = None
+        elif self.Copy == '5':
+            self.SampleCondition1 = self.SampleCondition2 = self.SampleCondition3 = self.SampleCondition4 = self.SampleCondition5 = self.SampleCondition
+            self.SampleCondition6 = self.SampleCondition7 = self.SampleCondition8 = self.SampleCondition9 = None
+        elif self.Copy == '6':
+            self.SampleCondition1 = self.SampleCondition2 = self.SampleCondition3 = self.SampleCondition4 = self.SampleCondition5 = self.SampleCondition6 = self.SampleCondition
+            self.SampleCondition7 = self.SampleCondition8 = self.SampleCondition9 = None
+        elif self.Copy == '7':
+            self.SampleCondition1 = self.SampleCondition2 = self.SampleCondition3 = self.SampleCondition4 = self.SampleCondition5 = self.SampleCondition6 = self.SampleCondition7 = self.SampleCondition
+            self.SampleCondition8 = self.SampleCondition9 = None
+        elif self.Copy == '8':
+            self.SampleCondition1 = self.SampleCondition2 = self.SampleCondition3 = self.SampleCondition4 = self.SampleCondition5 = self.SampleCondition6 = self.SampleCondition7 = self.SampleCondition8 = self.SampleCondition
+            self.SampleCondition9 = None
+        elif self.Copy == '9':
+            self.SampleCondition1 = self.SampleCondition2 = self.SampleCondition3 = self.SampleCondition4 = self.SampleCondition5 = self.SampleCondition6 = self.SampleCondition7 = self.SampleCondition8 = self.SampleCondition9 = self.SampleCondition
         else:
             pass
 
@@ -2233,12 +3658,30 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def copy_adhoc(self):
         if self.Copy == '1':
             self.AdHoc1 = self.AdHoc
-            self.AdHoc2 = self.AdHoc3 = False
+            self.AdHoc2 = self.AdHoc3 = self.AdHoc4 = self.AdHoc5 = self.AdHoc6 = self.AdHoc7 = self.AdHoc8 = self.AdHoc9 = None
         elif self.Copy == '2':
             self.AdHoc1 = self.AdHoc2 = self.AdHoc
-            self.AdHoc3 = False
+            self.AdHoc3 = self.AdHoc4 = self.AdHoc5 = self.AdHoc6 = self.AdHoc7 = self.AdHoc8 = self.AdHoc9 = None
         elif self.Copy == '3':
             self.AdHoc1 = self.AdHoc2 = self.AdHoc3 = self.AdHoc
+            self.AdHoc4 = self.AdHoc5 = self.AdHoc6 = self.AdHoc7 = self.AdHoc8 = self.AdHoc9 = None
+        elif self.Copy == '4':
+            self.AdHoc1 = self.AdHoc2 = self.AdHoc3 = self.AdHoc4 = self.AdHoc
+            self.AdHoc5 = self.AdHoc6 = self.AdHoc7 = self.AdHoc8 = self.AdHoc9 = None
+        elif self.Copy == '5':
+            self.AdHoc1 = self.AdHoc2 = self.AdHoc3 = self.AdHoc4 = self.AdHoc5 = self.AdHoc
+            self.AdHoc6 = self.AdHoc7 = self.AdHoc8 = self.AdHoc9 = None
+        elif self.Copy == '6':
+            self.AdHoc1 = self.AdHoc2 = self.AdHoc3 = self.AdHoc4 = self.AdHoc5 = self.AdHoc6 = self.AdHoc
+            self.AdHoc7 = self.AdHoc8 = self.AdHoc9 = None
+        elif self.Copy == '7':
+            self.AdHoc1 = self.AdHoc2 = self.AdHoc3 = self.AdHoc4 = self.AdHoc5 = self.AdHoc6 = self.AdHoc7 = self.AdHoc
+            self.AdHoc8 = self.AdHoc9 = None
+        elif self.Copy == '8':
+            self.AdHoc1 = self.AdHoc2 = self.AdHoc3 = self.AdHoc4 = self.AdHoc5 = self.AdHoc6 = self.AdHoc7 = self.AdHoc8 = self.AdHoc
+            self.AdHoc9 = None
+        elif self.Copy == '9':
+            self.AdHoc1 = self.AdHoc2 = self.AdHoc3 = self.AdHoc4 = self.AdHoc5 = self.AdHoc6 = self.AdHoc7 = self.AdHoc8 = self.AdHoc9 = self.AdHoc
         else:
             pass
 
@@ -2246,12 +3689,30 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def copy_composite(self):
         if self.Copy == '1':
             self.Composite1 = self.Composite
-            self.Composite2 = self.Composite3 = False
+            self.Composite2 = self.Composite3 = self.Composite4 = self.Composite5 = self.Composite6 = self.Composite7 = self.Composite8 = self.Composite9 = None
         elif self.Copy == '2':
             self.Composite1 = self.Composite2 = self.Composite
-            self.Composite3 = False
+            self.Composite3 = self.Composite4 = self.Composite5 = self.Composite6 = self.Composite7 = self.Composite8 = self.Composite9 = None
         elif self.Copy == '3':
             self.Composite1 = self.Composite2 = self.Composite3 = self.Composite
+            self.Composite4 = self.Composite5 = self.Composite6 = self.Composite7 = self.Composite8 = self.Composite9 = None
+        elif self.Copy == '4':
+            self.Composite1 = self.Composite2 = self.Composite3 = self.Composite4 = self.Composite
+            self.Composite5 = self.Composite6 = self.Composite7 = self.Composite8 = self.Composite9 = None
+        elif self.Copy == '5':
+            self.Composite1 = self.Composite2 = self.Composite3 = self.Composite4 = self.Composite5 = self.Composite
+            self.Composite6 = self.Composite7 = self.Composite8 = self.Composite9 = None
+        elif self.Copy == '6':
+            self.Composite1 = self.Composite2 = self.Composite3 = self.Composite4 = self.Composite5 = self.Composite6 = self.Composite
+            self.Composite7 = self.Composite8 = self.Composite9 = None
+        elif self.Copy == '7':
+            self.Composite1 = self.Composite2 = self.Composite3 = self.Composite4 = self.Composite5 = self.Composite6 = self.Composite7 = self.Composite
+            self.Composite8 = self.Composite9 = None
+        elif self.Copy == '8':
+            self.Composite1 = self.Composite2 = self.Composite3 = self.Composite4 = self.Composite5 = self.Composite6 = self.Composite7 = self.Composite8 = self.Composite
+            self.Composite9 = None
+        elif self.Copy == '9':
+            self.Composite1 = self.Composite2 = self.Composite3 = self.Composite4 = self.Composite5 = self.Composite6 = self.Composite7 = self.Composite8 = self.Composite9 = self.Composite
         else:
             pass
 
@@ -2259,12 +3720,30 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def copy_report_dry_matter(self):
         if self.Copy == '1':
             self.ReportDryMatter1 = self.ReportDryMatter
-            self.ReportDryMatter2 = self.ReportDryMatter3 = False
+            self.ReportDryMatter2 = self.ReportDryMatter3 = self.ReportDryMatter4 = self.ReportDryMatter5 = self.ReportDryMatter6 = self.ReportDryMatter7 = self.ReportDryMatter8 = self.ReportDryMatter9 = None
         elif self.Copy == '2':
             self.ReportDryMatter1 = self.ReportDryMatter2 = self.ReportDryMatter
-            self.ReportDryMatter3 = False
+            self.ReportDryMatter3 = self.ReportDryMatter4 = self.ReportDryMatter5 = self.ReportDryMatter6 = self.ReportDryMatter7 = self.ReportDryMatter8 = self.ReportDryMatter9 = None
         elif self.Copy == '3':
             self.ReportDryMatter1 = self.ReportDryMatter2 = self.ReportDryMatter3 = self.ReportDryMatter
+            self.ReportDryMatter4 = self.ReportDryMatter5 = self.ReportDryMatter6 = self.ReportDryMatter7 = self.ReportDryMatter8 = self.ReportDryMatter9 = None
+        elif self.Copy == '4':
+            self.ReportDryMatter1 = self.ReportDryMatter2 = self.ReportDryMatter3 = self.ReportDryMatter4 = self.ReportDryMatter
+            self.ReportDryMatter5 = self.ReportDryMatter6 = self.ReportDryMatter7 = self.ReportDryMatter8 = self.ReportDryMatter9 = None
+        elif self.Copy == '5':
+            self.ReportDryMatter1 = self.ReportDryMatter2 = self.ReportDryMatter3 = self.ReportDryMatter4 = self.ReportDryMatter5 = self.ReportDryMatter
+            self.ReportDryMatter6 = self.ReportDryMatter7 = self.ReportDryMatter8 = self.ReportDryMatter9 = None
+        elif self.Copy == '6':
+            self.ReportDryMatter1 = self.ReportDryMatter2 = self.ReportDryMatter3 = self.ReportDryMatter4 = self.ReportDryMatter5 = self.ReportDryMatter6 = self.ReportDryMatter
+            self.ReportDryMatter7 = self.ReportDryMatter8 = self.ReportDryMatter9 = None
+        elif self.Copy == '7':
+            self.ReportDryMatter1 = self.ReportDryMatter2 = self.ReportDryMatter3 = self.ReportDryMatter4 = self.ReportDryMatter5 = self.ReportDryMatter6 = self.ReportDryMatter7 = self.ReportDryMatter
+            self.ReportDryMatter8 = self.ReportDryMatter9 = None
+        elif self.Copy == '8':
+            self.ReportDryMatter1 = self.ReportDryMatter2 = self.ReportDryMatter3 = self.ReportDryMatter4 = self.ReportDryMatter5 = self.ReportDryMatter6 = self.ReportDryMatter7 = self.ReportDryMatter8 = self.ReportDryMatter
+            self.ReportDryMatter9 = None
+        elif self.Copy == '9':
+            self.ReportDryMatter1 = self.ReportDryMatter2 = self.ReportDryMatter3 = self.ReportDryMatter4 = self.ReportDryMatter5 = self.ReportDryMatter6 = self.ReportDryMatter7 = self.ReportDryMatter8 = self.ReportDryMatter9 = self.ReportDryMatter
         else:
             pass
 
@@ -2272,12 +3751,30 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def copy_invoice_exclude(self):
         if self.Copy == '1':
             self.InvoiceExclude1 = self.InvoiceExclude
-            self.InvoiceExclude2 = self.InvoiceExclude3 = False
+            self.InvoiceExclude2 = self.InvoiceExclude3 = self.InvoiceExclude4 = self.InvoiceExclude5 = self.InvoiceExclude6 = self.InvoiceExclude7 = self.InvoiceExclude8 = self.InvoiceExclude9 = None
         elif self.Copy == '2':
             self.InvoiceExclude1 = self.InvoiceExclude2 = self.InvoiceExclude
-            self.InvoiceExclude3 = False
+            self.InvoiceExclude3 = self.InvoiceExclude4 = self.InvoiceExclude5 = self.InvoiceExclude6 = self.InvoiceExclude7 = self.InvoiceExclude8 = self.InvoiceExclude9 = None
         elif self.Copy == '3':
             self.InvoiceExclude1 = self.InvoiceExclude2 = self.InvoiceExclude3 = self.InvoiceExclude
+            self.InvoiceExclude4 = self.InvoiceExclude5 = self.InvoiceExclude6 = self.InvoiceExclude7 = self.InvoiceExclude8 = self.InvoiceExclude9 = None
+        elif self.Copy == '4':
+            self.InvoiceExclude1 = self.InvoiceExclude2 = self.InvoiceExclude3 = self.InvoiceExclude4 = self.InvoiceExclude
+            self.InvoiceExclude5 = self.InvoiceExclude6 = self.InvoiceExclude7 = self.InvoiceExclude8 = self.InvoiceExclude9 = None
+        elif self.Copy == '5':
+            self.InvoiceExclude1 = self.InvoiceExclude2 = self.InvoiceExclude3 = self.InvoiceExclude4 = self.InvoiceExclude5 = self.InvoiceExclude
+            self.InvoiceExclude6 = self.InvoiceExclude7 = self.InvoiceExclude8 = self.InvoiceExclude9 = None
+        elif self.Copy == '6':
+            self.InvoiceExclude1 = self.InvoiceExclude2 = self.InvoiceExclude3 = self.InvoiceExclude4 = self.InvoiceExclude5 = self.InvoiceExclude6 = self.InvoiceExclude
+            self.InvoiceExclude7 = self.InvoiceExclude8 = self.InvoiceExclude9 = None
+        elif self.Copy == '7':
+            self.InvoiceExclude1 = self.InvoiceExclude2 = self.InvoiceExclude3 = self.InvoiceExclude4 = self.InvoiceExclude5 = self.InvoiceExclude6 = self.InvoiceExclude7 = self.InvoiceExclude
+            self.InvoiceExclude8 = self.InvoiceExclude9 = None
+        elif self.Copy == '8':
+            self.InvoiceExclude1 = self.InvoiceExclude2 = self.InvoiceExclude3 = self.InvoiceExclude4 = self.InvoiceExclude5 = self.InvoiceExclude6 = self.InvoiceExclude7 = self.InvoiceExclude8 = self.InvoiceExclude
+            self.InvoiceExclude9 = None
+        elif self.Copy == '9':
+            self.InvoiceExclude1 = self.InvoiceExclude2 = self.InvoiceExclude3 = self.InvoiceExclude4 = self.InvoiceExclude5 = self.InvoiceExclude6 = self.InvoiceExclude7 = self.InvoiceExclude8 = self.InvoiceExclude9 = self.InvoiceExclude
         else:
             pass
 
@@ -2285,12 +3782,30 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def copy_priority(self):
         if self.Copy == '1':
             self.Priority1 = self.Priority
-            self.Priority2 = self.Priority3 = None
+            self.Priority2 = self.Priority3 = self.Priority4 = self.Priority5 = self.Priority6 = self.Priority7 = self.Priority8 = self.Priority9 = None
         elif self.Copy == '2':
             self.Priority1 = self.Priority2 = self.Priority
-            self.Priority3 = None
+            self.Priority3 = self.Priority4 = self.Priority5 = self.Priority6 = self.Priority7 = self.Priority8 = self.Priority9 = None
         elif self.Copy == '3':
             self.Priority1 = self.Priority2 = self.Priority3 = self.Priority
+            self.Priority4 = self.Priority5 = self.Priority6 = self.Priority7 = self.Priority8 = self.Priority9 = None
+        elif self.Copy == '4':
+            self.Priority1 = self.Priority2 = self.Priority3 = self.Priority4 = self.Priority
+            self.Priority5 = self.Priority6 = self.Priority7 = self.Priority8 = self.Priority9 = None
+        elif self.Copy == '5':
+            self.Priority1 = self.Priority2 = self.Priority3 = self.Priority4 = self.Priority5 = self.Priority
+            self.Priority6 = self.Priority7 = self.Priority8 = self.Priority9 = None
+        elif self.Copy == '6':
+            self.Priority1 = self.Priority2 = self.Priority3 = self.Priority4 = self.Priority5 = self.Priority6 = self.Priority
+            self.Priority7 = self.Priority8 = self.Priority9 = None
+        elif self.Copy == '7':
+            self.Priority1 = self.Priority2 = self.Priority3 = self.Priority4 = self.Priority5 = self.Priority6 = self.Priority7 = self.Priority
+            self.Priority8 = self.Priority9 = None
+        elif self.Copy == '8':
+            self.Priority1 = self.Priority2 = self.Priority3 = self.Priority4 = self.Priority5 = self.Priority6 = self.Priority7 = self.Priority8 = self.Priority
+            self.Priority9 = None
+        elif self.Copy == '9':
+            self.Priority1 = self.Priority2 = self.Priority3 = self.Priority4 = self.Priority5 = self.Priority6 = self.Priority7 = self.Priority8 = self.Priority9 = self.Priority
         else:
             pass
 
@@ -2298,12 +3813,30 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def copy_priority(self):
         if self.Copy == '1':
             self.SampleMassReceived1 = self.SampleMassReceived
-            self.SampleMassReceived2 = self.SampleMassReceived3 = None
+            self.SampleMassReceived2 = self.SampleMassReceived3 = self.SampleMassReceived4 = self.SampleMassReceived5 = self.SampleMassReceived6 = self.SampleMassReceived7 = self.SampleMassReceived8 = self.SampleMassReceived9 = None
         elif self.Copy == '2':
             self.SampleMassReceived1 = self.SampleMassReceived2 = self.SampleMassReceived
-            self.SampleMassReceived3 = None
+            self.SampleMassReceived3 = self.SampleMassReceived4 = self.SampleMassReceived5 = self.SampleMassReceived6 = self.SampleMassReceived7 = self.SampleMassReceived8 = self.SampleMassReceived9 = None
         elif self.Copy == '3':
             self.SampleMassReceived1 = self.SampleMassReceived2 = self.SampleMassReceived3 = self.SampleMassReceived
+            self.SampleMassReceived4 = self.SampleMassReceived5 = self.SampleMassReceived6 = self.SampleMassReceived7 = self.SampleMassReceived8 = self.SampleMassReceived9 = None
+        elif self.Copy == '4':
+            self.SampleMassReceived1 = self.SampleMassReceived2 = self.SampleMassReceived3 = self.SampleMassReceived4 = self.SampleMassReceived
+            self.SampleMassReceived5 = self.SampleMassReceived6 = self.SampleMassReceived7 = self.SampleMassReceived8 = self.SampleMassReceived9 = None
+        elif self.Copy == '5':
+            self.SampleMassReceived1 = self.SampleMassReceived2 = self.SampleMassReceived3 = self.SampleMassReceived4 = self.SampleMassReceived5 = self.SampleMassReceived
+            self.SampleMassReceived6 = self.SampleMassReceived7 = self.SampleMassReceived8 = self.SampleMassReceived9 = None
+        elif self.Copy == '6':
+            self.SampleMassReceived1 = self.SampleMassReceived2 = self.SampleMassReceived3 = self.SampleMassReceived4 = self.SampleMassReceived5 = self.SampleMassReceived6 = self.SampleMassReceived
+            self.SampleMassReceived7 = self.SampleMassReceived8 = self.SampleMassReceived9 = None
+        elif self.Copy == '7':
+            self.SampleMassReceived1 = self.SampleMassReceived2 = self.SampleMassReceived3 = self.SampleMassReceived4 = self.SampleMassReceived5 = self.SampleMassReceived6 = self.SampleMassReceived7 = self.SampleMassReceived
+            self.SampleMassReceived8 = self.SampleMassReceived9 = None
+        elif self.Copy == '8':
+            self.SampleMassReceived1 = self.SampleMassReceived2 = self.SampleMassReceived3 = self.SampleMassReceived4 = self.SampleMassReceived5 = self.SampleMassReceived6 = self.SampleMassReceived7 = self.SampleMassReceived8 = self.SampleMassReceived
+            self.SampleMassReceived9 = None
+        elif self.Copy == '9':
+            self.SampleMassReceived1 = self.SampleMassReceived2 = self.SampleMassReceived3 = self.SampleMassReceived4 = self.SampleMassReceived5 = self.SampleMassReceived6 = self.SampleMassReceived7 = self.SampleMassReceived8 = self.SampleMassReceived9 = self.SampleMassReceived
         else:
             pass
 
@@ -2403,7 +3936,9 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 self.VAT += service_record.Services.VAT * (service_record.Services.Price - (service_record.Services.Price * self.Client.M_Discount / 100)) /100
                 self.Total = self.Subtotal + self.VAT
 
-    @api.onchange("Template","Template1","Template2","Template3")
+    @api.onchange("Template","Template1","Template2","Template3",\
+                "Template4","Template5","Template6","Template7",\
+                "Templat8","Template9")
     def add_contact_and_email_of_template(self):
         self.Contact = self.Template.contact_id
         self.CCEmails = self.Template.email_id
@@ -2428,16 +3963,71 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             self.AnalysisProfile3 = self.Template3.AnalysisProfile
             self.SampleType3 = self.Template3.SampleType
             self.Priority3 = self.Template3.priority
+        if self.Template4:
+            self.Contact4 = self.Template4.contact_id
+            self.CCEmails4 = self.Template4.email_id
+            self.AnalysisProfile4 = self.Template4.AnalysisProfile
+            self.SampleType4 = self.Template4.SampleType
+            self.Priority4 = self.Template4.priority
+        if self.Template5:
+            self.Contact5 = self.Template5.contact_id
+            self.CCEmails5 = self.Template5.email_id
+            self.AnalysisProfile5 = self.Template5.AnalysisProfile
+            self.SampleType5 = self.Template5.SampleType
+            self.Priority5 = self.Template5.priority
+        if self.Template6:
+            self.Contact6 = self.Template6.contact_id
+            self.CCEmails6 = self.Template6.email_id
+            self.AnalysisProfile6 = self.Template6.AnalysisProfile
+            self.SampleType6 = self.Template6.SampleType
+            self.Priority6 = self.Template6.priority
+        if self.Template7:
+            self.Contact7 = self.Template7.contact_id
+            self.CCEmails7 = self.Template7.email_id
+            self.AnalysisProfile7 = self.Template7.AnalysisProfile
+            self.SampleType7 = self.Template7.SampleType
+            self.Priority7 = self.Template7.priority
+        if self.Template8:
+            self.Contact8 = self.Template8.contact_id
+            self.CCEmails8 = self.Template8.email_id
+            self.AnalysisProfile8 = self.Template8.AnalysisProfile
+            self.SampleType8 = self.Template8.SampleType
+            self.Priority8 = self.Template8.priority
+        if self.Template9:
+            self.Contact9 = self.Template9.contact_id
+            self.CCEmails9 = self.Template9.email_id
+            self.AnalysisProfile9 = self.Template9.AnalysisProfile
+            self.SampleType9 = self.Template9.SampleType
+            self.Priority9 = self.Template9.priority
+
     @api.onchange("copy_paid_cash")
     def CopyPaidCash(self):
         if self.Copy == '1':
             self.paid_cash1 = self.paid_cash
-            self.paid_cash2 = self.paid_cash3 = False
+            self.paid_cash2 = self.paid_cash3 = self.paid_cash4 = self.paid_cash5 = self.paid_cash6 = self.paid_cash7 = self.paid_cash8 = self.paid_cash9 = None
         elif self.Copy == '2':
             self.paid_cash1 = self.paid_cash2 = self.paid_cash
-            self.paid_cash3 = False
+            self.paid_cash3 = self.paid_cash4 = self.paid_cash5 = self.paid_cash6 = self.paid_cash7 = self.paid_cash8 = self.paid_cash9 = None
         elif self.Copy == '3':
             self.paid_cash1 = self.paid_cash2 = self.paid_cash3 = self.paid_cash
+            self.paid_cash4 = self.paid_cash5 = self.paid_cash6 = self.paid_cash7 = self.paid_cash8 = self.paid_cash9 = None
+        elif self.Copy == '4':
+            self.paid_cash1 = self.paid_cash2 = self.paid_cash3 = self.paid_cash4 = self.paid_cash
+            self.paid_cash5 = self.paid_cash6 = self.paid_cash7 = self.paid_cash8 = self.paid_cash9 = None
+        elif self.Copy == '5':
+            self.paid_cash1 = self.paid_cash2 = self.paid_cash3 = self.paid_cash4 = self.paid_cash5 = self.paid_cash
+            self.paid_cash6 = self.paid_cash7 = self.paid_cash8 = self.paid_cash9 = None
+        elif self.Copy == '6':
+            self.paid_cash1 = self.paid_cash2 = self.paid_cash3 = self.paid_cash4 = self.paid_cash5 = self.paid_cash6 = self.paid_cash
+            self.paid_cash7 = self.paid_cash8 = self.paid_cash9 = None
+        elif self.Copy == '7':
+            self.paid_cash1 = self.paid_cash2 = self.paid_cash3 = self.paid_cash4 = self.paid_cash5 = self.paid_cash6 = self.paid_cash7 = self.paid_cash
+            self.paid_cash8 = self.paid_cash9 = None
+        elif self.Copy == '8':
+            self.paid_cash1 = self.paid_cash2 = self.paid_cash3 = self.paid_cash4 = self.paid_cash5 = self.paid_cash6 = self.paid_cash7 = self.paid_cash8 = self.paid_cash
+            self.paid_cash9 = None
+        elif self.Copy == '9':
+            self.paid_cash1 = self.paid_cash2 = self.paid_cash3 = self.paid_cash4 = self.paid_cash5 = self.paid_cash6 = self.paid_cash7 = self.paid_cash8 = self.paid_cash9 = self.paid_cash
         else:
             pass
     def workflow_script_unpublish(self,cr,uid,ids,context=None):

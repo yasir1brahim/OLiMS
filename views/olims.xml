@@ -1855,6 +1855,12 @@
                                     <field name="SamplingDate1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                     <field name="SamplingDate2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                     <field name="SamplingDate3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="SamplingDate4" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="SamplingDate5" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="SamplingDate6" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="SamplingDate7" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="SamplingDate8" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="SamplingDate9" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 </div>
                             </group>
                             <group>
@@ -1871,6 +1877,12 @@
                                     <field name="Template1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" domain="[('ClientARTemplate','!=',False),'|',('ClientARTemplate','=',context.get('client_context')),('ClientARTemplate','=',Client)]"></field>
                                     <field name="Template2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" domain="[('ClientARTemplate','!=',False),'|',('ClientARTemplate','=',context.get('client_context')),('ClientARTemplate','=',Client)]"></field>
                                     <field name="Template3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" domain="[('ClientARTemplate','!=',False),'|',('ClientARTemplate','=',context.get('client_context')),('ClientARTemplate','=',Client)]"></field>
+                                    <field name="Template4" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" domain="[('ClientARTemplate','!=',False),'|',('ClientARTemplate','=',context.get('client_context')),('ClientARTemplate','=',Client)]"></field>
+                                    <field name="Template5" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" domain="[('ClientARTemplate','!=',False),'|',('ClientARTemplate','=',context.get('client_context')),('ClientARTemplate','=',Client)]"></field>
+                                    <field name="Template6" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" domain="[('ClientARTemplate','!=',False),'|',('ClientARTemplate','=',context.get('client_context')),('ClientARTemplate','=',Client)]"></field>
+                                    <field name="Template7" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" domain="[('ClientARTemplate','!=',False),'|',('ClientARTemplate','=',context.get('client_context')),('ClientARTemplate','=',Client)]"></field>
+                                    <field name="Template8" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" domain="[('ClientARTemplate','!=',False),'|',('ClientARTemplate','=',context.get('client_context')),('ClientARTemplate','=',Client)]"></field>
+                                    <field name="Template9" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" domain="[('ClientARTemplate','!=',False),'|',('ClientARTemplate','=',context.get('client_context')),('ClientARTemplate','=',Client)]"></field>
                                 </div>
                             </group>
                             <group>
@@ -1885,6 +1897,12 @@
                                     <field name="Contact1" options="{'no_create': True}" nolabel='1' width="25%" attrs="{'invisible': [('id', '!=', False)]}" domain="['|',('Client_Contact','=',context.get('client_context')),('Client_Contact','=',Client)]" widget="many2many_tags"></field>
                                     <field name="Contact2" options="{'no_create': True}" nolabel='1' width="25%" attrs="{'invisible': [('id', '!=', False)]}" domain="['|',('Client_Contact','=',context.get('client_context')),('Client_Contact','=',Client)]" widget="many2many_tags"></field>
                                     <field name="Contact3" options="{'no_create': True}" nolabel='1' width="25%" attrs="{'invisible': [('id', '!=', False)]}" domain="['|',('Client_Contact','=',context.get('client_context')),('Client_Contact','=',Client)]" widget="many2many_tags"></field>
+                                    <field name="Contact4" options="{'no_create': True}" nolabel='1' width="25%" attrs="{'invisible': [('id', '!=', False)]}" domain="['|',('Client_Contact','=',context.get('client_context')),('Client_Contact','=',Client)]" widget="many2many_tags"></field>
+                                    <field name="Contact5" options="{'no_create': True}" nolabel='1' width="25%" attrs="{'invisible': [('id', '!=', False)]}" domain="['|',('Client_Contact','=',context.get('client_context')),('Client_Contact','=',Client)]" widget="many2many_tags"></field>
+                                    <field name="Contact6" options="{'no_create': True}" nolabel='1' width="25%" attrs="{'invisible': [('id', '!=', False)]}" domain="['|',('Client_Contact','=',context.get('client_context')),('Client_Contact','=',Client)]" widget="many2many_tags"></field>
+                                    <field name="Contact7" options="{'no_create': True}" nolabel='1' width="25%" attrs="{'invisible': [('id', '!=', False)]}" domain="['|',('Client_Contact','=',context.get('client_context')),('Client_Contact','=',Client)]" widget="many2many_tags"></field>
+                                    <field name="Contact8" options="{'no_create': True}" nolabel='1' width="25%" attrs="{'invisible': [('id', '!=', False)]}" domain="['|',('Client_Contact','=',context.get('client_context')),('Client_Contact','=',Client)]" widget="many2many_tags"></field>
+                                    <field name="Contact9" options="{'no_create': True}" nolabel='1' width="25%" attrs="{'invisible': [('id', '!=', False)]}" domain="['|',('Client_Contact','=',context.get('client_context')),('Client_Contact','=',Client)]" widget="many2many_tags"></field>
                                 </div>
                             </group>
                         <group>
@@ -1895,6 +1913,12 @@
                                 <field name="CCContact1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" domain="['|',('Client_Contact','=',context.get('client_context')),('Client_Contact','=',Client)]" widget="many2many_tags"></field>
                                 <field name="CCContact2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" domain="['|',('Client_Contact','=',context.get('client_context')),('Client_Contact','=',Client)]" widget="many2many_tags"></field>
                                 <field name="CCContact3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" domain="['|',('Client_Contact','=',context.get('client_context')),('Client_Contact','=',Client)]" widget="many2many_tags"></field>
+                                <field name="CCContact4" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" domain="['|',('Client_Contact','=',context.get('client_context')),('Client_Contact','=',Client)]" widget="many2many_tags"></field>
+                                <field name="CCContact5" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" domain="['|',('Client_Contact','=',context.get('client_context')),('Client_Contact','=',Client)]" widget="many2many_tags"></field>
+                                <field name="CCContact6" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" domain="['|',('Client_Contact','=',context.get('client_context')),('Client_Contact','=',Client)]" widget="many2many_tags"></field>
+                                <field name="CCContact7" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" domain="['|',('Client_Contact','=',context.get('client_context')),('Client_Contact','=',Client)]" widget="many2many_tags"></field>
+                                <field name="CCContact8" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" domain="['|',('Client_Contact','=',context.get('client_context')),('Client_Contact','=',Client)]" widget="many2many_tags"></field>
+                                <field name="CCContact9" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" domain="['|',('Client_Contact','=',context.get('client_context')),('Client_Contact','=',Client)]" widget="many2many_tags"></field>
                             </div>
                         </group>
                         <group>
@@ -1905,6 +1929,12 @@
                                 <field name="CCEmails1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" widget="many2many_tags" options="{'no_create': True}" domain="[('client_id','!=',False),'|',('client_id','=',context.get('client_context')),('client_id','=',Client)]"></field>
                                 <field name="CCEmails2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" widget="many2many_tags" options="{'no_create': True}" domain="[('client_id','!=',False),'|',('client_id','=',context.get('client_context')),('client_id','=',Client)]"></field>
                                 <field name="CCEmails3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" widget="many2many_tags" options="{'no_create': True}" domain="[('client_id','!=',False),'|',('client_id','=',context.get('client_context')),('client_id','=',Client)]"></field>
+                                <field name="CCEmails4" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" widget="many2many_tags" options="{'no_create': True}" domain="[('client_id','!=',False),'|',('client_id','=',context.get('client_context')),('client_id','=',Client)]"></field>
+                                <field name="CCEmails5" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" widget="many2many_tags" options="{'no_create': True}" domain="[('client_id','!=',False),'|',('client_id','=',context.get('client_context')),('client_id','=',Client)]"></field>
+                                <field name="CCEmails6" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" widget="many2many_tags" options="{'no_create': True}" domain="[('client_id','!=',False),'|',('client_id','=',context.get('client_context')),('client_id','=',Client)]"></field>
+                                <field name="CCEmails7" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" widget="many2many_tags" options="{'no_create': True}" domain="[('client_id','!=',False),'|',('client_id','=',context.get('client_context')),('client_id','=',Client)]"></field>
+                                <field name="CCEmails8" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" widget="many2many_tags" options="{'no_create': True}" domain="[('client_id','!=',False),'|',('client_id','=',context.get('client_context')),('client_id','=',Client)]"></field>
+                                <field name="CCEmails9" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}" widget="many2many_tags" options="{'no_create': True}" domain="[('client_id','!=',False),'|',('client_id','=',context.get('client_context')),('client_id','=',Client)]"></field>
                             </div>
                         </group>
                         <group>
@@ -1915,6 +1945,12 @@
                                     <field name="ClientSampleID1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                     <field name="ClientSampleID2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                     <field name="ClientSampleID3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="ClientSampleID4" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="ClientSampleID5" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="ClientSampleID6" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="ClientSampleID7" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="ClientSampleID8" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="ClientSampleID9" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 </div>
                             </group>
                             <group>
@@ -1924,6 +1960,12 @@
                                     <field name="LotID1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                     <field name="LotID2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                     <field name="LotID3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="LotID4" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="LotID5" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="LotID6" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="LotID7" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="LotID8" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="LotID9" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 </div>
                             </group>
                         </group>
@@ -1935,6 +1977,12 @@
                                 <field name="ClientReference1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="ClientReference2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="ClientReference3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="ClientReference4" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="ClientReference5" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="ClientReference6" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="ClientReference7" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="ClientReference8" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="ClientReference9" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             </div>
                         </group>
                         <group>
@@ -1945,6 +1993,12 @@
                                 <field name="SampleType1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="SampleType2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="SampleType3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SampleType4" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SampleType5" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SampleType6" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SampleType7" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SampleType8" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SampleType9" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             </div>
                         </group>
                         <group>
@@ -1955,6 +2009,12 @@
                                 <field name="AnalysisProfile1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="AnalysisProfile2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="AnalysisProfile3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="AnalysisProfile4" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="AnalysisProfile5" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="AnalysisProfile6" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="AnalysisProfile7" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="AnalysisProfile8" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="AnalysisProfile9" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             </div>
                         </group>
                         <group>
@@ -1965,6 +2025,12 @@
                                 <field name="Sampler1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="Sampler2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="Sampler3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Sampler4" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Sampler5" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Sampler6" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Sampler7" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Sampler8" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Sampler9" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             </div>
                         </group>
                         <group attrs="{'invisible': [('id', '=', False)]}">
@@ -1981,6 +2047,12 @@
                                 <field name="Priority1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="Priority2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="Priority3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Priority4" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Priority5" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Priority6" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Priority7" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Priority8" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Priority9" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             </div>
                         </group>
                         <group>
@@ -1991,6 +2063,12 @@
                                 <field name="SampleMassReceived1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="SampleMassReceived2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="SampleMassReceived3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SampleMassReceived4" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SampleMassReceived5" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SampleMassReceived6" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SampleMassReceived7" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SampleMassReceived8" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SampleMassReceived9" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             </div>
                         </group>
                         <group>
@@ -2001,6 +2079,12 @@
                                 <field name="Sample_id1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="Sample_id2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="Sample_id3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Sample_id4" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Sample_id5" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Sample_id6" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Sample_id7" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Sample_id8" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Sample_id9" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             </div>
                         </group>
 
@@ -2018,6 +2102,12 @@
                                 <field name="Specification1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="Specification2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="Specification3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Specification4" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Specification5" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Specification6" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Specification7" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Specification8" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="Specification9" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             </div>
                         </group>
                         <group>
@@ -2028,6 +2118,12 @@
                                 <field name="SampleCondition1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="SampleCondition2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="SampleCondition3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SampleCondition4" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SampleCondition5" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SampleCondition6" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SampleCondition7" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SampleCondition8" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SampleCondition9" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             </div>
                         </group>
                         <group>
@@ -2038,6 +2134,12 @@
                                 <field name="SubGroup1" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="SubGroup2" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="SubGroup3" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SubGroup4" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SubGroup5" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SubGroup6" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SubGroup7" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SubGroup8" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="SubGroup9" options="{'no_create': True}" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             </div>
                         </group>
                         <group>
@@ -2048,6 +2150,12 @@
                                 <field name="AdHoc1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="AdHoc2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 <field name="AdHoc3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="AdHoc4" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="AdHoc5" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="AdHoc6" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="AdHoc7" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="AdHoc8" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                <field name="AdHoc9" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             </div>
                         </group>
                     <br/>
@@ -2059,6 +2167,12 @@
                             <field name="Composite1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             <field name="Composite2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             <field name="Composite3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Composite4" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Composite5" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Composite6" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Composite7" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Composite8" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Composite9" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                         </div>
                     </group>
                     <br/>
@@ -2070,6 +2184,13 @@
                             <field name="ReportDryMatter1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             <field name="ReportDryMatter2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             <field name="ReportDryMatter3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="ReportDryMatter4" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="ReportDryMatter5" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="ReportDryMatter6" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="ReportDryMatter7" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="ReportDryMatter8" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="ReportDryMatter9" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+
                         </div>
                     </group>
                     <br/>
@@ -2081,6 +2202,12 @@
                             <field name="InvoiceExclude1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             <field name="InvoiceExclude2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             <field name="InvoiceExclude3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="InvoiceExclude4" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="InvoiceExclude5" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="InvoiceExclude6" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="InvoiceExclude7" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="InvoiceExclude8" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="InvoiceExclude9" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                         </div>
                     </group>
                     <group>
@@ -2091,6 +2218,12 @@
                             <field name="paid_cash1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             <field name="paid_cash2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             <field name="paid_cash3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="paid_cash4" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="paid_cash5" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="paid_cash6" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="paid_cash7" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="paid_cash8" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="paid_cash9" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                         </div>
                     </group>
                     <br/>
@@ -2161,6 +2294,12 @@
                             <field name="Discount1" readonly="1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             <field name="Discount2" readonly="1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             <field name="Discount3" readonly="1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Discount4" readonly="1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Discount5" readonly="1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Discount6" readonly="1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Discount7" readonly="1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Discount8" readonly="1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Discount9" readonly="1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                         </div>
                     </group>
                     <group>
@@ -2170,6 +2309,12 @@
                             <field name="Subtotal1" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             <field name="Subtotal2" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             <field name="Subtotal3" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Subtotal4" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Subtotal5" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Subtotal6" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Subtotal7" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Subtotal8" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Subtotal9" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                         </div>
                     </group>
                     <group>
@@ -2179,6 +2324,12 @@
                             <field name="VAT1" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             <field name="VAT2" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             <field name="VAT3" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="VAT4" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="VAT5" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="VAT6" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="VAT7" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="VAT8" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="VAT9" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                         </div>
                     </group>
                     <group>
@@ -2188,6 +2339,12 @@
                             <field name="Total1" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             <field name="Total2" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                             <field name="Total3" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Total4" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Total5" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Total6" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Total7" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Total8" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                            <field name="Total9" nolabel="1" readonly="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                         </div>
                     </group>
                     <label for="FieldService" string="Field Analysis" attrs="{'invisible': [('id', '!=', False)]}"/>
@@ -2483,6 +2640,7 @@
                     <field name="AnalysisProfile"/>
                     <field name="LotID"/>
                     <field name="ClientSampleID"/>
+                    <field name="ClientReference" string="Product Name"/>
                     <field name="Client"/>
                </search>
             </field>
