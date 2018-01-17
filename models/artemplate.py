@@ -56,9 +56,9 @@ schema = (StringField('Template',
           
         fields.Many2many(string='Partitions',
                        comodel_name='olims.partition_ar_template',
-        ),      
+        ),
 
-    fields.Many2one(string='AnalysisProfile',
+    fields.Many2many(string='AnalysisProfile',
                     comodel_name='olims.analysis_profile',
                     help="The Analysis Profile selection for this template",
                     required=False,

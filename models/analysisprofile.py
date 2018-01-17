@@ -15,7 +15,12 @@ from fields.widget.widget import StringWidget, AnalysisProfileAnalysesWidget, \
 
 # ~~~~~ Useful code that need to be converted in Odoo style ~~~~~~ 
 schema = (StringField('Profile',
-              required=1,        
+              required=1,
+             # column='name'
+    ),
+    StringField('name',
+              required=1,
+             # column='name'
     ),
     TextField('Description',
         widget = TextAreaWidget(

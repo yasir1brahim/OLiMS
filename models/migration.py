@@ -28,3 +28,22 @@ class WorksheetMigration(models.Model):
 			ar_object = self.env["olims.analysis_request"].search([('id', '=', analysis_request.id )])
 			ar_object.write({"ar_counter":ar_object.id})
 		return
+
+	@api.model
+	def migrationarpublish_date(self):
+		invoices = self.env["olims.ar_invoice"].search([('id', '>',0 )])
+		for invoice in invoices:
+			print "------",invoice.id
+			invoice_object = self.env["olims.ar_invoice"].search([('id', '=', invoice.id )])
+			invoice_object.write({"published_date":invoice.end_date})
+		return
+
+
+	@api.model
+	def migration_analysisprofile_name(self):
+		profiles = self.env["olims.analysis_profile"].search([('id', '>',0 )])
+		for profile in profiles:
+			print "--------profile id: ",profile.id
+			profile_object = self.env["olims.analysis_profile"].search([('id', '=', profile.id )])
+			profile_object.write({"name":profile.Profile})
+		return

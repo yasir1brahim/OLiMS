@@ -365,61 +365,61 @@ schema = (fields.Char(string='RequestID',
                         comodel_name='olims.ar_template',
 
     ),
-    fields.Many2one(string='AnalysisProfile',
+    fields.Many2many(string='AnalysisProfile',
                         comodel_name='olims.analysis_profile',
                         relation='ar_to_analysisprofile',
                         domain="[('Deactivated', '=',False )]"
 
     ),
-    fields.Many2one(string='AnalysisProfile1',
+    fields.Many2many(string='AnalysisProfile1',
                         comodel_name='olims.analysis_profile',
                         relation='ar_to_analysisprofile',
                         domain="[('Deactivated', '=',False )]"
 
     ),
-    fields.Many2one(string='AnalysisProfile2',
+    fields.Many2many(string='AnalysisProfile2',
                         comodel_name='olims.analysis_profile',
                         relation='ar_to_analysisprofile',
                         domain="[('Deactivated', '=',False )]"
 
     ),
-    fields.Many2one(string='AnalysisProfile3',
+    fields.Many2many(string='AnalysisProfile3',
                         comodel_name='olims.analysis_profile',
                         relation='ar_to_analysisprofile',
                         domain="[('Deactivated', '=',False )]"
 
     ),
-    fields.Many2one(string='AnalysisProfile4',
+    fields.Many2many(string='AnalysisProfile4',
                         comodel_name='olims.analysis_profile',
                         relation='ar_to_analysisprofile',
                         domain="[('Deactivated', '=',False )]"
 
     ),
-    fields.Many2one(string='AnalysisProfile5',
+    fields.Many2many(string='AnalysisProfile5',
                         comodel_name='olims.analysis_profile',
                         relation='ar_to_analysisprofile',
                         domain="[('Deactivated', '=',False )]"
 
     ),
-    fields.Many2one(string='AnalysisProfile6',
+    fields.Many2many(string='AnalysisProfile6',
                         comodel_name='olims.analysis_profile',
                         relation='ar_to_analysisprofile',
                         domain="[('Deactivated', '=',False )]"
 
     ),
-    fields.Many2one(string='AnalysisProfile7',
+    fields.Many2many(string='AnalysisProfile7',
                         comodel_name='olims.analysis_profile',
                         relation='ar_to_analysisprofile',
                         domain="[('Deactivated', '=',False )]"
 
     ),
-    fields.Many2one(string='AnalysisProfile8',
+    fields.Many2many(string='AnalysisProfile8',
                         comodel_name='olims.analysis_profile',
                         relation='ar_to_analysisprofile',
                         domain="[('Deactivated', '=',False )]"
 
     ),
-    fields.Many2one(string='AnalysisProfile9',
+    fields.Many2many(string='AnalysisProfile9',
                         comodel_name='olims.analysis_profile',
                         relation='ar_to_analysisprofile',
                         domain="[('Deactivated', '=',False )]"
@@ -1855,54 +1855,86 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         profile8_analysis_id_list = []
         profile9_analysis_id_list = []
         if values.get('AnalysisProfile', None):
-            analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', values.get('AnalysisProfile'))])
-            for analysis in analysis_profile_obj.Service:
-                profile_analysis_id_list.append(analysis.Services.id)
+            for val in values.get('AnalysisProfile', None):
+                print "----", val
+                for ids in val[2]:
+                    print "----", ids
+                    analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', ids)])
+                    for analysis in analysis_profile_obj.Service:
+                        profile_analysis_id_list.append(analysis.Services.id)
 
         if values.get('AnalysisProfile1', None):
-            analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', values.get('AnalysisProfile1'))])
-            for analysis in analysis_profile_obj.Service:
-                profile1_analysis_id_list.append(analysis.Services.id)
+            for val in values.get('AnalysisProfile1', None):
+                print "----", val
+                for ids in val[2]:
+                    print "----", ids
+                    analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', ids)])
+                    for analysis in analysis_profile_obj.Service:
+                        profile1_analysis_id_list.append(analysis.Services.id)
 
         if values.get('AnalysisProfile2', None):
-            analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', values.get('AnalysisProfile2'))])
-            for analysis in analysis_profile_obj.Service:
-                profile2_analysis_id_list.append(analysis.Services.id)
+            for val in values.get('AnalysisProfile2', None):
+                for ids in val[2]:
+                    print "----", ids
+                    analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', ids)])
+                    for analysis in analysis_profile_obj.Service:
+                        profile2_analysis_id_list.append(analysis.Services.id)
 
         if values.get('AnalysisProfile3', None):
-            analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', values.get('AnalysisProfile3'))])
-            for analysis in analysis_profile_obj.Service:
-                profile3_analysis_id_list.append(analysis.Services.id)
+            for val in values.get('AnalysisProfile3', None):
+                for ids in val[2]:
+                    print "----", ids
+                    analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', ids)])
+                    for analysis in analysis_profile_obj.Service:
+                        profile3_analysis_id_list.append(analysis.Services.id)
 
         if values.get('AnalysisProfile4', None):
-            analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', values.get('AnalysisProfile4'))])
-            for analysis in analysis_profile_obj.Service:
-                profile4_analysis_id_list.append(analysis.Services.id)
+            for val in values.get('AnalysisProfile4', None):
+                for ids in val[2]:
+                    print "----", ids
+                    analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', ids)])
+                    for analysis in analysis_profile_obj.Service:
+                        profile4_analysis_id_list.append(analysis.Services.id)
 
         if values.get('AnalysisProfile5', None):
-            analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', values.get('AnalysisProfile5'))])
-            for analysis in analysis_profile_obj.Service:
-                profile5_analysis_id_list.append(analysis.Services.id)
+            for val in values.get('AnalysisProfile5', None):
+                for ids in val[2]:
+                    print "----", ids
+                    analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', ids)])
+                    for analysis in analysis_profile_obj.Service:
+                        profile5_analysis_id_list.append(analysis.Services.id)
 
         if values.get('AnalysisProfile6', None):
-            analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', values.get('AnalysisProfile6'))])
-            for analysis in analysis_profile_obj.Service:
-                profile6_analysis_id_list.append(analysis.Services.id)
+            for val in values.get('AnalysisProfile6', None):
+                for ids in val[2]:
+                    print "----", ids
+                    analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', ids)])
+                    for analysis in analysis_profile_obj.Service:
+                        profile6_analysis_id_list.append(analysis.Services.id)
 
         if values.get('AnalysisProfile7', None):
-            analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', values.get('AnalysisProfile7'))])
-            for analysis in analysis_profile_obj.Service:
-                profile7_analysis_id_list.append(analysis.Services.id)
+            for val in values.get('AnalysisProfile7', None):
+                for ids in val[2]:
+                    print "----", ids
+                    analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', ids)])
+                    for analysis in analysis_profile_obj.Service:
+                        profile7_analysis_id_list.append(analysis.Services.id)
 
         if values.get('AnalysisProfile8', None):
-            analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', values.get('AnalysisProfile8'))])
-            for analysis in analysis_profile_obj.Service:
-                profile8_analysis_id_list.append(analysis.Services.id)
+            for val in values.get('AnalysisProfile8', None):
+                for ids in val[2]:
+                    print "----", ids
+                    analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', ids)])
+                    for analysis in analysis_profile_obj.Service:
+                        profile8_analysis_id_list.append(analysis.Services.id)
 
         if values.get('AnalysisProfile9', None):
-            analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', values.get('AnalysisProfile9'))])
-            for analysis in analysis_profile_obj.Service:
-                profile9_analysis_id_list.append(analysis.Services.id)
+            for val in values.get('AnalysisProfile9', None):
+                for ids in val[2]:
+                    print "----", ids
+                    analysis_profile_obj = self.env["olims.analysis_profile"].search([('id', '=', ids)])
+                    for analysis in analysis_profile_obj.Service:
+                        profile9_analysis_id_list.append(analysis.Services.id)
 
         for LabService in values.get('LabService'):
             if LabService[2]['LabService'] in profile_analysis_id_list:
@@ -2670,126 +2702,372 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             service_vat3 = 0.0
             service_total3 = 0.0
 
+            service_discount4 = 0.0
+            service_subtotal4 = 0.0
+            service_vat4 = 0.0
+            service_total4 = 0.0
+
+            service_discount5 = 0.0
+            service_subtotal5 = 0.0
+            service_vat5 = 0.0
+            service_total5 = 0.0
+
+            service_discount6 = 0.0
+            service_subtotal6 = 0.0
+            service_vat6 = 0.0
+            service_total6 = 0.0
+
+            service_discount7 = 0.0
+            service_subtotal7 = 0.0
+            service_vat7 = 0.0
+            service_total7 = 0.0
+
+            service_discount8 = 0.0
+            service_subtotal8 = 0.0
+            service_vat8 = 0.0
+            service_total8 = 0.0
+
+            service_discount9 = 0.0
+            service_subtotal9 = 0.0
+            service_vat9 = 0.0
+            service_total9 = 0.0
+
             f_service_ids_list_p1 = []
             f_service_ids_list_p2 = []
             f_service_ids_list_p3 = []
             f_service_ids_list_p4 = []
+            f_service_ids_list_p5 = []
+            f_service_ids_list_p6 = []
+            f_service_ids_list_p7 = []
+            f_service_ids_list_p8 = []
+            f_service_ids_list_p9 = []
+            f_service_ids_list_p10 = []
 
             service_ids_list_p1 = []
             service_ids_list_p2 = []
             service_ids_list_p3 = []
             service_ids_list_p4 = []
-            for service_p1 in record.AnalysisProfile.Service:
-                if service_p1.Services.PointOfCapture == "lab":
-                    service_ids_list_p1.append(service_p1.Services.id)
-                else:
-                    f_service_ids_list_p1.append(service_p1.Services.id)
-            for service_p2 in record.AnalysisProfile1.Service:
-                if service_p2.Services.PointOfCapture == "lab":
-                    service_ids_list_p2.append(service_p2.Services.id)
-                else:
-                    f_service_ids_list_p2.append(service_p2.Services.id)
-            for service_p3 in record.AnalysisProfile2.Service:
-                if service_p3.Services.PointOfCapture == "lab":
-                    service_ids_list_p3.append(service_p3.Services.id)
-                else:
-                    f_service_ids_list_p3.append(service_p3.Services.id)
-            for service_p4 in record.AnalysisProfile3.Service:
-                if service_p4.Services.PointOfCapture == "lab":
-                    service_ids_list_p4.append(service_p4.Services.id)
-                else:
-                    f_service_ids_list_p4.append(service_p4.Services.id)
+            service_ids_list_p5 = []
+            service_ids_list_p6 = []
+            service_ids_list_p7 = []
+            service_ids_list_p8 = []
+            service_ids_list_p9 = []
+            service_ids_list_p10 = []
+
+            for rec in record.AnalysisProfile:
+                for service_p1 in rec.Service:
+                    if service_p1.Services.PointOfCapture == "lab":
+                        service_ids_list_p1.append(service_p1.Services.id)
+                    else:
+                        f_service_ids_list_p1.append(service_p1.Services.id)
+
+            for rec in record.AnalysisProfile1:
+                for service_p2 in rec.Service:
+                    if service_p2.Services.PointOfCapture == "lab":
+                        service_ids_list_p2.append(service_p2.Services.id)
+                    else:
+                        f_service_ids_list_p2.append(service_p2.Services.id)
+
+            for rec in record.AnalysisProfile2:
+                for service_p3 in rec.Service:
+                    if service_p3.Services.PointOfCapture == "lab":
+                        service_ids_list_p3.append(service_p3.Services.id)
+                    else:
+                        f_service_ids_list_p3.append(service_p3.Services.id)
+
+            for rec in record.AnalysisProfile3:
+                for service_p4 in rec.Service:
+                    if service_p4.Services.PointOfCapture == "lab":
+                        service_ids_list_p4.append(service_p4.Services.id)
+                    else:
+                        f_service_ids_list_p4.append(service_p4.Services.id)
+
+            for rec in record.AnalysisProfile4:
+                for service_p5 in rec.Service:
+                    if service_p5.Services.PointOfCapture == "lab":
+                        service_ids_list_p5.append(service_p5.Services.id)
+                    else:
+                        f_service_ids_list_p5.append(service_p5.Services.id)
+
+            for rec in record.AnalysisProfile5:
+                for service_p6 in rec.Service:
+                    if service_p6.Services.PointOfCapture == "lab":
+                        service_ids_list_p6.append(service_p6.Services.id)
+                    else:
+                        f_service_ids_list_p6.append(service_p6.Services.id)
+
+            for rec in record.AnalysisProfile6:
+                for service_p7 in rec.Service:
+                    if service_p7.Services.PointOfCapture == "lab":
+                        service_ids_list_p7.append(service_p7.Services.id)
+                    else:
+                        f_service_ids_list_p7.append(service_p7.Services.id)
+
+            for rec in record.AnalysisProfile7:
+                for service_p8 in rec.Service:
+                    if service_p8.Services.PointOfCapture == "lab":
+                        service_ids_list_p8.append(service_p8.Services.id)
+                    else:
+                        f_service_ids_list_p8.append(service_p8.Services.id)
+
+            for rec in record.AnalysisProfile8:
+                for service_p9 in rec.Service:
+                    if service_p9.Services.PointOfCapture == "lab":
+                        service_ids_list_p9.append(service_p9.Services.id)
+                    else:
+                        f_service_ids_list_p9.append(service_p9.Services.id)
+
+            for rec in record.AnalysisProfile9:
+                for service_p10 in rec.Service:
+                    if service_p10.Services.PointOfCapture == "lab":
+                        service_ids_list_p10.append(service_p10.Services.id)
+                    else:
+                        f_service_ids_list_p10.append(service_p10.Services.id)
+
 
             for service in record.LabService:
                 if service.LabService.id in service_ids_list_p1:
-                    if record.AnalysisProfile.UseAnalysisProfilePrice:
-                        service_price = float(record.AnalysisProfile.AnalysisProfilePrice)
-                        service_discount = service_price * client_obj.M_Discount / 100
-                        discount = service_price * client_obj.M_Discount / 100
-                        service_subtotal = float(service_price) - float(discount)
-                        # compute VAT
-                        service_vat = (float(service_price) - float(discount)) * record.AnalysisProfile.AnalysisProfileVAT / 100
-                        service_total = service_subtotal + service_vat
-                    else:
-                        service_price = service.LabService.Price
-                        service_discount += service_price * client_obj.M_Discount / 100
-                        # compute subtotal
-                        discount = service_price * client_obj.M_Discount / 100
-                        service_subtotal += float(service_price) - float(discount)
-                        # compute VAT
-                        service_vat += (float(service_price) - float(discount)) * service.LabService.VAT / 100
-                        service_total = service_subtotal + service_vat
+                    for rec in record.AnalysisProfile:
+                        if rec.UseAnalysisProfilePrice:
+                            service_price = float(rec.AnalysisProfilePrice)
+                            service_discount = service_price * client_obj.M_Discount / 100
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal = float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat = (float(service_price) - float(discount)) * rec.AnalysisProfileVAT / 100
+                            service_total = service_subtotal + service_vat
+                        else:
+                            service_price = service.LabService.Price
+                            service_discount += service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal += float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat += (float(service_price) - float(discount)) * service.LabService.VAT / 100
+                            service_total = service_subtotal + service_vat
+
+
                 if service.LabService.id in service_ids_list_p2:
-                    if record.AnalysisProfile1.UseAnalysisProfilePrice:
-                        service_price = record.AnalysisProfile1.AnalysisProfilePrice
-                        service_discount1 = service_price * client_obj.M_Discount / 100
-                        # compute subtotal
-                        discount = service_price * client_obj.M_Discount / 100
-                        service_subtotal1 = float(service_price) - float(discount)
-                        # compute VAT
-                        service_vat1 = service_subtotal1 * record.AnalysisProfile1.AnalysisProfileVAT / 100
-                        service_total1 = service_subtotal1 + service_vat1
-                    else:
-                        service_price = service.LabService.Price
-                        service_discount1 += service_price * client_obj.M_Discount / 100
-                        # compute subtotal
-                        discount = service_price * client_obj.M_Discount / 100
-                        service_subtotal1 += float(service_price) - float(discount)
-                        # compute VAT
-                        service_vat1 += (service_price - discount) * service.LabService.VAT / 100
-                        service_total1 = service_subtotal1 + service_vat1
+                    for rec in record.AnalysisProfile1:
+                        if rec.UseAnalysisProfilePrice:
+                            service_price = rec.AnalysisProfilePrice
+                            service_discount1 = service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal1 = float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat1 = service_subtotal1 * rec.AnalysisProfileVAT / 100
+                            service_total1 = service_subtotal1 + service_vat1
+                        else:
+                            service_price = service.LabService.Price
+                            service_discount1 += service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal1 += float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat1 += (service_price - discount) * service.LabService.VAT / 100
+                            service_total1 = service_subtotal1 + service_vat1
+
+
                 if service.LabService.id in service_ids_list_p3:
-                    if record.AnalysisProfile2.UseAnalysisProfilePrice:
-                        service_price = record.AnalysisProfile2.AnalysisProfilePrice
-                        service_discount2 = service_price * client_obj.M_Discount / 100
-                        # compute subtotal
-                        discount = service_price * client_obj.M_Discount / 100
-                        service_subtotal2 = float(service_price) - float(discount)
-                        # compute VAT
-                        service_vat2 = service_subtotal2 * record.AnalysisProfile2.AnalysisProfileVAT / 100
-                        service_total2 = service_subtotal2 + service_vat2
-                    else:
-                        service_price = service.LabService.Price
-                        service_discount2 += service_price * client_obj.M_Discount / 100
-                        # compute subtotal
-                        discount = service_price * client_obj.M_Discount / 100
-                        service_subtotal2 += float(service_price) - float(discount)
-                        # compute VAT
-                        service_vat2 += (service_price - discount) * service.LabService.VAT / 100
-                        service_total2 = service_subtotal2 + service_vat2
+                    for rec in record.AnalysisProfile2:
+                        if rec.UseAnalysisProfilePrice:
+                            service_price = rec.AnalysisProfilePrice
+                            service_discount2 = service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal2 = float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat2 = service_subtotal2 * rec.AnalysisProfileVAT / 100
+                            service_total2 = service_subtotal2 + service_vat2
+                        else:
+                            service_price = service.LabService.Price
+                            service_discount2 += service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal2 += float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat2 += (service_price - discount) * service.LabService.VAT / 100
+                            service_total2 = service_subtotal2 + service_vat2
+
+
                 if service.LabService.id in service_ids_list_p4:
-                    if record.AnalysisProfile3.UseAnalysisProfilePrice:
-                        service_price = record.AnalysisProfile3.AnalysisProfilePrice
-                        service_discount3 += service_price * client_obj.M_Discount / 100
-                        # compute subtotal
-                        discount = service_price * client_obj.M_Discount / 100
-                        service_subtotal3 = float(service_price) - float(discount)
-                        # compute VAT
-                        service_vat3 = service_subtotal3 * record.AnalysisProfile3.AnalysisProfileVAT / 100
-                        service_total3 = service_subtotal3 + service_vat3
-                    else:
-                        service_price = service.LabService.Price
-                        service_discount3 += service_price * client_obj.M_Discount / 100
-                        # compute subtotal
-                        discount = service_price * client_obj.M_Discount / 100
-                        service_subtotal3 += float(service_price) - float(discount)
-                        # compute VAT
-                        service_vat3 += (service_price - (service_price * client_obj.M_Discount / 100)) * service.LabService.VAT / 100
-                        service_total3 = service_subtotal3 + service_vat3
+                    for rec in record.AnalysisProfile3:
+                        if rec.UseAnalysisProfilePrice:
+                            service_price = rec.AnalysisProfilePrice
+                            service_discount3 += service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal3 = float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat3 = service_subtotal3 * rec.AnalysisProfileVAT / 100
+                            service_total3 = service_subtotal3 + service_vat3
+                        else:
+                            service_price = service.LabService.Price
+                            service_discount3 += service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal3 += float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat3 += (service_price - (service_price * client_obj.M_Discount / 100)) * service.LabService.VAT / 100
+                            service_total3 = service_subtotal3 + service_vat3
+
+                if service.LabService.id in service_ids_list_p5:
+                    for rec in record.AnalysisProfile4:
+                        if rec.UseAnalysisProfilePrice:
+                            service_price = rec.AnalysisProfilePrice
+                            service_discount4 = service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal4 = float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat4 = service_subtotal4 * rec.AnalysisProfileVAT / 100
+                            service_total4 = service_subtotal4 + service_vat4
+                        else:
+                            service_price = service.LabService.Price
+                            service_discount4 += service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal4 += float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat4 += (service_price - discount) * service.LabService.VAT / 100
+                            service_total4 = service_subtotal4 + service_vat4
+
+
+                if service.LabService.id in service_ids_list_p6:
+                    for rec in record.AnalysisProfile5:
+                        if rec.UseAnalysisProfilePrice:
+                            service_price = rec.AnalysisProfilePrice
+                            service_discount5 = service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal5 = float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat5 = service_subtotal5 * rec.AnalysisProfileVAT / 100
+                            service_total5 = service_subtotal5 + service_vat5
+                        else:
+                            service_price = service.LabService.Price
+                            service_discount5 += service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal5 += float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat5 += (service_price - discount) * service.LabService.VAT / 100
+                            service_total5 = service_subtotal5 + service_vat5
+
+
+                if service.LabService.id in service_ids_list_p7:
+                    for rec in record.AnalysisProfile6:
+                        if rec.UseAnalysisProfilePrice:
+                            service_price = rec.AnalysisProfilePrice
+                            service_discount6 += service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal6 = float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat6 = service_subtotal6 * rec.AnalysisProfileVAT / 100
+                            service_total6 = service_subtotal6 + service_vat6
+                        else:
+                            service_price = service.LabService.Price
+                            service_discount6 += service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal6 += float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat6 += (service_price - (service_price * client_obj.M_Discount / 100)) * service.LabService.VAT / 100
+                            service_total6 = service_subtotal6 + service_vat6
+
+
+                if service.LabService.id in service_ids_list_p8:
+                    for rec in record.AnalysisProfile7:
+                        if rec.UseAnalysisProfilePrice:
+                            service_price = rec.AnalysisProfilePrice
+                            service_discount7 = service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal7 = float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat7 = service_subtotal7 * rec.AnalysisProfileVAT / 100
+                            service_total7 = service_subtotal7 + service_vat7
+                        else:
+                            service_price = service.LabService.Price
+                            service_discount7 += service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal7 += float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat7 += (service_price - discount) * service.LabService.VAT / 100
+                            service_total7 = service_subtotal7 + service_vat7
+
+
+                if service.LabService.id in service_ids_list_p9:
+                    for rec in record.AnalysisProfile8:
+                        if rec.UseAnalysisProfilePrice:
+                            service_price = rec.AnalysisProfilePrice
+                            service_discount8 = service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal8 = float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat8 = service_subtotal8 * rec.AnalysisProfileVAT / 100
+                            service_total8 = service_subtotal8 + service_vat8
+                        else:
+                            service_price = service.LabService.Price
+                            service_discount8 += service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal8 += float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat8 += (service_price - discount) * service.LabService.VAT / 100
+                            service_total8 = service_subtotal8 + service_vat8
+
+
+                if service.LabService.id in service_ids_list_p10:
+                    for rec in record.AnalysisProfile9:
+                        if rec.UseAnalysisProfilePrice:
+                            service_price = rec.AnalysisProfilePrice
+                            service_discount9 += service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal9 = float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat9 = service_subtotal9 * rec.AnalysisProfileVAT / 100
+                            service_total9 = service_subtotal9 + service_vat9
+                        else:
+                            service_price = service.LabService.Price
+                            service_discount9 += service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal9 += float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat9 += (service_price - (service_price * client_obj.M_Discount / 100)) * service.LabService.VAT / 100
+                            service_total9 = service_subtotal9 + service_vat9
+
                 if service.LabService.id not in service_ids_list_p1 and \
                                 service.LabService.id not in service_ids_list_p2 and \
                                 service.LabService.id not in service_ids_list_p3 and \
-                                service.LabService.id not in service_ids_list_p4:
+                                service.LabService.id not in service_ids_list_p4 and \
+                                service.LabService.id not in service_ids_list_p5 and \
+                                service.LabService.id not in service_ids_list_p6 and \
+                                service.LabService.id not in service_ids_list_p7 and \
+                                service.LabService.id not in service_ids_list_p8 and \
+                                service.LabService.id not in service_ids_list_p9 and \
+                                service.LabService.id not in service_ids_list_p10:
                     service_price = float(service.LabService.Price)
                     discount = service_price * client_obj.M_Discount / 100
                     service_discount, service_subtotal, service_total, service_vat = self.calculate_lab_service_amount_for_ar(
                         discount, service, service_discount, service_price, service_subtotal, service_total,
                         service_vat,client_obj)
-                    if record.Copy == '1' or record.AnalysisProfile1 and not record.AnalysisProfile2 and not record.AnalysisProfile3:
+                    if record.Copy == '1' or record.AnalysisProfile1 and not record.AnalysisProfile2 and not record.AnalysisProfile3 and not \
+                            record.AnalysisProfile4 and not record.AnalysisProfile5 and not record.AnalysisProfile6 and not\
+                            record.AnalysisProfile7 and not record.AnalysisProfile8 and not record.AnalysisProfile9:
                         service_discount1, service_subtotal1, service_total1, service_vat1 = self.calculate_lab_service_amount_for_ar(
                             discount, service, service_discount1, service_price, service_subtotal1, service_total1,
                             service_vat1,client_obj)
-                    elif record.Copy == '2' or record.AnalysisProfile1 and record.AnalysisProfile2 and not record.AnalysisProfile3:
+
+                    elif record.Copy == '2' or record.AnalysisProfile1 and record.AnalysisProfile2 and not record.AnalysisProfile3 and not \
+                        record.AnalysisProfile4 and not record.AnalysisProfile5 and not record.AnalysisProfile6 and not \
+                        record.AnalysisProfile7 and not record.AnalysisProfile8 and not record.AnalysisProfile9:
                         service_discount1, service_subtotal1, service_total1, service_vat1 = self.calculate_lab_service_amount_for_ar(
                             discount, service, service_discount1, service_price, service_subtotal1, service_total1,
                             service_vat1,client_obj)
@@ -2797,7 +3075,10 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                         service_discount2, service_subtotal2, service_total2, service_vat2 = self.calculate_lab_service_amount_for_ar(
                             discount, service, service_discount2, service_price, service_subtotal2, service_total2,
                             service_vat2,client_obj)
-                    elif record.Copy == '3' or record.AnalysisProfile1 and record.AnalysisProfile2 and record.AnalysisProfile3:
+
+                    elif record.Copy == '3' or record.AnalysisProfile1 and record.AnalysisProfile2 and record.AnalysisProfile3 and not \
+                         record.AnalysisProfile4 and not record.AnalysisProfile5 and not record.AnalysisProfile6 and not \
+                         record.AnalysisProfile7 and not record.AnalysisProfile8 and not record.AnalysisProfile9:
                         service_discount1, service_subtotal1, service_total1, service_vat1 = self.calculate_lab_service_amount_for_ar(
                             discount, service, service_discount1, service_price, service_subtotal1, service_total1,
                             service_vat1,client_obj)
@@ -2809,87 +3090,401 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                         service_discount3, service_subtotal3, service_total3, service_vat3 = self.calculate_lab_service_amount_for_ar(
                             discount, service, service_discount3, service_price, service_subtotal3, service_total3,
                             service_vat3,client_obj)
+
+                    elif record.Copy == '4' or record.AnalysisProfile1 and record.AnalysisProfile2 and record.AnalysisProfile3 and \
+                         record.AnalysisProfile4 and not record.AnalysisProfile5 and not record.AnalysisProfile6 and not \
+                         record.AnalysisProfile7 and not record.AnalysisProfile8 and not record.AnalysisProfile9:
+                        service_discount1, service_subtotal1, service_total1, service_vat1 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount1, service_price, service_subtotal1, service_total1,
+                            service_vat1,client_obj)
+
+                        service_discount2, service_subtotal2, service_total2, service_vat2 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount2, service_price, service_subtotal2, service_total2,
+                            service_vat2,client_obj)
+
+                        service_discount3, service_subtotal3, service_total3, service_vat3 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount3, service_price, service_subtotal3, service_total3,
+                            service_vat3,client_obj)
+
+                        service_discount4, service_subtotal4, service_total4, service_vat4 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount4, service_price, service_subtotal4, service_total4,
+                            service_vat4,client_obj)
+
+                    elif record.Copy == '5' or record.AnalysisProfile1 and record.AnalysisProfile2 and record.AnalysisProfile3 and \
+                         record.AnalysisProfile4 and record.AnalysisProfile5 and not record.AnalysisProfile6 and not \
+                         record.AnalysisProfile7 and not record.AnalysisProfile8 and not record.AnalysisProfile9:
+                        service_discount1, service_subtotal1, service_total1, service_vat1 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount1, service_price, service_subtotal1, service_total1,
+                            service_vat1,client_obj)
+
+                        service_discount2, service_subtotal2, service_total2, service_vat2 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount2, service_price, service_subtotal2, service_total2,
+                            service_vat2,client_obj)
+
+                        service_discount3, service_subtotal3, service_total3, service_vat3 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount3, service_price, service_subtotal3, service_total3,
+                            service_vat3,client_obj)
+
+                        service_discount4, service_subtotal4, service_total4, service_vat4 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount4, service_price, service_subtotal4, service_total4,
+                            service_vat4,client_obj)
+
+                        service_discount5, service_subtotal5, service_total5, service_vat5 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount5, service_price, service_subtotal5, service_total5,
+                            service_vat5,client_obj)
+
+                    elif record.Copy == '6' or record.AnalysisProfile1 and record.AnalysisProfile2 and record.AnalysisProfile3 and \
+                         record.AnalysisProfile4 and record.AnalysisProfile5 and  record.AnalysisProfile6 and not \
+                         record.AnalysisProfile7 and not record.AnalysisProfile8 and not record.AnalysisProfile9:
+                        service_discount1, service_subtotal1, service_total1, service_vat1 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount1, service_price, service_subtotal1, service_total1,
+                            service_vat1,client_obj)
+
+                        service_discount2, service_subtotal2, service_total2, service_vat2 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount2, service_price, service_subtotal2, service_total2,
+                            service_vat2,client_obj)
+
+                        service_discount3, service_subtotal3, service_total3, service_vat3 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount3, service_price, service_subtotal3, service_total3,
+                            service_vat3,client_obj)
+
+                        service_discount4, service_subtotal4, service_total4, service_vat4 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount4, service_price, service_subtotal4, service_total4,
+                            service_vat4,client_obj)
+
+                        service_discount5, service_subtotal5, service_total5, service_vat5 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount5, service_price, service_subtotal5, service_total5,
+                            service_vat5,client_obj)
+
+                        service_discount6, service_subtotal6, service_total6, service_vat6 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount6, service_price, service_subtotal6, service_total6,
+                            service_vat6,client_obj)
+
+                    elif record.Copy == '7' or record.AnalysisProfile1 and record.AnalysisProfile2 and record.AnalysisProfile3 and \
+                         record.AnalysisProfile4 and record.AnalysisProfile5 and  record.AnalysisProfile6 and \
+                         record.AnalysisProfile7 and not record.AnalysisProfile8 and not record.AnalysisProfile9:
+                        service_discount1, service_subtotal1, service_total1, service_vat1 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount1, service_price, service_subtotal1, service_total1,
+                            service_vat1,client_obj)
+
+                        service_discount2, service_subtotal2, service_total2, service_vat2 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount2, service_price, service_subtotal2, service_total2,
+                            service_vat2,client_obj)
+
+                        service_discount3, service_subtotal3, service_total3, service_vat3 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount3, service_price, service_subtotal3, service_total3,
+                            service_vat3,client_obj)
+
+                        service_discount4, service_subtotal4, service_total4, service_vat4 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount4, service_price, service_subtotal4, service_total4,
+                            service_vat4,client_obj)
+
+                        service_discount5, service_subtotal5, service_total5, service_vat5 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount5, service_price, service_subtotal5, service_total5,
+                            service_vat5,client_obj)
+
+                        service_discount6, service_subtotal6, service_total6, service_vat6 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount6, service_price, service_subtotal6, service_total6,
+                            service_vat6,client_obj)
+
+                        service_discount7, service_subtotal7, service_total7, service_vat7 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount7, service_price, service_subtotal7, service_total7,
+                            service_vat7,client_obj)
+
+                    elif record.Copy == '8' or record.AnalysisProfile1 and record.AnalysisProfile2 and record.AnalysisProfile3 and \
+                         record.AnalysisProfile4 and record.AnalysisProfile5 and  record.AnalysisProfile6 and \
+                         record.AnalysisProfile7 and record.AnalysisProfile8 and not record.AnalysisProfile9:
+                        service_discount1, service_subtotal1, service_total1, service_vat1 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount1, service_price, service_subtotal1, service_total1,
+                            service_vat1,client_obj)
+
+                        service_discount2, service_subtotal2, service_total2, service_vat2 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount2, service_price, service_subtotal2, service_total2,
+                            service_vat2,client_obj)
+
+                        service_discount3, service_subtotal3, service_total3, service_vat3 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount3, service_price, service_subtotal3, service_total3,
+                            service_vat3,client_obj)
+
+                        service_discount4, service_subtotal4, service_total4, service_vat4 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount4, service_price, service_subtotal4, service_total4,
+                            service_vat4,client_obj)
+
+                        service_discount5, service_subtotal5, service_total5, service_vat5 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount5, service_price, service_subtotal5, service_total5,
+                            service_vat5,client_obj)
+
+                        service_discount6, service_subtotal6, service_total6, service_vat6 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount6, service_price, service_subtotal6, service_total6,
+                            service_vat6,client_obj)
+
+                        service_discount7, service_subtotal7, service_total7, service_vat7 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount7, service_price, service_subtotal7, service_total7,
+                            service_vat7,client_obj)
+
+                        service_discount8, service_subtotal8, service_total8, service_vat8 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount8, service_price, service_subtotal8, service_total8,
+                            service_vat8,client_obj)
+
+                    elif record.Copy == '9' or record.AnalysisProfile1 and record.AnalysisProfile2 and record.AnalysisProfile3 and \
+                         record.AnalysisProfile4 and record.AnalysisProfile5 and  record.AnalysisProfile6 and \
+                         record.AnalysisProfile7 and record.AnalysisProfile8 and record.AnalysisProfile9:
+                        service_discount1, service_subtotal1, service_total1, service_vat1 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount1, service_price, service_subtotal1, service_total1,
+                            service_vat1,client_obj)
+
+                        service_discount2, service_subtotal2, service_total2, service_vat2 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount2, service_price, service_subtotal2, service_total2,
+                            service_vat2,client_obj)
+
+                        service_discount3, service_subtotal3, service_total3, service_vat3 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount3, service_price, service_subtotal3, service_total3,
+                            service_vat3,client_obj)
+
+                        service_discount4, service_subtotal4, service_total4, service_vat4 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount4, service_price, service_subtotal4, service_total4,
+                            service_vat4,client_obj)
+
+                        service_discount5, service_subtotal5, service_total5, service_vat5 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount5, service_price, service_subtotal5, service_total5,
+                            service_vat5,client_obj)
+
+                        service_discount6, service_subtotal6, service_total6, service_vat6 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount6, service_price, service_subtotal6, service_total6,
+                            service_vat6,client_obj)
+
+                        service_discount7, service_subtotal7, service_total7, service_vat7 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount7, service_price, service_subtotal7, service_total7,
+                            service_vat7,client_obj)
+
+                        service_discount8, service_subtotal8, service_total8, service_vat8 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount8, service_price, service_subtotal8, service_total8,
+                            service_vat8,client_obj)
+
+                        service_discount9, service_subtotal9, service_total9, service_vat9 = self.calculate_lab_service_amount_for_ar(
+                            discount, service, service_discount9, service_price, service_subtotal9, service_total9,
+                            service_vat9,client_obj)
+
             for FService in record.FieldService:
                 if FService.Service.id in f_service_ids_list_p1:
-                    if record.AnalysisProfile.UseAnalysisProfilePrice:
-                        service_price = float(record.AnalysisProfile.AnalysisProfilePrice)
-                        service_discount = service_price * client_obj.M_Discount / 100
-                        discount = service_price * client_obj.M_Discount / 100
-                        service_subtotal = float(service_price) - float(discount)
-                        # compute VAT
-                        service_vat = (float(service_price) - float(discount)) * record.AnalysisProfile.AnalysisProfileVAT / 100
-                        service_total = service_subtotal + service_vat
-                    else:
-                        service_price = FService.Service.Price
-                        service_discount += service_price * client_obj.M_Discount / 100
-                        # compute subtotal
-                        discount = service_price * client_obj.M_Discount / 100
-                        service_subtotal += float(service_price) - float(discount)
-                        # compute VAT
-                        service_vat += (float(service_price) - float(discount)) * FService.Service.VAT / 100
-                        service_total = service_subtotal + service_vat
+                    for rec in record.AnalysisProfile:
+                        if rec.UseAnalysisProfilePrice:
+                            service_price = float(rec.AnalysisProfilePrice)
+                            service_discount = service_price * client_obj.M_Discount / 100
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal = float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat = (float(service_price) - float(discount)) * rec.AnalysisProfileVAT / 100
+                            service_total = service_subtotal + service_vat
+                        else:
+                            service_price = FService.Service.Price
+                            service_discount += service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal += float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat += (float(service_price) - float(discount)) * FService.Service.VAT / 100
+                            service_total = service_subtotal + service_vat
+
                 if FService.Service.id in f_service_ids_list_p2:
-                    if record.AnalysisProfile1.UseAnalysisProfilePrice:
-                        service_price = record.AnalysisProfile1.AnalysisProfilePrice
-                        service_discount1 = service_price * client_obj.M_Discount / 100
-                        # compute subtotal
-                        discount = service_price * client_obj.M_Discount / 100
-                        service_subtotal1 = float(service_price) - float(discount)
-                        # compute VAT
-                        service_vat1 = (float(service_price) - float(discount)) * record.AnalysisProfile1.AnalysisProfileVAT / 100
-                        service_total1 = service_subtotal1 + service_vat1
-                    else:
-                        service_price = FService.Service.Price
-                        service_discount1 += service_price * client_obj.M_Discount / 100
-                        # compute subtotal
-                        discount = service_price * client_obj.M_Discount / 100
-                        service_subtotal1 += float(service_price) - float(discount)
-                        # compute VAT
-                        service_vat1 += (float(service_price) - float(discount)) * FService.Service.VAT / 100
-                        service_total1 = service_subtotal1 + service_vat1
+                    for rec in record.AnalysisProfile1:
+                        if rec.UseAnalysisProfilePrice:
+                            service_price = rec.AnalysisProfilePrice
+                            service_discount1 = service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal1 = float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat1 = (float(service_price) - float(discount)) * rec.AnalysisProfileVAT / 100
+                            service_total1 = service_subtotal1 + service_vat1
+                        else:
+                            service_price = FService.Service.Price
+                            service_discount1 += service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal1 += float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat1 += (float(service_price) - float(discount)) * FService.Service.VAT / 100
+                            service_total1 = service_subtotal1 + service_vat1
+
                 if FService.Service.id in f_service_ids_list_p3:
-                    if record.AnalysisProfile2.UseAnalysisProfilePrice:
-                        service_price = record.AnalysisProfile2.AnalysisProfilePrice
-                        service_discount2 = service_price * client_obj.M_Discount / 100
-                        # compute subtotal
-                        discount = service_price * client_obj.M_Discount / 100
-                        service_subtotal2 = float(service_price) - float(discount)
-                        # compute VAT
-                        service_vat2 = (float(service_price) - float(discount)) * record.AnalysisProfile2.AnalysisProfileVAT / 100
-                        service_total2 = service_subtotal2 + service_vat2
-                    else:
-                        service_price = FService.Service.Price
-                        service_discount2 += service_price * client_obj.M_Discount / 100
-                        # compute sf_ubtotal
-                        discount = service_price * client_obj.M_Discount / 100
-                        service_subtotal2 += float(service_price) - float(discount)
-                        # compute VAT
-                        service_vat2 += (float(service_price) - float(discount)) * FService.Service.VAT / 100
-                        service_total2 = service_subtotal2 + service_vat2
+                    for rec in record.AnalysisProfile2:
+                        if rec.UseAnalysisProfilePrice:
+                            service_price = rec.AnalysisProfilePrice
+                            service_discount2 = service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal2 = float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat2 = (float(service_price) - float(discount)) * rec.AnalysisProfileVAT / 100
+                            service_total2 = service_subtotal2 + service_vat2
+                        else:
+                            service_price = FService.Service.Price
+                            service_discount2 += service_price * client_obj.M_Discount / 100
+                            # compute sf_ubtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal2 += float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat2 += (float(service_price) - float(discount)) * FService.Service.VAT / 100
+                            service_total2 = service_subtotal2 + service_vat2
+
                 if FService.Service.id in f_service_ids_list_p4:
-                    if record.AnalysisProfile3.UseAnalysisProfilePrice:
-                        service_price = record.AnalysisProfile3.AnalysisProfilePrice
-                        service_discount3 = service_price * client_obj.M_Discount / 100
-                        # compute subtotal
-                        discount = service_price * client_obj.M_Discount / 100
-                        service_subtotal3 = float(service_price) - float(discount)
-                        # compute VAT
-                        service_vat3 = (float(service_price) - float(discount)) * record.AnalysisProfile3.AnalysisProfileVAT /100
-                        service_total3 = service_subtotal3 + service_vat3
-                    else:
-                        service_price = FService.Service.Price
-                        service_discount3 = service_price * client_obj.M_Discount / 100
-                        # compute subtotal
-                        discount = service_price * client_obj.M_Discount / 100
-                        service_subtotal3 += float(service_price) - float(discount)
-                        # compute VAT
-                        service_vat3 += service_subtotal3 * FService.Service.VAT / 100
-                        service_total3 = service_subtotal3 + service_vat3
+                    for rec in record.AnalysisProfile3:
+                        if rec.UseAnalysisProfilePrice:
+                            service_price = rec.AnalysisProfilePrice
+                            service_discount3 = service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal3 = float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat3 = (float(service_price) - float(discount)) * rec.AnalysisProfileVAT /100
+                            service_total3 = service_subtotal3 + service_vat3
+                        else:
+                            service_price = FService.Service.Price
+                            service_discount3 = service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal3 += float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat3 += service_subtotal3 * FService.Service.VAT / 100
+                            service_total3 = service_subtotal3 + service_vat3
+
+                if FService.Service.id in f_service_ids_list_p5:
+                    for rec in record.AnalysisProfile4:
+                        if rec.UseAnalysisProfilePrice:
+                            service_price = rec.AnalysisProfilePrice
+                            service_discount4 = service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal4 = float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat4 = (float(service_price) - float(discount)) * rec.AnalysisProfileVAT /100
+                            service_total4 = service_subtotal4 + service_vat4
+                        else:
+                            service_price = FService.Service.Price
+                            service_discount4 = service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal4 += float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat4 += service_subtotal4 * FService.Service.VAT / 100
+                            service_total4 = service_subtotal4 + service_vat4
+
+                if FService.Service.id in f_service_ids_list_p6:
+                    for rec in record.AnalysisProfile5:
+                        if rec.UseAnalysisProfilePrice:
+                            service_price = rec.AnalysisProfilePrice
+                            service_discount5 = service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal5 = float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat5 = (float(service_price) - float(discount)) * rec.AnalysisProfileVAT /100
+                            service_total5 = service_subtotal5 + service_vat5
+                        else:
+                            service_price = FService.Service.Price
+                            service_discount5 = service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal5 += float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat5 += service_subtotal5 * FService.Service.VAT / 100
+                            service_total5 = service_subtotal5 + service_vat5
+
+                if FService.Service.id in f_service_ids_list_p7:
+                    for rec in record.AnalysisProfile6:
+                        if rec.UseAnalysisProfilePrice:
+                            service_price = rec.AnalysisProfilePrice
+                            service_discount6 = service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal6 = float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat6 = (float(service_price) - float(discount)) * rec.AnalysisProfileVAT /100
+                            service_total6 = service_subtotal6 + service_vat6
+                        else:
+                            service_price = FService.Service.Price
+                            service_discount6 = service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal6 += float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat6 += service_subtotal6 * FService.Service.VAT / 100
+                            service_total6 = service_subtotal6 + service_vat6
+
+                if FService.Service.id in f_service_ids_list_p8:
+                    for rec in record.AnalysisProfile7:
+                        if rec.UseAnalysisProfilePrice:
+                            service_price = rec.AnalysisProfilePrice
+                            service_discount7 = service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal7 = float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat7 = (float(service_price) - float(discount)) * rec.AnalysisProfileVAT /100
+                            service_total7 = service_subtotal7 + service_vat7
+                        else:
+                            service_price = FService.Service.Price
+                            service_discount7 = service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal7 += float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat7 += service_subtotal7 * FService.Service.VAT / 100
+                            service_total7 = service_subtotal7 + service_vat7
+
+                if FService.Service.id in f_service_ids_list_p9:
+                    for rec in record.AnalysisProfile8:
+                        if rec.UseAnalysisProfilePrice:
+                            service_price = rec.AnalysisProfilePrice
+                            service_discount8 = service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal8 = float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat8 = (float(service_price) - float(discount)) * rec.AnalysisProfileVAT /100
+                            service_total8 = service_subtotal8 + service_vat8
+                        else:
+                            service_price = FService.Service.Price
+                            service_discount8 = service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal8 += float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat8 += service_subtotal8 * FService.Service.VAT / 100
+                            service_total8 = service_subtotal8 + service_vat8
+
+                if FService.Service.id in f_service_ids_list_p10:
+                    for rec in record.AnalysisProfile9:
+                        if rec.UseAnalysisProfilePrice:
+                            service_price = rec.AnalysisProfilePrice
+                            service_discount9 = service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal9 = float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat9 = (float(service_price) - float(discount)) * rec.AnalysisProfileVAT /100
+                            service_total9 = service_subtotal9 + service_vat9
+                        else:
+                            service_price = FService.Service.Price
+                            service_discount9 = service_price * client_obj.M_Discount / 100
+                            # compute subtotal
+                            discount = service_price * client_obj.M_Discount / 100
+                            service_subtotal9 += float(service_price) - float(discount)
+                            # compute VAT
+                            service_vat9 += service_subtotal9 * FService.Service.VAT / 100
+                            service_total9 = service_subtotal9 + service_vat9
+
                 if FService.Service.id not in f_service_ids_list_p1 and \
                                 FService.Service.id not in f_service_ids_list_p2 and \
                                 FService.Service.id not in f_service_ids_list_p3 and \
-                                FService.Service.id not in f_service_ids_list_p4:
-                    
+                                FService.Service.id not in f_service_ids_list_p4 and \
+                                FService.Service.id not in f_service_ids_list_p5 and \
+                                FService.Service.id not in f_service_ids_list_p6 and \
+                                FService.Service.id not in f_service_ids_list_p7 and \
+                                FService.Service.id not in f_service_ids_list_p8 and \
+                                FService.Service.id not in f_service_ids_list_p9 and \
+                                FService.Service.id not in f_service_ids_list_p10:
                     service_price = float(FService.Service.Price)
                     service_discount += service_price * client_obj.M_Discount / 100
                     # compute subtotal
@@ -2899,7 +3494,9 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                     service_vat += service_subtotal * FService.Service.VAT / 100
                     service_total = service_subtotal + service_vat
 
-                    if record.Copy == '1' or record.AnalysisProfile1 and not record.AnalysisProfile2 and not record.AnalysisProfile3:
+                    if record.Copy == '1' or record.AnalysisProfile1 and not record.AnalysisProfile2 and not record.AnalysisProfile3 and not \
+                        record.AnalysisProfile4 and not record.AnalysisProfile5 and not record.AnalysisProfile6 and not \
+                        record.AnalysisProfile7 and not record.AnalysisProfile8 and not record.AnalysisProfile9:
                         service_discount1 += service_price * client_obj.M_Discount / 100
                         # compute subtotal
                         # discount = service_price * client_obj.M_Discount / 100
@@ -2907,7 +3504,10 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                         # compute VAT
                         service_vat1 += service_subtotal1 * FService.Service.VAT / 100
                         service_total1 = service_subtotal1 + service_vat1
-                    elif record.Copy == '2' or record.AnalysisProfile1 and record.AnalysisProfile2 and not record.AnalysisProfile3:
+
+                    elif record.Copy == '2' or record.AnalysisProfile1 and record.AnalysisProfile2 and not record.AnalysisProfile3 and not \
+                        record.AnalysisProfile4 and not record.AnalysisProfile5 and not record.AnalysisProfile6 and not \
+                        record.AnalysisProfile7 and not record.AnalysisProfile8 and not record.AnalysisProfile9:
                         service_discount1 += service_price * client_obj.M_Discount / 100
                         service_subtotal1 += float(service_price) - float(discount)
                         service_vat1 += service_subtotal1 * FService.Service.VAT / 100
@@ -2917,7 +3517,10 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                         service_subtotal2 += float(service_price) - float(discount)
                         service_vat2 += service_subtotal2 * FService.Service.VAT / 100
                         service_total2 = service_subtotal2 + service_vat2
-                    elif record.Copy == '3' or record.AnalysisProfile1 and record.AnalysisProfile2 and record.AnalysisProfile3:
+
+                    elif record.Copy == '3' or record.AnalysisProfile1 and record.AnalysisProfile2 and record.AnalysisProfile3 and not\
+                        record.AnalysisProfile4 and not record.AnalysisProfile5 and not record.AnalysisProfile6 and not \
+                        record.AnalysisProfile7 and not record.AnalysisProfile8 and not record.AnalysisProfile9:
                         service_discount1 += service_price * client_obj.M_Discount / 100
                         service_subtotal1 += float(service_price) - float(discount)
                         service_vat1 += service_subtotal1 * FService.Service.VAT / 100
@@ -2931,7 +3534,220 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                         service_discount3 += service_price * client_obj.M_Discount / 100
                         service_subtotal3 += float(service_price) - float(discount)
                         service_vat3 += service_subtotal3 * FService.Service.VAT / 100
-                        service_total3 = service_subtotal3 + service_vat3    
+                        service_total3 = service_subtotal3 + service_vat3
+
+                    elif record.Copy == '4' or record.AnalysisProfile1 and record.AnalysisProfile2 and record.AnalysisProfile3 and \
+                        record.AnalysisProfile4 and not record.AnalysisProfile5 and not record.AnalysisProfile6 and not \
+                        record.AnalysisProfile7 and not record.AnalysisProfile8 and not record.AnalysisProfile9:
+                        service_discount1 += service_price * client_obj.M_Discount / 100
+                        service_subtotal1 += float(service_price) - float(discount)
+                        service_vat1 += service_subtotal1 * FService.Service.VAT / 100
+                        service_total1 = service_subtotal1 + service_vat1
+
+                        service_discount2 += service_price * client_obj.M_Discount / 100
+                        service_subtotal2 += float(service_price) - float(discount)
+                        service_vat2 += service_subtotal2 * FService.Service.VAT / 100
+                        service_total2 = service_subtotal2 + service_vat2
+
+                        service_discount3 += service_price * client_obj.M_Discount / 100
+                        service_subtotal3 += float(service_price) - float(discount)
+                        service_vat3 += service_subtotal3 * FService.Service.VAT / 100
+                        service_total3 = service_subtotal3 + service_vat3
+
+                        service_discount4 += service_price * client_obj.M_Discount / 100
+                        service_subtotal4 += float(service_price) - float(discount)
+                        service_vat4 += service_subtotal4 * FService.Service.VAT / 100
+                        service_total4 = service_subtotal4 + service_vat4
+
+                    elif record.Copy == '5' or record.AnalysisProfile1 and record.AnalysisProfile2 and record.AnalysisProfile3 and \
+                        record.AnalysisProfile4 and record.AnalysisProfile5 and not record.AnalysisProfile6 and not \
+                        record.AnalysisProfile7 and not record.AnalysisProfile8 and not record.AnalysisProfile9:
+                        service_discount1 += service_price * client_obj.M_Discount / 100
+                        service_subtotal1 += float(service_price) - float(discount)
+                        service_vat1 += service_subtotal1 * FService.Service.VAT / 100
+                        service_total1 = service_subtotal1 + service_vat1
+
+                        service_discount2 += service_price * client_obj.M_Discount / 100
+                        service_subtotal2 += float(service_price) - float(discount)
+                        service_vat2 += service_subtotal2 * FService.Service.VAT / 100
+                        service_total2 = service_subtotal2 + service_vat2
+
+                        service_discount3 += service_price * client_obj.M_Discount / 100
+                        service_subtotal3 += float(service_price) - float(discount)
+                        service_vat3 += service_subtotal3 * FService.Service.VAT / 100
+                        service_total3 = service_subtotal3 + service_vat3
+
+                        service_discount4 += service_price * client_obj.M_Discount / 100
+                        service_subtotal4 += float(service_price) - float(discount)
+                        service_vat4 += service_subtotal4 * FService.Service.VAT / 100
+                        service_total4 = service_subtotal4 + service_vat4
+
+                        service_discount5 += service_price * client_obj.M_Discount / 100
+                        service_subtotal5 += float(service_price) - float(discount)
+                        service_vat5 += service_subtotal5 * FService.Service.VAT / 100
+                        service_total5 = service_subtotal5 + service_vat5
+
+                    elif record.Copy == '6' or record.AnalysisProfile1 and record.AnalysisProfile2 and record.AnalysisProfile3 and \
+                        record.AnalysisProfile4 and record.AnalysisProfile5 and record.AnalysisProfile6 and not \
+                        record.AnalysisProfile7 and not record.AnalysisProfile8 and not record.AnalysisProfile9:
+                        service_discount1 += service_price * client_obj.M_Discount / 100
+                        service_subtotal1 += float(service_price) - float(discount)
+                        service_vat1 += service_subtotal1 * FService.Service.VAT / 100
+                        service_total1 = service_subtotal1 + service_vat1
+
+                        service_discount2 += service_price * client_obj.M_Discount / 100
+                        service_subtotal2 += float(service_price) - float(discount)
+                        service_vat2 += service_subtotal2 * FService.Service.VAT / 100
+                        service_total2 = service_subtotal2 + service_vat2
+
+                        service_discount3 += service_price * client_obj.M_Discount / 100
+                        service_subtotal3 += float(service_price) - float(discount)
+                        service_vat3 += service_subtotal3 * FService.Service.VAT / 100
+                        service_total3 = service_subtotal3 + service_vat3
+
+                        service_discount4 += service_price * client_obj.M_Discount / 100
+                        service_subtotal4 += float(service_price) - float(discount)
+                        service_vat4 += service_subtotal4 * FService.Service.VAT / 100
+                        service_total4 = service_subtotal4 + service_vat4
+
+                        service_discount5 += service_price * client_obj.M_Discount / 100
+                        service_subtotal5 += float(service_price) - float(discount)
+                        service_vat5 += service_subtotal5 * FService.Service.VAT / 100
+                        service_total5 = service_subtotal5 + service_vat5
+
+                        service_discount6 += service_price * client_obj.M_Discount / 100
+                        service_subtotal6 += float(service_price) - float(discount)
+                        service_vat6 += service_subtotal6 * FService.Service.VAT / 100
+                        service_total6 = service_subtotal6 + service_vat6
+
+                    elif record.Copy == '7' or record.AnalysisProfile1 and record.AnalysisProfile2 and record.AnalysisProfile3 and \
+                        record.AnalysisProfile4 and record.AnalysisProfile5 and record.AnalysisProfile6 and \
+                        record.AnalysisProfile7 and not record.AnalysisProfile8 and not record.AnalysisProfile9:
+                        service_discount1 += service_price * client_obj.M_Discount / 100
+                        service_subtotal1 += float(service_price) - float(discount)
+                        service_vat1 += service_subtotal1 * FService.Service.VAT / 100
+                        service_total1 = service_subtotal1 + service_vat1
+
+                        service_discount2 += service_price * client_obj.M_Discount / 100
+                        service_subtotal2 += float(service_price) - float(discount)
+                        service_vat2 += service_subtotal2 * FService.Service.VAT / 100
+                        service_total2 = service_subtotal2 + service_vat2
+
+                        service_discount3 += service_price * client_obj.M_Discount / 100
+                        service_subtotal3 += float(service_price) - float(discount)
+                        service_vat3 += service_subtotal3 * FService.Service.VAT / 100
+                        service_total3 = service_subtotal3 + service_vat3
+
+                        service_discount4 += service_price * client_obj.M_Discount / 100
+                        service_subtotal4 += float(service_price) - float(discount)
+                        service_vat4 += service_subtotal4 * FService.Service.VAT / 100
+                        service_total4 = service_subtotal4 + service_vat4
+
+                        service_discount5 += service_price * client_obj.M_Discount / 100
+                        service_subtotal5 += float(service_price) - float(discount)
+                        service_vat5 += service_subtotal5 * FService.Service.VAT / 100
+                        service_total5 = service_subtotal5 + service_vat5
+
+                        service_discount6 += service_price * client_obj.M_Discount / 100
+                        service_subtotal6 += float(service_price) - float(discount)
+                        service_vat6 += service_subtotal6 * FService.Service.VAT / 100
+                        service_total6 = service_subtotal6 + service_vat6
+
+                        service_discount7 += service_price * client_obj.M_Discount / 100
+                        service_subtotal7 += float(service_price) - float(discount)
+                        service_vat7 += service_subtotal7 * FService.Service.VAT / 100
+                        service_total7 = service_subtotal7 + service_vat7
+
+                    elif record.Copy == '8' or record.AnalysisProfile1 and record.AnalysisProfile2 and record.AnalysisProfile3 and \
+                        record.AnalysisProfile4 and record.AnalysisProfile5 and record.AnalysisProfile6 and \
+                        record.AnalysisProfile7 and record.AnalysisProfile8 and not record.AnalysisProfile9:
+                        service_discount1 += service_price * client_obj.M_Discount / 100
+                        service_subtotal1 += float(service_price) - float(discount)
+                        service_vat1 += service_subtotal1 * FService.Service.VAT / 100
+                        service_total1 = service_subtotal1 + service_vat1
+
+                        service_discount2 += service_price * client_obj.M_Discount / 100
+                        service_subtotal2 += float(service_price) - float(discount)
+                        service_vat2 += service_subtotal2 * FService.Service.VAT / 100
+                        service_total2 = service_subtotal2 + service_vat2
+
+                        service_discount3 += service_price * client_obj.M_Discount / 100
+                        service_subtotal3 += float(service_price) - float(discount)
+                        service_vat3 += service_subtotal3 * FService.Service.VAT / 100
+                        service_total3 = service_subtotal3 + service_vat3
+
+                        service_discount4 += service_price * client_obj.M_Discount / 100
+                        service_subtotal4 += float(service_price) - float(discount)
+                        service_vat4 += service_subtotal4 * FService.Service.VAT / 100
+                        service_total4 = service_subtotal4 + service_vat4
+
+                        service_discount5 += service_price * client_obj.M_Discount / 100
+                        service_subtotal5 += float(service_price) - float(discount)
+                        service_vat5 += service_subtotal5 * FService.Service.VAT / 100
+                        service_total5 = service_subtotal5 + service_vat5
+
+                        service_discount6 += service_price * client_obj.M_Discount / 100
+                        service_subtotal6 += float(service_price) - float(discount)
+                        service_vat6 += service_subtotal6 * FService.Service.VAT / 100
+                        service_total6 = service_subtotal6 + service_vat6
+
+                        service_discount7 += service_price * client_obj.M_Discount / 100
+                        service_subtotal7 += float(service_price) - float(discount)
+                        service_vat7 += service_subtotal7 * FService.Service.VAT / 100
+                        service_total7 = service_subtotal7 + service_vat7
+
+                        service_discount8 += service_price * client_obj.M_Discount / 100
+                        service_subtotal8 += float(service_price) - float(discount)
+                        service_vat8 += service_subtotal8 * FService.Service.VAT / 100
+                        service_total8 = service_subtotal8 + service_vat8
+
+                    elif record.Copy == '8' or record.AnalysisProfile1 and record.AnalysisProfile2 and record.AnalysisProfile3 and \
+                        record.AnalysisProfile4 and record.AnalysisProfile5 and record.AnalysisProfile6 and \
+                        record.AnalysisProfile7 and record.AnalysisProfile8 and record.AnalysisProfile9:
+                        service_discount1 += service_price * client_obj.M_Discount / 100
+                        service_subtotal1 += float(service_price) - float(discount)
+                        service_vat1 += service_subtotal1 * FService.Service.VAT / 100
+                        service_total1 = service_subtotal1 + service_vat1
+
+                        service_discount2 += service_price * client_obj.M_Discount / 100
+                        service_subtotal2 += float(service_price) - float(discount)
+                        service_vat2 += service_subtotal2 * FService.Service.VAT / 100
+                        service_total2 = service_subtotal2 + service_vat2
+
+                        service_discount3 += service_price * client_obj.M_Discount / 100
+                        service_subtotal3 += float(service_price) - float(discount)
+                        service_vat3 += service_subtotal3 * FService.Service.VAT / 100
+                        service_total3 = service_subtotal3 + service_vat3
+
+                        service_discount4 += service_price * client_obj.M_Discount / 100
+                        service_subtotal4 += float(service_price) - float(discount)
+                        service_vat4 += service_subtotal4 * FService.Service.VAT / 100
+                        service_total4 = service_subtotal4 + service_vat4
+
+                        service_discount5 += service_price * client_obj.M_Discount / 100
+                        service_subtotal5 += float(service_price) - float(discount)
+                        service_vat5 += service_subtotal5 * FService.Service.VAT / 100
+                        service_total5 = service_subtotal5 + service_vat5
+
+                        service_discount6 += service_price * client_obj.M_Discount / 100
+                        service_subtotal6 += float(service_price) - float(discount)
+                        service_vat6 += service_subtotal6 * FService.Service.VAT / 100
+                        service_total6 = service_subtotal6 + service_vat6
+
+                        service_discount7 += service_price * client_obj.M_Discount / 100
+                        service_subtotal7 += float(service_price) - float(discount)
+                        service_vat7 += service_subtotal7 * FService.Service.VAT / 100
+                        service_total7 = service_subtotal7 + service_vat7
+
+                        service_discount8 += service_price * client_obj.M_Discount / 100
+                        service_subtotal8 += float(service_price) - float(discount)
+                        service_vat8 += service_subtotal8 * FService.Service.VAT / 100
+                        service_total8 = service_subtotal8 + service_vat8
+
+                        service_discount9 += service_price * client_obj.M_Discount / 100
+                        service_subtotal9 += float(service_price) - float(discount)
+                        service_vat9 += service_subtotal9 * FService.Service.VAT / 100
+                        service_total9 = service_subtotal9 + service_vat9
 
             record.Discount = service_discount
             record.Subtotal = service_subtotal
@@ -2952,6 +3768,36 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             record.Subtotal3 = service_subtotal3
             record.VAT3 = service_vat3
             record.Total3 = service_total3
+
+            record.Discount4 = service_discount4
+            record.Subtotal4 = service_subtotal4
+            record.VAT4 = service_vat4
+            record.Total4 = service_total4
+
+            record.Discount5 = service_discount5
+            record.Subtotal5 = service_subtotal5
+            record.VAT5 = service_vat5
+            record.Total5 = service_total5
+
+            record.Discount6 = service_discount6
+            record.Subtotal6 = service_subtotal6
+            record.VAT6 = service_vat6
+            record.Total6 = service_total6
+
+            record.Discount7 = service_discount7
+            record.Subtotal7 = service_subtotal7
+            record.VAT7 = service_vat7
+            record.Total7 = service_total7
+
+            record.Discount8 = service_discount8
+            record.Subtotal8 = service_subtotal8
+            record.VAT8 = service_vat8
+            record.Total8 = service_total8
+
+            record.Discount9 = service_discount9
+            record.Subtotal9 = service_subtotal9
+            record.VAT9 = service_vat9
+            record.Total9 = service_total9
 
     def calculate_lab_service_amount_for_ar(self, discount, service, service_discount, service_price, service_subtotal,
                                             service_total, service_vat, client_obj):
@@ -2987,20 +3833,21 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 if items.Category.id not in ar_cate_ids_list:
                     ar_cate_ids_list.append(items.Category.id)
             for cate_id in ar_cate_ids_list:
-                analysis_dict = {}
-                analysis_dict.update({
-                    'category':cate_id,
-                    'client': ar_object.Client.id,
-                    'order':ar_object.LotID,
-                    'priority':ar_object.Priority.id,
-                    'due_date':ar_object.DateDue,
-                    'received_date':datetime.datetime.now(),
-                    'analysis_profile':ar_object.AnalysisProfile.id,
-                    # 'analysis':items.Services.id,
-                    'sample_type': ar_object.SampleType.id,
-                    'add_analysis_id':ar_object.id
-                    })
-                data_list.append([0, 0, analysis_dict])
+                for profile in ar_object.AnalysisProfile:
+                    analysis_dict = {}
+                    analysis_dict.update({
+                        'category':cate_id,
+                        'client': ar_object.Client.id,
+                        'order':ar_object.LotID,
+                        'priority':ar_object.Priority.id,
+                        'due_date':ar_object.DateDue,
+                        'received_date':datetime.datetime.now(),
+                        'analysis_profile': profile.id,
+                        # 'analysis':items.Services.id,
+                        'sample_type': ar_object.SampleType.id,
+                        'add_analysis_id':ar_object.id
+                        })
+                    data_list.append([0, 0, analysis_dict])
             ar_object.write({'AddAnalysis': data_list})
 
         datereceived = datetime.datetime.now()
@@ -3071,7 +3918,9 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         return True
 
     @api.multi
-    @api.onchange("AnalysisProfile","AnalysisProfile1","AnalysisProfile2","AnalysisProfile3")
+    @api.onchange("AnalysisProfile","AnalysisProfile1","AnalysisProfile2","AnalysisProfile3",
+            "AnalysisProfile4","AnalysisProfile5","AnalysisProfile6","AnalysisProfile7",
+            "AnalysisProfile8","AnalysisProfile9")
     def _add_values_in_analyses(self):
         service_ids_list = []
         profile_ids = []
@@ -3085,91 +3934,217 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 return {'domain':{'AnalysisProfile':[('id','in',profile_ids),('Deactivated', '=',False )],
                 'AnalysisProfile1':[('id','in',profile_ids),('Deactivated', '=',False )],
                 'AnalysisProfile2':[('id','in',profile_ids),('Deactivated', '=',False )],
-                'AnalysisProfile3':[('id','in',profile_ids),('Deactivated', '=',False )]}}
+                'AnalysisProfile3':[('id','in',profile_ids),('Deactivated', '=',False )],
+                'AnalysisProfile4':[('id','in',profile_ids),('Deactivated', '=',False )],
+                'AnalysisProfile5':[('id','in',profile_ids),('Deactivated', '=',False )],
+                'AnalysisProfile6':[('id','in',profile_ids),('Deactivated', '=',False )],
+                'AnalysisProfile7':[('id','in',profile_ids),('Deactivated', '=',False )],
+                'AnalysisProfile8':[('id','in',profile_ids),('Deactivated', '=',False )],
+                'AnalysisProfile9':[('id','in',profile_ids),('Deactivated', '=',False )]}}
 
         for record in self:
             if record.state != "sample_registered":
                 record.Field_Manage_Result = None
                 record.Lab_Manage_Result = None
                 record.Analyses = None
-                for services in record.AnalysisProfile.Service:
-                    record.Analyses += record.Analyses.new({'Category':services.Services.category.id,
-                                'Services':services.Services.id,
-                                'Min':services.Services.Min,
-                                'Max':services.Services.Max,
-                                'Partition': record.Partition.id})
-                return {
-                        'warning': {'title': 'Warning!', 'message': "All Analysis will be changed." +
-                        "To proceed click on Save button or Discard the changes."},
-                        }
+                for rec in record.AnalysisProfile:
+                    for services in rec.Service:
+                        record.Analyses += record.Analyses.new({'Category':services.Services.category.id,
+                                    'Services':services.Services.id,
+                                    'Min':services.Services.Min,
+                                    'Max':services.Services.Max,
+                                    'Partition': record.Partition.id})
+                    return {
+                            'warning': {'title': 'Warning!', 'message': "All Analysis will be changed." +
+                            "To proceed click on Save button or Discard the changes."},
+                            }
 
             self.LabService = None
             self.FieldService = None
-            for service in record.AnalysisProfile.Service:
-                if service.Services.PointOfCapture == 'lab':
-                    l_service = {'LabService':service.Services.id,
-                        'Category':service.Services.category.id}
-                    record.LabService += record.LabService.new(l_service)
-                if service.Services.PointOfCapture == 'field':
-                    f_service = {'Service':service.Services.id,
-                        'Category':service.Services.category.id}
-                    record.FieldService += record.FieldService.new(f_service)
-                service_ids_list.append(service.Services.id)
-            for service in record.AnalysisProfile1.Service:
-                if service.Services.PointOfCapture == 'lab':
-                    if service.Services.id in service_ids_list:
-                        continue
-                    else:
+            for rec in record.AnalysisProfile:
+                for service in rec.Service:
+                    if  service.Services.PointOfCapture == 'lab':
                         l_service = {'LabService':service.Services.id,
                             'Category':service.Services.category.id}
                         record.LabService += record.LabService.new(l_service)
-                        service_ids_list.append(service.Services.id)
-                elif service.Services.PointOfCapture == 'field':
-                    if service.Services.id in service_ids_list:
-                        continue
-                    else:
+                    if service.Services.PointOfCapture == 'field':
                         f_service = {'Service':service.Services.id,
                         'Category':service.Services.category.id}
                         record.FieldService += record.FieldService.new(f_service)
-                        service_ids_list.append(service.Services.id)
+                    service_ids_list.append(service.Services.id)
 
-            for service in record.AnalysisProfile2.Service:
-                if service.Services.PointOfCapture == 'lab':
-                    if service.Services.id in service_ids_list:
-                        continue
-                    else:
-                        l_service = {'LabService':service.Services.id,
+            for rec in record.AnalysisProfile1:
+                for service in rec.Service:
+                    if service.Services.PointOfCapture == 'lab':
+                        if service.Services.id in service_ids_list:
+                            continue
+                        else:
+                            l_service = {'LabService':service.Services.id,
+                                'Category':service.Services.category.id}
+                            record.LabService += record.LabService.new(l_service)
+                            service_ids_list.append(service.Services.id)
+                    elif service.Services.PointOfCapture == 'field':
+                        if service.Services.id in service_ids_list:
+                            continue
+                        else:
+                            f_service = {'Service':service.Services.id,
                             'Category':service.Services.category.id}
-                        record.LabService += record.LabService.new(l_service)
-                        service_ids_list.append(service.Services.id)
-                elif service.Services.PointOfCapture == 'field':
-                    if service.Services.id in service_ids_list:
-                        continue
-                    else:
-                        f_service = {'Service':service.Services.id,
-                        'Category':service.Services.category.id}
-                        record.FieldService += record.FieldService.new(f_service)
-                        service_ids_list.append(service.Services.id)
+                            record.FieldService += record.FieldService.new(f_service)
+                            service_ids_list.append(service.Services.id)
 
-            for service in record.AnalysisProfile3.Service:
-                if service.Services.PointOfCapture == 'lab':
-                    if service.Services.id in service_ids_list:
-                        continue
-                    else:
-                        l_service = {'LabService':service.Services.id,
+            for rec in record.AnalysisProfile2:
+                for service in rec.Service:
+                    if service.Services.PointOfCapture == 'lab':
+                        if service.Services.id in service_ids_list:
+                            continue
+                        else:
+                            l_service = {'LabService':service.Services.id,
+                                'Category':service.Services.category.id}
+                            record.LabService += record.LabService.new(l_service)
+                            service_ids_list.append(service.Services.id)
+                    elif service.Services.PointOfCapture == 'field':
+                        if service.Services.id in service_ids_list:
+                            continue
+                        else:
+                            f_service = {'Service':service.Services.id,
                             'Category':service.Services.category.id}
-                        record.LabService += record.LabService.new(l_service)
-                        service_ids_list.append(service.Services.id)
-                elif service.Services.PointOfCapture == 'field':
-                    if service.Services.id in service_ids_list:
-                        continue
-                    else:
-                        f_service = {'Service':service.Services.id,
-                        'Category':service.Services.category.id}
-                        record.FieldService += record.FieldService.new(f_service)
-                        service_ids_list.append(service.Services.id)
+                            record.FieldService += record.FieldService.new(f_service)
+                            service_ids_list.append(service.Services.id)
 
-                        
+            for rec in record.AnalysisProfile3:
+                for service in rec.Service:
+                    if service.Services.PointOfCapture == 'lab':
+                        if service.Services.id in service_ids_list:
+                            continue
+                        else:
+                            l_service = {'LabService':service.Services.id,
+                                'Category':service.Services.category.id}
+                            record.LabService += record.LabService.new(l_service)
+                            service_ids_list.append(service.Services.id)
+                    elif service.Services.PointOfCapture == 'field':
+                        if service.Services.id in service_ids_list:
+                            continue
+                        else:
+                            f_service = {'Service':service.Services.id,
+                            'Category':service.Services.category.id}
+                            record.FieldService += record.FieldService.new(f_service)
+                            service_ids_list.append(service.Services.id)
+
+            for rec in record.AnalysisProfile4:
+                for service in rec.Service:
+                    if service.Services.PointOfCapture == 'lab':
+                        if service.Services.id in service_ids_list:
+                            continue
+                        else:
+                            l_service = {'LabService':service.Services.id,
+                                'Category':service.Services.category.id}
+                            record.LabService += record.LabService.new(l_service)
+                            service_ids_list.append(service.Services.id)
+                    elif service.Services.PointOfCapture == 'field':
+                        if service.Services.id in service_ids_list:
+                            continue
+                        else:
+                            f_service = {'Service':service.Services.id,
+                            'Category':service.Services.category.id}
+                            record.FieldService += record.FieldService.new(f_service)
+                            service_ids_list.append(service.Services.id)
+
+            for rec in record.AnalysisProfile5:
+                for service in rec.Service:
+                    if service.Services.PointOfCapture == 'lab':
+                        if service.Services.id in service_ids_list:
+                            continue
+                        else:
+                            l_service = {'LabService':service.Services.id,
+                                'Category':service.Services.category.id}
+                            record.LabService += record.LabService.new(l_service)
+                            service_ids_list.append(service.Services.id)
+                    elif service.Services.PointOfCapture == 'field':
+                        if service.Services.id in service_ids_list:
+                            continue
+                        else:
+                            f_service = {'Service':service.Services.id,
+                            'Category':service.Services.category.id}
+                            record.FieldService += record.FieldService.new(f_service)
+                            service_ids_list.append(service.Services.id)
+
+            for rec in record.AnalysisProfile6:
+                for service in rec.Service:
+                    if service.Services.PointOfCapture == 'lab':
+                        if service.Services.id in service_ids_list:
+                            continue
+                        else:
+                            l_service = {'LabService':service.Services.id,
+                                'Category':service.Services.category.id}
+                            record.LabService += record.LabService.new(l_service)
+                            service_ids_list.append(service.Services.id)
+                    elif service.Services.PointOfCapture == 'field':
+                        if service.Services.id in service_ids_list:
+                            continue
+                        else:
+                            f_service = {'Service':service.Services.id,
+                            'Category':service.Services.category.id}
+                            record.FieldService += record.FieldService.new(f_service)
+                            service_ids_list.append(service.Services.id)
+
+            for rec in record.AnalysisProfile7:
+                for service in rec.Service:
+                    if service.Services.PointOfCapture == 'lab':
+                        if service.Services.id in service_ids_list:
+                            continue
+                        else:
+                            l_service = {'LabService':service.Services.id,
+                                'Category':service.Services.category.id}
+                            record.LabService += record.LabService.new(l_service)
+                            service_ids_list.append(service.Services.id)
+                    elif service.Services.PointOfCapture == 'field':
+                        if service.Services.id in service_ids_list:
+                            continue
+                        else:
+                            f_service = {'Service':service.Services.id,
+                            'Category':service.Services.category.id}
+                            record.FieldService += record.FieldService.new(f_service)
+                            service_ids_list.append(service.Services.id)
+
+            for rec in record.AnalysisProfile8:
+                for service in rec.Service:
+                    if service.Services.PointOfCapture == 'lab':
+                        if service.Services.id in service_ids_list:
+                            continue
+                        else:
+                            l_service = {'LabService':service.Services.id,
+                                'Category':service.Services.category.id}
+                            record.LabService += record.LabService.new(l_service)
+                            service_ids_list.append(service.Services.id)
+                    elif service.Services.PointOfCapture == 'field':
+                        if service.Services.id in service_ids_list:
+                            continue
+                        else:
+                            f_service = {'Service':service.Services.id,
+                            'Category':service.Services.category.id}
+                            record.FieldService += record.FieldService.new(f_service)
+                            service_ids_list.append(service.Services.id)
+
+            for rec in record.AnalysisProfile9:
+                for service in rec.Service:
+                    if service.Services.PointOfCapture == 'lab':
+                        if service.Services.id in service_ids_list:
+                            continue
+                        else:
+                            l_service = {'LabService':service.Services.id,
+                                'Category':service.Services.category.id}
+                            record.LabService += record.LabService.new(l_service)
+                            service_ids_list.append(service.Services.id)
+                    elif service.Services.PointOfCapture == 'field':
+                        if service.Services.id in service_ids_list:
+                            continue
+                        else:
+                            f_service = {'Service':service.Services.id,
+                            'Category':service.Services.category.id}
+                            record.FieldService += record.FieldService.new(f_service)
+                            service_ids_list.append(service.Services.id)
+
+
 
     def bulk_change_states_pre(self, state, cr, uid, ids, context=None):
         previous_state = ""
