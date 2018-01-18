@@ -125,9 +125,9 @@
                                 <span  style="font-weight: bold;" t-esc="doc.adjust_percent_text"/>
                             </div>
                             <div class="col-xs-2">
-                                
-                                    -<span t-esc="'%.2f'%doc.adjust_percent"/> %
-                                
+
+                                    <span t-esc="'%.2f'%doc.adjust_percent"/> %
+
                             </div>
                         </div>
                         </t>
@@ -140,8 +140,7 @@
                                 <span style="font-weight: bold;" t-esc="doc.adjust_amount_text" ></span>
                             </div>
                             <div class="col-xs-2">
-                                    -<span class="text-center" t-esc="res_company.currency_id.symbol"/><span t-esc="'%.2f'%doc.adjust_amount"/>
-                                
+                                    <span class="text-center" t-esc="res_company.currency_id.symbol"/><span t-esc="'%.2f'%doc.adjust_amount"/>
                             </div>
                         </div>
                         </t>
