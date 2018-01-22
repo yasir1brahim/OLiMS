@@ -1640,10 +1640,9 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         for record in self:
             record.RequestID = 'Not Assigned'
 
-    def compute_analysisRequestId(self, cr, uid, ids, context=None):
-        
-        cr.execute('select ar_counter from olims_analysis_request order by ar_counter desc limit 1')
-        id_returned = cr.fetchone()
+    def compute_analysisRequestNo(self, cr, uid, ids, context=None):
+
+        id_returned =  self.pool.get("olims.analysis_request").search(cr,uid,[('ar_counter','!=',None)],order="ar_counter desc",limit=1) 
         return id_returned[0] # return id only 
 
     @api.multi
@@ -4155,7 +4154,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             previous_state = "sample_due"
         elif state == "to_be_sampled":
             previous_state = "pre_enter"
-            last_id = self.compute_analysisRequestId(cr, uid, ids, context=None)
+            last_id = self.compute_analysisRequestNo(cr, uid, ids, context=None)
             new_id = int(last_id)+1
             RequestID = 'R-0' + str(new_id)
             data = {"RequestID":RequestID,'ar_counter':new_id}
