@@ -18,7 +18,7 @@ schema = (StringField('Profile',
               required=1,
              # column='name'
     ),
-    StringField('name',
+    StringField('name', compute='assignName',
               required=1,
              # column='name'
     ),
@@ -127,7 +127,11 @@ class AnalysisProfile(models.Model, BaseOLiMSModel):
         for record  in self:
             price, vat = record.getAnalysisProfileVAT(), record.getAnalysisProfilePrice(), 
             record.VATAmount =  float(vat) * float(price)  / 100
-            
+
+    def assignName(self):
+        """ Assign Profile's name to the required name field """
+        for record  in self:
+            record.name = record.Profile
 
     def computeTotalPrice(self):
         """
