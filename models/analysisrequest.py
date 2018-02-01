@@ -4152,24 +4152,26 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             previous_state = "to_be_sampled"
         elif state == "sample_received":
             previous_state = "sample_due"
-        elif state == "to_be_sampled":
-            previous_state = "pre_enter"
-            last_id = self.compute_analysisRequestNo(cr, uid, ids, context=None)
-            new_id = int(last_id)+1
-            RequestID = 'R-0' + str(new_id)
-            data = {"RequestID":RequestID,'ar_counter':new_id}
         requests = self.browse(cr,uid,ids)
         sample_ids = []
         for request in requests:
-            if request.state != previous_state:
+            if state == "to_be_sampled":
+                self.compute_analysisRequestNo(cr, uid, ids, context=None)
+                RequestID = 'R-0' + str(request.ar_counter)
+                data = {"RequestID":RequestID}
+                sample_ids.append(request.Sample_id.id)
+                data["state"] = state
+                res = self.browse(cr,uid,request.id).write(data)
+            elif request.state != previous_state:
                 ids.remove(request.id)
             else:
                 sample_ids.append(request.Sample_id.id)
                 
         self.browse(cr,uid,ids).signal_workflow(state)
         res = self.pool.get("olims.sample").browse(cr,uid,sample_ids).write({"state":state})
-        data["state"] = state
-        res = self.browse(cr,uid,request.id).write(data)
+        if state != "to_be_sampled":
+            data["state"] = state
+            res = self.browse(cr,uid,request.id).write(data)
         return True
 
     def bulk_change_states(self, state, cr, uid, ids, context=None):
