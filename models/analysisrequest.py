@@ -1642,8 +1642,11 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 
     def compute_analysisRequestNo(self, cr, uid, ids, context=None):
 
-        id_returned =  self.pool.get("olims.analysis_request").search(cr,uid,[('ar_counter','!=',None)],order="ar_counter desc",limit=1) 
-        return id_returned[0] # return id only 
+        analysis_requests_ids = self.pool.get("olims.analysis_request").search(cr,uid,[('RequestID','=','Not Assigned')])
+        analysis_requests = self.pool.get("olims.analysis_request").browse(cr,uid,analysis_requests_ids)
+        for analysis_request in analysis_requests:
+            print "-------------id", analysis_request.id
+            analysis_request.write({"ar_counter":analysis_request.id})
 
     @api.multi
     def Compute_AnalysisSample(self):
