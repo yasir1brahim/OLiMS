@@ -1642,11 +1642,10 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 
     def compute_analysisRequestNo(self, cr, uid, ids, context=None):
 
-        analysis_requests_ids = self.pool.get("olims.analysis_request").search(cr,uid,[('RequestID','=','Not Assigned')])
-        analysis_requests = self.pool.get("olims.analysis_request").browse(cr,uid,analysis_requests_ids)
-        for analysis_request in analysis_requests:
-            print "-------------id", analysis_request.id
-            analysis_request.write({"ar_counter":analysis_request.id})
+        cr.execute('select ar_counter from olims_analysis_request  where "ar_counter" is not null order by ar_counter desc ')
+        id_returned = cr.fetchone()
+        print "Returned list of AR-Counter", id_returned
+        return id_returned[0] # return id only
 
     @api.multi
     def Compute_AnalysisSample(self):
@@ -4159,9 +4158,10 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         sample_ids = []
         for request in requests:
             if state == "to_be_sampled":
-                self.compute_analysisRequestNo(cr, uid, ids, context=None)
-                RequestID = 'R-0' + str(request.ar_counter)
-                data = {"RequestID":RequestID}
+                last_id = self.compute_analysisRequestNo(cr, uid, ids, context=None)
+                new_id = int(last_id)+1
+                RequestID = 'R-0' + str(new_id)
+                data = {"RequestID":RequestID,'ar_counter':new_id}
                 sample_ids.append(request.Sample_id.id)
                 data["state"] = state
                 res = self.browse(cr,uid,request.id).write(data)
