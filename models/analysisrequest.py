@@ -1642,7 +1642,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 
     def compute_analysisRequestNo(self, cr, uid, ids, context=None):
 
-        cr.execute('select ar_counter from olims_analysis_request  where "ar_counter" is not null order by ar_counter desc ')
+        cr.execute('select ar_counter from olims_analysis_request  where "ar_counter" is not null order by ar_counter desc limit 1')
         id_returned = cr.fetchone()
         print "Returned list of AR-Counter", id_returned
         return id_returned[0] # return id only
