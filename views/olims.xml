@@ -2487,8 +2487,8 @@
                 <page string="Published Results" attrs="{'invisible': [('state', '!=', 'published') ]}">
                     <label for="Remarks" string="Remarks"/>
                     <field name="Remarks"/>
-                                        <label for="Field_Manage_Result" string="Field Analysis" attrs="{'invisible': [('Field_Manage_Result', '=', [])]}"/>
-                    <field name="Field_Manage_Result" attrs="{'invisible': [('Field_Manage_Result', '=', [])]}">
+                                        <label for="Field_Published_Result" string="Field Analysis" attrs="{'invisible': [('Field_Manage_Result', '=', [])]}"/>
+                    <field name="Field_Published_Result" attrs="{'invisible': [('Field_Manage_Result', '=', [])]}">
                         <tree editable="bottom" create='false' delete='false' decoration-info="state in ('sample_received','to_be_verified')" decoration-danger="Result&lt;Min or Result&gt;Max">
                             <field name="id" invisible="1"/>
                             <field name='Category' attrs="{'readonly': [('id', '!=', False)]}"/>
@@ -2508,8 +2508,8 @@
                             <field name="Partition" attrs="{'readonly': [('id', '!=', False)]}"/>
                         </tree>
                     </field>
-                    <label for="Lab_Manage_Result" string="Lab Analysis" attrs="{'invisible': [('Lab_Manage_Result', '=', [])]}"/>
-                    <field name="Lab_Manage_Result" attrs="{'invisible': [('Lab_Manage_Result', '=', [])]}">
+                    <label for="Lab_Published_Result" string="Lab Analysis" attrs="{'invisible': [('Lab_Manage_Result', '=', [])]}"/>
+                    <field name="Lab_Published_Result" attrs="{'invisible': [('Lab_Manage_Result', '=', [])]}">
                         <tree editable="bottom" create='false' delete='false' decoration-info="state in ('sample_received','to_be_verified')" decoration-danger="Result &lt;Min or Result&gt;Max">
                             <field name="id" invisible="1"/>
                             <field name='Category' attrs="{'readonly': [('id', '!=', False)]}"/>
