@@ -4765,6 +4765,13 @@
                 <form string="Client Form">
                     <sheet>
                     <notebook>
+                        <page string="Analysis Requests" attrs="{'invisible': [('id', '=', False)]}">
+                            <header>
+                                <button name="%(analysis_request_form_action)d" string="Add Analysis Request" type="action" class="oe_highlight"/>
+                            </header>
+                            <label for="Analysis_Request" string="Analysis Requests"/>
+                            <field name="Analysis_Request"></field>
+                        </page>
                         <page string="Default" name="Default Page">
                             <field name="id" invisible="1"/>
                             <label for="Name" string="Name" name="Name"/>
@@ -4903,13 +4910,6 @@
                         </page>
                         <!-- <page string="Batches" attrs="{'invisible': [('id', '=', False)]}">
                         </page> -->
-                         <page string="Analysis Requests" attrs="{'invisible': [('id', '=', False)]}">
-                            <header>
-                                <button name="%(analysis_request_form_action)d" string="Add Analysis Request" type="action" class="oe_highlight"/>
-                            </header>
-                            <label for="Analysis_Request" string="Analysis Requests"/>
-                            <field name="Analysis_Request"></field>
-                        </page>
                         <page string="Samples" attrs="{'invisible': [('id', '=', False)]}">
                             <label for="Sample" string="Samples"/>
                             <field name="Sample" domain="[('state', '!=', 'pre_enter')]" context="{'tree_view_ref':'olims.olims_sample_tree_view'}"></field>
