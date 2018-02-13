@@ -13,6 +13,13 @@
             </xpath>
         </template>
 
+        <template id="olims_inherit_data" name="web assets" inherit_id="web.assets_backend">
+            <xpath expr="//script[@src='/web/static/src/js/framework/data.js']" position="replace">
+            <!-- Your module Js File -->
+            <script type="text/javascript" src="/olims/static/src/js/web_data.js"></script>
+        </xpath>
+        </template>
+
     <!-- explicit list view definition -->
     <record model="ir.ui.view" id="labpal_experiment_form_view">
             <field name="name">experiment.form</field>

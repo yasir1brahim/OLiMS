@@ -1642,6 +1642,12 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     _rec_name = "RequestID"
     _inherit = ['mail.thread', 'ir.needaction_mixin']
 
+    @api.model
+    def _generate_order_by(self, order_spec, query):
+        sort_order = """ to_number(textcat('0', "RequestID"), text(99999999)), "RequestID"  """
+        if order_spec:
+            return super(AnalysisRequest, self)._generate_order_by(order_spec, query) + ", " + sort_order
+        return " order by " + sort_order
 
     @api.depends("Contact")
     def compute_analysisRequestId(self):

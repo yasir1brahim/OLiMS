@@ -127,5 +127,6 @@
     'application': True,
     'auto_install': False,
     'web_preload': True,
+    'js':['static/src/js/web_data.js'],
 }
 
