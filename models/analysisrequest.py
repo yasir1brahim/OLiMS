@@ -2664,7 +2664,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         return self.getSubtotal() + self.getSubtotalVATAmount()
 
     @api.onchange('Client')
-    def onClientChange(self):
+    def on_client_change(self):
         #for record in self:
         self.Contact = None
         self.CCContact = None
