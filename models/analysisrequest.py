@@ -2670,18 +2670,18 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         self.CCContact = None
         self.CCEmails = None
         self.ClientSampleID = ''
-        self.Discount = 0
-        self.Adjustment = 0
-        self.VAT = 0
-        self.Subtotal = 0
-        self.Total = 0
+        self.Discount = 0.00
+        self.Adjustment = 0.00
+        self.VAT = 0.00
+        self.Subtotal = 0.00
+        self.Total = 0.00
         self.ar_worksheets = None
 
     @api.onchange('adjustment_option','Adjustment','InvoiceExclude')
     def Computetotalamount(self):
         for record in self:
             if record.InvoiceExclude == True:
-                record.total = 0
+                record.Total = 0.00
             else :
                 if record.adjustment_option =='amount':
                     total = self._origin.Total + record.Adjustment
