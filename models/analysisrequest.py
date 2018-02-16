@@ -4919,24 +4919,44 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 
     @api.onchange("Analyses")
     def update_ar_prices(self):
-        lsit_of_service_ids = []
+        list_of_service_ids = []
         self.Discount = 0.00
         self.Subtotal = 0.00
         self.VAT = 0.00
         self.Total = 0.00
-        for service in self.AnalysisProfile.Service:
-            lsit_of_service_ids.append(service.Services.id)
+        profiles_price = {}
+        profiles_VAT = {}
+
+        self.Analyses = None
+        for rec in self.AnalysisProfile:
+            for service in rec.Service:
+                self.Analyses += self.Analyses.new({'Category':service.Services.category.id,
+                                    'Services':service.Services.id,
+                                    'Min':service.Services.Min,
+                                    'Max':service.Services.Max,
+                                    'Partition': self.Partition.id})
+
+        for rec in self.AnalysisProfile:
+            for service in rec.Service:
+                list_of_service_ids.append(service.Services.id)
+
         for service_record in self.Analyses:
-            if service_record.Services.id in lsit_of_service_ids and self.AnalysisProfile and self.AnalysisProfile.UseAnalysisProfilePrice:
-                self.Discount = self.AnalysisProfile.AnalysisProfilePrice * self.Client.M_Discount / 100
-                self.Subtotal = self.AnalysisProfile.AnalysisProfilePrice - self.Discount
-                self.VAT = self.AnalysisProfile.AnalysisProfileVAT / 100 * self.Subtotal
-                self.Total = self.Subtotal + self.VAT
-            else:
-                self.Discount += service_record.Services.Price * self.Client.M_Discount / 100
-                self.Subtotal += service_record.Services.Price - (service_record.Services.Price *self.Client.M_Discount / 100)
-                self.VAT += service_record.Services.VAT * (service_record.Services.Price - (service_record.Services.Price * self.Client.M_Discount / 100)) /100
-                self.Total = self.Subtotal + self.VAT
+            for rec in self.AnalysisProfile:
+                if service_record.Services.id in list_of_service_ids and rec and rec.UseAnalysisProfilePrice:
+                    profiles_price[rec.id] = rec.AnalysisProfilePrice
+                    profiles_VAT[rec.id] = rec.AnalysisProfileVAT
+
+                else:
+                    self.Discount += service_record.Services.Price * self.Client.M_Discount / 100
+                    self.Subtotal += service_record.Services.Price - (service_record.Services.Price *self.Client.M_Discount / 100)
+                    self.VAT += service_record.Services.VAT * (service_record.Services.Price - (service_record.Services.Price * self.Client.M_Discount / 100)) /100
+                    self.Total = self.Subtotal + self.VAT
+
+        for profile, profile_price in profiles_price.iteritems():
+            self.Discount = profile_price * self.Client.M_Discount / 100
+            self.Subtotal += profile_price - self.Discount
+            self.VAT = profiles_VAT[profile] / 100 * self.Subtotal
+            self.Total += (profile_price - self.Discount) + self.VAT
 
     @api.onchange("Template","Template1","Template2","Template3",\
                 "Template4","Template5","Template6","Template7",\
