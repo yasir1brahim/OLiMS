@@ -3854,8 +3854,8 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 if items.Category.id not in ar_cate_ids_list:
                     ar_cate_ids_list.append(items.Category.id)
             for cate_id in ar_cate_ids_list:
-                for profile in ar_object.AnalysisProfile:
-                    analysis_dict = {}
+                analysis_dict = {}
+                if not ar_object.AnalysisProfile:
                     analysis_dict.update({
                         'category':cate_id,
                         'client': ar_object.Client.id,
@@ -3863,12 +3863,25 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                         'priority':ar_object.Priority.id,
                         'due_date':ar_object.DateDue,
                         'received_date':datetime.datetime.now(),
-                        'analysis_profile': profile.id,
-                        # 'analysis':items.Services.id,
+                        'analysis_profile': None,
                         'sample_type': ar_object.SampleType.id,
                         'add_analysis_id':ar_object.id
                         })
                     data_list.append([0, 0, analysis_dict])
+                else:
+                    for profile in ar_object.AnalysisProfile:
+                        analysis_dict.update({
+                            'category':cate_id,
+                            'client': ar_object.Client.id,
+                            'order':ar_object.LotID,
+                            'priority':ar_object.Priority.id,
+                            'due_date':ar_object.DateDue,
+                            'received_date':datetime.datetime.now(),
+                            'analysis_profile': profile.id,
+                            'sample_type': ar_object.SampleType.id,
+                            'add_analysis_id':ar_object.id
+                            })
+                        data_list.append([0, 0, analysis_dict])
             ar_object.write({'AddAnalysis': data_list})
 
         datereceived = datetime.datetime.now()
