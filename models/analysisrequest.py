@@ -1737,6 +1737,13 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 res = super(AnalysisRequest, self).create(ar_values)
                 if not values.get('pre_enter',None):
                     res.write({'state':'pre_enter'})
+                else:
+                    ar_counter_id = self.env["olims.analysis_request"].search([('ar_counter', '!=', False)],order='ar_counter desc', limit=1)
+                    last_id = ar_counter_id.ar_counter
+                    new_id = int(last_id) + 1
+                    request_id = 'R-0' + str(new_id)
+                    res.write({'RequestID': request_id, 'ar_counter' : new_id, 'pre_enter': True})
+
                 new_sample = self.create_sample(ar_values, res)
 
                 analysis_object = super(AnalysisRequest, self).search([('id', '=',res.id)])
