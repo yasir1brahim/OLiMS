@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','web','mail','report','report_webkit','board'],
+    'depends': ['base','web','mail','report','report_webkit', 'web_editor','board'],
 
     # always loaded
     'data': [
@@ -128,5 +128,6 @@
     'auto_install': False,
     'web_preload': True,
     'js':['static/src/js/web_data.js'],
+    'js':['static/src/js/transcoder.js'],
 }
 

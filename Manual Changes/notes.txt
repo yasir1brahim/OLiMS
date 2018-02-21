@@ -1,1 +1,13 @@
 1) Related to Task #55. Replace addons/web/static/src/js/views/list_view.js file with list_view.js (in "Manual Changes" folder).
+
+2) Related to Task 64:  Figure out a way to sort the AR numbers in sequential order.  Currently, the default sorting sorts the ARs so the ones pre-entered first are shown first, regardless of their AR numbers.  When we sort on AR numbers, it displays the following order:  R-01, R-0100, R-01000, R-01001, ect.
+
+		a) Changed the default sorting in "analysisrequest.py" file.
+		b) Made a new file "web_data.js" in "olims/static/src/js" and duplicated all the code from "addons/web/static/src/js/framework/data.js".
+		c) Made required changes to "web_data.js"
+		d) Added a new template in views/view.xml name "web assets" and replaced /web/static/src/js/framework/data.js file with /olims/static/src/js/web_data.js
+
+3) Related to Chrome Update Error (for Chrome Version: Google Chrome 64.0.3282.167)
+		a) Made a new file "transcoder.js" in "olims/static/src/js" and duplicated all the code from "addons/web_editor/static/src/js/transcoder.js".
+		b) Change the line number 16 "(if (sheets[i].rules))"" to "if (sheets[i].hasOwnProperty('rules'))""
+		c) Added a new template name "Olims Editor" in views/view.xml and replaced /web_editor/static/src/js/transcoder.js file with /olims/static/src/js/transcoder.js

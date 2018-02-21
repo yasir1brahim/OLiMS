@@ -20,6 +20,12 @@
         </xpath>
         </template>
 
+        <template id="olims_inherit_transcoder" name="Olims Editor" inherit_id="web_editor.editor">
+            <xpath expr="//script[@src='/web_editor/static/src/js/transcoder.js']" position="replace">
+            <script type="text/javascript" src="/olims/static/src/js/transcoder.js"></script>
+        </xpath>
+        </template>
+
     <!-- explicit list view definition -->
     <record model="ir.ui.view" id="labpal_experiment_form_view">
             <field name="name">experiment.form</field>
