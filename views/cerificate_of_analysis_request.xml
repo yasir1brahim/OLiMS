@@ -56,7 +56,9 @@
 						                			<strong>Client ID:</strong><p t-field="doc.Client.ClientID"/>
 						                			<p style="color: #3a5f29"><strong>WSLCB</strong></p>
 						                			<t t-if="doc.LotID"><strong>Lot Id:</strong><p t-field="doc.LotID"/></t>
+						                			<t t-if="doc.BatchID"><strong>Batch Id:</strong><p t-field="doc.BatchID"/></t>
 						                			<t t-if="doc.ClientSampleID"><strong>Sample ID:</strong><p t-field="doc.ClientSampleID"/></t>
+						                			<t t-if="doc.InventoryID"><strong>Inventory ID:</strong><p t-field="doc.InventoryID"/></t>
 						                			<t t-if="doc.ClientReference"><strong>Product Name:</strong><p t-field="doc.ClientReference"/></t>
 						                		</td>
 						                		<td colspan="4" style="padding: 5px">

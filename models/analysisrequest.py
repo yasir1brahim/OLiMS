@@ -324,6 +324,19 @@ schema = (fields.Char(string='RequestID',
     StringField(
         'LotID3',
     ),
+    # Batch ID Field
+    StringField(
+        'BatchID',
+    ),
+    StringField(
+        'BatchID1',
+    ),
+    StringField(
+        'BatchID2',
+    ),
+    StringField(
+        'BatchID3',
+    ),
     # Sample field
     StringField(
         'ClientReference',
@@ -358,6 +371,24 @@ schema = (fields.Char(string='RequestID',
         'ClientSampleID3',
         searchable=True,
     ),
+    # Inventory Id Field
+    StringField(
+        'InventoryID',
+        searchable=True,
+    ),
+    StringField(
+        'InventoryID1',
+        searchable=True,
+    ),
+    StringField(
+        'InventoryID2',
+        searchable=True,
+    ),
+    StringField(
+        'InventoryID3',
+        searchable=True,
+    ),
+
     fields.Many2one(string='SamplingDeviation',
                         comodel_name='olims.sampling_deviation',
 
@@ -1080,7 +1111,9 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Template': values.get('Template', None),
             'AnalysisProfile': values.get('AnalysisProfile', None),
             'ClientSampleID': values.get('ClientSampleID', None),
+            'InventoryID': values.get('InventoryID', None),
             'LotID': values.get('LotID', None),
+            'BatchID': values.get('BatchID', None),
             'SubGroup': values.get('SubGroup', None),
             'SampleType': values.get('SampleType', None),
             'Batch': values.get('Batch', None),
@@ -1122,7 +1155,9 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Template': values.get('Template1', None),
             'AnalysisProfile': values.get('AnalysisProfile1', None),
             'ClientSampleID': values.get('ClientSampleID1', None),
+            'InventoryID': values.get('InventoryID1', None),
             'LotID': values.get('LotID1', None),
+            'BatchID': values.get('BatchID1', None),
             'SubGroup': values.get('SubGroup1', None),
             'SampleType': values.get('SampleType1', None),
             'Batch': values.get('Batch1', None),
@@ -1164,7 +1199,9 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Template': values.get('Template2', None),
             'AnalysisProfile': values.get('AnalysisProfile2', None),
             'ClientSampleID': values.get('ClientSampleID2', None),
+            'InventoryID': values.get('InventoryID2', None),
             'LotID': values.get('LotID2', None),
+            'BatchID': values.get('BatchID2', None),
             'SubGroup': values.get('SubGroup2', None),
             'SampleType': values.get('SampleType2', None),
             'Batch': values.get('Batch2', None),
@@ -1206,7 +1243,9 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Template': values.get('Template3', None),
             'AnalysisProfile': values.get('AnalysisProfile3', None),
             'ClientSampleID': values.get('ClientSampleID3', None),
+            'InventoryID': values.get('InventoryID3', None),
             'LotID': values.get('LotID3', None),
+            'BatchID': values.get('BatchID3', None),
             'SubGroup': values.get('SubGroup3', None),
             'SampleType': values.get('SampleType3', None),
             'Batch': values.get('Batch3', None),
