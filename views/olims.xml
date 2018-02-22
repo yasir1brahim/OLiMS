@@ -1968,6 +1968,36 @@
                                     <field name="LotID9" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 </div>
                             </group>
+                            <group>
+                                <label for="InventoryID" string="Inventory ID"/>
+                                <div>
+                                    <field name="InventoryID" nolabel="1"></field>
+                                    <field name="InventoryID1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="InventoryID2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="InventoryID3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="InventoryID4" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="InventoryID5" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="InventoryID6" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="InventoryID7" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="InventoryID8" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="InventoryID9" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                </div>
+                            </group>
+                            <group>
+                                <label for="BatchID" string="Batch ID"/>
+                                <div>
+                                    <field name="BatchID" nolabel="1"></field>
+                                    <field name="BatchID1" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="BatchID2" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="BatchID3" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="BatchID4" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="BatchID5" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="BatchID6" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="BatchID7" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="BatchID8" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                    <field name="BatchID9" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                                </div>
+                            </group>
                         </group>
                         <group>
                             <label for="ClientReference" string="Product Name"/>

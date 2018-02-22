@@ -731,6 +731,37 @@ schema = (fields.Char(string='RequestID',
     StringField(
         'LotID9',
     ),
+    #Batch ID Field
+    StringField(
+        'BatchID',
+    ),
+    StringField(
+        'BatchID1',
+    ),
+    StringField(
+        'BatchID2',
+    ),
+    StringField(
+        'BatchID3',
+    ),
+    StringField(
+        'BatchID4',
+    ),
+    StringField(
+        'BatchID5',
+    ),
+    StringField(
+        'BatchID6',
+    ),
+    StringField(
+        'BatchID7',
+    ),
+    StringField(
+        'BatchID8',
+    ),
+    StringField(
+        'BatchID9',
+    ),
     # Sample field
     StringField(
         'ClientReference',
@@ -811,6 +842,47 @@ schema = (fields.Char(string='RequestID',
     ),
     StringField(
         'ClientSampleID9',
+        searchable=True,
+    ),
+    #Inventory ID Field
+    StringField(
+        'InventoryID',
+        searchable=True,
+    ),
+    StringField(
+        'InventoryID1',
+        searchable=True,
+    ),
+    StringField(
+        'InventoryID2',
+        searchable=True,
+    ),
+    StringField(
+        'InventoryID3',
+        searchable=True,
+    ),
+    StringField(
+        'InventoryID4',
+        searchable=True,
+    ),
+    StringField(
+        'InventoryID5',
+        searchable=True,
+    ),
+    StringField(
+        'InventoryID6',
+        searchable=True,
+    ),
+    StringField(
+        'InventoryID7',
+        searchable=True,
+    ),
+    StringField(
+        'InventoryID8',
+        searchable=True,
+    ),
+    StringField(
+        'InventoryID9',
         searchable=True,
     ),
     fields.Many2one(string='SamplingDeviation',
@@ -2127,7 +2199,9 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Template': values.get('Template', None),
             'AnalysisProfile': values.get('AnalysisProfile', None),
             'ClientSampleID': values.get('ClientSampleID', None),
+            'InventoryID': values.get('InventoryID', None),
             'LotID': values.get('LotID', None),
+            'BatchID': values.get('BatchID', None),
             'SubGroup': values.get('SubGroup', None),
             'SampleType': values.get('SampleType', None),
             'Batch': values.get('Batch', None),
@@ -2172,7 +2246,9 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Template': values.get('Template1', None),
             'AnalysisProfile': values.get('AnalysisProfile1', None),
             'ClientSampleID': values.get('ClientSampleID1', None),
+            'InventoryID': values.get('InventoryID1', None),
             'LotID': values.get('LotID1', None),
+            'BatchID': values.get('BatchID1', None),
             'SubGroup': values.get('SubGroup1', None),
             'SampleType': values.get('SampleType1', None),
             'Batch': values.get('Batch1', None),
@@ -2216,7 +2292,9 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Template': values.get('Template2', None),
             'AnalysisProfile': values.get('AnalysisProfile2', None),
             'ClientSampleID': values.get('ClientSampleID2', None),
+            'InventoryID': values.get('InventoryID2', None),
             'LotID': values.get('LotID2', None),
+            'BatchID': values.get('BatchID2', None),
             'SubGroup': values.get('SubGroup2', None),
             'SampleType': values.get('SampleType2', None),
             'Batch': values.get('Batch2', None),
@@ -2260,7 +2338,9 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Template': values.get('Template3', None),
             'AnalysisProfile': values.get('AnalysisProfile3', None),
             'ClientSampleID': values.get('ClientSampleID3', None),
+            'InventoryID': values.get('InventoryID3', None),
             'LotID': values.get('LotID3', None),
+            'BatchID': values.get('BatchID3', None),
             'SubGroup': values.get('SubGroup3', None),
             'SampleType': values.get('SampleType3', None),
             'Batch': values.get('Batch3', None),
@@ -2304,7 +2384,9 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Template': values.get('Template4', None),
             'AnalysisProfile': values.get('AnalysisProfile4', None),
             'ClientSampleID': values.get('ClientSampleID4', None),
+            'InventoryID': values.get('InventoryID4', None),
             'LotID': values.get('LotID4', None),
+            'BatchID': values.get('BatchID4', None),
             'SubGroup': values.get('SubGroup4', None),
             'SampleType': values.get('SampleType4', None),
             'Batch': values.get('Batch4', None),
@@ -2348,7 +2430,9 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Template': values.get('Template5', None),
             'AnalysisProfile': values.get('AnalysisProfile5', None),
             'ClientSampleID': values.get('ClientSampleID5', None),
+            'InventoryID': values.get('InventoryID5', None),
             'LotID': values.get('LotID5', None),
+            'BatchID': values.get('BatchID5', None),
             'SubGroup': values.get('SubGroup5', None),
             'SampleType': values.get('SampleType5', None),
             'Batch': values.get('Batch5', None),
@@ -2392,7 +2476,9 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Template': values.get('Template6', None),
             'AnalysisProfile': values.get('AnalysisProfile6', None),
             'ClientSampleID': values.get('ClientSampleID6', None),
+            'InventoryID': values.get('InventoryID6', None),
             'LotID': values.get('LotID6', None),
+            'BatchID': values.get('BatchID6', None),
             'SubGroup': values.get('SubGroup6', None),
             'SampleType': values.get('SampleType6', None),
             'Batch': values.get('Batch6', None),
@@ -2436,7 +2522,9 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Template': values.get('Template7', None),
             'AnalysisProfile': values.get('AnalysisProfile7', None),
             'ClientSampleID': values.get('ClientSampleID7', None),
+            'InventoryID': values.get('InventoryID7', None),
             'LotID': values.get('LotID7', None),
+            'BatchID': values.get('BatchID7', None),
             'SubGroup': values.get('SubGroup7', None),
             'SampleType': values.get('SampleType7', None),
             'Batch': values.get('Batch7', None),
@@ -2480,7 +2568,9 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Template': values.get('Template8', None),
             'AnalysisProfile': values.get('AnalysisProfile8', None),
             'ClientSampleID': values.get('ClientSampleID8', None),
+            'InventoryID': values.get('InventoryID8', None),
             'LotID': values.get('LotID8', None),
+            'BatchID': values.get('BatchID8', None),
             'SubGroup': values.get('SubGroup8', None),
             'SampleType': values.get('SampleType8', None),
             'Batch': values.get('Batch8', None),
@@ -2524,7 +2614,9 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Template': values.get('Template9', None),
             'AnalysisProfile': values.get('AnalysisProfile9', None),
             'ClientSampleID': values.get('ClientSampleID9', None),
+            'InventoryID': values.get('InventoryID9', None),
             'LotID': values.get('LotID9', None),
+            'BatchID': values.get('BatchID9', None),
             'SubGroup': values.get('SubGroup9', None),
             'SampleType': values.get('SampleType9', None),
             'Batch': values.get('Batch9', None),
@@ -2676,7 +2768,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         self.Contact = None
         self.CCContact = None
         self.CCEmails = None
-        self.ClientSampleID = ''
         self.Discount = 0.00
         self.Adjustment = 0.00
         self.VAT = 0.00
