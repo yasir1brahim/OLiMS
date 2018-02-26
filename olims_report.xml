@@ -184,7 +184,7 @@
             <report
                 id="action_analysis_request_detail2"
                 model="olims.analysis_request"
-                string="Intake Report2"
+                string="Intake Report 2"
                 report_type="qweb-pdf"
                 name="olims.report_analysis_request_detail2"
                 file="olims.report_analysis_request_detail2"

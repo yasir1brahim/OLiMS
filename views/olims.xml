@@ -78,9 +78,11 @@
                     <field name="AnalysisProfile" string="Analysis Profile"></field>
                     <field name="SamplingDate" string="Sampling Date"></field>
                     <field name="SampleType" string="Sample Type"></field>
-                    <field name="LotID" string="Lot ID"></field>
+                    <field name="LotID" string="Lot ID" invisible="context.get('LotID',False)"></field>
+                    <field name="BatchID" string="Batch ID" invisible="context.get('BatchID',False)"></field>
                     <field name="ClientReference" string="Product Name"></field>
-                    <field name="ClientSampleID" string="Client Sample ID"></field>
+                    <field name="ClientSampleID" string="Client Sample ID" invisible="context.get('ClientSampleID',False)"></field>
+                    <field name="InventoryID" string="Inventory ID" invisible="context.get('InventoryID',False)"></field>
                     <field name="Priority"></field>
                     <field name="Sampler" string="Transporter"></field>
                     <field name="ar_invoice_id" string="Invoice ID"/>
@@ -1938,7 +1940,7 @@
                             </div>
                         </group>
                         <group>
-                            <group>
+                            <group invisible="context.get('ClientSampleID',False)">
                                 <label for="ClientSampleID" string="Client Sample ID"/>
                                 <div>
                                     <field name="ClientSampleID" nolabel="1"></field>
@@ -1953,7 +1955,7 @@
                                     <field name="ClientSampleID9" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 </div>
                             </group>
-                            <group>
+                            <group invisible="context.get('LotID',False)">
                                 <label for="LotID" string="Lot ID"/>
                                 <div>
                                     <field name="LotID" nolabel="1"></field>
@@ -1968,7 +1970,7 @@
                                     <field name="LotID9" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 </div>
                             </group>
-                            <group>
+                            <group invisible="context.get('InventoryID',False)">
                                 <label for="InventoryID" string="Inventory ID"/>
                                 <div>
                                     <field name="InventoryID" nolabel="1"></field>
@@ -1983,7 +1985,7 @@
                                     <field name="InventoryID9" nolabel="1" attrs="{'invisible': [('id', '!=', False)]}"></field>
                                 </div>
                             </group>
-                            <group>
+                            <group invisible="context.get('BatchID',False)">
                                 <label for="BatchID" string="Batch ID"/>
                                 <div>
                                     <field name="BatchID" nolabel="1"></field>
@@ -2641,9 +2643,11 @@
                     <!-- <field name="Specification"></field>
                     <field name="SamplePoint"></field>
                     <field name="StorageLocation"></field> -->
-                    <field name="LotID" string="Lot ID"></field>
+                    <field name="LotID" string="Lot ID" invisible="context.get('LotID',False)"></field>
+                    <field name="BatchID" string="Batch ID" invisible="context.get('BatchID',False)"></field>
                     <field name="ClientReference" string="Product Name"></field>
-                    <field name="ClientSampleID" string="Client Sample ID"></field>
+                    <field name="ClientSampleID" string="Client Sample ID" invisible="context.get('ClientSampleID',False)"></field>
+                    <field name="InventoryID" string="Inventory ID" invisible="context.get('InventoryID',False)"></field>
                     <!-- <field name="SamplingDeviation"></field>
                     <field name="SampleCondition"></field>
                     <field name="DefaultContainerType"></field>
@@ -2683,9 +2687,21 @@
 			<field name="view_mode">tree,form</field>
             <field name="view_id" ref="olims_analysis_request_tree_view"/>
             <field name="search_view_id" ref="view_analysis_request_filter"/>
-            <field name="context">{"readonly_by_pass": ['Subtotal', 'VAT','Total', 'Discount', 'Subtotal1', 'VAT1','Total1', 'Discount1', 'Subtotal2', 'VAT2','Total2', 'Discount2', 'Subtotal3', 'VAT3','Total3', 'Discount3']}</field>
+            <field name="context">{"readonly_by_pass": ['Subtotal', 'VAT','Total', 'Discount', 'Subtotal1', 'VAT1','Total1', 'Discount1', 'Subtotal2', 'VAT2','Total2', 'Discount2', 'Subtotal3', 'VAT3','Total3', 'Discount3'], 'InventoryID': True, 'BatchID': True}</field>
             <field name="domain">[('state','!=','pre_enter')]</field>
        </record>
+
+       <record model="ir.actions.act_window" id="analysis_request2_list_action">
+            <field name="name">Analysis Request 2</field>
+            <field name="res_model">olims.analysis_request</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="olims_analysis_request_tree_view"/>
+            <field name="search_view_id" ref="view_analysis_request_filter"/>
+            <field name="context">{"readonly_by_pass": ['Subtotal', 'VAT','Total', 'Discount', 'Subtotal1', 'VAT1','Total1', 'Discount1', 'Subtotal2', 'VAT2','Total2', 'Discount2', 'Subtotal3', 'VAT3','Total3', 'Discount3'], 'ClientSampleID': True, 'LotID': True}</field>
+            <field name="domain">[('state','!=','pre_enter')]</field>
+       </record>
+
        <record model="ir.actions.act_window" id="analysis_request_form_action">
             <field name="name">Analysis Request</field>
             <field name="res_model">olims.analysis_request</field>
@@ -2695,11 +2711,17 @@
             <field name="context">{"client_context":active_id, "readonly_by_pass": ['Subtotal', 'VAT','Total', 'Discount', 'Subtotal1', 'VAT1','Total1', 'Discount1', 'Subtotal2', 'VAT2','Total2', 'Discount2', 'Subtotal3', 'VAT3','Total3', 'Discount3']}</field>
        </record>
 
-        <menuitem id="olims_analysis_request_menu" name="Analysis Request" parent="olims_menu" sequence="2"
-                  action="analysis_request_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst,olims.group_clients"/>
-        <menuitem id="analysis_request_menu" name="Analysis Request" parent="olims_settings_menu" sequence="2"
-                  action="analysis_request_list_action"/>
+        <menuitem id="analysis_request_menu" name="Analysis Requests" parent="olims_settings_menu" sequence="2"/>
+        <menuitem id="olims_analysis_request_menu" name="Analysis Requests" parent="olims_menu" sequence="2"/>
 
+        <menuitem id="olims_analysis_request_sub_menu" name="Analysis Request" parent="olims_analysis_request_menu" sequence="1"
+                  action="analysis_request_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst,olims.group_clients"/>
+        <menuitem id="analysis_request_sub_menu" name="Analysis Request" parent="analysis_request_menu" sequence="1"
+                  action="analysis_request_list_action"/>
+        <menuitem id="olims_analysis_request2_sub_menu" name="Analysis Request 2" parent="olims_analysis_request_menu" sequence="2"
+                  action="analysis_request2_list_action"  groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst,olims.group_clients"/>
+        <menuitem id="analysis_request2_sub_menu" name="Analysis Request 2" parent="analysis_request_menu" sequence="2"
+                  action="analysis_request2_list_action"/>
         <!--worksheet_template form view -->
         <record model="ir.ui.view" id="olims_worksheet_template_form_view">
             <field name="name">worksheet_template.form</field>
