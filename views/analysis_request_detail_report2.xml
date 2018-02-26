@@ -1,0 +1,61 @@
+<openerp>
+	<data>
+		<template id="report_analysis_request_detail2">
+			<t t-call="report.html_container">
+				<div class="header">
+			        <div class="row">
+			            <div class="col-xs-10">
+			                <h1>Analysis Requests</h1>
+			            </div>
+			        </div>
+			    </div>
+				<div class="page">
+					<div class="row">
+						<table class="table table-condensed table-bordered">
+						 	<thead>
+						 		<tr>
+			                        <th class="text-center">AR#</th>
+			                        <th class="text-center">Inventory ID</th>
+			                        <th class="text-center">Batch ID</th>
+			                        <th class="text-center">Product ID</th>
+			                        <th class="text-center">Sampling Date</th>
+			                        <th class="text-center">Sample Type</th>
+			                        <th class="text-center">AR Profile</th>
+			                        <th class="text-center">Customer</th>
+			                    </tr>
+			                </thead>
+			                <tbody>
+			                	<tr t-foreach="docs" t-as="doc">
+			                        <td class="text-center">
+			                        	<span t-field="doc.RequestID"/>
+			                        </td>
+			                        <td class="text-center">
+			                            <span t-field="doc.InventoryID"/>
+			                        </td>
+			                        <td class="text-center">
+			                            <span t-field="doc.BatchID"/>
+			                        </td>
+			                        <td class="text-center">
+			                            <span t-field="doc.ClientReference"/>
+			                        </td>
+			                        <td class="text-center">
+			                            <span t-field="doc.SamplingDate"/>
+			                        </td>
+			                        <td class="text-center">
+			                            <span t-field="doc.SampleType.SampleType"/>
+			                        </td>
+			                        <td class="text-center">
+			                            <span t-field="doc.AnalysisProfile.Profile"/>
+			                        </td>
+			                        <td class="text-center">
+			                        	<span t-field="doc.Client.Name"/>
+			                        </td>
+				                </tr>
+			                </tbody>
+		            	</table>
+		            </div>
+		        </div>
+		    </t>
+		</template>
+	</data>
+</openerp>

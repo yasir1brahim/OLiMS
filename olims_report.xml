@@ -181,7 +181,18 @@
                 name="olims.report_analysis_request_detail"
                 file="olims.report_analysis_request_detail"
             />
+            <report
+                id="action_analysis_request_detail2"
+                model="olims.analysis_request"
+                string="Intake Report2"
+                report_type="qweb-pdf"
+                name="olims.report_analysis_request_detail2"
+                file="olims.report_analysis_request_detail2"
+            />
             <record id="action_analysis_request_detail" model="ir.actions.report.xml">
+                <field name="paperformat_id" ref="olims.paperformat_intake_analysis"/>
+            </record>
+            <record id="action_analysis_request_detail2" model="ir.actions.report.xml">
                 <field name="paperformat_id" ref="olims.paperformat_intake_analysis"/>
             </record>
             <report
