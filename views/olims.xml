@@ -3103,6 +3103,8 @@
                     <header>
                         <button string="Preserve Sample" name="to_be_preserved" states="to_be_preserved" type="workflow" class="oe_highlight"/>
 
+                        <button string="Create Analysis Request" type="object" name="create_analysis_request" class="oe_highlight"/>
+
                         <field name="state" widget="statusbar" statusbar_visible="to_be_sampled,sample_due,sample_received,expired,disposed"/>
                     </header>
                     <!--<label for="name" string="Sample ID"/>

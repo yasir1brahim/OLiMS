@@ -5,7 +5,7 @@ import sys
 from dependencies.dependency import getToolByName
 from dependencies.dependency import safe_unicode
 from openerp.tools.translate import _
-from openerp import fields, models
+from openerp import fields, models, api
 from fields.string_field import StringField
 from fields.text_field import TextField
 from fields.boolean_field import BooleanField
@@ -475,5 +475,36 @@ class Sample(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
         self.pool.get("olims.analysis_request").browse(cr,uid,request_ids).signal_workflow(state)
         return True
 
+    @api.multi
+    def create_analysis_request(self):
+        sample_record = self.env['ir.model.data'].xmlid_to_res_id('olims.olims_analysis_request_form_view', raise_if_not_found=True)
+        for record in self:
+            client = record.Client
+            sample_id = record.id
+            sampling_date = record.SamplingDate
+            sample_type = record.SampleType
+            client_reference = record.ClientReference
+            client_sample_ID = record.ClientSampleID
+            sample_point = record.SamplePoint
+            storage_location = record.StorageLocation
+            sampling_deviation = record.SamplingDeviation
+            sample_condition = record.SampleCondition
+            lot_id = record.LotID
+
+        result = {
+                    'name': 'Analysis Request',
+                    'view_type': 'form',
+                    'res_model': 'olims.analysis_request',
+                    'view_id': sample_record,
+                    'context': {'default_Client': client.id, 'default_Sample_id': sample_id,
+                                'default_SamplingDate': sampling_date, 'default_SampleType': sample_type.id ,
+                                'default_ClientReference': client_reference, 'default_ClientSampleID': client_sample_ID,
+                                'default_SamplePoint': sample_point.id,'default_StorageLocation': storage_location.id,
+                                'default_SamplingDeviation': sampling_deviation.id, 'default_SampleCondition': sample_condition.id,
+                                'default_LotID': lot_id},
+                    'type': 'ir.actions.act_window',
+                    'view_mode': 'form'
+                }
+        return result
 
 Sample.initialze(schema)

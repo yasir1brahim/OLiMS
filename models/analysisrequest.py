@@ -1815,11 +1815,23 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                     new_id = int(last_id) + 1
                     request_id = 'R-0' + str(new_id)
                     res.write({'RequestID': request_id, 'ar_counter' : new_id, 'pre_enter': True})
-
-                new_sample = self.create_sample(ar_values, res)
-
-                analysis_object = super(AnalysisRequest, self).search([('id', '=',res.id)])
-                analysis_object.write({"Sample_id":new_sample.id})
+                if not values.get('Sample_id',None):
+                    new_sample = self.create_sample(ar_values, res)
+                    analysis_object = super(AnalysisRequest, self).search([('id', '=',res.id)])
+                    analysis_object.write({"Sample_id":new_sample.id})
+                else:
+                    analysis_object = super(AnalysisRequest, self).search([('id', '=',res.id)])
+                    analysis_object.write({"Sample_id":values.get('Sample_id',None),
+                                           "SamplingDate":values.get('SamplingDate',None),
+                                           "SampleType":values.get('SampleType',None),
+                                           "ClientReference":values.get('ClientReference',None),
+                                           "ClientSampleID":values.get('ClientSampleID',None),
+                                           "SamplePoint":values.get('SamplePoint',None),
+                                           "StorageLocation":values.get('StorageLocation',None),
+                                           "SamplingDeviation":values.get('SamplingDeviation',None),
+                                           "SampleCondition":values.get('SampleCondition',None),
+                                           "LotID":values.get('LotID',None)
+                                           })
 
                 ar_p = self.create_ar_partitions(res)
                 ar_analysis_object = self.env['olims.ar_analysis']
@@ -5134,11 +5146,12 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 "Template4","Template5","Template6","Template7",\
                 "Templat8","Template9")
     def add_contact_and_email_of_template(self):
-        self.Contact = self.Template.contact_id
-        self.CCEmails = self.Template.email_id
-        self.AnalysisProfile = self.Template.AnalysisProfile
-        self.SampleType = self.Template.SampleType
-        self.Priority = self.Template.priority
+        if self.Template:
+            self.Contact = self.Template.contact_id
+            self.CCEmails = self.Template.email_id
+            self.AnalysisProfile = self.Template.AnalysisProfile
+            self.SampleType = self.Template.SampleType
+            self.Priority = self.Template.priority
         if self.Template1:
             self.Contact1 = self.Template1.contact_id
             self.CCEmails1 = self.Template1.email_id
