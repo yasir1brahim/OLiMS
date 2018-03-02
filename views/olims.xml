@@ -5041,11 +5041,13 @@
 			<field name="view_mode">tree,form</field>
        </record>
 
-        <menuitem id="olims_client_menu" name="Client" parent="olims_menu" sequence="2"
-                  action="client_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst,group_clients"/>
-        <menuitem id="client_menu" name="Client" parent="olims_settings_menu" sequence="1"
-                  action="client_list_action"/>
 
+        <menuitem id="client_menu" name="Clients" parent="olims_menu" sequence="2"/>
+                  action="client_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst,group_clients"/>
+        <menuitem id="client_details" name="Client" parent="client_menu" sequence="1"
+                  action="client_list_action"/>
+        <menuitem id="login_details" name="Login Details" parent="client_menu" sequence="1"
+                  action="base.action_res_users"/>
 		<!--Instrument form view -->
 
         <record model="ir.ui.view" id="olims_instrument_form_view">
