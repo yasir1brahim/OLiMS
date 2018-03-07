@@ -11,6 +11,16 @@
         	<field name="perm_unlink" eval="0"/>
         	<field name="perm_create" eval="0"/>
     </record>
+        <record model="ir.rule" id="olims_client_rule_for_user_type_client">
+        	<field name="name">Client is shown to his/her assigned user</field>
+        	<field name="model_id" ref="model_olims_client"/>
+        	<field name="domain_force">[('id', '=', user.client_id.id)]</field>
+        	<field name="groups" eval="[(4,ref('group_clients'))]"/>
+        	<field name="perm_read" eval="1"/>
+        	<field name="perm_write" eval="0"/>
+        	<field name="perm_unlink" eval="0"/>
+        	<field name="perm_create" eval="0"/>
+    </record>
     <record model="ir.rule" id="olims_client_ar_invoice_rule">
             <field name="name">Login user/contact view their own invoices</field>
             <field name="model_id" ref="model_olims_ar_invoice"/>
