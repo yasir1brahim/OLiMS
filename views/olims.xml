@@ -4101,6 +4101,20 @@
                 </tree>
             </field>
         </record>
+
+        <record model="ir.ui.view" id="olims_client_user_login_details">
+            <field name="name">res.users</field>
+            <field name="model">res.users</field>
+            <field name="priority" eval="1"/>
+            <field name="arch" type="xml">
+                <tree string="Login Details">
+                    <field name="name"/>
+                    <field name="login"/>
+                    <field name="lang"/>
+                    <field name="login_date"/>
+                </tree>
+            </field>
+        </record>
         <!-- < Tree view without create option > -->
         <record model="ir.ui.view" id="olims_supply_order_tree_without_create_view">
             <field name="name">supply_order.tree</field>
@@ -4999,6 +5013,10 @@
                             <label for="SR Template" string="Sampling Round Templates"/>
                             <field name="SR Template"></field>
                         </page>
+                        <page string="Login Details" attrs="{'invisible': [('id', '=', False)]}">
+                            <label for="Login Details" string="Login Details"/>
+                            <field name="Client User Login Details"></field>
+                        </page>
                         
                     </notebook>
                 </sheet>
@@ -5042,12 +5060,10 @@
        </record>
 
 
-        <menuitem id="client_menu" name="Clients" parent="olims_menu" sequence="2"/>
+        <menuitem id="olims_client_menu" name="Client" parent="olims_menu" sequence="2"
                   action="client_list_action" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst,group_clients"/>
-        <menuitem id="client_details" name="Client" parent="client_menu" sequence="1"
+      <menuitem id="client_menu" name="Client" parent="olims_settings_menu" sequence="1"
                   action="client_list_action"/>
-        <menuitem id="login_details" name="Login Details" parent="client_menu" sequence="1"
-                  action="base.action_res_users"/>
 		<!--Instrument form view -->
 
         <record model="ir.ui.view" id="olims_instrument_form_view">
@@ -6422,6 +6438,16 @@
             <field name="model_id" ref="model_olims_worksheet"/>
             <field name="model">olims.worksheet</field>
             <field name="key2">client_action_multi</field>
+        </record>
+        <record model="ir.ui.view" id="inherited_view_users_form">
+        <field name="name">res.user.form_inherited</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+                <xpath expr="//field[@name='groups_id']" position="after">
+                <group string="" colspan="2"> <field name="client_id" attrs="{'invisible': [('in_group_20', '=', False)]}"></field></group>
+               </xpath>
+        </field>
         </record>
     </data>
 </openerp>

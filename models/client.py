@@ -228,6 +228,10 @@ schema = (
                                  string='Sample',
                                  domain=[('state','!=','pre_enter')]
     ),
+    fields.One2many('res.users',
+                                 'client_id',
+                                 string='Client User Login Details',
+                    ),
     BooleanField(string="payment_not_current",
         default=False),
     fields.Float(string='M_Discount',
