@@ -3234,17 +3234,24 @@ class User(models.Model):
 
     @api.model
     def create(self, vals):
-        if vals['in_group_20'] == False and vals['client_id']:
-            vals['client_id'] = 0
-        if vals['in_group_20'] == True and not vals['client_id']:
-            raise osv.except_osv(_('error'), _('If you checks Client group, You must assign user a client.'))
+        if (vals.get('in_group_20') == True or vals.get('in_group_20') == False) and (vals.get('client_id') \
+                                                                                      or not vals.get('client_id')):
+            if vals.get('in_group_20') == True and not vals.get('client_id'):
+                raise osv.except_osv(_('error'), _('If you checks Client group, You must assign user a client.'))
+
+            if vals.get('in_group_20') == False and vals['client_id']:
+                vals.update({'client_id': 0})
+
         res = super(User, self).create(vals)
         return res
+
 
     @api.multi
     def write(self, vals):
         if vals.get('in_group_20') == False:
             vals.update({'client_id': 0})
+        if vals.get('in_group_20') == True and not vals.get('client_id'):
+            raise osv.except_osv(_('error'), _('If you checks Client group, You must assign user a client.'))
 
         res = super(User, self).write(vals)
         return res
