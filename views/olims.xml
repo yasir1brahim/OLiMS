@@ -4838,7 +4838,28 @@
                                 <button name="%(analysis_request_form_action)d" string="Add Analysis Request" type="action" class="oe_highlight"/>
                             </header>
                             <label for="Analysis_Request" string="Analysis Requests"/>
-                            <field name="Analysis_Request"></field>
+                             <field name="Analysis_Request">
+                             <tree string="Analysis Request" create="false" delete="false">
+                                <button name="%(action_certificate_of_analysis)d" string="Certificate of Analysis (COA)" type="action" icon="gtk-print"/>
+                                <field name="RequestID" string="Request ID"></field>
+                                <field name="Sample"></field>
+                                <field name="flagged_status" string="Flagged"></field>
+                                <field name="Client"></field>
+                                <field name="AnalysisProfile" string="Analysis Profile"></field>
+                                <field name="SamplingDate" string="Sampling Date"></field>
+                                <field name="SampleType" string="Sample Type"></field>
+                                <field name="LotID" string="Lot ID" invisible="context.get('LotID',False)"></field>
+                                <field name="BatchID" string="Batch ID" invisible="context.get('BatchID',False)"></field>
+                                <field name="ClientReference" string="Product Name"></field>
+                                <field name="ClientSampleID" string="Client Sample ID" invisible="context.get('ClientSampleID',False)"></field>
+                                <field name="InventoryID" string="Inventory ID" invisible="context.get('InventoryID',False)"></field>
+                                <field name="DatePublished" string="Published Date"></field>
+                                <field name="Priority"></field>
+                                <field name="Sampler" string="Transporter"></field>
+                                <field name="ar_invoice_id" string="Invoice ID"/>
+                                <field name="state" string="State"></field>
+                            </tree>
+                            </field>
                         </page>
                         <page string="Default" name="Default Page">
                             <field name="id" invisible="1"/>
