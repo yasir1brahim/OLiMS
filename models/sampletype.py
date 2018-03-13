@@ -64,6 +64,13 @@ schema = (StringField('SampleType',
                             "selected, then all sample points are available."
     ),
 
+    # Mustafa Arif 12 Mar 2018
+    fields.Many2many(string='AnalysisProfile',
+        comodel_name='olims.analysis_profile',
+        relation='sp_to_analysisprofile',
+        domain="[('Deactivated', '=',False )]"
+    ),
+    # Mustafa Arif 12 Mar 2018
 )
 
 class SampleType(models.Model, BaseOLiMSModel):

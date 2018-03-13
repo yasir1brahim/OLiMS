@@ -6081,6 +6081,14 @@
                 	<label for="Description" string="Description"/>
                        <p>Used in item listings and search results.</p>
                 	<field name="Description"></field>
+                    <!--Mustafa Arif 12 Mar 2018-->
+                    <label for="AnalysisProfile" string="Analysis Profile"/>
+                    <field name="AnalysisProfile">
+                        <tree>
+                            <field name="Profile"></field>
+                            <field name="Description"></field>
+                        </tree>
+                    </field>
                 	<group col='2' string='RetentionPeriod'>
                 	<p >The period for which un-preserved samples of this type can be kept before 
                 	they expire and cannot be analysed any further</p>
@@ -6126,6 +6134,8 @@
                     <field name="Sample Points"></field>
                 	<field name="Prefix"></field>
                     <field name="Minimum Volume"></field>
+                    <!--Mustafa Arif 12 Mar 2018-->
+                    <field name="AnalysisProfile" string="Analysis Profile"></field>
                 </tree>
             </field>
         </record>
