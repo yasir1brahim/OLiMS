@@ -5009,7 +5009,8 @@
                         </page>
                         <page string="Analysis Profiles" attrs="{'invisible': [('id', '=', False)]}">
                             <label for="Analysis_Profile" string="Analysis Profiles"/>
-                            <field name="Analysis_Profile"></field>
+                            <field name="Analysis_Profile" widget="x2many_selectable">
+                            </field>
                         </page>
                         <page string="AR Templates" attrs="{'invisible': [('id', '=', False)]}">
                             <header>
@@ -5261,7 +5262,7 @@
             <field name="name">analysis_profile.tree</field>
             <field name="model">olims.analysis_profile</field>
             <field name="arch" type="xml">
-                <tree string="Analysis Profile">
+                    <tree string="Analysis Profile"  delete='false'>
                     <field name="Profile"></field>
                 	<field name="Description"></field>
                 	<field name="ProfileKey"></field>

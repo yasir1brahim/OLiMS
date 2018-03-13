@@ -153,4 +153,17 @@ class AnalysisProfile(models.Model, BaseOLiMSModel):
         analysis_profile = self.pool.get('olims.analysis_profile')
         analysis_profile.write(cr,uid,ids, {'Deactivated': True})
 
+    @api.multi
+    def DeleteClientAnalysisProfiles(self):
+        query = "delete from olims_analysis_profile_olims_client_rel where olims_analysis_profile_id in("
+        count= 1
+        for record in self:
+            if count < len(self):
+                query += str(record.id)+","
+            else:
+                query += str(record.id) + ")"
+            count +=1
+        self.env.cr.execute(query)
+
+
 AnalysisProfile.initialze(schema)
