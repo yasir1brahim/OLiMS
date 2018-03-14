@@ -20,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','web','mail','report','report_webkit', 'web_editor','board'],
+    'depends': ['base','web','mail','report','report_webkit', 'web_editor','board','web_x2many_selectable'],
 
     # always loaded
     'data': [

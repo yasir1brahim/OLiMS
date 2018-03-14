@@ -3230,7 +3230,11 @@ class Preferences(models.TransientModel):
 class User(models.Model):
     _inherit = 'res.users'
     _name = "res.users"
+
+    login_date = openerp.fields.Datetime(related='log_ids.create_date', string='Latest connection', store = True)
     client_id = fields.Many2one("olims.client", string="Client")
+    
+    _order = 'name, login, login_date'
 
     @api.model
     def create(self, vals):
