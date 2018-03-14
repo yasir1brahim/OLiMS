@@ -12,6 +12,8 @@ from fields.widget.widget import StringWidget, TextAreaWidget, \
                                 DecimalWidget, RichWidget
 from openerp import fields, models, api
 from openerp.tools.translate import _
+import logging
+_logger = logging.getLogger(__name__)
 
 AR_STATES = (
     ('sample_registered','Sample Registered'),
@@ -1713,6 +1715,34 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     _name = 'olims.analysis_request'
     _rec_name = "RequestID"
     _inherit = ['mail.thread', 'ir.needaction_mixin']
+
+    # Mustafa Arif 11 Mar 2018
+    @api.onchange('SampleType')
+    def _sampletype_onchange(self):
+        self.AnalysisProfile = None
+        res = {}
+        idar = []
+        if self.SampleType.id == False:
+            idar.append(-1)
+            res['domain'] = {'AnalysisProfile': [('id', 'in', idar)]}
+            return res
+
+        query = ("select oap.id from "
+                 "sp_to_analysisprofile stap "
+                 "join olims_analysis_profile oap "
+                 "on oap.id = stap.olims_analysis_profile_id "
+                 "join olims_sample_type ost "
+                 "on ost.id = stap.olims_sample_type_id "
+                 "where stap.olims_sample_type_id=" + str(self.SampleType.id)
+                 )
+        self.env.cr.execute(query)
+        attributes_rs = self.env.cr.fetchall()
+
+        for r in attributes_rs:
+            idar.append(str(r[0]))
+        res['domain'] = {'AnalysisProfile': [('id', 'in', idar)]}
+
+        return res
 
     @api.model
     def _generate_order_by(self, order_spec, query):
