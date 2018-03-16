@@ -241,11 +241,57 @@ schema = (
         default=0.00
     ),
 
+    BooleanField(string="Copy_Active_AProfiles",
+            default = True
+    ),
+
 )
 
 class Client(models.Model, BaseOLiMSModel):
     _name='olims.client'
     _rec_name = 'Name'
+
+
+    @api.onchange('Copy_Active_AProfiles')
+    def assign_all_active_profiles_to_client(self, cr, uid, context):
+        if context.get('val_Copy_Active_AProfiles'):
+            client_id =context.get('id')
+            activatd_Aprfile_ids = self.pool.get('olims.analysis_profile').search(cr, uid,
+                                                                                  [('Deactivated', '=', False)])
+            activatd_Aprfile_ids_copy = activatd_Aprfile_ids[:]
+            query = "select olims_analysis_profile_id from  olims_analysis_profile_olims_client_rel where olims_client_id"\
+                    "="+str(client_id)
+            cr.execute(query)
+            assigned_profiles = cr.fetchall()
+
+            for id in assigned_profiles:
+                if id[0] in activatd_Aprfile_ids:
+                    activatd_Aprfile_ids.remove(id[0])
+
+            if activatd_Aprfile_ids:
+                if assigned_profiles:
+                    query = "delete from olims_analysis_profile_olims_client_rel where olims_client_id ="+str(client_id)
+                    cr.execute(query)
+                count = 1
+                query = "insert into olims_analysis_profile_olims_client_rel values "
+
+                for id in activatd_Aprfile_ids_copy :
+                    query += "(" + str(client_id) + "," + str(id) + ")"
+                    if count < len(activatd_Aprfile_ids_copy ):
+                        query += ","
+                    count += 1
+                cr.execute(query)
+
+            else:
+                return {
+
+                    'warning': {
+
+                        'title': 'Warning!',
+
+                        'message': 'All Active profiles are already assigned !'}
+
+                }
 
     @api.onchange('physical_copy_from')
     def _onchange_physical(self):

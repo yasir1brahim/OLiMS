@@ -121,6 +121,23 @@ class AnalysisProfile(models.Model, BaseOLiMSModel):
     _name = "olims.analysis_profile"
     _rec_name = 'Profile'
 
+    @api.model
+    def create(self, vals):
+        res = super(AnalysisProfile, self).create(vals)
+        if res:
+            client_ids = self.pool.get('olims.client').search(self.env.cr, self.env.uid,[('Copy_Active_AProfiles', '=', True)])
+            count = 1
+            if client_ids:
+                query = "insert into olims_analysis_profile_olims_client_rel values "
+                for id in client_ids :
+                    query += "(" + str(id) + "," + str(res.id) + ")"
+                    if count < len(client_ids ):
+                        query += ","
+                    count += 1
+                self.env.cr.execute(query)
+        return res
+
+
     def computeVATAmount(self):
         """ Compute AnalysisProfileVATAmount
         """
