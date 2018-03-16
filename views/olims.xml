@@ -4110,6 +4110,7 @@
                 <tree string="Login Details">
                     <field name="name"/>
                     <field name="login"/>
+                     <field name="contact_id"/>
                     <field name="lang"/>
                     <field name="login_date"/>
                 </tree>
@@ -6480,6 +6481,7 @@
         <field name="arch" type="xml">
                 <xpath expr="//field[@name='groups_id']" position="after">
                 <group string="" colspan="2"> <field name="client_id" attrs="{'invisible': [('in_group_20', '=', False)]}"></field></group>
+                <group string="" colspan="2"> <field name="contact_id" attrs="{'invisible': [('in_group_20', '=', False)]}"></field></group>
                </xpath>
         </field>
         </record>

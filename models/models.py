@@ -3233,6 +3233,7 @@ class User(models.Model):
 
     login_date = openerp.fields.Datetime(related='log_ids.create_date', string='Latest connection', store = True)
     client_id = fields.Many2one("olims.client", string="Client")
+    contact_id = fields.Many2one("olims.contact", string="Contact Name")
     
     _order = 'name, login, login_date'
 
@@ -3240,11 +3241,11 @@ class User(models.Model):
     def create(self, vals):
         if (vals.get('in_group_20') == True or vals.get('in_group_20') == False) and (vals.get('client_id') \
                                                                                       or not vals.get('client_id')):
-            if vals.get('in_group_20') == True and not vals.get('client_id'):
-                raise osv.except_osv(_('error'), _('If you checks Client group, You must assign user a client.'))
+            if vals.get('in_group_20') == True and (not vals.get('client_id') or not vals.get('contact_id')):
+                raise osv.except_osv(_('error'), _('If you checks Client group, You must assign user a Client and Contact Person.'))
 
-            if vals.get('in_group_20') == False and vals['client_id']:
-                vals.update({'client_id': 0})
+            if vals.get('in_group_20') == False and (vals['client_id'] or vals['contact_id']):
+                vals.update({'client_id': 0,'contact_id':0})
 
         res = super(User, self).create(vals)
         return res
@@ -3253,9 +3254,9 @@ class User(models.Model):
     @api.multi
     def write(self, vals):
         if vals.get('in_group_20') == False:
-            vals.update({'client_id': 0})
-        if vals.get('in_group_20') == True and not vals.get('client_id'):
-            raise osv.except_osv(_('error'), _('If you checks Client group, You must assign user a client.'))
+            vals.update({'client_id': 0,'contact_id' :0})
+        if vals.get('in_group_20') == True and (not vals.get('client_id') or not vals.get('contact_id')):
+            raise osv.except_osv(_('error'), _('If you checks Client group, You must assign user a Client and Contact Person.'))
 
         res = super(User, self).write(vals)
         return res
