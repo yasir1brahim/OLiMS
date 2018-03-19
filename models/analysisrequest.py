@@ -4194,7 +4194,8 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                     if  service.Services.PointOfCapture == 'lab':
                         l_service = {'LabService':service.Services.id,
                             'Category':service.Services.category.id}
-                        record.LabService += record.LabService.new(l_service)
+                        if service.Services.id not in service_ids_list:
+                            record.LabService += record.LabService.new(l_service)
                     if service.Services.PointOfCapture == 'field':
                         f_service = {'Service':service.Services.id,
                         'Category':service.Services.category.id}

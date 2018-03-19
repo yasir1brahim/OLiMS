@@ -5010,9 +5010,8 @@
                         </page>
                         <page string="Analysis Profiles" attrs="{'invisible': [('id', '=', False)]}">
                             <field name="Copy_Active_AProfiles" context="{'id':id, 'val_Copy_Active_AProfiles':Copy_Active_AProfiles}"></field>
-                             <label string="Mark to Copy all Active Profiles"/>
-                            <label for="Analysis_Profile" string="Analysis Profiles"/>
-                            <field name="Analysis_Profile" widget="x2many_selectable">
+                             <label string="Mark to Copy All Active Analysis Profiles"/>
+                            <field name="Analysis_Profile" widget="many2many_selectable">
                             </field>
                         </page>
                         <page string="AR Templates" attrs="{'invisible': [('id', '=', False)]}">
