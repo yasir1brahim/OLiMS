@@ -242,7 +242,7 @@ schema = (
     ),
 
     BooleanField(string="Copy_Active_AProfiles",
-            
+            default = True
     ),
 
 )
