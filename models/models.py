@@ -3239,12 +3239,11 @@ class User(models.Model):
 
     @api.model
     def create(self, vals):
-        if (vals.get('in_group_20') == True or vals.get('in_group_20') == False) and (vals.get('client_id') \
-                                                                                      or not vals.get('client_id')):
+        if (vals.get('in_group_20') is not None):
             if vals.get('in_group_20') == True and (not vals.get('client_id') or not vals.get('contact_id')):
                 raise osv.except_osv(_('error'), _('If you checks Client group, You must assign user a Client and Contact Person.'))
 
-            if vals.get('in_group_20') == False and (vals['client_id'] or vals['contact_id']):
+            if vals.get('in_group_20') == False and (vals.get('client_id') or vals.get('contact_id')):
                 vals.update({'client_id': 0,'contact_id':0})
 
         res = super(User, self).create(vals)

@@ -235,7 +235,7 @@ var Many2ManySelectable = FieldMany2Many.extend({
 		//you can change the function name below
 		var FunctionToBeCalled =''
 		if (model_obj.name == 'olims.analysis_profile')
-		 { FunctionToBeCalled = 'DeleteClientAnalysisProfiles'  }
+		 { FunctionToBeCalled = 'delete_client_analysis_profile'  }
 		model_obj.call(FunctionToBeCalled,[selected_ids],{context:self.dataset.context})
 		.then(function(result){
 		RemoveSelectedRows();
