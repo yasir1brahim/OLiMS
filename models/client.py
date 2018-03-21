@@ -327,6 +327,21 @@ class Client(models.Model, BaseOLiMSModel):
             setattr(self, 'billing_postalcode', getattr(self,self.billing_copy_from+'_postalcode'))
             setattr(self, 'billing_address', getattr(self,self.billing_copy_from+'_address'))
 
+    @api.model
+    def create(self, values):
+        res = super(Client, self).create(values)
+        activatd_Aprfile_ids = self.pool.get('olims.analysis_profile').search(self.env.cr, self.env.uid,
+                                                                              [('Deactivated', '=', False)])
+
+        values = []
+
+        if activatd_Aprfile_ids:
+            for id in activatd_Aprfile_ids:
+                values.append("(" + str(res.id) + "," + str(id) + ")")
+            query = "insert into olims_analysis_profile_olims_client_rel values "+",".join(value for value  in values)
+            self.env.cr.execute(query)
+        return res
+
     @api.multi
     def unlink(self):
         for contact_record in self.Contact:
