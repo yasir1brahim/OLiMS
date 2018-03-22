@@ -96,7 +96,7 @@ schema = (StringField('Profile',
     
     FixedPointField('AnalysisProfileVAT',
         schemata = "Accounting",
-        default = 14.00,
+        default = 0.00,
         widget = DecimalWidget(
             label=_("VAT %"),
             description=_(
@@ -170,12 +170,16 @@ class AnalysisProfile(models.Model, BaseOLiMSModel):
         analysis_profile = self.pool.get('olims.analysis_profile')
         analysis_profile.write(cr,uid,ids, {'Deactivated': True})
 
-    @api.multi
-    def delete_client_analysis_profile(self):
+    @api.model
+    def delete_client_analysis_profile(self,active_id,selected_ids):
         query = "delete from olims_analysis_profile_olims_client_rel where olims_analysis_profile_id in("+\
-            ",".join(str(record.id) for record in self)+")"
+            ",".join(str(id) for id in selected_ids)+") and olims_client_id="+str(active_id)
 
         self.env.cr.execute(query)
+
+        client_obj = self.pool.get('olims.client')
+        client_obj.write(self.env.cr, self.env.uid, int(active_id),{'Copy_Active_AProfiles': False})
+
 
 
 AnalysisProfile.initialze(schema)
