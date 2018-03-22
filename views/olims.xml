@@ -6484,5 +6484,16 @@
                </xpath>
         </field>
         </record>
+
+        <record model="ir.ui.view" id="inherited_view_users_simple_form">
+             <field name="name">res.users.simplified.form_inherited</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_simple_form"/>
+            <field name="arch" type="xml">
+                    <xpath expr="//field[@name='fax']" position="after">
+                    <field name="contact_id"></field>
+                   </xpath>
+            </field>
+        </record>
     </data>
 </openerp>
