@@ -5268,7 +5268,8 @@
                     <field name="Profile"></field>
                 	<field name="Description"></field>
                 	<field name="ProfileKey"></field>
-                     <field name="status" string="Status"></field> 
+                    <field name="status" string="Status"></field>
+                    <field name="AnalysisProfilePrice" string="Price"></field>
                 	<!-- <field name="Remarks"></field>
                 	<field name="CommercialID"></field>
                 	<field name="UseAnalysisProfilePrice"></field>
