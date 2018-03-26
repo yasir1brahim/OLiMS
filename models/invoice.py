@@ -165,7 +165,7 @@ class ARInvoice(models.Model):
         for record in self:
             record.receipt_number = "1000"+str(record.id)
 
-    @api.depends("analysis_request_id")
+    @api.depends("analysis_request_id.Total")
     def _get_total(self):
         for record in self:
             for ar_record in record.analysis_request_id:
