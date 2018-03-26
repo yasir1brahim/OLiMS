@@ -4064,7 +4064,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                     data_list.append([0, 0, analysis_dict])
                 else:
                     for profile in ar_object.AnalysisProfile:
-                        analysis_dict.update({
+                        analysis_dict = {
                             'category':cate_id,
                             'client': ar_object.Client.id,
                             'order':ar_object.LotID,
@@ -4074,7 +4074,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                             'analysis_profile': profile.id,
                             'sample_type': ar_object.SampleType.id,
                             'add_analysis_id':ar_object.id
-                            })
+                            }
                         data_list.append([0, 0, analysis_dict])
             ar_object.write({'AddAnalysis': data_list})
 
