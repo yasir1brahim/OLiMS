@@ -3233,9 +3233,14 @@ class User(models.Model):
 
     login_date = openerp.fields.Datetime(related='log_ids.create_date', string='Latest connection', store = True)
     client_id = fields.Many2one("olims.client", string="Client")
-    contact_id = fields.Many2one("olims.contact", string="Contact Name")
+    contact_id = fields.Many2one("olims.contact", string="Contact Name", domain="[('Client_Contact', '=', client_id)]")
     
     _order = 'name, login, login_date'
+
+    @api.onchange('client_id')
+    def onchange_client(self):
+        for record in self:
+            record.contact_id = ""
 
     @api.model
     def create(self, vals):
