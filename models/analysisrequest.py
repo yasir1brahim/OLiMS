@@ -1716,6 +1716,21 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     _rec_name = "RequestID"
     _inherit = ['mail.thread', 'ir.needaction_mixin']
 
+
+    def fill_olims_analysis_request_sample_rel(self,cr, uid, context=None):
+        AR_ids = self.pool.get('olims.analysis_request').search(cr, uid, [('Sample_id', '!=', False)])
+        AR_objs = self.pool.get('olims.analysis_request').browse(cr, uid, AR_ids)
+        values = []
+        query = "insert into olims_analysis_request_sample_rel values "
+
+        for obj in AR_objs:
+            values.append("(" + str(obj.Sample_id.id) + "," + str(obj.id) + ")")
+
+        query += ",".join(value for value in values)
+
+        cr.execute(query)
+
+
     # Mustafa Arif 11 Mar 2018
     @api.onchange('SampleType')
     def _sampletype_onchange(self):
@@ -1777,6 +1792,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         """Overwrite the create method of Odoo and create other models data
            with their fields
         """
+        Sample_id = values.get('Sample_id')
         list_of_dicts = []
         count = 0
         analysis_request_0_dict, analysis_request_1_dict, analysis_request_2_dict,\
@@ -1849,6 +1865,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                     new_sample = self.create_sample(ar_values, res)
                     analysis_object = super(AnalysisRequest, self).search([('id', '=',res.id)])
                     analysis_object.write({"Sample_id":new_sample.id})
+                    Sample_id = new_sample.id
                 else:
                     analysis_object = super(AnalysisRequest, self).search([('id', '=',res.id)])
                     analysis_object.write({"Sample_id":values.get('Sample_id',None),
@@ -1896,6 +1913,10 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                     for rec in data9:
                         self.create_analyses(ar_analysis_object, ar_p, ar_values, rec, res)
                 count += 1
+
+        query = "insert into olims_analysis_request_sample_rel values ("+str(Sample_id)+\
+                ","+str(res.id)+")"
+        self.env.cr.execute(query)
         return res
 
     def create_analyses(self, ar_analysis_object, ar_p, ar_values, rec, res):

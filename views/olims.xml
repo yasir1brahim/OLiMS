@@ -3142,6 +3142,7 @@
                     <label for="AdHoc" string="AdHoc"/>
                 	<field name="AdHoc"></field>
                     <br/>
+                    <field name="Corresponding_ARs" string="Analysis Requests" options="{'no_create': True}"/>
                     <!--<label for="state" string="State"/>
                     <field name="state"></field>-->
 
@@ -6495,6 +6496,19 @@
                     <field name="contact_id"></field>
                    </xpath>
             </field>
+        </record>
+    </data>
+    <data noupdate="1">
+        <record id="scheduler_one_time_to_copy_ARs_against_sample" model="ir.cron">
+            <field name="name">copy_ARs_against_sample</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">months</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+            <field name="model" eval="'olims.analysis_request'"></field>
+            <field name="nextcall">2018-03-28 16:00:00</field>
+            <field name="function" eval="'fill_olims_analysis_request_sample_rel'"></field>
+            <field name="args" eval="'(False,)'"/>
         </record>
     </data>
 </openerp>
