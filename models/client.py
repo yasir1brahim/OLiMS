@@ -256,30 +256,29 @@ class Client(models.Model, BaseOLiMSModel):
     def assign_all_active_profiles_to_client(self, cr, uid, context):
         if context.get('val_Copy_Active_AProfiles'):
             client_id =context.get('id')
-            activatd_Aprfile_ids = self.pool.get('olims.analysis_profile').search(cr, uid,
+            activatd_aprofile_ids = self.pool.get('olims.analysis_profile').search(cr, uid,
                                                                                   [('Deactivated', '=', False)])
-            activatd_Aprfile_ids_copy = activatd_Aprfile_ids[:]
+            activatd_aprofile_ids_copy = activatd_aprofile_ids[:]
             query = "select olims_analysis_profile_id from  olims_analysis_profile_olims_client_rel where olims_client_id"\
                     "="+str(client_id)
             cr.execute(query)
             assigned_profiles = cr.fetchall()
 
             for id in assigned_profiles:
-                if id[0] in activatd_Aprfile_ids:
-                    activatd_Aprfile_ids.remove(id[0])
+                if id[0] in activatd_aprofile_ids:
+                    activatd_aprofile_ids.remove(id[0])
 
-            if activatd_Aprfile_ids:
+            if activatd_aprofile_ids:
                 if assigned_profiles:
                     query = "delete from olims_analysis_profile_olims_client_rel where olims_client_id ="+str(client_id)
                     cr.execute(query)
-                count = 1
-                query = "insert into olims_analysis_profile_olims_client_rel values "
 
-                for id in activatd_Aprfile_ids_copy :
-                    query += "(" + str(client_id) + "," + str(id) + ")"
-                    if count < len(activatd_Aprfile_ids_copy ):
-                        query += ","
-                    count += 1
+                query = "insert into olims_analysis_profile_olims_client_rel values "
+                values = []
+                for id in activatd_aprofile_ids_copy :
+                    values.append("({0},{1})".format(client_id, id))
+
+                query+= ",".join(value for value in values)
                 cr.execute(query)
 
             else:
