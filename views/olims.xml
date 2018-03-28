@@ -5040,7 +5040,7 @@
                         </page>
                         <page string="Login Details" attrs="{'invisible': [('id', '=', False)]}">
                             <label for="Login Details" string="Login Details"/>
-                            <field name="Client User Login Details"></field>
+                            <field name="Client User Login Details" context="{'client_id':active_id}"></field>
                         </page>
                         
                     </notebook>
@@ -6482,7 +6482,7 @@
         <field name="arch" type="xml">
                 <xpath expr="//field[@name='groups_id']" position="after">
                 <group string="" colspan="2"> <field name="client_id" attrs="{'invisible': [('in_group_20', '=', False)]}"></field></group>
-                <group string="" colspan="2"> <field name="contact_id" attrs="{'invisible': [('in_group_20', '=', False)]}"></field></group>
+                <group string="" colspan="2"> <field name="contact_id" attrs="{'invisible': [('in_group_20', '=', False)]}"  domain="[('Client_Contact', '=', client_id)]"></field></group>
                </xpath>
         </field>
         </record>
@@ -6493,7 +6493,7 @@
             <field name="inherit_id" ref="base.view_users_simple_form"/>
             <field name="arch" type="xml">
                     <xpath expr="//field[@name='fax']" position="after">
-                    <field name="contact_id"></field>
+                    <field name="contact_id" domain="[('Client_Contact', '=', context.get('client_id'))]"></field>
                    </xpath>
             </field>
         </record>
