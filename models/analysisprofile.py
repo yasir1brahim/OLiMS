@@ -167,8 +167,20 @@ class AnalysisProfile(models.Model, BaseOLiMSModel):
                 record.status = "Active"
 
     def deactivate_profile(self,cr,uid,ids,context=None):
+        query = "delete from olims_analysis_profile_olims_client_rel where olims_analysis_profile_id in (" +\
+                ",".join(str(id) for id in ids)+")"
         analysis_profile = self.pool.get('olims.analysis_profile')
+
         analysis_profile.write(cr,uid,ids, {'Deactivated': True})
+        cr.execute(query)
+
+    @api.multi
+    def write(self, vals):
+        res = super(AnalysisProfile, self).write(vals)
+        if vals.get('Deactivated') == True:
+            query = "delete from olims_analysis_profile_olims_client_rel where olims_analysis_profile_id ="+str(self.id)
+            self.env.cr.execute(query)
+        return res
 
     @api.model
     def delete_client_analysis_profile(self,active_id,selected_ids):
