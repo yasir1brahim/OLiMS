@@ -4402,7 +4402,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             previous_state = "to_be_sampled"
         elif state == "sample_received":
             previous_state = "sample_due"
-        requests = self.browse(cr,uid,ids)
+        requests = self.browse(cr,uid,sorted(ids))
         sample_ids = []
         for request in requests:
             if state == "to_be_sampled":
