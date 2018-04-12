@@ -236,10 +236,16 @@ var Many2ManySelectable = FieldMany2Many.extend({
 		var FunctionToBeCalled =''
 		if (model_obj.name == 'olims.analysis_profile')
 		 { FunctionToBeCalled = 'delete_client_analysis_profile'  }
+
+		else if (model_obj.name == 'olims.add_analysis')
+		 { FunctionToBeCalled = 'delete_ars_for_worksheet'  }
+
 		 var context = JSON.stringify(self.dataset.context)
 		 var active_id_index = context.search("active_id")+11
+		 var active_id_string = context.substr(active_id_index,context.length-1)
+		 var active_record_id = active_id_string.substr(0,active_id_string.search(",")-0)
 
-		model_obj.call(FunctionToBeCalled,{active_id :context[active_id_index],selected_ids:selected_ids})
+		model_obj.call(FunctionToBeCalled,{active_id :active_record_id,selected_ids:selected_ids})
 		.then(function(result){
 		RemoveSelectedRows();
 		});

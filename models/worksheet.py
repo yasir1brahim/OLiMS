@@ -1114,6 +1114,14 @@ class AddAnalysis(models.Model):
                      copy=False, track_visibility='always'
     )
 
+    @api.model
+    def delete_ars_for_worksheet(self, active_id, selected_ids):
+        query = "delete from olims_add_analysis_olims_worksheet_rel where olims_add_analysis_id in(" + \
+                ",".join(str(id) for id in selected_ids) + ") and olims_worksheet_id=" + str(active_id)
+
+        self.env.cr.execute(query)
+
+
     @api.multi
     def show_warring_message_form(self):
         self.ensure_one()

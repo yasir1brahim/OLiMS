@@ -2836,7 +2836,7 @@
                             <page string="Add Analyses" autofocus="True" attrs="{'invisible': [('State', '=', 'verified')]}">
                                 <field name="marked_closed" invisible="1"/>
                                 <label for="AnalysisRequest" string="Analysis Request"/>
-                                <field name="AnalysisRequest" options="{'no_create': True}" attrs="{'readonly': [('marked_closed', '=', True)]}" widget="x2many_selectable"></field>
+                                <field name="AnalysisRequest" options="{'no_create': True}" attrs="{'readonly': [('marked_closed', '=', True)]}" widget="many2many_selectable"></field>
                             </page>
                             <page string="Manage Result" attrs="{'invisible': [('id', '=', False)]}">
                                 <group string="Attachments">
