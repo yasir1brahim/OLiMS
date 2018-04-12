@@ -201,6 +201,7 @@ class Worksheet(models.Model, BaseOLiMSModel):
                     'worksheet_id': res.id,
                         }
             self.env["olims.qccontrol"].create(values_dict)
+        res.write(values)
         return res
 
     @api.multi
@@ -227,7 +228,6 @@ class Worksheet(models.Model, BaseOLiMSModel):
                             continue
                         for cate_analysis in add_analysis_obj.add_analysis_id.Analyses:
                             if cate_analysis.Category.id == add_analysis_obj.category.id:
-
                                 values_dict_manage_results.update({"request_analysis_id":add_analysis_obj.add_analysis_id.id,
                                     # "analysis": add_analysis_obj.analysis.id,
                                     "analysis": cate_analysis.Services.id,
