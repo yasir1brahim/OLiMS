@@ -336,7 +336,7 @@ class ARInvoice(models.Model):
             elif not record.adjust_percent and record.adjust_amount:
                 record.adjusted_total = record.total + record.adjust_amount
             else:
-                pass
+                record.adjusted_total = record.total
 
     def workflow_script_cancelled(self,cr,uid,ids,context=None):
         for record in self.browse(cr,uid,ids,context):
