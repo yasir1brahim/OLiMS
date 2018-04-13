@@ -251,3 +251,4 @@ access_olims_ws_manage_results,olims.ws_manage_results,model_olims_ws_manage_res
 access_olims_ar_invoice,olims.ar_invoice,model_olims_ar_invoice,,1,1,1,1
 access_olims_ar_invoice_client_group,olims.ar_invoice,model_olims_ar_invoice,group_clients,1,0,0,0
 access_olims_worksheet_client,olims.worksheet,model_olims_worksheet,group_clients,1,0,0,0
+access_olims_qccontrol,olims.qccontrol,model_olims_qccontrol,base.group_user,1,1,1,0
