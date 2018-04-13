@@ -1120,8 +1120,21 @@ class AddAnalysis(models.Model):
                 ",".join(str(id) for id in selected_ids) + ") and olims_worksheet_id=" + str(active_id)
 
         self.env.cr.execute(query)
+        ws_manage_results_to_delete = False
 
+        query = "select olims_ws_manage_results_id from olims_worksheet_olims_ws_manage_results_rel \
+        where olims_worksheet_id=" + str(active_id)
+        self.env.cr.execute(query)
+        ws_manage_results_list = self.env.cr.fetchall()
 
+        add_analysis_objs = self.env["olims.add_analysis"].search([("id", 'in', selected_ids)])
+        for analysis in add_analysis_objs:
+            ws_manage_results_to_delete = self.env["olims.ws_manage_results"].search(["&" ,("request_analysis_id", '=', analysis.add_analysis_id.id), ("id", 'in', ws_manage_results_list)])
+
+        if ws_manage_results_to_delete:
+            query = "delete from olims_worksheet_olims_ws_manage_results_rel where olims_ws_manage_results_id in(" + \
+                    ",".join(str(id.id) for id in ws_manage_results_to_delete) + ") and olims_worksheet_id=" + str(active_id)
+            self.env.cr.execute(query)
     @api.multi
     def show_warring_message_form(self):
         self.ensure_one()
