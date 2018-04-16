@@ -12,6 +12,7 @@ from fields.widget.widget import StringWidget, TextAreaWidget, \
                                 DecimalWidget, RichWidget
 from openerp import fields, models, api
 from openerp.tools.translate import _
+from openerp.osv import osv
 import logging
 _logger = logging.getLogger(__name__)
 
@@ -4405,19 +4406,23 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         requests = self.browse(cr,uid,sorted(ids))
         sample_ids = []
         for request in requests:
-            if state == "to_be_sampled":
-                last_id = self.compute_analysis_request_number(cr, uid, ids)
-                new_id = int(last_id)+1
-                request_id = 'R-0' + str(new_id)
-                data = {"RequestID":request_id,'ar_counter':new_id}
-                sample_ids.append(request.Sample_id.id)
-                data["state"] = state
-                res = self.browse(cr,uid,request.id).write(data)
-            elif request.state != previous_state:
-                ids.remove(request.id)
+            if request.state == 'pre_enter':
+                if state == "to_be_sampled":
+                    last_id = self.compute_analysis_request_number(cr, uid, ids)
+                    new_id = int(last_id)+1
+                    request_id = 'R-0' + str(new_id)
+                    data = {"RequestID":request_id,'ar_counter':new_id}
+                    sample_ids.append(request.Sample_id.id)
+                    data["state"] = state
+                    res = self.browse(cr,uid,request.id).write(data)
+                elif request.state != previous_state:
+                    ids.remove(request.id)
+                else:
+                    sample_ids.append(request.Sample_id.id)
             else:
-                sample_ids.append(request.Sample_id.id)
-                
+                raise osv.except_osv(_('error'),
+                                     _('AR Number have already been assigned !'))
+
         self.browse(cr,uid,ids).signal_workflow(state)
         res = self.pool.get("olims.sample").browse(cr,uid,sample_ids).write({"state":state})
         if state != "to_be_sampled":
