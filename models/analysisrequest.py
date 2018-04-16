@@ -4085,18 +4085,20 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                     data_list.append([0, 0, analysis_dict])
                 else:
                     for profile in ar_object.AnalysisProfile:
-                        analysis_dict = {
-                            'category':cate_id,
-                            'client': ar_object.Client.id,
-                            'order':ar_object.LotID,
-                            'priority':ar_object.Priority.id,
-                            'due_date':ar_object.DateDue,
-                            'received_date':datetime.datetime.now(),
-                            'analysis_profile': profile.id,
-                            'sample_type': ar_object.SampleType.id,
-                            'add_analysis_id':ar_object.id
-                            }
-                        data_list.append([0, 0, analysis_dict])
+                        for service in profile.Service:
+                            if service.Category.id == cate_id:
+                                 analysis_dict = {
+                                    'category':cate_id,
+                                    'client': ar_object.Client.id,
+                                    'order':ar_object.LotID,
+                                    'priority':ar_object.Priority.id,
+                                    'due_date':ar_object.DateDue,
+                                    'received_date':datetime.datetime.now(),
+                                    'analysis_profile': profile.id,
+                                    'sample_type': ar_object.SampleType.id,
+                                    'add_analysis_id':ar_object.id
+                                    }
+                                 data_list.append([0, 0, analysis_dict])
             ar_object.write({'AddAnalysis': data_list})
 
         datereceived = datetime.datetime.now()
