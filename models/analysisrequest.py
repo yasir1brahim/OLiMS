@@ -4099,6 +4099,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                                     'add_analysis_id':ar_object.id
                                     }
                                  data_list.append([0, 0, analysis_dict])
+                                 break
             ar_object.write({'AddAnalysis': data_list})
 
         datereceived = datetime.datetime.now()
