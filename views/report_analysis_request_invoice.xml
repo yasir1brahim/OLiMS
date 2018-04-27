@@ -84,7 +84,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr t-foreach="doc.analysis_request_id" t-as="analysis">
+                                <t t-foreach="doc.analysis_request_id" t-as="analysis">
+                                    <tr t-foreach="analysis.AnalysisProfile" t-as="profile">
                                     <td class="text-center">
                                         <span t-esc="analysis.RequestID"/>
                                     </td>
@@ -92,15 +93,16 @@
                                         <span t-esc="analysis.SampleType.SampleType"/>
                                     </td>
                                     <td class="text-center">
-                                        <span t-esc="analysis.AnalysisProfile.Profile"/>
+                                        <span t-esc="profile.Profile"/>
                                     </td>
                                     <td class="text-center">
                                         <span t-esc="analysis.ClientSampleID"/>
                                     </td>
                                     <td class="text-center">
-                                        <span t-esc="res_company.currency_id.symbol"/><span t-esc="'%.2f'%analysis.Total"/>
+                                        <span t-esc="res_company.currency_id.symbol"/><span t-esc="'%.2f'%profile.AnalysisProfilePrice"/>
                                     </td>
-                                </tr>
+                                    </tr>
+                                </t>
                             </tbody>
                         </table>
                     </div>
