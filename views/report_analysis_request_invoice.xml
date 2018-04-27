@@ -59,8 +59,8 @@
                                 <tr>
                                     <td class="text-center">
                                         <!-- <span t-esc="time.strftime('%m/%d/%Y')"/> -->
-
-                                        <span t-esc="time.strftime('%m/%d/%Y',time.strptime(doc.published_date,'%Y-%m-%d %H:%M:%S'))"/>
+                                        <t t-if="doc.published_date"> <span t-esc="time.strftime('%m/%d/%Y',time.strptime(doc.published_date,'%Y-%m-%d %H:%M:%S'))"/></t>
+                                        <t t-if="not doc.published_date"><span>-----</span></t>
                                     </td>
                                     <td class="text-center">
                                         <span t-esc="doc.name"/>
