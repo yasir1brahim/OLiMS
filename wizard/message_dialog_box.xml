@@ -28,14 +28,6 @@
             <field name="view_id" ref="view_message_dialog_box"/>
         </record>
 
-         <record model="ir.values" id="olims_analysis_request_cancel">
-            <field name="model_id" ref="olims.model_olims_analysis_request" />
-            <field name="name">Analyses Request</field>
-            <field name="key2">client_action_multi</field>
-            <field name="model">olims.analysis_request</field>
-            <field eval="'ir.actions.server,%d'%analysis_request_action_cancel" name="value"/>
-        </record>
-
         <record id="analysis_request_action_cancel" model="ir.actions.server">
             <field name="name">Cancel</field>
             <field name="type">ir.actions.server</field>
@@ -43,6 +35,14 @@
             <field name="state">code</field>
             <field name="code">action = self.cancel_analysis_request_action(cr, uid, context.get('active_ids'), context=context)</field>
             <field name="sequence" eval="6"/>
+        </record>
+
+         <record model="ir.values" id="olims_analysis_request_cancel">
+            <field name="model_id" ref="olims.model_olims_analysis_request" />
+            <field name="name">Analyses Request</field>
+            <field name="key2">client_action_multi</field>
+            <field name="model">olims.analysis_request</field>
+            <field eval="'ir.actions.server,%d'%analysis_request_action_cancel" name="value"/>
         </record>
 
 
