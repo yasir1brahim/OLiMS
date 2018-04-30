@@ -1718,6 +1718,27 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     _inherit = ['mail.thread', 'ir.needaction_mixin']
 
 
+
+    def cancel_analysis_request_action(self, cr, uid, ids, context=None):
+        selected_ars = self.pool.get('olims.analysis_request').browse(cr, uid, ids)
+        view_id = self.pool.get('ir.ui.view').search(cr, uid, [('name', '=','Cancel Analyses Request')],\
+                                                     context=context)
+        for ar in selected_ars:
+            if ar.state == 'to_be_sampled':
+                raise osv.except_osv(_('error'),
+                                     _('Analysis Request in To Be Labeled state can not be cancelled.'))
+
+        return {
+            'name': _('Cancel'),
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_model': 'olims.message_dialog_box',
+            'view_id' : view_id[0],
+            'target': 'new',
+            'type': 'ir.actions.act_window',
+            'context' : context,
+        }
+    
     def fill_olims_analysis_request_sample_rel(self,cr, uid, context=None):
         ar_ids = self.pool.get('olims.analysis_request').search(cr, uid, [('Sample_id', '!=', False)])
         ar_objs = self.pool.get('olims.analysis_request').browse(cr, uid, ar_ids)
