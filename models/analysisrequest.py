@@ -371,7 +371,7 @@ schema = (fields.Char(string='RequestID',
     fields.Many2many(string='AnalysisProfile',
                         comodel_name='olims.analysis_profile',
                         relation='ar_to_analysisprofile',
-                        domain="[('Deactivated', '=',False )]"
+                        domain=[('Deactivated', "=", False)]
 
     ),
     fields.Many2many(string='AnalysisProfile1',
@@ -1784,6 +1784,9 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def _generate_order_by(self, order_spec, query):
         sort_order = """ to_number(textcat('0', "RequestID"), text(99999999)), "RequestID"  """
         if order_spec:
+            if order_spec == "AnalysisProfile ASC" or order_spec == "AnalysisProfile DESC":
+                return super(AnalysisRequest, self)._generate_order_by(order_spec, query)
+
             return super(AnalysisRequest, self)._generate_order_by(order_spec, query) + ", " + sort_order
         return " order by " + sort_order
 
