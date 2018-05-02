@@ -79,7 +79,7 @@
                                     <th class="text-center">Sample #</th>
                                     <th class="text-center">Sample Type</th>
                                     <th class="text-center">Analysis Profile</th>
-                                    <th class="text-center">Sample ID#</th>
+                                    <th class="text-center">Inventory ID#</th>
                                     <th class="text-center">Amount</th>
                                 </tr>
                             </thead>
@@ -96,7 +96,7 @@
                                         <span t-esc="profile.Profile"/>
                                     </td>
                                     <td class="text-center">
-                                        <span t-esc="analysis.ClientSampleID"/>
+                                        <span t-esc="analysis.InventoryID"/>
                                     </td>
                                     <td class="text-center">
                                         <span t-esc="res_company.currency_id.symbol"/><span t-esc="'%.2f'%profile.AnalysisProfilePrice"/>
