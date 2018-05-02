@@ -86,26 +86,51 @@
                             </thead>
                             <tbody>
                                 <t t-foreach="doc.analysis_request_id" t-as="analysis">
-                                    <tr t-foreach="analysis.AnalysisProfile" t-as="profile">
-                                    <td class="text-center">
-                                        <span t-esc="analysis.RequestID"/>
-                                    </td>
-                                    <td class="text-center">
-                                        <span t-esc="analysis.SampleType.SampleType"/>
-                                    </td>
-                                    <td class="text-center">
-                                        <span t-esc="profile.Profile"/>
-                                    </td>
-                                     <td class="text-center">
-                                        <span t-esc="analysis.ClientReference"/>
-                                    </td>
-                                    <td class="text-center">
-                                        <span t-esc="analysis.InventoryID"/>
-                                    </td>
-                                    <td class="text-center">
-                                        <span t-esc="res_company.currency_id.symbol"/><span t-esc="'%.2f'%profile.AnalysisProfilePrice"/>
-                                    </td>
-                                    </tr>
+                                    <t t-if="not analysis.AnalysisProfile">
+                                        <tr>
+                                        <td class="text-center">
+                                            <span t-esc="analysis.RequestID"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="analysis.SampleType.SampleType"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span>-----</span>
+                                        </td>
+                                         <td class="text-center">
+                                            <span t-esc="analysis.ClientReference"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="analysis.InventoryID"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="res_company.currency_id.symbol"/><span t-esc="'%.2f'%analysis.Total"/>
+                                        </td>
+                                        </tr>
+                                    </t>
+
+                                    <t t-if="analysis.AnalysisProfile">
+                                        <tr t-foreach="analysis.AnalysisProfile" t-as="profile">
+                                        <td class="text-center">
+                                            <span t-esc="analysis.RequestID"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="analysis.SampleType.SampleType"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="profile.Profile"/>
+                                        </td>
+                                         <td class="text-center">
+                                            <span t-esc="analysis.ClientReference"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="analysis.InventoryID"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-esc="res_company.currency_id.symbol"/><span t-esc="'%.2f'%profile.AnalysisProfilePrice"/>
+                                        </td>
+                                        </tr>
+                                    </t>
                                 </t>
                             </tbody>
                         </table>
