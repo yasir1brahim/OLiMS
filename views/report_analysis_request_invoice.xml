@@ -77,6 +77,7 @@
                                     <th class="text-center">Sample #</th>
                                     <th class="text-center">Sample Type</th>
                                     <th class="text-center">Analysis Profile</th>
+                                     <th class="text-center">Product Name</th>
                                     <th class="text-center">Sample ID#</th>
                                     <th class="text-center">Amount</th>
                                 </tr>
@@ -91,6 +92,9 @@
                                     </td>
                                     <td class="text-center">
                                         <span t-esc="analysis.AnalysisProfile.Profile"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-esc="analysis.ClientReference"/>
                                     </td>
                                     <td class="text-center">
                                         <span t-esc="analysis.ClientSampleID"/>
