@@ -1724,9 +1724,16 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         view_id = self.pool.get('ir.ui.view').search(cr, uid, [('name', '=','Cancel Analyses Request')],\
                                                      context=context)
         for ar in selected_ars:
-            if ar.state == 'to_be_sampled':
-                raise osv.except_osv(_('error'),
-                                     _('Analysis Request in To Be Labeled state can not be cancelled.'))
+            if len(selected_ars) > 1:
+                if ar.state in ['sample_registered','not_requested','pre_enter','to_be_sampled','sampled',\
+                                'to_be_preserved','sample_due','sample_received','attachment_due','to_be_verified',\
+                                'verified']:
+                    raise osv.except_osv(_('error'),
+                                         _('Analysis Requests can not be canceled.'))
+            else:
+                if ar.state == 'to_be_sampled':
+                    raise osv.except_osv(_('error'),
+                                         _('Analysis Request in To Be Labeled state can not be cancelled.'))
 
         return {
             'name': _('Cancel'),
