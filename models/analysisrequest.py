@@ -10,10 +10,13 @@ from fields.fixed_point_field import FixedPointField
 from fields.widget.widget import StringWidget, TextAreaWidget, \
                                 BooleanWidget, DateTimeWidget, \
                                 DecimalWidget, RichWidget
-from openerp import fields, models, api
+from openerp import fields, models, api,netsvc
 from openerp.tools.translate import _
 from openerp.osv import osv
 import logging
+import openerp
+import base64
+from models import InMemoryZip
 _logger = logging.getLogger(__name__)
 
 AR_STATES = (
@@ -4463,6 +4466,46 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             data["state"] = state
             res = self.browse(cr,uid,request.id).write(data)
         return True
+
+    @api.model
+    def download_zip(self):
+        ir_actions_report = self.env['ir.actions.report.xml'].search([('name', '=', 'Certificate of Analysis (COA)')])
+        if ir_actions_report:
+            report_service = 'report.' + ir_actions_report.report_name
+            service = netsvc.LocalService(report_service)
+            ids = self.env.context.get('active_ids')
+            ar_object = self.env['olims.analysis_request'].search([('id','in',ids)])
+            imz = InMemoryZip()
+            index = 0
+            for id in ids:
+                result, format = openerp.report.render_report(self.env.cr, self.env.uid, [id],
+                                                          ir_actions_report.report_name, {'model': self._name},
+                                                          context=self.env.context)
+                if ar_object[index].LotID and ar_object[index].ClientReference:
+                    title = ar_object[index].LotID + '-'+ ar_object[index].ClientReference
+                else :
+                    title = ar_object[index].RequestID
+                imz.append(str(title) + '.pdf', result)
+                index +=1
+        compressed_file = imz.read()
+
+        attachment_obj = self.env['ir.attachment']
+
+        filename = str(datetime.date.today()) +'-AR.zip'
+        new_attachemet_obj = attachment_obj.create(
+                                                   {
+                                                       'name': filename,
+                                                       'datas': base64.b64encode(compressed_file),
+                                                       'datas_fname': filename,
+                                                       'type': 'binary'
+                                                   })
+        return {
+            'type': 'ir.actions.act_url',
+            'url': '/web/content/' + str(new_attachemet_obj.id) + '?download=true',
+        }
+
+
+
 
     def bulk_change_states(self, state, cr, uid, ids, context=None):
         previous_state = ""

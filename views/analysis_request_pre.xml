@@ -57,6 +57,26 @@
             <field name="key2">client_action_multi</field>
         </record>
 
+
+         <record id="download_ar_zip" model="ir.actions.server">
+            <field name="name">Download Zip</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_olims_analysis_request"/>
+            <field name="state">code</field>
+            <field name="code">action = self.download_zip(cr,uid,context=context)</field>
+            <field name="sequence" eval="5"/>
+        </record>
+        <record id="val_id_of_action_download_ar_zip" model="ir.values">
+            <field name="name">Download Zip</field>
+            <field name="action_id" ref="download_ar_zip"/>
+            <field name="value" eval="'ir.actions.server,' + str(ref('download_ar_zip'))"/>
+            <field name="key">action</field>
+            <field name="model_id" ref="model_olims_analysis_request"/>
+            <field name="model">olims.analysis_request</field>
+            <field name="key2">client_action_multi</field>
+        </record>
+
+
         <menuitem id="olims_analysis_request_menu_pre" name="Pre Analysis Request" parent="olims_menu" sequence="4"
                   action="analysis_request_list_action_pre" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst,group_clients"/>
         

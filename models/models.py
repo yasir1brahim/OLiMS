@@ -29,7 +29,7 @@ class InMemoryZip(object):
         # Create the in-memory file-like object
         self.in_memory_zip = StringIO.StringIO()
 
-    def append(self, filename_in_zip, file_contents,filename_in_zip_csv, file_contents_csv):
+    def append(self, filename_in_zip, file_contents,filename_in_zip_csv=None, file_contents_csv=None):
         '''Appends a file with name filename_in_zip and contents of 
         file_contents to the in-memory zip.'''
         # Get a handle to the in-memory zip in append mode
@@ -37,14 +37,15 @@ class InMemoryZip(object):
 
         # Write the file to the in-memory zip
         zf.writestr(filename_in_zip, file_contents)
-        zf.writestr(filename_in_zip_csv,file_contents_csv)
-
+        if filename_in_zip_csv  and file_contents_csv:
+            zf.writestr(filename_in_zip_csv,file_contents_csv)
         # Mark the files as having been created on Windows so that
         # Unix permissions are not inferred as 0000
         for zfile in zf.filelist:
             zfile.create_system = 0        
 
         return self
+
 
     def read(self):
         '''Returns a string with the contents of the in-memory zip.'''
@@ -200,7 +201,6 @@ class Experiment(models.Model):
         attachment_obj = self.pool.get('ir.attachment')
 
         filename = str(datetime.date.today())+'-'+str(title)+'-'+'labpal.zip'
-
         new_attachemet_obj = attachment_obj.create(self.env.cr, self.env.uid,
                                                       {
                                                           'name': filename,
