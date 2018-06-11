@@ -4485,6 +4485,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                     title = ar_object[index].LotID + '-'+ ar_object[index].ClientReference
                 else :
                     title = ar_object[index].RequestID
+                title = title.replace('/','-')
                 imz.append(str(title) + '.pdf', result)
                 index +=1
         compressed_file = imz.read()
