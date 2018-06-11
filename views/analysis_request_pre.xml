@@ -59,7 +59,7 @@
 
 
          <record id="download_ar_zip" model="ir.actions.server">
-            <field name="name">Download Zip</field>
+            <field name="name">Download COAs Separately</field>
             <field name="type">ir.actions.server</field>
             <field name="model_id" ref="model_olims_analysis_request"/>
             <field name="state">code</field>
@@ -67,7 +67,7 @@
             <field name="sequence" eval="5"/>
         </record>
         <record id="val_id_of_action_download_ar_zip" model="ir.values">
-            <field name="name">Download Zip</field>
+            <field name="name">Download COAs Separately</field>
             <field name="action_id" ref="download_ar_zip"/>
             <field name="value" eval="'ir.actions.server,' + str(ref('download_ar_zip'))"/>
             <field name="key">action</field>
