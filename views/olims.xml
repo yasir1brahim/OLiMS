@@ -6905,7 +6905,7 @@
             <field name="name">add_analysis.tree</field>
             <field name="model">olims.add_analysis</field>
             <field name="arch" type="xml">
-                <tree string="Manage Results" edit='false' delete='false'>
+                <tree string="Manage Results" edit='false'>
                     <field name="client"/>
                     <field name="order"/>
                     <field name="add_analysis_id"/>
@@ -6916,8 +6916,8 @@
                     <field name="sample_type"/>
                     <field name="received_date"/>
                     <field name="due_date"/>
-                    <button type="object" class="oe_readonly" icon="fa-trash-o"
-                            name="show_warring_message_form"></button>
+                    <!--<button type="object" class="oe_readonly" icon="fa-trash-o"-->
+                            <!--name="show_warring_message_form"></button>-->
                 </tree>
             </field>
         </record>
