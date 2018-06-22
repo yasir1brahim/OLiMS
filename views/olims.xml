@@ -5862,7 +5862,7 @@
             <field name="name">analysis_profile.tree</field>
             <field name="model">olims.analysis_profile</field>
             <field name="arch" type="xml">
-                <tree string="Analysis Profile" delete='false'>
+                <tree string="Analysis Profile">
                     <field name="Profile"></field>
                     <field name="Description"></field>
                     <field name="ProfileKey"></field>
@@ -6795,7 +6795,6 @@
                         <label for="Description" string="Description"/>
                         <p>Used in item listings and search results.</p>
                         <field name="Description"></field>
-                        <!--Mustafa Arif 12 Mar 2018-->
                         <label for="AnalysisProfile" string="Analysis Profile"/>
                         <field name="AnalysisProfile">
                             <tree>
