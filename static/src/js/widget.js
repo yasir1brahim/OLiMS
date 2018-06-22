@@ -71,7 +71,7 @@ var One2ManySelectable = FieldOne2Many.extend({
 		init: function() {
 	        this._super.apply(this, arguments);
 	    },
-	    start: function() 
+	    start: function()
 	    {
 	    	this._super.apply(this, arguments);
 	    	var self=this;
@@ -230,8 +230,11 @@ var Many2ManySelectable = FieldMany2Many.extend({
 		    this.do_warn(_t("You must choose at least one record."));
 		    return false;
 		}
+		else if (selected_ids.length > 0){
 		var model_obj=new Model(this.dataset.model); //you can hardcode model name as: new Model("module.model_name");
-
+                if (!(confirm(_t("Do you really want to remove these records?")))) {
+                return;
+                }
 		//you can change the function name below
 		var FunctionToBeCalled =''
 		if (model_obj.name == 'olims.analysis_profile')
@@ -249,7 +252,7 @@ var Many2ManySelectable = FieldMany2Many.extend({
 		.then(function(result){
 		RemoveSelectedRows();
 		});
-
+        }
 	   },
 	   get_selected_ids_many2many: function ()
 	   {
@@ -322,7 +325,7 @@ odoo.define('web.FreezeTableHeader',function (require) {
                     });
                 }
          }, 1000);
-            
+
         },
     });
 
