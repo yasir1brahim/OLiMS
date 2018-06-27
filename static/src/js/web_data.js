@@ -18,6 +18,53 @@ var _t = core._t;
  * @param {Array} criterion array of fields, from first to last criteria, prefixed with '-' for reverse sorting
  * @returns {String} SQL-like sorting string (``ORDER BY``) clause
  */
+ $(document).ready(function(){
+  var analysis_click = false;
+
+    $(".oe_menu_text").click(function() {
+
+        var menu_name = $(this).text().replace(/^\s+|\s+$/g, '');
+        if (menu_name == 'Analysis Request' || menu_name == 'Analysis Request 2' || menu_name == 'Analysis Requests')
+            {
+                     analysis_click = true;
+             }
+
+         else
+            {
+                analysis_click = false;
+            }
+    });
+
+
+    $(document).on('change', '.oe_list_record_selector', function() {
+
+        var sidebar_actions = $(".oe_sidebar_action")
+
+        for (var i =0; i< sidebar_actions.length;i++)
+        {
+            var action  = $(sidebar_actions[i]).text().replace(/^\s+|\s+$/gm,'')
+            if (action == 'Assign AR Number')
+                {
+                    if (analysis_click)
+                    {
+                        $(sidebar_actions[i]).css('display' , 'none');
+                        break;
+                    }
+                    else
+                    {
+                         $(sidebar_actions[i]).css('display' , ' ');
+                         break;
+                    }
+
+                }
+        }
+
+    });
+
+
+});
+
+
 function serialize_sort(criterion) {
     return _.map(criterion,
         function (criteria) {
