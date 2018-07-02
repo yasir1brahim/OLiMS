@@ -24,6 +24,20 @@
 				                <span t-field="res_company.country_id"/>
 			            	</p>
 			            </div>
+
+						<div class="col-xs-4 right" name="company_address">
+			                <p>
+								<span t-field="doc.Client.Name"/>
+								<span>Address:</span>
+				                <span t-field="doc.Client.physical_address"/>
+								<span t-field="doc.Client.physical_postalcode"/>,
+								<span t-field="doc.Client.physical_city"/>,
+								<span t-field="doc.Client.physical_state"/>,
+								<span t-field="doc.Client.physical_country"/>
+
+			            	</p>
+			            </div>
+
 			        </div>
 			        <div class="row">
 			        </div>
