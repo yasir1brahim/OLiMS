@@ -1182,8 +1182,8 @@ class WorkSheetManageResults(models.Model):
     received_date = fields.Datetime("Received Date")
     result = fields.Float("Results int")
     result_string = fields.Char("Results")
-
-    position = fields.Integer(string="Position")
+    serial = fields.Integer(string='Serial',compute="calc_serial_ws")
+    position = fields.Integer(string="Positions")
     analyst = fields.Many2one(string='Analyst',
         comodel_name='res.users',
         domain="[('groups_id', 'in', (14,22))]",
@@ -1215,6 +1215,13 @@ class WorkSheetManageResults(models.Model):
                 'result': data_res
             })
         self.env.cr.commit()
+
+    @api.depends("result_string")
+    def calc_serial_ws(self):
+        count = 0
+        for record in self:
+            count = count + 1
+            record.serial = count
 
     @api.onchange("result_string")
     def set_result_value(self):

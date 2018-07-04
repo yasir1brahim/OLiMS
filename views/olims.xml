@@ -3362,7 +3362,8 @@
                                 <label for="ManageResult" string="Manage Result"/>
                                 <field name="ManageResult" options="{'no_create': True}" widget="one2many_selectable">
                                     <tree string="Manage Results" create="false" delete="false" editable="top"
-                                          default_order="request_analysis_id">
+                                          default_order="serial">
+                                        <field name="serial" string="Serial #" readonly="1"/>
                                         <field name="position" string="Position" readonly="1"/>
                                         <field name="client" string="Client" readonly="1"/>
                                         <field name="request_analysis_id" string="Request ID" readonly="1"/>
@@ -7249,4 +7250,5 @@
             <field name="args" eval="'(False,)'"/>
         </record>
     </data>
+    
 </openerp>
