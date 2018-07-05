@@ -1758,8 +1758,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         query += ",".join(value for value in values)
         cr.execute(query)
 
-
-    # Mustafa Arif 11 Mar 2018
     @api.onchange('SampleType')
     def _sampletype_onchange(self):
         self.AnalysisProfile = None
@@ -5127,7 +5125,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             pass
 
     @api.onchange('CopySampleMassReceived')
-    def copy_priority(self):
+    def copy_sample_mass_received(self):
         if self.Copy == '1':
             self.SampleMassReceived1 = self.SampleMassReceived
             self.SampleMassReceived2 = self.SampleMassReceived3 = self.SampleMassReceived4 = self.SampleMassReceived5 = self.SampleMassReceived6 = self.SampleMassReceived7 = self.SampleMassReceived8 = self.SampleMassReceived9 = None
