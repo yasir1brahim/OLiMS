@@ -161,14 +161,8 @@ schema = (StringField('Service',
                                 "(LDL and UDL) on results entry views"),
              ),
     ),
-    BooleanField('ReportDryMatter',
-                 schemata="Analysis",
-                 default=False,
-                 widget=BooleanWidget(
-                     label = _("Report as Dry Matter"),
-                     description = _("These results can be reported as dry matter"),
-                 ),
-    ),
+
+
     # ~~~~~~~~~~ Using Odoo fields.Selection field due to SelectionWidget ~~~~~~~~~~
     fields.Selection(string='AttachmentOption',
                 selection=ATTACHMENT_OPTIONS,

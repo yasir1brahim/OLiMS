@@ -629,9 +629,6 @@
                                 <field name="SampleType" options="{'no_create': True}"></field>
                                 <label for="priority" string="Priority"/>
                                 <field name="priority" options="{'no_create': True}"></field>
-                                <field name="ReportDryMatter"></field>
-                                <label for="ReportDryMatter" string="Report Dry Matter"/>
-                                <p>These results can be reported as dry matter</p>
                             </page>
                             <!-- <label for="Remarks" string="Remarks"/>
                     <field name="Remarks" ></field> -->
@@ -1032,8 +1029,6 @@
                     <field name="Duration"></field>
                     <label for="Earliness" string="Earliness"/>
                     <field name="Earliness"></field>
-                    <label for="ReportDryMatter" string="Report Dry Matter"/>
-                    <field name="ReportDryMatter"></field>
                     <label for="Analyst" string="Analyst"/>
                     <field name="Analyst"></field>
                     <label for="Remarks" string="Remarks"/>
@@ -1065,7 +1060,6 @@
                     <field name="DueDate"></field>
                     <field name="Duration"></field>
                     <field name="Earliness"></field>
-                    <field name="ReportDryMatter"></field>
                     <field name="Analyst"></field>
                     <field name="Remarks"></field>
                     <field name="Instrument"></field>
@@ -1499,8 +1493,6 @@
                     <field name="Duration"></field>
                     <label for="Earliness" string="Earliness"/>
                     <field name="Earliness"></field>
-                    <label for="ReportDryMatter" string="ReportDryMatter"/>
-                    <field name="ReportDryMatter"></field>
                     <label for="Analyst" string="Analyst"/>
                     <field name="Analyst"></field>
                     <label for="Remarks" string="Remarks"/>
@@ -1530,7 +1522,6 @@
                     <field name="DueDate"></field>
                     <field name="Duration"></field>
                     <field name="Earliness"></field>
-                    <field name="ReportDryMatter"></field>
                     <field name="Analyst"></field>
                     <field name="Remarks"></field>
                     <field name="Uncertainty"></field>
@@ -2553,82 +2544,58 @@
                                 </group>
                                 <br/>
                                 <group>
-                                    <label for="ReportDryMatter" string="Report Dry Matter"/>
-                                    <div>
-                                        <field name="CopyReportDryMatter" style="width:20%%" tabindex="232" nolabel="1"
-                                               attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
-                                        <field name="ReportDryMatter" tabindex="233" nolabel="1"></field>
-                                        <field name="ReportDryMatter1" tabindex="234" nolabel="1"
-                                               attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="ReportDryMatter2" tabindex="235" nolabel="1"
-                                               attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="ReportDryMatter3" tabindex="236" nolabel="1"
-                                               attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="ReportDryMatter4" tabindex="237" nolabel="1"
-                                               attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="ReportDryMatter5" tabindex="238" nolabel="1"
-                                               attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="ReportDryMatter6" tabindex="239" nolabel="1"
-                                               attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="ReportDryMatter7" tabindex="240" nolabel="1"
-                                               attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="ReportDryMatter8" tabindex="241" nolabel="1"
-                                               attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="ReportDryMatter9" tabindex="242" nolabel="1"
-                                               attrs="{'invisible': [('id', '!=', False)]}"></field>
 
-                                    </div>
                                 </group>
                                 <br/>
                                 <group>
                                     <label for="InvoiceExclude" string="Invoice Exclude"/>
                                     <div>
-                                        <field name="CopyInvoiceExclude" style="width:20%%" tabindex="243" nolabel="1"
+                                        <field name="CopyInvoiceExclude" style="width:20%%" tabindex="232" nolabel="1"
                                                attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
-                                        <field name="InvoiceExclude" tabindex="244" nolabel="1"></field>
-                                        <field name="InvoiceExclude1" tabindex="245" nolabel="1"
+                                        <field name="InvoiceExclude" tabindex="233" nolabel="1"></field>
+                                        <field name="InvoiceExclude1" tabindex="234" nolabel="1"
                                                attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="InvoiceExclude2" tabindex="246" nolabel="1"
+                                        <field name="InvoiceExclude2" tabindex="235" nolabel="1"
                                                attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="InvoiceExclude3" tabindex="247" nolabel="1"
+                                        <field name="InvoiceExclude3" tabindex="236" nolabel="1"
                                                attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="InvoiceExclude4" tabindex="248" nolabel="1"
+                                        <field name="InvoiceExclude4" tabindex="237" nolabel="1"
                                                attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="InvoiceExclude5" tabindex="249" nolabel="1"
+                                        <field name="InvoiceExclude5" tabindex="238" nolabel="1"
                                                attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="InvoiceExclude6" tabindex="250" nolabel="1"
+                                        <field name="InvoiceExclude6" tabindex="239" nolabel="1"
                                                attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="InvoiceExclude7" tabindex="251" nolabel="1"
+                                        <field name="InvoiceExclude7" tabindex="240" nolabel="1"
                                                attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="InvoiceExclude8" tabindex="252" nolabel="1"
+                                        <field name="InvoiceExclude8" tabindex="241" nolabel="1"
                                                attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="InvoiceExclude9" tabindex="253" nolabel="1"
+                                        <field name="InvoiceExclude9" tabindex="242" nolabel="1"
                                                attrs="{'invisible': [('id', '!=', False)]}"></field>
                                     </div>
                                 </group>
                                 <group>
                                     <label for="paid_cash" string="Paid Cash"/>
                                     <div>
-                                        <field name="copy_paid_cash" style="width:20%%" tabindex="254" nolabel="1"
+                                        <field name="copy_paid_cash" style="width:20%%" tabindex="243" nolabel="1"
                                                attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
-                                        <field name="paid_cash" tabindex="255" nolabel="1"></field>
-                                        <field name="paid_cash1" tabindex="256" nolabel="1"
+                                        <field name="paid_cash" tabindex="244" nolabel="1"></field>
+                                        <field name="paid_cash1" tabindex="245" nolabel="1"
                                                attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="paid_cash2" tabindex="257" nolabel="1"
+                                        <field name="paid_cash2" tabindex="246" nolabel="1"
                                                attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="paid_cash3" tabindex="258" nolabel="1"
+                                        <field name="paid_cash3" tabindex="247" nolabel="1"
                                                attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="paid_cash4" tabindex="259" nolabel="1"
+                                        <field name="paid_cash4" tabindex="248" nolabel="1"
                                                attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="paid_cash5" tabindex="260" nolabel="1"
+                                        <field name="paid_cash5" tabindex="249" nolabel="1"
                                                attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="paid_cash6" tabindex="261" nolabel="1"
+                                        <field name="paid_cash6" tabindex="250" nolabel="1"
                                                attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="paid_cash7" tabindex="262" nolabel="1"
+                                        <field name="paid_cash7" tabindex="251" nolabel="1"
                                                attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="paid_cash8" tabindex="263" nolabel="1"
+                                        <field name="paid_cash8" tabindex="252" nolabel="1"
                                                attrs="{'invisible': [('id', '!=', False)]}"></field>
-                                        <field name="paid_cash9" tabindex="264" nolabel="1"
+                                        <field name="paid_cash9" tabindex="253" nolabel="1"
                                                attrs="{'invisible': [('id', '!=', False)]}"></field>
                                     </div>
                                 </group>
@@ -2804,48 +2771,48 @@
                                 </group>
                                 <label for="FieldService" string="Field Analysis"
                                        attrs="{'invisible': [('id', '!=', False)]}"/>
-                                <field name="FieldService" tabindex="265" options="{'no_create': True}"
+                                <field name="FieldService" tabindex="254" options="{'no_create': True}"
                                        attrs="{'invisible': [('id', '!=', False)]}">
                                     <tree editable="bottom">
-                                        <field name='Category' tabindex="266" options="{'no_create': True}"/>
-                                        <field name="Service" tabindex="267" options="{'no_create': True}"/>
-                                        <field name="CommercialID" tabindex="268"/>
-                                        <field name="ProtocolID" tabindex="269"/>
-                                        <field name="Min" placeholder="&gt;min" tabindex="270"/>
-                                        <field name="Max" placeholder="&lt;max" tabindex="271"/>
-                                        <field name="Error" placeholder="err&#37;" tabindex="272"/>
+                                        <field name='Category' tabindex="255" options="{'no_create': True}"/>
+                                        <field name="Service" tabindex="256" options="{'no_create': True}"/>
+                                        <field name="CommercialID" tabindex="257"/>
+                                        <field name="ProtocolID" tabindex="258"/>
+                                        <field name="Min" placeholder="&gt;min" tabindex="259"/>
+                                        <field name="Max" placeholder="&lt;max" tabindex="260"/>
+                                        <field name="Error" placeholder="err&#37;" tabindex="261"/>
                                     </tree>
                                     <form>
-                                        <field name='Category' tabindex="273" options="{'no_create': True}"/>
-                                        <field name="Service" tabindex="274" options="{'no_create': True}"/>
-                                        <field name="CommercialID" tabindex="275"/>
-                                        <field name="ProtocolID" tabindex="276"/>
-                                        <field name="Min" placeholder="&gt;min" tabindex="277"/>
-                                        <field name="Max" placeholder="&lt;max" tabindex="278"/>
-                                        <field name="Error" placeholder="err&#37;" tabindex="279"/>
+                                        <field name='Category' tabindex="262" options="{'no_create': True}"/>
+                                        <field name="Service" tabindex="263" options="{'no_create': True}"/>
+                                        <field name="CommercialID" tabindex="264"/>
+                                        <field name="ProtocolID" tabindex="265"/>
+                                        <field name="Min" placeholder="&gt;min" tabindex="266"/>
+                                        <field name="Max" placeholder="&lt;max" tabindex="267"/>
+                                        <field name="Error" placeholder="err&#37;" tabindex="268"/>
                                     </form>
                                 </field>
                                 <label for="LabService" string="Lab Analysis"
                                        attrs="{'invisible': [('id', '!=', False)]}"/>
-                                <field name="LabService" options="{'no_create': True}" tabindex="280"
+                                <field name="LabService" options="{'no_create': True}" tabindex="269"
                                        attrs="{'invisible': [('id', '!=', False)]}">
                                     <tree editable="bottom">
-                                        <field name='Category' tabindex="281" options="{'no_create': True}"/>
-                                        <field name="LabService" tabindex="282" options="{'no_create': True}"/>
-                                        <field name="CommercialID" tabindex="283"/>
-                                        <field name="ProtocolID" tabindex="284"/>
-                                        <field name="Min" placeholder="&gt;min" tabindex="285"/>
-                                        <field name="Max" placeholder="&lt;max" tabindex="286"/>
-                                        <field name="Error" placeholder="err&#37;" tabindex="287"/>
+                                        <field name='Category' tabindex="270" options="{'no_create': True}"/>
+                                        <field name="LabService" tabindex="271" options="{'no_create': True}"/>
+                                        <field name="CommercialID" tabindex="272"/>
+                                        <field name="ProtocolID" tabindex="273"/>
+                                        <field name="Min" placeholder="&gt;min" tabindex="274"/>
+                                        <field name="Max" placeholder="&lt;max" tabindex="275"/>
+                                        <field name="Error" placeholder="err&#37;" tabindex="276"/>
                                     </tree>
                                     <form>
-                                        <field name='Category' options="{'no_create': True}" tabindex="288"/>
-                                        <field name="LabService" options="{'no_create': True}" tabindex="289"/>
-                                        <field name="CommercialID" tabindex="290"/>
-                                        <field name="ProtocolID" tabindex="291"/>
-                                        <field name="Min" placeholder="&gt;min" tabindex="292"/>
-                                        <field name="Max" placeholder="&lt;max" tabindex="293"/>
-                                        <field name="Error" placeholder="err&#37;" tabindex="294"/>
+                                        <field name='Category' options="{'no_create': True}" tabindex="277"/>
+                                        <field name="LabService" options="{'no_create': True}" tabindex="278"/>
+                                        <field name="CommercialID" tabindex="279"/>
+                                        <field name="ProtocolID" tabindex="280"/>
+                                        <field name="Min" placeholder="&gt;min" tabindex="281"/>
+                                        <field name="Max" placeholder="&lt;max" tabindex="282"/>
+                                        <field name="Error" placeholder="err&#37;" tabindex="283"/>
                                     </form>
                                 </field>
                                 <br/>
@@ -6326,9 +6293,7 @@
                                                string="Allow Manual Detection Limit input"
                                                attrs="{'invisible':[('DetectionLimitSelector','=', False)]}"/>
                                         <br/>
-                                        <field name="ReportDryMatter"></field>
-                                        <label for="ReportDryMatter" string="Report as Dry Matter"/>
-                                        <p>These results can be reported as dry matter</p>
+
                                         <label for="AttachmentOption" string="Attachment Option"/>
                                         <field name="AttachmentOption"></field>
                                         <p>Indicates whether file attachments, e.g. microscope images, are required for

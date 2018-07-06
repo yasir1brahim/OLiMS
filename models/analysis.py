@@ -67,9 +67,7 @@ schema = (
             label = _("Earliness"),
         )
     ),
-    BooleanField('ReportDryMatter',
-        default = False,
-    ),
+
     StringField('Analyst',
     ),
     TextField('Remarks',

@@ -1096,46 +1096,7 @@ schema = (fields.Char(string='RequestID',
         'Composite9',
         default=False,
     ),
-    BooleanField(
-        'ReportDryMatter',
-        default=False,
-    ),
-    BooleanField(
-        'ReportDryMatter1',
-        default=False,
-    ),
-    BooleanField(
-        'ReportDryMatter2',
-        default=False,
-    ),
-    BooleanField(
-        'ReportDryMatter3',
-        default=False,
-    ),
-    BooleanField(
-        'ReportDryMatter4',
-        default=False,
-    ),
-    BooleanField(
-        'ReportDryMatter5',
-        default=False,
-    ),
-    BooleanField(
-        'ReportDryMatter6',
-        default=False,
-    ),
-    BooleanField(
-        'ReportDryMatter7',
-        default=False,
-    ),
-    BooleanField(
-        'ReportDryMatter8',
-        default=False,
-    ),
-    BooleanField(
-        'ReportDryMatter9',
-        default=False,
-    ),
+
     BooleanField(
         'InvoiceExclude',
         default=False,
@@ -1501,10 +1462,7 @@ schema = (fields.Char(string='RequestID',
         string='CopyComposite',
         default=False,
     ),
-    fields.Boolean(
-        string='CopyReportDryMatter',
-        default=False,
-    ),
+
     fields.Boolean(
         string='CopyInvoiceExclude',
         default=False,
@@ -2305,7 +2263,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Priority': values.get('Priority', None),
             'Partition': values.get('Partition', None),
             'SamplingDate': values.get('SamplingDate', None),
-            'ReportDryMatter': values.get('ReportDryMatter', None),
             'Contact': values.get('Contact', None),
             'FieldService': values.get('FieldService', None),
             'CCEmails': values.get('CCEmails', None),
@@ -2352,7 +2309,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Priority': values.get('Priority1', None),
             'Partition': values.get('Partition', None),
             'SamplingDate': values.get('SamplingDate1', None),
-            'ReportDryMatter': values.get('ReportDryMatter1', None),
             'Contact': values.get('Contact1', None),
             'FieldService': values.get('FieldService', None),
             'CCEmails': values.get('CCEmails1', None),
@@ -2398,7 +2354,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Priority': values.get('Priority2', None),
             'Partition': values.get('Partition', None),
             'SamplingDate': values.get('SamplingDate2', None),
-            'ReportDryMatter': values.get('ReportDryMatter2', None),
             'Contact': values.get('Contact2', None),
             'FieldService': values.get('FieldService', None),
             'CCEmails': values.get('CCEmails2', None),
@@ -2444,7 +2399,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Priority': values.get('Priority3', None),
             'Partition': values.get('Partition', None),
             'SamplingDate': values.get('SamplingDate3', None),
-            'ReportDryMatter': values.get('ReportDryMatter3', None),
             'Contact': values.get('Contact3', None),
             'FieldService': values.get('FieldService', None),
             'CCEmails': values.get('CCEmails3', None),
@@ -2490,7 +2444,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Priority': values.get('Priority4', None),
             'Partition': values.get('Partition', None),
             'SamplingDate': values.get('SamplingDate4', None),
-            'ReportDryMatter': values.get('ReportDryMatter4', None),
             'Contact': values.get('Contact4', None),
             'FieldService': values.get('FieldService', None),
             'CCEmails': values.get('CCEmails4', None),
@@ -2536,7 +2489,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Priority': values.get('Priority5', None),
             'Partition': values.get('Partition', None),
             'SamplingDate': values.get('SamplingDate5', None),
-            'ReportDryMatter': values.get('ReportDryMatter5', None),
             'Contact': values.get('Contact5', None),
             'FieldService': values.get('FieldService', None),
             'CCEmails': values.get('CCEmails5', None),
@@ -2582,7 +2534,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Priority': values.get('Priority6', None),
             'Partition': values.get('Partition', None),
             'SamplingDate': values.get('SamplingDate6', None),
-            'ReportDryMatter': values.get('ReportDryMatter6', None),
             'Contact': values.get('Contact6', None),
             'FieldService': values.get('FieldService', None),
             'CCEmails': values.get('CCEmails6', None),
@@ -2628,7 +2579,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Priority': values.get('Priority7', None),
             'Partition': values.get('Partition', None),
             'SamplingDate': values.get('SamplingDate7', None),
-            'ReportDryMatter': values.get('ReportDryMatter7', None),
             'Contact': values.get('Contact7', None),
             'FieldService': values.get('FieldService', None),
             'CCEmails': values.get('CCEmails7', None),
@@ -2674,7 +2624,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Priority': values.get('Priority8', None),
             'Partition': values.get('Partition', None),
             'SamplingDate': values.get('SamplingDate8', None),
-            'ReportDryMatter': values.get('ReportDryMatter8', None),
             'Contact': values.get('Contact8', None),
             'FieldService': values.get('FieldService', None),
             'CCEmails': values.get('CCEmails8', None),
@@ -2720,7 +2669,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'Priority': values.get('Priority9', None),
             'Partition': values.get('Partition', None),
             'SamplingDate': values.get('SamplingDate9', None),
-            'ReportDryMatter': values.get('ReportDryMatter9', None),
             'Contact': values.get('Contact9', None),
             'FieldService': values.get('FieldService', None),
             'CCEmails': values.get('CCEmails9', None),
@@ -4429,6 +4377,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 
 
     def bulk_change_states_pre(self, state, cr, uid, ids, context=None):
+        print 'in Assign AR number action'
         previous_state = ""
         data = {}
         if state == "sample_due":
@@ -5031,36 +4980,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         else:
             pass
 
-    @api.onchange('CopyReportDryMatter')
-    def copy_report_dry_matter(self):
-        if self.Copy == '1':
-            self.ReportDryMatter1 = self.ReportDryMatter
-            self.ReportDryMatter2 = self.ReportDryMatter3 = self.ReportDryMatter4 = self.ReportDryMatter5 = self.ReportDryMatter6 = self.ReportDryMatter7 = self.ReportDryMatter8 = self.ReportDryMatter9 = None
-        elif self.Copy == '2':
-            self.ReportDryMatter1 = self.ReportDryMatter2 = self.ReportDryMatter
-            self.ReportDryMatter3 = self.ReportDryMatter4 = self.ReportDryMatter5 = self.ReportDryMatter6 = self.ReportDryMatter7 = self.ReportDryMatter8 = self.ReportDryMatter9 = None
-        elif self.Copy == '3':
-            self.ReportDryMatter1 = self.ReportDryMatter2 = self.ReportDryMatter3 = self.ReportDryMatter
-            self.ReportDryMatter4 = self.ReportDryMatter5 = self.ReportDryMatter6 = self.ReportDryMatter7 = self.ReportDryMatter8 = self.ReportDryMatter9 = None
-        elif self.Copy == '4':
-            self.ReportDryMatter1 = self.ReportDryMatter2 = self.ReportDryMatter3 = self.ReportDryMatter4 = self.ReportDryMatter
-            self.ReportDryMatter5 = self.ReportDryMatter6 = self.ReportDryMatter7 = self.ReportDryMatter8 = self.ReportDryMatter9 = None
-        elif self.Copy == '5':
-            self.ReportDryMatter1 = self.ReportDryMatter2 = self.ReportDryMatter3 = self.ReportDryMatter4 = self.ReportDryMatter5 = self.ReportDryMatter
-            self.ReportDryMatter6 = self.ReportDryMatter7 = self.ReportDryMatter8 = self.ReportDryMatter9 = None
-        elif self.Copy == '6':
-            self.ReportDryMatter1 = self.ReportDryMatter2 = self.ReportDryMatter3 = self.ReportDryMatter4 = self.ReportDryMatter5 = self.ReportDryMatter6 = self.ReportDryMatter
-            self.ReportDryMatter7 = self.ReportDryMatter8 = self.ReportDryMatter9 = None
-        elif self.Copy == '7':
-            self.ReportDryMatter1 = self.ReportDryMatter2 = self.ReportDryMatter3 = self.ReportDryMatter4 = self.ReportDryMatter5 = self.ReportDryMatter6 = self.ReportDryMatter7 = self.ReportDryMatter
-            self.ReportDryMatter8 = self.ReportDryMatter9 = None
-        elif self.Copy == '8':
-            self.ReportDryMatter1 = self.ReportDryMatter2 = self.ReportDryMatter3 = self.ReportDryMatter4 = self.ReportDryMatter5 = self.ReportDryMatter6 = self.ReportDryMatter7 = self.ReportDryMatter8 = self.ReportDryMatter
-            self.ReportDryMatter9 = None
-        elif self.Copy == '9':
-            self.ReportDryMatter1 = self.ReportDryMatter2 = self.ReportDryMatter3 = self.ReportDryMatter4 = self.ReportDryMatter5 = self.ReportDryMatter6 = self.ReportDryMatter7 = self.ReportDryMatter8 = self.ReportDryMatter9 = self.ReportDryMatter
-        else:
-            pass
+
 
     @api.onchange('CopyInvoiceExclude')
     def copy_invoice_exclude(self):

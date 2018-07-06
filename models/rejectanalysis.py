@@ -59,9 +59,7 @@ schema = (fields.Many2one(string='Calculation',
             label = _("Earliness"),
         )
     ),
-    BooleanField('ReportDryMatter',
-        default = False,
-    ),
+
     StringField('Analyst',
     ),
     TextField('Remarks',
