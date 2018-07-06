@@ -4377,7 +4377,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 
 
     def bulk_change_states_pre(self, state, cr, uid, ids, context=None):
-        print 'in Assign AR number action'
         previous_state = ""
         data = {}
         if state == "sample_due":
