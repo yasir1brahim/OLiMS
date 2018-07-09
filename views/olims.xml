@@ -5232,6 +5232,7 @@
                                 <field name="JobTitle"></field>
                                 <label for="Department" string="Department"/>
                                 <field name="Department"></field>
+                                <field name="name" invisible="1"></field>
                             </page>
                             <page string="Email Telephone Fax">
                                 <label for="EmailAddress" string="Email Address"/>
