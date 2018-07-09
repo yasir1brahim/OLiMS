@@ -116,15 +116,14 @@ class NewReportController(ReportController):
                     if reportname == 'olims.report_certificate_of_analysis' and len(docids) == 1:
                         report_obj = request.registry['report']
                         obj = report_obj.pool[report.model].browse(cr, uid, docids[0])
+                        if obj.Sample_id and not obj.LotID:
+                            reportname = obj.Sample_id.SampleID
 
-                        if obj.ClientReference and not obj.LotID:
-                            reportname = obj.ClientReference
-
-                        elif obj.LotID and not obj.ClientReference:
+                        elif obj.LotID and not obj.Sample_id.SampleID:
                             reportname = obj.LotID
 
-                        elif obj.LotID and  obj.ClientReference:
-                            reportname = obj.LotID +'-'+ obj.ClientReference
+                        elif obj.LotID and  obj.Sample_id.SampleID:
+                            reportname = obj.LotID + '-' + str(obj.Sample_id.SampleID)
 
                         else:
                             reportname = "COA"
