@@ -1671,6 +1671,7 @@ manage_result_schema = (
                      copy=False, track_visibility='always'
     ),
     fields.Char(string="flag", compute="insert_flag"),
+    fields.Boolean(string="is_pre_enter", compute='compute_ar_state'),
     )
 
 class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
@@ -5466,6 +5467,10 @@ class ManageAnalyses(models.Model, BaseOLiMSModel):
                 record.flag = "flag"
             else:
                 record.flag = False
+
+    def compute_ar_state(self):
+        for record in self:
+            record.is_pre_enter = (record.lab_manage_analysis_id.state == 'pre_enter')
 
 class ParticularReport(models.AbstractModel):
     _name = 'report.olims.report_certificate_of_analysis'

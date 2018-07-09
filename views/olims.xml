@@ -2921,7 +2921,8 @@
                                         <field name="flag" string="Flag"
                                                attrs="{'invisible': [('Result', '=', False)]}"/>
                                         <field name="Result" invisible="1"/>
-                                        <field name="Result_string" string="Result"/>
+                                        <field name="is_pre_enter" invisible="1"></field>
+                                        <field name="Result_string" string= "Result" attrs="{'readonly': [('is_pre_enter', '=', True)]}"/>
                                         <field name="Specifications" attrs="{'readonly': [('id', '!=', False)]}"/>
                                         <field name="Instrument" options="{'no_create': True}"/>
                                         <field name="Analyst" options="{'no_create': True}"/>
