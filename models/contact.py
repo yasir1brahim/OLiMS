@@ -151,7 +151,8 @@ schema = (
 class Contact(models.Model, BaseOLiMSModel): #(Person)
     _name = 'olims.contact'
     _rec_name = "name"
-    
+
+    @api.onchange('Surname', 'Middlename', 'Middleinitial', 'Firstname')
     def computeFulname(self):
         """ return Person's Fullname """
         for record in self:
