@@ -8,6 +8,7 @@ from fields.widget.widget import StringWidget
 from fields.file_field import FileField
 from fields.widget.widget import FileWidget
 import datetime
+import psycopg2
 from openerp.tools.translate import _
 from openerp.exceptions import Warning
 
@@ -1355,3 +1356,49 @@ class QCControl(models.Model):
 
 Worksheet.initialze(schema)
 
+
+
+
+
+
+class Import(models.TransientModel):
+    _inherit = 'base_import.import'
+
+
+    def do(self, cr, uid, id, fields, options, dryrun=False, context=None):
+        res_import = super(Import, self).do(cr, uid, id, fields, options, dryrun, context)
+        (record,) = self.browse(cr, uid, [id], context=context)
+
+        if record.res_model == 'olims.ws_manage_results' and not dryrun:
+            data, import_fields = self._convert_import_data(
+                         record, fields, options, context=context)
+            ws_manage_ids = []
+            for datum in data:
+                id_string = str(datum[0])
+                ws_manage_ids.append(int(id_string[id_string.rfind('_')+1:]))
+            ws_manage_results = self.pool.get('olims.ws_manage_results').browse(cr, uid, ws_manage_ids)
+            for result_record in ws_manage_results:
+                # Updating Result in Analysis Request
+
+                ar_record_obj = self.pool.get('olims.manage_analyses')
+                ar_field_record_id = ar_record_obj.search(cr, uid,
+                                                          [('manage_analysis_id', '=', result_record.request_analysis_id.id),
+                                                           ('Category', '=', result_record.category.id),
+                                                           ('Service', '=', result_record.analysis.id)])
+                ar_lab_record_id = ar_record_obj.search(cr, uid,
+                                                        [('lab_manage_analysis_id', '=', result_record.request_analysis_id.id),
+                                                         ('Category', '=', result_record.category.id),
+                                                         ('LabService', '=', result_record.analysis.id)])
+                if ar_field_record_id:
+                    ar_record = ar_record_obj.browse(cr, uid, ar_field_record_id[0])
+                elif ar_lab_record_id:
+                    ar_record = ar_record_obj.browse(cr, uid, ar_lab_record_id[0])
+
+                ar_record.write({
+                    'Result': float(result_record.result_string),
+                    'Result_string': str(result_record.result_string)
+                })
+
+
+
+        return res_import
