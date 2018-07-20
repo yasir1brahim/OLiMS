@@ -5463,7 +5463,7 @@
                                         <field name="physical_city" nolabel='1'></field>
                                         <label for='physical_postalcode' string='code'/>
                                         <field name="physical_postalcode" nolabel='1'></field>
-                                        <label for='physical_address' string='Adderss'/>
+                                        <label for='physical_address' string='Address'/>
                                         <field name="physical_address" nolabel='1'></field>
                                     </group>
                                     <group col='2' class="oe_edit_only">
