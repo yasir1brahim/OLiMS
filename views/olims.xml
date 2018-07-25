@@ -3113,6 +3113,8 @@
                     <field name="ClientSampleID"/>
                     <field name="ClientReference" string="Product Name"/>
                     <field name="Client"/>
+                    <filter string="Not Current On Payment" domain="[('Client.payment_not_current','=', True)]" name = "not_current_on_payment"/>
+                    <filter string="Current On Payment" domain="[('Client.payment_not_current','=', False)]" name = "current_on_payment"/>
                 </search>
             </field>
         </record>
