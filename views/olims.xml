@@ -6762,6 +6762,10 @@
                     <sheet>
                         <label for="SampleType" string="Title"/>
                         <field name="SampleType"></field>
+                        <div>
+                            <field name="Deactivated"></field>
+                            <label for="Deactivated" string="Deactivated"/>
+                        </div>
                         <label for="Description" string="Description"/>
                         <p>Used in item listings and search results.</p>
                         <field name="Description"></field>
@@ -6824,6 +6828,7 @@
                     <field name="Minimum Volume"></field>
                     <!--Mustafa Arif 12 Mar 2018-->
                     <field name="AnalysisProfile" string="Analysis Profile"></field>
+                    <field name="status" string="Status"></field>
                 </tree>
             </field>
         </record>

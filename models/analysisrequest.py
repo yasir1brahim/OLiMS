@@ -529,51 +529,61 @@ schema = (fields.Char(string='RequestID',
     ),
     fields.Many2one(string='SampleType',
                         comodel_name='olims.sample_type',
+                        domain="[('Deactivated', '=',False )]",
                         required=True
 
     ),
     fields.Many2one(string='SampleType1',
                         comodel_name='olims.sample_type',
+                        domain="[('Deactivated', '=',False )]",
                         required=False
 
     ),
     fields.Many2one(string='SampleType2',
                         comodel_name='olims.sample_type',
+                        domain="[('Deactivated', '=',False )]",
                         required=False
 
     ),
     fields.Many2one(string='SampleType3',
                         comodel_name='olims.sample_type',
+                        domain="[('Deactivated', '=',False )]",
                         required=False
 
     ),
     fields.Many2one(string='SampleType4',
                         comodel_name='olims.sample_type',
+                        domain="[('Deactivated', '=',False )]",
                         required=False
 
     ),
     fields.Many2one(string='SampleType5',
                         comodel_name='olims.sample_type',
+                        domain="[('Deactivated', '=',False )]",
                         required=False
 
     ),
     fields.Many2one(string='SampleType6',
                         comodel_name='olims.sample_type',
+                        domain="[('Deactivated', '=',False )]",
                         required=False
 
     ),
     fields.Many2one(string='SampleType7',
                         comodel_name='olims.sample_type',
+                        domain="[('Deactivated', '=',False )]",
                         required=False
 
     ),
     fields.Many2one(string='SampleType8',
                         comodel_name='olims.sample_type',
+                        domain="[('Deactivated', '=',False )]",
                         required=False
 
     ),
     fields.Many2one(string='SampleType9',
                         comodel_name='olims.sample_type',
+                        domain="[('Deactivated', '=',False )]",
                         required=False
 
     ),

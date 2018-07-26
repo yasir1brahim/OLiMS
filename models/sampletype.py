@@ -9,6 +9,7 @@ from fields.boolean_field import BooleanField
 from fields.widget.widget import TextAreaWidget, BooleanWidget, StringWidget
 from base_olims_model import BaseOLiMSModel
 from lims.utils import t
+from openerp import fields, models, api
 schema = (StringField('SampleType',
               required=1,        
     ),
@@ -71,6 +72,12 @@ schema = (StringField('SampleType',
         domain="[('Deactivated', '=',False )]"
     ),
     # Mustafa Arif 12 Mar 2018
+    BooleanField('Deactivated',
+        default=False,
+        schemata='Accounting',
+        widget=BooleanWidget(
+            label=_("Use Sample Type Deactivate"))),
+    StringField(string="status", compute="compute_status"),
 )
 
 class SampleType(models.Model, BaseOLiMSModel):
@@ -132,4 +139,12 @@ class SampleType(models.Model, BaseOLiMSModel):
     def ContainerTypesVocabulary(self):
         from lims.content.containertype import ContainerTypes
         return ContainerTypes(self, allow_blank=True)
+
+    @api.depends("Deactivated")
+    def compute_status(self):
+        for record in self:
+            if record.Deactivated:
+                record.status = "Deactive"
+            else:
+                record.status = "Active"
 SampleType.initialze(schema)
