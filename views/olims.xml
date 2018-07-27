@@ -6879,7 +6879,7 @@
             <field name="name">add_analysis.tree</field>
             <field name="model">olims.add_analysis</field>
             <field name="arch" type="xml">
-                <tree string="Manage Results" edit='false'>
+                <tree string="Manage Results" edit='false' default_order="priority_Sort_key">
                     <field name="client"/>
                     <field name="order"/>
                     <field name="add_analysis_id"/>
@@ -6890,6 +6890,7 @@
                     <field name="sample_type"/>
                     <field name="received_date"/>
                     <field name="due_date"/>
+                    <field name="priority_Sort_key" invisible="1"></field>
                     <!--<button type="object" class="oe_readonly" icon="fa-trash-o"-->
                             <!--name="show_warring_message_form"></button>-->
                 </tree>

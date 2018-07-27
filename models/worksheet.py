@@ -1114,6 +1114,9 @@ class AddAnalysis(models.Model):
                      readonly=True,
                      copy=False, track_visibility='always'
     )
+    priority_Sort_key = fields.Integer(related='priority.Sort Key', store= True)
+
+
 
     @api.model
     def delete_ars_for_worksheet(self, active_id, selected_ids):
