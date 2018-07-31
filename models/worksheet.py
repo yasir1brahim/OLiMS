@@ -34,7 +34,7 @@ WORKSHEET_STATES = (
     ('verified','verified'),
     ('rejected','rejected'),
     )
-schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId'),
+schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId', store=True),
     fields.Many2one(string='Template',
                    comodel_name='olims.worksheet_template',
                    required=False,

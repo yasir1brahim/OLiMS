@@ -3392,6 +3392,15 @@
                 </tree>
             </field>
         </record>
+         <record id="view_worksheet_filter" model="ir.ui.view">
+            <field name="name">olims.worksheet.select</field>
+            <field name="model">olims.worksheet</field>
+            <field name="arch" type="xml">
+                <search string="Search Worksheet">
+                    <field name="Worksheet"/>
+                </search>
+            </field>
+        </record>
         <!--For action menu in worksheet-->
         <record id="change_state_bulk_worksheet" model="ir.actions.server">
             <field name="name">Verify</field>
@@ -3432,6 +3441,7 @@
             <field name="res_model">olims.worksheet</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_worksheet_filter"></field>
         </record>
 
         <menuitem id="olims_worksheet_menu" name="Worksheet" parent="olims_menu" sequence="6"
