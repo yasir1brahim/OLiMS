@@ -9,6 +9,7 @@ from fields.string_field import StringField
 from fields.text_field import TextField
 from fields.widget.widget import IntegerWidget, BooleanWidget, FileWidget, \
                                 TextAreaWidget, StringWidget
+from openerp import api
 schema = (StringField('Priority',
               required=1,        
     ),
@@ -61,6 +62,28 @@ schema = (StringField('Priority',
 class ARPriority(models.Model, BaseOLiMSModel):
     _name = 'olims.ar_priority'
     _rec_name = 'Priority'
+
+    @api.onchange('Default')
+    def show_message(self):
+        if self.Default ==  True:
+            return {
+
+                'warning': {
+
+                    'title': 'Message!',
+
+                    'message': self.Priority+' will be set as Default Priority !'}
+
+            }
+
+    def write(self, cr , uid, ids,vals, context=None):
+        res = super(ARPriority, self).write(cr, uid, ids, vals, context=context)
+        if vals.get('Default') == True:
+            prev_defaults = self.search(cr, uid,['&',('Default', '=', True),('id', '!=', ids[0])])
+            prev_defaults = self.browse(cr, uid, prev_defaults)
+            for rec in prev_defaults:
+                super(ARPriority, self).write(cr, uid, [rec.id], {'Default': False},context=context)
+        return res
 
 
 ARPriority.initialze(schema)
