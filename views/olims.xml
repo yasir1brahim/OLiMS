@@ -6879,7 +6879,7 @@
             <field name="name">add_analysis.tree</field>
             <field name="model">olims.add_analysis</field>
             <field name="arch" type="xml">
-                <tree string="Manage Results" edit='false' default_order="priority_Sort_key">
+                <tree string="Manage Results" edit='false' default_order="priority_Sort_key,add_analysis_id">
                     <field name="client"/>
                     <field name="order"/>
                     <field name="add_analysis_id"/>
