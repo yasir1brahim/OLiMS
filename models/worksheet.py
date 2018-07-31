@@ -1115,6 +1115,7 @@ class AddAnalysis(models.Model):
                      copy=False, track_visibility='always'
     )
     priority_Sort_key = fields.Integer(related='priority.Sort Key', store= True)
+    request_Id = fields.Char(related='add_analysis_id.RequestID', store=True)
 
 
 
