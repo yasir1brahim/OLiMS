@@ -147,4 +147,18 @@ class SampleType(models.Model, BaseOLiMSModel):
                 record.status = "Deactive"
             else:
                 record.status = "Active"
+
+
+    def activate_samples(self,cr, uid, ids, context):
+        records = self.browse(cr, uid, ids)
+        for rec in records:
+            rec.write({'Deactivated': False})
+
+
+    def Deactivate_samples(self,cr, uid, ids, context):
+        records = self.browse(cr, uid, ids)
+        for rec in records:
+            rec.write({'Deactivated': True})
+
+
 SampleType.initialze(schema)

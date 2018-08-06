@@ -76,6 +76,48 @@
             <field name="key2">client_action_multi</field>
         </record>
 
+         <record id="action_activate_sample_type" model="ir.actions.server">
+            <field name="name">Activate</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_olims_sample_type"/>
+            <field name="state">code</field>
+            <field name="code">self.activate_samples(cr, uid, context.get('active_ids'), context=context)</field>
+            <field name="sequence" eval="5"/>
+        </record>
+
+
+         <record id="val_id_of_action_activate_sample_type" model="ir.values">
+            <field name="name">Activate</field>
+            <field name="action_id" ref="action_activate_sample_type"/>
+            <field name="value" eval="'ir.actions.server,' + str(ref('action_activate_sample_type'))"/>
+            <field name="key">action</field>
+            <field name="model_id" ref="model_olims_sample_type"/>
+            <field name="model">olims.sample_type</field>
+            <field name="key2">client_action_multi</field>
+        </record>
+
+
+
+          <record id="action_deactivate_sample_type" model="ir.actions.server">
+            <field name="name">De Activate</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_olims_sample_type"/>
+            <field name="state">code</field>
+            <field name="code">self.Deactivate_samples(cr, uid, context.get('active_ids'), context=context)</field>
+            <field name="sequence" eval="5"/>
+        </record>
+
+
+         <record id="val_id_of_action_deactivate_sample_type" model="ir.values">
+            <field name="name">De Activate</field>
+            <field name="action_id" ref="action_deactivate_sample_type"/>
+            <field name="value" eval="'ir.actions.server,' + str(ref('action_deactivate_sample_type'))"/>
+            <field name="key">action</field>
+            <field name="model_id" ref="model_olims_sample_type"/>
+            <field name="model">olims.sample_type</field>
+            <field name="key2">client_action_multi</field>
+        </record>
+
 
         <menuitem id="olims_analysis_request_menu_pre" name="Pre Analysis Request" parent="olims_menu" sequence="4"
                   action="analysis_request_list_action_pre" groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst,group_clients"/>
