@@ -3108,6 +3108,7 @@
             <field name="model">olims.analysis_request</field>
             <field name="arch" type="xml">
                 <search string="Search Prof">
+                    <field name="RequestID"/>
                     <field name="AnalysisProfile"/>
                     <field name="LotID"/>
                     <field name="ClientSampleID"/>
