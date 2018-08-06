@@ -118,7 +118,7 @@ schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId', store=Tr
         default=False)
 )
 
-name_counter  = {}
+
 class Worksheet(models.Model, BaseOLiMSModel):
     _name ='olims.worksheet'
     _rec_name = "Worksheet"
@@ -132,19 +132,15 @@ class Worksheet(models.Model, BaseOLiMSModel):
     @api.depends("Analyst")
     def _ComputeWorksheetId(self):
         for items in self:
-            counter = 1
             c_date = datetime.datetime.strptime(items.create_date, "%Y-%m-%d %H:%M:%S").strftime("%y,%m,%d")
             year, month, day = c_date.split(',')
             if items.Template and isinstance(items.Template.Title,str):
                 temp_name =  items.Template.Title + " " + items.category_name
             else:
                 temp_name = items.category_name
-            if temp_name in name_counter.keys() and name_counter[temp_name][1] == c_date:
-                counter = name_counter.get(temp_name)[0] + 1
             if not temp_name:
                 temp_name = ''
-            worksheetid = temp_name + " " + month + day + year + "-" +str(counter)
-            name_counter[temp_name] = [counter, c_date]
+            worksheetid = temp_name + " " + month + day + year
             items.Worksheet = worksheetid + " WS-"+str(items.id)
 
 
