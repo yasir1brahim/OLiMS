@@ -7218,7 +7218,7 @@
             <field name="inherit_id" ref="base.view_users_simple_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='fax']" position="after">
-                    <field name="contact_id" domain="[('Client_Contact', '=', context.get('client_id'))]"></field>
+                    <field name="contact_id" domain="[('Client_Contact', '=', context.get('client_id'))]" required="1"></field>
                 </xpath>
             </field>
         </record>
