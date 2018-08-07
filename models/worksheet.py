@@ -75,6 +75,9 @@ schema = (StringField(string='Worksheet',compute='_ComputeWorksheetId', store=Tr
     fields.Many2many(string='AnalysisRequest',
         comodel_name="olims.add_analysis",
         domain="[('state', '=', 'unassigned'),('add_analysis_id.Sample_id.state','!=','disposed'),('add_analysis_id.state','=','sample_received')]"),
+    fields.Many2many(string='AnalysisCategory',
+        comodel_name="olims.analysis_category"),
+
     fields.Selection(string='State',
                      selection=WORKSHEET_STATES,
                      default='open',
@@ -128,6 +131,24 @@ class Worksheet(models.Model, BaseOLiMSModel):
     #         worksheetid = 'WS-0' + str(items.id)
     #         items.Worksheet = worksheetid
 
+
+
+    def fill_analysis_category(self, cr, uid):
+        '''This function must be called one time only fo fill new field AnalysisCategory in worksheet model'''
+        worksheet_ids = self.search(cr, uid, [('id', '>' , 0)])
+        worksheets = self.browse(cr, uid, worksheet_ids)
+        category_ids_list = []
+        for rec in worksheets:
+            if rec.AnalysisRequest:
+                for analyses in rec.AnalysisRequest:
+                    category_ids_list.append(analyses.category.id)
+            else:
+                if rec.ManageResult:
+                    for result in rec.ManageResult:
+                        if result.category:
+                            category_ids_list.append(result.category.id)
+            rec.write({"AnalysisCategory": [(6, 0, category_ids_list)]})
+            category_ids_list = []
 
     @api.depends("Analyst")
     def _ComputeWorksheetId(self):
@@ -187,6 +208,14 @@ class Worksheet(models.Model, BaseOLiMSModel):
                 list_of_control_ids.append(control.id)
             values.update({"Add_Control_Refrence": [(6, 0, list_of_services_ids)],
                 'Controls':[(6, 0, list_of_control_ids)]})
+        analyses_ids = values.get('AnalysisRequest', None)
+        if analyses_ids:
+            analyses_ids = analyses_ids[0][2]
+            category_ids_list = []
+            analyses = self.env['olims.add_analysis'].browse(analyses_ids)
+            for rec in analyses:
+                category_ids_list.append(rec.category.id)
+            values.update({"AnalysisCategory": [(6, 0, category_ids_list)]})
         res = super(Worksheet, self).create(values)
         ws_object = super(Worksheet, self).search([('id', '=',res.id)])
         for record in ws_object.Add_Control_Refrence:
@@ -244,6 +273,13 @@ class Worksheet(models.Model, BaseOLiMSModel):
                                 ar_object = self.env["olims.analysis_request"].search([('id', '=', add_analysis_obj.add_analysis_id.id)])
                                 ar_object.write({"ar_worksheets": [(4, self.id)]})
                     values.update({"ManageResult": data_list})
+                    analyses_ids = values["AnalysisRequest"][0][2]
+                    category_ids_list = []
+                    analyses = self.env['olims.add_analysis'].browse(analyses_ids)
+                    for rec in analyses:
+                        category_ids_list.append(rec.category.id)
+                    values.update({"AnalysisCategory": [(6, 0, category_ids_list)]})
+
                 elif values["AnalysisRequest"][0][0] == 3:
                     add_analysis_obj = self.env["olims.add_analysis"].browse(values["AnalysisRequest"][0][1])
                     for rec in record.ManageResult:
