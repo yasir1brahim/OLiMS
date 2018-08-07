@@ -11,6 +11,18 @@
                 </graph>
             </field>
         </record>
+
+          <record model="ir.ui.view" id="olims_ar_graph_priority_view">
+            <field name="name">olims.analysis_request.graph</field>
+            <field name="model">olims.analysis_request</field>
+            <field name="arch" type="xml">
+                <graph string="Analysis Request by State">
+                    <field name="Priority"/>
+                    <field name="Priority" type="col"/>
+                </graph>
+            </field>
+        </record>
+
         <record model="ir.actions.act_window" id="act_ar_graph">
             <field name="name">Analysis Requests</field>
             <field name="res_model">olims.analysis_request</field>
@@ -119,6 +131,57 @@
         </record>
 
 
+         <record model="ir.actions.act_window" id="act_ar_graph_urgent">
+            <field name="name">Analysis Requests</field>
+            <field name="res_model">olims.analysis_request</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">graph</field>
+            <field name="view_id" ref="olims.olims_ar_graph_priority_view"/>
+            <field name="domain">['&amp;', ('state', 'in', ['sample_due', 'sample_received', 'to_be_verified', 'verified']), ('Priority.Description', '=', 'Urgent')]</field>
+        </record>
+
+        <record model="ir.actions.act_window" id="act_ar_graph_high">
+            <field name="name">Analysis Requests</field>
+            <field name="res_model">olims.analysis_request</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">graph</field>
+            <field name="view_id" ref="olims.olims_ar_graph_priority_view"/>
+            <field name="domain">['&amp;', ('state', 'in', ['sample_due', 'sample_received', 'to_be_verified', 'verified']), ('Priority.Description', '=', 'High')]</field>
+        </record>
+
+
+          <record model="ir.ui.view" id="ar_urgent_n_high">
+            <field name="name">Olims Dashboard Form</field>
+            <field name="model">board.board</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Olims Dashboard">
+                    <board style="1-1">
+                        <column>
+                            <action
+                                string="Urgent"
+                                name="%(act_ar_graph_urgent)d"/>
+                        </column>
+                        <column>
+                            <action
+                                string="High"
+                                name="%(act_ar_graph_high)d"/>
+                        </column>
+                    </board>
+                </form>
+            </field>
+        </record>
+
+
+         <record model="ir.actions.act_window" id="action_dashboard_ar_urgent_n_high">
+          <field name="name">Olims Dashboard</field>
+          <field name="res_model">board.board</field>
+          <field name="view_type">form</field>
+          <field name="view_mode">form</field>
+          <field name="usage">menu</field>
+          <field name="view_id" ref="ar_urgent_n_high"/>
+        </record>
+
 
         <menuitem
             name="Dashboard" parent="olims_menu"
@@ -132,6 +195,13 @@
             action="open_board_session_prev_30_days"
             sequence="1"
             id="olims_dashboard_menu_prev_30_days" icon="terp-graph"
+            groups="base.group_system,olims.group_lab_managers"/>
+
+         <menuitem
+            name="Dashboard 3" parent="olims_menu"
+            action="action_dashboard_ar_urgent_n_high"
+            sequence="1"
+            id="dashboard_ar_urgent_n_high" icon="terp-graph"
             groups="base.group_system,olims.group_lab_managers"/>
 
 
