@@ -1177,6 +1177,12 @@ schema = (fields.Char(string='RequestID',
                     default=lambda self: self.env['olims.ar_priority'].search([('Default', '=', True)]),
 
     ),
+
+    TextField('PriorityDescription',
+              related='Priority.Description',
+              store=True,
+              ),
+
     fields.Many2one(string='Priority1',
                    comodel_name='olims.ar_priority',
                    required=False,
