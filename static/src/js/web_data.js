@@ -20,7 +20,14 @@ var _t = core._t;
  */
  $(document).ready(function(){
   var analysis_click = false;
+  var lastChecked = null;
+  var ctrl_pressed = false;
 
+     $(document).keydown(function (e) {
+    if (e.keyCode == 17) {
+        ctrl_pressed = true;
+    }
+    });
     $(".oe_menu_text").click(function() {
 
         var menu_name = $(this).text().replace(/^\s+|\s+$/g, '');
@@ -60,6 +67,29 @@ var _t = core._t;
         }
 
     });
+
+
+    $(document).on('change', 'input:checkbox[name="radiogroup"]', function(e) {
+
+      //----------------- checkbox range selection -------------------------//
+         var $chkboxes = $('input:checkbox[name="radiogroup"]');
+        if(!lastChecked) {
+            lastChecked = this;
+            return;
+        }
+        if(ctrl_pressed) {
+            var end = $chkboxes.index(this);
+            var start = $chkboxes.index(lastChecked);
+            $('input:checkbox[name="radiogroup"]').slice(start,end).prop('checked', true);
+
+        }
+
+        lastChecked = this;
+        ctrl_pressed = false;
+        //------------------------range selection ends here---------------------------//
+});
+
+
 
 
 });
