@@ -9,3 +9,4 @@ group_clients,Clients,
 group_regulatory_inspectors,Regulatory Inspectors,
 group_analyst,Analyst,
 group_lab_admin,Lab Administrator,olims.group_lab_managers
+group_cancel_ar_n_sample,Cancel Rights,

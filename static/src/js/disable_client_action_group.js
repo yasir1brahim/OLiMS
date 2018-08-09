@@ -23,6 +23,67 @@ odoo.define("web_disable_client_action_group", function(require) {
                     }
                 });
             }
-        }
+        },
+
+        add_toolbar: function(toolbar) {
+
+            var self = this;
+            var index= 0;
+            var item_list = [];
+            var self = this;
+            var _super = this._super;
+
+            if (session.uid != 1)
+            {
+
+                 var model_res_users = new Model("res.users");
+                 model_res_users.call("has_group", ["olims.group_cancel_ar_n_sample"]).done(function(has_cancel_rights) {
+                    if (has_cancel_rights)
+                    {
+                        _super.call(self, toolbar);
+                    }
+            else
+            {
+                 _.each(['print','action','relate'], function(type) {
+                 var items = toolbar[type];
+
+                 if (items)
+                 {
+                    item_list = [];
+                    index = 0;
+
+                    for (var i = 0; i < items.length; i++)
+                     {
+
+                            if ((items[i]['model_name'] == 'olims.analysis_request' && (items[i]['name']=='Cancel' )) || (items[i]['model_name'] == 'olims.sample' && items[i]['name']=='Dispose'))
+                              continue
+
+                            item_list[index] = {
+                                label: items[i]['name'],
+                                action: items[i],
+                                classname: 'oe_sidebar_' + type
+                            };
+
+                        index++;
+                    }
+
+                self.add_items(type=='print' ? 'print' : 'other', item_list);
+            }
+        });
+
+            }
+
+            });
+            }
+
+            else
+            {
+                _super.call(self, toolbar);
+            }
+
+
+
+
+    }
     });
 });
