@@ -17,6 +17,8 @@ import logging
 import openerp
 import base64
 from models import InMemoryZip
+from lxml import etree
+from openerp.osv.orm import setup_modifiers
 _logger = logging.getLogger(__name__)
 
 AR_STATES = (
@@ -1696,6 +1698,22 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     _rec_name = "RequestID"
     _inherit = ['mail.thread', 'ir.needaction_mixin']
 
+    @api.model
+    def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
+                        submenu=False):
+        res = super(AnalysisRequest, self).fields_view_get(
+            view_id=view_id, view_type=view_type, toolbar=toolbar,
+            submenu=submenu)
+
+        if self.env.user.has_group('olims.group_clients'):
+            doc = etree.XML(res['arch'])
+            if doc.xpath("//group[@name='direct_enter_ar']"):
+                node = doc.xpath("//group[@name='direct_enter_ar']")[0]
+                node.set('invisible', '1')
+                setup_modifiers(node)
+                res['arch'] = etree.tostring(doc)
+
+        return res
 
 
     def cancel_analysis_request_action(self, cr, uid, ids, context=None):

@@ -1864,9 +1864,8 @@
                                                attrs="{'invisible': [('id', '!=', False)]}"/>
                                     </div>
                                 </group>
-                                <group>
-                                    <label for="pre_enter" string="Directly Enter AR"
-                                           attrs="{'invisible': [('id', '!=', False)]}"/>
+                                <group name="direct_enter_ar" >
+                                    <label for="pre_enter" string="Directly Enter AR" attrs="{'invisible': [('id', '!=', False)]}"/>
                                     <div>
                                         <field name="pre_enter" style="width:20%%" tabindex="2" nolabel="1"
                                                attrs="{'invisible': [('id', '!=', False)]}" class="fa fa-forward"/>
