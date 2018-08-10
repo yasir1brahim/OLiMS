@@ -198,8 +198,12 @@ class ARInvoice(models.Model):
 
                     for ar_service in ar_record.Analyses:
                         for rec in ar_record.AnalysisProfile:
+                            premium_percentage = 1
+                            if ar_record.Priority:
+                                premium_percentage = float(ar_record.Priority.Premium) / 100
+                                charges_to_add = float(rec.AnalysisProfilePrice) * premium_percentage
                             if ar_service.Services.id in profile_service_ids_list and rec.UseAnalysisProfilePrice:
-                                profiles_price[rec.id] = rec.AnalysisProfilePrice
+                                profiles_price[rec.id] = rec.AnalysisProfilePrice + charges_to_add
                                 profiles_VAT[rec.id] = rec.AnalysisProfileVAT
 
                             else:
@@ -211,7 +215,7 @@ class ARInvoice(models.Model):
                         amount_subtotal += profile_price - (profile_price * ar_record.Client.M_Discount /100)
                         amount_vat = amount_subtotal * profiles_VAT[profile] / 100
                         amount_total += (profile_price - (profile_price * ar_record.Client.M_Discount /100)) + amount_vat
-
+                        
                     ar_record.write({"Total": (amount_total + s_amount_total)})
                 else:
                     ar_record.write({"Discount": 0.0, "Subtotal": 0.0, "VAT": 0.0, "Total":0.0})
