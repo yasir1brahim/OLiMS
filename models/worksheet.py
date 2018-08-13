@@ -1115,6 +1115,17 @@ class Worksheet(models.Model, BaseOLiMSModel):
                     add_analysis_obj.write(cr, uid, item.id, {"state": 'unassigned'}, context)
                     worksheet.write(cr, uid, record.id, {"AnalysisRequest": [(3, item.id)]})
 
+    @api.multi
+    def open_worksheet_form_view(self):
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'olims.worksheet',
+            'res_id': self.env.context.get('ws_id'),
+            'view_type': 'form',
+            'view_mode': 'form',
+            'target': 'current',
+        }
+
 
 class AddAnalysis(models.Model):
     _name = "olims.add_analysis"

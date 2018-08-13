@@ -2640,6 +2640,8 @@
                                         <field name="ar_worksheets" widget="one2many_list" nolabel="1"
                                                attrs="{'invisible': [('id', '=', False)]}">
                                             <tree string="Worksheet">
+                                                <field name="id" invisible="1"/>
+                                                <button string="View" name="open_worksheet_form_view" context="{'ws_id':id}" type="object" icon="fa-eye" help="View"></button>
                                                 <field name="Worksheet"></field>
                                                 <field name="Analyst"></field>
                                                 <field name="Template"></field>
@@ -2647,7 +2649,6 @@
                                                 <field name="create_date"></field>
                                                 <field name="State"></field>
                                             </tree>
-
                                         </field>
                                     </div>
                                 </group>
