@@ -7202,7 +7202,13 @@
             <field name="model">res.users</field>
             <field name="inherit_id" ref="base.view_users_form"/>
             <field name="arch" type="xml">
+
                 <xpath expr="//field[@name='groups_id']" position="after">
+                    <group string="" colspan="2">
+                        <field name="auto_log_off"></field>
+                        <field name="idle_duration"  attrs="{'invisible': [('auto_log_off', '=', False)]}"></field>
+                    </group>
+
                     <group string="" colspan="2">
                         <field name="client_id" attrs="{'invisible': [('in_group_20', '=', False)]}"></field>
                     </group>

@@ -13,7 +13,10 @@ from openerp import SUPERUSER_ID
 import json
 import zipfile
 from openerp.osv import osv
-
+from openerp.http import root
+from openerp.http import request
+from os.path import getmtime
+import time
 
 AVAILABLE_PRIORITIES = [
     ('0', 'Normal'),
@@ -3234,6 +3237,8 @@ class User(models.Model):
     login_date = openerp.fields.Datetime(related='log_ids.create_date', string='Latest connection', store = True)
     client_id = fields.Many2one("olims.client", string="Client")
     contact_id = fields.Many2one("olims.contact", string="Contact Name")
+    auto_log_off = fields.Boolean(string="Auto Log Off")
+    idle_duration = fields.Integer(string="Idle Time (Minutes)")
     
     _order = 'name, login, login_date'
 
@@ -3263,4 +3268,32 @@ class User(models.Model):
             raise osv.except_osv(_('error'), _('If you checks Client group, You must assign user a Client and Contact Person.'))
 
         res = super(User, self).write(vals)
+        return res
+
+
+    def _check_session_validity(self, db, uid, passwd):
+        registry = request.registry
+        uid = request.session.uid
+        cr = registry.cursor()
+
+        if not request:
+            return
+        user_obj = self.browse(cr, SUPERUSER_ID,[uid])
+        if user_obj.auto_log_off:
+            session = request.session
+            session_store = root.session_store
+            path = session_store.get_session_filename(session.sid)
+            try:
+                duration = time.time() - user_obj.idle_duration * 60
+                if getmtime(path) < duration:
+                    if session.db and session.uid:
+                        session.logout(keep_db=True)
+
+            except OSError:
+                pass
+            return
+
+    def check(self, db, uid, passwd):
+        res = super(User, self).check(db, uid, passwd)
+        self._check_session_validity(db, uid, passwd)
         return res
