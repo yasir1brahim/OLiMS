@@ -7225,6 +7225,12 @@
             <field name="model">res.users</field>
             <field name="inherit_id" ref="base.view_users_simple_form"/>
             <field name="arch" type="xml">
+                 <xpath expr="/form/*" position="before">
+                     <header>
+                        <button string="Change Password" type="action" name="%(base.change_password_wizard_action)d" help="Change the user password."/>
+                    </header>
+
+                </xpath>
                 <xpath expr="//field[@name='fax']" position="after">
                     <field name="contact_id" domain="[('Client_Contact', '=', context.get('client_id'))]" required="1"></field>
                 </xpath>
