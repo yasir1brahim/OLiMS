@@ -3277,6 +3277,7 @@ class User(models.Model):
         cr = registry.cursor()
 
         if not request:
+            cr.close()
             return
         user_obj = self.browse(cr, SUPERUSER_ID,[uid])
         if user_obj.auto_log_off:
@@ -3291,7 +3292,8 @@ class User(models.Model):
 
             except OSError:
                 pass
-            return
+        cr.close()
+        return
 
     def check(self, db, uid, passwd):
         res = super(User, self).check(db, uid, passwd)
