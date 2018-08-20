@@ -3609,6 +3609,8 @@
                     <field name="ClientSampleID"></field>
                     <label for="LotID" string="Lot ID"/>
                     <field name="LotID"></field>
+                     <label for="Client" string="Client"/>
+                    <field name="Client"></field>
                     <label for="SampleType" string="Sample Type"/>
                     <field name="SampleType"></field>
                     <label for="SamplingDate" string="Sampling Date"/>
