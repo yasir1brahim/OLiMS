@@ -4267,6 +4267,24 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         })
         return True
 
+    @api.multi
+    def ar_publish(self):
+        view_id = self.env['ir.ui.view'].search([('name', '=', 'Payment Not Current Dialog Box')])
+        context = self.env.context.copy()
+        context.update({'do_action': 'publish'})
+        return {
+            'name': _('Payment Not Current'),
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_model': 'olims.message_dialog_box',
+            'view_id': [view_id.id],
+            'target': 'new',
+            'type': 'ir.actions.act_window',
+            'context': context,
+        }
+
+        return True
+
     def workflow_script_cancel(self,cr,uid,ids,context=None):
         self.write(cr, uid, ids,{
             'state': 'cancelled'
@@ -4598,8 +4616,28 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         res = self.pool.get("olims.sample").browse(cr,uid,sample_ids).write({"state":state})
         return True
 
-    def bulk_verify_request(self,cr,uid,ids,context=None):
+    def bulk_verify_request(self,cr,uid,ids,context=None, ids_to_verify = None):
         requests = self.pool.get('olims.analysis_request').browse(cr,uid,ids,context)
+        if ids_to_verify == None:
+            if requests.Client.payment_not_current:
+                view_id = self.pool.get('ir.ui.view').search(cr, uid, [('name', '=', 'Payment Not Current Dialog Box')], \
+                                                             context=context)
+                context = context.copy()
+                context.update({'do_action' : 'verify'})
+                return {
+                    'name': _('Payment Not Current'),
+                    'view_mode': 'form',
+                    'view_type': 'form',
+                    'res_model': 'olims.message_dialog_box',
+                    'view_id': view_id[0],
+                    'target': 'new',
+                    'type': 'ir.actions.act_window',
+                    'context': context,
+                }
+        else:
+            requests = self.pool.get('olims.analysis_request').browse(cr, uid, ids_to_verify, context)
+
+
         for request in requests:
             ar_manage_results = self.pool.get("olims.manage_analyses")
             analyses = ar_manage_results.search_read(cr, uid, [
@@ -5207,6 +5245,26 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         This function opens a window to compose an email, with the edi sale template message loaded by default
         '''
         self.ensure_one()
+        if not self.env.context.get('open_wizard'):
+            requests = self.pool.get('olims.analysis_request').browse(self.env.cr, self.env.uid, self._ids)
+            if requests.Client.payment_not_current:
+                view_id = self.pool.get('ir.ui.view').search(self.env.cr, self.env.uid,\
+                                                         [('name', '=', 'Payment Not Current Dialog Box')],\
+                                                             context=self.env.context)
+                context = self.env.context.copy()
+                context.update({'do_action': 'send_COA_mail'})
+                return {
+                    'name': _('Payment Not Current'),
+                    'view_mode': 'form',
+                    'view_type': 'form',
+                    'res_model': 'olims.message_dialog_box',
+                    'view_id': view_id,
+                    'target': 'new',
+                    'type': 'ir.actions.act_window',
+                    'context': context,
+                }
+
+
         emails_send = []
         for email in self.CCEmails:
             emails_send.append(email.name)

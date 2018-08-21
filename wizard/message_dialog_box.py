@@ -12,6 +12,26 @@ class MessageDialogBox(models.TransientModel):
         return True
 
     @api.multi
+    def bulk_verify_analysis_requests(self):
+        active_ids = self._context.get('active_ids', [])
+        self.env['olims.analysis_request'].bulk_verify_request(context=self.env.context, ids_to_verify=active_ids)
+        return True
+
+
+    @api.multi
+    def publish_analysis_request(self):
+        active_ids = self._context.get('active_ids', [])
+        self.env['olims.analysis_request'].browse(active_ids).signal_workflow('publish')
+        return True
+
+    @api.multi
+    def send_ar_COA(self):
+        active_ids = self._context.get('active_ids', [])
+        return self.env['olims.analysis_request'].browse(active_ids).action_report_send()
+
+
+
+    @api.multi
     def unlink(self):
         analysis_id = self._context.get('active_ids', [])[0]
         self.env["olims.add_analysis"].browse(analysis_id).write({"state": 'unassigned'})

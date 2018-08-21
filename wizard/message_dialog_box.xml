@@ -28,6 +28,43 @@
             <field name="view_id" ref="view_message_dialog_box"/>
         </record>
 
+        <record id="view_dialog_box_payment_not_current" model="ir.ui.view">
+            <field name="name">Payment Not Current Dialog Box</field>
+            <field name="model">olims.message_dialog_box</field>
+            <field name="arch" type="xml">
+                <form string="Cancel Analyses Request">
+                    <p class="o_dialog_warning">
+                       Payment Not Current for Selected Client(s)  Do you wish to continue ?</p>
+                    <field name="title" invisible="1"/>
+                    <footer>
+                         <button name="bulk_verify_analysis_requests" invisible="context.get('do_action') in ['publish', 'send_COA_mail']"  string="Yes" type="object" class="btn-primary"/>
+                         <button name="publish_analysis_request" invisible="context.get('do_action') in ['verify', 'send_COA_mail']"  string="Yes" type="object" class="btn-primary"/>
+                         <button name="send_ar_COA" invisible="context.get('do_action') in ['verify', 'publish']" context="{'open_wizard': True}"  string="Yes" type="object" class="btn-primary"/>
+                         <button string="No" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+
+         <record id="action_view_dialog_box_payment_not_current" model="ir.actions.act_window">
+            <field name="name">Payment Not Current Action</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">olims.message_dialog_box</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="view_dialog_box_payment_not_current"/>
+        </record>
+
+
+
+
+
+
+
+
+
         <record id="analysis_request_action_cancel" model="ir.actions.server">
             <field name="name">Cancel</field>
             <field name="type">ir.actions.server</field>
