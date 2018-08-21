@@ -5644,6 +5644,17 @@
             </field>
         </record>
 
+
+          <record id="action_bring_client_form_view" model="ir.actions.server">
+            <field name="name">Bring Client Form View</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="model_olims_client"/>
+            <field name="state">code</field>
+            <field name="code">action = self.action_bring_form_view(cr,uid,context=context)</field>
+            <field name="sequence" eval="2"/>
+        </record>
+
+
         <record model="ir.actions.act_window" id="client_list_action">
             <field name="name">Client</field>
             <field name="res_model">olims.client</field>
@@ -5654,9 +5665,20 @@
 
         <menuitem id="olims_client_menu" name="Client" parent="olims_menu" sequence="2"
                   action="client_list_action"
-                  groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst,group_clients"/>
+                  groups="olims.group_lab_managers,base.group_system,olims.group_lab_clerks,olims.group_samplers,olims.group_analyst"/>
+
+
+
         <menuitem id="client_menu" name="Client" parent="olims_settings_menu" sequence="1"
                   action="client_list_action"/>
+
+        <menuitem id="olims_client_menu_for_client" name="Client" parent="olims_menu" sequence="2"
+                  action="action_bring_client_form_view"
+                  groups="group_clients"/>
+
+         <record id="olims.olims_client_menu" model="ir.ui.menu">
+             <field name="groups_id" eval="[(6,0, [ ref('olims.group_lab_managers'),ref('base.group_system'),ref('olims.group_lab_clerks'),ref('olims.group_samplers'),ref('olims.group_analyst')])]"/>
+         </record>
         <!--Instrument form view -->
 
         <record model="ir.ui.view" id="olims_instrument_form_view">

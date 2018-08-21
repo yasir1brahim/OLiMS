@@ -252,6 +252,28 @@ class Client(models.Model, BaseOLiMSModel):
     _rec_name = 'Name'
 
 
+
+    def action_bring_form_view(self,cr, uid,context):
+        ir_model_data = self.pool.get('ir.model.data')
+        form_id = ir_model_data.get_object_reference(cr, uid, 'olims', 'olims_client_form_view')[1]
+        client = self.pool.get('olims.client')
+        client_id = client.search(cr, uid,[])[0]
+
+        return {
+            'name': _('Confirm'),
+            'type': 'ir.actions.act_window',
+            'view_type': 'form',
+            'view_mode': 'form',
+            'res_model': 'olims.client',
+            'res_id':client_id,
+            'views': [(form_id, 'form')],
+            'view_id': form_id,
+            'target': 'current',
+
+        }
+
+
+
     @api.onchange('Copy_Active_AProfiles')
     def assign_all_active_profiles_to_client(self, cr, uid, context):
         if context.get('val_Copy_Active_AProfiles'):
