@@ -54,7 +54,7 @@ access_olims_method_regulatoryinspector,olims.method,model_olims_method,group_re
 access_olims_method_client,olims.method,model_olims_method,group_clients,1,0,0,0
 access_olims_batch_client,olims.batch,model_olims_batch,group_clients,1,0,0,0
 access_olims_smaple_client,olims.sample,model_olims_sample,group_clients,1,1,1,0
-access_olims_analysis_request_client,olims.analysis_request,model_olims_analysis_request,group_clients,1,1,1,1
+access_olims_analysis_request_client,olims.analysis_request,model_olims_analysis_request,group_clients,1,0,1,1
 access_olims_samplke_point_client,olims.sample_point,model_olims_sample_point,group_clients,1,1,1,0
 access_olims_analysis_profile_client,olims.analysis_profile,model_olims_analysis_profile,group_clients,1,1,1,0
 access_olims_artemplate_client,olims.ar_template,model_olims_ar_template,group_clients,1,1,1,0
