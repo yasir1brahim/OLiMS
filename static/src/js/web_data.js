@@ -20,14 +20,7 @@ var _t = core._t;
  */
  $(document).ready(function(){
   var analysis_click = false;
-  var lastChecked = null;
-  var ctrl_pressed = false;
 
-     $(document).keydown(function (e) {
-    if (e.keyCode == 17) {
-        ctrl_pressed = true;
-    }
-    });
     $(".oe_menu_text").click(function() {
 
         var menu_name = $(this).text().replace(/^\s+|\s+$/g, '');
@@ -68,26 +61,6 @@ var _t = core._t;
 
     });
 
-
-    $(document).on('change', 'input:checkbox[name="radiogroup"]', function(e) {
-
-      //----------------- checkbox range selection -------------------------//
-         var $chkboxes = $('input:checkbox[name="radiogroup"]');
-        if(!lastChecked) {
-            lastChecked = this;
-            return;
-        }
-        if(ctrl_pressed) {
-            var end = $chkboxes.index(this);
-            var start = $chkboxes.index(lastChecked);
-            $('input:checkbox[name="radiogroup"]').slice(start,end).prop('checked', true);
-
-        }
-
-        lastChecked = this;
-        ctrl_pressed = false;
-        //------------------------range selection ends here---------------------------//
-});
 
 
 
@@ -1226,3 +1199,76 @@ return {
 };
 
 });
+
+
+odoo.define('olims_checkbox_range_selection', function (require) {
+"use strict";
+
+    var module = require('web.form_common');
+    var selected_dialog = module.SelectCreateDialog;
+    var lastChecked = null;
+    var ctrl_pressed = false;
+
+     $(document).ready(function(){
+
+
+
+         $(document).keydown(function (e) {
+        if (e.keyCode == 17) {
+            ctrl_pressed = true;
+        }
+        });
+
+    $(document).on('change', 'input:checkbox[name="radiogroup"]', function(e) {
+
+      //----------------- checkbox range selection -------------------------//
+         var $chkboxes = $('input:checkbox[name="radiogroup"]');
+        if(!lastChecked) {
+            lastChecked = this;
+            return;
+        }
+        if(ctrl_pressed) {
+            var end = $chkboxes.index(this);
+            var start = $chkboxes.index(lastChecked);
+            $('input:checkbox[name="radiogroup"]').slice(start,end).prop('checked', true);
+
+        }
+
+        lastChecked = this;
+        ctrl_pressed = false;
+        //------------------------range selection ends here---------------------------//
+});
+
+
+
+
+});
+
+
+var select_create_dialog = selected_dialog.include({
+
+
+   on_click_element: function(ids) {
+          var self = this;
+          var _super = this._super;
+
+        if (ctrl_pressed)
+        {
+            var last_elem = $('[data-id=' + ids[Object.keys(ids).length - 1] + ']')
+            while(last_elem.prev().attr('data-id') != ids[0])
+            {   var id = Number(last_elem.prev().attr('data-id'))
+                ids.push(id)
+                last_elem = $('[data-id=' + id + ']')
+            }
+
+        }
+        _super.call(self, ids);
+    },
+    });
+
+
+
+
+});
+
+
