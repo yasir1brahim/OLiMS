@@ -5679,6 +5679,21 @@
          <record id="olims.olims_client_menu" model="ir.ui.menu">
              <field name="groups_id" eval="[(6,0, [ ref('olims.group_lab_managers'),ref('base.group_system'),ref('olims.group_lab_clerks'),ref('olims.group_samplers'),ref('olims.group_analyst')])]"/>
          </record>
+
+
+         <record id="calendar.mail_menu_calendar" model="ir.ui.menu">
+             <field name="groups_id" eval="[(6,0, [ ref('olims.group_lab_managers'),ref('base.group_system'),ref('olims.group_lab_clerks'),ref('olims.group_lab_technicians'),ref('olims.group_verifiers'),ref('olims.group_preservers'),ref('olims.group_regulatory_inspectors'),ref('olims.group_lab_admin'),ref('olims.group_samplers'),ref('olims.group_analyst')])]"/>
+         </record>
+
+         <record id="mail.mail_channel_menu_root_chat" model="ir.ui.menu">
+             <field name="groups_id" eval="[(6,0, [ ref('olims.group_lab_managers'),ref('base.group_system'),ref('olims.group_lab_clerks'),ref('olims.group_lab_technicians'),ref('olims.group_verifiers'),ref('olims.group_preservers'),ref('olims.group_regulatory_inspectors'),ref('olims.group_lab_admin'),ref('olims.group_samplers'),ref('olims.group_analyst')])]"/>
+         </record>
+
+         <record id="mail.menu_contacts" model="ir.ui.menu">
+             <field name="groups_id" eval="[(6,0, [ ref('olims.group_lab_managers'),ref('base.group_system'),ref('olims.group_lab_clerks'),ref('olims.group_lab_technicians'),ref('olims.group_verifiers'),ref('olims.group_preservers'),ref('olims.group_regulatory_inspectors'),ref('olims.group_lab_admin'),ref('olims.group_samplers'),ref('olims.group_analyst')])]"/>
+         </record>
+
+
         <!--Instrument form view -->
 
         <record model="ir.ui.view" id="olims_instrument_form_view">
