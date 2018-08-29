@@ -6,7 +6,7 @@
             <field name="model">olims.analysis_request</field>
             <field name="priority" eval="3"/>
             <field name="arch" type="xml">
-                <tree string="Analysis Request" create="false" delete="false">
+                <tree string="Analysis Request" create="false" delete="false" default_order="SamplingDate">
                     <!-- <field name="RequestID" string="Request ID"></field> -->
                     <!-- <field name="Sample"></field> -->
                     <field name="Client" on_change="on_client_change()"></field>
