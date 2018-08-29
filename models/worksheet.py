@@ -1419,9 +1419,10 @@ class Import(models.TransientModel):
         if record.res_model == 'olims.ws_manage_results' and not dryrun:
             data, import_fields = self._convert_import_data(
                          record, fields, options, context=context)
+            external_id_column = import_fields.index('id')
             ws_manage_ids = []
             for datum in data:
-                id_string = str(datum[0])
+                id_string = str(datum[external_id_column])
                 ws_manage_ids.append(int(id_string[id_string.rfind('_')+1:]))
             ws_manage_results = self.pool.get('olims.ws_manage_results').browse(cr, uid, ws_manage_ids)
             for result_record in ws_manage_results:
