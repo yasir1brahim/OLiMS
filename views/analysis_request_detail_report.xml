@@ -25,7 +25,8 @@
 			                    </tr>
 			                </thead>
 			                <tbody>
-			                	<tr t-foreach="docs" t-as="doc">
+								<t t-foreach="docs" t-as="doc">
+			                	<tr t-foreach="doc.AnalysisProfile" t-as="rec">
 			                        <td class="text-center">
 			                        	<span t-field="doc.RequestID"/>
 			                        </td>
@@ -45,12 +46,13 @@
 			                            <span t-field="doc.SampleType.SampleType"/>
 			                        </td>
 			                        <td class="text-center">
-			                            <span t-field="doc.AnalysisProfile.Profile"/>
+			                            <span t-field="rec.Profile"/>
 			                        </td>
 			                        <td class="text-center">
 			                        	<span t-field="doc.Client.Name"/>
 			                        </td>
 				                </tr>
+								</t>
 			                </tbody>
 		            	</table>
 		            </div>
