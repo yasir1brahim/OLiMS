@@ -244,6 +244,9 @@ schema = (
     BooleanField(string="Copy_Active_AProfiles",
             default = True
     ),
+    BooleanField(string='is_client_user',
+                compute='check_client_group',
+                ),
 
 )
 
@@ -376,6 +379,14 @@ class Client(models.Model, BaseOLiMSModel):
         if cash_value:
             return cash_value[0].id
         return False
+
+    @api.multi
+    def check_client_group(self):
+        for record in self:
+            if self.env.user.has_group('olims.group_clients'):
+                record.is_client_user = True
+
+
 
     payment_term_id = fields.Many2one(string="Payment Terms",
         comodel_name="olims.payment_term", default=_get_value_cash_as_default)

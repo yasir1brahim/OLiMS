@@ -5382,6 +5382,7 @@
             <field name="model">olims.client</field>
             <field name="arch" type="xml">
                 <form string="Client Form">
+                    <field name="is_client_user" invisible="1"></field>
                     <sheet>
                         <notebook>
                             <page string="Analysis Requests" attrs="{'invisible': [('id', '=', False)]}">
@@ -5418,7 +5419,7 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="Default" name="Default Page">
+                            <page string="Default" name="Default Page" attrs="{'invisible': [('is_client_user', '=', True)]}">
                                 <field name="id" invisible="1"/>
                                 <label for="Name" string="Name" name="Name"/>
                                 <field name="Name"></field>
@@ -5431,7 +5432,7 @@
                                 <label for="Fax" string="Fax" name="Fax"/>
                                 <field name="Fax"></field>
                             </page>
-                            <page string="Finance" name="Finance Page">
+                            <page string="Finance" name="Finance Page" attrs="{'invisible': [('is_client_user', '=', True)]}">
                                 <label for="payment_term_id" string="Payment Term"/>
                                 <field name="payment_term_id" widget="selection"></field>
                                 <label for="payment_not_current" string="Payment not Current"/>
@@ -5449,8 +5450,8 @@
                                 <field name="BulkDiscount"></field>
                                 <br/>
                             </page>
-                            <page string="Email Addresses" name="Email Addresses">
-                                <label for="email" string="Email Address" name="Email Address"/>
+                            <page string="Email Addresses" name="Email Addresses" attrs="{'invisible': [('is_client_user', '=', True)]}">
+                                <label for="email" string="Email Address" name="Email Address" attrs="{'invisible': [('is_client_user', '=', True)]}"/>
                                 <field name="email">
                                     <tree editable="top">
                                         <field name="name" string="Email"/>
@@ -5464,7 +5465,7 @@
                                     </tree>
                                 </field>
                             </page>
-                            <page string="Address" name="Address Page">
+                            <page string="Address" name="Address Page" attrs="{'invisible': [('is_client_user', '=', True)]}">
                                 <group col='4' string='Physical Address'>
                                     <group col='2'>
                                         <label for='physical_country' string='Country'/>
@@ -5532,7 +5533,7 @@
                                     </group>
                                 </group>
                             </page>
-                            <page string="Bank Details" name="Bank Detail Page">
+                            <page string="Bank Details" name="Bank Detail Page" attrs="{'invisible': [('is_client_user', '=', True)]}">
                                 <label for="AccountType" string="Account Type"/>
                                 <field name="AccountType"></field>
                                 <label for="AccountName" string="Account Name"/>
@@ -5544,7 +5545,7 @@
                                 <label for="BankBranch" string="Bank Branch"/>
                                 <field name="BankBranch"></field>
                             </page>
-                            <page string="Preferences" name="Preferences Page">
+                            <page string="Preferences" name="Preferences Page" attrs="{'invisible': [('is_client_user', '=', True)]}">
                                 <label for="EmailSubject" string="Email subject line"/>
                                 <p>Items to be included in email subject lines</p>
                                 <field name="EmailSubject"></field>
@@ -5565,23 +5566,23 @@
                             </page>
                             <!-- <page string="Batches" attrs="{'invisible': [('id', '=', False)]}">
                         </page> -->
-                            <page string="Samples" attrs="{'invisible': [('id', '=', False)]}">
+                            <page string="Samples" attrs="{'invisible': ['|', ('id', '=', False), ('is_client_user', '=', True)]}">
                                 <label for="Sample" string="Samples"/>
                                 <field name="Sample" domain="[('state', '!=', 'pre_enter')]"
                                        context="{'tree_view_ref':'olims.olims_sample_tree_view'}"></field>
                             </page>
-                            <page string="Sample Points" attrs="{'invisible': [('id', '=', False)]}">
+                            <page string="Sample Points" attrs="{'invisible': ['|', ('id', '=', False), ('is_client_user', '=', True)]}">
                                 <label for="Sample Point" string="Sample Points"/>
                                 <field name="Sample Point"></field>
                             </page>
-                            <page string="Analysis Profiles" attrs="{'invisible': [('id', '=', False)]}">
+                            <page string="Analysis Profiles" attrs="{'invisible': ['|', ('id', '=', False), ('is_client_user', '=', True)]}">
                                 <field name="Copy_Active_AProfiles"
                                        context="{'id':id, 'val_Copy_Active_AProfiles':Copy_Active_AProfiles}"></field>
                                 <label string="Mark to Copy All Active Analysis Profiles"/>
                                 <field name="Analysis_Profile" widget="many2many_selectable">
                                 </field>
                             </page>
-                            <page string="AR Templates" attrs="{'invisible': [('id', '=', False)]}">
+                            <page string="AR Templates" attrs="{'invisible': ['|', ('id', '=', False), ('is_client_user', '=', True)]}">
                                 <header>
                                     <button name="%(action_client_contact_and_email_template)d" string="Add Template"
                                             type="action" class="oe_highlight"/>
@@ -5589,23 +5590,23 @@
                                 <label for="AR Template" string="AR Templates"/>
                                 <field name="AR Template"></field>
                             </page>
-                            <page string="Analysis Specifications" attrs="{'invisible': [('id', '=', False)]}">
+                            <page string="Analysis Specifications" attrs="{'invisible': ['|', ('id', '=', False), ('is_client_user', '=', True)]}">
                                 <label for="Analysis Specification" string="Analysis Specifications"/>
                                 <field name="Analysis Specification"></field>
                             </page>
-                            <page string="Orders" name="Orders" attrs="{'invisible': [('id', '=', False)]}">
+                            <page string="Orders" name="Orders" attrs="{'invisible': ['|', ('id', '=', False), ('is_client_user', '=', True)]}">
                                 <label for="Supply Order" string="Supply Orders"/>
                                 <field name="Supply Order"></field>
                             </page>
-                            <page string="Contacts" name="Contacts" attrs="{'invisible': [('id', '=', False)]}">
+                            <page string="Contacts" name="Contacts" attrs="{'invisible': ['|', ('id', '=', False), ('is_client_user', '=', True)]}">
                                 <label for="Contact" string="Contacts"/>
                                 <field name="Contact"></field>
                             </page>
-                            <page string="Sampling Round Template " attrs="{'invisible': [('id', '=', False)]}">
+                            <page string="Sampling Round Template " attrs="{'invisible': ['|', ('id', '=', False), ('is_client_user', '=', True)]}">
                                 <label for="SR Template" string="Sampling Round Templates"/>
                                 <field name="SR Template"></field>
                             </page>
-                            <page string="Login Details" attrs="{'invisible': [('id', '=', False)]}">
+                            <page string="Login Details" attrs="{'invisible': ['|', ('id', '=', False), ('is_client_user', '=', True)]}">
                                 <label for="Login Details" string="Login Details"/>
                                 <field name="Client User Login Details" context="{'client_id':active_id}"></field>
                             </page>
