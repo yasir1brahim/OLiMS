@@ -166,6 +166,19 @@ class AnalysisProfile(models.Model, BaseOLiMSModel):
             else:
                 record.status = "Active"
 
+    @api.onchange("Deactivated")
+    def onchange_deactivated(self):
+        active_id = self._origin.id
+        client = self.pool.get('olims.client')
+        if not (self.Deactivated):
+            clients = client.search_read(self.env.cr, self.env.uid,
+                                                              [('Copy_Active_AProfiles', '=', True)])
+            ids = []
+            for client_obj in clients:
+                if active_id not in client_obj.get('Analysis_Profile'):
+                    ids.append( client_obj.get('id'))
+            client.write(self.env.cr, self.env.uid, ids, {'Analysis_Profile': [(4,  [active_id])] })
+
     def deactivate_profile(self,cr,uid,ids,context=None):
         query = "delete from olims_analysis_profile_olims_client_rel where olims_analysis_profile_id in (" +\
                 ",".join(str(id) for id in ids)+")"
