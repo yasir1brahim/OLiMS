@@ -3609,8 +3609,22 @@
                     <field name="ClientSampleID"></field>
                     <label for="LotID" string="Lot ID"/>
                     <field name="LotID"></field>
+                    <label for="InventoryID" string="Inventory ID"/>
+                    <field name="InventoryID"></field>
+                    <label for="BatchID" string="Batch ID"/>
+                    <field name="BatchID"></field>
+
+
+                    <label for="Sampler" string="Transporter"/>
+                    <field name="Sampler"></field>
                      <label for="Client" string="Client"/>
-                    <field name="Client"></field>
+                    <field name="Client" ></field>
+                     <label for="Contact" string="Contact"/>
+                    <field name="Contact" widget="many2many_tags"
+                    domain="['|',('Client_Contact','=',context.get('client_context')),('Client_Contact','=',Client)]"></field>
+                    <label for="CCEmails" string="CC Emails"/>
+                    <field name="CCEmails" widget="many2many_tags"
+                    domain="[('client_id','!=',False),'|',('client_id','=',context.get('client_context')),('client_id','=',Client)]"></field>
                     <label for="SampleType" string="Sample Type"/>
                     <field name="SampleType"></field>
                     <label for="SamplingDate" string="Sampling Date"/>

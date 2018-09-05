@@ -116,6 +116,24 @@ schema = (StringField('name',
     StringField(
         'LotID',
     ),
+    StringField(
+      'InventoryID',
+    ),
+    StringField(
+        'BatchID',
+    ),
+    fields.Many2many(string='Contact',
+                    comodel_name='olims.contact',
+                    required=True
+    ),
+    fields.Many2many(
+              string='CCEmails',
+              comodel_name="olims.email"
+          ),
+    fields.Many2one(string='Sampler',
+        comodel_name="res.users",
+        domain="[('groups_id', 'in', [14,18])]",
+    ),
 )
 
 
@@ -494,7 +512,11 @@ class Sample(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
             sampling_deviation = record.SamplingDeviation
             sample_condition = record.SampleCondition
             lot_id = record.LotID
-
+            inventory_id  = record.InventoryID
+            batch_id = record.BatchID
+            contact = record.Contact
+            ccemails = record.CCEmails
+            sampler = record.Sampler
         result = {
                     'name': 'Analysis Request',
                     'view_type': 'form',
@@ -505,7 +527,13 @@ class Sample(models.Model, BaseOLiMSModel): #BaseFolder, HistoryAwareMixin
                                 'default_ClientReference': client_reference, 'default_ClientSampleID': client_sample_ID,
                                 'default_SamplePoint': sample_point.id,'default_StorageLocation': storage_location.id,
                                 'default_SamplingDeviation': sampling_deviation.id, 'default_SampleCondition': sample_condition.id,
-                                'default_LotID': lot_id},
+                                'default_LotID': lot_id,
+                                'default_InventoryID': inventory_id,
+                                'default_BatchID': batch_id,
+                                'default_Sampler': sampler.id,
+                                'default_Contact': [i.id for i in contact],
+                                'default_CCEmails': [i.id for i in ccemails]
+                                },
                     'type': 'ir.actions.act_window',
                     'view_mode': 'form'
                 }

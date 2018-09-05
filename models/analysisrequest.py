@@ -1987,6 +1987,11 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'SamplingDeviation': ar_values.get('SamplingDeviation'),
             'SampleCondition': ar_values.get('SampleCondition'),
             "LotID": ar_values.get('LotID'),
+            'InventoryID':ar_values.get('InventoryID'),
+            'BatchID':ar_values.get('BatchID'),
+            'Contact':ar_values.get('Contact'),
+            'CCEmails':ar_values.get('CCEmails'),
+            'Sampler':ar_values.get('Sampler')
         }
         sample_object = self.env["olims.sample"]
         new_sample = sample_object.create(smaple_vals_dict)
@@ -2322,7 +2327,8 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'VAT': values.get('VAT',None),
             'Total': values.get('Total',None),
             'paid_cash': values.get('paid_cash', None),
-            'SampleMassReceived': values.get('SampleMassReceived',None)
+            'SampleMassReceived': values.get('SampleMassReceived',None),
+            'Sampler':values.get('Sampler',None)
         }
 
         analysis_request_1_dict = {
@@ -2368,7 +2374,8 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'VAT': values.get('VAT1',None),
             'Total': values.get('Total1',None),
             'paid_cash': values.get('paid_cash1', None),
-            'SampleMassReceived': values.get('SampleMassReceived1',None)
+            'SampleMassReceived': values.get('SampleMassReceived1',None),
+            'Sampler': values.get('Sampler', None)
         }
         analysis_request_2_dict = {
             'StorageLocation': values.get('StorageLocation2', None),
@@ -2413,7 +2420,8 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'VAT': values.get('VAT2',None),
             'Total': values.get('Total2',None),
             'paid_cash': values.get('paid_cash2', None),
-            'SampleMassReceived': values.get('SampleMassReceived2',None)
+            'SampleMassReceived': values.get('SampleMassReceived2',None),
+            'Sampler': values.get('Sampler', None)
         }
         analysis_request_3_dict = {
             'StorageLocation': values.get('StorageLocation3', None),
@@ -2458,7 +2466,8 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'VAT': values.get('VAT3',None),
             'Total': values.get('Total3',None),
             'paid_cash': values.get('paid_cash3', None),
-            'SampleMassReceived': values.get('SampleMassReceived3',None)
+            'SampleMassReceived': values.get('SampleMassReceived3',None),
+            'Sampler': values.get('Sampler', None)
         }
         analysis_request_4_dict = {
             'StorageLocation': values.get('StorageLocation4', None),
@@ -2503,7 +2512,8 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'VAT': values.get('VAT4',None),
             'Total': values.get('Total4',None),
             'paid_cash': values.get('paid_cash4', None),
-            'SampleMassReceived': values.get('SampleMassReceived4',None)
+            'SampleMassReceived': values.get('SampleMassReceived4',None),
+            'Sampler': values.get('Sampler', None)
         }
         analysis_request_5_dict = {
             'StorageLocation': values.get('StorageLocation5', None),
@@ -2548,7 +2558,8 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'VAT': values.get('VAT5',None),
             'Total': values.get('Total5',None),
             'paid_cash': values.get('paid_cash5', None),
-            'SampleMassReceived': values.get('SampleMassReceived5',None)
+            'SampleMassReceived': values.get('SampleMassReceived5',None),
+            'Sampler': values.get('Sampler', None)
         }
         analysis_request_6_dict = {
             'StorageLocation': values.get('StorageLocation6', None),
@@ -2593,7 +2604,8 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'VAT': values.get('VAT6',None),
             'Total': values.get('Total6',None),
             'paid_cash': values.get('paid_cash6', None),
-            'SampleMassReceived': values.get('SampleMassReceived6',None)
+            'SampleMassReceived': values.get('SampleMassReceived6',None),
+            'Sampler': values.get('Sampler', None)
         }
         analysis_request_7_dict = {
             'StorageLocation': values.get('StorageLocation7', None),
@@ -2638,7 +2650,8 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'VAT': values.get('VAT7',None),
             'Total': values.get('Total7',None),
             'paid_cash': values.get('paid_cash7', None),
-            'SampleMassReceived': values.get('SampleMassReceived7',None)
+            'SampleMassReceived': values.get('SampleMassReceived7',None),
+            'Sampler': values.get('Sampler', None)
         }
         analysis_request_8_dict = {
             'StorageLocation': values.get('StorageLocation8', None),
@@ -2683,7 +2696,8 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'VAT': values.get('VAT8',None),
             'Total': values.get('Total8',None),
             'paid_cash': values.get('paid_cash8', None),
-            'SampleMassReceived': values.get('SampleMassReceived8',None)
+            'SampleMassReceived': values.get('SampleMassReceived8',None),
+            'Sampler': values.get('Sampler', None)
         }
         analysis_request_9_dict = {
             'StorageLocation': values.get('StorageLocation9', None),
@@ -2728,7 +2742,8 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'VAT': values.get('VAT9',None),
             'Total': values.get('Total9',None),
             'paid_cash': values.get('paid_cash9', None),
-            'SampleMassReceived': values.get('SampleMassReceived9',None)
+            'SampleMassReceived': values.get('SampleMassReceived9',None),
+            'Sampler': values.get('Sampler', None)
         }
         return analysis_request_0_dict, analysis_request_1_dict, analysis_request_2_dict,\
                analysis_request_3_dict, analysis_request_4_dict, analysis_request_5_dict,\
@@ -2841,15 +2856,16 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     @api.onchange('Client')
     def on_client_change(self):
         #for record in self:
-        self.Contact = None
-        self.CCContact = None
-        self.CCEmails = None
-        self.Discount = 0.00
-        self.Adjustment = 0.00
-        self.VAT = 0.00
-        self.Subtotal = 0.00
-        self.Total = 0.00
-        self.ar_worksheets = None
+        if self.create_uid:
+            self.Contact = None
+            self.CCContact = None
+            self.CCEmails = None
+            self.Discount = 0.00
+            self.Adjustment = 0.00
+            self.VAT = 0.00
+            self.Subtotal = 0.00
+            self.Total = 0.00
+            self.ar_worksheets = None
 
     @api.onchange('adjustment_option','Adjustment','InvoiceExclude')
     def Computetotalamount(self):
