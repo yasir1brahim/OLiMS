@@ -1754,29 +1754,17 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 
     @api.onchange('SampleType')
     def _sampletype_onchange(self):
-        self.AnalysisProfile = None
+
+        profile_list = []
         res = {}
-        idar = []
-        if self.SampleType.id == False:
-            idar.append(-1)
-            res['domain'] = {'AnalysisProfile': [('id', 'in', idar)]}
-            return res
+        client = self._context.get('client_context', None)
+        client_obj = self.env['olims.client'].search([("id", "=", client)])
+        client_profiles =  client_obj.Analysis_Profile
+        for profile in self.SampleType.AnalysisProfile:
+            if profile in client_profiles:
+                profile_list.append(profile.id)
 
-        query = ("select oap.id from "
-                 "sp_to_analysisprofile stap "
-                 "join olims_analysis_profile oap "
-                 "on oap.id = stap.olims_analysis_profile_id "
-                 "join olims_sample_type ost "
-                 "on ost.id = stap.olims_sample_type_id "
-                 "where stap.olims_sample_type_id=" + str(self.SampleType.id)
-                 )
-        self.env.cr.execute(query)
-        attributes_rs = self.env.cr.fetchall()
-
-        for r in attributes_rs:
-            idar.append(str(r[0]))
-        res['domain'] = {'AnalysisProfile': [('id', 'in', idar)]}
-
+        res['domain'] = {'AnalysisProfile': [('id', 'in', profile_list)]}
         return res
 
     @api.model
