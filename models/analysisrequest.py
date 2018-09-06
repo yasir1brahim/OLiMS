@@ -1741,16 +1741,13 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         }
     
     def fill_olims_analysis_request_sample_rel(self,cr, uid, context=None):
-        ar_ids = self.pool.get('olims.analysis_request').search(cr, uid, [('Sample_id', '!=', False)])
-        ar_objs = self.pool.get('olims.analysis_request').browse(cr, uid, ar_ids)
-        values = []
-        query = "insert into olims_analysis_request_sample_rel values "
+        analysis_request  = self.pool.get('olims.analysis_request')
+        sample_objs = self.pool.get('olims.sample').search_read(cr, uid, [])
+        for obj_dict in sample_objs:
+            corresponding_ars = analysis_request.search(cr, uid, [('Sample_id', '=', obj_dict.get('id'))])
+            if corresponding_ars:
+                self.pool.get('olims.sample').write(cr, uid, [obj_dict.get('id')], {'Corresponding_ARs':  [(6,0, [corresponding_ars])]})
 
-        for obj in ar_objs:
-            values.append("({0},{1})".format(obj.Sample_id.id, obj.id))
-
-        query += ",".join(value for value in values)
-        cr.execute(query)
 
     @api.onchange('SampleType')
     def _sampletype_onchange(self):
