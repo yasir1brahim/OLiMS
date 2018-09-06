@@ -264,8 +264,13 @@ class ARInvoice(models.Model):
                         amount_subtotal += profile_price - (profile_price * ar_record.Client.M_Discount /100)
                         amount_vat = amount_subtotal * profiles_VAT[profile] / 100
                         amount_total += (profile_price - (profile_price * ar_record.Client.M_Discount /100)) + amount_vat
-
-                    ar_record.write({"Total": (amount_total + s_amount_total)})
+                    total = (amount_total + s_amount_total)
+                    adjusted_total = total
+                    if ar_record.adjustment_option == 'amount':
+                        adjusted_total = total + ar_record.Adjustment
+                    else:
+                        adjusted_total = total + (total * ar_record.Adjustment / 100)
+                    ar_record.write({"Total": adjusted_total})
                 else:
                     ar_record.write({"Discount": 0.0, "Subtotal": 0.0, "VAT": 0.0, "Total":0.0})
             res = super(ARInvoice,self).write(values)

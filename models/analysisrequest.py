@@ -2854,15 +2854,20 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 
     @api.onchange('adjustment_option','Adjustment','InvoiceExclude')
     def Computetotalamount(self):
+        total = 0.00
         for record in self:
             if record.InvoiceExclude == True:
-                record.Total = 0.00
+                record.Total = total
             else :
                 if record.adjustment_option =='amount':
                     total = self._origin.Total + record.Adjustment
                 else:
                     total = self._origin.Total + (self._origin.Total*record.Adjustment/100)
                 record.Total = total
+        if record.create_uid:
+            ar_obj = self.pool.get('olims.analysis_request').browse(self.env.cr, self.env.uid, self._origin.id)
+            ar_obj.write({'Total': total})
+            self.env.cr.commit()
 
     @api.onchange('LabService','FieldService', 'Priority', 'Priority1', 'Priority2', 'Priority3', 'Priority4'
                   'Priority5', 'Priority6', 'Priority7', 'Priority8', 'Priority9')
