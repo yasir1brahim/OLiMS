@@ -1162,6 +1162,16 @@ schema = (fields.Char(string='RequestID',
         string='Remarks',
         searchable=True,
     ),
+    TextField(
+      string='Remarks1',
+      compute='get_remarks_of_ar',
+      inverse='set_remarks_remark1',
+    ),
+    TextField(
+      string='Remarks2',
+      compute='get_remarks_of_ar',
+      inverse='set_remarks_remark2',
+    ),
     FixedPointField(
         'MemberDiscount',
     ),
@@ -1714,6 +1724,22 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 res['arch'] = etree.tostring(doc)
 
         return res
+
+    @api.multi
+    def get_remarks_of_ar(self):
+        for record in self:
+            record.Remarks1 = record.Remarks
+            record.Remarks2 = record.Remarks
+
+    @api.multi
+    def set_remarks_remark2(self):
+        for record in self:
+            record.write({'Remarks': record.Remarks2})
+
+    @api.multi
+    def set_remarks_remark1(self):
+        for record in self:
+            record.write({'Remarks': record.Remarks1})
 
 
     def cancel_analysis_request_action(self, cr, uid, ids, context=None):

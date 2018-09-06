@@ -2875,8 +2875,8 @@
                                                 name="show_delete_warring_message_form"></button>
                                     </tree>
                                 </field>
-                                <label for="Remarks" string="Remarks"/>
-                                <field name="Remarks"/>
+                                <label for="Remarks1" string="Remarks"/>
+                                <field name="Remarks1" readonly="0"/>
                             </page>
                             <page string="Manage Results"
                                   attrs="{'invisible': [('state', 'in', ['to_be_sampled', 'sample_due','verified', 'published'])]}">
@@ -2937,8 +2937,8 @@
                                 </field>
                             </page>
                             <page string="Published Results" attrs="{'invisible': [('state', '!=', 'published') ]}">
-                                <label for="Remarks" string="Remarks"/>
-                                <field name="Remarks"/>
+                                <label for="Remarks2" string="Remarks"/>
+                                <field name="Remarks2" readonly="0"/>
                                 <label for="Field_Published_Result" string="Field Analysis"
                                        attrs="{'invisible': [('Field_Manage_Result', '=', [])]}"/>
                                 <field name="Field_Published_Result"
