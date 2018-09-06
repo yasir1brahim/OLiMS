@@ -2638,7 +2638,7 @@
                                            attrs="{'invisible': [('id', '=', False)]}"/>
                                     <div>
                                         <field name="ar_worksheets" widget="one2many_list" nolabel="1"
-                                               attrs="{'invisible': [('id', '=', False)]}">
+                                               attrs="{'invisible': [('id', '=', False)]}" readonly="1">
                                             <tree string="Worksheet">
                                                 <field name="id" invisible="1"/>
                                                 <button string="View" name="open_worksheet_form_view" context="{'ws_id':id}" type="object" icon="fa-eye" help="View"></button>
