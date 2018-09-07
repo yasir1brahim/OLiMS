@@ -220,6 +220,9 @@ class Contact(models.Model, BaseOLiMSModel): #(Person)
         form_id = ir_model_data.get_object_reference('olims', 'view_templogin_form')[1]
         context = self._context.copy()
         context['contact_id'] = self.id
+        client_user = self.env['res.users'].search([ ('client_id', '=', context['client_id']), ('contact_id', '=',\
+                                                                                                context['contact_id'])])
+        context.update({'client_user_exist': 1 if client_user else 0})
 
         return {
             'name': _('Confirm'),

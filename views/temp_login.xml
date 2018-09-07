@@ -18,7 +18,9 @@
                         
                     <footer>
                         <group col="8">
-                            <button name="create_res_user" string="Create User" type="object" class="oe_highlight" context="{'contact_id':context.get('contact_id')}" />
+                            <button name="open_temp_login_confirm_dialog" string="Create User" type="object" class="oe_highlight" invisible="not context.get('client_user_exist')" context="{'contact_id':context.get('contact_id')}" />
+                            <button name="create_temp_login" string="Create User" type="object" invisible="context.get('client_user_exist')" class="oe_highlight" context="{'contact_id':context.get('contact_id')}" />
+
                         </group>
                     </footer>
                 </form>

@@ -57,9 +57,34 @@
             <field name="view_id" ref="view_dialog_box_payment_not_current"/>
         </record>
 
+         <record id="view_dialog_temp_login_confirmation" model="ir.ui.view">
+            <field name="name">Temp Login Confirmation</field>
+            <field name="model">olims.message_dialog_box</field>
+            <field name="arch" type="xml">
+                <form string="Client User Confirmation">
+                    <p class="o_dialog_warning">
+                       Current Contact user will be deleted.</p>
+                    <p>Do you really want to Create new User? </p>
+                    <field name="title" invisible="1"/>
+                    <footer>
+                         <button name="create_temp_login" string="Yes" type="object" class="btn-primary"/>
+                         <button string="No" class="btn-default" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
 
 
 
+         <record id="action_view_dialog_temp_login_confirmation" model="ir.actions.act_window">
+            <field name="name">Temp Login Confirmation Action</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">olims.message_dialog_box</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="view_id" ref="view_dialog_temp_login_confirmation"/>
+        </record>
 
 
 

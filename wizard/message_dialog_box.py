@@ -76,3 +76,33 @@ class MessageDialogBox(models.TransientModel):
             'view_mode': 'form',
             'target' : 'current',
         }
+    @api.multi
+    def create_temp_login(self, value_dict=None):
+        values = {}
+        if value_dict is None:
+            context = self._context
+            values['name'] = context['temp_login_name']
+            values['login'] = context['temp_login']
+            values['password'] = context['temp_login_password']
+            values['client_id'] =  context['temp_login_client']
+            values['contact_id'] =  context['temp_login_contact']
+        else:
+            values['name'] = value_dict['temp_login_name']
+            values['login'] = value_dict['temp_login']
+            values['password'] = value_dict['temp_login_password']
+            values['client_id'] = value_dict['temp_login_client']
+            values['contact_id'] = value_dict['temp_login_contact']
+        res_user = self.env["res.users"]
+        old_client_user = res_user.search([('contact_id', '=', values['contact_id']), ('client_id', '=',\
+                                                                                            values['client_id'])])
+        if old_client_user:
+            old_client_user.unlink()
+
+        res = res_user.create(values)
+        res_groups = self.env['res.groups']
+        group = res_groups.search([('name', '=', 'Clients')])
+        group.write({'users': [(4, res.id)]})
+        contact_user = self.env["olims.contact"]
+        contact_object = contact_user.search([('id', '=', values['contact_id'])])
+        contact_object.write({"user": res.id})
+        return res

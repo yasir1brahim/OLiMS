@@ -9,25 +9,45 @@ schema = (
 
 class Templogin(models.Model, BaseOLiMSModel):
     _name='olims.templogin'
-    
 
     @api.multi
-    def create_res_user(self, **kw):
-    	context = self._context
-    	contact_id = context['contact_id']
-    	data = self.read()[0]
-    	values = {}
-    	values['name'] = data['username']
+    def open_temp_login_confirm_dialog(self, **kw):
+        view_id = self.env['ir.ui.view'].search([('name', '=', 'Temp Login Confirmation')])
+        context = self.env.context.copy()
+
+        contact_id = context['contact_id']
+        contact_obj = self.env['olims.contact'].search([('id', '=', contact_id)])
+        data = self.read()[0]
+        values = {}
+        values['name'] = data['username']
         values['login'] = data['email']
         values['password'] = data['password']
-        res_user = self.env["res.users"]
-        res = res_user.create(values)
-        res_groups = self.env['res.groups']
-        group = res_groups.search([('name', '=','Clients')])
-        group.write({'users': [(4, res.id)]})
-        contact_user = self.env["olims.contact"]
-        contact_object = contact_user.search([('id', '=',contact_id)])
-        contact_object.write({"user":res.id})
+        values['client_id'] = contact_obj.Client_Contact.id
+        values['contact_id'] = contact_id
+
+        context.update(
+            {'temp_login_name': data['username'], 'temp_login': data['email'], 'temp_login_password': data['password'], \
+             'temp_login_client': contact_obj.Client_Contact.id, 'temp_login_contact': contact_id})
+        return {
+            'name': ('Confirmation'),
+            'view_mode': 'form',
+            'view_type': 'form',
+            'res_model': 'olims.message_dialog_box',
+            'view_id': [view_id.id],
+            'target': 'new',
+            'type': 'ir.actions.act_window',
+            'context': context,
+        }
+
+    @api.multi
+    def create_temp_login(self, **kw):
+        context = self.env.context.copy()
+        data = self.read()[0]
+        values = {}
+        values.update({'temp_login_name': data['username'] ,'temp_login': data['email'],'temp_login_password': \
+            data['password'], 'temp_login_client': context.get('client_id'), 'temp_login_contact': \
+            context.get('contact_id')})
+        return self.env['olims.message_dialog_box'].create_temp_login(values)
 
 
 Templogin.initialze(schema)

@@ -5614,7 +5614,7 @@
                             </page>
                             <page string="Contacts" name="Contacts" attrs="{'invisible': ['|', ('id', '=', False), ('is_client_user', '=', True)]}">
                                 <label for="Contact" string="Contacts"/>
-                                <field name="Contact"></field>
+                                <field name="Contact" context="{'client_id':active_id}"></field>
                             </page>
                             <page string="Sampling Round Template " attrs="{'invisible': ['|', ('id', '=', False), ('is_client_user', '=', True)]}">
                                 <label for="SR Template" string="Sampling Round Templates"/>
