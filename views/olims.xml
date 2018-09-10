@@ -2087,7 +2087,7 @@
                                     </div>
                                 </group>
                                 <group>
-                                    <group invisible="context.get('ClientSampleID',False)">
+                                    <group>
                                         <label for="ClientSampleID" string="Client Sample ID"/>
                                         <div>
                                             <field name="ClientSampleID" tabindex="60" nolabel="1"></field>
@@ -2111,7 +2111,7 @@
                                                    attrs="{'invisible': [('id', '!=', False)]}"></field>
                                         </div>
                                     </group>
-                                    <group invisible="context.get('LotID',False)">
+                                    <group>
                                         <label for="LotID" string="Lot ID"/>
                                         <div>
                                             <field name="LotID" tabindex="61" nolabel="1"></field>
@@ -2135,7 +2135,7 @@
                                                    attrs="{'invisible': [('id', '!=', False)]}"></field>
                                         </div>
                                     </group>
-                                    <group invisible="context.get('InventoryID',False)">
+                                    <group>
                                         <label for="InventoryID" string="Inventory ID"/>
                                         <div>
                                             <field name="InventoryID" tabindex="80" nolabel="1"></field>
@@ -2159,7 +2159,7 @@
                                                    attrs="{'invisible': [('id', '!=', False)]}"></field>
                                         </div>
                                     </group>
-                                    <group invisible="context.get('BatchID',False)">
+                                    <group>
                                         <label for="BatchID" string="Batch ID"/>
                                         <div>
                                             <field name="BatchID" tabindex="81" nolabel="1"></field>
