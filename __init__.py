@@ -84,3 +84,4 @@ from models import models
 from models import search_ar
 from models import temp_login
 from models import migration
+from models import change_password_user
