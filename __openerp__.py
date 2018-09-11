@@ -85,6 +85,7 @@
         'views/weblogin.xml',
         'views/dashboard.xml',
         'views/temp_login.xml',
+        'views/ir_config_param.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

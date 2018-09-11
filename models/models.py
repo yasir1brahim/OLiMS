@@ -16,7 +16,11 @@ from openerp.osv import osv
 from openerp.http import root
 from openerp.http import request
 from os.path import getmtime
+from os import utime
 import time
+import logging
+
+_logger = logging.getLogger(__name__)
 
 AVAILABLE_PRIORITIES = [
     ('0', 'Normal'),
@@ -3270,32 +3274,106 @@ class User(models.Model):
         res = super(User, self).write(vals)
         return res
 
-
-    def _check_session_validity(self, db, uid, passwd):
-        registry = request.registry
-        uid = request.session.uid
-        cr = registry.cursor()
-
-        if not request:
-            cr.close()
-            return
-        user_obj = self.browse(cr, SUPERUSER_ID,[uid])
-        if user_obj.auto_log_off:
-            session = request.session
-            session_store = root.session_store
-            path = session_store.get_session_filename(session.sid)
-            try:
-                duration = time.time() - user_obj.idle_duration * 60
-                if getmtime(path) < duration:
-                    if session.db and session.uid:
-                        session.logout(keep_db=True)
-
-            except OSError:
-                pass
+    def _auth_timeout_ignoredurls_get(self):
+        """Pluggable method for calculating ignored urls
+        Defaults to stored config param
+        """
+        param_model = self.pool['ir.config_parameter']
+        cr = self.pool.cursor()
+        urls = param_model.get_param(cr, SUPERUSER_ID, 'inactive_session_time_out_ignored_url', '').split(',')
         cr.close()
+        return urls
+
+
+    def _auth_timeout_session_terminate(self, session):
+        """Pluggable method for terminating a timed-out session
+
+        This is a late stage where a session timeout can be aborted.
+        Useful if you want to do some heavy checking, as it won't be
+        called unless the session inactivity deadline has been reached.
+
+        Return:
+            True: session terminated
+            False: session timeout cancelled
+        """
+        if session.db and session.uid:
+            session.logout(keep_db=True)
+        return True
+
+
+
+    def _auth_timeout_deadline_calculate(self, uid):
+        """Pluggable method for calculating timeout deadline
+        Defaults to current time minus delay using delay stored in res.users
+        """
+        cr = self.pool.cursor()
+        user_obj = self.pool['res.users'].browse(cr, SUPERUSER_ID, [uid])
+        delay = user_obj.idle_duration * 60
+        if delay is False or delay <= 0:
+            return False
+        cr.close()
+        return time.time() - delay
+
+
+
+    def _auth_timeout_check(self, uid):
+        if not request:
+            return
+
+        session = request.session
+
+        # Calculate deadline
+        deadline = self._auth_timeout_deadline_calculate(uid)
+
+        # Check if past deadline
+        expired = False
+        if deadline is not False:
+            path = root.session_store.get_session_filename(session.sid)
+            try:
+                expired = getmtime(path) < deadline
+            except OSError as e:
+                _logger.warning(
+                    'Exception reading session file modified time: %s'
+                    % e
+                )
+                pass
+
+        # Try to terminate the session
+        terminated = False
+        if expired:
+            terminated = self._auth_timeout_session_terminate(session)
+
+        # If session terminated, all done
+        if terminated:
+            return
+
+        # Else, conditionally update session modified and access times
+        ignoredurls = self._auth_timeout_ignoredurls_get()
+
+        if request.httprequest.path not in ignoredurls:
+            if 'path' not in locals():
+                path = root.session_store.get_session_filename(session.sid)
+            try:
+                utime(path, None)
+            except OSError as e:
+                _logger.warning(
+                    'Exception updating session file access/modified times: %s'
+                    % e
+                )
+                pass
+
         return
+
+
+    def _check_session_validity(self, uid):
+        """Adaptor method for backward compatibility"""
+        return self._auth_timeout_check(uid)
 
     def check(self, db, uid, passwd):
         res = super(User, self).check(db, uid, passwd)
-        self._check_session_validity(db, uid, passwd)
+        cr = self.pool.cursor()
+        user_obj = self.pool['res.users'].browse(cr, SUPERUSER_ID, [uid])
+        if user_obj.auto_log_off:
+            self._check_session_validity(uid)
+        cr.close()
         return res
