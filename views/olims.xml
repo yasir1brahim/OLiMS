@@ -5622,7 +5622,7 @@
                             </page>
                             <page string="Login Details" attrs="{'invisible': ['|', ('id', '=', False), ('is_client_user', '=', True)]}">
                                 <label for="Login Details" string="Login Details"/>
-                                <field name="Client User Login Details" context="{'client_id':active_id}"></field>
+                                <field name="login_details" context="{'client_id':active_id,'client_user': True}" ></field>
                             </page>
 
                         </notebook>
@@ -7285,8 +7285,13 @@
                     </header>
 
                 </xpath>
+                <xpath expr="//field[@name='login']" position="after">
+                        <label for="password" string="Password" invisible="not (context.get('client_user',False))" attrs="{'invisible': [('id', '!=', False)]}"></label>
+                     <field name="password" password="True" invisible="not (context.get('client_user',False))" attrs="{'invisible': [('id', '!=', False)]}"></field>
+                </xpath>
                 <xpath expr="//field[@name='fax']" position="after">
                     <field name="contact_id" domain="[('Client_Contact', '=', context.get('client_id'))]" required="1"></field>
+
                 </xpath>
             </field>
         </record>

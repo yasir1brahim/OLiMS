@@ -230,7 +230,7 @@ schema = (
     ),
     fields.One2many('res.users',
                                  'client_id',
-                                 string='Client User Login Details',
+                                 string='login_details',
                     ),
     BooleanField(string="payment_not_current",
         default=False),
@@ -274,6 +274,27 @@ class Client(models.Model, BaseOLiMSModel):
             'target': 'current',
 
         }
+    @api.onchange('login_details')
+    def onchange_login_details(self):
+        previous_contacts = []
+        for record in self.login_details:
+            if type(record.id) == int:
+                previous_contacts.append(record.contact_id.id)
+            if type(record.id)!= int:
+                if record.contact_id.id not in previous_contacts:
+                    pass
+                elif record.contact_id.id in previous_contacts:
+                    title = 'Duplicate Contact!'
+                    message = 'Previous User for '+ record.contact_id.Firstname+ ' will be removed from system after save button is clicked'
+                    return {
+
+                        'warning': {
+
+                            'title': title,
+
+                            'message':message}
+
+                    }
 
 
 
@@ -367,6 +388,33 @@ class Client(models.Model, BaseOLiMSModel):
         return res
 
     @api.multi
+    def write(self,vals):
+        res = super(Client, self).write(vals)
+        if vals.get('login_details'):
+            for val in vals.get('login_details'):
+                if val[0] == 0:
+                    res_groups = self.env['res.groups']
+                    client_group = res_groups.search([('name', '=', 'Clients')])
+                    client_users = self.env['res.users'].search(
+                        [('client_id', '=', self.id), ('groups_id', 'not in', [client_group.id])])
+                    user_ids = []
+                    for object in client_users:
+                        user_ids.append(object.id)
+                    client_group.write({'users': [(4, user_ids)]})
+                    contact_user = self.env["res.users"].search([('contact_id', '=', val[2].get('contact_id'))], order='id DESC', limit=2)
+                    #limit set to 2 , first one will be newly added user, and second user in descending order will be previous user
+                    if len(contact_user)>1:
+                        contact_user[1].unlink() # delete previous user
+                        contact = self.env["olims.contact"]
+                        contact_object = contact.search([('id', '=', val[2].get('contact_id'))])
+                        contact_object.write({"user": contact_user[0].id}) # set newly added user in contact
+                    elif len(contact_user) == 1:
+                        contact = self.env["olims.contact"]
+                        contact_object = contact.search([('id', '=', val[2].get('contact_id'))])
+                        contact_object.write({"user": contact_user[0].id})  # set newly added user in contact
+
+        return res
+
     def unlink(self):
         for contact_record in self.Contact:
             contact_record.unlink()
