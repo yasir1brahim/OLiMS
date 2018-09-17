@@ -109,8 +109,9 @@
                                         </tr>
                                     </t>
 
+
                                     <t t-if="analysis.AnalysisProfile">
-                                        <tr t-foreach="analysis.AnalysisProfile" t-as="profile">
+                                        <tr>
                                         <td class="text-center">
                                             <span t-esc="analysis.RequestID"/>
                                         </td>
@@ -118,7 +119,7 @@
                                             <span t-esc="analysis.SampleType.SampleType"/>
                                         </td>
                                         <td class="text-center">
-                                            <span t-esc="profile.Profile"/>
+                                            <span t-esc="doc.get_aprofiles_in_invoice(analysis.id)"/>
                                         </td>
                                          <td class="text-center">
                                             <span t-esc="analysis.ClientReference"/>
@@ -127,7 +128,7 @@
                                             <span t-esc="analysis.InventoryID"/>
                                         </td>
                                         <td class="text-center">
-                                            <span t-esc="res_company.currency_id.symbol"/><span t-esc="'%.2f'%profile.AnalysisProfilePrice"/>
+                                            <span t-esc="res_company.currency_id.symbol"/><span t-esc="'%.2f'%analysis.Total"/>
                                         </td>
                                         </tr>
                                     </t>

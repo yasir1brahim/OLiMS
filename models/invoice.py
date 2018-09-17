@@ -153,6 +153,19 @@ class ARInvoice(models.Model):
         return super(ARInvoice, self).unlink()
 
 
+
+    @api.multi
+    def get_aprofiles_in_invoice(self, analysis_id):
+        profiles = ''
+        list_profiles = []
+        analaysis = self.env['olims.analysis_request'].search([('id', '=', analysis_id)])
+        if analaysis.AnalysisProfile:
+            for Profile in analaysis.AnalysisProfile:
+                list_profiles.append(Profile.Profile)
+            profiles +=",".join(Profile for Profile in list_profiles)
+            return  profiles
+
+
     @api.depends("client_id")
     def _compute_invoice_id(self):
         for record in self:

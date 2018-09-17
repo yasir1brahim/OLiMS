@@ -2822,6 +2822,15 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                             for ar_man_res_obj in ar_manage_res_obj:
                                 record.write({"Lab_Manage_Result":[[1,ar_man_res_obj.id,manage_res_val_dict]]})
 
+            if values.get('Adjustment', None):
+                total = 0.00
+                if not values.get('InvoiceExclude', None):
+                    if values.get('adjustment_option') == 'amount':
+                        total = record.Total + values.get('Adjustment')
+                    else:
+                        total = record.Total + (record.Total * values.get('Adjustment') / 100)
+                    values.update({'Total': total})
+
         res = super(AnalysisRequest, self).write(values)
         return res  
 
@@ -2890,10 +2899,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 else:
                     total = self._origin.Total + (self._origin.Total*record.Adjustment/100)
                 record.Total = total
-        if record.create_uid:
-            ar_obj = self.pool.get('olims.analysis_request').browse(self.env.cr, self.env.uid, self._origin.id)
-            ar_obj.write({'Total': total})
-            self.env.cr.commit()
 
     @api.onchange('LabService','FieldService', 'Priority', 'Priority1', 'Priority2', 'Priority3', 'Priority4'
                   'Priority5', 'Priority6', 'Priority7', 'Priority8', 'Priority9')
