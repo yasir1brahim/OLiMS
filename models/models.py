@@ -3285,6 +3285,8 @@ class User(models.Model):
                 contact_user = self.env["olims.contact"].search(
                     [('id', '=', vals.get('contact_id'))])
                 contact_user.write({'user': self.id})
+                super(User, self).write({'name': contact_user.name})
+
         return res
 
     def _auth_timeout_ignoredurls_get(self):
