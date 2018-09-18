@@ -274,29 +274,7 @@ class Client(models.Model, BaseOLiMSModel):
             'target': 'current',
 
         }
-    @api.onchange('login_details')
-    def onchange_login_details(self):
-        previous_contacts = []
-        for record in self.login_details:
-            if type(record.id) == int:
-                previous_contacts.append(record.contact_id.id)
-            if type(record.id)!= int:
-                if record.contact_id.id not in previous_contacts:
-                    pass
-                elif record.contact_id.id in previous_contacts:
-                    title = 'Duplicate Contact!'
-                    message = 'Previous User for '+ record.contact_id.Firstname+ ' will be removed from system after save button is clicked'
-                    return {
-
-                        'warning': {
-
-                            'title': title,
-
-                            'message':message}
-
-                    }
-
-
+   
 
     @api.onchange('Copy_Active_AProfiles')
     def assign_all_active_profiles_to_client(self, cr, uid, context):

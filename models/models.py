@@ -3243,6 +3243,7 @@ class User(models.Model):
     contact_id = fields.Many2one("olims.contact", string="Contact Name")
     auto_log_off = fields.Boolean(string="Auto Log Off")
     idle_duration = fields.Integer(string="Idle Time (Minutes)")
+    contact_name = fields.Char(related='contact_id.name', string='Name', store = False)
     
     _order = 'name, login, login_date'
 
@@ -3260,6 +3261,9 @@ class User(models.Model):
             if vals.get('in_group_20') == False and (vals.get('client_id') or vals.get('contact_id')):
                 vals.update({'client_id': 0,'contact_id':0})
 
+        if vals.get('contact_id') and not vals.get('name'):
+           contact =  self.env['olims.contact'].search([('id', '=', vals.get('contact_id'))])
+           vals.update({'name': contact.name})
         res = super(User, self).create(vals)
         return res
 
@@ -3270,8 +3274,17 @@ class User(models.Model):
             vals.update({'client_id': 0,'contact_id' :0})
         if vals.get('in_group_20') == True and (not vals.get('client_id') or not vals.get('contact_id')):
             raise osv.except_osv(_('error'), _('If you checks Client group, You must assign user a Client and Contact Person.'))
-
+        contact_id = self.contact_id.id
         res = super(User, self).write(vals)
+        if res:
+            if vals.get('contact_id'):
+                contact_user = self.env["olims.contact"].search(
+                    [('id', '=', contact_id)])
+                contact_user.write({'user': False})
+
+                contact_user = self.env["olims.contact"].search(
+                    [('id', '=', vals.get('contact_id'))])
+                contact_user.write({'user': self.id})
         return res
 
     def _auth_timeout_ignoredurls_get(self):
