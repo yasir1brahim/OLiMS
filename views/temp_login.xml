@@ -7,9 +7,7 @@
             <field name="arch" type="xml">
                 <form string="Search" create="false" edit="false" write="false">
                         
-                            <lable for="username" string="Username" />
-                            <field name="username" nolabel='0' placeholder="Username"/>
-                            <br/>
+
                             <lable for="email" string="Email" />
                             <field name="email" nolabel='0' placeholder="Email"/>
                         <br/>

@@ -2,7 +2,7 @@ from openerp import fields, models,osv,api
 from base_olims_model import BaseOLiMSModel
 
 schema = (
-          fields.Char(string='username', required=True),
+          fields.Char(string='username'),
           fields.Char(string='email', required=True),
           fields.Char(string='password', required=True),
           )
@@ -19,7 +19,7 @@ class Templogin(models.Model, BaseOLiMSModel):
         contact_obj = self.env['olims.contact'].search([('id', '=', contact_id)])
         data = self.read()[0]
         values = {}
-        values['name'] = data['username']
+        values['name'] = contact_obj.name
         values['login'] = data['email']
         values['password'] = data['password']
         values['client_id'] = contact_obj.Client_Contact.id
