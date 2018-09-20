@@ -252,3 +252,4 @@ access_olims_ar_invoice,olims.ar_invoice,model_olims_ar_invoice,,1,1,1,1
 access_olims_ar_invoice_client_group,olims.ar_invoice,model_olims_ar_invoice,group_clients,1,0,0,0
 access_olims_worksheet_client,olims.worksheet,model_olims_worksheet,group_clients,1,0,0,0
 access_olims_qccontrol,olims.qccontrol,model_olims_qccontrol,base.group_user,1,1,1,0
+access_users_clients_group,olims.client_user,auth_crypt.model_res_users,group_clients,1,0,0,0
