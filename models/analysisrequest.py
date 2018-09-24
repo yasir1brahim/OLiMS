@@ -750,6 +750,7 @@ schema = (fields.Char(string='RequestID',
         'LotID9',
     ),
     #Batch ID Field
+
     StringField(
         'BatchID',
     ),
