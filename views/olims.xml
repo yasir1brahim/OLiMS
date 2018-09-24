@@ -3387,7 +3387,7 @@
                 <tree string="Worksheet" delete="false">
                     <field name="Worksheet"></field>
                     <field name="Analyst"></field>
-                    <field name="AnalysisCategory" string="Category"></field>
+                    <field name="Analysis_Category" string="Category"></field>
                     <field name="Template"></field>
                     <field name="create_date"></field>
                     <field name="State"></field>
