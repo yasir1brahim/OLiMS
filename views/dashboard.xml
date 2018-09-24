@@ -68,6 +68,25 @@
 
         </record>
 
+         <record model="ir.actions.act_window" id="act_ar_graph_urgent">
+            <field name="name">Analysis Requests</field>
+            <field name="res_model">olims.analysis_request</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">graph</field>
+            <field name="view_id" ref="olims.olims_ar_graph_priority_view"/>
+            <field name="domain">['&amp;', ('state', 'in', ['sample_due', 'sample_received', 'to_be_verified', 'verified']), ('PriorityDescription', '=', 'Urgent')]</field>
+        </record>
+
+          <record model="ir.actions.act_window" id="act_ar_graph_high">
+            <field name="name">Analysis Requests</field>
+            <field name="res_model">olims.analysis_request</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">graph</field>
+            <field name="view_id" ref="olims.olims_ar_graph_priority_view"/>
+            <field name="domain">['&amp;', ('state', 'in', ['sample_due', 'sample_received', 'to_be_verified', 'verified']), ('PriorityDescription', '=', 'High')]</field>
+        </record>
+
+
 
         <record model="ir.ui.view" id="board_session_form">
             <field name="name">Olims Dashboard Form</field>
@@ -115,23 +134,8 @@
           <field name="view_id" ref="board_session_form"/>
         </record>
 
-         <record model="ir.actions.act_window" id="act_ar_graph_urgent">
-            <field name="name">Analysis Requests</field>
-            <field name="res_model">olims.analysis_request</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">graph</field>
-            <field name="view_id" ref="olims.olims_ar_graph_priority_view"/>
-            <field name="domain">['&amp;', ('state', 'in', ['sample_due', 'sample_received', 'to_be_verified', 'verified']), ('PriorityDescription', '=', 'Urgent')]</field>
-        </record>
 
-        <record model="ir.actions.act_window" id="act_ar_graph_high">
-            <field name="name">Analysis Requests</field>
-            <field name="res_model">olims.analysis_request</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">graph</field>
-            <field name="view_id" ref="olims.olims_ar_graph_priority_view"/>
-            <field name="domain">['&amp;', ('state', 'in', ['sample_due', 'sample_received', 'to_be_verified', 'verified']), ('PriorityDescription', '=', 'High')]</field>
-        </record>
+
 
 
         <menuitem
