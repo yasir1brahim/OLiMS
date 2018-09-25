@@ -17,7 +17,7 @@ class WorksheetMigration(models.Model):
 						print wid,"WID"
 						ar_object.write({"ar_worksheets": [(4, worksheet.id)]})
 					duplicate[worksheet.id] = item.request_analysis_id.id
-		return
+		return True
 
 
 	@api.model
@@ -69,5 +69,5 @@ class WorksheetMigration(models.Model):
 			request.write({'AnalysisProfile': AnalysisProfile, 'AnalysisProfile1': AnalysisProfile1, 'AnalysisProfile2': \
 				AnalysisProfile2, 'AnalysisProfile3': AnalysisProfile3})
 
-		return
+		return True
 
