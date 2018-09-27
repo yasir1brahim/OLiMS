@@ -139,7 +139,8 @@
 						 			<span>Laboratory ID: 3568-02</span>
 						 		</div>
 						 		<div class="col-xs-6">
-						 			<span>Date Reported: <span t-esc="time.strftime('%m/%d/%Y')"/></span>
+						 			<span>Date Reported:<span t-field="doc.DatePublished" t-field-options="{&quot;format&quot;: &quot;MM/dd/yyyy&quot;}" />
+						 			</span>
 						 		</div>
 						 	</div>
 						 	<div style="page-break-before:always;"> </div>
