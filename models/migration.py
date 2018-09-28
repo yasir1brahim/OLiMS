@@ -71,3 +71,14 @@ class WorksheetMigration(models.Model):
 
 		return True
 
+	@api.model
+	def migration_client_model_login_detail(self):
+		clients = self.env["olims.client"].search([('id', '>', 0)])
+		for client in clients:
+			client_contacts = self.env['olims.contact'].search([('Client_Contact', '=', client.id)])
+			for obj in client_contacts:
+				if obj.user:
+					obj.user.write({'client_id': client.id, 'contact_id' : obj.id})
+
+		return True
+
