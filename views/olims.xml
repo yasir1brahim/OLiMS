@@ -4642,6 +4642,26 @@
                 </tree>
             </field>
         </record>
+
+        <!-- res.user filter on tree view  -->
+         <record id="view_res_user_filter" model="ir.ui.view">
+            <field name="name">res.users.list.select_olims</field>
+            <field name="model">res.users</field>
+            <field name="inherit_id" ref="base.view_users_search"/>
+            <field name="arch" type="xml">
+                    <xpath expr="//filter[@name='Inactive']" position="after">
+                    <filter string="Lab Users"  name="lab_users"/>
+                    <filter string="Client Users"  name="client_users"/>
+                    <!-- logic is in .py file for lab and client user filter -->
+
+                    </xpath>
+
+            </field>
+
+
+        </record>
+
+
         <!-- < Tree view without create option > -->
         <record model="ir.ui.view" id="olims_supply_order_tree_without_create_view">
             <field name="name">supply_order.tree</field>

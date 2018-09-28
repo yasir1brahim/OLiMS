@@ -19,6 +19,8 @@ from os.path import getmtime
 from os import utime
 import time
 import logging
+from lxml import etree
+from openerp.osv.orm import setup_modifiers
 
 _logger = logging.getLogger(__name__)
 
@@ -3391,4 +3393,32 @@ class User(models.Model):
         if user_obj.auto_log_off:
             self._check_session_validity(uid)
         cr.close()
+        return res
+
+    @api.model
+    def fields_view_get(self, view_id=None, view_type='form', toolbar=False,
+                        submenu=False):
+        res = super(User, self).fields_view_get(
+            view_id=view_id, view_type=view_type, toolbar=toolbar,
+            submenu=submenu)
+
+        doc = etree.XML(res['arch'])
+        if doc.xpath("//filter[@name='client_users']"):
+            node = doc.xpath("//filter[@name='client_users']")[0]
+            group_id  = self.env.ref('olims.group_clients').ids[0]
+            domain = "[('groups_id','in', ["+str(group_id)+"])]"
+            node.set('domain', domain)
+            setup_modifiers(node)
+            res['arch'] = etree.tostring(doc)
+        if doc.xpath("//filter[@name='lab_users']"):
+            node = doc.xpath("//filter[@name='lab_users']")[0]
+            group_id = self.env.ref('olims.group_lab_managers').ids + self.env.ref('olims.group_lab_clerks').ids + \
+                self.env.ref('olims.group_lab_technicians').ids + self.env.ref('olims.group_lab_admin').ids
+            group_id_str = ",".join(str(id) for id in group_id)
+            domain = "[('groups_id','in', [" + group_id_str + "])]"
+            node.set('domain', domain)
+            setup_modifiers(node)
+            res['arch'] = etree.tostring(doc)
+
+
         return res
