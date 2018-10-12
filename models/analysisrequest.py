@@ -4337,23 +4337,12 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         service_ids_list = []
         profile_ids = []
         client = self._context.get('client_context', None)
-        if not self.AnalysisProfile:
-            client_obj = self.env['olims.client'].search([("id","=",client)])
-            if client_obj and client_obj.Analysis_Profile:
-                for item in client_obj.Analysis_Profile:
-                    profile_ids.append(item.id)
-            if profile_ids:
-                return {'domain':{'AnalysisProfile':[('id','in',profile_ids),('Deactivated', '=',False )],
-                'AnalysisProfile1':[('id','in',profile_ids),('Deactivated', '=',False )],
-                'AnalysisProfile2':[('id','in',profile_ids),('Deactivated', '=',False )],
-                'AnalysisProfile3':[('id','in',profile_ids),('Deactivated', '=',False )],
-                'AnalysisProfile4':[('id','in',profile_ids),('Deactivated', '=',False )],
-                'AnalysisProfile5':[('id','in',profile_ids),('Deactivated', '=',False )],
-                'AnalysisProfile6':[('id','in',profile_ids),('Deactivated', '=',False )],
-                'AnalysisProfile7':[('id','in',profile_ids),('Deactivated', '=',False )],
-                'AnalysisProfile8':[('id','in',profile_ids),('Deactivated', '=',False )],
-                'AnalysisProfile9':[('id','in',profile_ids),('Deactivated', '=',False )]}}
-
+        client_obj = self.env['olims.client'].search([("id","=",client)])
+        sample_profiles = self.SampleType.AnalysisProfile
+        for profile in client_obj.Analysis_Profile:
+            if profile in sample_profiles:
+                profile_ids.append(profile.id)
+        
         for record in self:
             if record.state != "sample_registered":
                 record.Field_Manage_Result = None
@@ -4557,6 +4546,16 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                             record.FieldService += record.FieldService.new(f_service)
                             service_ids_list.append(service.Services.id)
 
+        return {'domain': {'AnalysisProfile': [('id', 'in', profile_ids), ('Deactivated', '=', False)],
+                               'AnalysisProfile1': [('id', 'in', profile_ids), ('Deactivated', '=', False)],
+                               'AnalysisProfile2': [('id', 'in', profile_ids), ('Deactivated', '=', False)],
+                               'AnalysisProfile3': [('id', 'in', profile_ids), ('Deactivated', '=', False)],
+                               'AnalysisProfile4': [('id', 'in', profile_ids), ('Deactivated', '=', False)],
+                               'AnalysisProfile5': [('id', 'in', profile_ids), ('Deactivated', '=', False)],
+                               'AnalysisProfile6': [('id', 'in', profile_ids), ('Deactivated', '=', False)],
+                               'AnalysisProfile7': [('id', 'in', profile_ids), ('Deactivated', '=', False)],
+                               'AnalysisProfile8': [('id', 'in', profile_ids), ('Deactivated', '=', False)],
+                               'AnalysisProfile9': [('id', 'in', profile_ids), ('Deactivated', '=', False)]}}
 
 
     def bulk_change_states_pre(self, state, cr, uid, ids, context=None):
