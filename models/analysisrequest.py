@@ -1791,6 +1791,142 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
         res['domain'] = {'AnalysisProfile': [('id', 'in', profile_list)]}
         return res
 
+
+    @api.onchange('SampleType1')
+    def _sampletype1_onchange(self):
+
+        profile_list = []
+        res = {}
+        client = self._context.get('client_context', None)
+        client_obj = self.env['olims.client'].search([("id", "=", client)])
+        client_profiles =  client_obj.Analysis_Profile
+        for profile in self.SampleType1.AnalysisProfile:
+            if profile in client_profiles:
+                profile_list.append(profile.id)
+
+        res['domain'] = {'AnalysisProfile1': [('id', 'in', profile_list)]}
+        return res
+
+    @api.onchange('SampleType2')
+    def _sampletype2_onchange(self):
+
+        profile_list = []
+        res = {}
+        client = self._context.get('client_context', None)
+        client_obj = self.env['olims.client'].search([("id", "=", client)])
+        client_profiles = client_obj.Analysis_Profile
+        for profile in self.SampleType2.AnalysisProfile:
+            if profile in client_profiles:
+                profile_list.append(profile.id)
+
+        res['domain'] = {'AnalysisProfile2': [('id', 'in', profile_list)]}
+        return res
+
+    @api.onchange('SampleType3')
+    def _sampletype3_onchange(self):
+
+        profile_list = []
+        res = {}
+        client = self._context.get('client_context', None)
+        client_obj = self.env['olims.client'].search([("id", "=", client)])
+        client_profiles = client_obj.Analysis_Profile
+        for profile in self.SampleType3.AnalysisProfile:
+            if profile in client_profiles:
+                profile_list.append(profile.id)
+
+        res['domain'] = {'AnalysisProfile3': [('id', 'in', profile_list)]}
+        return res
+
+    @api.onchange('SampleType4')
+    def _sampletype4_onchange(self):
+
+        profile_list = []
+        res = {}
+        client = self._context.get('client_context', None)
+        client_obj = self.env['olims.client'].search([("id", "=", client)])
+        client_profiles = client_obj.Analysis_Profile
+        for profile in self.SampleType4.AnalysisProfile:
+            if profile in client_profiles:
+                profile_list.append(profile.id)
+
+        res['domain'] = {'AnalysisProfile4': [('id', 'in', profile_list)]}
+        return res
+
+    @api.onchange('SampleType5')
+    def _sampletype5_onchange(self):
+
+        profile_list = []
+        res = {}
+        client = self._context.get('client_context', None)
+        client_obj = self.env['olims.client'].search([("id", "=", client)])
+        client_profiles = client_obj.Analysis_Profile
+        for profile in self.SampleType5.AnalysisProfile:
+            if profile in client_profiles:
+                profile_list.append(profile.id)
+
+        res['domain'] = {'AnalysisProfile5': [('id', 'in', profile_list)]}
+        return res
+
+    @api.onchange('SampleType6')
+    def _sampletype6_onchange(self):
+
+        profile_list = []
+        res = {}
+        client = self._context.get('client_context', None)
+        client_obj = self.env['olims.client'].search([("id", "=", client)])
+        client_profiles = client_obj.Analysis_Profile
+        for profile in self.SampleType6.AnalysisProfile:
+            if profile in client_profiles:
+                profile_list.append(profile.id)
+
+        res['domain'] = {'AnalysisProfile6': [('id', 'in', profile_list)]}
+        return res
+
+    @api.onchange('SampleType7')
+    def _sampletype7_onchange(self):
+
+        profile_list = []
+        res = {}
+        client = self._context.get('client_context', None)
+        client_obj = self.env['olims.client'].search([("id", "=", client)])
+        client_profiles = client_obj.Analysis_Profile
+        for profile in self.SampleType7.AnalysisProfile:
+            if profile in client_profiles:
+                profile_list.append(profile.id)
+
+        res['domain'] = {'AnalysisProfile7': [('id', 'in', profile_list)]}
+        return res
+
+    @api.onchange('SampleType8')
+    def _sampletype8_onchange(self):
+
+        profile_list = []
+        res = {}
+        client = self._context.get('client_context', None)
+        client_obj = self.env['olims.client'].search([("id", "=", client)])
+        client_profiles = client_obj.Analysis_Profile
+        for profile in self.SampleType8.AnalysisProfile:
+            if profile in client_profiles:
+                profile_list.append(profile.id)
+
+        res['domain'] = {'AnalysisProfile8': [('id', 'in', profile_list)]}
+        return res
+
+    @api.onchange('SampleType9')
+    def _sampletype9_onchange(self):
+
+        profile_list = []
+        res = {}
+        client = self._context.get('client_context', None)
+        client_obj = self.env['olims.client'].search([("id", "=", client)])
+        client_profiles = client_obj.Analysis_Profile
+        for profile in self.SampleType9.AnalysisProfile:
+            if profile in client_profiles:
+                profile_list.append(profile.id)
+
+        res['domain'] = {'AnalysisProfile9': [('id', 'in', profile_list)]}
+        return res
+
     @api.model
     def _generate_order_by(self, order_spec, query):
         sort_order = """ to_number(textcat('0', SUBSTRING("RequestID",3,LENGTH("RequestID"))), text('99999999')) ,"RequestID"  """
@@ -4336,12 +4472,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
     def _add_values_in_analyses(self):
         service_ids_list = []
         profile_ids = []
-        client = self._context.get('client_context', None)
-        client_obj = self.env['olims.client'].search([("id","=",client)])
-        sample_profiles = self.SampleType.AnalysisProfile
-        for profile in client_obj.Analysis_Profile:
-            if profile in sample_profiles:
-                profile_ids.append(profile.id)
         
         for record in self:
             if record.state != "sample_registered":
@@ -4546,16 +4676,6 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                             record.FieldService += record.FieldService.new(f_service)
                             service_ids_list.append(service.Services.id)
 
-        return {'domain': {'AnalysisProfile': [('id', 'in', profile_ids), ('Deactivated', '=', False)],
-                               'AnalysisProfile1': [('id', 'in', profile_ids), ('Deactivated', '=', False)],
-                               'AnalysisProfile2': [('id', 'in', profile_ids), ('Deactivated', '=', False)],
-                               'AnalysisProfile3': [('id', 'in', profile_ids), ('Deactivated', '=', False)],
-                               'AnalysisProfile4': [('id', 'in', profile_ids), ('Deactivated', '=', False)],
-                               'AnalysisProfile5': [('id', 'in', profile_ids), ('Deactivated', '=', False)],
-                               'AnalysisProfile6': [('id', 'in', profile_ids), ('Deactivated', '=', False)],
-                               'AnalysisProfile7': [('id', 'in', profile_ids), ('Deactivated', '=', False)],
-                               'AnalysisProfile8': [('id', 'in', profile_ids), ('Deactivated', '=', False)],
-                               'AnalysisProfile9': [('id', 'in', profile_ids), ('Deactivated', '=', False)]}}
 
 
     def bulk_change_states_pre(self, state, cr, uid, ids, context=None):
