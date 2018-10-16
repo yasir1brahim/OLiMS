@@ -1430,9 +1430,15 @@ class Import(models.TransientModel):
                     ar_record = ar_record_obj.browse(cr, uid, ar_field_record_id[0])
                 elif ar_lab_record_id:
                     ar_record = ar_record_obj.browse(cr, uid, ar_lab_record_id[0])
-
+                result = False
+                if result_record.result_string.find('>') != -1:
+                    result = float(result_record.result_string[result_record.result_string.index('>') + 1:]) + 1
+                elif result_record.result_string.find('<') != -1:
+                    result = float(result_record.result_string[result_record.result_string.index('<') + 1:]) - 1
+                else:
+                    result = float(result_record.result_string)
                 ar_record.write({
-                    'Result': float(result_record.result_string),
+                    'Result': float(result),
                     'Result_string': str(result_record.result_string)
                 })
 
