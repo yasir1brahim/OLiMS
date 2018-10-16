@@ -1781,7 +1781,12 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 
         profile_list = []
         res = {}
-        client = self._context.get('client_context', None)
+        client = False
+        if self._context.get('client_context'):
+            client = self._context.get('client_context')
+        elif self._context.get('default_Client'):
+            # default_Client passed in context when creating AR from Samples
+            client = self._context.get('default_Client')
         client_obj = self.env['olims.client'].search([("id", "=", client)])
         client_profiles =  client_obj.Analysis_Profile
         for profile in self.SampleType.AnalysisProfile:
