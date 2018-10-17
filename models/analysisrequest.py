@@ -4438,19 +4438,22 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
 
     @api.multi
     def ar_publish(self):
-        view_id = self.env['ir.ui.view'].search([('name', '=', 'Payment Not Current Dialog Box')])
-        context = self.env.context.copy()
-        context.update({'do_action': 'publish'})
-        return {
-            'name': _('Payment Not Current'),
-            'view_mode': 'form',
-            'view_type': 'form',
-            'res_model': 'olims.message_dialog_box',
-            'view_id': [view_id.id],
-            'target': 'new',
-            'type': 'ir.actions.act_window',
-            'context': context,
-        }
+        if self.Client.payment_not_current:
+            view_id = self.env['ir.ui.view'].search([('name', '=', 'Payment Not Current Dialog Box')])
+            context = self.env.context.copy()
+            context.update({'do_action': 'publish'})
+            return {
+                'name': _('Payment Not Current'),
+                'view_mode': 'form',
+                'view_type': 'form',
+                'res_model': 'olims.message_dialog_box',
+                'view_id': [view_id.id],
+                'target': 'new',
+                'type': 'ir.actions.act_window',
+                'context': context,
+            }
+        else:
+            self.signal_workflow('publish')
 
         return True
 
