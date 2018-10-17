@@ -375,62 +375,52 @@ schema = (fields.Char(string='RequestID',
     ),
     fields.Many2many(string='AnalysisProfile',
                         comodel_name='olims.analysis_profile',
-                        relation='ar_to_analysisprofile',
-                        domain=[('Deactivated', "=", False)]
+                        relation='ar_to_analysisprofile'
 
     ),
     fields.Many2many(string='AnalysisProfile1',
                         comodel_name='olims.analysis_profile',
-                        relation='ar_to_analysisprofile',
-                        domain="[('Deactivated', '=',False )]"
+                        relation='ar_to_analysisprofile'
 
     ),
     fields.Many2many(string='AnalysisProfile2',
                         comodel_name='olims.analysis_profile',
-                        relation='ar_to_analysisprofile',
-                        domain="[('Deactivated', '=',False )]"
+                        relation='ar_to_analysisprofile'
 
     ),
     fields.Many2many(string='AnalysisProfile3',
                         comodel_name='olims.analysis_profile',
-                        relation='ar_to_analysisprofile',
-                        domain="[('Deactivated', '=',False )]"
+                        relation='ar_to_analysisprofile'
 
     ),
     fields.Many2many(string='AnalysisProfile4',
                         comodel_name='olims.analysis_profile',
-                        relation='ar_to_analysisprofile',
-                        domain="[('Deactivated', '=',False )]"
+                        relation='ar_to_analysisprofile'
 
     ),
     fields.Many2many(string='AnalysisProfile5',
                         comodel_name='olims.analysis_profile',
-                        relation='ar_to_analysisprofile',
-                        domain="[('Deactivated', '=',False )]"
+                        relation='ar_to_analysisprofile'
 
     ),
     fields.Many2many(string='AnalysisProfile6',
                         comodel_name='olims.analysis_profile',
-                        relation='ar_to_analysisprofile',
-                        domain="[('Deactivated', '=',False )]"
+                        relation='ar_to_analysisprofile'
 
     ),
     fields.Many2many(string='AnalysisProfile7',
                         comodel_name='olims.analysis_profile',
-                        relation='ar_to_analysisprofile',
-                        domain="[('Deactivated', '=',False )]"
+                        relation='ar_to_analysisprofile'
 
     ),
     fields.Many2many(string='AnalysisProfile8',
                         comodel_name='olims.analysis_profile',
-                        relation='ar_to_analysisprofile',
-                        domain="[('Deactivated', '=',False )]"
+                        relation='ar_to_analysisprofile'
 
     ),
     fields.Many2many(string='AnalysisProfile9',
                         comodel_name='olims.analysis_profile',
-                        relation='ar_to_analysisprofile',
-                        domain="[('Deactivated', '=',False )]"
+                        relation='ar_to_analysisprofile'
 
     ),
     fields.One2many(string='Partition',
@@ -1766,7 +1756,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             'type': 'ir.actions.act_window',
             'context' : context,
         }
-    
+
     def fill_olims_analysis_request_sample_rel(self,cr, uid, context=None):
         analysis_request  = self.pool.get('olims.analysis_request')
         sample_objs = self.pool.get('olims.sample').search_read(cr, uid, [])
