@@ -3278,7 +3278,7 @@
             <field name="name">worksheet.form</field>
             <field name="model">olims.worksheet</field>
             <field name="arch" type="xml">
-                <form string="Worksheet Form" duplicate="0" delete="false">
+                <form string="Worksheet Form" duplicate="0">
                     <sheet>
                         <header>
                             <field name="State" widget="statusbar" statusbar_visible="open,closed,verified"
