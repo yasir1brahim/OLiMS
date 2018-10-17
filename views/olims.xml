@@ -7106,7 +7106,7 @@
             <field name="model">olims.ar_invoice</field>
             <field name="priority" eval="1"/>
             <field name="arch" type="xml">
-                <tree string="AR Invoice">
+                <tree string="AR Invoice" limit="80">
                     <field name="name"/>
                     <field name="state"/>
                     <field name="create_date" string="Date Created"/>
@@ -7121,7 +7121,6 @@
             <field name="name">AR Invoice</field>
             <field name="res_model">olims.ar_invoice</field>
             <field name="view_type">form</field>
-            <field name="limit">80</field>
             <field name="view_mode">tree,form</field>
         </record>
         <menuitem id="analysis_request_invoice_menu_setting" name="Analysis Request Invoices" parent="invoice_menu"
