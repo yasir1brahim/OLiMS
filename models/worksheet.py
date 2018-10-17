@@ -1092,17 +1092,17 @@ class Worksheet(models.Model, BaseOLiMSModel):
                         }
                     self.Add_Control_Refrence += self.Add_Control_Refrence.new(values)
 
-    def delete_analysis_requests_from_ws(self,cr,uid,ids,context=None):
-        worksheet = self.pool.get("olims.worksheet")
-        worksheet_obj = worksheet.browse(cr, uid, ids, context)
-        add_analysis_obj = self.pool.get("olims.add_analysis")
-        if any(record.State != "open" for record in worksheet_obj):
-            raise Warning("Only Worksheet with 'Open' state allow to delete Analysis")
-        else:
-            for record in worksheet_obj:
-                for item in record.AnalysisRequest:
-                    add_analysis_obj.write(cr, uid, item.id, {"state": 'unassigned'}, context)
-                    worksheet.write(cr, uid, record.id, {"AnalysisRequest": [(3, item.id)]})
+    # def delete_analysis_requests_from_ws(self,cr,uid,ids,context=None):
+    #     worksheet = self.pool.get("olims.worksheet")
+    #     worksheet_obj = worksheet.browse(cr, uid, ids, context)
+    #     add_analysis_obj = self.pool.get("olims.add_analysis")
+    #     if any(record.State != "open" for record in worksheet_obj):
+    #         raise Warning("Only Worksheet with 'Open' state allow to delete Analysis")
+    #     else:
+    #         for record in worksheet_obj:
+    #             for item in record.AnalysisRequest:
+    #                 add_analysis_obj.write(cr, uid, item.id, {"state": 'unassigned'}, context)
+    #                 worksheet.write(cr, uid, record.id, {"AnalysisRequest": [(3, item.id)]})
 
     @api.multi
     def open_worksheet_form_view(self):
