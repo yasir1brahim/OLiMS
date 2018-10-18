@@ -234,10 +234,13 @@ class Worksheet(models.Model, BaseOLiMSModel):
         for record in self:
             if values.get("AnalysisRequest", None):
                 if values["AnalysisRequest"][0][0] == 6:
+                    for analysis in record.AnalysisRequest:
+                        if analysis.id not in values["AnalysisRequest"][0][2] and analysis.state == 'assigned':
+                            analysis.write({'state':'unassigned'})
                     for items in sorted(values["AnalysisRequest"][0][2]):
                         count += 1
                         values_dict_manage_results = {}
-                        add_analysis_obj = self.env["olims.add_analysis"].search([('state', '!=','assigned'),('id', '=',items)])
+                        add_analysis_obj = self.env["olims.add_analysis"].search([('id', '=',items)])
                         if not add_analysis_obj:
                             continue
                         add_analysis_obj = add_analysis_obj[0]
