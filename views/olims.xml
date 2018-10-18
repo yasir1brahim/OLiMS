@@ -3305,7 +3305,22 @@
                                 <label for="AnalysisRequest" string="Analysis Request"/>
                                 <field name="AnalysisRequest" options="{'no_create': True}"
                                        attrs="{'readonly': [('marked_closed', '=', True)]}"
-                                       widget="many2many_selectable"></field>
+                                       widget="many2many_selectable">
+                                    <tree string="Manage Results" edit='false' default_order="request_Id">
+                                        <field name="client"/>
+                                        <field name="order"/>
+                                        <field name="add_analysis_id"/>
+                                        <field name="priority"/>
+                                        <field name="category"/>
+                                        <!-- <field name="analysis"/> -->
+                                        <field name="analysis_profile"/>
+                                        <field name="sample_type"/>
+                                        <field name="received_date"/>
+                                        <field name="due_date"/>
+                                        <field name="priority_Sort_key" invisible="1"></field>
+                                        <field name="request_Id" invisible="1"></field>
+                                    </tree>
+                                </field>
                             </page>
                             <page string="Manage Result" attrs="{'invisible': [('id', '=', False)]}">
                                 <group string="Attachments">
