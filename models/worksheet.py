@@ -1169,6 +1169,7 @@ class AddAnalysis(models.Model):
             ws_manage_results_to_delete = self.env["olims.ws_manage_results"].search(["&" ,"&",("request_analysis_id",\
             '=', analysis.add_analysis_id.id), ("category", '=', analysis.category.id), \
                                                                           ("id", 'in', ws_manage_results_list)])
+            analysis.write({'state': 'unassigned'})
             
         if ws_manage_results_to_delete:
             query = "delete from olims_worksheet_olims_ws_manage_results_rel where olims_ws_manage_results_id in(" + \
