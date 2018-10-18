@@ -1260,7 +1260,7 @@ class WorkSheetManageResults(models.Model):
     @api.depends("result_string")
     def calc_serial_ws(self):
         count = 0
-        for record in self:
+        for record in sorted(self, key=lambda x: (x['request_analysis_id'].id)):
             count = count + 1
             record.serial = count
 
