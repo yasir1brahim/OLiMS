@@ -11,6 +11,7 @@ import datetime
 import psycopg2
 from openerp.tools.translate import _
 from openerp.exceptions import Warning
+from openerp.osv import osv
 
 AR_STATES = (
     ('sample_registered','Sample Registered'),
@@ -1406,9 +1407,12 @@ class Import(models.TransientModel):
 
 
     def do(self, cr, uid, id, fields, options, dryrun=False, context=None):
+        fields_str = [str(field) for field in fields]
+        if 'result' in fields_str:
+            raise osv.except_osv("Error!","Please Select Results instead of (Results Int) for the result values")
         res_import = super(Import, self).do(cr, uid, id, fields, options, dryrun, context)
         (record,) = self.browse(cr, uid, [id], context=context)
-
+        
         if record.res_model == 'olims.ws_manage_results' and not dryrun:
             data, import_fields = self._convert_import_data(
                          record, fields, options, context=context)
@@ -1441,6 +1445,7 @@ class Import(models.TransientModel):
                     result = float(result_record.result_string[result_record.result_string.index('<') + 1:]) - 1
                 else:
                     result = float(result_record.result_string)
+                result_record.write({'result':result})
                 ar_record.write({
                     'Result': float(result),
                     'Result_string': str(result_record.result_string)
