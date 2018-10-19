@@ -21,6 +21,7 @@ analysis_schema = (fields.Many2one(string='Priority',
                    fields.Float(string="Min"),
                    fields.Float(string="Max"),
                    fields.Many2one(string='analysis_request_id', comodel_name ='olims.analysis_request'),
+                    fields.Integer(string='analysis_order', compute='calc_analysis_ordering', store= False),
                    )
 
 class RecodrdsFieldARTemplate(models.Model, BaseOLiMSModel): 
@@ -62,6 +63,13 @@ class ARAnalysis(models.Model, BaseOLiMSModel):
       for item in self:
         item.Min = item.Services.Min
         item.Max = item.Services.Max
-    
+
+    @api.depends("Services")
+    def calc_analysis_ordering(self):
+        count = 0
+        for record in sorted(self, key=lambda x: (x['Services'].id)):
+            count = count + 1
+            record.analysis_order = count
+
 RecodrdsFieldARTemplate.initialze(schema)
 ARAnalysis.initialze(analysis_schema)

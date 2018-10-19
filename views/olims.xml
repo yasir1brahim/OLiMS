@@ -2857,8 +2857,9 @@
                                 <label for="Analyses" string="Analyses"/>
                                 <field name="Analyses" widget="one2many_list"
                                        attrs="{'readonly': [('state', 'in', ['verified', 'published', 'cancelled']),]}">
-                                    <tree editable="bottom" delete="false">
+                                    <tree editable="bottom" delete="false" default_order="analysis_order">
                                         <field name="id" invisible="1"/>
+                                        <field name="analysis_order" invisible="1"></field>
                                         <field name="Category" options="{'no_create': True}"
                                                attrs="{'readonly': [('id', '!=', False)]}"/>
                                         <field name="Services" options="{'no_create': True}"
