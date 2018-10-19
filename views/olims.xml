@@ -69,7 +69,7 @@
             <!-- <field name="domain">[('state','=','Pre-enter')]</field> -->
             <field name="context">{}</field>
             <field name="arch" type="xml">
-                <tree string="Analysis Request" create="false" delete="false">
+                <tree string="Analysis Request" create="false" delete="false" limit="80">
                     <field name="RequestID" string="Request ID"></field>
                     <field name="Sample"></field>
                     <field name="billing_status" string="Billed"/>
@@ -3399,7 +3399,7 @@
             <field name="name">worksheet.tree</field>
             <field name="model">olims.worksheet</field>
             <field name="arch" type="xml">
-                <tree string="Worksheet">
+                <tree string="Worksheet" limit="80">
                     <field name="Worksheet"></field>
                     <field name="Analyst"></field>
                     <field name="Analysis_Category" string="Category"></field>
