@@ -196,7 +196,7 @@ class Worksheet(models.Model, BaseOLiMSModel):
             if record.request_analysis_id.RequestID not in list_order:
                 data.append(record)
                 list_order.append(record.request_analysis_id.RequestID)
-        data.sort(key=lambda x: x.request_analysis_id.id, reverse=False)
+        data.sort(key=lambda x: (x['request_analysis_id'].RequestID[2:]), reverse=False)
         return data
 
     @api.model
@@ -1412,7 +1412,7 @@ class Import(models.TransientModel):
             raise osv.except_osv("Error!","Please Select Results instead of (Results Int) for the result values")
         res_import = super(Import, self).do(cr, uid, id, fields, options, dryrun, context)
         (record,) = self.browse(cr, uid, [id], context=context)
-        
+
         if record.res_model == 'olims.ws_manage_results' and not dryrun:
             data, import_fields = self._convert_import_data(
                          record, fields, options, context=context)
