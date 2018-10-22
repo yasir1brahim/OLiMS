@@ -224,54 +224,64 @@ class Worksheet(models.Model, BaseOLiMSModel):
                     'worksheet_id': res.id,
                         }
             self.env["olims.qccontrol"].create(values_dict)
-        res.write(values)
+
+        res.write(values,{'add_all_analyses': True})
         return res
 
     @api.multi
-    def write(self, values):
+    def write(self, values,custom_dict=None):
         data_list = []
         entered = []
         count = 0
+        if custom_dict:
+            add_all_analyses = custom_dict.get('add_all_analyses')
+        else:
+            add_all_analyses = False
+        existing_anlyses = []
         for record in self:
+            existing_anlyses = [add_analysis.id for add_analysis in record.AnalysisRequest]
             if values.get("AnalysisRequest", None):
                 if values["AnalysisRequest"][0][0] == 6:
                     for analysis in record.AnalysisRequest:
                         if analysis.id not in values["AnalysisRequest"][0][2] and analysis.state == 'assigned':
                             analysis.write({'state':'unassigned'})
                     for items in sorted(values["AnalysisRequest"][0][2]):
-                        count += 1
-                        values_dict_manage_results = {}
-                        add_analysis_obj = self.env["olims.add_analysis"].search([('id', '=',items)])
-                        if not add_analysis_obj:
-                            continue
-                        add_analysis_obj = add_analysis_obj[0]
-                        add_analysis_obj.write({'state':'assigned'})
-                        cont = False
-                        for rec in record.ManageResult:
-                            if rec.request_analysis_id.id == add_analysis_obj.add_analysis_id.id and rec.analysis.id == add_analysis_obj.analysis.id:
-                                cont = True
-                        if cont:
-                            continue
-                        for cate_analysis in add_analysis_obj.add_analysis_id.Analyses:
-                            if cate_analysis.Category.id == add_analysis_obj.category.id:
-                                values_dict_manage_results.update({"request_analysis_id":add_analysis_obj.add_analysis_id.id,
-                                    # "analysis": add_analysis_obj.analysis.id,
-                                    "analysis": cate_analysis.Services.id,
-                                    "client":add_analysis_obj.client.id,
-                                    "due_date": add_analysis_obj.due_date,
-                                    "received_date": add_analysis_obj.received_date,
-                                    "sampling_date": add_analysis_obj.add_analysis_id.SamplingDate,
-                                    "sample_type": add_analysis_obj.add_analysis_id.SampleType.id,
-                                    "sample": add_analysis_obj.add_analysis_id.Sample_id.id,
-                                    "analyst": self.Analyst.id,
-                                    "instrument": self.Instrument.id,
-                                    "priority": add_analysis_obj.priority.id,
-                                    "position": count,
-                                    "category": cate_analysis.Category.id})
-                                rec_id = self.env["olims.ws_manage_results"].create(values_dict_manage_results)
-                                data_list.append([4,rec_id.id])
-                                ar_object = self.env["olims.analysis_request"].search([('id', '=', add_analysis_obj.add_analysis_id.id)])
-                                ar_object.write({"ar_worksheets": [(4, self.id)]})
+                        if not add_all_analyses and items in existing_anlyses:
+                                continue
+                        else:
+                            count += 1
+                            values_dict_manage_results = {}
+                            add_analysis_obj = self.env["olims.add_analysis"].search([('id', '=',items)])
+                            if not add_analysis_obj:
+                                continue
+                            add_analysis_obj = add_analysis_obj[0]
+                            add_analysis_obj.write({'state':'assigned'})
+                            cont = False
+                            for rec in record.ManageResult:
+                                if rec.request_analysis_id.id == add_analysis_obj.add_analysis_id.id and rec.analysis.id == add_analysis_obj.analysis.id:
+                                    cont = True
+                            if cont:
+                                continue
+                            for cate_analysis in add_analysis_obj.add_analysis_id.Analyses:
+                                if cate_analysis.Category.id == add_analysis_obj.category.id:
+                                    values_dict_manage_results.update({"request_analysis_id":add_analysis_obj.add_analysis_id.id,
+                                        # "analysis": add_analysis_obj.analysis.id,
+                                        "analysis": cate_analysis.Services.id,
+                                        "client":add_analysis_obj.client.id,
+                                        "due_date": add_analysis_obj.due_date,
+                                        "received_date": add_analysis_obj.received_date,
+                                        "sampling_date": add_analysis_obj.add_analysis_id.SamplingDate,
+                                        "sample_type": add_analysis_obj.add_analysis_id.SampleType.id,
+                                        "sample": add_analysis_obj.add_analysis_id.Sample_id.id,
+                                        "analyst": self.Analyst.id,
+                                        "instrument": self.Instrument.id,
+                                        "priority": add_analysis_obj.priority.id,
+                                        "position": count,
+                                        "category": cate_analysis.Category.id})
+                                    rec_id = self.env["olims.ws_manage_results"].create(values_dict_manage_results)
+                                    data_list.append([4,rec_id.id])
+                                    ar_object = self.env["olims.analysis_request"].search([('id', '=', add_analysis_obj.add_analysis_id.id)])
+                                    ar_object.write({"ar_worksheets": [(4, self.id)]})
                     values.update({"ManageResult": data_list})
                 elif values["AnalysisRequest"][0][0] == 3:
                     add_analysis_obj = self.env["olims.add_analysis"].browse(values["AnalysisRequest"][0][1])
