@@ -67,9 +67,23 @@ class ARAnalysis(models.Model, BaseOLiMSModel):
     @api.depends("Services")
     def calc_analysis_ordering(self):
         count = 0
-        for record in sorted(self, key=lambda x: (x['Services'].id)):
-            count = count + 1
-            record.analysis_order = count
+        self_records = []
+        service_list = []
+        for record in self:
+            self_records.append(record)
+        for record in self_records:
+            for ap in record.analysis_request_id.AnalysisProfile:
+                for ap_service in ap.Service:
+                    service_list.append(ap_service.Services)
+        for record in  service_list:
+            for rec in self:
+                if rec.Services.id == record.id:
+                   count = count+1
+                   rec.analysis_order = count
+                   break
+                else:
+                    continue
+
 
 RecodrdsFieldARTemplate.initialze(schema)
 ARAnalysis.initialze(analysis_schema)
