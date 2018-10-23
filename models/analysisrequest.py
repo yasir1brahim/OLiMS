@@ -1692,6 +1692,7 @@ manage_result_schema = (
     ),
     fields.Char(string="flag", compute="insert_flag"),
     fields.Boolean(string="is_pre_enter", compute='compute_ar_state'),
+    fields.Integer(string='analysis_order', compute='calc_analysis_ordering', store=False),
     )
 
 class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
@@ -5656,6 +5657,27 @@ class FieldAnalysisService(models.Model, BaseOLiMSModel):
 class ManageAnalyses(models.Model, BaseOLiMSModel):
     _inherit = 'olims.field_analysis_service'
     _name = 'olims.manage_analyses'
+
+    @api.depends("LabService")
+    def calc_analysis_ordering(self):
+        count = 0
+        self_records = []
+        service_list = []
+        for record in self:
+            self_records.append(record)
+        for record in self_records:
+            for ap in record.lab_manage_analysis_id.AnalysisProfile:
+                for ap_service in ap.Service:
+                    service_list.append(ap_service.Services.id)
+        for record in service_list:
+            for rec in self:
+                if rec.LabService.id == record:
+                    count = count + 1
+                    rec.analysis_order = count
+                    break
+                else:
+                    continue
+
 
 
     @api.onchange("Result")

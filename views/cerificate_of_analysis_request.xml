@@ -80,7 +80,7 @@
 						                		</td>
 						                	</tr>
 						                	<t t-if="doc.Lab_Manage_Result" >
-							                	<tr t-foreach="doc.Lab_Manage_Result" t-as="l_result" style="font-size:12px;">
+							                	<tr t-foreach="doc.Lab_Manage_Result.sorted(key=lambda x: x.analysis_order)" t-as="l_result" style="font-size:12px;">
 							                        <td class="text-center" style="padding: 5px">
 							                        	<span t-field="l_result.LabService.Service"/>
 							                        </td>
@@ -106,7 +106,7 @@
 							                    </tr>
 							                </t>
 						                    <t t-if="doc.Field_Manage_Result">
-							                	<tr t-foreach="doc.Field_Manage_Result" t-as="f_result" style="font-size:12px;">
+							                	<tr t-foreach="doc.Field_Manage_Result.sorted(key=lambda x: x.analysis_order)" t-as="f_result" style="font-size:12px;">
 							                        <td class="text-center" style="padding: 5px">
 							                        	<span t-field="f_result.Service.Service"/>
 							                        </td>
