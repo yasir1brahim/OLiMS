@@ -233,6 +233,7 @@ class Worksheet(models.Model, BaseOLiMSModel):
         data_list = []
         entered = []
         count = 0
+        analyses_cat = []
         if custom_dict:
             add_all_analyses = custom_dict.get('add_all_analyses')
         else:
@@ -282,7 +283,15 @@ class Worksheet(models.Model, BaseOLiMSModel):
                                     data_list.append([4,rec_id.id])
                                     ar_object = self.env["olims.analysis_request"].search([('id', '=', add_analysis_obj.add_analysis_id.id)])
                                     ar_object.write({"ar_worksheets": [(4, self.id)]})
+
+
+
                     values.update({"ManageResult": data_list})
+
+                    add_analysis_obj = self.env["olims.add_analysis"].browse(values["AnalysisRequest"][0][2])
+                    for obj in add_analysis_obj:
+                        analyses_cat.append(obj.category.id)
+
                 elif values["AnalysisRequest"][0][0] == 3:
                     add_analysis_obj = self.env["olims.add_analysis"].browse(values["AnalysisRequest"][0][1])
                     for rec in record.ManageResult:
@@ -292,6 +301,25 @@ class Worksheet(models.Model, BaseOLiMSModel):
                             record.write({"ManageResult": [(2, rec.id)]})
 
         res = super(Worksheet, self).write(values)
+        worksheet_obj = self.browse(self.id)
+        flag =  False
+        for rec in worksheet_obj.ManageResult:
+            if not worksheet_obj.AnalysisRequest:
+                ws_manage_results_list = []
+                for ws_result in worksheet_obj.ManageResult:
+                    super(Worksheet, worksheet_obj).write({"ManageResult": [(2, ws_result.id)]})
+                    #ws_manage_results_list.append(ws_result.id)
+
+                break
+            else:
+                for obj in worksheet_obj.AnalysisRequest:
+                    if obj.add_analysis_id.id == rec.request_analysis_id.id:
+                        flag = True
+                    else:
+                        flag = False
+                if flag:
+                    if rec.category.id not in  analyses_cat:
+                        super(Worksheet, worksheet_obj).write({"ManageResult": [(2, rec.id)]})
         qccontrols = self.env["olims.qccontrol"].search([('worksheet_id', '=',self.id)])
         for qcitem in qccontrols:
             qcitem.unlink()
@@ -1167,28 +1195,30 @@ class AddAnalysis(models.Model):
 
     @api.model
     def delete_ars_for_worksheet(self, active_id, selected_ids):
-        query = "delete from olims_add_analysis_olims_worksheet_rel where olims_add_analysis_id in(" + \
-                ",".join(str(id) for id in selected_ids) + ") and olims_worksheet_id=" + str(active_id)
-
-        self.env.cr.execute(query)
-        ws_manage_results_to_delete = False
-
-        query = "select olims_ws_manage_results_id from olims_worksheet_olims_ws_manage_results_rel \
-        where olims_worksheet_id=" + str(active_id)
-        self.env.cr.execute(query)
-        ws_manage_results_list = self.env.cr.fetchall()
+        worksheet_obj = self.env['olims.worksheet'].search([('id', '=', active_id)])
+        anlyses_to_keep = []
+        for analyses in worksheet_obj.AnalysisRequest:
+            if analyses.id not in selected_ids:
+                anlyses_to_keep.append(analyses.id)
+        super(Worksheet, worksheet_obj).write({'AnalysisRequest':[(6, 0, anlyses_to_keep)]})
+        worksheet_ws = []
+        for mg_result in worksheet_obj.ManageResult:
+            worksheet_ws.append(mg_result.id)
 
         add_analysis_objs = self.env["olims.add_analysis"].search([("id", 'in', selected_ids)])
         for analysis in add_analysis_objs:
-            ws_manage_results_to_delete = self.env["olims.ws_manage_results"].search(["&" ,"&",("request_analysis_id",\
-            '=', analysis.add_analysis_id.id), ("category", '=', analysis.category.id), \
-                                                                          ("id", 'in', ws_manage_results_list)])
             analysis.write({'state': 'unassigned'})
-            
-        if ws_manage_results_to_delete:
-            query = "delete from olims_worksheet_olims_ws_manage_results_rel where olims_ws_manage_results_id in(" + \
-                    ",".join(str(id.id) for id in ws_manage_results_to_delete) + ") and olims_worksheet_id=" + str(active_id)
-            self.env.cr.execute(query)
+            ws_manage_results = self.env['olims.ws_manage_results'].search(
+                ['&', ('request_analysis_id', '=', analysis.add_analysis_id.id), \
+                 ('category', '=', analysis.category.id)])
+            for ws_result in ws_manage_results:
+                if ws_result.id in worksheet_ws:
+                    super(Worksheet, worksheet_obj).write({"ManageResult": [(2, ws_result.id)]})
+
+
+
+        return
+
     @api.multi
     def show_warring_message_form(self):
         self.ensure_one()
