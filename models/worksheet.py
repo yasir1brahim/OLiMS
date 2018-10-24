@@ -136,20 +136,6 @@ class Worksheet(models.Model, BaseOLiMSModel):
     #         worksheetid = 'WS-0' + str(items.id)
     #         items.Worksheet = worksheetid
 
-    @api.model
-    def delete_ben_test_analyses(self):
-        worksheet = self.env["olims.worksheet"].search([('id', '=', 10448)])
-        for obj in worksheet:
-            _logger.info('---Worksheet Id: %s',obj.id)
-            worksheet_ws = obj.ManageResult
-            for ws in worksheet_ws:
-                if ws.client.id == 8:
-                    _logger.info('--- \n\t\t\t\t\t\t\t\t\t\t\t\tdeleting WS mange result: %s',ws)
-                    _logger.info('--- client: %s Analsysis: %s',ws.client.Name,ws.analysis.Service)
-                    super(Worksheet, worksheet).write({"ManageResult": [(2, ws.id)]})
-
-        return True
-
 
 
     def compute_analysis_categories(self):
