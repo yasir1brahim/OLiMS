@@ -5846,7 +5846,16 @@ class ParticularReport(models.AbstractModel):
         report_obj = self.env['report']
         report = report_obj._get_report_from_name('olims.report_certificate_of_analysis')
         self_browse = self.browse()
-        data = self.env['olims.analysis_request'].search([("id","in",self._ids)])
+        ars = self.env['olims.analysis_request'].search([("id","in",self._ids)])
+        data = []
+        is_valid = False
+        for ar in ars:
+            if ar.state in ["to_be_verified","verified"]:
+                data.append(ar)
+                is_valid = True
+        if not is_valid:
+            raise osv.except_osv(_('error'),
+                    _('COA can only be printed for AR\'s in verified and to be verified states'))
 
         docargs = {
             'doc_ids': self._ids,
