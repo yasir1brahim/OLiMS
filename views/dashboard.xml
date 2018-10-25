@@ -97,28 +97,30 @@
                     <board style="1-1">
                         <column>
                             <action
+                                string="Analysis Requests (Urgent)"
+                                name="%(act_ar_graph_urgent)d"/>
+                            <action
                                 string="Analysis Requests"
                                 name="%(act_ar_graph)d"/>
                              <action
                                 string="Analysis Requests Past 30 days"
                                 name="%(act_ar_graph_prev_30_days)d"/>
-                               <action
-                                string="Analysis Requests (Urgent)"
-                                name="%(act_ar_graph_urgent)d"/>
+
 
                         </column>
 
 
                          <column>
+                             <action
+                                string="Analysis Requests (High)"
+                                name="%(act_ar_graph_high)d"/>
                               <action
                                 string="Worksheets"
                                 name="%(act_worksheet_graph)d"/>
                              <action
                                 string="Worksheets Past 30 days"
                                 name="%(act_worksheet_graph_prev_30_days)d"/>
-                             <action
-                                string="Analysis Requests (High)"
-                                name="%(act_ar_graph_high)d"/>
+
                         </column>
 
                     </board>
