@@ -4721,17 +4721,23 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             ar_object = self.env['olims.analysis_request'].search([('id','in',ids)])
             imz = InMemoryZip()
             index = 0
+            is_valid = False
             for id in ids:
-                result, format = openerp.report.render_report(self.env.cr, self.env.uid, [id],
-                                                          ir_actions_report.report_name, {'model': self._name},
-                                                          context=self.env.context)
-                if ar_object[index].LotID and ar_object[index].ClientReference:
-                    title = ar_object[index].LotID + '-'+ ar_object[index].ClientReference
-                else :
-                    title = ar_object[index].RequestID
-                title = title.replace('/','-')
-                imz.append(str(title) + '.pdf', result)
+                if ar_object[index].state in ["to_be_verified","verified"]:
+                    result, format = openerp.report.render_report(self.env.cr, self.env.uid, [id],
+                                                              ir_actions_report.report_name, {'model': self._name},
+                                                              context=self.env.context)
+                    if ar_object[index].LotID and ar_object[index].ClientReference:
+                        title = ar_object[index].LotID + '-'+ ar_object[index].ClientReference
+                    else :
+                        title = ar_object[index].RequestID
+                    title = title.replace('/','-')
+                    imz.append(str(title) + '.pdf', result)
+                    is_valid = True
                 index +=1
+            if not is_valid:
+                raise osv.except_osv(_('error'),
+                                        _('COA can only be downloaded for AR\'s in verified and to be verified states'))
         compressed_file = imz.read()
 
         attachment_obj = self.env['ir.attachment']
