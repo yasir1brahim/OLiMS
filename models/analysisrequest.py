@@ -4723,7 +4723,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
             index = 0
             is_valid = False
             for id in ids:
-                if ar_object[index].state in ["to_be_verified","verified"]:
+                if ar_object[index].state in ["to_be_verified","verified","published","invalid","cancelled"]:
                     result, format = openerp.report.render_report(self.env.cr, self.env.uid, [id],
                                                               ir_actions_report.report_name, {'model': self._name},
                                                               context=self.env.context)
@@ -4737,7 +4737,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                 index +=1
             if not is_valid:
                 raise osv.except_osv(_('error'),
-                                        _('COA can only be downloaded for AR\'s in verified and to be verified states'))
+                                        _('COA can only be downloaded for AR\'s in verified, to be verified and published states'))
         compressed_file = imz.read()
 
         attachment_obj = self.env['ir.attachment']
@@ -5850,12 +5850,12 @@ class ParticularReport(models.AbstractModel):
         data = []
         is_valid = False
         for ar in ars:
-            if ar.state in ["to_be_verified","verified"]:
+            if ar.state in ["to_be_verified","verified","published","invalid","cancelled"]:
                 data.append(ar)
                 is_valid = True
         if not is_valid:
             raise osv.except_osv(_('error'),
-                    _('COA can only be printed for AR\'s in verified and to be verified states'))
+                    _('COA can only be printed for AR\'s in verified, to be verified and published states'))
 
         docargs = {
             'doc_ids': self._ids,
