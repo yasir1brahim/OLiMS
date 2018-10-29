@@ -5695,39 +5695,72 @@ class ManageAnalyses(models.Model, BaseOLiMSModel):
     @api.onchange("Result_string")
     def set_result_value(self):
         data_res = self.Result_string
-        if data_res:
-            if data_res.find('>')!=-1:
-                data_res.index('>')
-                data = float(data_res[data_res.index('>')+1:]) +1
-            elif data_res.find('<')!=-1:
-                data_res.index('<')
-                data = float(data_res[data_res.index('<')+1:])-1
-            else:
-                data = float(data_res)
+        if data_res.lower() == 'n/a':
+            data_res =  data_res.lower()
+            record_obj = self.pool.get('olims.manage_analyses')
+            record = record_obj.browse(self.env.cr, self.env.uid, self._origin.id)
+            record.write({
+                'Result':None,
+                'Result_string': data_res
+            })
+            # Updating Result in Worksheet
+            ws_record_obj = self.pool.get('olims.ws_manage_results')
+            if record.manage_analysis_id:
+                ws_record_id = ws_record_obj.search(self.env.cr, self.env.uid,
+                                                    [('request_analysis_id', '=', record.manage_analysis_id.id),
+                                                     ('category', '=', record.Category.id),
+                                                     ('analysis', '=', record.Service.id)])
+                if ws_record_id:
+                    ws_record_id = ws_record_id[0]
+            if record.lab_manage_analysis_id:
+                ws_record_id = ws_record_obj.search(self.env.cr, self.env.uid,
+                                                    [('request_analysis_id', '=', record.lab_manage_analysis_id.id),
+                                                     ('category', '=', record.Category.id),
+                                                     ('analysis', '=', record.LabService.id)])
+                if ws_record_id:
+                    ws_record_id = ws_record_id[0]
+            ws_record = ws_record_obj.browse(self.env.cr, self.env.uid, ws_record_id)
+            ws_record.write({
+                'result_string': data_res
+            })
+            self.env.cr.commit()
+
+
+
         else:
-            data = 0
-        record_obj = self.pool.get('olims.manage_analyses')
-        record = record_obj.browse(self.env.cr, self.env.uid, self._origin.id)
-        record.write({
-            'Result': data,
-            'Result_string': data_res
-            })
-        #Updating Result in Worksheet
-        ws_record_obj = self.pool.get('olims.ws_manage_results')
-        if record.manage_analysis_id:
-            ws_record_id = ws_record_obj.search(self.env.cr, self.env.uid, [('request_analysis_id', '=', record.manage_analysis_id.id),('category','=',record.Category.id),('analysis','=',record.Service.id)])
-            if ws_record_id:
-                ws_record_id = ws_record_id[0]
-        if record.lab_manage_analysis_id:
-            ws_record_id = ws_record_obj.search(self.env.cr, self.env.uid, [('request_analysis_id', '=', record.lab_manage_analysis_id.id),('category','=',record.Category.id),('analysis','=',record.LabService.id)])
-            if ws_record_id:
-                ws_record_id = ws_record_id[0]
-        ws_record = ws_record_obj.browse(self.env.cr, self.env.uid, ws_record_id)
-        ws_record.write({
-            'result': data,
-            'result_string': data_res
-            })
-        self.env.cr.commit()
+            if data_res:
+                if data_res.find('>')!=-1:
+                    data_res.index('>')
+                    data = float(data_res[data_res.index('>')+1:]) +1
+                elif data_res.find('<')!=-1:
+                    data_res.index('<')
+                    data = float(data_res[data_res.index('<')+1:])-1
+                else:
+                    data = float(data_res)
+            else:
+                data = 0
+            record_obj = self.pool.get('olims.manage_analyses')
+            record = record_obj.browse(self.env.cr, self.env.uid, self._origin.id)
+            record.write({
+                'Result': data,
+                'Result_string': data_res
+                })
+            #Updating Result in Worksheet
+            ws_record_obj = self.pool.get('olims.ws_manage_results')
+            if record.manage_analysis_id:
+                ws_record_id = ws_record_obj.search(self.env.cr, self.env.uid, [('request_analysis_id', '=', record.manage_analysis_id.id),('category','=',record.Category.id),('analysis','=',record.Service.id)])
+                if ws_record_id:
+                    ws_record_id = ws_record_id[0]
+            if record.lab_manage_analysis_id:
+                ws_record_id = ws_record_obj.search(self.env.cr, self.env.uid, [('request_analysis_id', '=', record.lab_manage_analysis_id.id),('category','=',record.Category.id),('analysis','=',record.LabService.id)])
+                if ws_record_id:
+                    ws_record_id = ws_record_id[0]
+            ws_record = ws_record_obj.browse(self.env.cr, self.env.uid, ws_record_id)
+            ws_record.write({
+                'result': data,
+                'result_string': data_res
+                })
+            self.env.cr.commit()
 
     @api.multi
     def bulk_verify(self):
@@ -5824,7 +5857,7 @@ class ManageAnalyses(models.Model, BaseOLiMSModel):
     @api.depends('Result', 'Min', 'Max')
     def insert_flag(self):
         for record in self:
-            if record.Result < record.Min or record.Result > record.Max:
+            if record.Result < record.Min or record.Result > record.Max or record.Result_string == 'n/a':
                 record.flag = "flag"
             else:
                 record.flag = False

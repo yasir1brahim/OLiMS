@@ -2888,7 +2888,7 @@
                                        widget="one2many_selectable">
                                     <tree editable="bottom" create='false' delete='false'
                                           decoration-info="state in ('sample_received','to_be_verified')"
-                                          decoration-danger="Result&lt;Min or Result&gt;Max">
+                                          decoration-danger="Result&lt;Min or Result&gt;Max or Result_string == 'n/a'">
                                         <field name="id" invisible="1"/>
                                         <field name='Category' attrs="{'readonly': [('id', '!=', False)]}"/>
                                         <field name="Service" attrs="{'readonly': [('id', '!=', False)]}"/>
@@ -2914,7 +2914,7 @@
                                        widget="one2many_selectable">
                                     <tree editable="bottom" create='false' delete='false'
                                           decoration-info="state in ('sample_received','to_be_verified')"
-                                          decoration-danger="Result &lt;Min or Result&gt;Max">
+                                          decoration-danger="Result &lt;Min or Result&gt;Max or Result_string == 'n/a'">
                                         <field name="id" invisible="1"/>
                                         <field name='Category' attrs="{'readonly': [('id', '!=', False)]}"/>
                                         <field name="LabService" string="Service"
@@ -2946,7 +2946,7 @@
                                        attrs="{'invisible': [('Field_Manage_Result', '=', [])]}">
                                     <tree editable="bottom" create='false' delete='false'
                                           decoration-info="state in ('sample_received','to_be_verified')"
-                                          decoration-danger="Result&lt;Min or Result&gt;Max">
+                                          decoration-danger="Result&lt;Min or Result&gt;Max or Result_string == 'n/a'">
                                         <field name="id" invisible="1"/>
                                         <field name='Category' attrs="{'readonly': [('id', '!=', False)]}"/>
                                         <field name="Service" attrs="{'readonly': [('id', '!=', False)]}"/>
@@ -2972,7 +2972,7 @@
                                        attrs="{'invisible': [('Lab_Manage_Result', '=', [])]}">
                                     <tree editable="bottom" create='false' delete='false'
                                           decoration-info="state in ('sample_received','to_be_verified')"
-                                          decoration-danger="Result &lt;Min or Result&gt;Max">
+                                          decoration-danger="Result &lt;Min or Result&gt;Max or Result_string == 'n/a'">
                                         <field name="id" invisible="1"/>
                                         <field name='Category' attrs="{'readonly': [('id', '!=', False)]}"/>
                                         <field name="LabService" string="Service"

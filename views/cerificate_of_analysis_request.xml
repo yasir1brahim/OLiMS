@@ -99,7 +99,7 @@
 							                        </td>
 							                        <td class="text-center" style="padding: 5px">
 							                        	<t t-if="not l_result.LabService.status_on_off">
-								                            <t t-if="l_result.Result &lt; l_result.Min or  l_result.Result &gt; l_result.Max"><span>fail</span></t>
+								                            <t t-if="l_result.Result &lt; l_result.Min or  l_result.Result &gt; l_result.Max or l_result.Result_string == 'n/a' "><span>fail</span></t>
 								                            <t t-if="l_result.Result &gt;= l_result.Min and l_result.Result &lt;= l_result.Max"><span>pass</span></t>
 								                        </t>
 							                        </td>
