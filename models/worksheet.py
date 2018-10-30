@@ -1314,10 +1314,10 @@ class WorkSheetManageResults(models.Model):
         if data_res:
             if data_res.find('>')!=-1:
                 data_res.index('>')
-                data = float(data_res[data_res.index('>')+1:]) +1
+                data = float(data_res[data_res.index('>')+1:]) +0.01
             elif data_res.find('<')!=-1:
                 data_res.index('<')
-                data = float(data_res[data_res.index('<')+1:])-1
+                data = float(data_res[data_res.index('<')+1:])-0.01
             else:
                 data = float(data_res)
         else:
@@ -1483,9 +1483,9 @@ class Import(models.TransientModel):
                     ar_record = ar_record_obj.browse(cr, uid, ar_lab_record_id[0])
                 result = False
                 if result_record.result_string.find('>') != -1:
-                    result = float(result_record.result_string[result_record.result_string.index('>') + 1:]) + 1
+                    result = float(result_record.result_string[result_record.result_string.index('>') + 1:]) + 0.01
                 elif result_record.result_string.find('<') != -1:
-                    result = float(result_record.result_string[result_record.result_string.index('<') + 1:]) - 1
+                    result = float(result_record.result_string[result_record.result_string.index('<') + 1:]) - 0.01
                 else:
                     result = float(result_record.result_string)
                 result_record.write({'result':result})

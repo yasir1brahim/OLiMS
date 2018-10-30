@@ -5704,10 +5704,10 @@ class ManageAnalyses(models.Model, BaseOLiMSModel):
         if data_res:
             if data_res.find('>')!=-1:
                 data_res.index('>')
-                data = float(data_res[data_res.index('>')+1:]) +1
+                data = float(data_res[data_res.index('>')+1:]) +0.01
             elif data_res.find('<')!=-1:
                 data_res.index('<')
-                data = float(data_res[data_res.index('<')+1:])-1
+                data = float(data_res[data_res.index('<')+1:])-0.01
             else:
                 data = float(data_res)
         else:
