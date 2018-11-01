@@ -1337,6 +1337,7 @@ class WorkSheetManageResults(models.Model):
             elif ar_lab_record_id:
                 ar_record = ar_record_obj.browse(self.env.cr, self.env.uid, ar_lab_record_id[0])
             ar_record.write({
+                'Result':None,
                 'Result_string': data_res
             })
             self.env.cr.commit()
@@ -1516,10 +1517,13 @@ class Import(models.TransientModel):
                 elif ar_lab_record_id:
                     ar_record = ar_record_obj.browse(cr, uid, ar_lab_record_id[0])
 
-                if result_record.result_string.lower() == 'n/a':
-                    result_record.write({'result_string':result_record.result_string.lower()})
+
+                result_str = str(result_record.result_string)
+                if result_str.lower() == 'n/a':
+                    result_record.write({'result_string':result_str.lower(), 'result':None})
                     ar_record.write({
-                        'Result_string': str(result_record.result_string.lower())
+                        'Result':None,
+                        'Result_string': result_str.lower()
                     })
                 else:
                     result = False

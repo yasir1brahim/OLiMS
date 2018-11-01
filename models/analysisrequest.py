@@ -5721,6 +5721,7 @@ class ManageAnalyses(models.Model, BaseOLiMSModel):
                     ws_record_id = ws_record_id[0]
             ws_record = ws_record_obj.browse(self.env.cr, self.env.uid, ws_record_id)
             ws_record.write({
+                'result':None,
                 'result_string': data_res
             })
             self.env.cr.commit()
