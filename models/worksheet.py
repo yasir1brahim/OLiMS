@@ -291,9 +291,29 @@ class Worksheet(models.Model, BaseOLiMSModel):
 
                     values.update({"ManageResult": data_list})
 
-                    add_analysis_obj = self.env["olims.add_analysis"].browse(values["AnalysisRequest"][0][2])
-                    for obj in add_analysis_obj:
-                        analyses_cat.append(obj.category.id)
+
+                    ws_add_analyses = self.env["olims.add_analysis"].browse(values["AnalysisRequest"][0][2])
+                    request_id_cat_dict = {}
+                    for add_analyses_object in ws_add_analyses:
+                        key_check_res = request_id_cat_dict.get(add_analyses_object.add_analysis_id.id)
+                        if not request_id_cat_dict.get(add_analyses_object.add_analysis_id.id):
+                            request_id_cat_dict.update({add_analyses_object.add_analysis_id.id: [add_analyses_object.category.id]})
+
+                        elif request_id_cat_dict.get(add_analyses_object.add_analysis_id.id):
+                            category_list = request_id_cat_dict[add_analyses_object.add_analysis_id.id]
+                            category_list.append(add_analyses_object.category.id)
+                            request_id_cat_dict.update({add_analyses_object.add_analysis_id.id: category_list})
+
+                    for ws_manage_res in record.ManageResult:
+
+                        if not request_id_cat_dict.get(ws_manage_res.request_analysis_id.id):
+
+                            record.write({"ManageResult": [(2, ws_manage_res.id)]})
+
+                        elif request_id_cat_dict.get(ws_manage_res.request_analysis_id.id):
+                            ar_cat = request_id_cat_dict[ws_manage_res.request_analysis_id.id]
+                            if ws_manage_res.category.id not in ar_cat:
+                                record.write({"ManageResult": [(2, ws_manage_res.id)]})
 
                 elif values["AnalysisRequest"][0][0] == 3:
                     add_analysis_obj = self.env["olims.add_analysis"].browse(values["AnalysisRequest"][0][1])
@@ -305,24 +325,7 @@ class Worksheet(models.Model, BaseOLiMSModel):
 
         res = super(Worksheet, self).write(values)
         worksheet_obj = self.browse(self.id)
-        flag =  False
-        for rec in worksheet_obj.ManageResult:
-            if not worksheet_obj.AnalysisRequest:
-                ws_manage_results_list = []
-                for ws_result in worksheet_obj.ManageResult:
-                    super(Worksheet, worksheet_obj).write({"ManageResult": [(2, ws_result.id)]})
-                    #ws_manage_results_list.append(ws_result.id)
 
-                break
-            else:
-                for obj in worksheet_obj.AnalysisRequest:
-                    if obj.add_analysis_id.id == rec.request_analysis_id.id:
-                        flag = True
-                    else:
-                        flag = False
-                if flag:
-                    if rec.category.id not in  analyses_cat:
-                        super(Worksheet, worksheet_obj).write({"ManageResult": [(2, rec.id)]})
         qccontrols = self.env["olims.qccontrol"].search([('worksheet_id', '=',self.id)])
         for qcitem in qccontrols:
             qcitem.unlink()
@@ -1311,36 +1314,68 @@ class WorkSheetManageResults(models.Model):
     @api.onchange("result_string")
     def set_result_value(self):
         data_res = self.result_string
-        if data_res:
-            if data_res.find('>')!=-1:
-                data_res.index('>')
-                data = float(data_res[data_res.index('>')+1:]) +0.01
-            elif data_res.find('<')!=-1:
-                data_res.index('<')
-                data = float(data_res[data_res.index('<')+1:])-0.01
-            else:
-                data = float(data_res)
+
+        if data_res.lower() == 'n/a':
+            data_res = data_res.lower()
+            record_obj = self.pool.get('olims.ws_manage_results')
+            record = record_obj.browse(self.env.cr, self.env.uid, self._origin.id)
+            record.write({
+                'result':None,
+                'result_string': data_res
+            })
+            ar_record_obj = self.pool.get('olims.manage_analyses')
+            ar_field_record_id = ar_record_obj.search(self.env.cr, self.env.uid,
+                                                      [('manage_analysis_id', '=', record.request_analysis_id.id),
+                                                       ('Category', '=', record.category.id),
+                                                       ('Service', '=', record.analysis.id)])
+            ar_lab_record_id = ar_record_obj.search(self.env.cr, self.env.uid,
+                                                    [('lab_manage_analysis_id', '=', record.request_analysis_id.id),
+                                                     ('Category', '=', record.category.id),
+                                                     ('LabService', '=', record.analysis.id)])
+            if ar_field_record_id:
+                ar_record = ar_record_obj.browse(self.env.cr, self.env.uid, ar_field_record_id[0])
+            elif ar_lab_record_id:
+                ar_record = ar_record_obj.browse(self.env.cr, self.env.uid, ar_lab_record_id[0])
+            ar_record.write({
+                'Result':None,
+                'Result_string': data_res
+            })
+            self.env.cr.commit()
+
         else:
-            data = 0
-        record_obj = self.pool.get('olims.ws_manage_results')
-        record = record_obj.browse(self.env.cr, self.env.uid, self._origin.id)
-        record.write({
-            'result': data,
-            'result_string':data_res
-            })
-        # Updating Result in Analysis Request
-        ar_record_obj = self.pool.get('olims.manage_analyses')
-        ar_field_record_id = ar_record_obj.search(self.env.cr, self.env.uid, [('manage_analysis_id', '=', record.request_analysis_id.id),('Category','=',record.category.id),('Service','=',record.analysis.id)])
-        ar_lab_record_id = ar_record_obj.search(self.env.cr, self.env.uid, [('lab_manage_analysis_id', '=', record.request_analysis_id.id),('Category','=',record.category.id),('LabService','=',record.analysis.id)])
-        if ar_field_record_id:
-            ar_record = ar_record_obj.browse(self.env.cr, self.env.uid, ar_field_record_id[0])
-        elif ar_lab_record_id:
-            ar_record = ar_record_obj.browse(self.env.cr, self.env.uid, ar_lab_record_id[0])
-        ar_record.write({
-            'Result': data,
-            'Result_string': data_res
-            })
-        self.env.cr.commit()
+
+            if data_res:
+                if data_res.find('>')!=-1:
+                    data_res.index('>')
+                    data = float(data_res[data_res.index('>')+1:]) +0.01
+                elif data_res.find('<')!=-1:
+                    data_res.index('<')
+                    data = float(data_res[data_res.index('<')+1:])-0.01
+                else:
+                    data = float(data_res)
+            else:
+                data = 0
+            record_obj = self.pool.get('olims.ws_manage_results')
+            record = record_obj.browse(self.env.cr, self.env.uid, self._origin.id)
+            record.write({
+                'result': data,
+                'result_string':data_res
+                })
+            # Updating Result in Analysis Request
+            ar_record_obj = self.pool.get('olims.manage_analyses')
+
+            ar_field_record_id = ar_record_obj.search(self.env.cr, self.env.uid, [('manage_analysis_id', '=', record.request_analysis_id.id),('Category','=',record.category.id),('Service','=',record.analysis.id)])
+            ar_lab_record_id = ar_record_obj.search(self.env.cr, self.env.uid, [('lab_manage_analysis_id', '=', record.request_analysis_id.id),('Category','=',record.category.id),('LabService','=',record.analysis.id)])
+
+            if ar_field_record_id:
+                ar_record = ar_record_obj.browse(self.env.cr, self.env.uid, ar_field_record_id[0])
+            elif ar_lab_record_id:
+                ar_record = ar_record_obj.browse(self.env.cr, self.env.uid, ar_lab_record_id[0])
+            ar_record.write({
+                'Result': data,
+                'Result_string': data_res
+                })
+            self.env.cr.commit()
 
     @api.multi
     def bulk_verify(self):
@@ -1481,18 +1516,28 @@ class Import(models.TransientModel):
                     ar_record = ar_record_obj.browse(cr, uid, ar_field_record_id[0])
                 elif ar_lab_record_id:
                     ar_record = ar_record_obj.browse(cr, uid, ar_lab_record_id[0])
-                result = False
-                if result_record.result_string.find('>') != -1:
-                    result = float(result_record.result_string[result_record.result_string.index('>') + 1:]) + 0.01
-                elif result_record.result_string.find('<') != -1:
-                    result = float(result_record.result_string[result_record.result_string.index('<') + 1:]) - 0.01
+
+                result_str = str(result_record.result_string)
+                if result_str.lower() == 'n/a':
+                    result_record.write({'result_string':result_str.lower(), 'result':None})
+                    ar_record.write({
+                        'Result':None,
+                        'Result_string': result_str.lower()
+                    })
+
                 else:
-                    result = float(result_record.result_string)
-                result_record.write({'result':result})
-                ar_record.write({
-                    'Result': float(result),
-                    'Result_string': str(result_record.result_string)
-                })
+                    result = False
+                    if result_record.result_string.find('>') != -1:
+                        result = float(result_record.result_string[result_record.result_string.index('>') + 1:]) + 0.01
+                    elif result_record.result_string.find('<') != -1:
+                        result = float(result_record.result_string[result_record.result_string.index('<') + 1:]) - 0.01
+                    else:
+                        result = float(result_record.result_string)
+                    result_record.write({'result':result})
+                    ar_record.write({
+                        'Result': float(result),
+                        'Result_string': str(result_record.result_string)
+                    })
 
 
 
