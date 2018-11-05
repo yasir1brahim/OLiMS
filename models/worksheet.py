@@ -292,28 +292,28 @@ class Worksheet(models.Model, BaseOLiMSModel):
                     values.update({"ManageResult": data_list})
 
 
-                    ws_add_analyses = self.env["olims.add_analysis"].browse(values["AnalysisRequest"][0][2])
-                    request_id_cat_dict = {}
-                    for add_analyses_object in ws_add_analyses:
-                        key_check_res = request_id_cat_dict.get(add_analyses_object.add_analysis_id.id)
-                        if not request_id_cat_dict.get(add_analyses_object.add_analysis_id.id):
-                            request_id_cat_dict.update({add_analyses_object.add_analysis_id.id: [add_analyses_object.category.id]})
-
-                        elif request_id_cat_dict.get(add_analyses_object.add_analysis_id.id):
-                            category_list = request_id_cat_dict[add_analyses_object.add_analysis_id.id]
-                            category_list.append(add_analyses_object.category.id)
-                            request_id_cat_dict.update({add_analyses_object.add_analysis_id.id: category_list})
-
-                    for ws_manage_res in record.ManageResult:
-
-                        if not request_id_cat_dict.get(ws_manage_res.request_analysis_id.id):
-
-                            record.write({"ManageResult": [(2, ws_manage_res.id)]})
-
-                        elif request_id_cat_dict.get(ws_manage_res.request_analysis_id.id):
-                            ar_cat = request_id_cat_dict[ws_manage_res.request_analysis_id.id]
-                            if ws_manage_res.category.id not in ar_cat:
-                                record.write({"ManageResult": [(2, ws_manage_res.id)]})
+                    # ws_add_analyses = self.env["olims.add_analysis"].browse(values["AnalysisRequest"][0][2])
+                    # request_id_cat_dict = {}
+                    # for add_analyses_object in ws_add_analyses:
+                    #     key_check_res = request_id_cat_dict.get(add_analyses_object.add_analysis_id.id)
+                    #     if not request_id_cat_dict.get(add_analyses_object.add_analysis_id.id):
+                    #         request_id_cat_dict.update({add_analyses_object.add_analysis_id.id: [add_analyses_object.category.id]})
+                    #
+                    #     elif request_id_cat_dict.get(add_analyses_object.add_analysis_id.id):
+                    #         category_list = request_id_cat_dict[add_analyses_object.add_analysis_id.id]
+                    #         category_list.append(add_analyses_object.category.id)
+                    #         request_id_cat_dict.update({add_analyses_object.add_analysis_id.id: category_list})
+                    #
+                    # for ws_manage_res in record.ManageResult:
+                    #
+                    #     if not request_id_cat_dict.get(ws_manage_res.request_analysis_id.id):
+                    #
+                    #         record.write({"ManageResult": [(2, ws_manage_res.id)]})
+                    #
+                    #     elif request_id_cat_dict.get(ws_manage_res.request_analysis_id.id):
+                    #         ar_cat = request_id_cat_dict[ws_manage_res.request_analysis_id.id]
+                    #         if ws_manage_res.category.id not in ar_cat:
+                    #             record.write({"ManageResult": [(2, ws_manage_res.id)]})
 
                 elif values["AnalysisRequest"][0][0] == 3:
                     add_analysis_obj = self.env["olims.add_analysis"].browse(values["AnalysisRequest"][0][1])
