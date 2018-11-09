@@ -19,6 +19,7 @@ import base64
 from models import InMemoryZip
 from lxml import etree
 from openerp.osv.orm import setup_modifiers
+import re
 _logger = logging.getLogger(__name__)
 
 AR_STATES = (
@@ -4725,6 +4726,7 @@ class AnalysisRequest(models.Model, BaseOLiMSModel): #(BaseFolder):
                     else :
                         title = ar_object[index].RequestID
                     title = title.replace('/','-')
+                    title = re.sub(r"\s+", "", title)
                     imz.append(str(title) + '.pdf', result)
                     is_valid = True
                 index +=1
