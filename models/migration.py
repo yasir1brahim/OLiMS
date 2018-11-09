@@ -92,3 +92,27 @@ class WorksheetMigration(models.Model):
 				self.pool.get('olims.sample').write(cr, uid, [obj_dict.get('id')],
 													{'Corresponding_ARs': [(6, 0, [corresponding_ars])]})
 
+	@api.model
+	def update_position_in_ws_results(self):
+		worksheets = self.env['olims.worksheet'].search([('id', '>', 0)])
+		for worksheet_obj in worksheets:
+			print '\n\n========================= updating results of workssheet:',worksheet_obj.id
+			new_position = 0
+			worksheet_add_analyses_list = []
+			for add_analyses in worksheet_obj.AnalysisRequest:
+				worksheet_add_analyses_list.append(add_analyses.id)
+			for add_analyses_id in sorted(worksheet_add_analyses_list):
+				new_position += 1
+				add_analysis_obj = self.env['olims.add_analysis'].browse(add_analyses_id)
+				for cate_analysis in add_analysis_obj.add_analysis_id.Analyses:
+					if cate_analysis.Category.id == add_analysis_obj.category.id:
+						ws_results = self.env['olims.ws_manage_results'].search(['&', ('request_analysis_id', '=', \
+																						   add_analysis_obj.add_analysis_id.id),
+																				(
+																				'category', '=', cate_analysis.Category.id), \
+																				])
+
+						for ws_result in ws_results:
+							print '\n\n========= Add Analysis id',add_analysis_obj.id,'========== position',new_position
+							ws_result.write({'position': new_position})
+
