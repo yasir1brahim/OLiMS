@@ -233,7 +233,6 @@ class Worksheet(models.Model, BaseOLiMSModel):
 
     @api.multi
     def write(self, values,custom_dict=None):
-        print '================== in Worksheet write =======================',values
         data_list = []
         entered = []
         count = 0
@@ -301,7 +300,11 @@ class Worksheet(models.Model, BaseOLiMSModel):
                             record.write({"ManageResult": [(2, rec.id)]})
                         elif rec.request_analysis_id.id == add_analysis_obj.add_analysis_id.id and rec.category.id == add_analysis_obj.category.id:
                             record.write({"ManageResult": [(2, rec.id)]})
-
+        worksheet_obj = self.browse(self.id)
+        add_analyses_before_delete = []
+        for analyses in worksheet_obj.AnalysisRequest:
+            add_analyses_before_delete.append(analyses.id)
+        deleted_add_analyses = add_analyses_before_delete[:]
         res = super(Worksheet, self).write(values)
         worksheet_obj = self.browse(self.id)
         #------------------------------ updating postion in ws_result of worksheet-----------------------------------#
@@ -310,32 +313,62 @@ class Worksheet(models.Model, BaseOLiMSModel):
             worksheet_ws_result_list = []
             for add_analyses in worksheet_obj.AnalysisRequest:
                 worksheet_add_analyses_list.append(add_analyses.id)
+                if add_analyses.id in deleted_add_analyses:
+                    del deleted_add_analyses[deleted_add_analyses.index(add_analyses.id)]
 
             for ws_mng_result in worksheet_obj.ManageResult:
                 worksheet_ws_result_list.append(ws_mng_result.id)
             ws_result_position_updated_ids = []
+            worksheet_deleted_results = []
             new_position = 0
             for add_analyses_id in sorted(worksheet_add_analyses_list):
                 new_position+=1
                 add_analysis_obj = self.env['olims.add_analysis'].browse(add_analyses_id)
                 for cate_analysis in add_analysis_obj.add_analysis_id.Analyses:
                     if cate_analysis.Category.id == add_analysis_obj.category.id:
-                        ws_results = self.env['olims.ws_manage_results'].search(['&',('request_analysis_id', '=',\
+                        ws_results = self.env['olims.ws_manage_results'].search(['&','&',('request_analysis_id', '=',\
                         add_analysis_obj.add_analysis_id.id), ('category', '=', cate_analysis.Category.id),\
-                                                                               ])
+                                         ('analysis', '=',cate_analysis.Services.id)                              ])
 
                         for ws_result in ws_results:
-                            ws_result.write({'position': new_position})
-                            ws_result_position_updated_ids.append(ws_result.id)
-            #--------------------------------------------------------------------------------------------------------#
-            ws_results_to_delete = []
-            for ws_result_id in worksheet_ws_result_list:
-                if ws_result_id not in ws_result_position_updated_ids:
-                    ws_results_to_delete.append(ws_result_id)
-            if ws_results_to_delete:
-                for id in ws_results_to_delete:
-                    super(Worksheet, worksheet_obj).write({'ManageResult': [(2, id)]})
+                            if ws_result.id in worksheet_ws_result_list:
+                                ws_result.write({'position': new_position})
+                                ws_result_position_updated_ids.append(ws_result.id)
+            #---------------------------deleting services of deleted add analyses from manage result-------------------#
+            for analyses_id in deleted_add_analyses:
+                add_analysis_obj = self.env['olims.add_analysis'].browse(analyses_id)
+                for cate_analysis in add_analysis_obj.add_analysis_id.Analyses:
+                    if cate_analysis.Category.id == add_analysis_obj.category.id:
+                        ws_results = self.env['olims.ws_manage_results'].search(['&','&', ('request_analysis_id', '=', \
+                                                                                       add_analysis_obj.add_analysis_id.id),
+                                                                                 ('category', '=',
+                                                                                  cate_analysis.Category.id), \
+                                                                                 ('analysis', '=',cate_analysis.Services.id)
+                                                                                 ])
+                        for ws_result in ws_results:
+                            if ws_result.id in worksheet_ws_result_list:
+                                super(Worksheet, worksheet_obj).write({'ManageResult': [(2, ws_result.id)]})
+                                worksheet_deleted_results.append(ws_result.id)
 
+            #----- updating position of results in to be verfied state but are not part of worksheet-------------
+            results_position_dict = {}
+            for result in worksheet_obj.ManageResult:
+                if result.id not in ws_result_position_updated_ids and result.id not in worksheet_deleted_results:
+                    if not results_position_dict.get(result.position):
+                        results_position_dict.update({result.position: [result.id]})
+                    else:
+                        result_ids = results_position_dict.get(result.position)
+                        result_ids.append(result.id)
+                        results_position_dict.update({result.position: result_ids})
+            if bool(results_position_dict):
+                new_position = len(worksheet_add_analyses_list) + 1
+                for item in sorted(results_position_dict.keys()):
+                    worksheet_results = self.env['olims.ws_manage_results'].browse(results_position_dict[item])
+                    for ws_result in worksheet_results:
+                        ws_result.write({'position': new_position})
+                    new_position += 1
+
+            #-----------------------------------------------------------------------------------------------------
 
         qccontrols = self.env["olims.qccontrol"].search([('worksheet_id', '=',self.id)])
         for qcitem in qccontrols:
@@ -1235,32 +1268,58 @@ class AddAnalysis(models.Model):
         for ws_mng_result in worksheet_obj.ManageResult:
             worksheet_ws_result_list.append(ws_mng_result.id)
         ws_result_position_updated_ids = []
+        worksheet_deleted_results = []
         new_position = 0
         for add_analyses_id in sorted(worksheet_add_analyses_list):
             new_position += 1
             add_analysis_obj = self.env['olims.add_analysis'].browse(add_analyses_id)
             for cate_analysis in add_analysis_obj.add_analysis_id.Analyses:
                 if cate_analysis.Category.id == add_analysis_obj.category.id:
-                    ws_results = self.env['olims.ws_manage_results'].search(['&', ('request_analysis_id', '=', \
+                    ws_results = self.env['olims.ws_manage_results'].search(['&','&', ('request_analysis_id', '=', \
                                                                                    add_analysis_obj.add_analysis_id.id),
                                                                              ('category', '=',
                                                                               cate_analysis.Category.id), \
-                                                                             ])
+                                                                         ('analysis', '=', cate_analysis.Services.id)])
 
                     for ws_result in ws_results:
-                        ws_result.write({'position': new_position})
-                        ws_result_position_updated_ids.append(ws_result.id)
+                        if ws_result.id in worksheet_ws_result_list:
+                            ws_result.write({'position': new_position})
+                            ws_result_position_updated_ids.append(ws_result.id)
 
          # ------------------delete ws results of deleted Analyses (selected ids)-----------------------
+        deleted_add_analyses = selected_ids
+        for analyses_id in deleted_add_analyses:
+            add_analysis_obj = self.env['olims.add_analysis'].browse(analyses_id)
+            for cate_analysis in add_analysis_obj.add_analysis_id.Analyses:
+                if cate_analysis.Category.id == add_analysis_obj.category.id:
+                    ws_results = self.env['olims.ws_manage_results'].search(['&', '&', ('request_analysis_id', '=', \
+                                                                                       add_analysis_obj.add_analysis_id.id),
+                                                                            ('category', '=',
+                                                                             cate_analysis.Category.id), \
+                                                                            ('analysis', '=', cate_analysis.Services.id)
+                                                                            ])
+                    for ws_result in ws_results:
+                        if ws_result.id in worksheet_ws_result_list:
+                            super(Worksheet, worksheet_obj).write({'ManageResult': [(2, ws_result.id)]})
+                            worksheet_deleted_results.append(ws_result.id)
 
-        ws_results_to_delete = []
-        for ws_result_id in worksheet_ws_result_list:
-            if ws_result_id not in ws_result_position_updated_ids:
-                ws_results_to_delete.append(ws_result_id)
-        if ws_results_to_delete:
-            for id in ws_results_to_delete:
-                super(Worksheet, worksheet_obj).write({'ManageResult': [(2, id)]})
-
+        #-------------update the position of services in to be verified state but not part worksheet -------------------
+        results_position_dict = {}
+        for result in worksheet_obj.ManageResult:
+            if result.id not in ws_result_position_updated_ids and result.id not in worksheet_deleted_results:
+                if not results_position_dict.get(result.position):
+                    results_position_dict.update({result.position: [result.id]})
+                else:
+                    result_ids = results_position_dict.get(result.position)
+                    result_ids.append(result.id)
+                    results_position_dict.update({result.position:result_ids})
+        if bool(results_position_dict):
+            new_position = len(worksheet_add_analyses_list) + 1
+            for item in sorted(results_position_dict.keys()):
+                worksheet_results = self.env['olims.ws_manage_results'].browse(results_position_dict[item])
+                for ws_result in worksheet_results:
+                    ws_result.write({'position': new_position})
+                new_position+=1
 
 
         return
@@ -1420,8 +1479,6 @@ class WorkSheetManageResults(models.Model):
     @api.multi
     def bulk_verify(self):
         ar_ids = []
-        print '\n\n =========================olims.ws_manage results submit for verification\n\n'
-        print '============= self:',self,'===================\n\n'
         for record in self:
             if record.state == "verified":
                 continue
