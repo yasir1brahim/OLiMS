@@ -1,4 +1,6 @@
 from openerp import fields, models, api
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class WorksheetMigration(models.Model):
@@ -81,19 +83,22 @@ class WorksheetMigration(models.Model):
         return True
 
     @api.model
-    def fill_olims_analysis_request_sample_rel(self, cr, uid, context=None):
-        analysis_request = self.pool.get('olims.analysis_request')
-        sample_objs = self.pool.get('olims.sample').search_read(cr, uid, [])
-        for obj_dict in sample_objs:
-            corresponding_ars = analysis_request.search(cr, uid, [('Sample_id', '=', obj_dict.get('id'))])
-            if corresponding_ars:
-                self.pool.get('olims.sample').write(cr, uid, [obj_dict.get('id')],
-                                                    {'Corresponding_ARs': [(6, 0, [corresponding_ars])]})
+    def fill_olims_analysis_request_sample_rel(self):
+        analysis_request = self.env['olims.analysis_request']
+        sample_objs = self.env['olims.sample'].search([('id', '>', 0)])
+        for obj in sample_objs:
+            corresponding_ars = analysis_request.search([('Sample_id', '=', obj.id)])
+            ar_id_list = []
+            for ar in corresponding_ars:
+                ar_id_list.append(ar.id)
+                obj.write({'Corresponding_ARs': [(6, 0, ar_id_list)]})
 
     @api.model
     def update_position_in_ws_results(self):
+        _logger.info('=========== update position of worksheet results service called ==========')
         worksheets = self.env['olims.worksheet'].search([('id', '>', 0)])
         for worksheet_obj in worksheets:
+            _logger.info('========= Worksheet ID: %s =============',worksheet_obj.id)
             new_position = 0
             worksheet_add_analyses_list = []
             worksheet_result_list = []
